@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="mhealth.mvax.UserRegistrationActivity">
+
+    <TextView
+        android:id="@+id/TVtitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/TVdescription"
+        android:text="@string/REG_TITLE"
+        android:textAlignment="center"
+        android:textSize="48sp" />
+
+    <TextView
+        android:id="@+id/TVdescription"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TVtitle"
+        android:text="@string/REG_DESCRIPTION"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="36sp" />
+
+    <LinearLayout
+        android:id="@+id/email_login_form"
+        android:layout_width="300dp"
+
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/TFname"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="@string/REG_NAME"
+            android:text="@string/emptystring"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/TFemail"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="@string/REG_EMAIL"
+            android:text="@string/emptystring"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="36sp" />
+
+    <Button
+        android:id="@+id/Bregister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/REG_ButtonReg"
+        android:textAlignment="center"
+        android:textSize="18sp"/>
+
+</LinearLayout>
