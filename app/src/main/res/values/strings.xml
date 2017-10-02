@@ -30,6 +30,11 @@
 
     <string name="hint_search">Search...</string>
 
+
+    <!-- Setting page -->
+    <string name="language">Language</string>
+    <string name="spanish">Spanish</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
