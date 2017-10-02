@@ -34,6 +34,10 @@
     <!-- Setting page -->
     <string name="language">Language</string>
     <string name="spanish">Spanish</string>
+    <string name="spanishCode">es</string>
+    <string name="englishCode">en</string>
+    <string name="spanishLocaleCode">[es]</string>
+    <string name="usLocaleCode">[en_US]</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -18,6 +18,7 @@ import java.util.Locale;
 public class SettingsFragment extends Fragment {
     private Switch languageSwitch;
 
+
     public static SettingsFragment newInstance() {
         SettingsFragment fragment = new SettingsFragment();
         return fragment;
@@ -45,12 +46,11 @@ public class SettingsFragment extends Fragment {
         languageSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b && !getResources().getConfiguration().getLocales().toString().equals("[es]")){
-                    setLocale("es");
-                    return;
+                if(b && !getResources().getConfiguration().getLocales().toString().equals(getResources().getString(R.string.spanishLocaleCode))){
+                    setLocale(getResources().getString(R.string.spanishCode));
                 }
-                else if(!b && !getResources().getConfiguration().getLocales().toString().equals("[en_US]")) {
-                    setLocale("en");
+                else if(!b && !getResources().getConfiguration().getLocales().toString().equals(getResources().getString(R.string.usLocaleCode))) {
+                    setLocale(getResources().getString(R.string.englishCode));
                 }
             }
         });
@@ -60,8 +60,8 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
+        //Ensures that the button is correctly selected if in spanish
         languageSwitch.setChecked(getResources().getConfiguration().getLocales().toString().equals("[es]"));
-
     }
 
 
@@ -78,6 +78,5 @@ public class SettingsFragment extends Fragment {
         res.updateConfiguration(config, dm);
 
         getActivity().recreate();
-
     }
 }
