@@ -61,7 +61,7 @@ public class SettingsFragment extends Fragment {
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         //Ensures that the button is correctly selected if in spanish
-        languageSwitch.setChecked(getResources().getConfiguration().getLocales().toString().equals("[es]"));
+        languageSwitch.setChecked(getResources().getConfiguration().getLocales().toString().equals(getResources().getString(R.string.spanishLocaleCode)));
     }
 
 
@@ -77,6 +77,7 @@ public class SettingsFragment extends Fragment {
         //Deprecated in API 25, minSDK for this project is 24
         res.updateConfiguration(config, dm);
 
+        //TODO save instance state beforehand
         getActivity().recreate();
     }
 }
