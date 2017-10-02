@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">mVax</string>
+    <string name="title_activity_login">Registrese</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Correo Electrónico</string>
+    <string name="prompt_password">Contraseña (opcional)</string>
+    <string name="action_sign_in">Registrese o Registra</string>
+    <string name="action_sign_in_short">Registrese</string>
+    <string name="error_invalid_email">Este correo electrónico no es válido</string>
+    <string name="error_invalid_password">Esta contraseña es demasiado corta</string>
+    <string name="error_incorrect_password">Esta contraseña es incorrecta</string>
+    <string name="error_field_required">Este campo es necesario</string>
+    <string name="permission_rationale">"Los permisos de contactos son necesarios para proporcionar
+        las terminacionesde correo electrónico."</string>
+    <string name="emptystring" />
+    <string name="title_activity_search">BuscarActividad</string>
+    <string name="title_home">Página Principal</string>
+    <string name="title_settings">Configuración</string>
+    <string name="title_alerts">Alertas</string>
+    <string name="title_search">Busca</string>
+    <string name="title_forms">Formas</string>
+
+    <string name="REG_DESCRIPTION">Por favor complete el siguiente formulario para empezar.</string>
+    <string name="REG_TITLE">Registro de nuevo usuario</string>
+    <string name="REG_ButtonReg">Registrar</string>
+    <string name="REG_NAME">Nombre</string>
+    <string name="REG_EMAIL">Correo Electrónico</string>
+
+    <string name="hint_search">Busca...</string>
+
+    <!-- Settings Page -->
+    <string name="language">Idioma</string>
+    <string name="spanish">Español</string>
+</resources>

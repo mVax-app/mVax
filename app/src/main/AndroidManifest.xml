@@ -27,7 +27,8 @@
         <activity android:name=".UserRegistrationActivity" />
         <activity
             android:name=".SearchActivity"
-            android:label="@string/title_activity_search" />
+            android:label="@string/title_activity_search"
+            android:configChanges="locale"/>
         <activity android:name=".AlertsActivity"></activity>
     </application>
 
