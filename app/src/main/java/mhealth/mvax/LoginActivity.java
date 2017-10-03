@@ -29,7 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +64,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    //tracks whether there exists users in the system
+    private static boolean existUser = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+
 
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -84,6 +87,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        //When sign in button is clicked
         Button mEmailSignInButton = (Button) findViewById(R.id.Bsignin);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -92,8 +96,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        //When register button clicked
+        Button Bregister = (Button)findViewById(R.id.Bregister);
+        Bregister.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Toggle to true because there now exists users in the system
+                LoginActivity.existUser = true;
+                Intent register = new Intent(getApplicationContext(), UserRegistrationActivity.class);
+                startActivity(register);
+            }
+        });
+
         setAllText();
-        setOnClick();
+        //setOnClick();
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
@@ -176,11 +192,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
-        } else {
+        }
 
-            Intent registrationIntent = new Intent(getApplicationContext(), UserRegistrationActivity.class);
-            startActivity(registrationIntent);
-
+        //Check if there are users in the system
+        if(LoginActivity.existUser){
+            //Check if email/password combo is correct
+            if(!UserRegistrationActivity.getInstance().checkValidUser(email, password)){
+                Toast.makeText(getApplicationContext(), "Wrong Credentials",Toast.LENGTH_SHORT).show();
+            }
+            //If is correct, enter application
+            else {
+                Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(mainIntent);
+            }
+        }
+        //There are no users in the system, so credentials are wrong
+        else{
+            Toast.makeText(getApplicationContext(), "Wrong Credentials",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -193,7 +221,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 0;
     }
 
     @Override
