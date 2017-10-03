@@ -57,6 +57,16 @@
             android:textAlignment="center"
             android:textSize="24sp" />
 
+        <EditText
+            android:id="@+id/TFpassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="@string/REG_PASSWORD"
+            android:text=""
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
     </LinearLayout>
 
     <Space

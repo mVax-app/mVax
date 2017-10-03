@@ -27,6 +27,7 @@
     <string name="REG_ButtonReg">Register</string>
     <string name="REG_NAME">Name</string>
     <string name="REG_EMAIL">Email</string>
+    <string name="REG_PASSWORD">Password</string>
 
     <string name="hint_search">Search...</string>
 
