@@ -1,16 +1,39 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="mhealth.mvax.SearchFragment">
+    android:orientation="vertical"
+    tools:context="mhealth.mvax.SearchActivity">
+
+    <Button
+        android:id="@+id/new_record_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_new_record" />
 
     <EditText
-        android:id="@+id/TFsearch"
-        android:layout_width="wrap_content"
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="0.05"
         android:ems="15"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:hint="@string/hint_search"
-        android:inputType="textPersonName"/>
-</RelativeLayout>
+        android:inputType="textPersonName" />
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/patient_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+</LinearLayout>

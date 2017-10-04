@@ -18,18 +18,19 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
+
+
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <activity android:name=".UserRegistrationActivity" />
-        <activity
-            android:name=".SearchActivity"
-            android:label="@string/title_activity_search"
-            android:configChanges="locale"/>
-        <activity android:name=".AlertsActivity"></activity>
+        <activity android:name=".AlertsActivity" />
+        <activity android:name=".search.PatientDetailActivity"
+            android:parentActivityName=".MainActivity">
+            ></activity>
     </application>
 
 </manifest>

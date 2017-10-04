@@ -28,9 +28,34 @@
     <string name="REG_NAME">Nombre</string>
     <string name="REG_EMAIL">Correo Electrónico</string>
 
+
+
+
+
+    <!-- Patient details -->
+    <string name="patient_details">Detalles de Enfermo</string>
+    <string name="date_format">dd/MM/yyyy</string>
+
+    <!-- New record -->
+    <string name="pick_dob">Fecha de Nacimiento</string>
+    <string name="modal_new_record_add">Crear</string>
+    <string name="modal_new_record_cancel">Cancelar</string>
+
+    <!-- Patient detail activity -->
+    <string name="DOB_prompt">FDN:</string>
+    <string name="gender_prompt">Sexo:</string>
+    <string name="community_prompt">Comunidad:</string>
+
+    <!-- Search result -->
     <string name="hint_search">Busca...</string>
+    <string name="first_name">Nombre</string>
+    <string name="last_name">Apellido</string>
+    <string name="community">Comunidad</string>
+    <string name="add_new_record">Añadir Nuevo Registro</string>
+
 
     <!-- Settings Page -->
     <string name="language">Idioma</string>
     <string name="spanish">Español</string>
+
 </resources>
