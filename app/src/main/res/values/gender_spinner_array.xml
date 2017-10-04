@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="gender_spinner_array">
+        <item>Pick Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+</resources>

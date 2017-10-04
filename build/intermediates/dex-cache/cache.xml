@@ -3,156 +3,48 @@
 
     <item
         is-multidex="true"
-        jar="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jar="/Users/Robert/.android/build-cache/4b790bfb32b635095d62e656c980ee34a60dddc4/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="6a022bf00ccd0948a8180c505e8e458bbddd43a6">
+        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_745184bf6f8f0157cf3c6222811b934ac8e2c501/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="749b40c3eb225a4bad3eb7127b676757040cdfe7">
+        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_7a640a486dec67f0999e3b842553932b91a541bf/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Robert/.android/build-cache/1f47dd28904277d697171d4bbf67fd27884566e7/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="cddcd0fb93bc70e27325f2f715b2710332004ebb">
+        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_50fdf3e5c6e8ab7e8f8152e1570ccc71996c9a78/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Robert/.android/build-cache/b5fa13f1905e3896e11e0a014088297b7c1237f9/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="c4f45092eee6cdf1a5dbd597b2b6819be652ce2e">
+        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e857647249f134770bc3d2e0c46b404d46ef4909/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.1"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_15bb980cb87c73f88f1f2be6c18273642ac185ec/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/stevenyang/.android/build-cache/63c76001ed11522ef60546cadcab221df563268d/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_bf5903bf2bb1367ce3bf6db9b46b23265dbb8062.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/stevenyang/.android/build-cache/c004e06a5beb05967a09646bbc2c1c805d1aa2fe/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_c7d5fd2677f41d24ddf79f28c166281aa45b9740.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/stevenyang/.android/build-cache/e1acc6aef09ec8f9132781af2336c51e42e0fea4/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="2e92aa0163544a804a0b34f169ca61801770839a">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_485c3aaa9e67ba1698d8863a331ff3353c7e302d.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/stevenyang/.android/build-cache/93375c4b063d609850432bec842dc0f138d26776/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="cddcd0fb93bc70e27325f2f715b2710332004ebb">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_3e30f9d2933d229e6a0771b8e099cd91032a001a.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/stevenyang/.android/build-cache/848fab1ce94e2dae208043bcd4811126455847a6/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="fcd01fd11233459f546c437ec927e9b61bf7caf1">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_5b089e85e5b883cd17c74d4f4ec7d03483c9ed83.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/stevenyang/Library/Android/sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/pre-dexed/debug/constraint-layout-solver-1.0.2_0158637d7135da81b6f631402e14074205d1d9d9.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/stevenyang/.android/build-cache/dbac77eb64ae2a104dd9e69832ecace779644a7a/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="952944218ecedea1554a513dec0c14d570642843">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_f8fee4de746f1a63f5e8e16000bdc6cf5553c95d.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/stevenyang/.android/build-cache/d766a57d4dcc232d41124ebcae9312d94992b600/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="9935891f23923f39d002087085d9696568a9f657">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_34cf3a7dab6391d39c86637713178bc4682330d2.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/stevenyang/.android/build-cache/e5a1d1f68dc75f1f3fa8e419b12a4c7e08777f1a/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="47471eb19df288158b00b8d9cfa41bce7373f5cc">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_0c410eda60e234f62e99d4d10e05e82fc9ec581a.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/stevenyang/.android/build-cache/7de5e3289e8954f81953a02520597b68a3f25f27/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="c4f45092eee6cdf1a5dbd597b2b6819be652ce2e">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_da039b0da118fa6702cb4c722f54bd81c2c830dd.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/stevenyang/.android/build-cache/abb326cd4ef91e3d512e6bf02b6c1dd340363256/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="6a022bf00ccd0948a8180c505e8e458bbddd43a6">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_bd778ec2432e123351d48718b97bfe326769e9d7.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/stevenyang/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/26.0.0-alpha1/support-annotations-26.0.0-alpha1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="023ee503b631f69511e335a061ea008f8da60f40">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/pre-dexed/debug/support-annotations-26.0.0-alpha1_bb46147ccc8183b9fcf4ba85793b27a1e474a746.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.1"
-        sha1="5978e853e73653d248c11679eefd29fd68b80338">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_43ffbe1443dc173b1d4a83f223efec30ad8ffe91/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/stevenyang/.android/build-cache/44b6dfe2c681f564836e11119422d75357d8b36d/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="88246166d5afb106f532f6e6deae683c66b42c89">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_e997294add8db248f13d4a45b788a5ecbf296823.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/stevenyang/.android/build-cache/0d3a915ce7a3b771f70daca3c997cd846766b397/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="18d31838aa4fcc768a8a0516e22cc13b94655d89">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_e8b707beb1a6f687ca25f94852992fffd7946695.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/stevenyang/.android/build-cache/2010b831fae02a50e65b2283bd6bc76aeeb27e00/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.1"
-        sha1="8df0e365e40beb151bc42dee20817721a6cab7b0">
-        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_01cec99e7c5b717a48abebf184837e82e8c53866.jar" />
+        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_8df5030ab1c2da2446835fc00e0396ec7a60713c/classes.dex" />
     </item>
 
 </items>

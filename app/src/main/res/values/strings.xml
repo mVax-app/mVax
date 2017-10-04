@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">mVax</string>
     <string name="title_activity_login">Sign in</string>
@@ -29,8 +30,6 @@
     <string name="REG_EMAIL">Email</string>
     <string name="REG_PASSWORD">Password</string>
 
-    <string name="hint_search">Search...</string>
-
 
     <!-- Setting page -->
     <string name="language">Language</string>
@@ -40,7 +39,25 @@
     <string name="spanishLocaleCode">[es]</string>
     <string name="usLocaleCode">[en_US]</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Patient details -->
+    <string name="patient_details">Patient Details</string>
+    <string name="date_format">MM/dd/yyyy</string>
+
+    <!-- New record -->
+    <string name="pick_dob">Date of Birth</string>
+    <string name="modal_new_record_add">Create</string>
+    <string name="modal_new_record_cancel">Cancel</string>
+
+    <!-- Patient detail activity -->
+    <string name="DOB_prompt">DOB:</string>
+    <string name="gender_prompt">Gender:</string>
+    <string name="community_prompt">Community:</string>
+
+    <!-- Search -->
+    <string name="hint_search">Search...</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="community">Community</string>
+    <string name="add_new_record">Add New Record</string>
 
 </resources>
