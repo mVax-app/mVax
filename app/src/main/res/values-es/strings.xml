@@ -42,6 +42,7 @@
     <string name="modal_new_record_cancel">Cancelar</string>
 
     <!-- Patient detail activity -->
+    <string name="vaccine_title">Historia de Vacunas</string>
     <string name="DOB_prompt">FDN:</string>
     <string name="gender_prompt">Sexo:</string>
     <string name="community_prompt">Comunidad:</string>

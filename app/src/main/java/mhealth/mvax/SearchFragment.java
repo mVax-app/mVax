@@ -170,7 +170,7 @@ public class SearchFragment extends Fragment {
                 resultAdapter.notifyDataSetChanged();
             }
         });
-        builder.setNegativeButton(getResources().getString(R.string.modal_new_record_add), new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getResources().getString(R.string.modal_new_record_cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
