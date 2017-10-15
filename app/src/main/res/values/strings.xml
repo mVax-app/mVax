@@ -4,6 +4,7 @@
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
+    <string name="auth_failed">Authentication Failed</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -60,5 +61,7 @@
     <string name="last_name">Last name</string>
     <string name="community">Community</string>
     <string name="add_new_record">Add New Record</string>
+
+
 
 </resources>

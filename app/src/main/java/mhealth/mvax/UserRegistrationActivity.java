@@ -2,12 +2,17 @@ package mhealth.mvax;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
@@ -45,8 +50,23 @@ public class UserRegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //Puts email and password combination into dictionary
-               // registration.put(newUserEmail.getText().toString(), newUserPassword.getText().toString());
+                mAuth.createUserWithEmailAndPassword(newUserEmail.getText().toString(), newUserPassword.getText().toString())
+                        .addOnCompleteListener(UserRegistrationActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                               //Log.d("", "createUserWithEmail:onComplete:" + task.isSuccessful());
 
+                                // If sign in fails, display a message to the user. If sign in succeeds
+                                // the auth state listener will be notified and logic to handle the
+                                // signed in user can be handled in the listener.
+                                if (!task.isSuccessful()) {
+                                    Toast.makeText(UserRegistrationActivity.this, R.string.auth_failed,
+                                            Toast.LENGTH_SHORT).show();
+                                }
+
+                                // ...
+                            }
+                        });
 
 
                 Intent main = new Intent(getApplicationContext(), LoginActivity.class);
