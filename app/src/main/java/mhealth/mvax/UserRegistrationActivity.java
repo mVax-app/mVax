@@ -16,16 +16,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.HashMap;
-
 public class UserRegistrationActivity extends AppCompatActivity {
     final String REG_Breg = "REGISTER";
     static UserRegistrationActivity checkLogin;
     private FirebaseAuth mAuth;
 
-
     EditText newUserName, newUserEmail, newUserPassword;
-    HashMap<String, String> registration = new HashMap<String, String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +46,6 @@ public class UserRegistrationActivity extends AppCompatActivity {
         Bregister.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Check if username and password are valid
-                Log.d("email", newUserEmail.getText().toString());
-                Log.d("password", newUserPassword.getText().toString());
-
                 mAuth.createUserWithEmailAndPassword(newUserEmail.getText().toString(), newUserPassword.getText().toString())
                         .addOnCompleteListener(UserRegistrationActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -67,8 +59,6 @@ public class UserRegistrationActivity extends AppCompatActivity {
                                     Toast.makeText(UserRegistrationActivity.this, R.string.auth_failed,
                                             Toast.LENGTH_LONG).show();
                                 }
-
-                                // ...
                             }
                         });
 
@@ -77,18 +67,5 @@ public class UserRegistrationActivity extends AppCompatActivity {
                 startActivity(main);
             }
         });
-    }
-
-    //Checks dictionary for valid email:password combination
-    public boolean checkValidUser(String email, String password){
-        if(registration.keySet().isEmpty()){
-            return false;
-        }
-        if(registration.containsKey(email) && registration.get(email).contentEquals(password)) {
-            return true;
-        }
-        else{
-            return false;
-        }
     }
 }

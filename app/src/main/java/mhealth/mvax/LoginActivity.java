@@ -74,12 +74,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-                    //Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    Log.d("signedIn", "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
-                    //Log.d(TAG, "onAuthStateChanged:signed_out");
+                    Log.d("signedOut", "onAuthStateChanged:signed_out");
                 }
-                // ...
+
             }
         };
 
@@ -240,29 +240,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(mainIntent);
                         }
-
-                        // ...
                     }
                 });
 
-        /*
-        //Check if there are users in the system
-        if(LoginActivity.existUser){
-            //Check if email/password combo is correct
-            if(!UserRegistrationActivity.getInstance().checkValidUser(email, password)){
-                Toast.makeText(getApplicationContext(), "Wrong Credentials",Toast.LENGTH_SHORT).show();
-            }
-            //If is correct, enter application
-            else {
-                Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(mainIntent);
-            }
-        }
-        //There are no users in the system, so credentials are wrong
-        else{
-            Toast.makeText(getApplicationContext(), "Wrong Credentials",Toast.LENGTH_SHORT).show();
-        }
-        */
     }
 
 
