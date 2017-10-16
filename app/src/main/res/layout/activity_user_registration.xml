@@ -80,6 +80,6 @@
         android:layout_gravity="center"
         android:text="@string/REG_ButtonReg"
         android:textAlignment="center"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
 </LinearLayout>

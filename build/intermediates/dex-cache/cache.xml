@@ -2,49 +2,94 @@
 <items version="2" >
 
     <item
-        is-multidex="true"
-        jar="/Users/Robert/.android/build-cache/4b790bfb32b635095d62e656c980ee34a60dddc4/output/jars/classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/acdc26b6068f2604fd4a00fde9b05d563c07ecfa/output/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="26.0.1"
-        sha1="6a022bf00ccd0948a8180c505e8e458bbddd43a6">
-        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_745184bf6f8f0157cf3c6222811b934ac8e2c501/classes.dex" />
+        sha1="eb0d830e3eabb9deb9ec44869cf7ac7ea1ad794c">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_56d04a31795608955056862a34f8b32a5205a499.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/0c5f9d8820838b613503bd3b843109098e48f282/output/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="26.0.1"
-        sha1="749b40c3eb225a4bad3eb7127b676757040cdfe7">
-        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_7a640a486dec67f0999e3b842553932b91a541bf/classes.dex" />
+        sha1="25438f55fc6d906a0e72f30b21487541430ede43">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_b2f2235488ea78cde9eacbda812bed4d98e36652.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/Robert/.android/build-cache/1f47dd28904277d697171d4bbf67fd27884566e7/output/jars/classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/fa2a7801fa3bfc86db5c850fa199fa134a07bec3/output/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="26.0.1"
-        sha1="cddcd0fb93bc70e27325f2f715b2710332004ebb">
-        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_50fdf3e5c6e8ab7e8f8152e1570ccc71996c9a78/classes.dex" />
+        sha1="9cca2818594cc5348806d6662133491e7ea0fa8d">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_686eab33e52f650cb367ac0cc66597744987349b.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/Robert/.android/build-cache/b5fa13f1905e3896e11e0a014088297b7c1237f9/output/jars/classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/7a4362f99d6aa70583a7c465d76100cef7a72742/output/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="26.0.1"
-        sha1="c4f45092eee6cdf1a5dbd597b2b6819be652ce2e">
-        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e857647249f134770bc3d2e0c46b404d46ef4909/classes.dex" />
+        sha1="8f128aeeb7e31271b28a7adb9dac1f3a6ed9f5e7">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_7a4c19f829ca132ba212417dc81fc709b9eaf221.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/4447c046e2ca71a6c5bcf05f69ed0a113f4e9034/output/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="26.0.1"
-        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_8df5030ab1c2da2446835fc00e0396ec7a60713c/classes.dex" />
+        sha1="486371f97baad8e607f332f20fee1d3dd00a731a">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_5e1d95a14d497087f68e9dccd32d8572d0834e37.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/650c5366c54fb84cec97c4bf68f5640f85bfdfeb/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="6addaba208e21c6da776d0ca75b6b23a6ccd5499">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_4444719e7bf4cf0c37fe901358aa06f580ec31f8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/379c76842fdfb50b579de7e5dcb822f18a5137f7/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="433f4d6aa5f21f19552afe0e6c5eff0fedba73ad">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_4106f630d88e5f73042cacfadb1fcfe3de0324d0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/2441bfbf541a641c4a3a929c58de70182f0fd0c2/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="756f6297eef79784f5e356dcd4f39865028b2bd0">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_d7b234668b84435ac5167423754d97854655dee6.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/4d93e345d72a9befad141855ae0336b3e8121121/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="6116e0e7069de7fc259aac8e08b84f32c2038231">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_5729ede003dff6048189d4b4b1720688f35c1257.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/6ce5c31af69222f1b9fcadec2ff60fefc5c8e3a4/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="8010ae6ed32828a145b25ec97bc07b7a83c6318f">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_91da7b7cad9998ef943d6c95437355253485204e.jar" />
     </item>
 
 </items>
