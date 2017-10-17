@@ -15,9 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
+        <activity android:name=".activities.MainActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".auth.LoginActivity"
             android:label="@string/title_activity_login">
 
              <intent-filter>
@@ -27,10 +27,10 @@
              <category android:name="android.intent.category.LAUNCHER" />
              </intent-filter>
         </activity>
-        <activity android:name=".UserRegistrationActivity" />
-        <activity android:name=".AlertsActivity" />
+        <activity android:name=".auth.UserRegistrationActivity" />
+        <activity android:name=".alerts.AlertsActivity" />
         <activity android:name=".search.PatientDetailActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".activities.MainActivity">
             ></activity>
     </application>
 
