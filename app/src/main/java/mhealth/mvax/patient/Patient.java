@@ -22,7 +22,7 @@ public class Patient implements Serializable {
     // Properties
     //================================================================================
 
-    private int _id;
+    private String _id;
 
     private String _firstName;
 
@@ -43,7 +43,11 @@ public class Patient implements Serializable {
     // Constructors
     //================================================================================
 
-    public Patient(int id, String first, String last, Gender gender, Date DOB, String community) {
+    public Patient() {
+        // default constructor for database
+    }
+
+    public Patient(String id, String first, String last, Gender gender, Date DOB, String community) {
         _id = id;
         _firstName = first;
         _lastName = last;
@@ -53,11 +57,21 @@ public class Patient implements Serializable {
         _vaccines = new TreeMap<>();
     }
 
+    public Patient(String id, String first, String last, Gender gender, long DOB, String community) {
+        _id = id;
+        _firstName = first;
+        _lastName = last;
+        _gender = gender;
+        _DOB = new Date(DOB);
+        _community = community;
+        _vaccines = new TreeMap<>();
+    }
+
     //================================================================================
     // Getters
     //================================================================================
 
-    public int getId() {
+    public String getId() {
         return _id;
     }
 
@@ -92,10 +106,6 @@ public class Patient implements Serializable {
     //================================================================================
     // Setters
     //================================================================================
-
-    public void setId(int id) {
-        _id = id;
-    }
 
     public void setFirstName(String first) {
         this._firstName = first;
