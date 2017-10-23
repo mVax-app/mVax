@@ -1,7 +1,9 @@
 package mhealth.mvax.auth;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
@@ -13,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -28,8 +31,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import mhealth.mvax.activities.MainActivity;
 import mhealth.mvax.R;
+import mhealth.mvax.activities.MainActivity;
 
 /**
  * A login screen that offers login via email/password.
@@ -123,6 +126,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(register);
             }
         });
+
+        TextView forgotPassword = (TextView) findViewById(R.id.resetPassword);
 
         setAllText();
         //setOnClick();
@@ -260,10 +265,46 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         return password.length() > 0;
     }
 
+    /**
+     * Create modal which is a form for allowing users to enter their email to reset their password
+     */
+    public void resetPassword(View v){
+
+        //builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getResources().getString(R.string.modal_reset_title));
+
+        //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
+        LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        final View dialogView = inflater.inflate(R.layout.modal_reset_password, null);
+        builder.setView(dialogView);
+
+        final TextView address = (TextView) dialogView.findViewById(R.id.emailReset);
+
+        builder.setPositiveButton(getResources().getString(R.string.reset_password_button), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                sendResetEmail(address.getText().toString());
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
+
+    }
+
+    private void sendResetEmail(String address){
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        auth.sendPasswordResetEmail(address);
+        Toast.makeText(LoginActivity.this, getResources().getString(R.string.reset_email_confirm) + address, Toast.LENGTH_LONG).show();
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return null;
     }
+
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {

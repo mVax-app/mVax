@@ -9,6 +9,7 @@
     <string name="prompt_password">Contraseña (opcional)</string>
     <string name="action_sign_in">Registrese o Registra</string>
     <string name="action_sign_in_short">Registrese</string>
+    <string name="resetPassword">¿Olvidó su contraseña?</string>
     <string name="error_invalid_email">Este correo electrónico no es válido</string>
     <string name="error_invalid_password">Esta contraseña es demasiado corta</string>
     <string name="error_incorrect_password">Esta contraseña es incorrecta</string>

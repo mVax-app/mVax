@@ -81,6 +81,16 @@
                 android:text="@string/emptystring"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/resetPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/resetPassword"
+                android:onClick="resetPassword"
+                android:clickable="true"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
