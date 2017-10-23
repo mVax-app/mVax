@@ -1,4 +1,4 @@
-package mhealth.mvax.auth;
+package mhealth.mvax;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -9,11 +9,10 @@ import org.junit.Test;
  */
 
 
-public class authJunitTest {
+public class authJunitAndroidTest {
     public static final String TEST_USERNAME = "testusernameMVAX@mvaxtest.com";
-    public static final String TEST_BAD_USERNAME = "notAnEmail";
     public static final String TEST_PASSWORD = "password";
-    public static final String TEST_BAD_PASSWORD = "";
+
 
     @Test
     public void checkAuthWorks(){
@@ -29,16 +28,5 @@ public class authJunitTest {
         assert(correctUser);
     }
 
-    @Test
-    public void checkInvalidEmail(){
-        //need to add more edge cases
-        assert(LoginActivity.isEmailValid(TEST_BAD_USERNAME) == false);
-    }
-
-    @Test
-    public void checkInvalidPassword(){
-        //Need to add more edge cases / define proper password requirements
-        assert(LoginActivity.isPasswordValid(TEST_BAD_PASSWORD) == false);
-    }
 
 }
