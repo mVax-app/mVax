@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         setContentView(R.layout.activity_main);
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 }

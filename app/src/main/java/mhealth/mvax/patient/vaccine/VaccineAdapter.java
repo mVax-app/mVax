@@ -23,6 +23,8 @@ import mhealth.mvax.search.PatientDetailActivity;
  *         An adapter for listing vaccines and their doses
  */
 
+// TODO: Implement sorting vaccines in the ListView
+
 public class VaccineAdapter extends BaseAdapter {
 
     //================================================================================
@@ -76,18 +78,21 @@ public class VaccineAdapter extends BaseAdapter {
      */
     @Override
     public View getView(int position, View rowView, ViewGroup parent) {
+        ViewHolder holder;
+        Vaccine result = (Vaccine) getItem(position);
+
         if (rowView == null) {
             rowView = _Inflater.inflate(R.layout.list_item_vaccine, parent, false);
-
-            Vaccine result = (Vaccine) getItem(position);
-
-            TextView vaccineTextView = rowView.findViewById(R.id.vaccine_name);
-            vaccineTextView.setText(result.getName());
-
-            LinearLayout dosesLinearLayout = rowView.findViewById(R.id.doses_linear_layout);
-
-            addDoses(result, dosesLinearLayout, rowView);
+            holder = new ViewHolder();
+            holder.vaccineTextView = rowView.findViewById(R.id.vaccine_name);
+            holder.dosesLinearLayout = rowView.findViewById(R.id.doses_linear_layout);
+            addDoses(result, holder.dosesLinearLayout, rowView);
+            rowView.setTag(holder);
+        } else {
+            holder = (ViewHolder) rowView.getTag();
         }
+
+        holder.vaccineTextView.setText(result.getName());
         return rowView;
     }
 
@@ -151,4 +156,10 @@ public class VaccineAdapter extends BaseAdapter {
             layout.addView(doseLinearLayout);
         }
     }
+
+    private static class ViewHolder {
+        TextView vaccineTextView;
+        LinearLayout dosesLinearLayout;
+    }
+
 }

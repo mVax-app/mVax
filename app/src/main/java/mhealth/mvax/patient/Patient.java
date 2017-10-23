@@ -1,9 +1,12 @@
 package mhealth.mvax.patient;
 
+import com.google.firebase.database.Exclude;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -22,7 +25,7 @@ public class Patient implements Serializable {
     // Properties
     //================================================================================
 
-    private int _id;
+    private String _id;
 
     private String _firstName;
 
@@ -30,20 +33,22 @@ public class Patient implements Serializable {
 
     private Gender _gender;
 
-    private Date _DOB;
+    private Long _DOB;
 
     private String _community;
 
-    // TODO fix
-    private String _parent;
-
-    private Map<Integer, Vaccine> _vaccines;
+    private Map<String, Vaccine> _vaccines;
 
     //================================================================================
     // Constructors
     //================================================================================
 
-    public Patient(int id, String first, String last, Gender gender, Date DOB, String community) {
+    public Patient() {
+        // default constructor for database
+        _vaccines = new TreeMap<>();
+    }
+
+    public Patient(String id, String first, String last, Gender gender, Long DOB, String community) {
         _id = id;
         _firstName = first;
         _lastName = last;
@@ -53,11 +58,12 @@ public class Patient implements Serializable {
         _vaccines = new TreeMap<>();
     }
 
+
     //================================================================================
     // Getters
     //================================================================================
 
-    public int getId() {
+    public String getId() {
         return _id;
     }
 
@@ -69,6 +75,7 @@ public class Patient implements Serializable {
         return this._lastName;
     }
 
+    @Exclude
     public String getFullName() {
         return this._firstName + " " + this._lastName;
     }
@@ -77,7 +84,7 @@ public class Patient implements Serializable {
         return this._gender;
     }
 
-    public Date getDOB() {
+    public Long getDOB() {
         return this._DOB;
     }
 
@@ -85,16 +92,28 @@ public class Patient implements Serializable {
         return this._community;
     }
 
+    /**
+     * Use this getter internally, instead of getVaccines()
+     * @return an ArrayList of Vaccines associated with the Patient
+     */
+    @Exclude
     public ArrayList<Vaccine> getVaccineList() {
         return new ArrayList<>(_vaccines.values());
+    }
+
+    /**
+     * This getter should only be used externally by Firebase
+     */
+    public Map<String, Vaccine> getVaccines() {
+        return _vaccines;
     }
 
     //================================================================================
     // Setters
     //================================================================================
 
-    public void setId(int id) {
-        _id = id;
+    public void setId(String id) {
+        this._id = id;
     }
 
     public void setFirstName(String first) {
@@ -109,12 +128,20 @@ public class Patient implements Serializable {
         this._gender = gender;
     }
 
-    public void setDOB(long millis) {
-        this._DOB = new Date(millis);
+    public void setDOB(Long millis) {
+        this._DOB = millis;
     }
 
     public void setCommunity(String community) {
         this._community = community;
+    }
+
+    /**
+     * This setter should only be used externally by Firebase;
+     * use addVaccine or updateVaccine to modify associated Vaccines
+     */
+    public void setVaccines(Map<String, Vaccine> vaccines) {
+        this._vaccines = vaccines;
     }
 
     //================================================================================
@@ -128,12 +155,12 @@ public class Patient implements Serializable {
      */
     public void addVaccine(Vaccine vaccine) {
         int id = _vaccines.size() + 1;
-        vaccine.setId(id);
-        _vaccines.put(id, vaccine);
+        vaccine.setId(_id + "_" + Integer.toString(id));
+        _vaccines.put(vaccine.getId(), vaccine);
     }
 
     /**
-     * Overrites an existing vaccine; fails if given vaccine doesn't already exist
+     * Overwrites an existing vaccine; fails if given vaccine doesn't already exist
      * (new vaccines should be added via add vaccine)
      *
      * @param vaccine the existing dose to update

@@ -2,19 +2,24 @@ package mhealth.mvax.search;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import mhealth.mvax.R;
@@ -37,20 +42,18 @@ public class PatientDetailActivity extends AppCompatActivity {
     //================================================================================
 
     private Patient _patient;
-
+    private FirebaseAuth _auth;
+    private DatabaseReference _database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_detail);
-
-        _patient = (Patient) this.getIntent().getSerializableExtra("patient");
-
         setTitle(getResources().getString(R.string.patient_details));
 
-        renderPatientDetails();
-
-        renderVaccines();
+        if (!initDatabase()) {
+            // TODO: throw some kind of error to the UI here
+        }
     }
 
     //================================================================================
@@ -60,7 +63,7 @@ public class PatientDetailActivity extends AppCompatActivity {
     /**
      * Render a modal for modifying a vaccine dose record
      *
-     * @param view the DoseDateView object that displays the dose date
+     * @param view           the DoseDateView object that displays the dose date
      * @param vaccineAdapter the VaccineAdapter through which the vaccines are populated
      */
     public void createNewDose(final View view, final VaccineAdapter vaccineAdapter) {
@@ -82,14 +85,8 @@ public class PatientDetailActivity extends AppCompatActivity {
                 cal.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
                 cal.set(Calendar.MONTH, datePicker.getMonth());
                 cal.set(Calendar.YEAR, datePicker.getYear());
-                Date doseDate = new Date(cal.getTimeInMillis());
 
-                try {
-                    updateDose(sender.getVaccine(), sender.getDose(), doseDate);
-                } catch (Exception e) {
-                    // TODO push exceptions to UI
-                    e.printStackTrace();
-                }
+                updateDose(sender.getVaccine(), sender.getDose(), cal.getTimeInMillis());
 
                 vaccineAdapter.notifyDataSetChanged();
             }
@@ -105,12 +102,7 @@ public class PatientDetailActivity extends AppCompatActivity {
         builder.setNeutralButton(R.string.modal_new_dosage_neutral, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                try {
-                    updateDose(sender.getVaccine(), sender.getDose(), null);
-                } catch (Exception e) {
-                    // TODO push exceptions to UI
-                    e.printStackTrace();
-                }
+                updateDose(sender.getVaccine(), sender.getDose(), null);
             }
         });
 
@@ -122,20 +114,63 @@ public class PatientDetailActivity extends AppCompatActivity {
     // Private methods
     //================================================================================
 
-    private void updateDose(Vaccine vaccine, Dose dose, Date dosageDate) throws Exception {
+    /**
+     * Initializes the Firebase connection and sets up data listeners
+     *
+     * @return true if authentication and initialization was successful, false otherwise
+     */
+    private boolean initDatabase() {
+        _auth = FirebaseAuth.getInstance();
+        FirebaseUser user = _auth.getCurrentUser();
+        // TODO authentication validation, throw back false if failed
+        _database = FirebaseDatabase.getInstance().getReference();
+
+        String patientId = (String) this.getIntent().getSerializableExtra("patientId");
+        ;
+        _database.child("patientRecords").orderByChild("id").equalTo(patientId).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                _patient = dataSnapshot.getValue(Patient.class);
+                renderPatientDetails();
+                renderVaccines();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                onChildAdded(dataSnapshot, s);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                String f = "";
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                String f = "";
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                String f = "";
+            }
+        });
+        return true;
+    }
+
+    private void updateDose(Vaccine vaccine, Dose dose, Long doseDate) {
         // TODO push exceptions to UI
-        dose.setDate(dosageDate);
+        dose.setDate(doseDate);
         if (vaccine.updateDose(dose)) {
             if (_patient.updateVaccine(vaccine)) {
-                Intent intent = getIntent();
-                intent.putExtra("patient", _patient);
-                setResult(1, intent);
-                finish();
+                // push the update to the database, which will trigger update listeners,
+                // updating the view
+                _database.child("patientRecords").child(_patient.getId()).setValue(_patient);
             } else {
-                throw new Exception("unable to update vaccine in patient");
+                // TODO throw unable to update vaccine in patient
             }
         } else {
-            throw new Exception("unable to update dose in vaccine");
+            // TODO throw unable to update dose in vaccine
         }
     }
 
@@ -159,7 +194,6 @@ public class PatientDetailActivity extends AppCompatActivity {
     private void renderVaccines() {
         ArrayList<Vaccine> vaccineList = _patient.getVaccineList();
         ListView _vaccineListView = (ListView) findViewById(R.id.vaccine_list_view);
-
         VaccineAdapter vaccineAdapter = new VaccineAdapter(this, vaccineList);
         _vaccineListView.setAdapter(vaccineAdapter);
     }
