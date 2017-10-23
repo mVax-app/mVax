@@ -9,6 +9,7 @@
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
+    <string name="resetPassword">Forgot Password?</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -30,6 +31,12 @@
     <string name="REG_NAME">Name</string>
     <string name="REG_EMAIL">Email</string>
     <string name="REG_PASSWORD">Password</string>
+
+    <!-- Reset Password-->
+    <string name="modal_reset_title">Reset Password</string>
+    <string name="reset_email">Email of Account</string>
+    <string name="reset_password_button">Reset Password</string>
+    <string name="reset_email_confirm">Password Reset Email has been sent to: </string>
 
 
     <!-- Setting page -->
