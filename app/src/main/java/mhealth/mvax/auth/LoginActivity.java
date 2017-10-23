@@ -127,8 +127,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        TextView forgotPassword = (TextView) findViewById(R.id.resetPassword);
-
         setAllText();
         //setOnClick();
 

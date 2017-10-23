@@ -31,7 +31,11 @@
     <string name="REG_EMAIL">Correo Electrónico</string>
 
 
-
+    <!-- Reset Password-->
+    <string name="modal_reset_title">Restablecer contraseña</string>
+    <string name="reset_email">Correo electrónico de la cuenta</string>
+    <string name="reset_password_button">Restablecer contraseña</string>
+    <string name="reset_email_confirm">Se ha enviado el correo electrónico de restablecimiento de contraseña:</string>
 
 
     <!-- Patient details -->
