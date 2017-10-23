@@ -3,30 +3,12 @@
 
     <item
         is-multidex="true"
-        jar="/Users/Robert/.android/build-cache/4b790bfb32b635095d62e656c980ee34a60dddc4/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.1"
-        sha1="6a022bf00ccd0948a8180c505e8e458bbddd43a6">
-        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_745184bf6f8f0157cf3c6222811b934ac8e2c501/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.1"
-        sha1="e9d04a3e868fba7c2482183cfdf4a3782a529fd7">
+        sha1="c7f96c9a931869d22c59f6a2776a50f8ca60c84a">
         <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_7a640a486dec67f0999e3b842553932b91a541bf/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/Robert/.android/build-cache/1f47dd28904277d697171d4bbf67fd27884566e7/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.1"
-        sha1="cddcd0fb93bc70e27325f2f715b2710332004ebb">
-        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_50fdf3e5c6e8ab7e8f8152e1570ccc71996c9a78/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -36,15 +18,6 @@
         revision="26.0.1"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
         <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_8df5030ab1c2da2446835fc00e0396ec7a60713c/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/Robert/.android/build-cache/b5fa13f1905e3896e11e0a014088297b7c1237f9/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.1"
-        sha1="c4f45092eee6cdf1a5dbd597b2b6819be652ce2e">
-        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e857647249f134770bc3d2e0c46b404d46ef4909/classes.dex" />
     </item>
 
 </items>

@@ -1,12 +1,17 @@
 package mhealth.mvax.patient.vaccine;
 
+import com.google.firebase.database.Exclude;
+
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @author Robert Steilberg
  *
- * Object for storing information about mVax doses
+ * Object for storing information about mVax doses,
+ * with proper getters and setters for Firebase storage
+ *
+ * NOTE: Tampering with non-excluded getters or setters may break
+ * Firebase integration!
  */
 
 public class Dose implements Serializable {
@@ -15,19 +20,24 @@ public class Dose implements Serializable {
     // Properties
     //================================================================================
 
-    private int _id;
+    private String _id;
 
     private String _label1;
 
     private String _label2;
 
-    private Date _date;
+    private Long _date;
 
-    private boolean _completed = false;
+    @Exclude
+    private Boolean _completed = false;
 
     //================================================================================
     // Constructors
     //================================================================================
+
+    public Dose() {
+        // empty constructor for Firebase
+    }
 
     public Dose(String label1, String label2) {
         _label1 = label1;
@@ -42,7 +52,7 @@ public class Dose implements Serializable {
     // Getters
     //================================================================================
 
-    public int getId() {
+    public String getId() {
         return _id;
     }
 
@@ -54,7 +64,8 @@ public class Dose implements Serializable {
         return _label2;
     }
 
-    public String getLabel() {
+    @Exclude
+    String getLabel() {
         StringBuilder sb = new StringBuilder();
         if (_label2 != null) {
             sb.append(_label1);
@@ -68,11 +79,11 @@ public class Dose implements Serializable {
         return sb.toString();
     }
 
-    public Date getDate() {
+    Long getDate() {
         return _date;
     }
 
-    public boolean hasBeenCompleted() {
+    Boolean hasBeenCompleted() {
         return _completed;
     }
 
@@ -80,10 +91,11 @@ public class Dose implements Serializable {
     // Setters
     //================================================================================
 
-    public void setId(int id) {
+    public void setId(String id) {
         _id = id;
     }
 
+    @Exclude
     public void setLabels(String label1, String label2) {
         _label1 = label1;
         _label2 = label2;
@@ -97,8 +109,9 @@ public class Dose implements Serializable {
         _label2 = label2;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Long date) {
         _date = date;
         _completed = (date != null);
     }
+
 }

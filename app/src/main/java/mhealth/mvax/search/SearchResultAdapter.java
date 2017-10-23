@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -31,16 +34,16 @@ public class SearchResultAdapter extends BaseAdapter {
 
     private LayoutInflater _Inflater;
 
-    private Map<String, Patient> _DataSource;
+    private List<Patient> _DataSource;
 
 
     //================================================================================
     // Constructors
     //================================================================================
 
-    public SearchResultAdapter(Context context, Map<String, Patient> items) {
+    public SearchResultAdapter(Context context, Collection<Patient> patientRecords) {
         _Context = context;
-        _DataSource = items;
+        _DataSource = new ArrayList<>(patientRecords);
         _Inflater = (LayoutInflater) _Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -55,7 +58,7 @@ public class SearchResultAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return _DataSource.get(Integer.toString(position));
+        return _DataSource.get(position);
     }
 
     @Override
@@ -97,6 +100,15 @@ public class SearchResultAdapter extends BaseAdapter {
         rightTextView.setText(result.getCommunity());
 
         return rowView;
+    }
+
+    public void refresh(Collection<Patient> values) {
+        _DataSource = new ArrayList<>(values);
+        notifyDataSetChanged();
+    }
+
+    public String getPatientIdFromDataSource(int position) {
+        return _DataSource.get(position).getId();
     }
 
     private static class ViewHolder {
