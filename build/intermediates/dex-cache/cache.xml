@@ -2,49 +2,121 @@
 <items version="2" >
 
     <item
-        is-multidex="true"
-        jar="/Users/Robert/.android/build-cache/4b790bfb32b635095d62e656c980ee34a60dddc4/output/jars/classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/mtribby/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar"
+        jumboMode="false"
         optimize="true"
         revision="26.0.1"
-        sha1="6a022bf00ccd0948a8180c505e8e458bbddd43a6">
-        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_745184bf6f8f0157cf3c6222811b934ac8e2c501/classes.dex" />
+        sha1="42a25dc3219429f0e5d060061f71acb49bf010a0">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/hamcrest-core-1.3_29f04e54abbc79a2f56574161a4f94e4941f1afd.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/mtribby/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-library/1.3/4785a3c21320980282f9f33d0d1264a69040538f/hamcrest-library-1.3.jar"
+        jumboMode="false"
         optimize="true"
         revision="26.0.1"
-        sha1="e9d04a3e868fba7c2482183cfdf4a3782a529fd7">
-        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_7a640a486dec67f0999e3b842553932b91a541bf/classes.dex" />
+        sha1="4785a3c21320980282f9f33d0d1264a69040538f">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/hamcrest-library-1.3_788ddccab61dc34290a94450fcba310792a840a4.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/Robert/.android/build-cache/1f47dd28904277d697171d4bbf67fd27884566e7/output/jars/classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/mtribby/.gradle/caches/modules-2/files-2.1/com.squareup/javawriter/2.1.1/67ff45d9ae02e583d0f9b3432a5ebbe05c30c966/javawriter-2.1.1.jar"
+        jumboMode="false"
         optimize="true"
         revision="26.0.1"
-        sha1="cddcd0fb93bc70e27325f2f715b2710332004ebb">
-        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_50fdf3e5c6e8ab7e8f8152e1570ccc71996c9a78/classes.dex" />
+        sha1="67ff45d9ae02e583d0f9b3432a5ebbe05c30c966">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/javawriter-2.1.1_ba373e31a833475e149bf54671b49f8395a07504.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/93a75a5e2767d453aeaafa94a6a86ce5e7761d3a/output/jars/classes.jar"
+        jumboMode="false"
         optimize="true"
         revision="26.0.1"
-        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_8df5030ab1c2da2446835fc00e0396ec7a60713c/classes.dex" />
+        sha1="796f9229948e907471c5595fbe94655ccf03ff73">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/classes_b0c18657c5800548bbd9c22a9c4c7413a43abb4d.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/Robert/.android/build-cache/b5fa13f1905e3896e11e0a014088297b7c1237f9/output/jars/classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/mtribby/.gradle/caches/modules-2/files-2.1/javax.inject/javax.inject/1/6975da39a7040257bd51d21a231b76c915872d38/javax.inject-1.jar"
+        jumboMode="false"
         optimize="true"
         revision="26.0.1"
-        sha1="c4f45092eee6cdf1a5dbd597b2b6819be652ce2e">
-        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e857647249f134770bc3d2e0c46b404d46ef4909/classes.dex" />
+        sha1="6975da39a7040257bd51d21a231b76c915872d38">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/javax.inject-1_0ffc606994e0cad17f137141ed67949333c33d9b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/0b4be0fdd3c2b35db7045e720c471285cc53fd06/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="d115b0e9e1501135fe91254ba884fcbd83d374c0">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/classes_85095bc936d027c5ec8decbca9c1448b084823fb.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mtribby/.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/2.0.1/516c03b21d50a644d538de0f0369c620989cd8f0/jsr305-2.0.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="516c03b21d50a644d538de0f0369c620989cd8f0">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/jsr305-2.0.1_8077c63d9bc6518cc4959c805a6e44e2beac1cc3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mtribby/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-integration/1.3/5de0c73fef18917cd85d0ab70bb23818685e4dfd/hamcrest-integration-1.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="5de0c73fef18917cd85d0ab70bb23818685e4dfd">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/hamcrest-integration-1.3_2e773bb9a89c42faf3d488b0da727be447388785.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mtribby/.gradle/caches/modules-2/files-2.1/junit/junit/4.12/2973d150c0dc1fefe998f834810d68f278ea58ec/junit-4.12.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="2973d150c0dc1fefe998f834810d68f278ea58ec">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/junit-4.12_a5be3c1f449f520b4e517f8f1fa1fed9150018c9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/16622ab78aae8b095a5cd953e8f84e625221ac14/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="a890ee8445927649d9ed50f625a315d8758688be">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/classes_4826bef9b49cdb10396b8c354c6327c66832cf54.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/5545919b334fa3108cbf133a690ff99e39a9a83b/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="905f3e63973d47fedf2d945fa31d8c0f0c98816e">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/classes_c0166033dc5bcd13986ad5560b886217d0c802b0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mtribby/.gradle/caches/modules-2/files-2.1/javax.annotation/javax.annotation-api/1.2/479c1e06db31c432330183f5cae684163f186146/javax.annotation-api-1.2.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="479c1e06db31c432330183f5cae684163f186146">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/javax.annotation-api-1.2_e475a1b68282ebcb8f101098e2b56c8f17cbc526.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/05559205479c2bc5515b195d31a8d8cbc8d90731/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="7e11799d8a26bfa5d48acafe012ee5545b9bf468">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/classes_f332038157261ea9ef44b9557b9bb9a3bb4caded.jar" />
     </item>
 
 </items>
