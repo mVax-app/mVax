@@ -31,14 +31,14 @@ public class SearchResultAdapter extends BaseAdapter {
 
     private LayoutInflater _Inflater;
 
-    private Map<Integer, Patient> _DataSource;
+    private Map<String, Patient> _DataSource;
 
 
     //================================================================================
     // Constructors
     //================================================================================
 
-    public SearchResultAdapter(Context context, Map<Integer, Patient> items) {
+    public SearchResultAdapter(Context context, Map<String, Patient> items) {
         _Context = context;
         _DataSource = items;
         _Inflater = (LayoutInflater) _Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -55,7 +55,7 @@ public class SearchResultAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return _DataSource.get(position);
+        return _DataSource.get(Integer.toString(position));
     }
 
     @Override
