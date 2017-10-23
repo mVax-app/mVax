@@ -24,14 +24,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import mhealth.mvax.R;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -48,26 +44,25 @@ import mhealth.mvax.patient.vaccine.Vaccine;
 
 public class SearchFragment extends Fragment {
 
-    // TODO BUG: hitting back button in Android re-renders fragment, thus calls createDummyData()
-    // TODO BUG: again and wipes all progress
-
     //================================================================================
     // Properties
     //================================================================================
 
-    private Map<String, Patient> _records;
+    private Map<String, Patient> _patientRecords;
 
     private SearchResultAdapter _SearchResultAdapter;
 
+    private FirebaseAuth _auth;
 
-    private FirebaseAuth mFirebaseAuth;
-    private DatabaseReference mDatabase;
-    private String mUserId;
-
+    private DatabaseReference _database;
 
     //================================================================================
     // Public methods
     //================================================================================
+
+    public SearchFragment() {
+        _patientRecords = new TreeMap<>();
+    }
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -86,11 +81,9 @@ public class SearchFragment extends Fragment {
         final Context context = view.getContext();
 
         Button newRecordButton = view.findViewById((R.id.new_record_button));
-        newRecordButton.setOnClickListener(new View.OnClickListener()
-        {
+        newRecordButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 createNewPatient(v, inflater);
             }
         });
@@ -99,77 +92,23 @@ public class SearchFragment extends Fragment {
 
         ListView patientListView = view.findViewById(R.id.patient_list_view);
 
+        // call this method to populate database with dummy data
+        // NOTE: recommend you clear out the database beforehand
+//        createDummyData();
 
+        initDatabase();
 
-        mFirebaseAuth = FirebaseAuth.getInstance();
-
-        FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-//        if (mFirebaseUser == null) {
-//            // Not logged in, launch the Log In activity
-//        } else {
-//            mUserId = mFirebaseUser.getUid();
-//        }
-        mDatabase.child("patientRecords").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Get Post object and use the values to update the UI
-//                Patient patients = dataSnapshot.getValue(Patient.class);
-//                for (DataSnapshot c : dataSnapshot.getChildren()) {
-//                    Patient p = c.child("patientRecords").getValue(Patient.class);
-//                    String f = "";
-//                }
-
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // TODO HANDLE READ FAILURE
-            }
-        });
-
-        mDatabase.child("patientRecords").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                Object pp = dataSnapshot.getValue(Patient.class);
-                String f = "";
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-
-//        _SearchResultAdapter = new SearchResultAdapter(view.getContext(), _records);
-//        patientListView.setAdapter(_SearchResultAdapter);
+        _SearchResultAdapter = new SearchResultAdapter(view.getContext(), _patientRecords.values());
+        patientListView.setAdapter(_SearchResultAdapter);
 
         patientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO potential bug?
-                Patient selectedPatient = _records.get(position);
+                String patientId = _SearchResultAdapter.getPatientIdFromDataSource(position);
                 Intent detailIntent = new Intent(context, PatientDetailActivity.class);
-                detailIntent.putExtra("patient", selectedPatient);
-                // TODO fix response codes (may not need for Firebase)
-                startActivityForResult(detailIntent,1);
+                detailIntent.putExtra("patientId", patientId);
+                startActivity(detailIntent);
             }
 
         });
@@ -185,7 +124,6 @@ public class SearchFragment extends Fragment {
 //        LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.modal_new_record, null);
         builder.setView(dialogView);
-
 
         final EditText firstNameEditText = dialogView.findViewById(R.id.new_first_name);
         final EditText lastNameEditText = dialogView.findViewById(R.id.new_last_name);
@@ -231,9 +169,13 @@ public class SearchFragment extends Fragment {
                 cal.set(Calendar.MONTH, DOBpicker.getMonth());
                 cal.set(Calendar.YEAR, DOBpicker.getYear());
 
-//                Patient newPatient = new Patient(_records.size(), firstName, lastName, gender[0], new Date(cal.getTimeInMillis()), community);
-//                _records.put(Integer.toString(newPatient.getId()), newPatient);
-                _SearchResultAdapter.notifyDataSetChanged();
+                DatabaseReference patientRecords = _database.child("patientRecords").push();
+
+                Patient newPatient = new Patient(patientRecords.getKey(), firstName, lastName, gender[0], cal.getTimeInMillis(), community);
+
+                // push the update to the database, which will trigger update listeners,
+                // updating the view
+                patientRecords.setValue(newPatient);
             }
         });
         builder.setNegativeButton(getResources().getString(R.string.modal_new_record_cancel), new DialogInterface.OnClickListener() {
@@ -246,132 +188,122 @@ public class SearchFragment extends Fragment {
         builder.show();
     }
 
+    //================================================================================
+    // Private methods
+    //================================================================================
+
     /**
-     * Get updated patient back from PatientDetailActivity
+     * Initializes the Firebase connection and sets up data listeners
      *
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @return true if authentication and initialization was successful, false otherwise
      */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if (resultCode == 1) {
-                Patient result = (Patient) data.getSerializableExtra("patient");
-//                _records.put(Integer.toString(result.getId()), result);
+    private boolean initDatabase() {
+        _auth = FirebaseAuth.getInstance();
+        FirebaseUser mFirebaseUser = _auth.getCurrentUser();
+        // TODO handle auth fail
+//        if (mFirebaseUser == null) {
+////            Not logged in, launch the Log In activity
+//        } else {
+//            mUserId = mFirebaseUser.getUid();
+//        }
+
+        _database = FirebaseDatabase.getInstance().getReference();
+
+        _database.child("patientRecords").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                Patient patient = dataSnapshot.getValue(Patient.class);
+                _patientRecords.put(patient.getId(), patient);
+                _SearchResultAdapter.refresh(_patientRecords.values());
             }
-        }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+                onChildAdded(dataSnapshot, prevChildKey);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return true;
     }
+
 
     private void createDummyData() {
 
-//        Vaccine hepatitis = new Vaccine("Hepatitis B");
-//        hepatitis.addDose(new Dose("R.N."));
-//
-//        Vaccine BCG = new Vaccine("BCG");
-//        BCG.addDose(new Dose("1"));
-//
-//        Vaccine polio = new Vaccine("Polio");
-//        polio.addDose(new Dose("1", "VPI"));
-//        polio.addDose(new Dose("2", "VOP"));
-//        polio.addDose(new Dose("3", "VOP"));
-//        polio.addDose(new Dose("Refuerzo", "VOP"));
-//
-//        Vaccine rotavirus = new Vaccine("Rotavirus");
-//        rotavirus.addDose(new Dose("1"));
-//        rotavirus.addDose(new Dose("2"));
-//        rotavirus.addDose(new Dose("3"));
-//        rotavirus.addDose(new Dose("4"));
-//
-//        Vaccine varicella = new Vaccine("Varicella");
-//        varicella.addDose(new Dose("F.N."));
-//
-//        Vaccine syphilis = new Vaccine("Syphilis");
-//        syphilis.addDose(new Dose("R.N.", "1"));
-//        syphilis.addDose(new Dose("R.N.", "3"));
-//        syphilis.addDose(new Dose("R.N.", "3"));
-//        syphilis.addDose(new Dose("R.N.", "3"));
-//
-//        _records = new TreeMap<>();
-//
-//
-//        DatabaseReference patientRecords = mDatabase.child("patientRecords").push();
-//
-//        Patient rob = new Patient(patientRecords.getKey(), "Rob", "Steilberg", Gender.MALE, new Date(823237200000l), "Roatan");
-//        rob.addVaccine(hepatitis);
-//        rob.addVaccine(BCG);
-//        rob.addVaccine(polio);
-//        rob.addVaccine(rotavirus);
-//        rob.addVaccine(varicella);
-//        rob.addVaccine(syphilis);
-//        patientRecords.setValue(rob);
-//
-//        patientRecords.setValue(rob);
-//
-////        _records.put(Integer.toString(rob.getId()), rob);
-//
-//        patientRecords = mDatabase.child("patientRecords").push();
-//
-//        Patient alison = new Patient(patientRecords.getKey(), "Alison", "Huang", Gender.FEMALE, new Date(1428206400000l), "West Bay");
-//        alison.addVaccine(hepatitis);
-//        alison.addVaccine(BCG);
-//        alison.addVaccine(polio);
-//        alison.addVaccine(rotavirus);
-//        alison.addVaccine(varicella);
-//        alison.addVaccine(syphilis);
-//
-//        patientRecords.setValue(alison);
-//
-////        _records.put(Integer.toString(alison.getId()), alison);
-//
-//        patientRecords = mDatabase.child("patientRecords").push();
-//
-//        Patient steven = new Patient(patientRecords.getKey(), "Steven", "Yang", Gender.MALE, new Date(1078635600000l), "Oakridge");
-//        steven.addVaccine(hepatitis);
-//        steven.addVaccine(BCG);
-//        steven.addVaccine(polio);
-//        steven.addVaccine(rotavirus);
-//        steven.addVaccine(varicella);
-//        steven.addVaccine(syphilis);
-//
-//        patientRecords.setValue(steven);
+        Vaccine hepatitis = new Vaccine("Hepatitis B");
+        Dose dose1 = new Dose("R.N.");
+        dose1.setDate(823237200000l);
+        hepatitis.addDose(dose1);
 
 
-//        _records.put(Integer.toString(steven.getId()), steven);
+        Vaccine BCG = new Vaccine("BCG");
+        BCG.addDose(new Dose("1"));
 
-//        mDatabase.child("patientRecords").setValue(_records);
-//        DatabaseReference patientRecords = mDatabase.child("patientRecords").push();
-//        patientRecords.setValue(rob);
-//        patientRecords = mDatabase.child("patientRecords").push();
-//        patientRecords.setValue(alison);
-//        patientRecords = mDatabase.child("patientRecords").push();
-//        patientRecords.setValue(steven);
+        Vaccine polio = new Vaccine("Polio");
+        polio.addDose(new Dose("1", "VPI"));
+        polio.addDose(new Dose("2", "VOP"));
+        polio.addDose(new Dose("3", "VOP"));
+        polio.addDose(new Dose("Refuerzo", "VOP"));
 
-//        _records = new TreeMap<>();
-//        ValueEventListener postListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                // Get Post object and use the values to update the UI
-//                HashMap<String, ArrayList<HashMap<String, Object>>> patients = (HashMap<String, ArrayList<HashMap<String, Object>>>) dataSnapshot.getValue();
-//
-//
-//
-//                // ...
-//                // TODO comes back as JSON, need to loop and make a patient object with each one
-////                _records = patients;
-//                String f = "";
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                // Getting Post failed, log a message
-////            Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-//                // ...
-//            }
-//        };
-//        mDatabase.addValueEventListener(postListener);
+        Vaccine rotavirus = new Vaccine("Rotavirus");
+        rotavirus.addDose(new Dose("1"));
+        rotavirus.addDose(new Dose("2"));
+        rotavirus.addDose(new Dose("3"));
+        rotavirus.addDose(new Dose("4"));
+
+        Vaccine varicella = new Vaccine("Varicella");
+        varicella.addDose(new Dose("F.N."));
+
+        Vaccine syphilis = new Vaccine("Syphilis");
+        syphilis.addDose(new Dose("R.N.", "1"));
+        syphilis.addDose(new Dose("R.N.", "3"));
+        syphilis.addDose(new Dose("R.N.", "3"));
+        syphilis.addDose(new Dose("R.N.", "3"));
+
+
+        DatabaseReference patientRecords = _database.child("patientRecords").push();
+        Patient rob = new Patient(patientRecords.getKey(), "Rob", "Steilberg", Gender.MALE, 823237200000l, "Roatan");
+        rob.addVaccine(hepatitis);
+        rob.addVaccine(BCG);
+        rob.addVaccine(polio);
+        rob.addVaccine(rotavirus);
+        rob.addVaccine(varicella);
+        rob.addVaccine(syphilis);
+        patientRecords.setValue(rob);
+
+        patientRecords = _database.child("patientRecords").push();
+        Patient alison = new Patient(patientRecords.getKey(), "Alison", "Huang", Gender.FEMALE, 1428206400000l, "West Bay");
+        alison.addVaccine(hepatitis);
+        alison.addVaccine(BCG);
+        alison.addVaccine(polio);
+        alison.addVaccine(rotavirus);
+        alison.addVaccine(varicella);
+        alison.addVaccine(syphilis);
+        patientRecords.setValue(alison);
+
+        patientRecords = _database.child("patientRecords").push();
+        Patient steven = new Patient(patientRecords.getKey(), "Steven", "Yang", Gender.MALE, 1078635600000l, "Oakridge");
+        steven.addVaccine(hepatitis);
+        steven.addVaccine(BCG);
+        steven.addVaccine(polio);
+        steven.addVaccine(rotavirus);
+        steven.addVaccine(varicella);
+        steven.addVaccine(syphilis);
+        patientRecords.setValue(steven);
     }
-
 
 
 }

@@ -1,5 +1,7 @@
 package mhealth.mvax.patient.vaccine;
 
+import com.google.firebase.database.Exclude;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
@@ -8,7 +10,11 @@ import java.util.TreeMap;
 /**
  * @author Robert Steilberg
  *
- * Object for storing information about mVax vaccines
+ * Object for storing information about mVax vaccines,
+ * with proper getters and setters for Firebase storage
+ *
+ * NOTE: Tampering with non-excluded getters or setters may break
+ * Firebase integration!
  */
 
 public class Vaccine implements Serializable {
@@ -17,16 +23,22 @@ public class Vaccine implements Serializable {
     // Properties
     //================================================================================
 
-    private int _id;
+    private String _id;
 
     private String _name;
 
-    private Map<Integer, Dose> _doses;
+    private Map<String, Dose> _doses;
 
     //================================================================================
     // Constructors
     //================================================================================
 
+    public Vaccine() {
+        // empty constructor for Firebase
+        _doses = new TreeMap<>();
+    }
+
+    // TODO: ensure that id naming protocol for doses and vaccines is working as expected
     public Vaccine(String name) {
         _name = name;
         _doses = new TreeMap<>();
@@ -36,7 +48,7 @@ public class Vaccine implements Serializable {
     // Getters
     //================================================================================
 
-    public int getId() {
+    public String getId() {
         return _id;
     }
 
@@ -44,24 +56,40 @@ public class Vaccine implements Serializable {
         return _name;
     }
 
-    public int getNumDoses() {
-        return _doses.size();
-    }
-
+    /**
+     * Use this getter internally, instead of getDoses()
+     * @return an ArrayList of Doses associated with the Vaccine
+     */
+    @Exclude
     public ArrayList<Dose> getDoseList() {
         return new ArrayList<>(_doses.values());
+    }
+
+    /**
+     * This getter should only be used externally by Firebase
+     */
+    public Map<String, Dose> getDoses() {
+        return _doses;
     }
 
     //================================================================================
     // Setters
     //================================================================================
 
-    public void setId(int id) {
+    public void setId(String id) {
         _id = id;
     }
 
     public void setName(String name) {
         _name = name;
+    }
+
+    /**
+     * This setter should only be used externally by Firebase;
+     * use addDose or updateDose to modify associated Doses
+     */
+    public void setDoses(Map<String, Dose> doses) {
+        _doses = doses;
     }
 
     //================================================================================
@@ -75,8 +103,8 @@ public class Vaccine implements Serializable {
      */
     public void addDose(Dose dose) {
         int id = _doses.size() + 1;
-        dose.setId(id);
-        _doses.put(id, dose);
+        dose.setId(_id + "_" + Integer.toString(id));
+        _doses.put(dose.getId(), dose);
     }
 
     /**
