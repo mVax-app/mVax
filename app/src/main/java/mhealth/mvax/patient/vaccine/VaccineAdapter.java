@@ -16,6 +16,7 @@ import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.search.PatientDetailActivity;
+import mhealth.mvax.search.RecordDetailFragment;
 
 /**
  * @author Robert Steilberg
@@ -31,6 +32,8 @@ public class VaccineAdapter extends BaseAdapter {
     // Properties
     //================================================================================
 
+    private RecordDetailFragment _RecordDetailFragment;
+
     private Context _Context;
 
     private LayoutInflater _Inflater;
@@ -43,7 +46,8 @@ public class VaccineAdapter extends BaseAdapter {
     // Constructors
     //================================================================================
 
-    public VaccineAdapter(Context context, List<Vaccine> dataSource) {
+    public VaccineAdapter(RecordDetailFragment fragment, Context context, List<Vaccine> dataSource) {
+        _RecordDetailFragment = fragment;
         _Context = context;
         _DataSource = dataSource;
         _Inflater = (LayoutInflater) _Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -142,9 +146,7 @@ public class VaccineAdapter extends BaseAdapter {
             dateView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (_Context instanceof PatientDetailActivity) {
-                        ((PatientDetailActivity) _Context).createNewDose(v, _VaccineAdapter);
-                    }
+                    _RecordDetailFragment.createNewDose(v, _VaccineAdapter);
                 }
             });
 

@@ -1,10 +1,18 @@
 package mhealth.mvax.search;
 
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.text.Layout;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
@@ -24,6 +32,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import mhealth.mvax.R;
+import mhealth.mvax.activities.MainActivity;
 import mhealth.mvax.patient.Patient;
 import mhealth.mvax.patient.vaccine.Dose;
 import mhealth.mvax.patient.vaccine.DoseDateView;
@@ -32,33 +41,53 @@ import mhealth.mvax.patient.vaccine.VaccineAdapter;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         An activity for displaying details about a patient record
  */
 
-public class PatientDetailActivity extends AppCompatActivity {
+public class RecordDetailFragment extends Fragment {
 
     //================================================================================
     // Properties
     //================================================================================
 
+    private View _View;
+
+    private LayoutInflater _inflater;
+
     private Patient _patient;
 
     private DatabaseReference _database;
 
+    public RecordDetailFragment() {
+        String f = "";
+    }
+
     //================================================================================
-    // Overrides
+    // Public methods
     //================================================================================
+
+    public static RecordDetailFragment newInstance() {
+        return new RecordDetailFragment();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_record_detail);
-        setTitle(getResources().getString(R.string.patient_details));
+    }
 
-        if (!initDatabase()) {
-            // TODO: throw some kind of error to the UI here
-        }
+
+    @Override
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        _View = inflater.inflate(R.layout.fragment_record_detail, container, false);
+        _inflater = inflater;
+        getActivity().setTitle(getResources().getString(R.string.patient_details));
+        ListView vaccineListView = _View.findViewById(R.id.vaccine_list_view);
+        addDeleteButton(vaccineListView);
+        return _View;
+    }
+
+    public boolean initWithPatient(String id) {
+        return initDatabase(id);
     }
 
     //================================================================================
@@ -124,13 +153,11 @@ public class PatientDetailActivity extends AppCompatActivity {
      *
      * @return true if authentication and initialization was successful, false otherwise
      */
-    private boolean initDatabase() {
-        FirebaseAuth _auth = FirebaseAuth.getInstance();
-        FirebaseUser user = _auth.getCurrentUser();
+    private boolean initDatabase(String patientId) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
         // TODO authentication validation, throw back false if failed
         _database = FirebaseDatabase.getInstance().getReference();
-
-        String patientId = (String) this.getIntent().getSerializableExtra("patientId");
 
         _database.child("patientRecords").orderByChild("id").equalTo(patientId).addChildEventListener(new ChildEventListener() {
             @Override
@@ -180,32 +207,32 @@ public class PatientDetailActivity extends AppCompatActivity {
     }
 
     private void renderPatientDetails() {
-        ((TextView) findViewById(R.id.patient_detail_name)).setText(_patient.getFullName());
+
+        ((TextView) _View.findViewById(R.id.patient_detail_name)).setText(_patient.getFullName());
 
         String DOBprompt = getResources().getString(R.string.DOB_prompt);
         SimpleDateFormat sdf = new SimpleDateFormat(getResources().getString(R.string.date_format), Locale.getDefault());
         String DOBstr = DOBprompt + " " + sdf.format(_patient.getDOB());
-        ((TextView) findViewById(R.id.patient_detail_dob)).setText(DOBstr);
+        ((TextView) _View.findViewById(R.id.patient_detail_dob)).setText(DOBstr);
 
         String genderPrompt = getResources().getString(R.string.gender_prompt);
         String genderStr = genderPrompt + " " + _patient.getGender();
-        ((TextView) findViewById(R.id.patient_detail_gender)).setText(genderStr);
+        ((TextView) _View.findViewById(R.id.patient_detail_gender)).setText(genderStr);
 
         String communityPrompt = getResources().getString(R.string.community_prompt);
         String communityStr = communityPrompt + " " + _patient.getCommunity();
-        ((TextView) findViewById(R.id.patient_detail_community)).setText(communityStr);
+        ((TextView) _View.findViewById(R.id.patient_detail_community)).setText(communityStr);
     }
 
     private void renderVaccines() {
         ArrayList<Vaccine> vaccineList = _patient.getVaccineList();
-        ListView vaccineListView = (ListView) findViewById(R.id.vaccine_list_view);
-        addDeleteButton(vaccineListView);
-//        VaccineAdapter vaccineAdapter = new VaccineAdapter(this, vaccineList);
-//        vaccineListView.setAdapter(vaccineAdapter);
+        ListView vaccineListView = _View.findViewById(R.id.vaccine_list_view);
+        VaccineAdapter vaccineAdapter = new VaccineAdapter(this, getContext(), vaccineList);
+        vaccineListView.setAdapter(vaccineAdapter);
     }
 
     private void addDeleteButton(ListView vaccineListView) {
-        Button deleteButton = (Button) getLayoutInflater().inflate(R.layout.delete_button, null);
+        Button deleteButton = (Button) _inflater.inflate(R.layout.delete_button, null);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -216,7 +243,7 @@ public class PatientDetailActivity extends AppCompatActivity {
     }
 
     private void promptForRecordDelete() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.modal_record_delete_title);
         builder.setMessage(R.string.modal_record_delete_message);
         builder.setPositiveButton(getResources().getString(R.string.modal_new_dosage_confirm), new DialogInterface.OnClickListener() {
@@ -237,7 +264,7 @@ public class PatientDetailActivity extends AppCompatActivity {
 
     private void deleteCurrentRecord() {
         _database.child("patientRecords").child(_patient.getId()).setValue(null);
-        finish(); // we deleted the current record, so end the activity
+        getActivity().onBackPressed(); // we deleted the current record, so end the activity
     }
 
 }

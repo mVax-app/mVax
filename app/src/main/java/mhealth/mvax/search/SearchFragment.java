@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,14 +133,26 @@ public class SearchFragment extends Fragment {
         _SearchResultAdapter = new SearchResultAdapter(view.getContext(), _patientRecords.values());
         patientListView.setAdapter(_SearchResultAdapter);
 
-        patientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        final SearchFragment searchFragment = this;
 
+        patientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String patientId = _SearchResultAdapter.getPatientIdFromDataSource(position);
-                Intent detailIntent = new Intent(context, PatientDetailActivity.class);
-                detailIntent.putExtra("patientId", patientId);
-                startActivity(detailIntent);
+
+
+                RecordDetailFragment fragment = RecordDetailFragment.newInstance();
+                fragment.initWithPatient(patientId);
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
+                transaction.replace( getId(), searchFragment).addToBackStack(null);
+                transaction.replace(R.id.frame_layout, fragment);
+                transaction.commit();
+
+
+//                Intent detailIntent = new Intent(context, PatientDetailActivity.class);
+//                detailIntent.putExtra("patientId", patientId);
+//                startActivity(detailIntent);
             }
 
         });
