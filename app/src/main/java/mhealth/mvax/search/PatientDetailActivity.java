@@ -1,10 +1,13 @@
 package mhealth.mvax.search;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import mhealth.mvax.R;
@@ -48,7 +52,7 @@ public class PatientDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_record_detail);
+        setContentView(R.layout.activity_patient_detail);
         setTitle(getResources().getString(R.string.patient_details));
 
         if (!initDatabase()) {
@@ -126,7 +130,7 @@ public class PatientDetailActivity extends AppCompatActivity {
         _database = FirebaseDatabase.getInstance().getReference();
 
         String patientId = (String) this.getIntent().getSerializableExtra("patientId");
-        ;
+
         _database.child("patientRecords").orderByChild("id").equalTo(patientId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -142,7 +146,6 @@ public class PatientDetailActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                String f = "";
             }
 
             @Override
@@ -193,9 +196,23 @@ public class PatientDetailActivity extends AppCompatActivity {
 
     private void renderVaccines() {
         ArrayList<Vaccine> vaccineList = _patient.getVaccineList();
-        ListView _vaccineListView = (ListView) findViewById(R.id.vaccine_list_view);
+        ListView vaccineListView = (ListView) findViewById(R.id.vaccine_list_view);
+        addDeleteButton(vaccineListView);
         VaccineAdapter vaccineAdapter = new VaccineAdapter(this, vaccineList);
-        _vaccineListView.setAdapter(vaccineAdapter);
+        vaccineListView.setAdapter(vaccineAdapter);
+    }
+
+    private void addDeleteButton(ListView vaccineListView) {
+        Button deleteButton = (Button) getLayoutInflater().inflate(R.layout.delete_button, null);
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                _database.child("patientRecords").child(_patient.getId()).setValue(null);
+                finish();
+            }
+        });
+        vaccineListView.addFooterView(deleteButton);
     }
 
 }

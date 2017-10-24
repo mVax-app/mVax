@@ -66,6 +66,7 @@
     <string name="modal_new_dosage_confirm">Confirm</string>
     <string name="modal_new_dosage_cancel">Cancel</string>
     <string name="modal_new_dosage_neutral">No date</string>
+    <string name="delete_record_button">DELETE RECORD</string>
 
 
     <!-- Search -->
