@@ -5,12 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -32,8 +27,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import mhealth.mvax.R;
-import mhealth.mvax.activities.MainActivity;
-import mhealth.mvax.patient.Patient;
+import mhealth.mvax.patient.Record;
 import mhealth.mvax.patient.vaccine.Dose;
 import mhealth.mvax.patient.vaccine.DoseDateView;
 import mhealth.mvax.patient.vaccine.Vaccine;
@@ -53,7 +47,7 @@ public class RecordDetailFragment extends Fragment {
 
     private LayoutInflater _inflater;
 
-    private Patient _patient;
+    private Record _record;
 
     private DatabaseReference _database;
 
@@ -162,7 +156,7 @@ public class RecordDetailFragment extends Fragment {
         _database.child("patientRecords").orderByChild("id").equalTo(patientId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                _patient = dataSnapshot.getValue(Patient.class);
+                _record = dataSnapshot.getValue(Record.class);
                 renderPatientDetails();
                 renderVaccines();
             }
@@ -194,10 +188,10 @@ public class RecordDetailFragment extends Fragment {
         // TODO push exceptions to UI
         dose.setDate(doseDate);
         if (vaccine.updateDose(dose)) {
-            if (_patient.updateVaccine(vaccine)) {
+            if (_record.updateVaccine(vaccine)) {
                 // push the update to the database, which will trigger update listeners,
                 // updating the view
-                _database.child("patientRecords").child(_patient.getId()).setValue(_patient);
+                _database.child("patientRecords").child(_record.getId()).setValue(_record);
             } else {
                 // TODO throw unable to update vaccine in patient
             }
@@ -208,24 +202,24 @@ public class RecordDetailFragment extends Fragment {
 
     private void renderPatientDetails() {
 
-        ((TextView) _View.findViewById(R.id.patient_detail_name)).setText(_patient.getFullName());
+        ((TextView) _View.findViewById(R.id.patient_detail_name)).setText(_record.getFullName());
 
         String DOBprompt = getResources().getString(R.string.DOB_prompt);
         SimpleDateFormat sdf = new SimpleDateFormat(getResources().getString(R.string.date_format), Locale.getDefault());
-        String DOBstr = DOBprompt + " " + sdf.format(_patient.getDOB());
+        String DOBstr = DOBprompt + " " + sdf.format(_record.getDOB());
         ((TextView) _View.findViewById(R.id.patient_detail_dob)).setText(DOBstr);
 
         String genderPrompt = getResources().getString(R.string.gender_prompt);
-        String genderStr = genderPrompt + " " + _patient.getGender();
+        String genderStr = genderPrompt + " " + _record.getGender();
         ((TextView) _View.findViewById(R.id.patient_detail_gender)).setText(genderStr);
 
         String communityPrompt = getResources().getString(R.string.community_prompt);
-        String communityStr = communityPrompt + " " + _patient.getCommunity();
+        String communityStr = communityPrompt + " " + _record.getCommunity();
         ((TextView) _View.findViewById(R.id.patient_detail_community)).setText(communityStr);
     }
 
     private void renderVaccines() {
-        ArrayList<Vaccine> vaccineList = _patient.getVaccineList();
+        ArrayList<Vaccine> vaccineList = _record.getVaccineList();
         ListView vaccineListView = _View.findViewById(R.id.vaccine_list_view);
         VaccineAdapter vaccineAdapter = new VaccineAdapter(this, getContext(), vaccineList);
         vaccineListView.setAdapter(vaccineAdapter);
@@ -263,7 +257,7 @@ public class RecordDetailFragment extends Fragment {
     }
 
     private void deleteCurrentRecord() {
-        _database.child("patientRecords").child(_patient.getId()).setValue(null);
+        _database.child("patientRecords").child(_record.getId()).setValue(null);
         getActivity().onBackPressed(); // we deleted the current record, so end the activity
     }
 

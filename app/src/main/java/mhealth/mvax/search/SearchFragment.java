@@ -3,7 +3,6 @@ package mhealth.mvax.search;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -36,12 +35,12 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import mhealth.mvax.patient.Gender;
-import mhealth.mvax.patient.Patient;
+import mhealth.mvax.patient.Record;
 import mhealth.mvax.patient.vaccine.Dose;
 import mhealth.mvax.patient.vaccine.Vaccine;
 
 /**
- * @author Robert Steilberg
+ * @author Robert Steilberg, Alison Huang
  *         <p>
  *         A fragment for handling the record search and detail pages
  */
@@ -52,7 +51,7 @@ public class SearchFragment extends Fragment {
     // Properties
     //================================================================================
 
-    private Map<String, Patient> _patientRecords;
+    private Map<String, Record> _patientRecords;
 
     private SearchResultAdapter _SearchResultAdapter;
 
@@ -93,7 +92,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        searchBar = (EditText)view.findViewById(R.id.search_bar);
+        searchBar = view.findViewById(R.id.search_bar);
 
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -104,8 +103,8 @@ public class SearchFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 System.out.println("TEXT CHANGE: "+charSequence);
-                ArrayList<Patient> filtered = new ArrayList<Patient>();
-                for (Patient p : _patientRecords.values()) {
+                ArrayList<Record> filtered = new ArrayList<Record>();
+                for (Record p : _patientRecords.values()) {
                     String name = p.getFullName();
                     if (name.toLowerCase().indexOf(charSequence.toString().toLowerCase()) != -1) {
                         filtered.add(p);
@@ -148,11 +147,6 @@ public class SearchFragment extends Fragment {
                 transaction.replace( getId(), searchFragment).addToBackStack(null);
                 transaction.replace(R.id.frame_layout, fragment);
                 transaction.commit();
-
-
-//                Intent detailIntent = new Intent(context, PatientDetailActivity.class);
-//                detailIntent.putExtra("patientId", patientId);
-//                startActivity(detailIntent);
             }
 
         });
@@ -215,11 +209,11 @@ public class SearchFragment extends Fragment {
 
                 DatabaseReference patientRecords = _database.child("patientRecords").push();
 
-                Patient newPatient = new Patient(patientRecords.getKey(), firstName, lastName, gender[0], cal.getTimeInMillis(), community);
+                Record newRecord = new Record(patientRecords.getKey(), firstName, lastName, gender[0], cal.getTimeInMillis(), community);
 
                 // push the update to the database, which will trigger update listeners,
                 // updating the view
-                patientRecords.setValue(newPatient);
+                patientRecords.setValue(newRecord);
             }
         });
         builder.setNegativeButton(getResources().getString(R.string.modal_new_record_cancel), new DialogInterface.OnClickListener() {
@@ -256,8 +250,8 @@ public class SearchFragment extends Fragment {
         _database.child("patientRecords").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                Patient patient = dataSnapshot.getValue(Patient.class);
-                _patientRecords.put(patient.getId(), patient);
+                Record record = dataSnapshot.getValue(Record.class);
+                _patientRecords.put(record.getId(), record);
                 _SearchResultAdapter.refresh(_patientRecords.values());
             }
 
@@ -268,8 +262,8 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Patient patient = dataSnapshot.getValue(Patient.class);
-                _patientRecords.remove(patient.getId());
+                Record record = dataSnapshot.getValue(Record.class);
+                _patientRecords.remove(record.getId());
                 _SearchResultAdapter.refresh(_patientRecords.values());
             }
 
@@ -321,7 +315,7 @@ public class SearchFragment extends Fragment {
 
 
         DatabaseReference patientRecords = _database.child("patientRecords").push();
-        Patient rob = new Patient(patientRecords.getKey(), "Rob", "Steilberg", Gender.MALE, 823237200000l, "Roatan");
+        Record rob = new Record(patientRecords.getKey(), "Rob", "Steilberg", Gender.MALE, 823237200000l, "Roatan");
         rob.addVaccine(hepatitis);
         rob.addVaccine(BCG);
         rob.addVaccine(polio);
@@ -331,7 +325,7 @@ public class SearchFragment extends Fragment {
         patientRecords.setValue(rob);
 
         patientRecords = _database.child("patientRecords").push();
-        Patient alison = new Patient(patientRecords.getKey(), "Alison", "Huang", Gender.FEMALE, 1428206400000l, "West Bay");
+        Record alison = new Record(patientRecords.getKey(), "Alison", "Huang", Gender.FEMALE, 1428206400000l, "West Bay");
         alison.addVaccine(hepatitis);
         alison.addVaccine(BCG);
         alison.addVaccine(polio);
@@ -341,7 +335,7 @@ public class SearchFragment extends Fragment {
         patientRecords.setValue(alison);
 
         patientRecords = _database.child("patientRecords").push();
-        Patient steven = new Patient(patientRecords.getKey(), "Steven", "Yang", Gender.MALE, 1078635600000l, "Oakridge");
+        Record steven = new Record(patientRecords.getKey(), "Steven", "Yang", Gender.MALE, 1078635600000l, "Oakridge");
         steven.addVaccine(hepatitis);
         steven.addVaccine(BCG);
         steven.addVaccine(polio);

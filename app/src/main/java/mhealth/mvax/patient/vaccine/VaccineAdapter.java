@@ -15,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.search.PatientDetailActivity;
 import mhealth.mvax.search.RecordDetailFragment;
 
 /**

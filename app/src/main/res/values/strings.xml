@@ -47,7 +47,7 @@
     <string name="spanishLocaleCode">[es]</string>
     <string name="usLocaleCode">[en_US]</string>
 
-    <!-- Patient details -->
+    <!-- Record details -->
     <string name="patient_details">Patient Details</string>
     <string name="date_format">MM/dd/yyyy</string>
 
@@ -57,7 +57,7 @@
     <string name="modal_new_record_add">Create</string>
     <string name="modal_new_record_cancel">Cancel</string>
 
-    <!-- Patient detail activity -->
+    <!-- Record detail activity -->
     <string name="vaccine_title">Vaccine History</string>
     <string name="DOB_prompt">DOB:</string>
     <string name="gender_prompt">Gender:</string>

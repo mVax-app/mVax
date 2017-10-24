@@ -3,15 +3,11 @@
 
     <item
         is-multidex="true"
-        jar="/Users/AlisonHuang/Documents/AndroidStudioProjects/app_vaccination/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jar="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.1"
-<<<<<<< HEAD
-        sha1="ac840846cca6945e3d8b852dda88bcf977a368c4">
-        <dex dex="/Users/AlisonHuang/Documents/AndroidStudioProjects/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_d9360996e80c59dc1b04db99b4424a0b596ffb40/classes.dex" />
-=======
-        sha1="17b25e3a6660a6ab354cf299cd524e6bfa819a90">
+        sha1="fca2a96cc3dcc487826047815a5672fe11e1d21d">
         <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_7a640a486dec67f0999e3b842553932b91a541bf/classes.dex" />
     </item>
     <item
@@ -22,7 +18,6 @@
         revision="26.0.1"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
         <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_8df5030ab1c2da2446835fc00e0396ec7a60713c/classes.dex" />
->>>>>>> move record detail to fragment
     </item>
 
 </items>
