@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.TreeMap;
@@ -56,6 +59,7 @@ public class SearchFragment extends Fragment {
 
     private DatabaseReference _database;
 
+    private EditText searchBar;
     //================================================================================
     // Public methods
     //================================================================================
@@ -88,7 +92,34 @@ public class SearchFragment extends Fragment {
             }
         });
 
-//        searchBar = view.findViewById(R.id.search_bar);
+        searchBar = (EditText)view.findViewById(R.id.search_bar);
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                System.out.println("TEXT CHANGE: "+charSequence);
+                ArrayList<Patient> filtered = new ArrayList<Patient>();
+                for (Patient p : _patientRecords.values()) {
+                    String name = p.getFullName();
+                    if (name.toLowerCase().indexOf(charSequence.toString().toLowerCase()) != -1) {
+                        filtered.add(p);
+                    }
+                }
+
+                _SearchResultAdapter.refresh(filtered);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
 
         ListView patientListView = view.findViewById(R.id.patient_list_view);
 
