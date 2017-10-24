@@ -146,6 +146,7 @@ public class PatientDetailActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                // handled in SearchFragment
             }
 
             @Override
@@ -155,7 +156,7 @@ public class PatientDetailActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                String f = "";
+                // TODO handle DB fail
             }
         });
         return true;
@@ -204,15 +205,38 @@ public class PatientDetailActivity extends AppCompatActivity {
 
     private void addDeleteButton(ListView vaccineListView) {
         Button deleteButton = (Button) getLayoutInflater().inflate(R.layout.delete_button, null);
-
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                _database.child("patientRecords").child(_patient.getId()).setValue(null);
-                finish();
+                promptForRecordDelete();
             }
         });
         vaccineListView.addFooterView(deleteButton);
+    }
+
+    private void promptForRecordDelete() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.modal_record_delete_title);
+        builder.setMessage(R.string.modal_record_delete_message);
+        builder.setPositiveButton(getResources().getString(R.string.modal_new_dosage_confirm), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteCurrentRecord();
+            }
+        });
+
+        builder.setNegativeButton(getResources().getString(R.string.modal_new_dosage_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+    }
+
+    private void deleteCurrentRecord() {
+        _database.child("patientRecords").child(_patient.getId()).setValue(null);
+        finish(); // we deleted the current record, so end the activity
     }
 
 }
