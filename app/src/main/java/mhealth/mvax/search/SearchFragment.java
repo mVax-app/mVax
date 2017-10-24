@@ -224,7 +224,9 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                Patient patient = dataSnapshot.getValue(Patient.class);
+                _patientRecords.remove(patient.getId());
+                _SearchResultAdapter.refresh(_patientRecords.values());
             }
 
             @Override
@@ -304,6 +306,5 @@ public class SearchFragment extends Fragment {
         steven.addVaccine(syphilis);
         patientRecords.setValue(steven);
     }
-
 
 }
