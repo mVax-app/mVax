@@ -44,8 +44,8 @@ function sendApprovalEmail(email, adminEmail) {
   };
 
   // The user subscribed to the newsletter.
-  mailOptions.subject = `Approve ${email}! for ${APP_NAME}!`;
-  mailOptions.text = `Please work`;
+  mailOptions.subject = `Approve ${email} for ${APP_NAME}!`;
+  mailOptions.text = `A user using the email: ${email} would like to request access to the mVax registry`;
   return mailTransport.sendMail(mailOptions).then(() => {
     console.log('New approve email sent to:', adminEmail);
   });

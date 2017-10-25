@@ -25,12 +25,20 @@
     <string name="title_search">Search</string>
     <string name="title_forms">Forms</string>
 
-    <string name="REG_DESCRIPTION">Please fill out the following form to get started.</string>
+    <string name="REG_DESCRIPTION">Please fill out the following form to get started. After completion, an email will be sent to an administrator who will have to approve you in order for you to gain full access.</string>
     <string name="REG_TITLE">New User Registration</string>
     <string name="REG_ButtonReg">Register</string>
-    <string name="REG_NAME">Name</string>
+    <string name="REG_NAME">First Name</string>
+    <string name="REG_NAME_LAST">Last Name</string>
     <string name="REG_EMAIL">Email</string>
+    <string name="REG_PASS_REQUIRE">Password must be at least 6 characters.</string>
     <string name="REG_PASSWORD">Password</string>
+    <string name="REG_PASSWORD_CONFIRM">Confirm Password</string>
+    <string name="REG_ERROR_EMAIL">Invalid email address</string>
+    <string name="REG_ERROR_PASS_REQUIRE">Password does not pass requirements</string>
+    <string name="REG_ERROR_PASS_CONFIRM">Passwords do not match</string>
+    <string name="REG_CONFIRMED">Request submitted, wait to be approved!</string>
+
 
     <!-- Reset Password-->
     <string name="modal_reset_title">Reset Password</string>

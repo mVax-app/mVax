@@ -48,6 +48,17 @@
             android:textSize="24sp" />
 
         <EditText
+            android:id="@+id/TFnameLast"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="@string/REG_NAME_LAST"
+            android:text="@string/emptystring"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+
+        <EditText
             android:id="@+id/TFemail"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -57,13 +68,34 @@
             android:textAlignment="center"
             android:textSize="24sp" />
 
+        <TextView
+            android:id="@+id/passwordRequire"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="30sp"
+            android:text="@string/REG_PASS_REQUIRE"
+            android:textAlignment="viewStart"
+            android:textSize="20sp" />
+
         <EditText
             android:id="@+id/TFpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="@string/REG_PASSWORD"
-            android:text=""
+            android:inputType="textPassword"
+            android:text="@string/emptystring"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
+        <EditText
+            android:id="@+id/TFpasswordConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:hint="@string/REG_PASSWORD_CONFIRM"
+            android:inputType="textPassword"
+            android:text="@string/emptystring"
             android:textAlignment="center"
             android:textSize="24sp" />
 

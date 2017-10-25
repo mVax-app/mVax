@@ -12,6 +12,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/1f1575d8882f5eebcd8800869e28d5ee321faf26/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="39907d5c8f5902fffef30160ca7447c93b82405c">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_28043cc45094788a737de7aa04afa020f57d1ecb.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/mtribby/.android/build-cache/89fc147e41df0d56a183b785569c89c3d48c13aa/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
