@@ -12,6 +12,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/89fc147e41df0d56a183b785569c89c3d48c13aa/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="e96c6974cf924e7ee3b230e6847d5731423388c9">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_3c57392e4d6a4f65bec737692eca4b879271dabe.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/mtribby/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-library/1.3/4785a3c21320980282f9f33d0d1264a69040538f/hamcrest-library-1.3.jar"
         jumboMode="false"
         optimize="true"
@@ -45,6 +54,15 @@
         revision="26.0.1"
         sha1="6975da39a7040257bd51d21a231b76c915872d38">
         <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/javax.inject-1_0ffc606994e0cad17f137141ed67949333c33d9b.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/mtribby/.android/build-cache/b1a5ae4ec7fe0c3a86054dc5221948f48bd19567/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.1"
+        sha1="e2185aff89caeb337b1ffc36d5e525d8318e7cfe">
+        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/debug/classes_532fa46375e243d455812df7fcc4f7a3569940be.jar" />
     </item>
     <item
         is-multidex="false"
