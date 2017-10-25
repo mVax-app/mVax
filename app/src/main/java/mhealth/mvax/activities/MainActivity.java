@@ -1,5 +1,6 @@
 package mhealth.mvax.activities;
 
+import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
                                 selectedFragment = SettingsFragment.newInstance();
                                 break;
                         }
+                        ActionBar f = getActionBar();
+
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                         transaction.replace(R.id.frame_layout, selectedFragment);
                         transaction.commit();
