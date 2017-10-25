@@ -48,7 +48,7 @@ class RecordFilter {
                 for (Record p : _records.values()) {
                     String attribute = getAttribute(p, filter);
                     System.out.println("PRINT: filter = "+filter+", attribute value = "+attribute);
-                    if (attribute.toLowerCase().indexOf(charSequence.toString().toLowerCase()) != -1) {
+                    if (attribute.toLowerCase().contains(charSequence.toString().toLowerCase())) {
                         filtered.add(p);
                     }
                 }
@@ -80,6 +80,8 @@ class RecordFilter {
     }
 
     private String getAttribute(Record record, String filter) {
+        // TODO default search?
+        if (filter == null) return record.getFullName();
         switch (filter) {
             case "Patient ID":
                 return record.getId();
@@ -95,7 +97,7 @@ class RecordFilter {
         }
     }
 
-    public void setFilter(String newFilter) {
+    void setFilter(String newFilter) {
         filter = newFilter;
     }
 
