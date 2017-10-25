@@ -3,21 +3,12 @@
 
     <item
         is-multidex="true"
-        jar="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jar="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.1"
-        sha1="adea995909ac6e7386ed79bf2ab5667c7678131f">
-        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_7a640a486dec67f0999e3b842553932b91a541bf/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.1"
-        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_8df5030ab1c2da2446835fc00e0396ec7a60713c/classes.dex" />
+        sha1="c207f88dbdfac1df992eed2dc6dd4bb6fcb6491c">
+        <dex dex="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_43ffbe1443dc173b1d4a83f223efec30ad8ffe91/classes.dex" />
     </item>
 
 </items>
