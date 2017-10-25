@@ -14,15 +14,28 @@
         android:layout_height="wrap_content"
         android:text="@string/add_new_record" />
 
-    <EditText
-        android:id="@+id/search_bar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="0.05"
-        android:ems="15"
-        android:hint="@string/hint_search"
-        android:inputType="textPersonName" />
+        android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/filter_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ems="10" />
+
+        <EditText
+            android:id="@+id/search_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="0.05"
+            android:ems="10"
+            android:hint="@string/hint_search"
+            android:inputType="textPersonName" />
+
+    </LinearLayout>
+
 
     <FrameLayout
         android:id="@+id/content"
