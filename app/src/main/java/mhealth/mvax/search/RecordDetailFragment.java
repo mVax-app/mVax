@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import mhealth.mvax.R;
+import mhealth.mvax.activities.MainActivity;
 import mhealth.mvax.record.Record;
 import mhealth.mvax.record.vaccine.Dose;
 import mhealth.mvax.record.vaccine.DoseDateView;
@@ -34,6 +36,7 @@ import mhealth.mvax.record.vaccine.Vaccine;
 import mhealth.mvax.record.vaccine.VaccineAdapter;
 
 import android.widget.Toast;
+
 /**
  * @author Robert Steilberg
  */
@@ -52,6 +55,9 @@ public class RecordDetailFragment extends Fragment {
 
     private DatabaseReference _database;
 
+    private String _databaseId;
+
+    private ChildEventListener _recordListener;
 
     //================================================================================
     // Public methods
@@ -72,21 +78,47 @@ public class RecordDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         _View = inflater.inflate(R.layout.fragment_record_detail, container, false);
         _inflater = inflater;
-        getActivity().setTitle(getResources().getString(R.string.record_details));
-        ListView vaccineListView = _View.findViewById(R.id.vaccine_list_view);
-        addDeleteButton(vaccineListView);
+//        getActivity().setTitle(getResources().getString(R.string.record_details));
+//        ListView vaccineListView = _View.findViewById(R.id.vaccine_list_view);
+//        String databaseId = getArguments().getString("recordId");
+//        initDatabase(databaseId);
+//        addDeleteButton(vaccineListView);
         return _View;
     }
 
-    /**
-     * Initialize the fragment and get record detail via the database ID
-     *
-     * @param databaseId the unique id used to identify the record in the database
-     * @return true if record data was successfully queries and rendered, false otherwise
-     */
-    public boolean initWithRecord(String databaseId) {
-        return initDatabase(databaseId);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        _database.child("patientRecords").orderByChild("id").equalTo(_databaseId).removeEventListener(_recordListener);
+        String f = "";
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        String f = "";
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        FragmentActivity f = getActivity();
+        getActivity().setTitle(getResources().getString(R.string.record_details));
+        ListView vaccineListView = _View.findViewById(R.id.vaccine_list_view);
+        _databaseId = getArguments().getString("recordId");
+        initDatabase(_databaseId);
+        addDeleteButton(vaccineListView);
+    }
+
+//    /**
+//     * Initialize the fragment and get record detail via the database ID
+//     *
+//     * @param databaseId the unique id used to identify the record in the database
+//     * @return true if record data was successfully queries and rendered, false otherwise
+//     */
+//    public boolean initWithRecord(String databaseId) {
+//        return initDatabase(databaseId);
+//    }
 
     //================================================================================
     // Public methods
@@ -157,20 +189,22 @@ public class RecordDetailFragment extends Fragment {
         // TODO authentication validation, throw back false if failed
         _database = FirebaseDatabase.getInstance().getReference();
 
-        _database.child("patientRecords").orderByChild("id").equalTo(databaseId).addChildEventListener(new ChildEventListener() {
+        _recordListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 _record = dataSnapshot.getValue(Record.class);
                 renderRecordDetails();
                 renderVaccines();
-
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                // TODO cleanup
+//                if (isAdded()) {
                 onChildAdded(dataSnapshot, s);
                 //Popup indicating successful update of record in database
                 Toast.makeText(getActivity(), R.string.successful_record_update, Toast.LENGTH_SHORT).show();
+//                }
             }
 
             @Override
@@ -180,7 +214,7 @@ public class RecordDetailFragment extends Fragment {
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                String f = "";
+
             }
 
             @Override
@@ -189,7 +223,9 @@ public class RecordDetailFragment extends Fragment {
                 //Popup indicating unsuccessful update of record in database
                 Toast.makeText(getActivity(), R.string.unsuccessful_record_update, Toast.LENGTH_SHORT).show();
             }
-        });
+        };
+
+        _database.child("patientRecords").orderByChild("id").equalTo(databaseId).addChildEventListener(_recordListener);
         return true;
     }
 
