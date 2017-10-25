@@ -3,7 +3,7 @@
 
     <item
         is-multidex="true"
-        jar="/Users/AlisonHuang/Documents/AndroidStudioProjects/app_vaccination/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jar="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="26.0.1"

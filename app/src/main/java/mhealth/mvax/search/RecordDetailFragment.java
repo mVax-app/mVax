@@ -33,6 +33,7 @@ import mhealth.mvax.record.vaccine.DoseDateView;
 import mhealth.mvax.record.vaccine.Vaccine;
 import mhealth.mvax.record.vaccine.VaccineAdapter;
 
+import android.widget.Toast;
 /**
  * @author Robert Steilberg
  */
@@ -162,11 +163,14 @@ public class RecordDetailFragment extends Fragment {
                 _record = dataSnapshot.getValue(Record.class);
                 renderRecordDetails();
                 renderVaccines();
+
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 onChildAdded(dataSnapshot, s);
+                //Popup indicating successful update of record in database
+                Toast.makeText(getActivity(), R.string.successful_record_update, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -182,6 +186,8 @@ public class RecordDetailFragment extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // TODO handle DB fail
+                //Popup indicating unsuccessful update of record in database
+                Toast.makeText(getActivity(), R.string.unsuccessful_record_update, Toast.LENGTH_SHORT).show();
             }
         });
         return true;
