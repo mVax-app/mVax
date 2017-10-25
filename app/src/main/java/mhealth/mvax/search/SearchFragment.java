@@ -27,8 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import mhealth.mvax.R;
 
 import java.util.Calendar;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -55,9 +53,8 @@ public class SearchFragment extends Fragment {
 
     private DatabaseReference _database;
 
-    private EditText searchBar;
-    private Spinner filterSpinner;
-    private String currentFilter = "Patient name";
+    private RecordFilter _recordFilter;
+
     //================================================================================
     // Public methods
     //================================================================================
@@ -79,110 +76,23 @@ public class SearchFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        final Context context = view.getContext();
-
-        Button newRecordButton = view.findViewById((R.id.new_record_button));
-        newRecordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createNewPatient(v, inflater);
-            }
-        });
-
-        filterSpinner = (Spinner) view.findViewById(R.id.filter_spinner);
-        ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(view.getContext(),
-                R.array.filter_spinner_array, android.R.layout.simple_spinner_item);
-        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        filterSpinner.setAdapter(filterAdapter);
-
-        filterSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-                if (pos != 0) {
-                    currentFilter = filterSpinner.getItemAtPosition(pos).toString();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        searchBar = (EditText)view.findViewById(R.id.search_bar);
-        searchBar.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
 
-            @SuppressWarnings("Since15")
-            @Override
-            public void onTextChanged(final CharSequence charSequence, int i, int i1, int i2) {
-                ArrayList<Patient> filtered = new ArrayList<Patient>();
-                for (Patient p : _patientRecords.values()) {
-                    String attribute = getAttribute(p);
-                    System.out.println("PRINT: attribute = "+attribute);
-                    if (attribute.toLowerCase().indexOf(charSequence.toString().toLowerCase()) != -1) {
-                        filtered.add(p);
-                    }
-                }
-
-                filtered.sort(new Comparator<Patient>() {
-                    @Override
-                    public int compare(Patient patient1, Patient patient2) {
-                        String attr1 = getAttribute(patient1);
-                        String attr2 = getAttribute(patient2);
-
-                        if (attr1.toLowerCase().indexOf(charSequence.toString().toLowerCase())
-                                < attr2.toLowerCase().indexOf(charSequence.toString().toLowerCase())) {
-                            return -1;
-                        } else {
-                            return 1;
-                        }
-                    }
-                });
-
-                _SearchResultAdapter.refresh(filtered);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-
-        ListView patientListView = view.findViewById(R.id.patient_list_view);
-
-        // call this method to populate database with dummy data
+        // uncomment the below line to populate database with dummy data
         // NOTE: recommend you clear out the database beforehand
 //        new DummyDataGenerator(_database).generateDummyData();
 
         initNewRecordButton(view, inflater);
         initDatabase();
 
+        final Spinner filterSpinner = (Spinner) view.findViewById(R.id.filter_spinner);
         _SearchResultAdapter = new SearchResultAdapter(view.getContext(), _patientRecords.values());
 
+        initFilterSpinner(view, filterSpinner);
         initRecordFilters(view);
         initListView(view);
 
         return view;
-    }
-
-    private String getAttribute(Patient patient) {
-        switch (currentFilter) {
-            case "Patient ID":
-                return patient.getId();
-            case "Patient name":
-                return patient.getFullName();
-            case "Year of birth":
-                Date date = new Date(patient.getDOB());
-                return date.toString().substring(24, 28);
-            case "Community":
-                return patient.getCommunity();
-            default:
-                return patient.getId();
-        }
     }
 
     public void createNewPatient(View view, LayoutInflater inflater) {
@@ -262,6 +172,28 @@ public class SearchFragment extends Fragment {
     // Private methods
     //================================================================================
 
+    private void initFilterSpinner(View view, final Spinner spinner) {
+        ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(view.getContext(),
+                R.array.filter_spinner_array, android.R.layout.simple_spinner_item);
+        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(filterAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+                if (pos != 0) {
+                    _recordFilter.setFilter(spinner.getItemAtPosition(pos).toString());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
     private void initNewRecordButton(View view, final LayoutInflater inflater) {
         Button newRecordButton = view.findViewById((R.id.new_record_button));
         newRecordButton.setOnClickListener(new View.OnClickListener() {
@@ -274,7 +206,8 @@ public class SearchFragment extends Fragment {
 
     private void initRecordFilters(View view) {
         EditText searchBar = view.findViewById(R.id.search_bar);
-        new RecordFilter(_patientRecords, _SearchResultAdapter, searchBar).addFilters();
+        _recordFilter = new RecordFilter(_patientRecords, _SearchResultAdapter, searchBar);
+        _recordFilter.addFilters();
     }
 
     private void initListView(View view) {
