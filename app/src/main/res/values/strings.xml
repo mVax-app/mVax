@@ -55,8 +55,8 @@
     <string name="spanishLocaleCode">[es]</string>
     <string name="usLocaleCode">[en_US]</string>
 
-    <!-- Patient details -->
-    <string name="patient_details">Patient Details</string>
+    <!-- Record details -->
+    <string name="record_details">Patient Details</string>
     <string name="date_format">MM/dd/yyyy</string>
 
     <!-- New record -->
@@ -65,7 +65,7 @@
     <string name="modal_new_record_add">Create</string>
     <string name="modal_new_record_cancel">Cancel</string>
 
-    <!-- Patient detail activity -->
+    <!-- Record detail activity -->
     <string name="vaccine_title">Vaccine History</string>
     <string name="DOB_prompt">DOB:</string>
     <string name="gender_prompt">Gender:</string>
@@ -74,6 +74,11 @@
     <string name="modal_new_dosage_confirm">Confirm</string>
     <string name="modal_new_dosage_cancel">Cancel</string>
     <string name="modal_new_dosage_neutral">No date</string>
+    <string name="delete_record_button">DELETE RECORD</string>
+    <string name="modal_record_delete_title">Confirm Record Deletion</string>
+    <string name="modal_record_delete_message">Are you sure you want to delete this record? This action CANNOT be undone.</string>
+    <string name="successful_record_update">Saved</string>
+    <string name="unsuccessful_record_update">Save Failed</string>
 
 
     <!-- Search -->

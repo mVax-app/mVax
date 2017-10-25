@@ -9,11 +9,12 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import mhealth.mvax.R;
-import mhealth.mvax.patient.Patient;
+import mhealth.mvax.record.Record;
 
 /**
  * @author Robert Steilberg
@@ -31,16 +32,16 @@ public class SearchResultAdapter extends BaseAdapter {
 
     private LayoutInflater _Inflater;
 
-    private Map<Integer, Patient> _DataSource;
+    private List<Record> _DataSource;
 
 
     //================================================================================
     // Constructors
     //================================================================================
 
-    public SearchResultAdapter(Context context, Map<Integer, Patient> items) {
+    public SearchResultAdapter(Context context, Collection<Record> records) {
         _Context = context;
-        _DataSource = items;
+        _DataSource = new ArrayList<>(records);
         _Inflater = (LayoutInflater) _Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -84,7 +85,7 @@ public class SearchResultAdapter extends BaseAdapter {
         TextView subtitleTextView = holder.subtitleTextView;
         TextView rightTextView = holder.rightTextView;
 
-        Patient result = (Patient) getItem(position);
+        Record result = (Record) getItem(position);
 
         titleTextView.setText(result.getFullName());
 
@@ -97,6 +98,15 @@ public class SearchResultAdapter extends BaseAdapter {
         rightTextView.setText(result.getCommunity());
 
         return rowView;
+    }
+
+    public void refresh(Collection<Record> values) {
+        _DataSource = new ArrayList<>(values);
+        notifyDataSetChanged();
+    }
+
+    public String getPatientIdFromDataSource(int position) {
+        return _DataSource.get(position).getId();
     }
 
     private static class ViewHolder {

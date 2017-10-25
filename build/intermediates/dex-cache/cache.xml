@@ -2,15 +2,16 @@
 <items version="2" >
 
     <item
-        is-multidex="false"
-        jar="/Users/mtribby/.gradle/caches/modules-2/files-2.1/org.hamcrest/hamcrest-core/1.3/42a25dc3219429f0e5d060061f71acb49bf010a0/hamcrest-core-1.3.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/stevenyang/Documents/Duke/Duke 2017-2018 Fall/COMPSCI408 Delivering Software/app_vaccination/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
         optimize="true"
         revision="26.0.1"
-        sha1="42a25dc3219429f0e5d060061f71acb49bf010a0">
-        <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/hamcrest-core-1.3_29f04e54abbc79a2f56574161a4f94e4941f1afd.jar" />
+        sha1="9ea56e5dc5533feb655fa96d17fe5b2cae9523ef">
+        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_7a640a486dec67f0999e3b842553932b91a541bf/classes.dex" />
     </item>
     <item
+<<<<<<< HEAD
         is-multidex="false"
         jar="/Users/mtribby/.android/build-cache/1f1575d8882f5eebcd8800869e28d5ee321faf26/output/jars/classes.jar"
         jumboMode="false"
@@ -144,6 +145,15 @@
         revision="26.0.1"
         sha1="7e11799d8a26bfa5d48acafe012ee5545b9bf468">
         <dex dex="/Users/mtribby/AndroidStudioProjects/app_vaccination/app/build/intermediates/pre-dexed/androidTest/debug/classes_f332038157261ea9ef44b9557b9bb9a3bb4caded.jar" />
+=======
+        is-multidex="true"
+        jar="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/Robert/Servers/Google Drive/Duke University/Classes/CompSci 408/Work/app_vaccination/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_8df5030ab1c2da2446835fc00e0396ec7a60713c/classes.dex" />
+>>>>>>> 0714eaa996dd91ff8702817ea40164189240f25e
     </item>
 
 </items>
