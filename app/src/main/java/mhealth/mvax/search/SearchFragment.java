@@ -53,6 +53,7 @@ public class SearchFragment extends Fragment {
 
     private DatabaseReference _database;
 
+    private RecordFilter _recordFilter;
 
     //================================================================================
     // Public methods
@@ -84,8 +85,10 @@ public class SearchFragment extends Fragment {
         initNewRecordButton(view, inflater);
         initDatabase();
 
+        final Spinner filterSpinner = (Spinner) view.findViewById(R.id.filter_spinner);
         _SearchResultAdapter = new SearchResultAdapter(view.getContext(), _patientRecords.values());
 
+        initFilterSpinner(view, filterSpinner);
         initRecordFilters(view);
         initListView(view);
 
@@ -169,6 +172,28 @@ public class SearchFragment extends Fragment {
     // Private methods
     //================================================================================
 
+    private void initFilterSpinner(View view, final Spinner spinner) {
+        ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(view.getContext(),
+                R.array.filter_spinner_array, android.R.layout.simple_spinner_item);
+        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(filterAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+                if (pos != 0) {
+                    _recordFilter.setFilter(spinner.getItemAtPosition(pos).toString());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
     private void initNewRecordButton(View view, final LayoutInflater inflater) {
         Button newRecordButton = view.findViewById((R.id.new_record_button));
         newRecordButton.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +206,8 @@ public class SearchFragment extends Fragment {
 
     private void initRecordFilters(View view) {
         EditText searchBar = view.findViewById(R.id.search_bar);
-        new RecordFilter(_patientRecords, _SearchResultAdapter, searchBar).addFilters();
+        _recordFilter = new RecordFilter(_patientRecords, _SearchResultAdapter, searchBar);
+        _recordFilter.addFilters();
     }
 
     private void initListView(View view) {
