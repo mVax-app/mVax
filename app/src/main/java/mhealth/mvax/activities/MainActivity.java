@@ -11,8 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.google.firebase.database.FirebaseDatabase;
-
 import mhealth.mvax.R;
 import mhealth.mvax.alerts.AlertsFragment;
 import mhealth.mvax.forms.FormsFragment;
@@ -27,8 +25,6 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
         setContentView(R.layout.activity_main);
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
