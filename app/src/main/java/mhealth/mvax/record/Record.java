@@ -1,17 +1,13 @@
-package mhealth.mvax.patient;
+package mhealth.mvax.record;
 
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import mhealth.mvax.patient.vaccine.Vaccine;
+import mhealth.mvax.record.vaccine.Vaccine;
 
 /**
  * @author Robert Steilberg

@@ -1,4 +1,4 @@
-package mhealth.mvax.patient.vaccine;
+package mhealth.mvax.record.vaccine;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -33,8 +33,6 @@ public class VaccineAdapter extends BaseAdapter {
 
     private RecordDetailFragment _RecordDetailFragment;
 
-    private Context _Context;
-
     private LayoutInflater _Inflater;
 
     private List<Vaccine> _DataSource;
@@ -45,11 +43,10 @@ public class VaccineAdapter extends BaseAdapter {
     // Constructors
     //================================================================================
 
-    public VaccineAdapter(RecordDetailFragment fragment, Context context, List<Vaccine> dataSource) {
+    public VaccineAdapter(RecordDetailFragment fragment, List<Vaccine> dataSource) {
         _RecordDetailFragment = fragment;
-        _Context = context;
         _DataSource = dataSource;
-        _Inflater = (LayoutInflater) _Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        _Inflater = (LayoutInflater) _RecordDetailFragment.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         _VaccineAdapter = this;
     }
 
@@ -135,7 +132,7 @@ public class VaccineAdapter extends BaseAdapter {
             dateView.setPadding(5, 5, 5, 5);
             dateView.setGravity(Gravity.CENTER);
             dateView.setTextSize(22);
-            SimpleDateFormat sdf = new SimpleDateFormat(_Context.getResources().getString(R.string.date_format));
+            SimpleDateFormat sdf = new SimpleDateFormat(_RecordDetailFragment.getContext().getResources().getString(R.string.date_format));
             if (dose.hasBeenCompleted()) {
                 dateView.setText(sdf.format(dose.getDate()));
             }

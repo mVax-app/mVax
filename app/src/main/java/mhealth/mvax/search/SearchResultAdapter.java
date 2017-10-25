@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Locale;
 
 import mhealth.mvax.R;
-import mhealth.mvax.patient.Record;
+import mhealth.mvax.record.Record;
 
 /**
  * @author Robert Steilberg

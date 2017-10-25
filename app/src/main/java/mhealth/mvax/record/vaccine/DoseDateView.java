@@ -1,4 +1,4 @@
-package mhealth.mvax.patient.vaccine;
+package mhealth.mvax.record.vaccine;
 
 import android.content.Context;
 

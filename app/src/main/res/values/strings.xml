@@ -48,7 +48,7 @@
     <string name="usLocaleCode">[en_US]</string>
 
     <!-- Record details -->
-    <string name="patient_details">Patient Details</string>
+    <string name="record_details">Patient Details</string>
     <string name="date_format">MM/dd/yyyy</string>
 
     <!-- New record -->

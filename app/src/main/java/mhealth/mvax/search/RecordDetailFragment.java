@@ -27,11 +27,11 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import mhealth.mvax.R;
-import mhealth.mvax.patient.Record;
-import mhealth.mvax.patient.vaccine.Dose;
-import mhealth.mvax.patient.vaccine.DoseDateView;
-import mhealth.mvax.patient.vaccine.Vaccine;
-import mhealth.mvax.patient.vaccine.VaccineAdapter;
+import mhealth.mvax.record.Record;
+import mhealth.mvax.record.vaccine.Dose;
+import mhealth.mvax.record.vaccine.DoseDateView;
+import mhealth.mvax.record.vaccine.Vaccine;
+import mhealth.mvax.record.vaccine.VaccineAdapter;
 
 /**
  * @author Robert Steilberg
@@ -51,9 +51,6 @@ public class RecordDetailFragment extends Fragment {
 
     private DatabaseReference _database;
 
-    public RecordDetailFragment() {
-        String f = "";
-    }
 
     //================================================================================
     // Public methods
@@ -74,14 +71,20 @@ public class RecordDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         _View = inflater.inflate(R.layout.fragment_record_detail, container, false);
         _inflater = inflater;
-        getActivity().setTitle(getResources().getString(R.string.patient_details));
+        getActivity().setTitle(getResources().getString(R.string.record_details));
         ListView vaccineListView = _View.findViewById(R.id.vaccine_list_view);
         addDeleteButton(vaccineListView);
         return _View;
     }
 
-    public boolean initWithPatient(String id) {
-        return initDatabase(id);
+    /**
+     * Initialize the fragment and get record detail via the database ID
+     *
+     * @param databaseId the unique id used to identify the record in the database
+     * @return true if record data was successfully queries and rendered, false otherwise
+     */
+    public boolean initWithRecord(String databaseId) {
+        return initDatabase(databaseId);
     }
 
     //================================================================================
@@ -147,17 +150,17 @@ public class RecordDetailFragment extends Fragment {
      *
      * @return true if authentication and initialization was successful, false otherwise
      */
-    private boolean initDatabase(String patientId) {
+    private boolean initDatabase(String databaseId) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         // TODO authentication validation, throw back false if failed
         _database = FirebaseDatabase.getInstance().getReference();
 
-        _database.child("patientRecords").orderByChild("id").equalTo(patientId).addChildEventListener(new ChildEventListener() {
+        _database.child("patientRecords").orderByChild("id").equalTo(databaseId).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 _record = dataSnapshot.getValue(Record.class);
-                renderPatientDetails();
+                renderRecordDetails();
                 renderVaccines();
             }
 
@@ -193,14 +196,14 @@ public class RecordDetailFragment extends Fragment {
                 // updating the view
                 _database.child("patientRecords").child(_record.getId()).setValue(_record);
             } else {
-                // TODO throw unable to update vaccine in patient
+                // TODO throw unable to update vaccine in record
             }
         } else {
             // TODO throw unable to update dose in vaccine
         }
     }
 
-    private void renderPatientDetails() {
+    private void renderRecordDetails() {
 
         ((TextView) _View.findViewById(R.id.patient_detail_name)).setText(_record.getFullName());
 
@@ -221,7 +224,7 @@ public class RecordDetailFragment extends Fragment {
     private void renderVaccines() {
         ArrayList<Vaccine> vaccineList = _record.getVaccineList();
         ListView vaccineListView = _View.findViewById(R.id.vaccine_list_view);
-        VaccineAdapter vaccineAdapter = new VaccineAdapter(this, getContext(), vaccineList);
+        VaccineAdapter vaccineAdapter = new VaccineAdapter(this, vaccineList);
         vaccineListView.setAdapter(vaccineAdapter);
     }
 
