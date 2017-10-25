@@ -69,6 +69,8 @@
     <string name="delete_record_button">DELETE RECORD</string>
     <string name="modal_record_delete_title">Confirm Record Deletion</string>
     <string name="modal_record_delete_message">Are you sure you want to delete this record? This action CANNOT be undone.</string>
+    <string name="successful_record_update">Saved</string>
+    <string name="unsuccessful_record_update">Save Failed</string>
 
 
     <!-- Search -->
