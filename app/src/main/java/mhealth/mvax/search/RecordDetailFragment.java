@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +27,6 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import mhealth.mvax.R;
-import mhealth.mvax.activities.MainActivity;
 import mhealth.mvax.record.Record;
 import mhealth.mvax.record.vaccine.Dose;
 import mhealth.mvax.record.vaccine.DoseDateView;
@@ -46,7 +44,7 @@ public class RecordDetailFragment extends Fragment {
     //================================================================================
     // Properties
     //================================================================================
-
+// TODO try computed properties
     private View _View;
 
     private LayoutInflater _inflater;
@@ -57,7 +55,7 @@ public class RecordDetailFragment extends Fragment {
 
     private String _databaseId;
 
-    private ChildEventListener _recordListener;
+    private ChildEventListener _dbListener;
 
     //================================================================================
     // Public methods
@@ -78,47 +76,27 @@ public class RecordDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         _View = inflater.inflate(R.layout.fragment_record_detail, container, false);
         _inflater = inflater;
-//        getActivity().setTitle(getResources().getString(R.string.record_details));
-//        ListView vaccineListView = _View.findViewById(R.id.vaccine_list_view);
-//        String databaseId = getArguments().getString("recordId");
-//        initDatabase(databaseId);
-//        addDeleteButton(vaccineListView);
         return _View;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        _database.child("patientRecords").orderByChild("id").equalTo(_databaseId).removeEventListener(_recordListener);
-        String f = "";
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        String f = "";
+        _database.child("patientRecords")
+                .orderByChild("id")
+                .equalTo(_databaseId)
+                .removeEventListener(_dbListener);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        FragmentActivity f = getActivity();
         getActivity().setTitle(getResources().getString(R.string.record_details));
         ListView vaccineListView = _View.findViewById(R.id.vaccine_list_view);
         _databaseId = getArguments().getString("recordId");
         initDatabase(_databaseId);
         addDeleteButton(vaccineListView);
     }
-
-//    /**
-//     * Initialize the fragment and get record detail via the database ID
-//     *
-//     * @param databaseId the unique id used to identify the record in the database
-//     * @return true if record data was successfully queries and rendered, false otherwise
-//     */
-//    public boolean initWithRecord(String databaseId) {
-//        return initDatabase(databaseId);
-//    }
 
     //================================================================================
     // Public methods
@@ -189,7 +167,7 @@ public class RecordDetailFragment extends Fragment {
         // TODO authentication validation, throw back false if failed
         _database = FirebaseDatabase.getInstance().getReference();
 
-        _recordListener = new ChildEventListener() {
+        _dbListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 _record = dataSnapshot.getValue(Record.class);
@@ -225,7 +203,7 @@ public class RecordDetailFragment extends Fragment {
             }
         };
 
-        _database.child("patientRecords").orderByChild("id").equalTo(databaseId).addChildEventListener(_recordListener);
+        _database.child("patientRecords").orderByChild("id").equalTo(databaseId).addChildEventListener(_dbListener);
         return true;
     }
 
