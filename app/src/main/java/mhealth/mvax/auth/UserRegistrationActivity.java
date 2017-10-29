@@ -18,7 +18,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import mhealth.mvax.R;
 
 public class UserRegistrationActivity extends AppCompatActivity {
-    final String REG_Breg = "REGISTER";
     static UserRegistrationActivity checkLogin;
     private FirebaseAuth mAuth;
 
