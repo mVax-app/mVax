@@ -45,7 +45,13 @@
     <string name="reset_email">Email of Account</string>
     <string name="reset_password_button">Reset Password</string>
     <string name="reset_email_confirm">Password Reset Email has been sent to: </string>
+    <string name="password_reset_confirm">Are you sure you want to reset your password?</string>
 
+    <!-- Update Email -->
+    <string name="modal_update_title">Update Email</string>
+    <string name="new_email">New Email</string>
+    <string name="confirm_email">Confirm Email</string>
+    <string name="update_email_success">Updated request submitted</string>
 
     <!-- Setting page -->
     <string name="language">Language</string>
@@ -54,6 +60,9 @@
     <string name="englishCode">en</string>
     <string name="spanishLocaleCode">[es]</string>
     <string name="usLocaleCode">[en_US]</string>
+    <string name="update_email">Update Email</string>
+    <string name="change_password">Change Password</string>
+    <string name="sign_out">Sign Out</string>
 
     <!-- Record details -->
     <string name="record_details">Patient Details</string>
