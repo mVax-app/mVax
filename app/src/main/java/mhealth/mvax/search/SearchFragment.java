@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,7 +77,6 @@ public class SearchFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-
 
         // uncomment the below line to populate database with dummy data
         // NOTE: recommend you clear out the database beforehand
@@ -217,12 +217,17 @@ public class SearchFragment extends Fragment {
         patientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String patientId = _SearchResultAdapter.getPatientIdFromDataSource(position);
+                String recordId = _SearchResultAdapter.getPatientIdFromDataSource(position);
+
                 RecordDetailFragment fragment = RecordDetailFragment.newInstance();
-                fragment.initWithRecord(patientId);
+
+                Bundle args = new Bundle();
+                args.putString("recordId", recordId);
+                fragment.setArguments(args);
+
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
-                transaction.replace( getId(), searchFragment).addToBackStack(null);
+                transaction.replace(getId(), searchFragment).addToBackStack(null);
                 transaction.replace(R.id.frame_layout, fragment);
                 transaction.commit();
             }

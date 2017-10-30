@@ -25,19 +25,33 @@
     <string name="title_search">Search</string>
     <string name="title_forms">Forms</string>
 
-    <string name="REG_DESCRIPTION">Please fill out the following form to get started.</string>
+    <string name="REG_DESCRIPTION">Please fill out the following form to get started. After completion, an email will be sent to an administrator who will have to approve you in order for you to gain full access.</string>
     <string name="REG_TITLE">New User Registration</string>
     <string name="REG_ButtonReg">Register</string>
-    <string name="REG_NAME">Name</string>
+    <string name="REG_NAME">First Name</string>
+    <string name="REG_NAME_LAST">Last Name</string>
     <string name="REG_EMAIL">Email</string>
+    <string name="REG_PASS_REQUIRE">Password must be at least 6 characters.</string>
     <string name="REG_PASSWORD">Password</string>
+    <string name="REG_PASSWORD_CONFIRM">Confirm Password</string>
+    <string name="REG_ERROR_EMAIL">Invalid email address</string>
+    <string name="REG_ERROR_PASS_REQUIRE">Password does not pass requirements</string>
+    <string name="REG_ERROR_PASS_CONFIRM">Passwords do not match</string>
+    <string name="REG_CONFIRMED">Request submitted, wait to be approved!</string>
+
 
     <!-- Reset Password-->
     <string name="modal_reset_title">Reset Password</string>
     <string name="reset_email">Email of Account</string>
     <string name="reset_password_button">Reset Password</string>
     <string name="reset_email_confirm">Password Reset Email has been sent to: </string>
+    <string name="password_reset_confirm">Are you sure you want to reset your password?</string>
 
+    <!-- Update Email -->
+    <string name="modal_update_title">Update Email</string>
+    <string name="new_email">New Email</string>
+    <string name="confirm_email">Confirm Email</string>
+    <string name="update_email_success">Updated request submitted</string>
 
     <!-- Setting page -->
     <string name="language">Language</string>
@@ -46,6 +60,9 @@
     <string name="englishCode">en</string>
     <string name="spanishLocaleCode">[es]</string>
     <string name="usLocaleCode">[en_US]</string>
+    <string name="update_email">Update Email</string>
+    <string name="change_password">Change Password</string>
+    <string name="sign_out">Sign Out</string>
 
     <!-- Record details -->
     <string name="record_details">Patient Details</string>
@@ -69,6 +86,8 @@
     <string name="delete_record_button">DELETE RECORD</string>
     <string name="modal_record_delete_title">Confirm Record Deletion</string>
     <string name="modal_record_delete_message">Are you sure you want to delete this record? This action CANNOT be undone.</string>
+    <string name="successful_record_update">Saved</string>
+    <string name="unsuccessful_record_update">Save Failed</string>
 
 
     <!-- Search -->

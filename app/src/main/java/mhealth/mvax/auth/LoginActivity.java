@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,6 +29,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
@@ -39,8 +39,8 @@ import mhealth.mvax.activities.MainActivity;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
-    final String LOGIN_SIGNIN = "SIGN IN";
-    final String LOGIN_REGISTER = "REGISTER";
+    public final String LOGIN_SIGNIN = "SIGN IN";
+    public final String LOGIN_REGISTER = "REGISTER";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     /**
@@ -48,23 +48,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+
     //tracks whether there exists users in the system
     private static boolean existUser = false;
 
@@ -73,6 +63,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -80,6 +71,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
+                    existUser = true;
                     Log.d("signedIn", "onAuthStateChanged:signed_in:" + user.getUid());
                 } else {
                     // User is signed out
@@ -106,6 +98,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+
+        setAllText();
+        setOnClick();
+
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
+    }
+
+    private void setAllText() {
+        Button Bsignin = (Button)findViewById(R.id.Bsignin);
+        Bsignin.setText(LOGIN_SIGNIN);
+        Button Bregister = (Button)findViewById(R.id.Bregister);
+        Bregister.setText(LOGIN_REGISTER);
+    }
+
+    private void setOnClick(){
         //When sign in button is clicked
         Button mEmailSignInButton = (Button) findViewById(R.id.Bsignin);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -126,12 +134,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(register);
             }
         });
-
-        setAllText();
-        //setOnClick();
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
     }
 
     @Override
@@ -149,38 +151,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    private void setAllText() {
-        Button Bsignin = (Button)findViewById(R.id.Bsignin);
-        Bsignin.setText(LOGIN_SIGNIN);
-        Button Bregister = (Button)findViewById(R.id.Bregister);
-        Bregister.setText(LOGIN_REGISTER);
-    }
-
-    private void setOnClick() {
-        Button Bsignin = (Button)findViewById(R.id.Bsignin);
-        Button Bregister = (Button)findViewById(R.id.Bregister);
-
-        Bregister.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent register = new Intent(getApplicationContext(), UserRegistrationActivity.class);
-                startActivity(register);
-            }
-        });
-
-        Bsignin.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                verifyUser();
-                Intent main = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(main);
-            }
-        });
-    }
-
-    private void verifyUser() {
-        //TODO
-    }
 
 
     /**
@@ -189,9 +159,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
 
         // Reset errors.
         mEmailView.setError(null);
@@ -254,13 +221,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     public static boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
+        //TODO replace logic
         return email.contains("@");
     }
 
     public static boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 0;
+        //Currently requirement is just 6 characters, may augment later
+        return password.length() >= 6;
     }
 
     /**
@@ -289,7 +256,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         builder.show();
-
     }
 
     private void sendResetEmail(String address){
@@ -314,45 +280,5 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     }
 
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-//            try {
-//                // Simulate network access.
-//                Thread.sleep(2000);
-//            } catch (InterruptedException e) {
-//                return false;
-//            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-
-    }
 }
 

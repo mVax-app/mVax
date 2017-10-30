@@ -1,0 +1,10 @@
+{
+  "name": "functions",
+  "description": "Cloud Functions for mVax project",
+  "dependencies": {
+    "firebase-admin": "~5.4.0",
+    "firebase-functions": "^0.7.0",
+    "nodemailer": "^4.0.1"
+  },
+  "private": true
+}
