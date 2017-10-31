@@ -20,22 +20,22 @@ import mhealth.mvax.record.Record;
 
 class RecordFilter {
 
-    private Map<String, Record> _records;
+    private Map<String, Record> mRecords;
 
-    private SearchResultAdapter _adapter;
+    private SearchResultAdapter mAdapter;
 
-    private EditText _searchBar;
+    private EditText mSearchBar;
 
-    private String filter;
+    private String mFilter;
 
     RecordFilter(Map<String, Record> records, SearchResultAdapter adapter, EditText searchBar) {
-        _records = records;
-        _adapter = adapter;
-        _searchBar = searchBar;
+        mRecords = records;
+        mAdapter = adapter;
+        mSearchBar = searchBar;
     }
 
     void addFilters() {
-        _searchBar.addTextChangedListener(new TextWatcher() {
+        mSearchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -45,9 +45,9 @@ class RecordFilter {
             @Override
             public void onTextChanged(final CharSequence charSequence, int i, int i1, int i2) {
                 ArrayList<Record> filtered = new ArrayList<Record>();
-                for (Record p : _records.values()) {
-                    String attribute = getAttribute(p, filter);
-                    System.out.println("PRINT: filter = "+filter+", attribute value = "+attribute);
+                for (Record p : mRecords.values()) {
+                    String attribute = getAttribute(p, mFilter);
+                    System.out.println("PRINT: filter = "+mFilter+", attribute value = "+attribute);
                     if (attribute.toLowerCase().contains(charSequence.toString().toLowerCase())) {
                         filtered.add(p);
                     }
@@ -56,8 +56,8 @@ class RecordFilter {
                 filtered.sort(new Comparator<Record>() {
                     @Override
                     public int compare(Record patient1, Record patient2) {
-                        String attr1 = getAttribute(patient1, filter);
-                        String attr2 = getAttribute(patient2, filter);
+                        String attr1 = getAttribute(patient1, mFilter);
+                        String attr2 = getAttribute(patient2, mFilter);
 
                         if (attr1.toLowerCase().indexOf(charSequence.toString().toLowerCase())
                                 < attr2.toLowerCase().indexOf(charSequence.toString().toLowerCase())) {
@@ -68,7 +68,7 @@ class RecordFilter {
                     }
                 });
 
-                _adapter.refresh(filtered);
+                mAdapter.refresh(filtered);
             }
 
             @Override
@@ -84,7 +84,7 @@ class RecordFilter {
         if (filter == null) return record.getFullName();
         switch (filter) {
             case "Patient ID":
-                return record.getId();
+                return record.getDatabaseId();
             case "Patient name":
                 return record.getFullName();
             case "Year of birth":
@@ -93,12 +93,12 @@ class RecordFilter {
             case "Community":
                 return record.getCommunity();
             default:
-                return record.getId();
+                return record.getDatabaseId();
         }
     }
 
     void setFilter(String newFilter) {
-        filter = newFilter;
+        mFilter = newFilter;
     }
 
 }

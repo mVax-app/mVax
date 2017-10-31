@@ -65,7 +65,9 @@
     <string name="sign_out">Sign Out</string>
 
     <!-- Record details -->
-    <string name="record_details">Patient Details</string>
+    <string name="tab_title_record_details">Record Details</string>
+    <string name="tab_title_vaccine_history">Vaccine History</string>
+
     <string name="date_format">MM/dd/yyyy</string>
 
     <!-- New record -->
