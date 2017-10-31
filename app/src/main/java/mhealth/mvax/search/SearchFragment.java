@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,16 +27,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import mhealth.mvax.R;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import mhealth.mvax.record.Gender;
+import mhealth.mvax.record.Sex;
 import mhealth.mvax.record.Record;
 
 /**
  * @author Robert Steilberg, Alison Huang
  *         <p>
- *         A fragment for handling the record search and detail pages
+ *         A fragment for handling the record search and segues to the detail pages
  */
 
 public class SearchFragment extends Fragment {
@@ -46,31 +46,33 @@ public class SearchFragment extends Fragment {
     // Properties
     //================================================================================
 
-    private Map<String, Record> _patientRecords;
+    private FirebaseAuth mAuth;
 
-    private SearchResultAdapter _SearchResultAdapter;
+    private DatabaseReference mDatabase;
 
-    private FirebaseAuth _auth;
+    private Map<String, Record> mPatientRecords;
 
-    private DatabaseReference _database;
+    private SearchResultAdapter mSearchResultAdapter;
 
-    private RecordFilter _recordFilter;
+    private RecordFilter mRecordFilter;
+
 
     //================================================================================
-    // Public methods
+    // Static methods
     //================================================================================
-
-    public SearchFragment() {
-        _patientRecords = new TreeMap<>();
-    }
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
     }
 
+    //================================================================================
+    // Override methods
+    //================================================================================
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPatientRecords = new HashMap<>();
     }
 
     @Override
@@ -80,30 +82,85 @@ public class SearchFragment extends Fragment {
 
         // uncomment the below line to populate database with dummy data
         // NOTE: recommend you clear out the database beforehand
-//        new DummyDataGenerator(_database).generateDummyData();
+//        new DummyDataGenerator().generateDummyData();
 
-        initNewRecordButton(view, inflater);
-        initDatabase();
+        initDatabase(); // run this before touching mPatientRecords!
 
-        final Spinner filterSpinner = (Spinner) view.findViewById(R.id.filter_spinner);
-        _SearchResultAdapter = new SearchResultAdapter(view.getContext(), _patientRecords.values());
+        mSearchResultAdapter = new SearchResultAdapter(view.getContext(), mPatientRecords.values());
 
-        initFilterSpinner(view, filterSpinner);
+        renderNewRecordButton(view, inflater);
+        renderFilterSpinner(view);
         initRecordFilters(view);
-        initListView(view);
+        renderListView(view);
 
         return view;
     }
 
-    public void createNewPatient(View view, LayoutInflater inflater) {
 
+    //================================================================================
+    // Private methods
+    //================================================================================
+
+    /**
+     * Initializes the Firebase connection and sets up data listeners
+     *
+     * @return true if authentication and initialization was successful, false otherwise
+     */
+    private boolean initDatabase() {
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser mFirebaseUser = mAuth.getCurrentUser();
+        // TODO handle auth fail
+//        if (mFirebaseUser == null) {
+////            Not logged in, launch the Log In activity
+//        } else {
+//            mUserId = mFirebaseUser.getUid();
+//        }
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        // TODO put database query strings in a values.xml file
+        mDatabase.child("patientRecords").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                Record record = dataSnapshot.getValue(Record.class);
+                mPatientRecords.put(record.getDatabaseId(), record);
+                mSearchResultAdapter.refresh(mPatientRecords.values());
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+                onChildAdded(dataSnapshot, prevChildKey);
+            }
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Record record = dataSnapshot.getValue(Record.class);
+                mPatientRecords.remove(record.getDatabaseId());
+                mSearchResultAdapter.refresh(mPatientRecords.values());
+            }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+        return true;
+    }
+
+    private void renderNewRecordButton(View view, final LayoutInflater inflater) {
+        Button newRecordButton = view.findViewById((R.id.new_record_button));
+        newRecordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createNewPatient(view, inflater);
+            }
+        });
+    }
+
+    private void createNewPatient(View view, LayoutInflater inflater) {
         // create modal
         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
         builder.setTitle(getResources().getString(R.string.modal_new_record_title));
 
-//        LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.modal_new_record, null);
-        builder.setView(dialogView);
+        builder.setView(inflater.inflate(R.layout.modal_new_record, null));
 
         final EditText firstNameEditText = dialogView.findViewById(R.id.new_first_name);
         final EditText lastNameEditText = dialogView.findViewById(R.id.new_last_name);
@@ -114,7 +171,8 @@ public class SearchFragment extends Fragment {
                 R.array.gender_spinner_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        final Gender[] gender = new Gender[1];
+
+        final Sex[] gender = new Sex[1];
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -125,10 +183,10 @@ public class SearchFragment extends Fragment {
                 if (pos != 0) {
                     switch (spinner.getItemAtPosition(pos).toString()) {
                         case "Male":
-                            gender[0] = Gender.MALE;
+                            gender[0] = Sex.MALE;
                             break;
                         case "Female":
-                            gender[0] = Gender.FEMALE;
+                            gender[0] = Sex.FEMALE;
                             break;
                     }
                 }
@@ -149,13 +207,12 @@ public class SearchFragment extends Fragment {
                 cal.set(Calendar.MONTH, DOBpicker.getMonth());
                 cal.set(Calendar.YEAR, DOBpicker.getYear());
 
-                DatabaseReference patientRecords = _database.child("patientRecords").push();
+                DatabaseReference patientRecords = mDatabase.child("patientRecords").push();
 
-                Record newRecord = new Record(patientRecords.getKey(), firstName, lastName, gender[0], cal.getTimeInMillis(), community);
-
+//                Record newRecord = new Record(patientRecords.getKey(), firstName, lastName, gender[0], cal.getTimeInMillis(), community);
                 // push the update to the database, which will trigger update listeners,
                 // updating the view
-                patientRecords.setValue(newRecord);
+//                patientRecords.setValue(newRecord);
             }
         });
         builder.setNegativeButton(getResources().getString(R.string.modal_new_record_cancel), new DialogInterface.OnClickListener() {
@@ -168,122 +225,54 @@ public class SearchFragment extends Fragment {
         builder.show();
     }
 
-    //================================================================================
-    // Private methods
-    //================================================================================
-
-    private void initFilterSpinner(View view, final Spinner spinner) {
+    private void renderFilterSpinner(View view) {
+        final Spinner spinner = view.findViewById(R.id.filter_spinner);
         ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(view.getContext(),
                 R.array.filter_spinner_array, android.R.layout.simple_spinner_item);
         filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(filterAdapter);
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 if (pos != 0) {
-                    _recordFilter.setFilter(spinner.getItemAtPosition(pos).toString());
+                    mRecordFilter.setFilter(spinner.getItemAtPosition(pos).toString());
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
-            }
-        });
-
-    }
-
-    private void initNewRecordButton(View view, final LayoutInflater inflater) {
-        Button newRecordButton = view.findViewById((R.id.new_record_button));
-        newRecordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createNewPatient(v, inflater);
             }
         });
     }
 
     private void initRecordFilters(View view) {
         EditText searchBar = view.findViewById(R.id.search_bar);
-        _recordFilter = new RecordFilter(_patientRecords, _SearchResultAdapter, searchBar);
-        _recordFilter.addFilters();
+        mRecordFilter = new RecordFilter(mPatientRecords, mSearchResultAdapter, searchBar);
+        mRecordFilter.addFilters();
     }
 
-    private void initListView(View view) {
-        ListView patientListView = view.findViewById(R.id.patient_list_view);
-        patientListView.setAdapter(_SearchResultAdapter);
+    private void renderListView(View view) {
+        ListView patientListView = view.findViewById(R.id.record_list_view);
+        patientListView.setAdapter(mSearchResultAdapter);
         final SearchFragment searchFragment = this;
         patientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String recordId = _SearchResultAdapter.getPatientIdFromDataSource(position);
+                String recordId = mSearchResultAdapter.getPatientIdFromDataSource(position);
 
-                RecordDetailFragment fragment = RecordDetailFragment.newInstance();
+                RecordFragment recordFrag = RecordFragment.newInstance();
 
                 Bundle args = new Bundle();
                 args.putString("recordId", recordId);
-                fragment.setArguments(args);
+                recordFrag.setArguments(args);
 
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
-                transaction.replace(getId(), searchFragment).addToBackStack(null);
-                transaction.replace(R.id.frame_layout, fragment);
+                transaction.replace(getId(), searchFragment).addToBackStack(null); // so that back button works
+                transaction.replace(R.id.frame_layout, recordFrag);
                 transaction.commit();
             }
-
         });
-    }
-
-    /**
-     * Initializes the Firebase connection and sets up data listeners
-     *
-     * @return true if authentication and initialization was successful, false otherwise
-     */
-    private boolean initDatabase() {
-        _auth = FirebaseAuth.getInstance();
-        FirebaseUser mFirebaseUser = _auth.getCurrentUser();
-        // TODO handle auth fail
-//        if (mFirebaseUser == null) {
-////            Not logged in, launch the Log In activity
-//        } else {
-//            mUserId = mFirebaseUser.getUid();
-//        }
-
-        _database = FirebaseDatabase.getInstance().getReference();
-
-        // TODO put database query strings in a values.xml file
-        _database.child("patientRecords").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                Record record = dataSnapshot.getValue(Record.class);
-                _patientRecords.put(record.getId(), record);
-                _SearchResultAdapter.refresh(_patientRecords.values());
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
-                onChildAdded(dataSnapshot, prevChildKey);
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Record record = dataSnapshot.getValue(Record.class);
-                _patientRecords.remove(record.getId());
-                _SearchResultAdapter.refresh(_patientRecords.values());
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        return true;
     }
 
 }

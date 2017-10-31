@@ -28,21 +28,21 @@ public class SearchResultAdapter extends BaseAdapter {
     // Properties
     //================================================================================
 
-    private Context _Context;
+    private Context mContext;
 
-    private LayoutInflater _Inflater;
+    private LayoutInflater mInflater;
 
-    private List<Record> _DataSource;
+    private List<Record> mDataSource;
 
 
     //================================================================================
     // Constructors
     //================================================================================
 
-    public SearchResultAdapter(Context context, Collection<Record> records) {
-        _Context = context;
-        _DataSource = new ArrayList<>(records);
-        _Inflater = (LayoutInflater) _Context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    SearchResultAdapter(Context context, Collection<Record> records) {
+        mContext = context;
+        mDataSource = new ArrayList<>(records);
+        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     //================================================================================
@@ -51,12 +51,12 @@ public class SearchResultAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return _DataSource.size();
+        return mDataSource.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return _DataSource.get(position);
+        return mDataSource.get(position);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class SearchResultAdapter extends BaseAdapter {
 
         ViewHolder holder;
         if (rowView == null) {
-            rowView = _Inflater.inflate(R.layout.list_item_search_result, parent, false);
+            rowView = mInflater.inflate(R.layout.list_item_search_result, parent, false);
             holder = new ViewHolder();
 
             holder.titleTextView = rowView.findViewById(R.id.search_result_title);
@@ -89,8 +89,8 @@ public class SearchResultAdapter extends BaseAdapter {
 
         titleTextView.setText(result.getFullName());
 
-        String DOBprompt = _Context.getResources().getString(R.string.DOB_prompt);
-        SimpleDateFormat sdf = new SimpleDateFormat(_Context.getResources().getString(R.string.date_format), Locale.getDefault());
+        String DOBprompt = mContext.getResources().getString(R.string.DOB_prompt);
+        SimpleDateFormat sdf = new SimpleDateFormat(mContext.getResources().getString(R.string.date_format), Locale.getDefault());
         String DOBstr = DOBprompt + " " + sdf.format(result.getDOB());
 
         subtitleTextView.setText(DOBstr);
@@ -100,13 +100,13 @@ public class SearchResultAdapter extends BaseAdapter {
         return rowView;
     }
 
-    public void refresh(Collection<Record> values) {
-        _DataSource = new ArrayList<>(values);
+    void refresh(Collection<Record> values) {
+        mDataSource = new ArrayList<>(values);
         notifyDataSetChanged();
     }
 
-    public String getPatientIdFromDataSource(int position) {
-        return _DataSource.get(position).getId();
+    String getPatientIdFromDataSource(int position) {
+        return mDataSource.get(position).getDatabaseId();
     }
 
     private static class ViewHolder {

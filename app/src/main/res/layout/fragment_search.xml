@@ -44,7 +44,7 @@
         android:layout_weight="1">
 
         <ListView
-            android:id="@+id/patient_list_view"
+            android:id="@+id/record_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>

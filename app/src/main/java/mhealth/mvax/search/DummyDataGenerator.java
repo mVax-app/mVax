@@ -1,8 +1,9 @@
 package mhealth.mvax.search;
 
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import mhealth.mvax.record.Gender;
+import mhealth.mvax.record.Sex;
 import mhealth.mvax.record.Record;
 import mhealth.mvax.record.vaccine.Dose;
 import mhealth.mvax.record.vaccine.Vaccine;
@@ -15,16 +16,10 @@ import mhealth.mvax.record.vaccine.Vaccine;
 
 class DummyDataGenerator {
 
-    private DatabaseReference _database;
-
-    DummyDataGenerator(DatabaseReference database) {
-        _database = database;
-    }
-
     void generateDummyData() {
         Vaccine hepatitis = new Vaccine("Hepatitis B");
         Dose dose1 = new Dose("R.N.");
-        dose1.setDate(823237200000l);
+        dose1.setDate(823237200000L);
         hepatitis.addDose(dose1);
 
 
@@ -52,9 +47,28 @@ class DummyDataGenerator {
         syphilis.addDose(new Dose("R.N.", "3"));
         syphilis.addDose(new Dose("R.N.", "3"));
 
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference patientRecords = db.child("patientRecords").push();
+        Record rob = new Record(patientRecords.getKey());
+        rob.setId("0123456789012");
+        rob.setFirstName("Robert");
+        rob.setMiddleName("Hays");
+        rob.setLastName("Steilberg");
+        rob.setSuffix("II");
+        rob.setSex(Sex.MALE);
+        rob.setDOB(823237200000L);
+        rob.setPlaceOfBirth("Harrisonburg, VA");
+        rob.setCommunity("Alspaugh");
+        rob.setParentFirstName("Ann");
+        rob.setParentMiddleName("Kemp");
+        rob.setParentLastName("Steilberg");
+        rob.setParentSuffix("I");
+        rob.setParentSex(Sex.FEMALE);
+        rob.setParentId("1234567890123");
+        rob.setNumDependents(3);
+        rob.setParentAddress("9014 Tarrytown Drive, Richmond, VA 23229");
+        rob.setParentPhone("8046904814");
 
-        DatabaseReference patientRecords = _database.child("patientRecords").push();
-        Record rob = new Record(patientRecords.getKey(), "Rob", "Steilberg", Gender.MALE, 823237200000l, "Roatan");
         rob.addVaccine(hepatitis);
         rob.addVaccine(BCG);
         rob.addVaccine(polio);
@@ -63,25 +77,25 @@ class DummyDataGenerator {
         rob.addVaccine(syphilis);
         patientRecords.setValue(rob);
 
-        patientRecords = _database.child("patientRecords").push();
-        Record alison = new Record(patientRecords.getKey(), "Alison", "Huang", Gender.FEMALE, 1428206400000l, "West Bay");
-        alison.addVaccine(hepatitis);
-        alison.addVaccine(BCG);
-        alison.addVaccine(polio);
-        alison.addVaccine(rotavirus);
-        alison.addVaccine(varicella);
-        alison.addVaccine(syphilis);
-        patientRecords.setValue(alison);
-
-        patientRecords = _database.child("patientRecords").push();
-        Record steven = new Record(patientRecords.getKey(), "Steven", "Yang", Gender.MALE, 1078635600000l, "Oakridge");
-        steven.addVaccine(hepatitis);
-        steven.addVaccine(BCG);
-        steven.addVaccine(polio);
-        steven.addVaccine(rotavirus);
-        steven.addVaccine(varicella);
-        steven.addVaccine(syphilis);
-        patientRecords.setValue(steven);
+//        patientRecords = _database.child("patientRecords").push();
+//        Record alison = new Record(patientRecords.getKey(), "Alison", "Huang", Sex.FEMALE, 1428206400000l, "West Bay");
+//        alison.addVaccine(hepatitis);
+//        alison.addVaccine(BCG);
+//        alison.addVaccine(polio);
+//        alison.addVaccine(rotavirus);
+//        alison.addVaccine(varicella);
+//        alison.addVaccine(syphilis);
+//        patientRecords.setValue(alison);
+//
+//        patientRecords = _database.child("patientRecords").push();
+//        Record steven = new Record(patientRecords.getKey(), "Steven", "Yang", Sex.MALE, 1078635600000l, "Oakridge");
+//        steven.addVaccine(hepatitis);
+//        steven.addVaccine(BCG);
+//        steven.addVaccine(polio);
+//        steven.addVaccine(rotavirus);
+//        steven.addVaccine(varicella);
+//        steven.addVaccine(syphilis);
+//        patientRecords.setValue(steven);
     }
 
 }
