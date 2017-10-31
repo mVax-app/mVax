@@ -14,9 +14,9 @@ public class DoseDateView extends android.support.v7.widget.AppCompatTextView {
     // Properties
     //================================================================================
 
-    private Vaccine _vaccine;
+    private Vaccine mVaccine;
 
-    private Dose _dose;
+    private Dose mDose;
 
     //================================================================================
     // Constructors
@@ -24,8 +24,8 @@ public class DoseDateView extends android.support.v7.widget.AppCompatTextView {
 
     public DoseDateView(Context context, Vaccine vaccine, Dose dose) {
         super(context);
-        _vaccine = vaccine;
-        _dose = dose;
+        mVaccine = vaccine;
+        mDose = dose;
     }
 
     //================================================================================
@@ -33,11 +33,11 @@ public class DoseDateView extends android.support.v7.widget.AppCompatTextView {
     //================================================================================
 
     public Vaccine getVaccine() {
-        return _vaccine;
+        return mVaccine;
     }
 
     public Dose getDose() {
-        return _dose;
+        return mDose;
     }
 
     //================================================================================
@@ -45,10 +45,10 @@ public class DoseDateView extends android.support.v7.widget.AppCompatTextView {
     //================================================================================
 
     public void setVaccine(Vaccine vaccine) {
-        _vaccine = vaccine;
+        mVaccine = vaccine;
     }
 
     public void setDose(Dose dose) {
-        _dose = dose;
+        mDose = dose;
     }
 }

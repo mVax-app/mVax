@@ -65,7 +65,7 @@ public class Dose implements Serializable {
     }
 
     @Exclude
-    String getLabel() {
+    public String getLabel() {
         StringBuilder sb = new StringBuilder();
         if (_label2 != null) {
             sb.append(_label1);
@@ -79,11 +79,11 @@ public class Dose implements Serializable {
         return sb.toString();
     }
 
-    Long getDate() {
+    public Long getDate() {
         return _date;
     }
 
-    Boolean hasBeenCompleted() {
+    public Boolean hasBeenCompleted() {
         return _completed;
     }
 
