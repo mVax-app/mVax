@@ -29,6 +29,16 @@ public class Vaccine implements Serializable {
 
     private Map<String, Dose> _doses;
 
+    private Long mDueDate;
+
+    public Long getDueDate() {
+        return mDueDate;
+    }
+
+    public void setDueDate(Long date) {
+        mDueDate = date;
+    }
+
     //================================================================================
     // Constructors
     //================================================================================
