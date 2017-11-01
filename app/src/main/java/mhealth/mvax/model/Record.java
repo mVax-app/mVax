@@ -13,8 +13,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
-import mhealth.mvax.record.vaccine.Vaccine;
-
 /**
  * @author Robert Steilberg
  *         <p>

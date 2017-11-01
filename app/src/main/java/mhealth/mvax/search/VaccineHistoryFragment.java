@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.Record;
-import mhealth.mvax.record.vaccine.Vaccine;
+import mhealth.mvax.model.Vaccine;
 
 /**
  * @author Robert Steilberg

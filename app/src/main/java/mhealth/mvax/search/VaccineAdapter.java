@@ -24,9 +24,8 @@ import java.util.Locale;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.Record;
-import mhealth.mvax.record.vaccine.Dose;
-import mhealth.mvax.record.vaccine.DoseDateView;
-import mhealth.mvax.record.vaccine.Vaccine;
+import mhealth.mvax.model.Dose;
+import mhealth.mvax.model.Vaccine;
 
 /**
  * @author Robert Steilberg

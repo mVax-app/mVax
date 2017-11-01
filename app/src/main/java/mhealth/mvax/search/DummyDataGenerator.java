@@ -5,8 +5,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.model.Sex;
 import mhealth.mvax.model.Record;
-import mhealth.mvax.record.vaccine.Dose;
-import mhealth.mvax.record.vaccine.Vaccine;
+import mhealth.mvax.model.Dose;
+import mhealth.mvax.model.Vaccine;
 
 /**
  * @author Robert Steilberg

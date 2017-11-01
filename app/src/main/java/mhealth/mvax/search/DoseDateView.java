@@ -1,6 +1,9 @@
-package mhealth.mvax.record.vaccine;
+package mhealth.mvax.search;
 
 import android.content.Context;
+
+import mhealth.mvax.model.Dose;
+import mhealth.mvax.model.Vaccine;
 
 /**
  * @author Robert Steilberg
