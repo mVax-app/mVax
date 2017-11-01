@@ -3,8 +3,8 @@ package mhealth.mvax.search;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import mhealth.mvax.record.Sex;
-import mhealth.mvax.record.Record;
+import mhealth.mvax.model.Sex;
+import mhealth.mvax.model.Record;
 import mhealth.mvax.record.vaccine.Dose;
 import mhealth.mvax.record.vaccine.Vaccine;
 

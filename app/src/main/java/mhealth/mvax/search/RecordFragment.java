@@ -18,7 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
-import mhealth.mvax.record.Record;
+import mhealth.mvax.model.Record;
 
 import android.widget.Toast;
 
