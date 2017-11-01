@@ -1,4 +1,4 @@
-package mhealth.mvax.record.vaccine;
+package mhealth.mvax.model;
 
 import com.google.firebase.database.Exclude;
 
