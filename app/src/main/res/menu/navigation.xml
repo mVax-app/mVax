@@ -14,7 +14,7 @@
     <item
         android:id="@+id/navigation_forms"
         android:icon="@drawable/ic_form"
-        android:title="@string/title_forms" />
+        android:title="@string/title_dashboard" />
 
     <item
         android:id="@+id/navigation_settings"

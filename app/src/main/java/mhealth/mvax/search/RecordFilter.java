@@ -92,6 +92,10 @@ class RecordFilter {
                 return date.toString().substring(24, 28);
             case "Community":
                 return record.getCommunity();
+            case "Parent ID":
+                return record.getParentId();
+            case "Parent name":
+                return record.getParentFullName();
             default:
                 return record.getDatabaseId();
         }

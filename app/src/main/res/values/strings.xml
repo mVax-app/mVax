@@ -23,7 +23,7 @@
     <string name="title_settings">Settings</string>
     <string name="title_alerts">Alerts</string>
     <string name="title_search">Search</string>
-    <string name="title_forms">Forms</string>
+    <string name="title_dashboard">Dashboard</string>
 
     <string name="REG_DESCRIPTION">Please fill out the following form to get started. After completion, an email will be sent to an administrator who will have to approve you in order for you to gain full access.</string>
     <string name="REG_TITLE">New User Registration</string>
