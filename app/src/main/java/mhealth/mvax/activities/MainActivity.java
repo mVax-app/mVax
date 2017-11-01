@@ -1,6 +1,5 @@
 package mhealth.mvax.activities;
 
-import android.app.ActionBar;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +12,7 @@ import android.view.MenuItem;
 
 import mhealth.mvax.R;
 import mhealth.mvax.alerts.AlertsFragment;
-import mhealth.mvax.forms.FormsFragment;
+import mhealth.mvax.dashboard.DashboardFragment;
 import mhealth.mvax.search.SearchFragment;
 import mhealth.mvax.settings.SettingsFragment;
 
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                                 selectedFragment = AlertsFragment.newInstance();
                                 break;
                             case R.id.navigation_forms:
-                                selectedFragment = FormsFragment.newInstance();
+                                selectedFragment = DashboardFragment.newInstance();
                                 break;
                             case R.id.navigation_settings:
                                 selectedFragment = SettingsFragment.newInstance();
@@ -78,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 //                    selected_fragment = AlertsFragment.newInstance();
 //                    break;
 //                case R.id.navigation_forms:
-//                    selected_fragment = FormsFragment.newInstance();
+//                    selected_fragment = DashboardFragment.newInstance();
 //                    break;
 //                case R.id.navigation_settings:
 //                    selected_fragment = SettingsFragment.newInstance();

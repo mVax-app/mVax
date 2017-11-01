@@ -339,6 +339,23 @@ public class Record implements Serializable {
     }
 
     @Exclude
+    public String getParentFullName() {
+        StringBuilder nameBuilder = new StringBuilder();
+        nameBuilder.append(mParentLastName);
+        nameBuilder.append(", ");
+        nameBuilder.append(mParentFirstName);
+        if (mParentMiddleName != null) {
+            nameBuilder.append(" ");
+            nameBuilder.append(mParentMiddleName);
+        }
+        if (mParentSuffix != null) {
+            nameBuilder.append(", ");
+            nameBuilder.append(mParentSuffix);
+        }
+        return nameBuilder.toString();
+    }
+
+    @Exclude
     public LinkedHashMap<String, ArrayList<Pair<String, String>>> getSectionedAttributes() {
 
         ArrayList<Pair<String, String>> childAttributes = new ArrayList<>();

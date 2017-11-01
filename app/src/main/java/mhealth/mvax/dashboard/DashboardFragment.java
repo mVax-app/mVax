@@ -1,4 +1,4 @@
-package mhealth.mvax.forms;
+package mhealth.mvax.dashboard;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +10,9 @@ import android.widget.Button;
 
 import mhealth.mvax.R;
 
-public class FormsFragment extends Fragment {
-    public static FormsFragment newInstance() {
-        FormsFragment fragment = new FormsFragment();
+public class DashboardFragment extends Fragment {
+    public static DashboardFragment newInstance() {
+        DashboardFragment fragment = new DashboardFragment();
         return fragment;
     }
 

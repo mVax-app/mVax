@@ -7,5 +7,6 @@
         <item>Year of birth</item>
         <item>Community</item>
         <item>Parent ID</item>
+        <item>Parent name</item>
     </string-array>
 </resources>
