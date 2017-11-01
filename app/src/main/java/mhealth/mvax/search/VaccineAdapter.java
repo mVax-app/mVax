@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Locale;
 
 import mhealth.mvax.R;
-import mhealth.mvax.record.Record;
+import mhealth.mvax.model.Record;
 import mhealth.mvax.record.vaccine.Dose;
 import mhealth.mvax.record.vaccine.DoseDateView;
 import mhealth.mvax.record.vaccine.Vaccine;

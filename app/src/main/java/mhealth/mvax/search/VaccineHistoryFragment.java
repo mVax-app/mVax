@@ -10,7 +10,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import mhealth.mvax.R;
-import mhealth.mvax.record.Record;
+import mhealth.mvax.model.Record;
 import mhealth.mvax.record.vaccine.Vaccine;
 
 /**

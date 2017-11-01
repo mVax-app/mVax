@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
 
-import mhealth.mvax.record.Record;
+import mhealth.mvax.model.Record;
 
 /**
  * @author Alison Huang
