@@ -6,12 +6,11 @@ import java.io.Serializable;
 
 /**
  * @author Robert Steilberg
- *
- * Object for storing information about mVax doses,
- * with proper getters and setters for Firebase storage
- *
- * NOTE: Tampering with non-excluded getters or setters may break
- * Firebase integration!
+ *         <p>
+ *         Object for storing information about mVax doses
+ *         <p>
+ *         PLEASE READ DOCUMENTATION BEFORE ADDING, REMOVING,
+ *         OR MODIFYING PROPERTIES
  */
 
 public class Dose implements Serializable {
@@ -20,13 +19,59 @@ public class Dose implements Serializable {
     // Properties
     //================================================================================
 
-    private String _id;
+    /**
+     * The first label for the dose
+     */
+    private String mLabel1;
 
-    private String _label1;
+    public String getLabel1() {
+        return this.mLabel1;
+    }
 
-    private String _label2;
+    public void setLabel1(String label) {
+        this.mLabel1 = label;
+    }
 
-    private Long _date;
+    /**
+     * The second label for the dose, if there is one
+     */
+    private String mLabel2;
+
+    public String getLabel2() {
+        return this.mLabel2;
+    }
+
+    public void setLabel2(String label) {
+        this.mLabel2 = label;
+    }
+
+    /**
+     * The amount of time until the next dose in the
+     * vaccine regimen should be administered
+     */
+    private Long mTimeUntilNextDose;
+
+    public Long getTimeUntilNextDose() {
+        return this.mTimeUntilNextDose;
+    }
+
+    public void setTimeUntilNextDose(Long millis) {
+        this.mTimeUntilNextDose = millis;
+    }
+
+    /**
+     * The date at which the dose was completed
+     */
+    private Long mDateCompleted;
+
+    public Long getDateCompleted() {
+        return this.mDateCompleted;
+    }
+
+    public void setDateCompleted(Long date) {
+        this.mDateCompleted = date;
+        this._completed = (date != null);
+    }
 
     @Exclude
     private Boolean _completed = false;
@@ -40,47 +85,31 @@ public class Dose implements Serializable {
     }
 
     public Dose(String label1, String label2) {
-        _label1 = label1;
-        _label2 = label2;
+        mLabel1 = label1;
+        mLabel2 = label2;
     }
 
     public Dose(String label1) {
-        _label1 = label1;
+        mLabel1 = label1;
     }
 
     //================================================================================
-    // Getters
+    // Computed getters
     //================================================================================
-
-    public String getId() {
-        return _id;
-    }
-
-    public String getLabel1() {
-        return _label1;
-    }
-
-    public String getLabel2() {
-        return _label2;
-    }
 
     @Exclude
     public String getLabel() {
         StringBuilder sb = new StringBuilder();
-        if (_label2 != null) {
-            sb.append(_label1);
+        if (mLabel2 != null) {
+            sb.append(mLabel1);
             sb.append(" (");
-            sb.append(_label2);
+            sb.append(mLabel2);
             sb.append("):");
         } else {
-            sb.append(_label1);
+            sb.append(mLabel1);
             sb.append(":");
         }
         return sb.toString();
-    }
-
-    public Long getDate() {
-        return _date;
     }
 
     public Boolean hasBeenCompleted() {
@@ -88,30 +117,13 @@ public class Dose implements Serializable {
     }
 
     //================================================================================
-    // Setters
+    // Computed setters
     //================================================================================
-
-    public void setId(String id) {
-        _id = id;
-    }
 
     @Exclude
     public void setLabels(String label1, String label2) {
-        _label1 = label1;
-        _label2 = label2;
-    }
-
-    public void setLabel1(String label1) {
-        _label1 = label1;
-    }
-
-    public void setLabel2(String label2) {
-        _label2 = label2;
-    }
-
-    public void setDate(Long date) {
-        _date = date;
-        _completed = (date != null);
+        mLabel1 = label1;
+        mLabel2 = label2;
     }
 
 }

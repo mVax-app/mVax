@@ -116,7 +116,7 @@ class VaccineAdapter extends BaseAdapter {
 
     private void addDoses(Vaccine vaccine, LinearLayout layout, View rowView) {
 
-        for (Dose dose : vaccine.getDoseList()) {
+        for (Dose dose : vaccine.getDoses()) {
 
             // create LinearLayout to hold the label and date for each dose
             LinearLayout doseLinearLayout = new LinearLayout(rowView.getContext());
@@ -148,7 +148,7 @@ class VaccineAdapter extends BaseAdapter {
             dateView.setTextSize(22);
             SimpleDateFormat sdf = new SimpleDateFormat(mContext.getResources().getString(R.string.date_format), Locale.getDefault());
             if (dose.hasBeenCompleted()) {
-                dateView.setText(sdf.format(dose.getDate()));
+                dateView.setText(sdf.format(dose.getDateCompleted()));
             }
             GradientDrawable gd = new GradientDrawable();
             gd.setColor(Color.LTGRAY);
@@ -223,20 +223,9 @@ class VaccineAdapter extends BaseAdapter {
     }
 
     private void updateDose(Vaccine vaccine, Dose dose, Long doseDate) {
-        // TODO push exceptions to UI
-        dose.setDate(doseDate);
-        if (vaccine.updateDose(dose)) {
-            if (mCurrRecord.updateVaccine(vaccine)) {
-                // push the update to the database, which will trigger update listeners,
-                // updating the view
-                DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-                db.child("patientRecords").child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
-            } else {
-                // TODO throw unable to update vaccine in record
-            }
-        } else {
-            // TODO throw unable to update dose in vaccine
-        }
+        dose.setDateCompleted(doseDate);
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+        db.child("patientRecords").child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
     }
 
     private static class ViewHolder {
