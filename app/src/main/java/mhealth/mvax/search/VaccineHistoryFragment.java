@@ -53,7 +53,7 @@ public class VaccineHistoryFragment extends Fragment {
     //================================================================================
 
     void renderVaccineHistory(Record record) {
-        ArrayList<Vaccine> vaccineList = record.getVaccineList();
+        ArrayList<Vaccine> vaccineList = record.getVaccines();
         ListView vaccineListView = mView.findViewById(R.id.vaccines_list_view);
         VaccineAdapter adapter = new VaccineAdapter(getContext(), vaccineList, record);
         vaccineListView.setAdapter(adapter);
