@@ -79,9 +79,10 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        // uncomment the below line to populate database with dummy data
+        // uncomment the below lines to populate database with dummy data
         // NOTE: recommend you clear out the database beforehand
-//        new DummyDataGenerator().generateDummyData();
+        new DummyDataGenerator().generateDummyPatientRecords();
+//        new DummyDataGenerator().generateDummyVaccineMaster();
 
         initDatabase(); // run this before touching mPatientRecords!
 

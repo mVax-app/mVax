@@ -2,7 +2,12 @@ package mhealth.mvax.model;
 
 import android.util.Pair;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -17,9 +22,27 @@ import java.util.TreeMap;
  * @author Robert Steilberg
  *         <p>
  *         Object for storing information about mVax records
+ *         <p>
+ *         PLEASE READ DOCUMENTATION BEFORE ADDING, REMOVING,
+ *         OR MODIFYING PROPERTIES
  */
 
 public class Record implements Serializable {
+
+    //================================================================================
+    // Constructors
+    //================================================================================
+
+    public Record() {
+        // default constructor for Firebase
+        initVaccineHistory();
+    }
+
+    public Record(String databaseId) {
+        mDatabaseId = databaseId;
+        initVaccineHistory();
+    }
+
 
     //================================================================================
     // Properties
@@ -279,13 +302,13 @@ public class Record implements Serializable {
     /**
      * Map containing the record's vaccine history
      */
-    private Map<String, Vaccine> mVaccines;
+    private ArrayList<Vaccine> mVaccines;
 
     /**
      * This getter should only be used externally by Firebase;
      * use getVaccineList to get the record's vaccine history
      */
-    public Map<String, Vaccine> getVaccines() {
+    public ArrayList<Vaccine> getVaccines() {
         return this.mVaccines;
     }
 
@@ -293,28 +316,13 @@ public class Record implements Serializable {
      * This setter should only be used externally by Firebase;
      * use addVaccine or updateVaccine to modify associated Vaccines
      */
-    public void setVaccines(Map<String, Vaccine> vaccines) {
+    public void setVaccines(ArrayList<Vaccine> vaccines) {
         this.mVaccines = vaccines;
     }
 
 
     //================================================================================
-    // Constructors
-    //================================================================================
-
-    public Record() {
-        // default constructor for Firebase
-        mVaccines = new HashMap<>();
-    }
-
-    public Record(String databaseId) {
-        mDatabaseId = databaseId;
-        mVaccines = new TreeMap<>();
-    }
-
-
-    //================================================================================
-    // Getters
+    // Computed getters
     //================================================================================
 
     @Exclude
@@ -406,46 +414,32 @@ public class Record implements Serializable {
         return sectionedAttributes;
     }
 
-    /**
-     * Use this getter internally, instead of getVaccines()
-     *
-     * @return an ArrayList of Vaccines associated with the Record
-     */
-    @Exclude
-    public ArrayList<Vaccine> getVaccineList() {
-        return new ArrayList<>(mVaccines.values());
-    }
-
 
     //================================================================================
-    // Public Methods
+    // Private methods
     //================================================================================
 
-    /**
-     * Adds a new vaccine to the patient's vaccine records
-     * TODO get rid of this
-     * @param vaccine the new vaccine to add
-     */
-    public void addVaccine(Vaccine vaccine) {
-        int id = mVaccines.size() + 1;
-        vaccine.setId(mDatabaseId + "_" + Integer.toString(id));
-        mVaccines.put(vaccine.getId(), vaccine);
-    }
+    private void initVaccineHistory() {
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+        mVaccines = new ArrayList<>();
 
-    /**
-     * Overwrites an existing vaccine; fails if given vaccine doesn't already exist
-     * (new vaccines should be added via add vaccine)
-     *
-     * @param vaccine the existing dose to update
-     * @return true if dose updated, false if existing dose not found
-     */
-    public boolean updateVaccine(Vaccine vaccine) {
-        if (mVaccines.get(vaccine.getId()) != null) {
-            mVaccines.put(vaccine.getId(), vaccine);
-            return true;
-        } else {
-            return false;
-        }
-    }
+        db.child("vaccineMaster").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
+                mVaccines.add(vaccine);
+            }
 
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
+        });
+
+
+    }
 }
