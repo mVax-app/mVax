@@ -1,4 +1,4 @@
-package mhealth.mvax.record.vaccine;
+package mhealth.mvax.model;
 
 import com.google.firebase.database.Exclude;
 
@@ -28,6 +28,16 @@ public class Vaccine implements Serializable {
     private String _name;
 
     private Map<String, Dose> _doses;
+
+    private Long mDueDate;
+
+    public Long getDueDate() {
+        return mDueDate;
+    }
+
+    public void setDueDate(Long date) {
+        mDueDate = date;
+    }
 
     //================================================================================
     // Constructors

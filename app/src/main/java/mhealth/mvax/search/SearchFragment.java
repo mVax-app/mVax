@@ -30,8 +30,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import mhealth.mvax.record.Sex;
-import mhealth.mvax.record.Record;
+import mhealth.mvax.model.Sex;
+import mhealth.mvax.model.Record;
 
 /**
  * @author Robert Steilberg, Alison Huang

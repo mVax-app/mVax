@@ -1,4 +1,4 @@
-package mhealth.mvax.record;
+package mhealth.mvax.model;
 
 import android.util.Pair;
 
@@ -9,13 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
-
-import mhealth.mvax.R;
-import mhealth.mvax.record.vaccine.Vaccine;
 
 /**
  * @author Robert Steilberg

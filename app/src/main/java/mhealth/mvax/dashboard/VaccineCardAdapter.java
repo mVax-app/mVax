@@ -5,13 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
-import mhealth.mvax.record.Record;
-import mhealth.mvax.record.vaccine.Vaccine;
+import mhealth.mvax.R;
+import mhealth.mvax.model.Record;
+import mhealth.mvax.model.Vaccine;
+import mhealth.mvax.search.SearchResultAdapter;
 
 /**
  * Created by AlisonHuang on 11/1/17.
@@ -50,6 +55,21 @@ public class VaccineCardAdapter extends BaseAdapter {
     }
 
     @Override
+    public View getView(int position, View rowView, ViewGroup parent) {
+
+        if (rowView == null) {
+            rowView = mInflater.inflate(R.layout.list_item_vaccine_card, parent, false);
+
+        }
+
+
+        Vaccine vaccine = (Vaccine) getItem(position);
+
+
+        return rowView;
+    }
+
+    @Override
     public int getCount() {
         return 0;
     }
@@ -64,8 +84,5 @@ public class VaccineCardAdapter extends BaseAdapter {
         return 0;
     }
 
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        return null;
-    }
+
 }

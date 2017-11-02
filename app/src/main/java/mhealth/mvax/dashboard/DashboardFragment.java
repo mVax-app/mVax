@@ -8,8 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,8 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mhealth.mvax.R;
-import mhealth.mvax.record.Record;
-import mhealth.mvax.record.vaccine.Vaccine;
+import mhealth.mvax.model.Record;
+import mhealth.mvax.model.Vaccine;
 import mhealth.mvax.search.RecordFragment;
 
 public class DashboardFragment extends Fragment {
@@ -64,6 +66,7 @@ public class DashboardFragment extends Fragment {
 
         mVaccinationCardAdapter = new VaccineCardAdapter(view.getContext(), mVaccinationRecords.values());
 
+        renderMonthSpinner(view);
         renderListView(view);
 
         return view;
@@ -112,6 +115,26 @@ public class DashboardFragment extends Fragment {
             public void onCancelled(DatabaseError databaseError) {}
         });
         return true;
+    }
+
+    private void renderMonthSpinner(View view) {
+        final Spinner spinner = view.findViewById(R.id.vaccine_card_month_spinner);
+        ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(view.getContext(),
+                R.array.vaccine_card_months_array, android.R.layout.simple_spinner_item);
+        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(filterAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+                if (pos != 0) {
+                    //TODO: user picks a month, new stats get displayed
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void renderListView(View view) {

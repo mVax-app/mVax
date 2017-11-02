@@ -1,4 +1,4 @@
-package mhealth.mvax.record;
+package mhealth.mvax.model;
 
 /**
  * @author Robert Steilberg
