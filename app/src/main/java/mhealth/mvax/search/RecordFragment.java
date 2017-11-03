@@ -36,9 +36,9 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
 
     private ViewPager mViewPager;
 
-    private RecordDetailsFragment mDetailsFragment;
+    private RecordDetailsTab mRecordDetailsTab;
 
-    private VaccineHistoryFragment mVaccineHistoryFragment;
+    private VaccineHistoryTab mVaccineHistoryTab;
 
     private String mRecordDatabaseId;
 
@@ -58,6 +58,7 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
     // Fragment override methods
     //================================================================================
 
+    // TODO we can probably get rid of this override
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,11 +75,11 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.tab_title_vaccine_history)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        mDetailsFragment = RecordDetailsFragment.newInstance();
-        mVaccineHistoryFragment = VaccineHistoryFragment.newInstance();
+        mRecordDetailsTab = RecordDetailsTab.newInstance();
+        mVaccineHistoryTab = VaccineHistoryTab.newInstance();
 
         // init pager to manage tabs
-        DualTabPager customPager = new DualTabPager(getActivity().getSupportFragmentManager(), mDetailsFragment, mVaccineHistoryFragment);
+        DualTabPager customPager = new DualTabPager(getActivity().getSupportFragmentManager(), mRecordDetailsTab, mVaccineHistoryTab);
         mViewPager = view.findViewById(R.id.pager);
         mViewPager.setAdapter(customPager);
 
@@ -145,15 +146,15 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Record record = dataSnapshot.getValue(Record.class);
-                mDetailsFragment.renderRecordDetails(record);
-                mVaccineHistoryFragment.renderVaccineHistory(record);
+                mRecordDetailsTab.renderRecordDetails(record);
+                mVaccineHistoryTab.renderVaccineHistory(record);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Record record = dataSnapshot.getValue(Record.class);
-                mDetailsFragment.updateRecordDetails(record);
-                mVaccineHistoryFragment.renderVaccineHistory(record);
+                mRecordDetailsTab.updateRecordDetails(record);
+                mVaccineHistoryTab.renderVaccineHistory(record);
 
                 Toast.makeText(getActivity(), R.string.successful_record_update, Toast.LENGTH_SHORT).show();
             }

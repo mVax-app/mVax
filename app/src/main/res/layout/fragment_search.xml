@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="mhealth.mvax.SearchActivity">
+    tools:context="mhealth.mvax.activities.MainActivity">
 
     <Button
         android:id="@+id/new_record_button"

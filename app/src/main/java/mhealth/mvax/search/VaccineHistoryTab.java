@@ -19,7 +19,7 @@ import mhealth.mvax.model.Vaccine;
  *         A Fragment for managing an mVax record's vaccine and dose history
  */
 
-public class VaccineHistoryFragment extends Fragment {
+public class VaccineHistoryTab extends Fragment {
 
     //================================================================================
     // Properties
@@ -32,8 +32,8 @@ public class VaccineHistoryFragment extends Fragment {
     // Static methods
     //================================================================================
 
-    public static VaccineHistoryFragment newInstance() {
-        return new VaccineHistoryFragment();
+    public static VaccineHistoryTab newInstance() {
+        return new VaccineHistoryTab();
     }
 
 

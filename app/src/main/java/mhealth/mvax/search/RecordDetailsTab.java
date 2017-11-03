@@ -21,7 +21,7 @@ import mhealth.mvax.model.Record;
  * @author Robert Steilberg
  */
 
-public class RecordDetailsFragment extends Fragment {
+public class RecordDetailsTab extends Fragment {
 
     //================================================================================
     // Properties
@@ -39,9 +39,13 @@ public class RecordDetailsFragment extends Fragment {
     // Static methods
     //================================================================================
 
-    public static RecordDetailsFragment newInstance() {
-        return new RecordDetailsFragment();
+    public static RecordDetailsTab newInstance() {
+        return new RecordDetailsTab();
     }
+
+    //================================================================================
+    // Override methods
+    //================================================================================
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,7 +68,7 @@ public class RecordDetailsFragment extends Fragment {
         mRecord = record;
         setRecordName();
         ListView detailsListView = mView.findViewById(R.id.details_list_view);
-        mAdapter = new RecordDetailsAdapter(getContext(), mRecord.getSectionedAttributes());
+        mAdapter = new ExistingRecordDetailsAdapter(getContext(), mRecord.getSectionedAttributes(getContext()));
         detailsListView.setAdapter(mAdapter);
         addDeleteButton(detailsListView);
     }
@@ -77,7 +81,7 @@ public class RecordDetailsFragment extends Fragment {
     public void updateRecordDetails(Record record) {
         mRecord = record;
         setRecordName();
-        mAdapter.refresh(record.getSectionedAttributes());
+        mAdapter.refresh(record.getSectionedAttributes(getContext()));
     }
 
 
@@ -86,12 +90,12 @@ public class RecordDetailsFragment extends Fragment {
     //================================================================================
 
     private void setRecordName() {
-        TextView recordName = mView.findViewById(R.id.record_name);
+        TextView recordName = mView.findViewById(R.id.record_details_title);
         recordName.setText(mRecord.getFullName());
     }
 
     private void addDeleteButton(ListView vaccineListView) {
-        Button deleteButton = (Button) mInflater.inflate(R.layout.delete_button, null);
+        Button deleteButton = (Button) mInflater.inflate(R.layout.delete_record_button, null);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -146,10 +146,13 @@ class VaccineAdapter extends BaseAdapter {
             dateView.setPadding(5, 5, 5, 5);
             dateView.setGravity(Gravity.CENTER);
             dateView.setTextSize(22);
-            SimpleDateFormat sdf = new SimpleDateFormat(mContext.getResources().getString(R.string.date_format), Locale.getDefault());
-            if (dose.hasBeenCompleted()) {
-                dateView.setText(sdf.format(dose.getDateCompleted()));
-            }
+//            SimpleDateFormat sdf = new SimpleDateFormat(mContext.getResources().getString(R.string.date_format), Locale.getDefault());
+
+            RecordDateFormat dateFormat = new RecordDateFormat(mContext.getResources().getString(R.string.date_format));
+
+//            if (dose.hasBeenCompleted()) {
+                dateView.setText(dateFormat.getString(dose.getDateCompleted()));
+//            }
             GradientDrawable gd = new GradientDrawable();
             gd.setColor(Color.LTGRAY);
             dateView.setBackground(gd);

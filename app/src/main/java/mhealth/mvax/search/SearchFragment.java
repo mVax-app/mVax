@@ -1,7 +1,5 @@
 package mhealth.mvax.search;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -11,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -26,11 +23,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import mhealth.mvax.model.Sex;
 import mhealth.mvax.model.Record;
 
 /**
@@ -149,80 +144,95 @@ public class SearchFragment extends Fragment {
         newRecordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createNewPatient(view, inflater);
+                createNewRecord(view, inflater);
             }
         });
     }
 
-    private void createNewPatient(View view, LayoutInflater inflater) {
-        // create modal
-        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-        builder.setTitle(getResources().getString(R.string.modal_new_record_title));
+    private void createNewRecord(View view, LayoutInflater inflater) {
 
-        View dialogView = inflater.inflate(R.layout.modal_new_record, null);
-        builder.setView(inflater.inflate(R.layout.modal_new_record, null));
 
-        final EditText firstNameEditText = dialogView.findViewById(R.id.new_first_name);
-        final EditText lastNameEditText = dialogView.findViewById(R.id.new_last_name);
-        final EditText communityEditText = dialogView.findViewById(R.id.new_community);
+        NewRecordFragment newRecordFrag = NewRecordFragment.newInstance();
 
-        final Spinner spinner = dialogView.findViewById(R.id.gender_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(),
-                R.array.gender_spinner_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+//        Bundle args = new Bundle();
+//        args.putString("recordId", recordId);
+//        recordFrag.setArguments(args);
 
-        final Sex[] gender = new Sex[1];
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//        transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
+        transaction.replace(getId(), this).addToBackStack(null); // so that back button works
+        transaction.replace(R.id.frame_layout, newRecordFrag);
+        transaction.commit();
 
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                if (pos != 0) {
-                    switch (spinner.getItemAtPosition(pos).toString()) {
-                        case "Male":
-                            gender[0] = Sex.MALE;
-                            break;
-                        case "Female":
-                            gender[0] = Sex.FEMALE;
-                            break;
-                    }
-                }
-            }
-        });
 
-        final DatePicker DOBpicker = dialogView.findViewById(R.id.dob_date_picker);
-
-        builder.setPositiveButton(getResources().getString(R.string.modal_new_record_add), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String firstName = firstNameEditText.getText().toString();
-                String lastName = lastNameEditText.getText().toString();
-                String community = communityEditText.getText().toString();
-
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.DAY_OF_MONTH, DOBpicker.getDayOfMonth());
-                cal.set(Calendar.MONTH, DOBpicker.getMonth());
-                cal.set(Calendar.YEAR, DOBpicker.getYear());
-
-                DatabaseReference patientRecords = mDatabase.child("patientRecords").push();
-
-//                Record newRecord = new Record(patientRecords.getKey(), firstName, lastName, gender[0], cal.getTimeInMillis(), community);
-                // push the update to the database, which will trigger update listeners,
-                // updating the view
-//                patientRecords.setValue(newRecord);
-            }
-        });
-        builder.setNegativeButton(getResources().getString(R.string.modal_new_record_cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
+//        // create modal
+//        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+//        builder.setTitle(getResources().getString(R.string.modal_new_record_title));
+//
+//        View dialogView = inflater.inflate(R.layout.modal_new_record, null);
+//        builder.setView(inflater.inflate(R.layout.modal_new_record, null));
+//
+//        final EditText firstNameEditText = dialogView.findViewById(R.id.new_first_name);
+//        final EditText lastNameEditText = dialogView.findViewById(R.id.new_last_name);
+//        final EditText communityEditText = dialogView.findViewById(R.id.new_community);
+//
+//        final Spinner spinner = dialogView.findViewById(R.id.gender_spinner);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(),
+//                R.array.gender_spinner_array, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner.setAdapter(adapter);
+//
+//        final Sex[] gender = new Sex[1];
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+//                if (pos != 0) {
+//                    switch (spinner.getItemAtPosition(pos).toString()) {
+//                        case "Male":
+//                            gender[0] = Sex.MALE;
+//                            break;
+//                        case "Female":
+//                            gender[0] = Sex.FEMALE;
+//                            break;
+//                    }
+//                }
+//            }
+//        });
+//
+//        final DatePicker DOBpicker = dialogView.findViewById(R.id.dob_date_picker);
+//
+//        builder.setPositiveButton(getResources().getString(R.string.modal_new_record_add), new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                String firstName = firstNameEditText.getText().toString();
+//                String lastName = lastNameEditText.getText().toString();
+//                String community = communityEditText.getText().toString();
+//
+//                Calendar cal = Calendar.getInstance();
+//                cal.set(Calendar.DAY_OF_MONTH, DOBpicker.getDayOfMonth());
+//                cal.set(Calendar.MONTH, DOBpicker.getMonth());
+//                cal.set(Calendar.YEAR, DOBpicker.getYear());
+//
+//                DatabaseReference patientRecords = mDatabase.child("patientRecords").push();
+//
+////                Record newRecord = new Record(patientRecords.getKey(), firstName, lastName, gender[0], cal.getTimeInMillis(), community);
+//                // push the update to the database, which will trigger update listeners,
+//                // updating the view
+////                patientRecords.setValue(newRecord);
+//            }
+//        });
+//        builder.setNegativeButton(getResources().getString(R.string.modal_new_record_cancel), new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+//
+//        builder.show();
     }
 
     private void renderFilterSpinner(View view) {
@@ -255,6 +265,7 @@ public class SearchFragment extends Fragment {
         ListView patientListView = view.findViewById(R.id.record_list_view);
         patientListView.setAdapter(mSearchResultAdapter);
         final SearchFragment searchFragment = this;
+        // TODO refactor below out to separate method
         patientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

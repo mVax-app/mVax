@@ -22,23 +22,23 @@ import mhealth.mvax.R;
  *         An adapter for listing details about a Record
  */
 
-class RecordDetailsAdapter extends BaseAdapter {
+abstract class RecordDetailsAdapter extends BaseAdapter {
 
     //================================================================================
     // Properties
     //================================================================================
 
-    private static final int TYPE_SECTION = 0;
-    private static final int TYPE_FIELD = 1;
+    static final int TYPE_SECTION = 0;
+    static final int TYPE_FIELD = 1;
 
     private LayoutInflater mInflater;
 
-    private List<Pair<String, String>> mDataSource;
+    List<Pair<String, String>> mDataSource;
 
     /**
      * Contains position of headers and their titles
      */
-    private Map<Integer, String> mHeaders;
+    Map<Integer, String> mHeaders;
 
 
     //================================================================================
@@ -96,39 +96,43 @@ class RecordDetailsAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View rowView, ViewGroup viewGroup) {
-        ViewHolder holder;
-        int rowType = getItemViewType(position);
-        if (rowView == null) {
-            holder = new ViewHolder();
-            switch (rowType) {
-                case TYPE_SECTION:
-                    rowView = mInflater.inflate(R.layout.list_item_record_detail_section, null);
-                    holder.fieldView = rowView.findViewById(R.id.record_detail_separator);
-                    break;
-                case TYPE_FIELD:
-                    rowView = mInflater.inflate(R.layout.list_item_record_detail, null);
-                    holder.fieldView = rowView.findViewById(R.id.field);
-                    holder.valueView = rowView.findViewById(R.id.value);
-                    break;
-            }
-            assert rowView != null;
-            rowView.setTag(holder);
-        } else {
-            holder = (ViewHolder) rowView.getTag();
-        }
-        // populate row with data
-        if (rowType == TYPE_SECTION){
-            holder.fieldView.setText(mHeaders.get(position));
-        } else if(rowType == TYPE_FIELD) {
-            holder.fieldView.setText(mDataSource.get(position).first);
-            holder.valueView.setText(mDataSource.get(position).second);
-        }
+    abstract public View getView(int position, View rowView, ViewGroup viewGroup);
 
-        return rowView;
-    }
+//    @Override
+//    public View getView(int position, View rowView, ViewGroup viewGroup) {
+//        ViewHolder holder;
+//        int rowType = getItemViewType(position);
+//        if (rowView == null) {
+//            holder = new ViewHolder();
+//            switch (rowType) {
+//                case TYPE_SECTION:
+//                    rowView = mInflater.inflate(R.layout.list_item_record_detail_section, null);
+//                    holder.fieldView = rowView.findViewById(R.id.record_detail_separator);
+//                    break;
+//                case TYPE_FIELD:
+//                    rowView = mInflater.inflate(R.layout.list_item_record_detail, null);
+//                    holder.fieldView = rowView.findViewById(R.id.textview_field);
+//                    holder.valueView = rowView.findViewById(R.id.edittext_value);
+//                    break;
+//            }
+//            assert rowView != null;
+//            rowView.setTag(holder);
+//        } else {
+//            holder = (ViewHolder) rowView.getTag();
+//        }
+//        // populate row with data
+//        if (rowType == TYPE_SECTION){
+//            holder.fieldView.setText(mHeaders.get(position));
+//        } else if(rowType == TYPE_FIELD) {
+//            holder.fieldView.setText(mDataSource.get(position).first);
+//            holder.valueView.setText(mDataSource.get(position).second);
+////            holder.valueView.setFocusable(false);
+//        }
+//
+//        return rowView;
+//    }
 
-    private static class ViewHolder {
+    static class ViewHolder {
         TextView fieldView;
         TextView valueView;
     }
