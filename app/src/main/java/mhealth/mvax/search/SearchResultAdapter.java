@@ -90,8 +90,8 @@ public class SearchResultAdapter extends BaseAdapter {
         titleTextView.setText(result.getFullName());
 
         String DOBprompt = mContext.getResources().getString(R.string.DOB_prompt);
-        SimpleDateFormat sdf = new SimpleDateFormat(mContext.getResources().getString(R.string.date_format), Locale.getDefault());
-        String DOBstr = DOBprompt + " " + sdf.format(result.getDOB());
+        RecordDateFormat dateFormat = new RecordDateFormat(mContext.getResources().getString(R.string.date_format));
+        String DOBstr = DOBprompt + " " + dateFormat.getString(result.getDOB());
 
         subtitleTextView.setText(DOBstr);
 

@@ -49,6 +49,7 @@ class DummyDataGenerator {
 
         patientRecords.setValue(rob);
 
+        patientRecords = mDatabase.child("patientRecords").push();
         Record muffin = new Record(patientRecords.getKey());
         muffin.setId("5748392019232");
         muffin.setFirstName("Muffin");
