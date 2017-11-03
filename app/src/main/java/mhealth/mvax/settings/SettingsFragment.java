@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,10 +23,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.Locale;
 
 import mhealth.mvax.R;
+import mhealth.mvax.activities.MainActivity;
 import mhealth.mvax.auth.LoginActivity;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-
 
 public class SettingsFragment extends Fragment {
     private Switch languageSwitch;
@@ -109,8 +110,16 @@ public class SettingsFragment extends Fragment {
         res.updateConfiguration(config, dm);
 
         //TODO save instance state beforehand
-        getActivity().recreate();
+
+        //getActivity().recreate();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
+
     }
+
+
+
+
 
     public void updateEmail(View v){
 
