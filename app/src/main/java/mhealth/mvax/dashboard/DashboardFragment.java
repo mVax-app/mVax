@@ -96,7 +96,7 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
-                mVaccinationRecords.put(vaccine.getId(), vaccine);
+                mVaccinationRecords.put(vaccine.getName(), vaccine);
                 mVaccinationCardAdapter.refresh(mVaccinationRecords.values());
             }
             @Override
@@ -144,19 +144,7 @@ public class DashboardFragment extends Fragment {
         vaccineListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String recordId = mVaccinationCardAdapter.getPatientIdFromDataSource(position);
-
-                RecordFragment recordFrag = RecordFragment.newInstance();
-
-                Bundle args = new Bundle();
-                args.putString("recordId", recordId);
-                recordFrag.setArguments(args);
-
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
-                transaction.replace(getId(), dashboardFragment).addToBackStack(null); // so that back button works
-                transaction.replace(R.id.frame_layout, recordFrag);
-                transaction.commit();
+                //do something
             }
         });
     }

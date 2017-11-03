@@ -50,10 +50,6 @@ public class VaccineCardAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    String getPatientIdFromDataSource(int position) {
-        return mDataSource.get(position).getId();
-    }
-
     @Override
     public View getView(int position, View rowView, ViewGroup parent) {
 
