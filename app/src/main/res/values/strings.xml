@@ -100,5 +100,8 @@
     <string name="add_new_record">Add New Record</string>
 
 
+    <!-- Dashboard -->
+    <string name="dashboard_target">TARGET:</string>
+    <string name="dashboard_given">GIVEN:</string>
 
 </resources>

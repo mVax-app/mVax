@@ -4,8 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,38 +55,81 @@ public class VaccineCardAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    String getPatientIdFromDataSource(int position) {
-        return mDataSource.get(position).getId();
+    String getVaccineNameFromDataSource(int position) {
+        return mDataSource.get(position).getName();
     }
 
     @Override
     public View getView(int position, View rowView, ViewGroup parent) {
 
+        CardHolder holder;
         if (rowView == null) {
             rowView = mInflater.inflate(R.layout.list_item_vaccine_card, parent, false);
+            holder = new CardHolder();
 
+            holder.vaccineNameTV = rowView.findViewById(R.id.vaccine_card_name);
+            holder.targetValueTV = rowView.findViewById(R.id.vaccine_card_target_value);
+            holder.givenValueTV = rowView.findViewById(R.id.vaccine_card_given_value);
+
+            rowView.setTag(holder);
+        } else {
+            holder = (CardHolder) rowView.getTag();
         }
 
+        TextView vaccineNameTV = holder.vaccineNameTV;
+        TextView targetValueTV = holder.targetValueTV;
+        TextView givenValueTV = holder.givenValueTV;
 
-        Vaccine vaccine = (Vaccine) getItem(position);
+        Vaccine result = (Vaccine) getItem(position);
 
+        vaccineNameTV.setText(result.getName());
+        //TODO: set the target and given dose counts
+
+        renderMonthSpinner(rowView);
 
         return rowView;
     }
 
-    @Override
-    public int getCount() {
-        return 0;
+    private void renderMonthSpinner(View view) {
+        final Spinner spinner = view.findViewById(R.id.vaccine_card_month_spinner);
+        ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(view.getContext(),
+                R.array.vaccine_card_months_array, android.R.layout.simple_spinner_item);
+        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(filterAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+                if (pos != 0) {
+                    //TODO: user picks a month, new stats get displayed
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     @Override
-    public Object getItem(int i) {
-        return null;
+    public int getCount() {
+        return mDataSource.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return mDataSource.get(position);
     }
 
     @Override
     public long getItemId(int i) {
         return 0;
+    }
+
+    private static class CardHolder {
+        TextView vaccineNameTV;
+        TextView targetValueTV;
+        TextView givenValueTV;
+
     }
 
 
