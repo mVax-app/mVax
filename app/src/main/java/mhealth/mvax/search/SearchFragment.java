@@ -236,7 +236,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void renderFilterSpinner(View view) {
-        final Spinner spinner = view.findViewById(R.id.filter_spinner);
+        final Spinner spinner = view.findViewById(R.id.search_filter_spinner);
         ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(view.getContext(),
                 R.array.filter_spinner_array, android.R.layout.simple_spinner_item);
         filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

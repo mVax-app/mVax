@@ -12,8 +12,8 @@
         android:title="@string/title_alerts" />
 
     <item
-        android:id="@+id/navigation_forms"
-        android:icon="@drawable/ic_form"
+        android:id="@+id/navigation_dashboard"
+        android:icon="@drawable/ic_dashboard"
         android:title="@string/title_dashboard" />
 
     <item

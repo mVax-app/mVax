@@ -102,6 +102,11 @@
     <string name="add_new_record">Add New Record</string>
     <string name="new_record_title">New Record</string>
 
+
+    <!-- Dashboard -->
+    <string name="dashboard_target">TARGET:</string>
+    <string name="dashboard_given">GIVEN:</string>
+
     <string name="male_enum">Male</string>
     <string name="female_enum">Female</string>
     <string name="empty_string" />

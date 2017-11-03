@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:paddingBottom="4dp"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:paddingTop="4dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/vaccine_card_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Vaccine Name"
+            android:textStyle="bold"
+            android:textSize="28dp"
+            android:layout_margin="5dp"/>
+
+        <Spinner
+            android:id="@+id/vaccine_card_month_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:ems="10"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/vaccine_card_target_square"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/blue_square"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignLeft="@+id/vaccine_card_target_square"
+                    android:layout_alignRight="@+id/vaccine_card_target_square"
+                    android:layout_alignTop="@+id/vaccine_card_target_square"
+                    android:layout_alignBottom="@+id/vaccine_card_target_square"
+                    android:layout_margin="1dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/vaccine_card_target_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:text="@string/dashboard_target"
+                        />
+
+                    <TextView
+                        android:id="@+id/vaccine_card_target_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:text="12"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/vaccine_card_given_square"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/blue_square"
+                    android:layout_margin="5dp"
+                    android:layout_gravity="center"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_alignLeft="@+id/vaccine_card_given_square"
+                    android:layout_alignRight="@+id/vaccine_card_given_square"
+                    android:layout_alignTop="@+id/vaccine_card_given_square"
+                    android:layout_alignBottom="@+id/vaccine_card_given_square"
+                    android:layout_margin="1dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/vaccine_card_given_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        android:text="@string/dashboard_given"
+                        />
+
+                    <TextView
+                        android:id="@+id/vaccine_card_given_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:text="9"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="240dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/fake_line_graph"/>
+
+
+
+
+</LinearLayout>
