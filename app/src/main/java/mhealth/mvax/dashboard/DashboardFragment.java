@@ -66,7 +66,6 @@ public class DashboardFragment extends Fragment {
 
         mVaccinationCardAdapter = new VaccineCardAdapter(view.getContext(), mVaccinationRecords.values());
 
-        renderMonthSpinner(view);
         renderListView(view);
 
         return view;
@@ -92,7 +91,7 @@ public class DashboardFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // TODO put database query strings in a values.xml file
-        mDatabase.child("vaccinationRecords").addChildEventListener(new ChildEventListener() {
+        mDatabase.child("vaccineMaster").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
@@ -117,26 +116,6 @@ public class DashboardFragment extends Fragment {
         return true;
     }
 
-    private void renderMonthSpinner(View view) {
-        final Spinner spinner = view.findViewById(R.id.vaccine_card_month_spinner);
-        ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(view.getContext(),
-                R.array.vaccine_card_months_array, android.R.layout.simple_spinner_item);
-        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(filterAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-                if (pos != 0) {
-                    //TODO: user picks a month, new stats get displayed
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-    }
-
     private void renderListView(View view) {
         ListView vaccineListView = view.findViewById(R.id.vaccine_card_list_view);
         vaccineListView.setAdapter(mVaccinationCardAdapter);
@@ -144,7 +123,7 @@ public class DashboardFragment extends Fragment {
         vaccineListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //do something
+                String recordId = mVaccinationCardAdapter.getVaccineNameFromDataSource(position);
             }
         });
     }
