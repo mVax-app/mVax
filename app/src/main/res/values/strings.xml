@@ -85,7 +85,9 @@
     <string name="modal_new_dosage_confirm">Confirm</string>
     <string name="modal_new_dosage_cancel">Cancel</string>
     <string name="modal_new_dosage_neutral">No date</string>
-    <string name="delete_record_button">DELETE RECORD</string>
+    <string name="delete_record_button">Delete Record</string>
+    <string name="save_record_button">Save Record</string>
+
     <string name="modal_record_delete_title">Confirm Record Deletion</string>
     <string name="modal_record_delete_message">Are you sure you want to delete this record? This action CANNOT be undone.</string>
     <string name="successful_record_update">Saved</string>
@@ -98,7 +100,10 @@
     <string name="last_name">Last name</string>
     <string name="community">Community</string>
     <string name="add_new_record">Add New Record</string>
+    <string name="new_record_title">New Record</string>
 
-
+    <string name="male_enum">Male</string>
+    <string name="female_enum">Female</string>
+    <string name="empty_string" />
 
 </resources>

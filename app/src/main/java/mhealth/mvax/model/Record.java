@@ -1,5 +1,6 @@
 package mhealth.mvax.model;
 
+import android.content.Context;
 import android.util.Pair;
 
 import com.google.firebase.database.ChildEventListener;
@@ -18,6 +19,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
+import mhealth.mvax.search.RecordDateFormat;
+
 /**
  * @author Robert Steilberg
  *         <p>
@@ -27,14 +30,19 @@ import java.util.TreeMap;
  *         OR MODIFYING PROPERTIES
  */
 
+// TODO make vaccine list ordered
+
 public class Record implements Serializable {
 
     //================================================================================
     // Constructors
     //================================================================================
 
+    /**
+     * Default Firebase constructor; should not
+     * be used internally
+     */
     public Record() {
-        // default constructor for Firebase
         initVaccineHistory();
     }
 
@@ -360,7 +368,7 @@ public class Record implements Serializable {
     }
 
     @Exclude
-    public LinkedHashMap<String, ArrayList<Pair<String, String>>> getSectionedAttributes() {
+    public LinkedHashMap<String, ArrayList<Pair<String, String>>> getSectionedAttributes(Context context) {
 
         ArrayList<Pair<String, String>> childAttributes = new ArrayList<>();
         ArrayList<Pair<String, String>> parentAttributes = new ArrayList<>();
@@ -372,17 +380,15 @@ public class Record implements Serializable {
         childAttributes.add(new Pair<>("Last name", this.mLastName));
         childAttributes.add(new Pair<>("Suffix", this.mSuffix));
 
-        switch (this.mSex) {
-            case MALE:
-                childAttributes.add(new Pair<>("Sex", "Male"));
-                break;
-            case FEMALE:
-                childAttributes.add(new Pair<>("Sex", "Female"));
-                break;
-        }
+        String sexString = "";
+        if (this.mSex != null) sexString = context.getString(this.mSex.getResourceId());
+        childAttributes.add(new Pair<>("Sex", sexString));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault());
-        childAttributes.add(new Pair<>("Date of Birth", sdf.format(this.mDOB)));
+
+        RecordDateFormat dateFormat = new RecordDateFormat("MM/dd/yyyy");
+
+
+        childAttributes.add(new Pair<>("Date of Birth", dateFormat.getString(this.mDOB)));
 
         childAttributes.add(new Pair<>("Place of Birth", this.mPlaceOfBirth));
         childAttributes.add(new Pair<>("Community", this.mCommunity));
@@ -394,16 +400,13 @@ public class Record implements Serializable {
         parentAttributes.add(new Pair<>("Last name", this.mParentLastName));
         parentAttributes.add(new Pair<>("Suffix", this.mParentSuffix));
 
-        switch (this.mParentSex) {
-            case MALE:
-                parentAttributes.add(new Pair<>("Sex", "Male"));
-                break;
-            case FEMALE:
-                parentAttributes.add(new Pair<>("Sex", "Female"));
-                break;
-        }
 
-        parentAttributes.add(new Pair<>("Number of dependents", this.mNumDependents.toString()));
+        String parentSexString = "";
+        if (this.mParentSex != null) parentSexString = context.getString(this.mParentSex.getResourceId());
+        childAttributes.add(new Pair<>("Sex", parentSexString));
+
+        String numDependents = this.mNumDependents != null ? this.mNumDependents.toString() : "";
+        parentAttributes.add(new Pair<>("Number of dependents", numDependents));
         parentAttributes.add(new Pair<>("Address", this.mParentAddress));
         parentAttributes.add(new Pair<>("Phone number", this.mParentPhone));
 
@@ -431,13 +434,20 @@ public class Record implements Serializable {
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
             @Override
-            public void onCancelled(DatabaseError databaseError) {}
+            public void onCancelled(DatabaseError databaseError) {
+            }
         });
 
 
