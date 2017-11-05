@@ -111,4 +111,71 @@
     <string name="female_enum">Female</string>
     <string name="empty_string" />
 
+
+    <!-- SINOVA (1) FORM PDF FIELDS -->
+    <string name="establishment">ESTABLECIMIENTO</string>
+    <string name="name_of_responsible_person">NOMBRE DEL RESPONSABLE</string>
+    <string name="department">DEPARTAMENTO</string>
+    <string name="code">CODIGO</string>
+    <string name="municipality">MUNICIPIO</string>
+    <string name="date_day">DÍA</string>
+    <string name="date_month">MES</string>
+    <string name="date_year">AÑO</string>
+    <string name="location_place">LOCALIDAD</string>
+    <!-- fields in the rows -->
+    <string name="temporary_number_mothers_id">NUMERO PROVISIONAL Row</string>
+    <string name="number_of_children">NO DE HIJO Row</string>
+    <string name="child_national_reg_number">Número oficial del niño RNPRow</string>
+    <string name="child_name">NOMBRES Y APELLIDOS DEL NIÑO</string>
+    <string name="date_of_birth">FECHA DE NACIMIENTO ddmmaa</string>
+    <string name="sex_male">SEXO_HRow</string>
+    <string name="sex_female">SEXO_MRow</string>
+    <string name="birth_department">DEPARTAMENTO NACIMIENTO Row</string>
+    <string name="birth_municipal">MUNICIPIO NACIMIENTO Row</string>
+    <string name="residence_department">DEPARTAMENTO RESIDENCIA Row</string>
+    <string name="residence_municipal">MUNICIPIO RESIDENCIA Row</string>
+    <string name="residence_town">LOCALIDAD RESIDENCIA Row</string>
+    <string name="residence_address">DIRECCION O REFERENCIARow</string>
+    <string name="cell_number">No TELEFONO FIJO O CELULARRow</string>
+    <string name="population_group">GRUPO POBLACIONAL AL QUE PERTENECERow</string>
+    <string name="full_name_guardian">NOMBRE COMPLETO DE LA MADRERESPONSABLERow</string>
+    <!-- vaccinations -->
+    <string name="HepB_DU">HepBDURow</string>
+    <string name="BCG_RN_DU">BCG_RN_DURow</string>
+    <string name="BCG_1A_DU">BCG_1A_DURow</string>
+    <string name="BCG_14A_DU">BCG_14A_DURow</string>
+    <string name="POLIO_2M_1A">POLIO_2M_1ARow</string>
+    <string name="POLIO_1ANO_2A">POLIO_1ANO_2ARow</string>
+    <string name="POLIO_1ANO_3A">POLIO_1ANO_3ARow</string>
+    <string name="POLIO_14ANO_1A">POLIO_14ANO_1ARow</string>
+    <string name="POLIO_14ANO_2A">POLIO_14ANO_2ARow</string>
+    <string name="POLIO_14ANO_3A">POLIO_14ANO_3ARow</string>
+    <string name="POLIO_R">POLIO_RRow</string>
+    <string name="PENTA_1ANO_1A">PENTA_1ANO_1ARow</string>
+    <string name="PENTA_1ANO_2A">PENTA_1ANO_2ARow</string>
+    <string name="PENTA_1ANO_3A">PENTA_1ANO_3ARow</string>
+    <string name="PENTA_14ANO_1A">PENTA_14ANO_1ARow</string>
+    <string name="PENTA_14ANO_2A">PENTA_14ANO_2ARow</string>
+    <string name="PENTA_14ANO_3A">PENTA_14ANO_3ARow</string>
+    <string name="NEUM_1ANO_1A">NEUM_1ANO_1ARow</string>
+    <string name="NEUM_1ANO_2A">NEUM_1ANO_2ARow</string>
+    <string name="NEUM_1ANO_3A">NEUM_1ANO_3ARow</string>
+    <string name="NEUM_14ANO_DU">NEUM_14ANO_DURow</string>
+    <string name="ROTA_2M1A_1A">ROTA_2M1A_1ARow</string>
+    <string name="ROTA_2M1A_2A">ROTA_2M1A_2ARow</string>
+    <string name="SRP_1223M_DU">SRP_1223M_DURow</string>
+    <string name="SRP_24ANO_DU">SRP_24ANO_DURow</string>
+    <string name="DPT_18M_1R">DPT_18M_1RRow</string>
+    <string name="DPT_4A_2R">DPT_4A_2RRow</string>
+    <string name="VPI_1A">VPI_1ARow</string>
+    <string name="VPI_2A">VPI_2ARow</string>
+    <string name="VPI_3A">VPI_3ARow</string>
+    <string name="DT_PED_2A">DT_PED_2ARow</string>
+    <string name="DT_PED_3A">DT_PED_3ARow</string>
+    <string name="DT_PED_1R">DT_PED_1RRow</string>
+    <string name="DT_PED_2R">DT_PED_2RRow</string>
+    <string name="VITA_611M_1A">VITA_611M_1ARow</string>
+    <string name="VITA_14A_1A">VITA_14A_1ARow</string>
+    <string name="VITA_14A_2A">VITA_14A_2ARow</string>
+        
 </resources>
