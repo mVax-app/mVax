@@ -17,10 +17,8 @@ import android.widget.TextView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.Record;
@@ -188,10 +186,10 @@ class VaccineAdapter extends BaseAdapter {
         // create modal
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(R.string.modal_new_dosage_title);
-        View dialogView = mInflater.inflate(R.layout.modal_new_dose, null);
+        View dialogView = mInflater.inflate(R.layout.modal_choose_date, null);
         builder.setView(dialogView);
 
-        final DatePicker datePicker = dialogView.findViewById(R.id.dose_date_picker);
+        final DatePicker datePicker = dialogView.findViewById(R.id.date_picker);
 
         builder.setPositiveButton(mContext.getResources().getString(R.string.modal_new_dosage_confirm), new DialogInterface.OnClickListener() {
             @Override
@@ -228,7 +226,8 @@ class VaccineAdapter extends BaseAdapter {
     private void updateDose(Vaccine vaccine, Dose dose, Long doseDate) {
         dose.setDateCompleted(doseDate);
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        db.child("patientRecords").child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
+        String recordTableName = mContext.getString(R.string.recordTable);
+        db.child(recordTableName).child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
     }
 
     private static class ViewHolder {

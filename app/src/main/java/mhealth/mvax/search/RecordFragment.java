@@ -93,7 +93,7 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-//        getActivity().setTitle(getResources().getString(R.string.record_details));
+
         mRecordDatabaseId = getArguments().getString("recordId");
         initDatabase(mRecordDatabaseId);
     }
@@ -103,7 +103,8 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
         super.onDestroyView();
         // remove listener so it doesn't fire after the fragment is destroyed
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        db.child("patientRecords")
+        String recordTableName = getResources().getString(R.string.recordTable);
+        db.child(recordTableName)
                 .orderByChild("databaseId")
                 .equalTo(mRecordDatabaseId)
                 .removeEventListener(mDbListener);
@@ -173,7 +174,8 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
             }
         };
 
-        db.child("patientRecords").orderByChild("databaseId").equalTo(databaseId).addChildEventListener(mDbListener);
+        String recordTableName = getResources().getString(R.string.recordTable);
+        db.child(recordTableName).orderByChild("databaseId").equalTo(databaseId).addChildEventListener(mDbListener);
         return true;
     }
 

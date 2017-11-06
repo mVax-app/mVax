@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.Detail;
 
 /**
  * @author Robert Steilberg
@@ -19,7 +20,7 @@ public class ExistingRecordDetailsAdapter extends RecordDetailsAdapter {
 
     private LayoutInflater mInflater;
 
-    ExistingRecordDetailsAdapter(Context context, LinkedHashMap<String, ArrayList<Pair<String, String>>> sectionedData) {
+    ExistingRecordDetailsAdapter(Context context, LinkedHashMap<String, ArrayList<Detail>> sectionedData) {
         super(context, sectionedData);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -38,7 +39,7 @@ public class ExistingRecordDetailsAdapter extends RecordDetailsAdapter {
                 case TYPE_FIELD:
                     rowView = mInflater.inflate(R.layout.list_item_record_detail, null);
                     holder.fieldView = rowView.findViewById(R.id.textview_field);
-                    holder.valueView = rowView.findViewById(R.id.edittext_value);
+                    holder.valueView = rowView.findViewById(R.id.textview_value);
                     break;
             }
             assert rowView != null;
@@ -50,8 +51,9 @@ public class ExistingRecordDetailsAdapter extends RecordDetailsAdapter {
         if (rowType == TYPE_SECTION) {
             holder.fieldView.setText(mHeaders.get(position));
         } else if (rowType == TYPE_FIELD) {
-            holder.fieldView.setText(mDataSource.get(position).first);
-            holder.valueView.setText(mDataSource.get(position).second);
+            Detail f = mDataSource.get(position);
+            holder.fieldView.setText(mDataSource.get(position).getLabel());
+            holder.valueView.setText(mDataSource.get(position).getStringValue());
             holder.valueView.setFocusable(false);
         }
 

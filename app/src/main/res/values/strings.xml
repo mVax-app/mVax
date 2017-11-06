@@ -79,8 +79,6 @@
     <!-- Record detail activity -->
     <string name="vaccine_title">Vaccine History</string>
     <string name="DOB_prompt">DOB:</string>
-    <string name="gender_prompt">Gender:</string>
-    <string name="community_prompt">Community:</string>
     <string name="modal_new_dosage_title">Add Dosage:</string>
     <string name="modal_new_dosage_confirm">Confirm</string>
     <string name="modal_new_dosage_cancel">Cancel</string>
@@ -93,9 +91,32 @@
     <string name="successful_record_update">Saved</string>
     <string name="unsuccessful_record_update">Save Failed</string>
 
+    <string name="modal_title_choose_sex">Choose Sex</string>
+
+    <string name="modal_positive_choose_sex">OK</string>
+    <string name="modal_negative_choose_sex">Cancel</string>
+
+    <string name="label_id">ID</string>
+    <string name="hint_id">13-digit id number</string>
+
+    <string name="label_firstname">First name</string>
+    <string name="hint_firstname">first</string>
+
+    <string name="label_middlename">Middle name</string>
+    <string name="hint_middlename">middle</string>
+
+    <string name="label_dob">Date of Birth</string>
+    <string name="hint_dob">date of birth</string>
+
+    <string name="label_sex">Sex</string>
+    <string name="hint_sex">sex</string>
+
+
+
+
 
     <!-- Search -->
-    <string name="hint_search">Search...</string>
+    <string name="hint_search">Search…</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="community">Community</string>
@@ -110,6 +131,16 @@
     <string name="male_enum">Male</string>
     <string name="female_enum">Female</string>
     <string name="empty_string" />
+    <string name="modal_neutral_choose_sex">No Sex</string>
+    <string name="modal_title_choose_date">Choose Date</string>
+    <string name="modal_positive_choose_date">Ok</string>
+    <string name="modal_negative_choose_date">Cancel</string>
+    <string name="modal_neutral_choose_date">No Date</string>
+    <string name="label_numDependents">Dependents</string>
+    <string name="hint_numDependents">total dependents</string>
+    <string name="patient_detail_section_title">Patient Information</string>
+    <string name="guardian_detail_section_title">Guardian Details</string>
+    <string name="edit_record_button">Edit Record</string>
 
     <!-- FORMS FILE PATHS -->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>

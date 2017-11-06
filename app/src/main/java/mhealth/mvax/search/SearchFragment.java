@@ -76,8 +76,8 @@ public class SearchFragment extends Fragment {
 
         // uncomment the below lines to populate database with dummy data
         // NOTE: recommend you clear out the database beforehand
-//        new DummyDataGenerator().generateDummyPatientRecords();
-//        new DummyDataGenerator().generateDummyVaccineMaster();
+//        new DummyDataGenerator().generateDummyPatientRecords(getResources().getString(R.string.recordTable));
+//        new DummyDataGenerator().generateDummyVaccineMaster(getResources().getString(R.string.vaccineTable));
 
         initDatabase(); // run this before touching mPatientRecords!
 
@@ -114,7 +114,8 @@ public class SearchFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // TODO put database query strings in a values.xml file
-        mDatabase.child("patientRecords").addChildEventListener(new ChildEventListener() {
+        String recordTableName = getResources().getString(R.string.recordTable);
+        mDatabase.child(recordTableName).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 Record record = dataSnapshot.getValue(Record.class);
@@ -144,95 +145,30 @@ public class SearchFragment extends Fragment {
         newRecordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createNewRecord(view, inflater);
+                createNewRecord();
             }
         });
     }
 
-    private void createNewRecord(View view, LayoutInflater inflater) {
+    private void createNewRecord() {
 
+//        String recordTableName = getResources().getString(R.string.recordTable);
+//        mDatabase = FirebaseDatabase
+//                .getInstance()
+//                .getReference()
+//                .child(recordTableName)
+//                .push();
 
         NewRecordFragment newRecordFrag = NewRecordFragment.newInstance();
-
 //        Bundle args = new Bundle();
-//        args.putString("recordId", recordId);
-//        recordFrag.setArguments(args);
+//        args.putString("recordId", mDatabase.getKey());
+//        newRecordFrag.setArguments(args);
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 //        transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
         transaction.replace(getId(), this).addToBackStack(null); // so that back button works
         transaction.replace(R.id.frame_layout, newRecordFrag);
         transaction.commit();
-
-
-//        // create modal
-//        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-//        builder.setTitle(getResources().getString(R.string.modal_new_record_title));
-//
-//        View dialogView = inflater.inflate(R.layout.modal_new_record, null);
-//        builder.setView(inflater.inflate(R.layout.modal_new_record, null));
-//
-//        final EditText firstNameEditText = dialogView.findViewById(R.id.new_first_name);
-//        final EditText lastNameEditText = dialogView.findViewById(R.id.new_last_name);
-//        final EditText communityEditText = dialogView.findViewById(R.id.new_community);
-//
-//        final Spinner spinner = dialogView.findViewById(R.id.gender_spinner);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(),
-//                R.array.gender_spinner_array, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(adapter);
-//
-//        final Sex[] gender = new Sex[1];
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-//                if (pos != 0) {
-//                    switch (spinner.getItemAtPosition(pos).toString()) {
-//                        case "Male":
-//                            gender[0] = Sex.MALE;
-//                            break;
-//                        case "Female":
-//                            gender[0] = Sex.FEMALE;
-//                            break;
-//                    }
-//                }
-//            }
-//        });
-//
-//        final DatePicker DOBpicker = dialogView.findViewById(R.id.dob_date_picker);
-//
-//        builder.setPositiveButton(getResources().getString(R.string.modal_new_record_add), new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                String firstName = firstNameEditText.getText().toString();
-//                String lastName = lastNameEditText.getText().toString();
-//                String community = communityEditText.getText().toString();
-//
-//                Calendar cal = Calendar.getInstance();
-//                cal.set(Calendar.DAY_OF_MONTH, DOBpicker.getDayOfMonth());
-//                cal.set(Calendar.MONTH, DOBpicker.getMonth());
-//                cal.set(Calendar.YEAR, DOBpicker.getYear());
-//
-//                DatabaseReference patientRecords = mDatabase.child("patientRecords").push();
-//
-////                Record newRecord = new Record(patientRecords.getKey(), firstName, lastName, gender[0], cal.getTimeInMillis(), community);
-//                // push the update to the database, which will trigger update listeners,
-//                // updating the view
-////                patientRecords.setValue(newRecord);
-//            }
-//        });
-//        builder.setNegativeButton(getResources().getString(R.string.modal_new_record_cancel), new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-//
-//        builder.show();
     }
 
     private void renderFilterSpinner(View view) {
