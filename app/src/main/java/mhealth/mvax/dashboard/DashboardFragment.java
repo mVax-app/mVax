@@ -64,6 +64,9 @@ public class DashboardFragment extends Fragment {
 
         renderListView(view);
 
+        //TODO remove test
+        buildSINOVA();
+
         return view;
     }
 
@@ -129,7 +132,8 @@ public class DashboardFragment extends Fragment {
 
     public void buildSINOVA(){
         SINOVABuilder sinovaBuilder = new SINOVABuilder(getActivity());
-        sinovaBuilder.autoFill(0,"", 0);
+        //TODO not hard code test but allow for input
+        sinovaBuilder.autoFill(6,"November", 2017);
 
     }
 
