@@ -111,8 +111,14 @@
     <string name="female_enum">Female</string>
     <string name="empty_string" />
 
+    <!-- FORMS FILE PATHS -->
+    <string name="sinova_1_file_name">SINOVA1.pdf</string>
+    <string name="sinova_2_file_name">SINOVA2.pdf</string>
+    <string name="destination_file_extension">.pdf</string>
+    <string name="destination_subfolder_sinova_1">/sinova1_</string>
+    <string name="destination_subfolder_sinova_2">/sinova2_</string>
 
-    <!-- SINOVA (1) FORM PDF FIELDS -->
+    <!-- SINOVA GENERAL FORM PDF FIELDS -->
     <string name="establishment">ESTABLECIMIENTO</string>
     <string name="name_of_responsible_person">NOMBRE DEL RESPONSABLE</string>
     <string name="department">DEPARTAMENTO</string>
@@ -122,6 +128,8 @@
     <string name="date_month">MES</string>
     <string name="date_year">AÑO</string>
     <string name="location_place">LOCALIDAD</string>
+
+    <!-- SINOVA (1) SPECIFIC FORM FIELDS -->
     <!-- fields in the rows -->
     <string name="temporary_number_mothers_id">NUMERO PROVISIONAL Row</string>
     <string name="number_of_children">NO DE HIJO Row</string>
@@ -177,5 +185,27 @@
     <string name="VITA_611M_1A">VITA_611M_1ARow</string>
     <string name="VITA_14A_1A">VITA_14A_1ARow</string>
     <string name="VITA_14A_2A">VITA_14A_2ARow</string>
+
+    <!-- SINOVA 2 SPECIFIC FORM PDF FIELDS -->
+    <string name="sinova2_complete_name">NOMBRE_COMPLETO_Row</string>
+    <string name="sinova2_origin">PROCEDENCIA_Row</string>
+    <string name="HEPB_GER_1A">HEPB_GER_1A_Row</string>
+    <string name="HEPB_GER_2A">HEPB_GER_2A_Row</string>
+    <string name="HEPB_GER_3A">HEPB_GER_3A_Row</string>
+    <string name="FA_1A_DU">FA_1A_DU_Row</string>
+    <string name="SR_5A_DA">SR_5A_DA_Row</string>
+    <string name="TD_11A_R">TD_11A_R_Row</string>
+    <string name="TD_EM_1A">TD_EM_1A_Row</string>
+    <string name="TD_EM_2A">TD_EM_2A_Row</string>
+    <string name="TD_EM_3A">TD_EM_3A_Row</string>
+    <string name="TD_EM_4A">TD_EM_4A_Row</string>
+    <string name="TD_EM_5A">TD_EM_5A_Row</string>
+    <string name="OG_1A">OG_1A_Row</string>
+    <string name="OG_2A">OG_2A_Row</string>
+    <string name="OG_3A">OG_3A_Row</string>
+    <string name="OG_R">OG_R_Row</string>
+    <string name="VPH_11A_1A">VPH_11A_1A_Row</string>
+    <string name="VPH_11A_2A">VPH_11A_2A_Row</string>
+    <string name="VITA_PU_DU">VITA_PU_DU_Row</string>
         
 </resources>

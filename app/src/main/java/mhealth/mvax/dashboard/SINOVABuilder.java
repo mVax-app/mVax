@@ -34,10 +34,11 @@ public class SINOVABuilder {
         try {
             //Retrieval of the template
             AssetManager assetManager = context.getAssets();
-            PdfReader reader = new PdfReader(assetManager.open("SINOVA.pdf"));
+            PdfReader reader = new PdfReader(assetManager.open(context.getResources().getString(R.string.sinova_1_file_name)));
 
             //Indicating where output pdf should go
-            String outPath = context.getFilesDir().toString() + "/sinova" + day + month + year + ".pdf";
+            String outPath = context.getFilesDir().toString() + context.getResources().getString(R.string.destination_subfolder_sinova_1)
+                    + day + month + year + context.getResources().getString(R.string.destination_file_extension);
             PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(outPath, true));
 
             //Filling in of available information
