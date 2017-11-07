@@ -430,7 +430,9 @@ public class Record implements Serializable {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
-                mVaccines.add(vaccine);
+                if (mVaccines.size() < 6) {
+                    mVaccines.add(vaccine);
+                }
             }
 
             @Override
