@@ -1,4 +1,4 @@
-package mhealth.mvax.search;
+package mhealth.mvax.records.search;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -27,6 +27,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mhealth.mvax.model.Record;
+import mhealth.mvax.records.details.record.modify.create.CreateRecordFragment;
+import mhealth.mvax.records.details.DetailFragment;
+import mhealth.mvax.records.utilities.DummyDataGenerator;
 
 /**
  * @author Robert Steilberg, Alison Huang
@@ -48,7 +51,7 @@ public class SearchFragment extends Fragment {
 
     private SearchResultAdapter mSearchResultAdapter;
 
-    private RecordFilter mRecordFilter;
+    private Filter mFilter;
 
 
     //================================================================================
@@ -152,21 +155,9 @@ public class SearchFragment extends Fragment {
 
     private void createNewRecord() {
 
-//        String recordTableName = getResources().getString(R.string.recordTable);
-//        mDatabase = FirebaseDatabase
-//                .getInstance()
-//                .getReference()
-//                .child(recordTableName)
-//                .push();
-
-        NewRecordFragment newRecordFrag = NewRecordFragment.newInstance();
-//        Bundle args = new Bundle();
-//        args.putString("recordId", mDatabase.getKey());
-//        newRecordFrag.setArguments(args);
+        CreateRecordFragment newRecordFrag = CreateRecordFragment.newInstance();
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//        transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
-//        transaction.replace(getId(), this).addToBackStack(null); // so that back button works
         transaction.replace(R.id.frame_layout, newRecordFrag);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -182,7 +173,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 if (pos != 0) {
-                    mRecordFilter.setFilter(spinner.getItemAtPosition(pos).toString());
+                    mFilter.setFilter(spinner.getItemAtPosition(pos).toString());
                 }
             }
             @Override
@@ -194,8 +185,8 @@ public class SearchFragment extends Fragment {
 
     private void initRecordFilters(View view) {
         EditText searchBar = view.findViewById(R.id.search_bar);
-        mRecordFilter = new RecordFilter(mPatientRecords, mSearchResultAdapter, searchBar);
-        mRecordFilter.addFilters();
+        mFilter = new Filter(mPatientRecords, mSearchResultAdapter, searchBar);
+        mFilter.addFilters();
     }
 
     private void renderListView(View view) {
@@ -208,7 +199,7 @@ public class SearchFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String recordId = mSearchResultAdapter.getPatientIdFromDataSource(position);
 
-                RecordFragment recordFrag = RecordFragment.newInstance();
+                DetailFragment recordFrag = DetailFragment.newInstance();
 
                 Bundle args = new Bundle();
                 args.putString("recordId", recordId);
@@ -216,8 +207,8 @@ public class SearchFragment extends Fragment {
 
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
-                transaction.replace(getId(), searchFragment).addToBackStack(null); // so that back button works
-                transaction.replace(R.id.frame_layout, recordFrag);
+//                transaction.replace(getId(), searchFragment).addToBackStack(null); // so that back button works
+                transaction.replace(R.id.frame_layout, recordFrag).addToBackStack(null);
                 transaction.commit();
             }
         });

@@ -1,4 +1,4 @@
-package mhealth.mvax.search;
+package mhealth.mvax.records.details.vaccine;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -24,6 +24,8 @@ import mhealth.mvax.R;
 import mhealth.mvax.model.Record;
 import mhealth.mvax.model.Dose;
 import mhealth.mvax.model.Vaccine;
+import mhealth.mvax.model.RecordDateFormat;
+import mhealth.mvax.records.views.DoseDateView;
 
 /**
  * @author Robert Steilberg

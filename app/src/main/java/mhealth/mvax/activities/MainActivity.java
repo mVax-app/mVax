@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import mhealth.mvax.R;
 import mhealth.mvax.alerts.AlertsFragment;
 import mhealth.mvax.dashboard.DashboardFragment;
-import mhealth.mvax.search.SearchFragment;
+import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.settings.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {

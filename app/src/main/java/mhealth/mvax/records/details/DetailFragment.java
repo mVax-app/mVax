@@ -1,4 +1,4 @@
-package mhealth.mvax.search;
+package mhealth.mvax.records.details;
 
 
 import android.os.Bundle;
@@ -19,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.Record;
+import mhealth.mvax.records.details.record.view.RecordDetailsTab;
+import mhealth.mvax.records.details.vaccine.VaccineHistoryTab;
 
 import android.widget.Toast;
 
@@ -28,7 +30,7 @@ import android.widget.Toast;
  *         A Fragment for managing mVax record details via a dual tab layout
  */
 
-public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedListener {
+public class DetailFragment extends Fragment implements TabLayout.OnTabSelectedListener {
 
     //================================================================================
     // Properties
@@ -44,13 +46,14 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
 
     private ChildEventListener mDbListener;
 
+    private View mView;
 
     //================================================================================
     // Static methods
     //================================================================================
 
-    public static RecordFragment newInstance() {
-        return new RecordFragment();
+    public static DetailFragment newInstance() {
+        return new DetailFragment();
     }
 
 
@@ -62,32 +65,15 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        mPager = new DualTabPager(getChildFragmentManager());
+
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_record_detail, container, false);
-
-        // init dual tab layout
-        TabLayout tabLayout = view.findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.tab_title_record_details)));
-        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.tab_title_vaccine_history)));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-        mRecordDetailsTab = RecordDetailsTab.newInstance();
-        mVaccineHistoryTab = VaccineHistoryTab.newInstance();
-
-        // init pager to manage tabs
-        DualTabPager customPager = new DualTabPager(getActivity().getSupportFragmentManager(), mRecordDetailsTab, mVaccineHistoryTab);
-        mViewPager = view.findViewById(R.id.pager);
-        mViewPager.setAdapter(customPager);
-
-        // enable swipe views
-        tabLayout.addOnTabSelectedListener(this);
-        // change selected tab when swiped
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        return view;
+        mView = inflater.inflate(R.layout.fragment_record_detail, container, false);
+        return mView;
     }
 
     @Override
@@ -121,11 +107,12 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
     }
 
     @Override
-    public void onTabUnselected(TabLayout.Tab tab) {}
+    public void onTabUnselected(TabLayout.Tab tab) {
+    }
 
     @Override
-    public void onTabReselected(TabLayout.Tab tab) {}
-
+    public void onTabReselected(TabLayout.Tab tab) {
+    }
 
 
     //================================================================================
@@ -143,19 +130,45 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
         // TODO authentication validation, throw back false if failed
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
 
+        // init dual tab layout
+        TabLayout tabLayout = mView.findViewById(R.id.tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.tab_title_record_details)));
+        tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.tab_title_vaccine_history)));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        // enable swipe views
+        tabLayout.addOnTabSelectedListener(this);
+
+
+        mViewPager = mView.findViewById(R.id.pager);
+
+        // change selected tab when swiped
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+
         mDbListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Record record = dataSnapshot.getValue(Record.class);
-                mRecordDetailsTab.renderRecordDetails(record);
-                mVaccineHistoryTab.renderVaccineHistory(record);
+
+                mRecordDetailsTab = RecordDetailsTab.newInstance();
+                mVaccineHistoryTab = VaccineHistoryTab.newInstance();
+
+                Bundle args = new Bundle();
+                args.putSerializable("record", record);
+                mRecordDetailsTab.setArguments(args);
+                mVaccineHistoryTab.setArguments(args);
+
+                // init pager to manage tabs
+                DualTabPager pager = new DualTabPager(getChildFragmentManager(), mRecordDetailsTab, mVaccineHistoryTab);
+                mViewPager.setAdapter(pager);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Record record = dataSnapshot.getValue(Record.class);
-                mRecordDetailsTab.updateRecordDetails(record);
-                mVaccineHistoryTab.renderVaccineHistory(record);
+                // TODO fix
+//                mRecordDetailsTab.updateRecordDetails(record);
+//                mVaccineHistoryTab.renderVaccineHistory(record);
 
                 Toast.makeText(getActivity(), R.string.successful_record_update, Toast.LENGTH_SHORT).show();
             }
@@ -166,7 +179,8 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
             }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {

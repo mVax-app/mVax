@@ -1,14 +1,10 @@
-package mhealth.mvax.search;
-
-import android.content.res.Resources;
+package mhealth.mvax.records.utilities;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-import mhealth.mvax.R;
-import mhealth.mvax.activities.MainActivity;
 import mhealth.mvax.model.Sex;
 import mhealth.mvax.model.Record;
 import mhealth.mvax.model.Dose;
@@ -20,15 +16,15 @@ import mhealth.mvax.model.Vaccine;
  * Generator class for populating the database with dummy data
  */
 
-class DummyDataGenerator {
+public class DummyDataGenerator {
 
     private DatabaseReference mDatabase;
 
-    DummyDataGenerator() {
+    public DummyDataGenerator() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
-    void generateDummyPatientRecords(String recordTableName) {
+    public void generateDummyPatientRecords(String recordTableName) {
 
         DatabaseReference patientRecords = mDatabase.child(recordTableName).push();
         Record rob = new Record(patientRecords.getKey());
@@ -78,7 +74,7 @@ class DummyDataGenerator {
         
     }
 
-    void generateDummyVaccineMaster(String vaccineTable) {
+    public void generateDummyVaccineMaster(String vaccineTable) {
         ArrayList<Vaccine> vaccines = new ArrayList<>();
 
         Vaccine hepatitis = new Vaccine("Hepatitis B");

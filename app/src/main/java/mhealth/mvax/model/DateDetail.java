@@ -11,7 +11,6 @@ import android.widget.EditText;
 import org.joda.time.LocalDate;
 
 import mhealth.mvax.R;
-import mhealth.mvax.search.RecordDateFormat;
 
 /**
  * @author Robert Steilberg

@@ -11,14 +11,10 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import mhealth.mvax.R;
-import mhealth.mvax.search.RecordDateFormat;
-import mhealth.mvax.search.Tuple;
 
 /**
  * @author Robert Steilberg
@@ -403,12 +399,49 @@ public class Record implements Serializable {
         });
         childAttributes.add(firstName);
 
-
         // patient middle name
-        // patient last name
-        // patient suffix
-        // patient sex
+        final StringDetail middleName = new StringDetail(
+                context.getResources().getString(R.string.label_middlename),
+                context.getResources().getString(R.string.hint_middlename),
+                this.mMiddleName,
+                context);
+        middleName.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setMiddleName(middleName.getValue());
+            }
+        });
+        childAttributes.add(middleName);
 
+        // patient last name
+        final StringDetail lastName = new StringDetail(
+                context.getResources().getString(R.string.label_lastname),
+                context.getResources().getString(R.string.hint_lastname),
+                this.mLastName,
+                context);
+        lastName.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setLastName(lastName.getValue());
+            }
+        });
+        childAttributes.add(lastName);
+
+        // patient suffix
+        final StringDetail suffix = new StringDetail(
+                context.getResources().getString(R.string.label_suffix),
+                context.getResources().getString(R.string.hint_suffix),
+                this.mSuffix,
+                context);
+        suffix.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setSuffix(suffix.getValue());
+            }
+        });
+        childAttributes.add(suffix);
+
+        // patient sex
         final SexDetail sex = new SexDetail(
                 context.getResources().getString(R.string.label_sex),
                 context.getResources().getString(R.string.hint_sex),
@@ -437,7 +470,32 @@ public class Record implements Serializable {
         childAttributes.add(DOB);
 
         // patient place of birth
+        final StringDetail POB = new StringDetail(
+                context.getResources().getString(R.string.label_pob),
+                context.getResources().getString(R.string.hint_pob),
+                this.mPlaceOfBirth,
+                context);
+        POB.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setPlaceOfBirth(POB.getValue());
+            }
+        });
+        childAttributes.add(POB);
+
         // patient community
+        final StringDetail community = new StringDetail(
+                context.getResources().getString(R.string.label_community),
+                context.getResources().getString(R.string.hint_community),
+                this.mCommunity,
+                context);
+        community.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setCommunity(community.getValue());
+            }
+        });
+        childAttributes.add(community);
 
 
         // GUARDIAN SECTION =================================================================
@@ -445,13 +503,90 @@ public class Record implements Serializable {
         ArrayList<Detail> parentAttributes = new ArrayList<>();
 
         // guardian ID
-        // guardian first name
-        // guardian middle name
-        // guardian last name
-        // guardian suffix
-        // guardian sex
-        // guardian number dependents
+        final StringNumberDetail guardianId = new StringNumberDetail(
+                context.getResources().getString(R.string.label_guardian_id),
+                context.getResources().getString(R.string.hint_id),
+                this.mParentId,
+                context);
+        guardianId.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentId(guardianId.getValue());
+            }
+        });
+        parentAttributes.add(guardianId);
 
+        // guardian first name
+        final StringDetail guardianFirst = new StringDetail(
+                context.getResources().getString(R.string.label_guardian_firstname),
+                context.getResources().getString(R.string.hint_firstname),
+                this.mParentFirstName,
+                context);
+        guardianFirst.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentFirstName(guardianFirst.getValue());
+            }
+        });
+        parentAttributes.add(guardianFirst);
+
+        // guardian middle name
+        final StringDetail guardianMiddle = new StringDetail(
+                context.getResources().getString(R.string.label_guardian_middlname),
+                context.getResources().getString(R.string.hint_middlename),
+                this.mParentMiddleName,
+                context);
+        guardianMiddle.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentMiddleName(guardianMiddle.getValue());
+            }
+        });
+        parentAttributes.add(guardianMiddle);
+
+        // guardian last name
+        final StringDetail guardianLast = new StringDetail(
+                context.getResources().getString(R.string.label_guardian_lastname),
+                context.getResources().getString(R.string.hint_lastname),
+                this.mParentLastName,
+                context);
+        guardianLast.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentLastName(guardianLast.getValue());
+            }
+        });
+        parentAttributes.add(guardianLast);
+
+        // guardian suffix
+        final StringDetail guardianSuffix = new StringDetail(
+                context.getResources().getString(R.string.label_guardian_suffix),
+                context.getResources().getString(R.string.hint_suffix),
+                this.mParentSuffix,
+                context);
+        guardianSuffix.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentSuffix(guardianSuffix.getValue());
+            }
+        });
+        parentAttributes.add(guardianSuffix);
+
+        // guardian sex
+        final SexDetail guardianSex = new SexDetail(
+                context.getResources().getString(R.string.label_guardian_sex),
+                context.getResources().getString(R.string.hint_sex),
+                this.mParentSex,
+                context);
+        guardianSex.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentSex(guardianSex.getValue());
+            }
+        });
+        parentAttributes.add(guardianSex);
+
+        // guardian number dependents
         final StringNumberDetail numDependents = new StringNumberDetail(
                 context.getResources().getString(R.string.label_numDependents),
                 context.getResources().getString(R.string.hint_numDependents),
@@ -466,7 +601,32 @@ public class Record implements Serializable {
         parentAttributes.add(numDependents);
 
         // guardian address
+        final StringDetail guardianAddress = new StringDetail(
+                context.getResources().getString(R.string.label_guardian_address),
+                context.getResources().getString(R.string.hint_guardian_address),
+                this.mParentAddress,
+                context);
+        guardianAddress.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentAddress(guardianAddress.getValue());
+            }
+        });
+        parentAttributes.add(guardianAddress);
+
         // guardian phone number
+        final StringNumberDetail phoneNumber = new StringNumberDetail(
+                context.getResources().getString(R.string.label_phone_number),
+                context.getResources().getString(R.string.hint_phone_number),
+                this.mParentPhone,
+                context);
+        phoneNumber.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentPhone(phoneNumber.getValue());
+            }
+        });
+        parentAttributes.add(phoneNumber);
 
         LinkedHashMap<String, ArrayList<Detail>> sectionedAttributes = new LinkedHashMap<>();
         sectionedAttributes.put(context.getString(R.string.patient_detail_section_title), childAttributes);

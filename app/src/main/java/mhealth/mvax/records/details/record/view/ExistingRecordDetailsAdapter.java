@@ -1,7 +1,6 @@
-package mhealth.mvax.search;
+package mhealth.mvax.records.details.record.view;
 
 import android.content.Context;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import java.util.LinkedHashMap;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.Detail;
+import mhealth.mvax.records.details.record.RecordDetailsAdapter;
 
 /**
  * @author Robert Steilberg
@@ -51,7 +51,6 @@ public class ExistingRecordDetailsAdapter extends RecordDetailsAdapter {
         if (rowType == TYPE_SECTION) {
             holder.fieldView.setText(mHeaders.get(position));
         } else if (rowType == TYPE_FIELD) {
-            Detail f = mDataSource.get(position);
             holder.fieldView.setText(mDataSource.get(position).getLabel());
             holder.valueView.setText(mDataSource.get(position).getStringValue());
             holder.valueView.setFocusable(false);

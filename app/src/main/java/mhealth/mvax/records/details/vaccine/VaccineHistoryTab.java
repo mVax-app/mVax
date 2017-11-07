@@ -1,4 +1,4 @@
-package mhealth.mvax.search;
+package mhealth.mvax.records.details.vaccine;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -44,6 +44,7 @@ public class VaccineHistoryTab extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_vaccine_history, container, false);
+        renderVaccineHistory((Record) getArguments().getSerializable("record"));
         return mView;
     }
 

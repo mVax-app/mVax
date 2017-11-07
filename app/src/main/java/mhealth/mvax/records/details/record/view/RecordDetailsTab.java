@@ -1,4 +1,4 @@
-package mhealth.mvax.search;
+package mhealth.mvax.records.details.record.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.Record;
+import mhealth.mvax.records.details.record.RecordDetailsAdapter;
+import mhealth.mvax.records.details.record.modify.edit.EditRecordFragment;
 
 /**
  * @author Robert Steilberg
@@ -52,6 +54,7 @@ public class RecordDetailsTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_record_details, container, false);
         mInflater = inflater;
+        renderRecordDetails((Record) getArguments().getSerializable("record"));
         return mView;
     }
 
@@ -103,7 +106,7 @@ public class RecordDetailsTab extends Fragment {
             @Override
             public void onClick(View view) {
 
-                NewRecordFragment editRecordFrag = NewRecordFragment.newInstance();
+                EditRecordFragment editRecordFrag = EditRecordFragment.newInstance();
 
                 Bundle args = new Bundle();
                 args.putSerializable("record", mRecord);

@@ -1,4 +1,4 @@
-package mhealth.mvax.search;
+package mhealth.mvax.records.views;
 
 import android.content.Context;
 

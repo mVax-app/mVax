@@ -1,38 +1,29 @@
-package mhealth.mvax.search;
+package mhealth.mvax.records.details.record.modify;
 
-import android.app.ActionBar;
 import android.content.Context;
-import android.graphics.Color;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.Detail;
+import mhealth.mvax.records.details.record.RecordDetailsAdapter;
 
 /**
  * @author Robert Steilberg
  */
 
-public class NewRecordDetailsAdapter extends RecordDetailsAdapter {
+public class ModifiableRecordDetailsAdapter extends RecordDetailsAdapter {
 
     private LayoutInflater mInflater;
 
     private Context mContext;
 
-    NewRecordDetailsAdapter(Context context, LinkedHashMap<String, ArrayList<Detail>> sectionedData) {
+    public ModifiableRecordDetailsAdapter(Context context, LinkedHashMap<String, ArrayList<Detail>> sectionedData) {
         super(context, sectionedData);
         mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

@@ -117,9 +117,6 @@
 
     <!-- Search -->
     <string name="hint_search">Search…</string>
-    <string name="first_name">First name</string>
-    <string name="last_name">Last name</string>
-    <string name="community">Community</string>
     <string name="add_new_record">Add New Record</string>
     <string name="new_record_title">New Record</string>
 
@@ -141,6 +138,25 @@
     <string name="patient_detail_section_title">Patient Information</string>
     <string name="guardian_detail_section_title">Guardian Details</string>
     <string name="edit_record_button">Edit Record</string>
+    <string name="edit_record_title">Edit Record</string>
+    <string name="label_lastname">Last Name</string>
+    <string name="hint_lastname">last</string>
+    <string name="label_suffix">Suffix</string>
+    <string name="hint_suffix">suffix</string>
+    <string name="label_pob">Place of Birth</string>
+    <string name="hint_pob">place of birth</string>
+    <string name="label_community">Community</string>
+    <string name="hint_community">community</string>
+    <string name="label_guardian_id">Guardian ID</string>
+    <string name="label_guardian_firstname">Guardian First Name</string>
+    <string name="label_guardian_middlname">Guardian Middle Name</string>
+    <string name="label_guardian_lastname">Guardian Last Name</string>
+    <string name="label_guardian_suffix">Guardian Suffix</string>
+    <string name="label_guardian_sex">Guardian Sex</string>
+    <string name="label_guardian_address">Address</string>
+    <string name="hint_guardian_address">address</string>
+    <string name="label_phone_number">Phone Number</string>
+    <string name="hint_phone_number">phone</string>
 
     <!-- FORMS FILE PATHS -->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>
