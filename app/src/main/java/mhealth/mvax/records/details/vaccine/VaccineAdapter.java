@@ -170,6 +170,74 @@ class VaccineAdapter extends BaseAdapter {
             // add the total dose view to the vaccine view
             layout.addView(doseLinearLayout);
         }
+
+
+
+
+        ///////////////DUE DATE/////////////////
+
+
+        // create LinearLayout to hold the label and date for the next Due Date
+        LinearLayout dueDateLinearLayout = new LinearLayout(rowView.getContext());
+        dueDateLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        dueDateLinearLayout.setPadding(0, 15, 0, 15);
+
+        // create dose label
+        TextView label = new TextView(rowView.getContext());
+        label.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        ));
+        //add a string variable for Due Date
+        label.setText("Due Date");
+        label.setTextSize(22);
+        label.setGravity(Gravity.CENTER);
+        label.setPadding(0, 0, 15, 0);
+
+
+        // add dose label and date to the view
+        dueDateLinearLayout.addView(label);
+
+        layout.addView(dueDateLinearLayout);
+
+
+
+
+//        // create dose date
+//        DoseDateView dateView = new DoseDateView(rowView.getContext(), vaccine, dose);
+//        dateView.setLayoutParams(new LinearLayout.LayoutParams(
+//                250,
+//                LinearLayout.LayoutParams.MATCH_PARENT
+//        ));
+//        dateView.setPadding(5, 5, 5, 5);
+//        dateView.setGravity(Gravity.CENTER);
+//        dateView.setTextSize(22);
+////            SimpleDateFormat sdf = new SimpleDateFormat(mContext.getResources().getString(R.string.date_format), Locale.getDefault());
+//
+//        RecordDateFormat dateFormat = new RecordDateFormat(mContext.getResources().getString(R.string.date_format));
+//
+////            if (dose.hasBeenCompleted()) {
+//        dateView.setText(dateFormat.getString(dose.getDateCompleted()));
+////            }
+//        GradientDrawable gd = new GradientDrawable();
+//        gd.setColor(Color.LTGRAY);
+//        dateView.setBackground(gd);
+//        dateView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View dateView) {
+//                createNewDose(dateView);
+//            }
+//        });
+
+
+
+
+
+
+
     }
 
 
