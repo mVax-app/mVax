@@ -166,8 +166,9 @@ public class SearchFragment extends Fragment {
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 //        transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
-        transaction.replace(getId(), this).addToBackStack(null); // so that back button works
+//        transaction.replace(getId(), this).addToBackStack(null); // so that back button works
         transaction.replace(R.id.frame_layout, newRecordFrag);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 

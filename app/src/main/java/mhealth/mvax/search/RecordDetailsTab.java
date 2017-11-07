@@ -98,6 +98,7 @@ public class RecordDetailsTab extends Fragment {
 
     private void addEditButton(ListView vaccineListView) {
         Button deleteButton = (Button) mInflater.inflate(R.layout.button_edit_record, null);
+
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,6 +111,7 @@ public class RecordDetailsTab extends Fragment {
 
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.frame_layout, editRecordFrag);
+                transaction.addToBackStack(null);
                 transaction.commit();
             }
         });

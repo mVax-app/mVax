@@ -61,25 +61,25 @@ public class NewRecordFragment extends Fragment {
         mInflater = inflater;
 
         // FOR NEW RECORD
-//        String recordTableName = getResources().getString(R.string.recordTable);
-//        mDatabase = FirebaseDatabase
-//                .getInstance()
-//                .getReference()
-//                .child(recordTableName)
-//                .push();
-//        mNewRecord = new Record(mDatabase.getKey());
-//        renderListView(view);
-
-        // FOR EXISTING RECORD
-
-        mNewRecord = (Record) getArguments().get("record");
         String recordTableName = getResources().getString(R.string.recordTable);
         mDatabase = FirebaseDatabase
                 .getInstance()
                 .getReference()
                 .child(recordTableName)
-                .child(mNewRecord.getDatabaseId());
+                .push();
+        mNewRecord = new Record(mDatabase.getKey());
         renderListView(view);
+
+        // FOR EXISTING RECORD
+
+//        mNewRecord = (Record) getArguments().get("record");
+//        String recordTableName = getResources().getString(R.string.recordTable);
+//        mDatabase = FirebaseDatabase
+//                .getInstance()
+//                .getReference()
+//                .child(recordTableName)
+//                .child(mNewRecord.getDatabaseId());
+//        renderListView(view);
 
         return view;
     }
