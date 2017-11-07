@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="recordTable">robRecords</string>
+    <string name="recordTable">patientRecords</string>
     <string name="vaccineTable">vaccineMaster</string>
 </resources>

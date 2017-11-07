@@ -21,7 +21,6 @@ import java.util.Locale;
 import mhealth.mvax.R;
 import mhealth.mvax.model.Record;
 import mhealth.mvax.model.Vaccine;
-import mhealth.mvax.search.SearchResultAdapter;
 
 /**
  * Created by AlisonHuang on 11/1/17.
