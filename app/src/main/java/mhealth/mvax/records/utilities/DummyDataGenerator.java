@@ -1,4 +1,4 @@
-package mhealth.mvax.search;
+package mhealth.mvax.records.utilities;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -16,17 +16,17 @@ import mhealth.mvax.model.Vaccine;
  * Generator class for populating the database with dummy data
  */
 
-class DummyDataGenerator {
+public class DummyDataGenerator {
 
     private DatabaseReference mDatabase;
 
-    DummyDataGenerator() {
+    public DummyDataGenerator() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
-    void generateDummyPatientRecords() {
+    public void generateDummyPatientRecords(String recordTableName) {
 
-        DatabaseReference patientRecords = mDatabase.child("patientRecords").push();
+        DatabaseReference patientRecords = mDatabase.child(recordTableName).push();
         Record rob = new Record(patientRecords.getKey());
         rob.setId("0123456789012");
         rob.setFirstName("Robert");
@@ -43,13 +43,13 @@ class DummyDataGenerator {
         rob.setParentSuffix("I");
         rob.setParentSex(Sex.FEMALE);
         rob.setParentId("1234567890123");
-        rob.setNumDependents(3);
+        rob.setNumDependents("4");
         rob.setParentAddress("9014 Tarrytown Drive, Richmond, VA 23229");
         rob.setParentPhone("8046904814");
 
         patientRecords.setValue(rob);
 
-        patientRecords = mDatabase.child("patientRecords").push();
+        patientRecords = mDatabase.child(recordTableName).push();
         Record muffin = new Record(patientRecords.getKey());
         muffin.setId("5748392019232");
         muffin.setFirstName("Muffin");
@@ -66,7 +66,7 @@ class DummyDataGenerator {
         muffin.setParentSuffix("IV");
         muffin.setParentSex(Sex.MALE);
         muffin.setParentId("3950481745324");
-        muffin.setNumDependents(2);
+        muffin.setNumDependents("0");
         muffin.setParentAddress("1 Muffin Ln, Atlanta, GA");
         muffin.setParentPhone("3840185960");
 
@@ -74,7 +74,7 @@ class DummyDataGenerator {
         
     }
 
-    void generateDummyVaccineMaster() {
+    public void generateDummyVaccineMaster(String vaccineTable) {
         ArrayList<Vaccine> vaccines = new ArrayList<>();
 
         Vaccine hepatitis = new Vaccine("Hepatitis B");
@@ -111,7 +111,7 @@ class DummyDataGenerator {
         yellow.addDose(new Dose("R.N.", "3"));
         vaccines.add(yellow);
 
-        mDatabase.child("vaccineMaster").setValue(vaccines);
+        mDatabase.child(vaccineTable).setValue(vaccines);
     }
 
 }

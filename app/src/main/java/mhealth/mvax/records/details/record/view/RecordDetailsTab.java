@@ -1,9 +1,10 @@
-package mhealth.mvax.search;
+package mhealth.mvax.records.details.record.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.Record;
+import mhealth.mvax.records.details.record.RecordDetailsAdapter;
+import mhealth.mvax.records.details.record.modify.edit.EditRecordFragment;
 
 /**
  * @author Robert Steilberg
@@ -51,6 +54,7 @@ public class RecordDetailsTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_record_details, container, false);
         mInflater = inflater;
+        renderRecordDetails((Record) getArguments().getSerializable("record"));
         return mView;
     }
 
@@ -68,8 +72,9 @@ public class RecordDetailsTab extends Fragment {
         mRecord = record;
         setRecordName();
         ListView detailsListView = mView.findViewById(R.id.details_list_view);
-        mAdapter = new ExistingRecordDetailsAdapter(getContext(), mRecord.getSectionedAttributes(getContext()));
+        mAdapter = new ExistingRecordDetailsAdapter(getContext(), mRecord.getSectionedAttributes(getContext(), mInflater));
         detailsListView.setAdapter(mAdapter);
+        addEditButton(detailsListView);
         addDeleteButton(detailsListView);
     }
 
@@ -81,7 +86,7 @@ public class RecordDetailsTab extends Fragment {
     public void updateRecordDetails(Record record) {
         mRecord = record;
         setRecordName();
-        mAdapter.refresh(record.getSectionedAttributes(getContext()));
+        mAdapter.refresh(record.getSectionedAttributes(getContext(), mInflater));
     }
 
 
@@ -94,8 +99,30 @@ public class RecordDetailsTab extends Fragment {
         recordName.setText(mRecord.getFullName());
     }
 
+    private void addEditButton(ListView vaccineListView) {
+        Button deleteButton = (Button) mInflater.inflate(R.layout.button_edit_record, null);
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                EditRecordFragment editRecordFrag = EditRecordFragment.newInstance();
+
+                Bundle args = new Bundle();
+                args.putSerializable("record", mRecord);
+                editRecordFrag.setArguments(args);
+
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_layout, editRecordFrag);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+        vaccineListView.addFooterView(deleteButton);
+    }
+
     private void addDeleteButton(ListView vaccineListView) {
-        Button deleteButton = (Button) mInflater.inflate(R.layout.delete_record_button, null);
+        Button deleteButton = (Button) mInflater.inflate(R.layout.button_delete_record, null);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,7 +154,8 @@ public class RecordDetailsTab extends Fragment {
 
     private void deleteCurrentRecord() {
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        db.child("patientRecords").child(mRecord.getDatabaseId()).setValue(null);
+        String recordTableName = getResources().getString(R.string.recordTable);
+        db.child(recordTableName).child(mRecord.getDatabaseId()).setValue(null);
         getActivity().onBackPressed(); // we deleted the current record, so end the activity
     }
 

@@ -1,7 +1,7 @@
 package mhealth.mvax.model;
 
 import android.content.Context;
-import android.util.Pair;
+import android.view.LayoutInflater;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -11,15 +11,10 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
 
-import mhealth.mvax.search.RecordDateFormat;
+import mhealth.mvax.R;
 
 /**
  * @author Robert Steilberg
@@ -271,13 +266,13 @@ public class Record implements Serializable {
     /**
      * Number of dependents, including patient
      */
-    private Integer mNumDependents;
+    private String mNumDependents;
 
-    public Integer getNumDependents() {
+    public String getNumDependents() {
         return this.mNumDependents;
     }
 
-    public void setNumDependents(Integer numDependents) {
+    public void setNumDependents(String numDependents) {
         this.mNumDependents = numDependents;
     }
 
@@ -367,52 +362,275 @@ public class Record implements Serializable {
         return nameBuilder.toString();
     }
 
+
+    // TODO probably get this out of this class
     @Exclude
-    public LinkedHashMap<String, ArrayList<Pair<String, String>>> getSectionedAttributes(Context context) {
+    public LinkedHashMap<String, ArrayList<Detail>> getSectionedAttributes(Context context, LayoutInflater inflater) {
 
-        ArrayList<Pair<String, String>> childAttributes = new ArrayList<>();
-        ArrayList<Pair<String, String>> parentAttributes = new ArrayList<>();
+        // PATIENT SECTION ==================================================================
 
-        // Patient info
-        childAttributes.add(new Pair<>("ID", this.mId));
-        childAttributes.add(new Pair<>("First name", this.mFirstName));
-        childAttributes.add(new Pair<>("Middle name", this.mMiddleName));
-        childAttributes.add(new Pair<>("Last name", this.mLastName));
-        childAttributes.add(new Pair<>("Suffix", this.mSuffix));
+        ArrayList<Detail> childAttributes = new ArrayList<>();
 
-        String sexString = "";
-        if (this.mSex != null) sexString = context.getString(this.mSex.getResourceId());
-        childAttributes.add(new Pair<>("Sex", sexString));
+        // patient ID
+        final StringNumberDetail id = new StringNumberDetail(
+                context.getResources().getString(R.string.label_id),
+                context.getResources().getString(R.string.hint_id),
+                this.mId,
+                context);
+        id.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setId(id.getValue());
+            }
+        });
+        childAttributes.add(id);
+
+        // patient first name
+        final StringDetail firstName = new StringDetail(
+                context.getResources().getString(R.string.label_firstname),
+                context.getResources().getString(R.string.hint_firstname),
+                this.mFirstName,
+                context);
+        firstName.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setFirstName(firstName.getValue());
+            }
+        });
+        childAttributes.add(firstName);
+
+        // patient middle name
+        final StringDetail middleName = new StringDetail(
+                context.getResources().getString(R.string.label_middlename),
+                context.getResources().getString(R.string.hint_middlename),
+                this.mMiddleName,
+                context);
+        middleName.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setMiddleName(middleName.getValue());
+            }
+        });
+        childAttributes.add(middleName);
+
+        // patient last name
+        final StringDetail lastName = new StringDetail(
+                context.getResources().getString(R.string.label_lastname),
+                context.getResources().getString(R.string.hint_lastname),
+                this.mLastName,
+                context);
+        lastName.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setLastName(lastName.getValue());
+            }
+        });
+        childAttributes.add(lastName);
+
+        // patient suffix
+        final StringDetail suffix = new StringDetail(
+                context.getResources().getString(R.string.label_suffix),
+                context.getResources().getString(R.string.hint_suffix),
+                this.mSuffix,
+                context);
+        suffix.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setSuffix(suffix.getValue());
+            }
+        });
+        childAttributes.add(suffix);
+
+        // patient sex
+        final SexDetail sex = new SexDetail(
+                context.getResources().getString(R.string.label_sex),
+                context.getResources().getString(R.string.hint_sex),
+                this.mSex,
+                context);
+        sex.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setSex(sex.getValue());
+            }
+        });
+        childAttributes.add(sex);
+
+        // patient DOB
+        final DateDetail DOB = new DateDetail(
+                context.getResources().getString(R.string.label_dob),
+                context.getResources().getString(R.string.hint_dob),
+                this.mDOB,
+                context);
+        DOB.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setDOB(DOB.getValue());
+            }
+        });
+        childAttributes.add(DOB);
+
+        // patient place of birth
+        final StringDetail POB = new StringDetail(
+                context.getResources().getString(R.string.label_pob),
+                context.getResources().getString(R.string.hint_pob),
+                this.mPlaceOfBirth,
+                context);
+        POB.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setPlaceOfBirth(POB.getValue());
+            }
+        });
+        childAttributes.add(POB);
+
+        // patient community
+        final StringDetail community = new StringDetail(
+                context.getResources().getString(R.string.label_community),
+                context.getResources().getString(R.string.hint_community),
+                this.mCommunity,
+                context);
+        community.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setCommunity(community.getValue());
+            }
+        });
+        childAttributes.add(community);
 
 
-        RecordDateFormat dateFormat = new RecordDateFormat("MM/dd/yyyy");
+        // GUARDIAN SECTION =================================================================
 
+        ArrayList<Detail> parentAttributes = new ArrayList<>();
 
-        childAttributes.add(new Pair<>("Date of Birth", dateFormat.getString(this.mDOB)));
+        // guardian ID
+        final StringNumberDetail guardianId = new StringNumberDetail(
+                context.getResources().getString(R.string.label_guardian_id),
+                context.getResources().getString(R.string.hint_id),
+                this.mParentId,
+                context);
+        guardianId.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentId(guardianId.getValue());
+            }
+        });
+        parentAttributes.add(guardianId);
 
-        childAttributes.add(new Pair<>("Place of Birth", this.mPlaceOfBirth));
-        childAttributes.add(new Pair<>("Community", this.mCommunity));
+        // guardian first name
+        final StringDetail guardianFirst = new StringDetail(
+                context.getResources().getString(R.string.label_guardian_firstname),
+                context.getResources().getString(R.string.hint_firstname),
+                this.mParentFirstName,
+                context);
+        guardianFirst.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentFirstName(guardianFirst.getValue());
+            }
+        });
+        parentAttributes.add(guardianFirst);
 
-        // Parent info
-        parentAttributes.add(new Pair<>("ID", this.mParentId));
-        parentAttributes.add(new Pair<>("First name", this.mParentFirstName));
-        parentAttributes.add(new Pair<>("Middle name", this.mParentMiddleName));
-        parentAttributes.add(new Pair<>("Last name", this.mParentLastName));
-        parentAttributes.add(new Pair<>("Suffix", this.mParentSuffix));
+        // guardian middle name
+        final StringDetail guardianMiddle = new StringDetail(
+                context.getResources().getString(R.string.label_guardian_middlname),
+                context.getResources().getString(R.string.hint_middlename),
+                this.mParentMiddleName,
+                context);
+        guardianMiddle.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentMiddleName(guardianMiddle.getValue());
+            }
+        });
+        parentAttributes.add(guardianMiddle);
 
+        // guardian last name
+        final StringDetail guardianLast = new StringDetail(
+                context.getResources().getString(R.string.label_guardian_lastname),
+                context.getResources().getString(R.string.hint_lastname),
+                this.mParentLastName,
+                context);
+        guardianLast.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentLastName(guardianLast.getValue());
+            }
+        });
+        parentAttributes.add(guardianLast);
 
-        String parentSexString = "";
-        if (this.mParentSex != null) parentSexString = context.getString(this.mParentSex.getResourceId());
-        childAttributes.add(new Pair<>("Sex", parentSexString));
+        // guardian suffix
+        final StringDetail guardianSuffix = new StringDetail(
+                context.getResources().getString(R.string.label_guardian_suffix),
+                context.getResources().getString(R.string.hint_suffix),
+                this.mParentSuffix,
+                context);
+        guardianSuffix.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentSuffix(guardianSuffix.getValue());
+            }
+        });
+        parentAttributes.add(guardianSuffix);
 
-        String numDependents = this.mNumDependents != null ? this.mNumDependents.toString() : "";
-        parentAttributes.add(new Pair<>("Number of dependents", numDependents));
-        parentAttributes.add(new Pair<>("Address", this.mParentAddress));
-        parentAttributes.add(new Pair<>("Phone number", this.mParentPhone));
+        // guardian sex
+        final SexDetail guardianSex = new SexDetail(
+                context.getResources().getString(R.string.label_guardian_sex),
+                context.getResources().getString(R.string.hint_sex),
+                this.mParentSex,
+                context);
+        guardianSex.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentSex(guardianSex.getValue());
+            }
+        });
+        parentAttributes.add(guardianSex);
 
-        LinkedHashMap<String, ArrayList<Pair<String, String>>> sectionedAttributes = new LinkedHashMap<>();
-        sectionedAttributes.put("Patient Information", childAttributes);
-        sectionedAttributes.put("Guardian Information", parentAttributes);
+        // guardian number dependents
+        final StringNumberDetail numDependents = new StringNumberDetail(
+                context.getResources().getString(R.string.label_numDependents),
+                context.getResources().getString(R.string.hint_numDependents),
+                this.mNumDependents,
+                context);
+        numDependents.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setNumDependents(numDependents.getValue());
+            }
+        });
+        parentAttributes.add(numDependents);
+
+        // guardian address
+        final StringDetail guardianAddress = new StringDetail(
+                context.getResources().getString(R.string.label_guardian_address),
+                context.getResources().getString(R.string.hint_guardian_address),
+                this.mParentAddress,
+                context);
+        guardianAddress.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentAddress(guardianAddress.getValue());
+            }
+        });
+        parentAttributes.add(guardianAddress);
+
+        // guardian phone number
+        final StringNumberDetail phoneNumber = new StringNumberDetail(
+                context.getResources().getString(R.string.label_phone_number),
+                context.getResources().getString(R.string.hint_phone_number),
+                this.mParentPhone,
+                context);
+        phoneNumber.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setParentPhone(phoneNumber.getValue());
+            }
+        });
+        parentAttributes.add(phoneNumber);
+
+        LinkedHashMap<String, ArrayList<Detail>> sectionedAttributes = new LinkedHashMap<>();
+        sectionedAttributes.put(context.getString(R.string.patient_detail_section_title), childAttributes);
+        sectionedAttributes.put(context.getString(R.string.guardian_detail_section_title), parentAttributes);
 
         return sectionedAttributes;
     }
@@ -423,6 +641,7 @@ public class Record implements Serializable {
     //================================================================================
 
     private void initVaccineHistory() {
+        // TODO we don't really want this in this class or take in a context
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
         mVaccines = new ArrayList<>();
 

@@ -1,4 +1,4 @@
-package mhealth.mvax.search;
+package mhealth.mvax.records.details;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
