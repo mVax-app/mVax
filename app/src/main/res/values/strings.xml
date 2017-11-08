@@ -112,7 +112,8 @@
     <string name="hint_sex">sex</string>
 
 
-
+    <!--Vaccine Dates-->
+    <string name="due_date">Due Date:</string>
 
 
     <!-- Search -->

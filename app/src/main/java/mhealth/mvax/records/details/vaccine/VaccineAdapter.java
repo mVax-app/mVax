@@ -173,7 +173,6 @@ class VaccineAdapter extends BaseAdapter {
 
 
 
-
         ///////////////DUE DATE/////////////////
 
 
@@ -185,57 +184,38 @@ class VaccineAdapter extends BaseAdapter {
         ));
         dueDateLinearLayout.setPadding(0, 15, 0, 15);
 
-        // create dose label
+        // create Due Date label
         TextView label = new TextView(rowView.getContext());
         label.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.MATCH_PARENT
         ));
         //add a string variable for Due Date
-        label.setText("Due Date");
+        label.setText(R.string.due_date);
         label.setTextSize(22);
         label.setGravity(Gravity.CENTER);
         label.setPadding(0, 0, 15, 0);
 
 
+        //TextView for date of DueDate
+        // create dose Due Date
+        TextView dueDate = new TextView(rowView.getContext());
+        label.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        ));
+
+        //Temporary Due Date Placeholder
+        updateDueDate(vaccine, 1515992400L);
+        dueDate.setText("1/15/18");
+        dueDate.setPadding(5, 5, 5, 5);
+        dueDate.setGravity(Gravity.CENTER);
+        dueDate.setTextSize(22);
+
         // add dose label and date to the view
         dueDateLinearLayout.addView(label);
-
+        dueDateLinearLayout.addView(dueDate);
         layout.addView(dueDateLinearLayout);
-
-
-
-
-//        // create dose date
-//        DoseDateView dateView = new DoseDateView(rowView.getContext(), vaccine, dose);
-//        dateView.setLayoutParams(new LinearLayout.LayoutParams(
-//                250,
-//                LinearLayout.LayoutParams.MATCH_PARENT
-//        ));
-//        dateView.setPadding(5, 5, 5, 5);
-//        dateView.setGravity(Gravity.CENTER);
-//        dateView.setTextSize(22);
-////            SimpleDateFormat sdf = new SimpleDateFormat(mContext.getResources().getString(R.string.date_format), Locale.getDefault());
-//
-//        RecordDateFormat dateFormat = new RecordDateFormat(mContext.getResources().getString(R.string.date_format));
-//
-////            if (dose.hasBeenCompleted()) {
-//        dateView.setText(dateFormat.getString(dose.getDateCompleted()));
-////            }
-//        GradientDrawable gd = new GradientDrawable();
-//        gd.setColor(Color.LTGRAY);
-//        dateView.setBackground(gd);
-//        dateView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View dateView) {
-//                createNewDose(dateView);
-//            }
-//        });
-
-
-
-
-
 
 
     }
@@ -304,5 +284,13 @@ class VaccineAdapter extends BaseAdapter {
         TextView vaccineTextView;
         LinearLayout dosesLinearLayout;
     }
+
+    // Updates Due Date in Firebase
+    private void updateDueDate(Vaccine vaccine, Long doseDate) {
+        vaccine.setDueDate(doseDate);
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+        db.child("patientRecords").child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
+    }
+
 
 }
