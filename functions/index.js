@@ -58,15 +58,15 @@ function sendApprovalEmail(email, adminEmail) {
 // Record Create
 //================================================================================
 
-exports.onCreateRecord = functions.database.ref('/mVax/records/{databaseID}')
-.onCreate(event => {
-
-
-  const original = event.data.val();
-
-  const f = admin.database().ref('/mVax/vaccines/').on('value', function(snapshot) {
-    const vaccines = snapshot.val();
-    console.log('vaccines', vaccines);
-    return event.data.ref.parent.child(event.params.databaseID).child("vaccines").set(vaccines);
-  });
-});
+// exports.onCreateRecord = functions.database.ref('/mVax/records/{databaseID}')
+// .onCreate(event => {
+//
+//
+//   const original = event.data.val();
+//
+//   const f = admin.database().ref('/mVax/vaccines/').on('value', function(snapshot) {
+//     const vaccines = snapshot.val();
+//     console.log('vaccines', vaccines);
+//     return event.data.ref.parent.child(event.params.databaseID).child("vaccines").set(vaccines);
+//   });
+// });
