@@ -166,7 +166,7 @@ public class DetailFragment extends Fragment implements TabLayout.OnTabSelectedL
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Record record = dataSnapshot.getValue(Record.class);
-                // TODO fix
+                // TODO change full re-render to update
                 mRecordDetailsTab.updateRecordDetails(record);
                 mVaccineHistoryTab.renderVaccineHistory(record);
 

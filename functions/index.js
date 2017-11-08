@@ -24,7 +24,9 @@ const mailTransport = nodemailer.createTransport({
 
 const APP_NAME = 'mVax';
 
-//Start of send approval email:
+//================================================================================
+// Approval Email
+//================================================================================
 
 exports.sendApprovalEmail = functions.auth.user().onCreate(event => {
 
@@ -51,4 +53,12 @@ function sendApprovalEmail(email, adminEmail) {
   });
 }
 
-//End of send approval email
+//================================================================================
+// Record Create
+//================================================================================
+
+exports.onCreateRecord = functions.database.ref('/patientRecords/{databaseID}')
+    .onWrite(event => {
+        const original = event.data.val();
+        console.log('TEST', original);
+    });
