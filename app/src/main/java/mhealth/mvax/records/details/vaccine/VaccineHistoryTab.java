@@ -53,7 +53,7 @@ public class VaccineHistoryTab extends Fragment {
     // Public methods
     //================================================================================
 
-    void renderVaccineHistory(Record record) {
+    public void renderVaccineHistory(Record record) {
         ArrayList<Vaccine> vaccineList = record.getVaccines();
         ListView vaccineListView = mView.findViewById(R.id.vaccines_list_view);
         VaccineAdapter adapter = new VaccineAdapter(getContext(), vaccineList, record);

@@ -167,8 +167,8 @@ public class DetailFragment extends Fragment implements TabLayout.OnTabSelectedL
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 Record record = dataSnapshot.getValue(Record.class);
                 // TODO fix
-//                mRecordDetailsTab.updateRecordDetails(record);
-//                mVaccineHistoryTab.renderVaccineHistory(record);
+                mRecordDetailsTab.updateRecordDetails(record);
+                mVaccineHistoryTab.renderVaccineHistory(record);
 
                 Toast.makeText(getActivity(), R.string.successful_record_update, Toast.LENGTH_SHORT).show();
             }
