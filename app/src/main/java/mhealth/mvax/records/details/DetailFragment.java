@@ -89,9 +89,12 @@ public class DetailFragment extends Fragment implements TabLayout.OnTabSelectedL
         super.onDestroyView();
         // remove listener so it doesn't fire after the fragment is destroyed
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        String recordTableName = getResources().getString(R.string.recordTable);
-        db.child(recordTableName)
-                .orderByChild("databaseId")
+        String masterTable = getResources().getString(R.string.masterTable);
+        String recordTable = getResources().getString(R.string.recordTable);
+        String databaseIdField = getResources().getString(R.string.databaseId);
+        db.child(masterTable)
+                .child(recordTable)
+                .orderByChild(databaseIdField)
                 .equalTo(mRecordDatabaseId)
                 .removeEventListener(mDbListener);
     }
@@ -188,8 +191,10 @@ public class DetailFragment extends Fragment implements TabLayout.OnTabSelectedL
             }
         };
 
-        String recordTableName = getResources().getString(R.string.recordTable);
-        db.child(recordTableName).orderByChild("databaseId").equalTo(databaseId).addChildEventListener(mDbListener);
+        String masterTable = getResources().getString(R.string.masterTable);
+        String recordTable = getResources().getString(R.string.recordTable);
+        String databaseIdField = getResources().getString(R.string.databaseId);
+        db.child(masterTable).child(recordTable).orderByChild(databaseIdField).equalTo(databaseId).addChildEventListener(mDbListener);
         return true;
     }
 

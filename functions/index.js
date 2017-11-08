@@ -5,6 +5,7 @@
 const functions = require('firebase-functions');
 const nodemailer = require('nodemailer');
 const admin = require('firebase-admin');
+admin.initializeApp(functions.config().firebase);
 
 //Allow less secure apps turned on.
 //Display: Unlock Captcha
@@ -15,8 +16,8 @@ console.log('password:', gmailPassword);
 //Stack helped fix the next line
 //https://stackoverflow.com/questions/31516821/node-js-email-doesnt-get-sent-with-gmail-smtp
 const mailTransport = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
+  service: 'Gmail',
+  auth: {
     user: gmailEmail,
     pass: gmailPassword
   }
@@ -57,8 +58,15 @@ function sendApprovalEmail(email, adminEmail) {
 // Record Create
 //================================================================================
 
-exports.onCreateRecord = functions.database.ref('/patientRecords/{databaseID}')
-    .onWrite(event => {
-        const original = event.data.val();
-        console.log('TEST', original);
-    });
+exports.onCreateRecord = functions.database.ref('/mVax/records/{databaseID}')
+.onCreate(event => {
+
+
+  const original = event.data.val();
+
+  const f = admin.database().ref('/mVax/vaccines/').on('value', function(snapshot) {
+    const vaccines = snapshot.val();
+    console.log('vaccines', vaccines);
+    return event.data.ref.parent.child(event.params.databaseID).child("vaccines").set(vaccines);
+  });
+});

@@ -20,13 +20,22 @@ public class DummyDataGenerator {
 
     private DatabaseReference mDatabase;
 
-    public DummyDataGenerator() {
+    private String mMasterTable;
+
+    private String mRecordTable;
+
+    private String mVaccineTable;
+
+    public DummyDataGenerator(String table, String records, String vaccines) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mMasterTable = table;
+        mRecordTable = records;
+        mVaccineTable = vaccines;
     }
 
-    public void generateDummyPatientRecords(String recordTableName) {
+    public void generateDummyPatientRecords() {
 
-        DatabaseReference patientRecords = mDatabase.child(recordTableName).push();
+        DatabaseReference patientRecords = mDatabase.child(mMasterTable).child(mRecordTable).push();
         Record rob = new Record(patientRecords.getKey());
         rob.setId("0123456789012");
         rob.setFirstName("Robert");
@@ -49,7 +58,7 @@ public class DummyDataGenerator {
 
         patientRecords.setValue(rob);
 
-        patientRecords = mDatabase.child(recordTableName).push();
+        patientRecords = mDatabase.child(mMasterTable).child(mRecordTable).push();
         Record muffin = new Record(patientRecords.getKey());
         muffin.setId("5748392019232");
         muffin.setFirstName("Muffin");
@@ -74,7 +83,7 @@ public class DummyDataGenerator {
         
     }
 
-    public void generateDummyVaccineMaster(String vaccineTable) {
+    public void generateDummyVaccineMaster() {
         ArrayList<Vaccine> vaccines = new ArrayList<>();
 
         Vaccine hepatitis = new Vaccine("Hepatitis B");
@@ -111,7 +120,7 @@ public class DummyDataGenerator {
         yellow.addDose(new Dose("R.N.", "3"));
         vaccines.add(yellow);
 
-        mDatabase.child(vaccineTable).setValue(vaccines);
+        mDatabase.child(mMasterTable).child(mVaccineTable).setValue(vaccines);
     }
 
 }

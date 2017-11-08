@@ -42,7 +42,7 @@ public class Record implements Serializable {
 
     public Record(String databaseId) {
         mDatabaseId = databaseId;
-        initVaccineHistory();
+//        initVaccineHistory();
     }
 
 

@@ -79,8 +79,13 @@ public class SearchFragment extends Fragment {
 
         // uncomment the below lines to populate database with dummy data
         // NOTE: recommend you clear out the database beforehand
-//        new DummyDataGenerator().generateDummyPatientRecords(getResources().getString(R.string.recordTable));
-//        new DummyDataGenerator().generateDummyVaccineMaster(getResources().getString(R.string.vaccineTable));
+        String table = getString(R.string.masterTable);
+        String recordTable = getString(R.string.recordTable);
+        String vaccineTable = getString(R.string.vaccineTable);
+
+        DummyDataGenerator generator = new DummyDataGenerator(table, recordTable, vaccineTable);
+//        generator.generateDummyPatientRecords();
+//        generator.generateDummyVaccineMaster();
 
         initDatabase(); // run this before touching mPatientRecords!
 
@@ -117,8 +122,9 @@ public class SearchFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // TODO put database query strings in a values.xml file
-        String recordTableName = getResources().getString(R.string.recordTable);
-        mDatabase.child(recordTableName).addChildEventListener(new ChildEventListener() {
+        String masterTable = getResources().getString(R.string.masterTable);
+        String recordTable = getResources().getString(R.string.recordTable);
+        mDatabase.child(masterTable).child(recordTable).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 Record record = dataSnapshot.getValue(Record.class);

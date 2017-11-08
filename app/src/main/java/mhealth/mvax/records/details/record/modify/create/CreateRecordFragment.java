@@ -43,11 +43,13 @@ public class CreateRecordFragment extends ModifiableRecordFragment {
         View view = inflater.inflate(R.layout.tab_record_details, container, false);
         mInflater = inflater;
 
-        String recordTableName = getResources().getString(R.string.recordTable);
+        String masterTable = getResources().getString(R.string.masterTable);
+        String recordTable = getResources().getString(R.string.recordTable);
         mDatabase = FirebaseDatabase
                 .getInstance()
                 .getReference()
-                .child(recordTableName)
+                .child(masterTable)
+                .child(recordTable)
                 .push();
         mNewRecord = new Record(mDatabase.getKey());
         renderListView(view);
