@@ -79,14 +79,17 @@ class DummyDataGenerator {
 
         Vaccine hepatitis = new Vaccine("Hepatitis B");
         Dose dose1 = new Dose("R.N.");
+        hepatitis.setTargetCount(100);
         hepatitis.addDose(dose1);
         vaccines.add(hepatitis);
 
         Vaccine BCG = new Vaccine("BCG");
+        BCG.setTargetCount(300);
         BCG.addDose(new Dose("1"));
         vaccines.add(BCG);
 
         Vaccine polio = new Vaccine("Polio");
+        polio.setTargetCount(400);
         polio.addDose(new Dose("1", "VPI"));
         polio.addDose(new Dose("2", "VOP"));
         polio.addDose(new Dose("3", "VOP"));
@@ -94,6 +97,7 @@ class DummyDataGenerator {
         vaccines.add(polio);
 
         Vaccine rotavirus = new Vaccine("Rotavirus");
+        rotavirus.setTargetCount(500);
         rotavirus.addDose(new Dose("1"));
         rotavirus.addDose(new Dose("2"));
         rotavirus.addDose(new Dose("3"));
@@ -101,10 +105,12 @@ class DummyDataGenerator {
         vaccines.add(rotavirus);
 
         Vaccine varicella = new Vaccine("Varicella");
+        varicella.setTargetCount(200);
         varicella.addDose(new Dose("F.N."));
         vaccines.add(varicella);
 
         Vaccine yellow = new Vaccine("Yellow Fever");
+        yellow.setTargetCount(600);
         yellow.addDose(new Dose("R.N.", "1"));
         yellow.addDose(new Dose("R.N.", "3"));
         yellow.addDose(new Dose("R.N.", "3"));

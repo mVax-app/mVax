@@ -35,6 +35,34 @@ public class Vaccine implements Serializable {
         this.mName = name;
     }
 
+    /*
+     * Target count for this month
+     */
+
+    private int mTargetCount;
+
+    public int getTargetCount() {
+        return this.mTargetCount;
+    }
+
+    public void setTargetCount(int target) {
+        this.mTargetCount = target;
+    }
+
+    /*
+     * Total count for this month
+     */
+
+    private int mAdministeredCount;
+
+    public int getAdministeredCount() {
+        return this.mAdministeredCount;
+    }
+
+    public void setGivenCount(int administered) {
+        this.mAdministeredCount = administered;
+    }
+
     /**
      * Date at which the associated record is due
      * to receive the next dose, expressed in
