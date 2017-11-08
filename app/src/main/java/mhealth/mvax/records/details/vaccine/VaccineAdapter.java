@@ -170,6 +170,54 @@ class VaccineAdapter extends BaseAdapter {
             // add the total dose view to the vaccine view
             layout.addView(doseLinearLayout);
         }
+
+
+
+        ///////////////DUE DATE/////////////////
+
+
+        // create LinearLayout to hold the label and date for the next Due Date
+        LinearLayout dueDateLinearLayout = new LinearLayout(rowView.getContext());
+        dueDateLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        dueDateLinearLayout.setPadding(0, 15, 0, 15);
+
+        // create Due Date label
+        TextView label = new TextView(rowView.getContext());
+        label.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        ));
+        //add a string variable for Due Date
+        label.setText(R.string.due_date);
+        label.setTextSize(22);
+        label.setGravity(Gravity.CENTER);
+        label.setPadding(0, 0, 15, 0);
+
+
+        //TextView for date of DueDate
+        // create dose Due Date
+        TextView dueDate = new TextView(rowView.getContext());
+        label.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        ));
+
+        //Temporary Due Date Placeholder
+        updateDueDate(vaccine, 1515992400L);
+        dueDate.setText("1/15/18");
+        dueDate.setPadding(5, 5, 5, 5);
+        dueDate.setGravity(Gravity.CENTER);
+        dueDate.setTextSize(22);
+
+        // add dose label and date to the view
+        dueDateLinearLayout.addView(label);
+        dueDateLinearLayout.addView(dueDate);
+        layout.addView(dueDateLinearLayout);
+
+
     }
 
 
@@ -236,5 +284,13 @@ class VaccineAdapter extends BaseAdapter {
         TextView vaccineTextView;
         LinearLayout dosesLinearLayout;
     }
+
+    // Updates Due Date in Firebase
+    private void updateDueDate(Vaccine vaccine, Long doseDate) {
+        vaccine.setDueDate(doseDate);
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+        db.child("patientRecords").child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
+    }
+
 
 }
