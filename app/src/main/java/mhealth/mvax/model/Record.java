@@ -40,9 +40,9 @@ public class Record implements Serializable {
     public Record() {
     }
 
-    public Record(String databaseId) {
+    public Record(String databaseId, ArrayList<Vaccine> vaccines) {
         mDatabaseId = databaseId;
-//        initVaccineHistory();
+        mVaccines = vaccines;
     }
 
 
@@ -632,45 +632,5 @@ public class Record implements Serializable {
         sectionedAttributes.put(context.getString(R.string.guardian_detail_section_title), parentAttributes);
 
         return sectionedAttributes;
-    }
-
-
-    //================================================================================
-    // Private methods
-    //================================================================================
-
-    private void initVaccineHistory() {
-        // TODO we don't really want this in this class or take in a context
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        mVaccines = new ArrayList<>();
-
-        db.child("vaccineMaster").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
-//                if (mVaccines.size() < 6) {
-                    mVaccines.add(vaccine);
-//                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                String f = s;
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-
     }
 }

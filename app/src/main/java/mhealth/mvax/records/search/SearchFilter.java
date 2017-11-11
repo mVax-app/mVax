@@ -18,7 +18,7 @@ import mhealth.mvax.model.Record;
  * on various queries
  */
 
-class Filter {
+class SearchFilter {
 
     private Map<String, Record> mRecords;
 
@@ -28,7 +28,7 @@ class Filter {
 
     private String mFilter;
 
-    Filter(Map<String, Record> records, SearchResultAdapter adapter, EditText searchBar) {
+    SearchFilter(Map<String, Record> records, SearchResultAdapter adapter, EditText searchBar) {
         mRecords = records;
         mAdapter = adapter;
         mSearchBar = searchBar;

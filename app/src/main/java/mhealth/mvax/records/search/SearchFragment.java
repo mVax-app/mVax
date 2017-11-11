@@ -23,10 +23,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import mhealth.mvax.model.Record;
+import mhealth.mvax.model.Vaccine;
 import mhealth.mvax.records.details.record.modify.create.CreateRecordFragment;
 import mhealth.mvax.records.details.DetailFragment;
 import mhealth.mvax.records.utilities.DummyDataGenerator;
@@ -45,13 +48,13 @@ public class SearchFragment extends Fragment {
 
     private FirebaseAuth mAuth;
 
-    private DatabaseReference mDatabase;
-
     private Map<String, Record> mPatientRecords;
 
     private SearchResultAdapter mSearchResultAdapter;
 
-    private Filter mFilter;
+    private SearchFilter mSearchFilter;
+
+    private LinkedHashMap<String, Vaccine> mVaccineMaster;
 
 
     //================================================================================
@@ -70,6 +73,7 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPatientRecords = new HashMap<>();
+        mVaccineMaster = new LinkedHashMap<>();
     }
 
     @Override
@@ -119,11 +123,42 @@ public class SearchFragment extends Fragment {
 //            mUserId = mFirebaseUser.getUid();
 //        }
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // TODO put database query strings in a values.xml file
         String masterTable = getResources().getString(R.string.masterTable);
         String recordTable = getResources().getString(R.string.recordTable);
+        String vaccineTable = getResources().getString(R.string.vaccineTable);
+
+
+        mDatabase.child(masterTable).child(vaccineTable).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
+                mVaccineMaster.put(vaccine.getDatabaseKey(), vaccine);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                onChildAdded(dataSnapshot, s);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
+                mVaccineMaster.remove(vaccine.getDatabaseKey());
+            }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                // TODO test
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // TODO throw error
+            }
+        });
+
+
         mDatabase.child(masterTable).child(recordTable).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
@@ -163,6 +198,11 @@ public class SearchFragment extends Fragment {
 
         CreateRecordFragment newRecordFrag = CreateRecordFragment.newInstance();
 
+
+        Bundle args = new Bundle();
+        args.putSerializable("vaccines", new ArrayList<>(mVaccineMaster.values()));
+        newRecordFrag.setArguments(args);
+
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_layout, newRecordFrag);
         transaction.addToBackStack(null);
@@ -179,7 +219,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 if (pos != 0) {
-                    mFilter.setFilter(spinner.getItemAtPosition(pos).toString());
+                    mSearchFilter.setFilter(spinner.getItemAtPosition(pos).toString());
                 }
             }
             @Override
@@ -191,8 +231,8 @@ public class SearchFragment extends Fragment {
 
     private void initRecordFilters(View view) {
         EditText searchBar = view.findViewById(R.id.search_bar);
-        mFilter = new Filter(mPatientRecords, mSearchResultAdapter, searchBar);
-        mFilter.addFilters();
+        mSearchFilter = new SearchFilter(mPatientRecords, mSearchResultAdapter, searchBar);
+        mSearchFilter.addFilters();
     }
 
     private void renderListView(View view) {
