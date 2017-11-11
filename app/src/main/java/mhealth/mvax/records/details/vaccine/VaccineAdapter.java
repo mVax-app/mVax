@@ -276,8 +276,9 @@ class VaccineAdapter extends BaseAdapter {
     private void updateDose(Vaccine vaccine, Dose dose, Long doseDate) {
         dose.setDateCompleted(doseDate);
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        String recordTableName = mContext.getString(R.string.recordTable);
-        db.child(recordTableName).child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
+        String masterTable = mContext.getString(R.string.masterTable);
+        String recordTable = mContext.getString(R.string.recordTable);
+        db.child(masterTable).child(recordTable).child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
     }
 
     private static class ViewHolder {
@@ -289,7 +290,9 @@ class VaccineAdapter extends BaseAdapter {
     private void updateDueDate(Vaccine vaccine, Long doseDate) {
         vaccine.setDueDate(doseDate);
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        db.child("patientRecords").child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
+        String masterTable = mContext.getString(R.string.masterTable);
+        String recordTable = mContext.getString(R.string.recordTable);
+        db.child(masterTable).child(recordTable).child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
     }
 
 

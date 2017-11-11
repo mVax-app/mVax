@@ -38,12 +38,11 @@ public class Record implements Serializable {
      * be used internally
      */
     public Record() {
-        initVaccineHistory();
     }
 
     public Record(String databaseId) {
         mDatabaseId = databaseId;
-        initVaccineHistory();
+//        initVaccineHistory();
     }
 
 
@@ -649,13 +648,14 @@ public class Record implements Serializable {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
-                if (mVaccines.size() < 6) {
+//                if (mVaccines.size() < 6) {
                     mVaccines.add(vaccine);
-                }
+//                }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                String f = s;
             }
 
             @Override

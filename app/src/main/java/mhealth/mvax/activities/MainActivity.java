@@ -10,6 +10,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import mhealth.mvax.R;
 import mhealth.mvax.alerts.AlertsFragment;
 import mhealth.mvax.dashboard.DashboardFragment;
@@ -24,6 +29,20 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser mFirebaseUser = auth.getCurrentUser();
+        // TODO handle auth fail
+//        if (mFirebaseUser == null) {
+////            Not logged in, launch the Log In activity
+//        } else {
+//            mUserId = mFirebaseUser.getUid();
+//        }
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        db.setPersistenceEnabled(true);
+        DatabaseReference database = db.getReference();
+
         setContentView(R.layout.activity_main);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)

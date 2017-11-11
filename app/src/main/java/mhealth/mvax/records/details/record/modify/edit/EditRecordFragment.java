@@ -46,11 +46,13 @@ public class EditRecordFragment extends ModifiableRecordFragment {
         mInflater = inflater;
 
         mNewRecord = (Record) getArguments().get("record");
-        String recordTableName = getResources().getString(R.string.recordTable);
+        String masterTable = getResources().getString(R.string.masterTable);
+        String recordTable = getResources().getString(R.string.recordTable);
         mDatabase = FirebaseDatabase
                 .getInstance()
                 .getReference()
-                .child(recordTableName)
+                .child(masterTable)
+                .child(recordTable)
                 .child(mNewRecord.getDatabaseId());
         renderListView(view);
 

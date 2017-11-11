@@ -154,8 +154,9 @@ public class RecordDetailsTab extends Fragment {
 
     private void deleteCurrentRecord() {
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        String recordTableName = getResources().getString(R.string.recordTable);
-        db.child(recordTableName).child(mRecord.getDatabaseId()).setValue(null);
+        String masterTable = getResources().getString(R.string.masterTable);
+        String recordTable = getResources().getString(R.string.recordTable);
+        db.child(masterTable).child(recordTable).child(mRecord.getDatabaseId()).setValue(null);
         getActivity().onBackPressed(); // we deleted the current record, so end the activity
     }
 
