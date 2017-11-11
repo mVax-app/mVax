@@ -12,8 +12,8 @@ import mhealth.mvax.model.Vaccine;
 
 /**
  * @author Robert Steilberg
- *
- * Generator class for populating the database with dummy data
+ *         <p>
+ *         Generator class for populating the database with dummy data
  */
 
 public class DummyDataGenerator {
@@ -35,8 +35,30 @@ public class DummyDataGenerator {
 
     public void generateDummyPatientRecords() {
 
+
+        ArrayList<Vaccine> vaccines = new ArrayList<>();
+
+        Vaccine BCG = new Vaccine("1", "BCG");
+        BCG.addDose(new Dose("1"));
+        vaccines.add(BCG);
+
+        Vaccine polio = new Vaccine("2", "Polio");
+        polio.addDose(new Dose("1", "VPI"));
+        polio.addDose(new Dose("2", "VOP"));
+        polio.addDose(new Dose("3", "VOP"));
+        polio.addDose(new Dose("Refuerzo", "VOP"));
+        vaccines.add(polio);
+
+        Vaccine rotavirus = new Vaccine("3", "Rotavirus");
+        rotavirus.addDose(new Dose("1"));
+        rotavirus.addDose(new Dose("2"));
+        rotavirus.addDose(new Dose("3"));
+        rotavirus.addDose(new Dose("4"));
+        vaccines.add(rotavirus);
+
+
         DatabaseReference patientRecords = mDatabase.child(mMasterTable).child(mRecordTable).push();
-        Record rob = new Record(patientRecords.getKey());
+        Record rob = new Record(patientRecords.getKey(), vaccines);
         rob.setId("0123456789012");
         rob.setFirstName("Robert");
         rob.setMiddleName("Hays");
@@ -59,7 +81,7 @@ public class DummyDataGenerator {
         patientRecords.setValue(rob);
 
         patientRecords = mDatabase.child(mMasterTable).child(mRecordTable).push();
-        Record muffin = new Record(patientRecords.getKey());
+        Record muffin = new Record(patientRecords.getKey(), vaccines);
         muffin.setId("5748392019232");
         muffin.setFirstName("Muffin");
         muffin.setMiddleName("Lee");
@@ -80,47 +102,53 @@ public class DummyDataGenerator {
         muffin.setParentPhone("3840185960");
 
         patientRecords.setValue(muffin);
-        
+
     }
 
     public void generateDummyVaccineMaster() {
-        ArrayList<Vaccine> vaccines = new ArrayList<>();
 
-        Vaccine hepatitis = new Vaccine("Hepatitis B");
+        DatabaseReference vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
+
+        Vaccine hepatitis = new Vaccine(vaccineRecords.getKey(), "Hepatitis B");
         Dose dose1 = new Dose("R.N.");
         hepatitis.addDose(dose1);
-        vaccines.add(hepatitis);
 
-        Vaccine BCG = new Vaccine("BCG");
+        vaccineRecords.setValue(hepatitis);
+
+        vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
+        Vaccine BCG = new Vaccine(vaccineRecords.getKey(), "BCG");
         BCG.addDose(new Dose("1"));
-        vaccines.add(BCG);
+        vaccineRecords.setValue(BCG);
 
-        Vaccine polio = new Vaccine("Polio");
+        vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
+        Vaccine polio = new Vaccine(vaccineRecords.getKey(), "Polio");
         polio.addDose(new Dose("1", "VPI"));
         polio.addDose(new Dose("2", "VOP"));
         polio.addDose(new Dose("3", "VOP"));
         polio.addDose(new Dose("Refuerzo", "VOP"));
-        vaccines.add(polio);
+        vaccineRecords.setValue(polio);
 
-        Vaccine rotavirus = new Vaccine("Rotavirus");
+        vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
+        Vaccine rotavirus = new Vaccine(vaccineRecords.getKey(), "Rotavirus");
         rotavirus.addDose(new Dose("1"));
         rotavirus.addDose(new Dose("2"));
         rotavirus.addDose(new Dose("3"));
         rotavirus.addDose(new Dose("4"));
-        vaccines.add(rotavirus);
+        vaccineRecords.setValue(rotavirus);
 
-        Vaccine varicella = new Vaccine("Varicella");
+        vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
+        Vaccine varicella = new Vaccine(vaccineRecords.getKey(), "Varicella");
         varicella.addDose(new Dose("F.N."));
-        vaccines.add(varicella);
+        vaccineRecords.setValue(varicella);
 
-        Vaccine yellow = new Vaccine("Yellow Fever");
+        vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
+        Vaccine yellow = new Vaccine(vaccineRecords.getKey(), "Yellow Fever");
         yellow.addDose(new Dose("R.N.", "1"));
         yellow.addDose(new Dose("R.N.", "3"));
         yellow.addDose(new Dose("R.N.", "3"));
         yellow.addDose(new Dose("R.N.", "3"));
-        vaccines.add(yellow);
+        vaccineRecords.setValue(yellow);
 
-        mDatabase.child(mMasterTable).child(mVaccineTable).setValue(vaccines);
     }
 
 }

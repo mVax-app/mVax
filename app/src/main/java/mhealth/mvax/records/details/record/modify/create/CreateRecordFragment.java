@@ -12,8 +12,11 @@ import android.widget.TextView;
 
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 import mhealth.mvax.R;
 import mhealth.mvax.model.Record;
+import mhealth.mvax.model.Vaccine;
 import mhealth.mvax.records.details.DetailFragment;
 import mhealth.mvax.records.details.record.modify.ModifiableRecordDetailsAdapter;
 import mhealth.mvax.records.details.record.modify.ModifiableRecordFragment;
@@ -43,6 +46,9 @@ public class CreateRecordFragment extends ModifiableRecordFragment {
         View view = inflater.inflate(R.layout.tab_record_details, container, false);
         mInflater = inflater;
 
+
+        ArrayList<Vaccine> vaccines = (ArrayList<Vaccine>) getArguments().getSerializable("vaccines");
+
         String masterTable = getResources().getString(R.string.masterTable);
         String recordTable = getResources().getString(R.string.recordTable);
         mDatabase = FirebaseDatabase
@@ -51,7 +57,7 @@ public class CreateRecordFragment extends ModifiableRecordFragment {
                 .child(masterTable)
                 .child(recordTable)
                 .push();
-        mNewRecord = new Record(mDatabase.getKey());
+        mNewRecord = new Record(mDatabase.getKey(), vaccines);
         renderListView(view);
         return view;
     }
