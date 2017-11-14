@@ -72,7 +72,7 @@ public class Vaccine implements Serializable {
         return this.mAdministeredCount;
     }
 
-    public void setGivenCount(int administered) {
+    public void setAdministeredCount(int administered) {
         this.mAdministeredCount = administered;
     }
 

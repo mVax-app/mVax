@@ -130,13 +130,24 @@
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/simpleProgressBar"
-        android:layout_width="fill_parent"
+        android:id="@+id/vaccine_card_progress_bar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="250dp"
+        android:maxWidth="250dp"
+        android:minHeight="50dp"
+        android:maxHeight="50dp"
         android:layout_margin="30dp"
         android:layout_gravity="center"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+        style="@android:style/Widget.ProgressBar.Horizontal"/>
 
+    <TextView
+        android:id="@+id/vaccine_card_percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        />
 
 
 

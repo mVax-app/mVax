@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -64,6 +67,8 @@ public class VaccineCardAdapter extends BaseAdapter {
             holder.vaccineNameTV = rowView.findViewById(R.id.vaccine_card_name);
             holder.targetValueTV = rowView.findViewById(R.id.vaccine_card_target_value);
             holder.givenValueTV = rowView.findViewById(R.id.vaccine_card_administered_value);
+            holder.progressBar = rowView.findViewById(R.id.vaccine_card_progress_bar);
+            holder.percentageTV = rowView.findViewById(R.id.vaccine_card_percentage);
 
             rowView.setTag(holder);
         } else {
@@ -72,15 +77,20 @@ public class VaccineCardAdapter extends BaseAdapter {
 
         TextView vaccineNameTV = holder.vaccineNameTV;
         TextView targetValueTV = holder.targetValueTV;
-        TextView givenValueTV = holder.givenValueTV;
+        TextView administeredValueTV = holder.givenValueTV;
+        ProgressBar progressBar = holder.progressBar;
+        TextView percentageTV = holder.percentageTV;
 
         Vaccine result = (Vaccine) getItem(position);
 
         vaccineNameTV.setText(result.getName());
         targetValueTV.setText(Integer.toString(result.getTargetCount()));
-        System.out.println("PRINT: "+result.getName());
-        System.out.println("PRINT: "+result.getTargetCount());
-        //TODO: set the target and given dose counts
+        administeredValueTV.setText(Integer.toString(result.getAdministeredCount()));
+        progressBar.setMax(result.getTargetCount());
+        progressBar.setProgress(result.getAdministeredCount());
+        double percent = (double) result.getAdministeredCount() / (double) result.getTargetCount() * 100;
+        percentageTV.setText(Double.toString(Math.round(percent)) + "%");
+
 
         renderMonthSpinner(rowView);
 
@@ -126,6 +136,8 @@ public class VaccineCardAdapter extends BaseAdapter {
         TextView vaccineNameTV;
         TextView targetValueTV;
         TextView givenValueTV;
+        ProgressBar progressBar;
+        TextView percentageTV;
 
     }
 
