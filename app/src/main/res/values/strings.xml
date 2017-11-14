@@ -124,7 +124,7 @@
 
     <!-- Dashboard -->
     <string name="dashboard_target">TARGET:</string>
-    <string name="dashboard_given">GIVEN:</string>
+    <string name="dashboard_administered">ADMINISTERED:</string>
 
     <string name="male_enum">Male</string>
     <string name="female_enum">Female</string>
