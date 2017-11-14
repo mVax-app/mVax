@@ -79,7 +79,7 @@ public class VaccineCardAdapter extends BaseAdapter {
         vaccineNameTV.setText(result.getName());
         targetValueTV.setText(Integer.toString(result.getTargetCount()));
         System.out.println("PRINT: "+result.getName());
-        System.out.println("PRINT: "+Integer.toString(result.getTargetCount()));
+        System.out.println("PRINT: "+result.getTargetCount());
         //TODO: set the target and given dose counts
 
         renderMonthSpinner(rowView);
