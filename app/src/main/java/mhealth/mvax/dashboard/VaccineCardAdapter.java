@@ -10,16 +10,11 @@ import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.Record;
 import mhealth.mvax.model.Vaccine;
 
 /**
@@ -68,7 +63,7 @@ public class VaccineCardAdapter extends BaseAdapter {
 
             holder.vaccineNameTV = rowView.findViewById(R.id.vaccine_card_name);
             holder.targetValueTV = rowView.findViewById(R.id.vaccine_card_target_value);
-            holder.givenValueTV = rowView.findViewById(R.id.vaccine_card_given_value);
+            holder.givenValueTV = rowView.findViewById(R.id.vaccine_card_administered_value);
 
             rowView.setTag(holder);
         } else {
@@ -82,6 +77,9 @@ public class VaccineCardAdapter extends BaseAdapter {
         Vaccine result = (Vaccine) getItem(position);
 
         vaccineNameTV.setText(result.getName());
+        targetValueTV.setText(Integer.toString(result.getTargetCount()));
+        System.out.println("PRINT: "+result.getName());
+        System.out.println("PRINT: "+Integer.toString(result.getTargetCount()));
         //TODO: set the target and given dose counts
 
         renderMonthSpinner(rowView);
