@@ -41,8 +41,8 @@
 
                 <ImageView
                     android:id="@+id/vaccine_card_target_square"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
                     android:src="@drawable/blue_square"
                     android:layout_margin="5dp"
                     android:layout_gravity="center"/>
@@ -85,9 +85,9 @@
                 android:gravity="center">
 
                 <ImageView
-                    android:id="@+id/vaccine_card_given_square"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:id="@+id/vaccine_card_administered_square"
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
                     android:src="@drawable/blue_square"
                     android:layout_margin="5dp"
                     android:layout_gravity="center"/>
@@ -96,24 +96,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_alignLeft="@+id/vaccine_card_given_square"
-                    android:layout_alignRight="@+id/vaccine_card_given_square"
-                    android:layout_alignTop="@+id/vaccine_card_given_square"
-                    android:layout_alignBottom="@+id/vaccine_card_given_square"
+                    android:layout_alignLeft="@+id/vaccine_card_administered_square"
+                    android:layout_alignRight="@+id/vaccine_card_administered_square"
+                    android:layout_alignTop="@+id/vaccine_card_administered_square"
+                    android:layout_alignBottom="@+id/vaccine_card_administered_square"
                     android:layout_margin="1dp"
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/vaccine_card_given_text"
+                        android:id="@+id/vaccine_card_administered_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
                         android:textStyle="bold"
-                        android:text="@string/dashboard_given"
+                        android:text="@string/dashboard_administered"
                         />
 
                     <TextView
-                        android:id="@+id/vaccine_card_given_value"
+                        android:id="@+id/vaccine_card_administered_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
@@ -129,14 +129,25 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="240dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/fake_line_graph"/>
+    <ProgressBar
+        android:id="@+id/vaccine_card_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="250dp"
+        android:maxWidth="250dp"
+        android:minHeight="50dp"
+        android:maxHeight="50dp"
+        android:layout_margin="30dp"
+        android:layout_gravity="center"
+        style="@android:style/Widget.ProgressBar.Horizontal"/>
 
+    <TextView
+        android:id="@+id/vaccine_card_percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        />
 
 
 

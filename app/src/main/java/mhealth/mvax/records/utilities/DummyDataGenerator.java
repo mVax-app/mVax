@@ -111,17 +111,25 @@ public class DummyDataGenerator {
 
         Vaccine hepatitis = new Vaccine(vaccineRecords.getKey(), "Hepatitis B");
         Dose dose1 = new Dose("R.N.");
+        hepatitis.setTargetCount(100);
+        hepatitis.setAdministeredCount(50);
         hepatitis.addDose(dose1);
 
         vaccineRecords.setValue(hepatitis);
 
         vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
+
         Vaccine BCG = new Vaccine(vaccineRecords.getKey(), "BCG");
+        BCG.setTargetCount(300);
+        BCG.setAdministeredCount(100);
         BCG.addDose(new Dose("1"));
         vaccineRecords.setValue(BCG);
 
         vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
+
         Vaccine polio = new Vaccine(vaccineRecords.getKey(), "Polio");
+        polio.setTargetCount(400);
+        polio.setAdministeredCount(300);
         polio.addDose(new Dose("1", "VPI"));
         polio.addDose(new Dose("2", "VOP"));
         polio.addDose(new Dose("3", "VOP"));
@@ -130,6 +138,8 @@ public class DummyDataGenerator {
 
         vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
         Vaccine rotavirus = new Vaccine(vaccineRecords.getKey(), "Rotavirus");
+        rotavirus.setTargetCount(500);
+        rotavirus.setAdministeredCount(450);
         rotavirus.addDose(new Dose("1"));
         rotavirus.addDose(new Dose("2"));
         rotavirus.addDose(new Dose("3"));
@@ -138,11 +148,15 @@ public class DummyDataGenerator {
 
         vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
         Vaccine varicella = new Vaccine(vaccineRecords.getKey(), "Varicella");
+        varicella.setTargetCount(200);
+        varicella.setAdministeredCount(200);
         varicella.addDose(new Dose("F.N."));
         vaccineRecords.setValue(varicella);
 
         vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
         Vaccine yellow = new Vaccine(vaccineRecords.getKey(), "Yellow Fever");
+        yellow.setTargetCount(600);
+        yellow.setAdministeredCount(100);
         yellow.addDose(new Dose("R.N.", "1"));
         yellow.addDose(new Dose("R.N.", "3"));
         yellow.addDose(new Dose("R.N.", "3"));
