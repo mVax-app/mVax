@@ -129,13 +129,13 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="240dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:src="@drawable/fake_line_graph"/>
+    <ProgressBar
+        android:id="@+id/simpleProgressBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:layout_gravity="center"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 
 
 
