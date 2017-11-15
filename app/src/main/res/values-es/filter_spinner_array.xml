@@ -2,11 +2,11 @@
 <resources>
     <string-array name="filter_spinner_array">
         <item>Filtrado por...</item>
-        <item>Patient ID</item>
-        <item>Patient name</item>
-        <item>Year of birth</item>
-        <item>Community</item>
-        <item>Parent ID</item>
-        <item>Parent name</item>
+        <item>ID del paciente</item>
+        <item>Nombre del paciente</item>
+        <item>Año de nacimiento</item>
+        <item>Comunidad</item>
+        <item>ID del padre</item>
+        <item>Nombre del padre</item>
     </string-array>
 </resources>
