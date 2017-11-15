@@ -29,6 +29,13 @@
     <string name="REG_ButtonReg">Registrar</string>
     <string name="REG_NAME">Nombre</string>
     <string name="REG_EMAIL">Correo Electrónico</string>
+    <string name="REG_PASS_REQUIRE">La contraseña debe tener al menos 6 caracteres.</string>
+    <string name="REG_PASSWORD">Contraseña</string>
+    <string name="REG_PASSWORD_CONFIRM">Confirme contraseña</string>
+    <string name="REG_ERROR_EMAIL">Correo electrónico es invalido</string>
+    <string name="REG_ERROR_PASS_REQUIRE">La contraseña no cumple con los requisitos</string>
+    <string name="REG_ERROR_PASS_CONFIRM">Las contraseñas no coinciden</string>
+    <string name="REG_CONFIRMED">Solicitud enviada, ¡aguarde para ser aprobada!</string>
 
 
     <!-- Reset Password-->
@@ -36,6 +43,7 @@
     <string name="reset_email">Correo electrónico de la cuenta</string>
     <string name="reset_password_button">Restablecer contraseña</string>
     <string name="reset_email_confirm">Se ha enviado el correo electrónico de restablecimiento de contraseña:</string>
+    <string name="password_reset_confirm">¿Seguro que quieres restablecer tu contraseña?</string>
 
 
     <!-- Record details -->
