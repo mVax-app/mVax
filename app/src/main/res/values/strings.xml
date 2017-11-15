@@ -35,14 +35,14 @@
     <string name="REG_PASSWORD">Password</string>
     <string name="REG_PASSWORD_CONFIRM">Confirm Password</string>
     <string name="REG_ERROR_EMAIL">Invalid email address</string>
-    <string name="REG_ERROR_PASS_REQUIRE">Password does not pass requirements</string>
+    <string name="REG_ERROR_PASS_REQUIRE">Password does not satisfy requirements</string>
     <string name="REG_ERROR_PASS_CONFIRM">Passwords do not match</string>
     <string name="REG_CONFIRMED">Request submitted, wait to be approved!</string>
 
 
     <!-- Reset Password-->
     <string name="modal_reset_title">Reset Password</string>
-    <string name="reset_email">Email of Account</string>
+    <string name="reset_email">Account email</string>
     <string name="reset_password_button">Reset Password</string>
     <string name="reset_email_confirm">Password Reset Email has been sent to: </string>
     <string name="password_reset_confirm">Are you sure you want to reset your password?</string>
