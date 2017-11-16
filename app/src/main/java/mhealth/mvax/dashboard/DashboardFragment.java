@@ -89,8 +89,10 @@ public class DashboardFragment extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        // TODO put database query strings in a values.xml file
-        mDatabase.child("vaccineMaster").addChildEventListener(new ChildEventListener() {
+        String masterTable = getResources().getString(R.string.masterTable);
+        String vaccineTable = getResources().getString(R.string.vaccineTable);
+
+        mDatabase.child(masterTable).child(vaccineTable).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);

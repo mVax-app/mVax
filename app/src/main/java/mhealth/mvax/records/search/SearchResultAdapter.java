@@ -1,4 +1,4 @@
-package mhealth.mvax.search;
+package mhealth.mvax.records.search;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,14 +7,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.Record;
+import mhealth.mvax.model.RecordDateFormat;
 
 /**
  * @author Robert Steilberg

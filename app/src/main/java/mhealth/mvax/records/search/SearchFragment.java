@@ -1,4 +1,4 @@
-package mhealth.mvax.search;
+package mhealth.mvax.records.search;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,11 +21,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import mhealth.mvax.R;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.Record;
+import mhealth.mvax.model.Vaccine;
+import mhealth.mvax.records.details.record.modify.create.CreateRecordFragment;
+import mhealth.mvax.records.details.DetailFragment;
+import mhealth.mvax.records.utilities.DummyDataGenerator;
 
 /**
  * @author Robert Steilberg, Alison Huang
@@ -41,13 +49,13 @@ public class SearchFragment extends Fragment {
 
     private FirebaseAuth mAuth;
 
-    private DatabaseReference mDatabase;
-
     private Map<String, Record> mPatientRecords;
 
     private SearchResultAdapter mSearchResultAdapter;
 
-    private RecordFilter mRecordFilter;
+    private SearchFilter mSearchFilter;
+
+    private LinkedHashMap<String, Vaccine> mVaccineMaster;
 
 
     //================================================================================
@@ -66,6 +74,7 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPatientRecords = new HashMap<>();
+        mVaccineMaster = new LinkedHashMap<>();
     }
 
     @Override
@@ -75,8 +84,13 @@ public class SearchFragment extends Fragment {
 
         // uncomment the below lines to populate database with dummy data
         // NOTE: recommend you clear out the database beforehand
-//        new DummyDataGenerator().generateDummyPatientRecords();
-//        new DummyDataGenerator().generateDummyVaccineMaster();
+        String table = getString(R.string.masterTable);
+        String recordTable = getString(R.string.recordTable);
+        String vaccineTable = getString(R.string.vaccineTable);
+
+        DummyDataGenerator generator = new DummyDataGenerator(table, recordTable, vaccineTable);
+//        generator.generateDummyPatientRecords();
+//        generator.generateDummyVaccineMaster();
 
         initDatabase(); // run this before touching mPatientRecords!
 
@@ -110,10 +124,43 @@ public class SearchFragment extends Fragment {
 //            mUserId = mFirebaseUser.getUid();
 //        }
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // TODO put database query strings in a values.xml file
-        mDatabase.child("patientRecords").addChildEventListener(new ChildEventListener() {
+        String masterTable = getResources().getString(R.string.masterTable);
+        String recordTable = getResources().getString(R.string.recordTable);
+        String vaccineTable = getResources().getString(R.string.vaccineTable);
+
+
+        mDatabase.child(masterTable).child(vaccineTable).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
+                mVaccineMaster.put(vaccine.getDatabaseKey(), vaccine);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                onChildAdded(dataSnapshot, s);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
+                mVaccineMaster.remove(vaccine.getDatabaseKey());
+            }
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                // TODO test
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // TODO throw error
+            }
+        });
+
+
+        mDatabase.child(masterTable).child(recordTable).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 Record record = dataSnapshot.getValue(Record.class);
@@ -143,95 +190,24 @@ public class SearchFragment extends Fragment {
         newRecordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createNewRecord(view, inflater);
+                createNewRecord();
             }
         });
     }
 
-    private void createNewRecord(View view, LayoutInflater inflater) {
+    private void createNewRecord() {
+
+        CreateRecordFragment newRecordFrag = CreateRecordFragment.newInstance();
 
 
-        NewRecordFragment newRecordFrag = NewRecordFragment.newInstance();
-
-//        Bundle args = new Bundle();
-//        args.putString("recordId", recordId);
-//        recordFrag.setArguments(args);
+        Bundle args = new Bundle();
+        args.putSerializable("vaccines", new ArrayList<>(mVaccineMaster.values()));
+        newRecordFrag.setArguments(args);
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//        transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
-        transaction.replace(getId(), this).addToBackStack(null); // so that back button works
         transaction.replace(R.id.frame_layout, newRecordFrag);
+        transaction.addToBackStack(null);
         transaction.commit();
-
-
-//        // create modal
-//        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-//        builder.setTitle(getResources().getString(R.string.modal_new_record_title));
-//
-//        View dialogView = inflater.inflate(R.layout.modal_new_record, null);
-//        builder.setView(inflater.inflate(R.layout.modal_new_record, null));
-//
-//        final EditText firstNameEditText = dialogView.findViewById(R.id.new_first_name);
-//        final EditText lastNameEditText = dialogView.findViewById(R.id.new_last_name);
-//        final EditText communityEditText = dialogView.findViewById(R.id.new_community);
-//
-//        final Spinner spinner = dialogView.findViewById(R.id.gender_spinner);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(),
-//                R.array.gender_spinner_array, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(adapter);
-//
-//        final Sex[] gender = new Sex[1];
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//            }
-//
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-//                if (pos != 0) {
-//                    switch (spinner.getItemAtPosition(pos).toString()) {
-//                        case "Male":
-//                            gender[0] = Sex.MALE;
-//                            break;
-//                        case "Female":
-//                            gender[0] = Sex.FEMALE;
-//                            break;
-//                    }
-//                }
-//            }
-//        });
-//
-//        final DatePicker DOBpicker = dialogView.findViewById(R.id.dob_date_picker);
-//
-//        builder.setPositiveButton(getResources().getString(R.string.modal_new_record_add), new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                String firstName = firstNameEditText.getText().toString();
-//                String lastName = lastNameEditText.getText().toString();
-//                String community = communityEditText.getText().toString();
-//
-//                Calendar cal = Calendar.getInstance();
-//                cal.set(Calendar.DAY_OF_MONTH, DOBpicker.getDayOfMonth());
-//                cal.set(Calendar.MONTH, DOBpicker.getMonth());
-//                cal.set(Calendar.YEAR, DOBpicker.getYear());
-//
-//                DatabaseReference patientRecords = mDatabase.child("patientRecords").push();
-//
-////                Record newRecord = new Record(patientRecords.getKey(), firstName, lastName, gender[0], cal.getTimeInMillis(), community);
-//                // push the update to the database, which will trigger update listeners,
-//                // updating the view
-////                patientRecords.setValue(newRecord);
-//            }
-//        });
-//        builder.setNegativeButton(getResources().getString(R.string.modal_new_record_cancel), new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-//
-//        builder.show();
     }
 
     private void renderFilterSpinner(View view) {
@@ -244,7 +220,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 if (pos != 0) {
-                    mRecordFilter.setFilter(spinner.getItemAtPosition(pos).toString());
+                    mSearchFilter.setFilter(spinner.getItemAtPosition(pos).toString());
                 }
             }
             @Override
@@ -256,8 +232,8 @@ public class SearchFragment extends Fragment {
 
     private void initRecordFilters(View view) {
         EditText searchBar = view.findViewById(R.id.search_bar);
-        mRecordFilter = new RecordFilter(mPatientRecords, mSearchResultAdapter, searchBar);
-        mRecordFilter.addFilters();
+        mSearchFilter = new SearchFilter(mPatientRecords, mSearchResultAdapter, searchBar);
+        mSearchFilter.addFilters();
     }
 
     private void renderListView(View view) {
@@ -270,7 +246,7 @@ public class SearchFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String recordId = mSearchResultAdapter.getPatientIdFromDataSource(position);
 
-                RecordFragment recordFrag = RecordFragment.newInstance();
+                DetailFragment recordFrag = DetailFragment.newInstance();
 
                 Bundle args = new Bundle();
                 args.putString("recordId", recordId);
@@ -278,8 +254,8 @@ public class SearchFragment extends Fragment {
 
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
-                transaction.replace(getId(), searchFragment).addToBackStack(null); // so that back button works
-                transaction.replace(R.id.frame_layout, recordFrag);
+//                transaction.replace(getId(), searchFragment).addToBackStack(null); // so that back button works
+                transaction.replace(R.id.frame_layout, recordFrag).addToBackStack(null);
                 transaction.commit();
             }
         });

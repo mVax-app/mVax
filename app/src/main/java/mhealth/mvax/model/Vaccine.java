@@ -25,6 +25,19 @@ public class Vaccine implements Serializable {
     /**
      * Name of the vaccine
      */
+    private String mDatabaseKey;
+
+    public String getDatabaseKey() {
+        return this.mDatabaseKey;
+    }
+
+    public void setDatabaseKey(String databaseKey) {
+        this.mDatabaseKey = databaseKey;
+    }
+
+    /**
+     * Name of the vaccine
+     */
     private String mName;
 
     public String getName() {
@@ -33,6 +46,34 @@ public class Vaccine implements Serializable {
 
     public void setName(String name) {
         this.mName = name;
+    }
+
+    /*
+     * Target count for this month
+     */
+
+    private int mTargetCount;
+
+    public int getTargetCount() {
+        return this.mTargetCount;
+    }
+
+    public void setTargetCount(int target) {
+        this.mTargetCount = target;
+    }
+
+    /*
+     * Total count for this month
+     */
+
+    private int mAdministeredCount;
+
+    public int getAdministeredCount() {
+        return this.mAdministeredCount;
+    }
+
+    public void setAdministeredCount(int administered) {
+        this.mAdministeredCount = administered;
     }
 
     /**
@@ -72,7 +113,8 @@ public class Vaccine implements Serializable {
         mDoses = new ArrayList<>();
     }
 
-    public Vaccine(String name) {
+    public Vaccine(String databaseKey, String name) {
+        mDatabaseKey = databaseKey;
         mName = name;
         mDoses = new ArrayList<>();
     }

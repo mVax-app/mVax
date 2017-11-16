@@ -1,4 +1,4 @@
-package mhealth.mvax.search;
+package mhealth.mvax.records.search;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,7 +18,7 @@ import mhealth.mvax.model.Record;
  * on various queries
  */
 
-class RecordFilter {
+class SearchFilter {
 
     private Map<String, Record> mRecords;
 
@@ -28,7 +28,7 @@ class RecordFilter {
 
     private String mFilter;
 
-    RecordFilter(Map<String, Record> records, SearchResultAdapter adapter, EditText searchBar) {
+    SearchFilter(Map<String, Record> records, SearchResultAdapter adapter, EditText searchBar) {
         mRecords = records;
         mAdapter = adapter;
         mSearchBar = searchBar;

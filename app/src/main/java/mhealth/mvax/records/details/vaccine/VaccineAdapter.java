@@ -1,4 +1,4 @@
-package mhealth.mvax.search;
+package mhealth.mvax.records.details.vaccine;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -17,15 +17,15 @@ import android.widget.TextView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.Record;
 import mhealth.mvax.model.Dose;
 import mhealth.mvax.model.Vaccine;
+import mhealth.mvax.model.RecordDateFormat;
+import mhealth.mvax.records.views.DoseDateView;
 
 /**
  * @author Robert Steilberg
@@ -170,6 +170,54 @@ class VaccineAdapter extends BaseAdapter {
             // add the total dose view to the vaccine view
             layout.addView(doseLinearLayout);
         }
+
+
+
+        ///////////////DUE DATE/////////////////
+
+
+        // create LinearLayout to hold the label and date for the next Due Date
+        LinearLayout dueDateLinearLayout = new LinearLayout(rowView.getContext());
+        dueDateLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        dueDateLinearLayout.setPadding(0, 15, 0, 15);
+
+        // create Due Date label
+        TextView label = new TextView(rowView.getContext());
+        label.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        ));
+        //add a string variable for Due Date
+        label.setText(R.string.due_date);
+        label.setTextSize(22);
+        label.setGravity(Gravity.CENTER);
+        label.setPadding(0, 0, 15, 0);
+
+
+        //TextView for date of DueDate
+        // create dose Due Date
+        TextView dueDate = new TextView(rowView.getContext());
+        label.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        ));
+
+        //Temporary Due Date Placeholder
+        updateDueDate(vaccine, 1515992400L);
+        dueDate.setText("1/15/18");
+        dueDate.setPadding(5, 5, 5, 5);
+        dueDate.setGravity(Gravity.CENTER);
+        dueDate.setTextSize(22);
+
+        // add dose label and date to the view
+        dueDateLinearLayout.addView(label);
+        dueDateLinearLayout.addView(dueDate);
+        layout.addView(dueDateLinearLayout);
+
+
     }
 
 
@@ -188,10 +236,10 @@ class VaccineAdapter extends BaseAdapter {
         // create modal
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(R.string.modal_new_dosage_title);
-        View dialogView = mInflater.inflate(R.layout.modal_new_dose, null);
+        View dialogView = mInflater.inflate(R.layout.modal_choose_date, null);
         builder.setView(dialogView);
 
-        final DatePicker datePicker = dialogView.findViewById(R.id.dose_date_picker);
+        final DatePicker datePicker = dialogView.findViewById(R.id.date_picker);
 
         builder.setPositiveButton(mContext.getResources().getString(R.string.modal_new_dosage_confirm), new DialogInterface.OnClickListener() {
             @Override
@@ -228,12 +276,24 @@ class VaccineAdapter extends BaseAdapter {
     private void updateDose(Vaccine vaccine, Dose dose, Long doseDate) {
         dose.setDateCompleted(doseDate);
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        db.child("patientRecords").child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
+        String masterTable = mContext.getString(R.string.masterTable);
+        String recordTable = mContext.getString(R.string.recordTable);
+        db.child(masterTable).child(recordTable).child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
     }
 
     private static class ViewHolder {
         TextView vaccineTextView;
         LinearLayout dosesLinearLayout;
     }
+
+    // Updates Due Date in Firebase
+    private void updateDueDate(Vaccine vaccine, Long doseDate) {
+        vaccine.setDueDate(doseDate);
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+        String masterTable = mContext.getString(R.string.masterTable);
+        String recordTable = mContext.getString(R.string.recordTable);
+        db.child(masterTable).child(recordTable).child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
+    }
+
 
 }

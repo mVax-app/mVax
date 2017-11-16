@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="masterTable">mVax</string>
+    <string name="recordTable">records</string>
+    <string name="vaccineTable">vaccines</string>
+    <string name="databaseId">databaseId</string>
+
+    <string name="userTable">users</string>
+</resources>

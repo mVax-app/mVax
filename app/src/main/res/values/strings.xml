@@ -35,14 +35,14 @@
     <string name="REG_PASSWORD">Password</string>
     <string name="REG_PASSWORD_CONFIRM">Confirm Password</string>
     <string name="REG_ERROR_EMAIL">Invalid email address</string>
-    <string name="REG_ERROR_PASS_REQUIRE">Password does not pass requirements</string>
+    <string name="REG_ERROR_PASS_REQUIRE">Password does not satisfy requirements</string>
     <string name="REG_ERROR_PASS_CONFIRM">Passwords do not match</string>
     <string name="REG_CONFIRMED">Request submitted, wait to be approved!</string>
 
 
     <!-- Reset Password-->
     <string name="modal_reset_title">Reset Password</string>
-    <string name="reset_email">Email of Account</string>
+    <string name="reset_email">Account email</string>
     <string name="reset_password_button">Reset Password</string>
     <string name="reset_email_confirm">Password Reset Email has been sent to: </string>
     <string name="password_reset_confirm">Are you sure you want to reset your password?</string>
@@ -79,8 +79,6 @@
     <!-- Record detail activity -->
     <string name="vaccine_title">Vaccine History</string>
     <string name="DOB_prompt">DOB:</string>
-    <string name="gender_prompt">Gender:</string>
-    <string name="community_prompt">Community:</string>
     <string name="modal_new_dosage_title">Add Dosage:</string>
     <string name="modal_new_dosage_confirm">Confirm</string>
     <string name="modal_new_dosage_cancel">Cancel</string>
@@ -93,23 +91,73 @@
     <string name="successful_record_update">Saved</string>
     <string name="unsuccessful_record_update">Save Failed</string>
 
+    <string name="modal_title_choose_sex">Choose Sex</string>
+
+    <string name="modal_positive_choose_sex">OK</string>
+    <string name="modal_negative_choose_sex">Cancel</string>
+
+    <string name="label_id">ID</string>
+    <string name="hint_id">13-digit id number</string>
+
+    <string name="label_firstname">First name</string>
+    <string name="hint_firstname">first</string>
+
+    <string name="label_middlename">Middle name</string>
+    <string name="hint_middlename">middle</string>
+
+    <string name="label_dob">Date of Birth</string>
+    <string name="hint_dob">date of birth</string>
+
+    <string name="label_sex">Sex</string>
+    <string name="hint_sex">sex</string>
+
+
+    <!--Vaccine Dates-->
+    <string name="due_date">Due Date:</string>
+
 
     <!-- Search -->
-    <string name="hint_search">Search...</string>
-    <string name="first_name">First name</string>
-    <string name="last_name">Last name</string>
-    <string name="community">Community</string>
+    <string name="hint_search">Search…</string>
     <string name="add_new_record">Add New Record</string>
     <string name="new_record_title">New Record</string>
 
 
     <!-- Dashboard -->
     <string name="dashboard_target">TARGET:</string>
-    <string name="dashboard_given">GIVEN:</string>
+    <string name="dashboard_administered">ADMINISTERED:</string>
 
     <string name="male_enum">Male</string>
     <string name="female_enum">Female</string>
     <string name="empty_string" />
+    <string name="modal_neutral_choose_sex">No Sex</string>
+    <string name="modal_title_choose_date">Choose Date</string>
+    <string name="modal_positive_choose_date">Ok</string>
+    <string name="modal_negative_choose_date">Cancel</string>
+    <string name="modal_neutral_choose_date">No Date</string>
+    <string name="label_numDependents">Dependents</string>
+    <string name="hint_numDependents">total dependents</string>
+    <string name="patient_detail_section_title">Patient Information</string>
+    <string name="guardian_detail_section_title">Guardian Details</string>
+    <string name="edit_record_button">Edit Record</string>
+    <string name="edit_record_title">Edit Record</string>
+    <string name="label_lastname">Last Name</string>
+    <string name="hint_lastname">last</string>
+    <string name="label_suffix">Suffix</string>
+    <string name="hint_suffix">suffix</string>
+    <string name="label_pob">Place of Birth</string>
+    <string name="hint_pob">place of birth</string>
+    <string name="label_community">Community</string>
+    <string name="hint_community">community</string>
+    <string name="label_guardian_id">Guardian ID</string>
+    <string name="label_guardian_firstname">Guardian First Name</string>
+    <string name="label_guardian_middlname">Guardian Middle Name</string>
+    <string name="label_guardian_lastname">Guardian Last Name</string>
+    <string name="label_guardian_suffix">Guardian Suffix</string>
+    <string name="label_guardian_sex">Guardian Sex</string>
+    <string name="label_guardian_address">Address</string>
+    <string name="hint_guardian_address">address</string>
+    <string name="label_phone_number">Phone Number</string>
+    <string name="hint_phone_number">phone</string>
 
     <!-- FORMS FILE PATHS -->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>
