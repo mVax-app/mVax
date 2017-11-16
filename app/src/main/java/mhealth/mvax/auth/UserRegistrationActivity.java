@@ -14,6 +14,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
 
@@ -26,6 +28,8 @@ public class UserRegistrationActivity extends AppCompatActivity {
     private EditText newUserEmail;
     private EditText newUserPassword;
     private EditText newUserPasswordConfirm;
+    private EditText firstName;
+    private EditText lastName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,8 @@ public class UserRegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_registration);
         setOnClick();
         checkLogin = this;
+        firstName = (EditText) findViewById(R.id.TFname);
+        lastName = (EditText) findViewById(R.id.TFnameLast);
         newUserName = (EditText)findViewById(R.id.TFname);
         newUserEmail = (EditText)findViewById(R.id.TFemail);
         newUserPassword = (EditText)findViewById(R.id.TFpassword);
@@ -56,7 +62,6 @@ public class UserRegistrationActivity extends AppCompatActivity {
                 newUserEmail.setError(null);
                 newUserPassword.setError(null);
                 newUserPasswordConfirm.setError(null);
-
 
                 String email = newUserEmail.getText().toString();
                 String password = newUserPassword.getText().toString();
@@ -100,6 +105,13 @@ public class UserRegistrationActivity extends AppCompatActivity {
                                     if (!task.isSuccessful()) {
                                         Toast.makeText(UserRegistrationActivity.this, R.string.auth_failed,
                                                 Toast.LENGTH_LONG).show();
+                                    }
+                                    else{
+                                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                        DatabaseReference account = ref.child("users").child(uid);
+                                        User newUser = new User(firstName.getText().toString(), lastName.getText().toString(), UserRole.ADMIN);
+                                        account.setValue(newUser);
                                     }
                                 }
                             });

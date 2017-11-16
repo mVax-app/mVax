@@ -21,11 +21,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import mhealth.mvax.R;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import mhealth.mvax.R;
 import mhealth.mvax.model.Record;
 
 /**
