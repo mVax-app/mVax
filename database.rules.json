@@ -1,6 +1,9 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    "mVax": {
+      ".read": "auth != null",
+      ".write": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'"
+    }
+
   }
 }

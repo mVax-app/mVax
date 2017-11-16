@@ -144,8 +144,6 @@ public class UserRegistrationActivity extends AppCompatActivity {
         for(int i = 0; i < values.length; i++){
             roles.add(values[i].name());
         }
-        String size = roles.toString();
-        Log.d("please", size);
         return roles;
 
     }

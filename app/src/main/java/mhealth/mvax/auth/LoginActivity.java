@@ -210,6 +210,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                     Toast.LENGTH_SHORT).show();
                         }
                         else{
+                            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            Log.d("uid", uid);
                             Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(mainIntent);
                         }
