@@ -7,13 +7,20 @@ package mhealth.mvax.auth;
 public class User {
     private String mFirstName;
     private String mLastName;
-    private UserRole mRole;
+    private String mRole;
 
     public User(String firstName, String lastName, UserRole role){
         this.mFirstName = firstName;
         this.mLastName = lastName;
+        this.mRole = role.name();
+    }
+
+    public User(String firstName, String lastName, String role){
+        this.mFirstName = firstName;
+        this.mLastName = lastName;
         this.mRole = role;
     }
+
 
     /**
      * For the mFirstName attribute, return for Firebase
@@ -51,7 +58,7 @@ public class User {
      * For the mRole attribute, return for Firebase
      * @return UserRole
      */
-    public UserRole getRole(){
+    public String getRole(){
         return mRole;
     }
 
@@ -59,7 +66,7 @@ public class User {
      * Sets the UserRole enum value
      * @param role
      */
-    public void setRole(UserRole role){
+    public void setRole(String role){
         this.mRole = role;
     }
 

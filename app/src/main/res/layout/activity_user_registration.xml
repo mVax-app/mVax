@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/TVdescription"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="121dp"
         android:layout_below="@+id/TVtitle"
         android:text="@string/REG_DESCRIPTION"
         android:textAlignment="center"
@@ -98,6 +98,24 @@
             android:text="@string/emptystring"
             android:textAlignment="center"
             android:textSize="24sp" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="36sp" />
+
+        <TextView
+            android:id="@+id/userRoleLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="30sp"
+            android:text="@string/userRoles"
+            android:textAlignment="viewStart"
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/TFrole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

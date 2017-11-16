@@ -5,5 +5,7 @@ package mhealth.mvax.auth;
  */
 
 public enum UserRole {
-ADMIN, READER
+ADMIN, READER;
 }
+
+
