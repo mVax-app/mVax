@@ -6,16 +6,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.User;
+import mhealth.mvax.model.UserRole;
 
 public class UserRegistrationActivity extends AppCompatActivity {
     static UserRegistrationActivity checkLogin;
@@ -26,6 +35,9 @@ public class UserRegistrationActivity extends AppCompatActivity {
     private EditText newUserEmail;
     private EditText newUserPassword;
     private EditText newUserPasswordConfirm;
+    private EditText firstName;
+    private EditText lastName;
+    private Spinner userRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +45,20 @@ public class UserRegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_registration);
         setOnClick();
         checkLogin = this;
+        firstName = (EditText) findViewById(R.id.TFname);
+        lastName = (EditText) findViewById(R.id.TFnameLast);
         newUserName = (EditText)findViewById(R.id.TFname);
         newUserEmail = (EditText)findViewById(R.id.TFemail);
         newUserPassword = (EditText)findViewById(R.id.TFpassword);
         newUserPasswordConfirm = (EditText) findViewById(R.id.TFpasswordConfirm);
+
+        userRole = (Spinner) this.findViewById(R.id.TFrole);
+        List<String> rolesList = getRoles();
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(UserRegistrationActivity.this,
+                android.R.layout.simple_spinner_item, rolesList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        userRole.setAdapter(dataAdapter);
 
         mAuth= FirebaseAuth.getInstance();
     }
@@ -57,9 +79,9 @@ public class UserRegistrationActivity extends AppCompatActivity {
                 newUserPassword.setError(null);
                 newUserPasswordConfirm.setError(null);
 
-
                 String email = newUserEmail.getText().toString();
                 String password = newUserPassword.getText().toString();
+
 
                 Boolean cancel = false;
                 View focusView = null;
@@ -101,6 +123,13 @@ public class UserRegistrationActivity extends AppCompatActivity {
                                         Toast.makeText(UserRegistrationActivity.this, R.string.auth_failed,
                                                 Toast.LENGTH_LONG).show();
                                     }
+                                    else{
+                                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                        DatabaseReference account = ref.child(getResources().getString(R.string.userTable)).child(uid);
+                                        User newUser = new User(firstName.getText().toString(), lastName.getText().toString(), userRole.getSelectedItem().toString());
+                                        account.setValue(newUser);
+                                    }
                                 }
                             });
 
@@ -110,4 +139,15 @@ public class UserRegistrationActivity extends AppCompatActivity {
             }
         });
     }
+
+    private List<String> getRoles(){
+        List<String> roles = new ArrayList<String>();
+        UserRole[] values = UserRole.class.getEnumConstants();
+        for(int i = 0; i < values.length; i++){
+            roles.add(values[i].name());
+        }
+        return roles;
+
+    }
+
 }

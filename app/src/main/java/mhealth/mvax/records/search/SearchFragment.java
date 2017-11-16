@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import mhealth.mvax.R;
 import mhealth.mvax.model.Record;
 import mhealth.mvax.model.Vaccine;
 import mhealth.mvax.records.details.record.modify.create.CreateRecordFragment;

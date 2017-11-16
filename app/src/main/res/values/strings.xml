@@ -38,6 +38,7 @@
     <string name="REG_ERROR_PASS_REQUIRE">Password does not satisfy requirements</string>
     <string name="REG_ERROR_PASS_CONFIRM">Passwords do not match</string>
     <string name="REG_CONFIRMED">Request submitted, wait to be approved!</string>
+    <string name="userRoles">Account Permission Level</string>
 
 
     <!-- Reset Password-->
