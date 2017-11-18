@@ -7,4 +7,5 @@
 
     <string name="userTable">users</string>
     <string name="role">role</string>
+    <string name="approved">approved</string>
 </resources>

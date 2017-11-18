@@ -8,6 +8,7 @@ public class User {
     private String mFirstName;
     private String mLastName;
     private String mRole;
+    private boolean mApproved;
 
     public User(String firstName, String lastName, UserRole role){
         this.mFirstName = firstName;
@@ -68,6 +69,22 @@ public class User {
      */
     public void setRole(String role){
         this.mRole = role;
+    }
+
+    /**
+     * Set if a user is approved or not
+     * @param approved
+     */
+    public void setApproved(Boolean approved){
+        this.mApproved = approved;
+    }
+
+    /**
+     * Get if a user is approved or not
+     * @return Boolean which represents if a user is approved
+     */
+    public Boolean getApproved(){
+        return mApproved;
     }
 
 }

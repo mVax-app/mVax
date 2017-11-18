@@ -189,6 +189,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
+
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -204,16 +206,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
+                        if (task.isSuccessful()) {
+                            if(checkIfApproved()) {
+                                Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(mainIntent);
+                            }
+                            else{
+                                Log.d("failedLogin", "userNotApproved");
+                                //TODO make resource file string
+                                Toast.makeText(LoginActivity.this, "User not approved yet", Toast.LENGTH_LONG).show();
+                                FirebaseAuth.getInstance().signOut();
+                            }
+                        }
+                        else{
+
                             Log.w("failedLogin", "signInWithEmail:failed", task.getException());
                             Toast.makeText(LoginActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            Log.d("uid", uid);
-                            Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(mainIntent);
                         }
                     }
                 });
@@ -230,6 +239,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public static boolean isPasswordValid(String password) {
         //Currently requirement is just 6 characters, may augment later
         return password.length() >= 6;
+    }
+
+    private Boolean checkIfApproved(){
+        return FirebaseAuth.getInstance().getCurrentUser().isEmailVerified();
     }
 
     /**
