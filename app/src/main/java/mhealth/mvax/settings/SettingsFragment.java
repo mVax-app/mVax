@@ -204,8 +204,7 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                //TODO resource file this string
-                Toast.makeText(getActivity(), "Unable to determine user role", Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(), getResources().getString(R.string.no_user_role), Toast.LENGTH_LONG);
             }
         });
 

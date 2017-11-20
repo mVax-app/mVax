@@ -44,6 +44,8 @@
     <string name="approve_user">Approve</string>
     <string name="deny_user">Deny</string>
     <string name="uid">uid</string>
+    <string name="user_not_approved">User not approved yet</string>
+    <string name="no_user_role">Unable to determine user role</string>
 
     <!-- Reset Password-->
     <string name="modal_reset_title">Reset Password</string>
