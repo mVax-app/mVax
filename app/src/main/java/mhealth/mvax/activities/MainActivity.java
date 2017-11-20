@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        db.setPersistenceEnabled(true);
         DatabaseReference database = db.getReference();
 
         setContentView(R.layout.activity_main);

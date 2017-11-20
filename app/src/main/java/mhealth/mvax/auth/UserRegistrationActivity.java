@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.User;
+import mhealth.mvax.model.UserRequest;
 import mhealth.mvax.model.UserRole;
 
 public class UserRegistrationActivity extends AppCompatActivity {
@@ -42,6 +42,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_user_registration);
         setOnClick();
         checkLogin = this;
@@ -126,8 +127,8 @@ public class UserRegistrationActivity extends AppCompatActivity {
                                     else{
                                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
                                         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                        DatabaseReference account = ref.child(getResources().getString(R.string.userTable)).child(uid);
-                                        User newUser = new User(firstName.getText().toString(), lastName.getText().toString(), userRole.getSelectedItem().toString());
+                                        DatabaseReference account = ref.child(getResources().getString(R.string.userRequestsTable)).child(uid);
+                                        UserRequest newUser = new UserRequest(uid, firstName.getText().toString(), lastName.getText().toString(), newUserEmail.getText().toString(), userRole.getSelectedItem().toString());
                                         account.setValue(newUser);
                                     }
                                 }

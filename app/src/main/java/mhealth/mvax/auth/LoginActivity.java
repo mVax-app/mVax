@@ -29,7 +29,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
@@ -189,6 +193,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
+
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -204,16 +210,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
+                        if (task.isSuccessful()) {
+                            checkIfApproved();
+                        }
+                        else{
+
                             Log.w("failedLogin", "signInWithEmail:failed", task.getException());
                             Toast.makeText(LoginActivity.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            Log.d("uid", uid);
-                            Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(mainIntent);
                         }
                     }
                 });
@@ -230,6 +234,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public static boolean isPasswordValid(String password) {
         //Currently requirement is just 6 characters, may augment later
         return password.length() >= 6;
+    }
+
+    private void checkIfApproved(){
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(getResources().getString(R.string.userTable)).child(uid);
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(mainIntent);
+                }
+                else {
+                    Log.d("failedLogin", "userNotApproved");
+                    Toast.makeText(LoginActivity.this, getResources().getString(R.string.user_not_approved), Toast.LENGTH_LONG).show();
+                    FirebaseAuth.getInstance().signOut();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("dbError", "error in LoginActivity.java");
+            }
+
+        });
+
+
     }
 
     /**

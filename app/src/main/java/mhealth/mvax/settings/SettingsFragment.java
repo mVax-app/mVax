@@ -19,11 +19,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Locale;
 
 import mhealth.mvax.R;
-import mhealth.mvax.activities.MainActivity;
+import mhealth.mvax.auth.ApproveUsersFragment;
 import mhealth.mvax.auth.LoginActivity;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -67,6 +72,8 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        createApproveUsersButton(v);
+
         return v;
     }
 
@@ -86,6 +93,7 @@ public class SettingsFragment extends Fragment {
                 }
             }
         });
+
 
     }
 
@@ -116,10 +124,6 @@ public class SettingsFragment extends Fragment {
         ft.detach(this).attach(this).commit();
 
     }
-
-
-
-
 
     public void updateEmail(View v){
 
@@ -179,5 +183,47 @@ public class SettingsFragment extends Fragment {
     public void signOut(){
         getActivity().finish();
         FirebaseAuth.getInstance().signOut();
+    }
+
+    private void createApproveUsersButton(View view){
+        final Button approveUsers = (Button) view.findViewById(R.id.approveUsers);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        ref = ref.child(getResources().getString(R.string.userTable)).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(getResources().getString(R.string.role));
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+//                if(dataSnapshot.getValue().equals(UserRole.ADMIN.toString())){
+//                    approveUsers.setVisibility(View.VISIBLE);
+//                }
+//                else{
+//                    approveUsers.setVisibility(View.GONE);
+//                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.no_user_role), Toast.LENGTH_LONG);
+            }
+        });
+
+
+        approveUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               switchToApproveUsersFragment(view);
+            }
+        });
+    }
+
+
+    private void switchToApproveUsersFragment(View view){
+        ApproveUsersFragment approveUsers = new ApproveUsersFragment();
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(getId(), this).addToBackStack(null); // so that back button works
+        transaction.replace(R.id.frame_layout, approveUsers);
+        transaction.commit();
     }
 }

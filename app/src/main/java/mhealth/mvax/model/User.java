@@ -7,20 +7,20 @@ package mhealth.mvax.model;
 public class User {
     private String mFirstName;
     private String mLastName;
+    private String mEmail;
     private String mRole;
 
-    public User(String firstName, String lastName, UserRole role){
-        this.mFirstName = firstName;
-        this.mLastName = lastName;
-        this.mRole = role.name();
+
+    public User(){
+        //empty required constructor
     }
 
-    public User(String firstName, String lastName, String role){
+    public User(String firstName, String lastName, String email, String role){
         this.mFirstName = firstName;
         this.mLastName = lastName;
+        this.mEmail = email;
         this.mRole = role;
     }
-
 
     /**
      * For the mFirstName attribute, return for Firebase
@@ -69,5 +69,24 @@ public class User {
     public void setRole(String role){
         this.mRole = role;
     }
+
+    /**
+     * For the mEmail attribute, return for Firebase
+     * @return email string
+     */
+    public String getEmail(){
+        return mEmail;
+    }
+
+    /**
+     * Sets the email value
+     * @param email
+     */
+    public void setEmail(String email){
+        this.mEmail = email;
+    }
+
+
+
 
 }

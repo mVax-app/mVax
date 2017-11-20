@@ -25,7 +25,7 @@
     <string name="title_search">Search</string>
     <string name="title_dashboard">Dashboard</string>
 
-    <string name="REG_DESCRIPTION">Please fill out the following form to get started. After completion, an email will be sent to an administrator who will have to approve you in order for you to gain full access.</string>
+    <string name="REG_DESCRIPTION">Please fill out the following form to get started. After completion, an administrator will have to approve you and then a confirmation email will be sent to your account</string>
     <string name="REG_TITLE">New User Registration</string>
     <string name="REG_ButtonReg">Register</string>
     <string name="REG_NAME">First Name</string>
@@ -40,6 +40,12 @@
     <string name="REG_CONFIRMED">Request submitted, wait to be approved!</string>
     <string name="userRoles">Account Permission Level</string>
 
+    <string name="modal_user_decision_title">Approve User Request?</string>
+    <string name="approve_user">Approve</string>
+    <string name="deny_user">Deny</string>
+    <string name="uid">uid</string>
+    <string name="user_not_approved">User not approved yet</string>
+    <string name="no_user_role">Unable to determine user role</string>
 
     <!-- Reset Password-->
     <string name="modal_reset_title">Reset Password</string>
@@ -256,5 +262,6 @@
     <string name="VPH_11A_1A">VPH_11A_1A_Row</string>
     <string name="VPH_11A_2A">VPH_11A_2A_Row</string>
     <string name="VITA_PU_DU">VITA_PU_DU_Row</string>
-        
+
+
 </resources>
