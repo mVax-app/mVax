@@ -78,7 +78,7 @@ public class ApproveUsersFragment extends android.support.v4.app.Fragment {
         //Get data out of user requests
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref = ref.child(getResources().getString(R.string.userRequestsTable));
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //help from: https://stackoverflow.com/questions/40366717/firebase-for-android-how-can-i-loop-through-a-child-for-each-child-x-do-y
@@ -164,7 +164,7 @@ public class ApproveUsersFragment extends android.support.v4.app.Fragment {
 
     private void deleteUserRequest(final HashMap<String, String> data){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference account = ref.child(getResources().getString(R.string.userRequestsTable)).orderByChild(getResources().getString(R.string.email)).equalTo(data.get(EMAIL)).getRef();
+        DatabaseReference account = ref.child(getResources().getString(R.string.userRequestsTable)).child(data.get(UID));
         account.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
