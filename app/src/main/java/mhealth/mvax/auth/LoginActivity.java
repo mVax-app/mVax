@@ -212,15 +212,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         // signed in user can be handled in the listener.
                         if (task.isSuccessful()) {
                             checkIfApproved();
-//                             if(checkIfApproved()) {
-//                                Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-//                                startActivity(mainIntent);
-//                             }
-//                             else{
-//                                Log.d("failedLogin", "userNotApproved");
-//                                Toast.makeText(LoginActivity.this, getResources().getString(R.string.user_not_approved), Toast.LENGTH_LONG).show();
-//                                FirebaseAuth.getInstance().signOut();
-//                            }
                         }
                         else{
 
