@@ -48,9 +48,9 @@ public class UserRegRequestsAdapter extends BaseAdapter{
         }
 
         HashMap<String, String> map=requests.get(i);
-        name.setText(map.get(ApproveUsersFragment.FIRST_COLUMN));
-        email.setText(map.get(ApproveUsersFragment.SECOND_COLUMN));
-        role.setText(map.get(ApproveUsersFragment.THIRD_COLUMN));
+        name.setText(map.get(ApproveUsersFragment.FIRST_NAME) + " " + map.get(ApproveUsersFragment.LAST_NAME));
+        email.setText(map.get(ApproveUsersFragment.EMAIL));
+        role.setText(map.get(ApproveUsersFragment.ROLE));
 
         return view;
     }
@@ -68,5 +68,10 @@ public class UserRegRequestsAdapter extends BaseAdapter{
     @Override
     public long getItemId(int i) {
         return i;
+    }
+
+    public void refresh(ArrayList<HashMap<String, String>> list){
+        this.requests = list;
+        notifyDataSetChanged();
     }
 }

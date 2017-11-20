@@ -30,7 +30,6 @@ import java.util.Locale;
 import mhealth.mvax.R;
 import mhealth.mvax.auth.ApproveUsersFragment;
 import mhealth.mvax.auth.LoginActivity;
-import mhealth.mvax.model.UserRole;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -195,12 +194,12 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.getValue().equals(UserRole.ADMIN.toString())){
-                    approveUsers.setVisibility(View.VISIBLE);
-                }
-                else{
-                    approveUsers.setVisibility(View.GONE);
-                }
+//                if(dataSnapshot.getValue().equals(UserRole.ADMIN.toString())){
+//                    approveUsers.setVisibility(View.VISIBLE);
+//                }
+//                else{
+//                    approveUsers.setVisibility(View.GONE);
+//                }
             }
 
             @Override

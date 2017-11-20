@@ -40,6 +40,10 @@
     <string name="REG_CONFIRMED">Request submitted, wait to be approved!</string>
     <string name="userRoles">Account Permission Level</string>
 
+    <string name="modal_user_decision_title">Approve User Request?</string>
+    <string name="approve_user">Approve</string>
+    <string name="deny_user">Deny</string>
+    <string name="uid">uid</string>
 
     <!-- Reset Password-->
     <string name="modal_reset_title">Reset Password</string>

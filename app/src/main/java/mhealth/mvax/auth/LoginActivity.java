@@ -207,11 +207,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (task.isSuccessful()) {
-                            if(checkIfApproved()) {
+                             if(checkIfApproved()) {
                                 Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(mainIntent);
-                            }
-                            else{
+                             }
+                             else{
                                 Log.d("failedLogin", "userNotApproved");
                                 //TODO make resource file string
                                 Toast.makeText(LoginActivity.this, "User not approved yet", Toast.LENGTH_LONG).show();
@@ -242,7 +242,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private Boolean checkIfApproved(){
-        return FirebaseAuth.getInstance().getCurrentUser().isEmailVerified();
+      //  return FirebaseAuth.getInstance().getCurrentUser().isEmailVerified();
+        return true;
     }
 
     /**
