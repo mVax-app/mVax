@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -147,6 +148,7 @@ public class ApproveUsersFragment extends android.support.v4.app.Fragment {
                 requests.remove(index);
                 adapter.notifyDataSetChanged();
                 dialog.dismiss();
+                refresh();
             }
         });
         builder.setNegativeButton(getResources().getString(R.string.deny_user), new DialogInterface.OnClickListener() {
@@ -157,6 +159,7 @@ public class ApproveUsersFragment extends android.support.v4.app.Fragment {
                 requests.remove(index);
                 adapter.notifyDataSetChanged();
                 dialog.dismiss();
+                refresh();
             }
         });
         builder.show();
@@ -176,5 +179,11 @@ public class ApproveUsersFragment extends android.support.v4.app.Fragment {
                 Log.e("databaseError", "Error in ApproveUsersFragment");
             }
         });
+    }
+
+    private void refresh(){
+        FragmentTransaction tr = getFragmentManager().beginTransaction();
+        tr.replace(R.id.frame_layout, new ApproveUsersFragment());
+        tr.commit();
     }
 }
