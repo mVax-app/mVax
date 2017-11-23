@@ -1,4 +1,4 @@
-package mhealth.mvax.model;
+package mhealth.mvax.records.views.detail;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.record.Sex;
 
 /**
  * @author Robert Steilberg
@@ -16,7 +17,7 @@ import mhealth.mvax.R;
 
 public class SexDetail extends Detail<Sex> {
 
-    SexDetail(String label, String hint, Sex sex, Context context) {
+    public SexDetail(String label, String hint, Sex sex, Context context) {
         super(label, hint, sex, context);
     }
 

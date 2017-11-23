@@ -1,4 +1,4 @@
-package mhealth.mvax.model;
+package mhealth.mvax.records.views.detail;
 
 import android.content.Context;
 import android.text.InputType;
@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 public class StringNumberDetail extends StringDetail {
 
-    StringNumberDetail(String label, String hint, String value, Context context) {
+    public StringNumberDetail(String label, String hint, String value, Context context) {
         super(label, hint, value, context);
     }
 

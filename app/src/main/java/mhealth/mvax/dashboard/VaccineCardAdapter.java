@@ -11,14 +11,12 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.Vaccine;
+import mhealth.mvax.model.record.Vaccine;
 
 /**
  * Created by AlisonHuang on 11/1/17.

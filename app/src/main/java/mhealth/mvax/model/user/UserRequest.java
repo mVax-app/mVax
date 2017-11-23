@@ -1,4 +1,4 @@
-package mhealth.mvax.model;
+package mhealth.mvax.model.user;
 
 /**
  * Created by mtribby on 11/20/17.

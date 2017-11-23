@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.User;
-import mhealth.mvax.model.UserRequest;
+import mhealth.mvax.model.user.User;
+import mhealth.mvax.model.user.UserRequest;
 
 /**
  * A simple {@link Fragment} subclass.

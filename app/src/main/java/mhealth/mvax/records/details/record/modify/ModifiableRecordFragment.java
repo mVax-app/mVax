@@ -2,20 +2,13 @@ package mhealth.mvax.records.details.record.modify;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 
-import mhealth.mvax.R;
-import mhealth.mvax.model.Record;
-import mhealth.mvax.records.details.DetailFragment;
-import mhealth.mvax.records.search.SearchFragment;
+import mhealth.mvax.model.record.Record;
 
 /**
  * @author Robert Steilberg

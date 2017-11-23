@@ -21,10 +21,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.Record;
-import mhealth.mvax.model.Dose;
-import mhealth.mvax.model.Vaccine;
-import mhealth.mvax.model.RecordDateFormat;
+import mhealth.mvax.model.record.Record;
+import mhealth.mvax.model.record.Dose;
+import mhealth.mvax.model.record.Vaccine;
+import mhealth.mvax.records.details.record.RecordDateFormat;
 import mhealth.mvax.records.views.DoseDateView;
 
 /**

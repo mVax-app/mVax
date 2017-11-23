@@ -1,20 +1,20 @@
-package mhealth.mvax.model;
+package mhealth.mvax.model.record;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import mhealth.mvax.R;
+import mhealth.mvax.records.views.detail.DateDetail;
+import mhealth.mvax.records.views.detail.Detail;
+import mhealth.mvax.records.views.detail.SexDetail;
+import mhealth.mvax.records.views.detail.StringDetail;
+import mhealth.mvax.records.views.detail.StringNumberDetail;
 
 /**
  * @author Robert Steilberg

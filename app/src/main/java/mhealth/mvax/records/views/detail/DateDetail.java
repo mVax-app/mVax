@@ -1,4 +1,4 @@
-package mhealth.mvax.model;
+package mhealth.mvax.records.views.detail;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.widget.EditText;
 import org.joda.time.LocalDate;
 
 import mhealth.mvax.R;
+import mhealth.mvax.records.details.record.RecordDateFormat;
 
 /**
  * @author Robert Steilberg
@@ -18,7 +19,7 @@ import mhealth.mvax.R;
 
 public class DateDetail extends Detail<Long> {
 
-    DateDetail(String label, String hint, Long value, Context context) {
+    public DateDetail(String label, String hint, Long value, Context context) {
         super(label, hint, value, context);
     }
 

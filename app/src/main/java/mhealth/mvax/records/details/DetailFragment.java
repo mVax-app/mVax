@@ -18,7 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.Record;
+import mhealth.mvax.model.record.Record;
 import mhealth.mvax.records.details.record.view.RecordDetailsTab;
 import mhealth.mvax.records.details.vaccine.VaccineHistoryTab;
 

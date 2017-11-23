@@ -22,8 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.Record;
-import mhealth.mvax.model.Vaccine;
+import mhealth.mvax.model.record.Record;
+import mhealth.mvax.model.record.Vaccine;
 
 public class DashboardFragment extends Fragment {
 

@@ -1,4 +1,4 @@
-package mhealth.mvax.model;
+package mhealth.mvax.records.details.record;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
