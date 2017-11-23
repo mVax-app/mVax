@@ -7,6 +7,7 @@ import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 
 import mhealth.mvax.R;
@@ -25,8 +26,6 @@ import mhealth.mvax.records.views.detail.StringNumberDetail;
  *         OR MODIFYING PROPERTIES
  */
 
-// TODO make vaccine list ordered
-
 public class Record implements Serializable {
 
     //================================================================================
@@ -42,6 +41,7 @@ public class Record implements Serializable {
 
     public Record(String databaseId, ArrayList<Vaccine> vaccines) {
         mDatabaseId = databaseId;
+        Collections.sort(vaccines);
         mVaccines = vaccines;
     }
 
@@ -319,6 +319,7 @@ public class Record implements Serializable {
      * use addVaccine or updateVaccine to modify associated Vaccines
      */
     public void setVaccines(ArrayList<Vaccine> vaccines) {
+        Collections.sort(vaccines);
         this.mVaccines = vaccines;
     }
 

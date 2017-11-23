@@ -18,6 +18,9 @@ public enum Sex {
         this.mResourceId = resourceId;
     }
 
+    /**
+     * @return id used to find the string value of the Sex
+     */
     public int getResourceId() {
         return this.mResourceId;
     }
