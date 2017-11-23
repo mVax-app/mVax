@@ -1,4 +1,4 @@
-package mhealth.mvax.model;
+package mhealth.mvax.model.record;
 
 import mhealth.mvax.R;
 

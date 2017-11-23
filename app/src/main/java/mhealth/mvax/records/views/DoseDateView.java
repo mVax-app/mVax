@@ -2,8 +2,8 @@ package mhealth.mvax.records.views;
 
 import android.content.Context;
 
-import mhealth.mvax.model.Dose;
-import mhealth.mvax.model.Vaccine;
+import mhealth.mvax.model.record.Dose;
+import mhealth.mvax.model.record.Vaccine;
 
 /**
  * @author Robert Steilberg

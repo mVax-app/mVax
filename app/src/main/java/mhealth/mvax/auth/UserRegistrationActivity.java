@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.UserRequest;
-import mhealth.mvax.model.UserRole;
+import mhealth.mvax.model.user.UserRequest;
+import mhealth.mvax.model.user.UserRole;
 
 public class UserRegistrationActivity extends AppCompatActivity {
     static UserRegistrationActivity checkLogin;

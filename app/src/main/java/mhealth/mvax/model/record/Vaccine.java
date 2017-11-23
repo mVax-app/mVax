@@ -1,11 +1,7 @@
-package mhealth.mvax.model;
-
-import com.google.firebase.database.Exclude;
+package mhealth.mvax.model.record;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * @author Robert Steilberg

@@ -15,8 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.Record;
-import mhealth.mvax.model.Vaccine;
+import mhealth.mvax.model.record.Record;
+import mhealth.mvax.model.record.Vaccine;
 import mhealth.mvax.records.details.DetailFragment;
 import mhealth.mvax.records.details.record.modify.ModifiableRecordDetailsAdapter;
 import mhealth.mvax.records.details.record.modify.ModifiableRecordFragment;

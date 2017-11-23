@@ -1,4 +1,4 @@
-package mhealth.mvax.model;
+package mhealth.mvax.records.views.detail;
 
 import android.content.Context;
 import android.view.View;
@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 public class StringDetail extends Detail<String> {
 
-    StringDetail(String label, String hint, String value, Context context) {
+    public StringDetail(String label, String hint, String value, Context context) {
         super(label, hint, value, context);
     }
 

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.Detail;
+import mhealth.mvax.records.views.detail.Detail;
 import mhealth.mvax.records.details.record.RecordDetailsAdapter;
 
 /**

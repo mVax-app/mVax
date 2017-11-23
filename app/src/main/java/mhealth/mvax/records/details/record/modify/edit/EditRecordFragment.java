@@ -2,7 +2,6 @@ package mhealth.mvax.records.details.record.modify.edit;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +10,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.Record;
+import mhealth.mvax.model.record.Record;
 import mhealth.mvax.records.details.DetailFragment;
 import mhealth.mvax.records.details.record.modify.ModifiableRecordDetailsAdapter;
 import mhealth.mvax.records.details.record.modify.ModifiableRecordFragment;

@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import mhealth.mvax.model.Detail;
+import mhealth.mvax.records.views.detail.Detail;
 
 /**
  * @author Robert Steilberg

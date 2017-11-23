@@ -12,8 +12,8 @@ import java.util.Collection;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.Record;
-import mhealth.mvax.model.RecordDateFormat;
+import mhealth.mvax.model.record.Record;
+import mhealth.mvax.records.details.record.RecordDateFormat;
 
 /**
  * @author Robert Steilberg

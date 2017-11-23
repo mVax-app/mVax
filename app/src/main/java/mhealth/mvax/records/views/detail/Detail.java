@@ -1,4 +1,4 @@
-package mhealth.mvax.model;
+package mhealth.mvax.records.views.detail;
 
 import android.content.Context;
 import android.widget.EditText;
