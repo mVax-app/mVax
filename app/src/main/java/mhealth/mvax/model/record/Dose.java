@@ -7,7 +7,9 @@ import java.io.Serializable;
 /**
  * @author Robert Steilberg
  *         <p>
- *         Object for storing information about mVax doses
+ *         Object for storing information about mVax doses;
+ *         implements Serializable so that it can be bassed as
+ *         a Bundle argument to fragments
  *         <p>
  *         PLEASE READ DOCUMENTATION BEFORE ADDING, REMOVING,
  *         OR MODIFYING PROPERTIES
@@ -23,7 +25,8 @@ public class Dose implements Serializable {
      * Default Firebase constructor; should not
      * be used internally
      */
-    public Dose() {}
+    public Dose() {
+    }
 
     public Dose(String label1, String label2) {
         mLabel1 = label1;

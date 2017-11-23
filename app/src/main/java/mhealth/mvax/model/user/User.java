@@ -1,7 +1,12 @@
 package mhealth.mvax.model.user;
 
 /**
- * Created by mtribby on 11/14/17.
+ * @author Matthew Tribby
+ *         <p>
+ *         Object for storing information about mVax users
+ *         <p>
+ *         PLEASE READ DOCUMENTATION BEFORE ADDING, REMOVING,
+ *         OR MODIFYING PROPERTIES
  */
 
 public class User {
@@ -10,10 +15,11 @@ public class User {
     private String mEmail;
     private String mRole;
 
-
-    public User(){
-        //empty required constructor
-    }
+    /**
+     * Default Firebase constructor; should not
+     * be used internally
+     */
+    public User() {}
 
     public User(String firstName, String lastName, String email, String role){
         this.mFirstName = firstName;
@@ -85,8 +91,5 @@ public class User {
     public void setEmail(String email){
         this.mEmail = email;
     }
-
-
-
 
 }

@@ -26,6 +26,8 @@ public class VaccineHistoryTab extends Fragment {
     //================================================================================
 
     private View mView;
+    private VaccineAdapter mAdapter;
+    private Record mRecord;
 
 
     //================================================================================
@@ -44,7 +46,7 @@ public class VaccineHistoryTab extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_vaccine_history, container, false);
-        renderVaccineHistory((Record) getArguments().getSerializable("record"));
+//        renderVaccineHistory((Record) getArguments().getSerializable("record"));
         return mView;
     }
 
@@ -56,8 +58,12 @@ public class VaccineHistoryTab extends Fragment {
     public void renderVaccineHistory(Record record) {
         ArrayList<Vaccine> vaccineList = record.getVaccines();
         ListView vaccineListView = mView.findViewById(R.id.vaccines_list_view);
-        VaccineAdapter adapter = new VaccineAdapter(getContext(), vaccineList, record);
-        vaccineListView.setAdapter(adapter);
+        mAdapter = new VaccineAdapter(getContext(), vaccineList, record);
+        vaccineListView.setAdapter(mAdapter);
+    }
+
+    public void updateVaccineHistory(Record record) {
+        mAdapter.refresh(record);
     }
 
 }

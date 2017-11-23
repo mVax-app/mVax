@@ -54,7 +54,7 @@ public class RecordDetailsTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_record_details, container, false);
         mInflater = inflater;
-        renderRecordDetails((Record) getArguments().getSerializable("record"));
+//        renderRecordDetails((Record) getArguments().getSerializable("record"));
         return mView;
     }
 
@@ -72,7 +72,7 @@ public class RecordDetailsTab extends Fragment {
         mRecord = record;
         setRecordName();
         ListView detailsListView = mView.findViewById(R.id.details_list_view);
-        mAdapter = new ExistingRecordDetailsAdapter(getContext(), mRecord.getSectionedAttributes(getContext(), mInflater));
+        mAdapter = new ExistingRecordDetailsAdapter(getContext(), mRecord.getSectionedAttributes(getContext()));
         detailsListView.setAdapter(mAdapter);
         addEditButton(detailsListView);
         addDeleteButton(detailsListView);
@@ -86,7 +86,7 @@ public class RecordDetailsTab extends Fragment {
     public void updateRecordDetails(Record record) {
         mRecord = record;
         setRecordName();
-        mAdapter.refresh(record.getSectionedAttributes(getContext(), mInflater));
+        mAdapter.refresh(record.getSectionedAttributes(getContext()));
     }
 
 

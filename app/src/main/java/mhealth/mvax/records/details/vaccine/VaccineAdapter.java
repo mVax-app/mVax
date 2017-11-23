@@ -30,7 +30,7 @@ import mhealth.mvax.records.views.DoseDateView;
 /**
  * @author Robert Steilberg
  *         <p>
- *         An adapter for listing vaccines and their doses
+ *         Adapter for listing vaccines and their doses
  */
 
 // TODO: Implement sorting vaccines in the ListView
@@ -42,11 +42,8 @@ class VaccineAdapter extends BaseAdapter {
     //================================================================================
 
     private LayoutInflater mInflater;
-
     private Context mContext;
-
     private List<Vaccine> mDataSource;
-
     private Record mCurrRecord;
 
 
@@ -99,14 +96,21 @@ class VaccineAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.vaccineTextView = rowView.findViewById(R.id.vaccine_name);
             holder.dosesLinearLayout = rowView.findViewById(R.id.doses_linear_layout);
-            addDoses(result, holder.dosesLinearLayout, rowView);
             rowView.setTag(holder);
         } else {
             holder = (ViewHolder) rowView.getTag();
         }
 
         holder.vaccineTextView.setText(result.getName());
+        holder.dosesLinearLayout.removeAllViews();
+        addDoses(result, holder.dosesLinearLayout, rowView);
+
         return rowView;
+    }
+
+    private static class ViewHolder {
+        TextView vaccineTextView;
+        LinearLayout dosesLinearLayout;
     }
 
 
@@ -281,10 +285,7 @@ class VaccineAdapter extends BaseAdapter {
         db.child(masterTable).child(recordTable).child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
     }
 
-    private static class ViewHolder {
-        TextView vaccineTextView;
-        LinearLayout dosesLinearLayout;
-    }
+
 
     // Updates Due Date in Firebase
     private void updateDueDate(Vaccine vaccine, Long doseDate) {
@@ -293,6 +294,12 @@ class VaccineAdapter extends BaseAdapter {
         String masterTable = mContext.getString(R.string.masterTable);
         String recordTable = mContext.getString(R.string.recordTable);
         db.child(masterTable).child(recordTable).child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
+    }
+
+    public void refresh(Record newRecord) {
+        mCurrRecord = newRecord;
+        mDataSource = newRecord.getVaccines();
+        notifyDataSetChanged();
     }
 
 

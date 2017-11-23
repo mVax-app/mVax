@@ -10,7 +10,8 @@ import java.util.Collections;
  * @author Robert Steilberg
  *         <p>
  *         Object for storing information about mVax vaccines;
- *         sorts by vaccine name
+ *         sorts by vaccine name, implements Serializable
+ *         so that it can be bassed as a Bundle argument to fragments
  *         <p>
  *         PLEASE READ DOCUMENTATION BEFORE ADDING, REMOVING,
  *         OR MODIFYING PROPERTIES

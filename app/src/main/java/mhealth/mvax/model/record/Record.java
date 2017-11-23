@@ -1,7 +1,6 @@
 package mhealth.mvax.model.record;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 
 import com.google.firebase.database.Exclude;
 
@@ -20,7 +19,9 @@ import mhealth.mvax.records.views.detail.StringNumberDetail;
 /**
  * @author Robert Steilberg
  *         <p>
- *         Object for storing information about mVax records
+ *         Object for storing information about mVax records;
+ *         implements Serializable so that it can be bassed as
+ *         a Bundle argument to fragments
  *         <p>
  *         PLEASE READ DOCUMENTATION BEFORE ADDING, REMOVING,
  *         OR MODIFYING PROPERTIES
@@ -363,13 +364,20 @@ public class Record implements Serializable {
     }
 
 
-    // TODO probably get this out of this class
+    /**
+     * Gets the attributes of a record, sectioned according ArrayLists
+     * within a LinkedHashMap
+     *
+     * @param context Android context used to access Strings
+     * @return LinkedHashMap containing ordered ArrayLists of attributes
+     * from the record
+     */
     @Exclude
-    public LinkedHashMap<String, ArrayList<Detail>> getSectionedAttributes(Context context, LayoutInflater inflater) {
+    public LinkedHashMap<String, ArrayList<Detail>> getSectionedAttributes(Context context) {
 
         // PATIENT SECTION ==================================================================
 
-        ArrayList<Detail> childAttributes = new ArrayList<>();
+        ArrayList<Detail> patientAttributes = new ArrayList<>();
 
         // patient ID
         final StringNumberDetail id = new StringNumberDetail(
@@ -383,7 +391,7 @@ public class Record implements Serializable {
                 setId(id.getValue());
             }
         });
-        childAttributes.add(id);
+        patientAttributes.add(id);
 
         // patient first name
         final StringDetail firstName = new StringDetail(
@@ -397,7 +405,7 @@ public class Record implements Serializable {
                 setFirstName(firstName.getValue());
             }
         });
-        childAttributes.add(firstName);
+        patientAttributes.add(firstName);
 
         // patient middle name
         final StringDetail middleName = new StringDetail(
@@ -411,7 +419,7 @@ public class Record implements Serializable {
                 setMiddleName(middleName.getValue());
             }
         });
-        childAttributes.add(middleName);
+        patientAttributes.add(middleName);
 
         // patient last name
         final StringDetail lastName = new StringDetail(
@@ -425,7 +433,7 @@ public class Record implements Serializable {
                 setLastName(lastName.getValue());
             }
         });
-        childAttributes.add(lastName);
+        patientAttributes.add(lastName);
 
         // patient suffix
         final StringDetail suffix = new StringDetail(
@@ -439,7 +447,7 @@ public class Record implements Serializable {
                 setSuffix(suffix.getValue());
             }
         });
-        childAttributes.add(suffix);
+        patientAttributes.add(suffix);
 
         // patient sex
         final SexDetail sex = new SexDetail(
@@ -453,7 +461,7 @@ public class Record implements Serializable {
                 setSex(sex.getValue());
             }
         });
-        childAttributes.add(sex);
+        patientAttributes.add(sex);
 
         // patient DOB
         final DateDetail DOB = new DateDetail(
@@ -467,7 +475,7 @@ public class Record implements Serializable {
                 setDOB(DOB.getValue());
             }
         });
-        childAttributes.add(DOB);
+        patientAttributes.add(DOB);
 
         // patient place of birth
         final StringDetail POB = new StringDetail(
@@ -481,7 +489,7 @@ public class Record implements Serializable {
                 setPlaceOfBirth(POB.getValue());
             }
         });
-        childAttributes.add(POB);
+        patientAttributes.add(POB);
 
         // patient community
         final StringDetail community = new StringDetail(
@@ -495,7 +503,7 @@ public class Record implements Serializable {
                 setCommunity(community.getValue());
             }
         });
-        childAttributes.add(community);
+        patientAttributes.add(community);
 
 
         // GUARDIAN SECTION =================================================================
@@ -628,8 +636,9 @@ public class Record implements Serializable {
         });
         parentAttributes.add(phoneNumber);
 
+        // add ArrayLists to LinkedHashMap for return
         LinkedHashMap<String, ArrayList<Detail>> sectionedAttributes = new LinkedHashMap<>();
-        sectionedAttributes.put(context.getString(R.string.patient_detail_section_title), childAttributes);
+        sectionedAttributes.put(context.getString(R.string.patient_detail_section_title), patientAttributes);
         sectionedAttributes.put(context.getString(R.string.guardian_detail_section_title), parentAttributes);
 
         return sectionedAttributes;

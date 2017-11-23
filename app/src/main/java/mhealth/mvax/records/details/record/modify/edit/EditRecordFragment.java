@@ -71,7 +71,7 @@ public class EditRecordFragment extends ModifiableRecordFragment {
         recordName.setText(R.string.edit_record_title);
 
         final ListView detailsListView = view.findViewById(R.id.details_list_view);
-        final ModifiableRecordDetailsAdapter adapter = new ModifiableRecordDetailsAdapter(getContext(), mNewRecord.getSectionedAttributes(getContext(), mInflater));
+        final ModifiableRecordDetailsAdapter adapter = new ModifiableRecordDetailsAdapter(getContext(), mNewRecord.getSectionedAttributes(getContext()));
         detailsListView.setAdapter(adapter);
 
         Button saveButton = (Button) mInflater.inflate(R.layout.save_record_button, null);
