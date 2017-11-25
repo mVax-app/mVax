@@ -15,9 +15,7 @@ class DualTabPager extends FragmentStatePagerAdapter {
     //================================================================================
 
     private final int TAB_COUNT = 2;
-
     private Fragment mFirstTab;
-
     private Fragment mSecondTab;
 
 
@@ -37,7 +35,7 @@ class DualTabPager extends FragmentStatePagerAdapter {
     //================================================================================
 
     /**
-     * Return the tab at the specified positon
+     * Return the tab at the specified position
      */
     @Override
     public Fragment getItem(int position) {

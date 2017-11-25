@@ -7,13 +7,35 @@ import java.io.Serializable;
 /**
  * @author Robert Steilberg
  *         <p>
- *         Object for storing information about mVax doses
+ *         Object for storing information about mVax doses;
+ *         implements Serializable so that it can be bassed as
+ *         a Bundle argument to fragments
  *         <p>
  *         PLEASE READ DOCUMENTATION BEFORE ADDING, REMOVING,
  *         OR MODIFYING PROPERTIES
  */
 
 public class Dose implements Serializable {
+
+    //================================================================================
+    // Constructors
+    //================================================================================
+
+    /**
+     * Default Firebase constructor; should not
+     * be used internally
+     */
+    public Dose() {
+    }
+
+    public Dose(String label1, String label2) {
+        mLabel1 = label1;
+        mLabel2 = label2;
+    }
+
+    public Dose(String label1) {
+        mLabel1 = label1;
+    }
 
     //================================================================================
     // Properties
@@ -70,28 +92,11 @@ public class Dose implements Serializable {
 
     public void setDateCompleted(Long date) {
         this.mDateCompleted = date;
-        this._completed = (date != null);
+        this.mCompleted = (date != null);
     }
 
     @Exclude
-    private Boolean _completed = false;
-
-    //================================================================================
-    // Constructors
-    //================================================================================
-
-    public Dose() {
-        // empty constructor for Firebase
-    }
-
-    public Dose(String label1, String label2) {
-        mLabel1 = label1;
-        mLabel2 = label2;
-    }
-
-    public Dose(String label1) {
-        mLabel1 = label1;
-    }
+    private Boolean mCompleted = false;
 
     //================================================================================
     // Computed getters
@@ -113,7 +118,7 @@ public class Dose implements Serializable {
     }
 
     public Boolean hasBeenCompleted() {
-        return _completed;
+        return mCompleted;
     }
 
     //================================================================================

@@ -83,10 +83,10 @@ public class VaccineCardAdapter extends BaseAdapter {
 
         vaccineNameTV.setText(result.getName());
         targetValueTV.setText(Integer.toString(result.getTargetCount()));
-        administeredValueTV.setText(Integer.toString(result.getAdministeredCount()));
+        administeredValueTV.setText(Integer.toString(result.getGivenCount()));
         progressBar.setMax(result.getTargetCount());
-        progressBar.setProgress(result.getAdministeredCount());
-        double percent = (double) result.getAdministeredCount() / (double) result.getTargetCount() * 100;
+        progressBar.setProgress(result.getGivenCount());
+        double percent = (double) result.getGivenCount() / (double) result.getTargetCount() * 100;
         percentageTV.setText(Double.toString(Math.round(percent)) + "%");
 
 

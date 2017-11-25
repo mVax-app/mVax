@@ -1,10 +1,13 @@
-package mhealth.mvax.records.details.record;
+package mhealth.mvax.records.details.patient;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 /**
  * @author Robert Steilberg
+ *         <p>
+ *         Implementation of SimpleDateFormat that handles formatting
+ *         null dates
  */
 
 public class RecordDateFormat extends SimpleDateFormat {
@@ -15,7 +18,7 @@ public class RecordDateFormat extends SimpleDateFormat {
 
     public String getString(Long date) {
         if (date != null) {
-            return super.format(date);
+            return format(date);
         } else {
             return "";
         }

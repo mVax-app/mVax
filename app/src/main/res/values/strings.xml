@@ -95,8 +95,8 @@
 
     <string name="modal_record_delete_title">Confirm Record Deletion</string>
     <string name="modal_record_delete_message">Are you sure you want to delete this record? This action CANNOT be undone.</string>
-    <string name="successful_record_update">Saved</string>
-    <string name="unsuccessful_record_update">Save Failed</string>
+    <string name="successful_record_update">Changes saved</string>
+    <string name="unsuccessful_record_update">Update failed</string>
 
     <string name="modal_title_choose_sex">Choose Sex</string>
 

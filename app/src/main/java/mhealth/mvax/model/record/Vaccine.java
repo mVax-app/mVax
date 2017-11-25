@@ -1,18 +1,41 @@
 package mhealth.mvax.model.record;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * @author Robert Steilberg
  *         <p>
- *         Object for storing information about mVax vaccines
+ *         Object for storing information about mVax vaccines;
+ *         sorts by vaccine name, implements Serializable
+ *         so that it can be bassed as a Bundle argument to fragments
  *         <p>
  *         PLEASE READ DOCUMENTATION BEFORE ADDING, REMOVING,
  *         OR MODIFYING PROPERTIES
  */
 
-public class Vaccine implements Serializable {
+public class Vaccine implements Serializable, Comparable<Vaccine> {
+
+    //================================================================================
+    // Constructors
+    //================================================================================
+
+    /**
+     * Default Firebase constructor; should not
+     * be used internally
+     */
+    public Vaccine() {
+        mDoses = new ArrayList<>();
+    }
+
+    public Vaccine(String databaseKey, String name) {
+        mDatabaseKey = databaseKey;
+        mName = name;
+        mDoses = new ArrayList<>();
+    }
 
     //================================================================================
     // Properties
@@ -44,10 +67,9 @@ public class Vaccine implements Serializable {
         this.mName = name;
     }
 
-    /*
-     * Target count for this month
+    /**
+     * Target count for a single month
      */
-
     private int mTargetCount;
 
     public int getTargetCount() {
@@ -58,18 +80,17 @@ public class Vaccine implements Serializable {
         this.mTargetCount = target;
     }
 
-    /*
-     * Total count for this month
+    /**
+     * Total count for a single month
      */
+    private int mGivenCount;
 
-    private int mAdministeredCount;
-
-    public int getAdministeredCount() {
-        return this.mAdministeredCount;
+    public int getGivenCount() {
+        return this.mGivenCount;
     }
 
-    public void setAdministeredCount(int administered) {
-        this.mAdministeredCount = administered;
+    public void setGivenCount(int given) {
+        this.mGivenCount = given;
     }
 
     /**
@@ -88,7 +109,7 @@ public class Vaccine implements Serializable {
     }
 
     /**
-     * Array containing the record's doses
+     * Array containing the vaccine's doses
      */
     private ArrayList<Dose> mDoses;
 
@@ -98,21 +119,6 @@ public class Vaccine implements Serializable {
 
     public void setDoses(ArrayList<Dose> doses) {
         this.mDoses = doses;
-    }
-
-    //================================================================================
-    // Constructors
-    //================================================================================
-
-    public Vaccine() {
-        // empty constructor for Firebase
-        mDoses = new ArrayList<>();
-    }
-
-    public Vaccine(String databaseKey, String name) {
-        mDatabaseKey = databaseKey;
-        mName = name;
-        mDoses = new ArrayList<>();
     }
 
     //================================================================================
@@ -128,4 +134,8 @@ public class Vaccine implements Serializable {
         mDoses.add(dose);
     }
 
+    @Override
+    public int compareTo(@NonNull Vaccine that) {
+        return this.mName.compareTo(that.mName);
+    }
 }
