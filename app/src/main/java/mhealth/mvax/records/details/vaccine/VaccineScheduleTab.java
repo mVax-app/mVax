@@ -7,19 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Record;
-import mhealth.mvax.model.record.Vaccine;
+import mhealth.mvax.records.details.RecordTab;
 
 /**
  * @author Robert Steilberg
  *         <p>
- *         A Fragment for managing an mVax record's vaccine and dose history
+ *         Fragment for managing an mVax record's vaccine schedule
  */
 
-public class VaccineHistoryTab extends Fragment {
+public class VaccineScheduleTab extends Fragment implements RecordTab {
 
     //================================================================================
     // Properties
@@ -34,8 +32,8 @@ public class VaccineHistoryTab extends Fragment {
     // Static methods
     //================================================================================
 
-    public static VaccineHistoryTab newInstance() {
-        return new VaccineHistoryTab();
+    public static VaccineScheduleTab newInstance() {
+        return new VaccineScheduleTab();
     }
 
 
@@ -46,7 +44,8 @@ public class VaccineHistoryTab extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_vaccine_history, container, false);
-//        renderVaccineHistory((Record) getArguments().getSerializable("record"));
+        mRecord = (Record) getArguments().getSerializable("record");
+        render();
         return mView;
     }
 
@@ -55,15 +54,23 @@ public class VaccineHistoryTab extends Fragment {
     // Public methods
     //================================================================================
 
-    public void renderVaccineHistory(Record record) {
-        ArrayList<Vaccine> vaccineList = record.getVaccines();
+    /**
+     * Performs the initial render of the record's vaccine schedule
+     * using the record passed in to the fragment as an argument
+     */
+    public void render() {
         ListView vaccineListView = mView.findViewById(R.id.vaccines_list_view);
-        mAdapter = new VaccineAdapter(getContext(), vaccineList, record);
+        mAdapter = new VaccineAdapter(getContext(), mRecord);
         vaccineListView.setAdapter(mAdapter);
     }
 
-    public void updateVaccineHistory(Record record) {
-        mAdapter.refresh(record);
+    /**
+     * Updates the view with an updated record's vaccine schedule
+     *
+     * @param updatedRecord the updated record containing the vaccine schedule
+     */
+    public void update(Record updatedRecord) {
+        mAdapter.refresh(updatedRecord);
     }
 
 }

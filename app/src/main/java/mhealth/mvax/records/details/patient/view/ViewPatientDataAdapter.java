@@ -1,4 +1,4 @@
-package mhealth.mvax.records.details.record.view;
+package mhealth.mvax.records.details.patient.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,34 +10,49 @@ import java.util.LinkedHashMap;
 
 import mhealth.mvax.R;
 import mhealth.mvax.records.views.detail.Detail;
-import mhealth.mvax.records.details.record.RecordDetailsAdapter;
+import mhealth.mvax.records.details.patient.PatientDataAdapter;
 
 /**
  * @author Robert Steilberg
+ *         <p>
+ *         Adapter for rendering the ListView for viewing patient details
  */
 
-public class ExistingRecordDetailsAdapter extends RecordDetailsAdapter {
+public class ViewPatientDataAdapter extends PatientDataAdapter {
+
+    //================================================================================
+    // Properties
+    //================================================================================
 
     private LayoutInflater mInflater;
 
-    ExistingRecordDetailsAdapter(Context context, LinkedHashMap<String, ArrayList<Detail>> sectionedData) {
-        super(context, sectionedData);
+    //================================================================================
+    // Constructors
+    //================================================================================
+
+    ViewPatientDataAdapter(Context context, LinkedHashMap<String, ArrayList<Detail>> sectionedData) {
+        super(sectionedData);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
+    //================================================================================
+    // Override methods
+    //================================================================================
 
     @Override
     public View getView(int position, View rowView, ViewGroup viewGroup) {
         ViewHolder holder;
         int rowType = getItemViewType(position);
+
         if (rowView == null) {
             holder = new ViewHolder();
             switch (rowType) {
                 case TYPE_SECTION:
-                    rowView = mInflater.inflate(R.layout.list_item_record_detail_section, null);
+                    rowView = mInflater.inflate(R.layout.list_item_record_detail_section, viewGroup, false);
                     holder.fieldView = rowView.findViewById(R.id.record_detail_separator);
                     break;
                 case TYPE_FIELD:
-                    rowView = mInflater.inflate(R.layout.list_item_record_detail, null);
+                    rowView = mInflater.inflate(R.layout.list_item_record_detail, viewGroup, false);
                     holder.fieldView = rowView.findViewById(R.id.textview_field);
                     holder.valueView = rowView.findViewById(R.id.textview_value);
                     break;
@@ -47,6 +62,7 @@ public class ExistingRecordDetailsAdapter extends RecordDetailsAdapter {
         } else {
             holder = (ViewHolder) rowView.getTag();
         }
+
         // populate row with data
         if (rowType == TYPE_SECTION) {
             holder.fieldView.setText(mHeaders.get(position));

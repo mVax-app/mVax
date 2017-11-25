@@ -13,7 +13,7 @@ import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Record;
-import mhealth.mvax.records.details.record.RecordDateFormat;
+import mhealth.mvax.records.details.patient.RecordDateFormat;
 
 /**
  * @author Robert Steilberg
@@ -28,9 +28,7 @@ public class SearchResultAdapter extends BaseAdapter {
     //================================================================================
 
     private Context mContext;
-
     private LayoutInflater mInflater;
-
     private List<Record> mDataSource;
 
 

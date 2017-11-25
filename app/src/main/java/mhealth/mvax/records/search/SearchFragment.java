@@ -30,7 +30,7 @@ import java.util.Map;
 
 import mhealth.mvax.model.record.Record;
 import mhealth.mvax.model.record.Vaccine;
-import mhealth.mvax.records.details.record.modify.create.CreateRecordFragment;
+import mhealth.mvax.records.details.patient.modify.create.CreateRecordFragment;
 import mhealth.mvax.records.details.DetailFragment;
 import mhealth.mvax.records.utilities.DummyDataGenerator;
 
@@ -47,14 +47,14 @@ public class SearchFragment extends Fragment {
     //================================================================================
 
     private FirebaseAuth mAuth;
-
+    private SearchResultAdapter mSearchResultAdapter;
+    private SearchFilter mSearchFilter;
+    private LinkedHashMap<String, Vaccine> mVaccineMaster;
     private Map<String, Record> mPatientRecords;
 
-    private SearchResultAdapter mSearchResultAdapter;
-
-    private SearchFilter mSearchFilter;
-
-    private LinkedHashMap<String, Vaccine> mVaccineMaster;
+    private DatabaseReference mDatabase;
+    private ChildEventListener mVaccineMasterListener;
+    private ChildEventListener mRecordListener;
 
 
     //================================================================================
@@ -81,15 +81,14 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        // uncomment the below lines to populate database with dummy data
-        // NOTE: recommend you clear out the database beforehand
         String table = getString(R.string.masterTable);
         String recordTable = getString(R.string.recordTable);
         String vaccineTable = getString(R.string.vaccineTable);
-
         DummyDataGenerator generator = new DummyDataGenerator(table, recordTable, vaccineTable);
-//        generator.generateDummyPatientRecords();
-//        generator.generateDummyVaccineMaster();
+        // uncomment the below lines to populate database with dummy data
+        // NOTE: recommend you clear out the database beforehand
+        generator.generateDummyPatientRecords();
+        generator.generateDummyVaccineMaster();
 
         initDatabase(); // run this before touching mPatientRecords!
 
@@ -103,6 +102,16 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // remove all Firebase listeners
+        String recordTable = getResources().getString(R.string.recordTable);
+        String vaccineTable = getResources().getString(R.string.vaccineTable);
+        mDatabase.child(recordTable).removeEventListener(mRecordListener);
+        mDatabase.child(vaccineTable).removeEventListener(mVaccineMasterListener);
+    }
+
 
     //================================================================================
     // Private methods
@@ -114,24 +123,40 @@ public class SearchFragment extends Fragment {
      * @return true if authentication and initialization was successful, false otherwise
      */
     private boolean initDatabase() {
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser mFirebaseUser = mAuth.getCurrentUser();
-        // TODO handle auth fail
-//        if (mFirebaseUser == null) {
-////            Not logged in, launch the Log In activity
-//        } else {
-//            mUserId = mFirebaseUser.getUid();
-//        }
 
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        // listener for records
+        mRecordListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                Record record = dataSnapshot.getValue(Record.class);
+                mPatientRecords.put(record.getDatabaseId(), record);
+                mSearchResultAdapter.refresh(mPatientRecords.values());
+            }
 
-        // TODO put database query strings in a values.xml file
-        String masterTable = getResources().getString(R.string.masterTable);
-        String recordTable = getResources().getString(R.string.recordTable);
-        String vaccineTable = getResources().getString(R.string.vaccineTable);
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
+                onChildAdded(dataSnapshot, prevChildKey);
+            }
 
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Record record = dataSnapshot.getValue(Record.class);
+                mPatientRecords.remove(record.getDatabaseId());
+                mSearchResultAdapter.refresh(mPatientRecords.values());
+            }
 
-        mDatabase.child(masterTable).child(vaccineTable).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // TODO throw error
+            }
+        };
+
+        // listeners for vaccine master list
+        mVaccineMasterListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
@@ -148,39 +173,34 @@ public class SearchFragment extends Fragment {
                 Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
                 mVaccineMaster.remove(vaccine.getDatabaseKey());
             }
+
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                // TODO test
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // TODO throw error
             }
-        });
+        };
 
+//        mAuth = FirebaseAuth.getInstance();
+//        FirebaseUser mFirebaseUser = mAuth.getCurrentUser();
+////        TODO handle auth fail
+//        if (mFirebaseUser == null) {
+////            Not logged in, launch the Log In activity
+//        } else {
+//            mUserId = mFirebaseUser.getUid();
+//        }
 
-        mDatabase.child(masterTable).child(recordTable).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                Record record = dataSnapshot.getValue(Record.class);
-                mPatientRecords.put(record.getDatabaseId(), record);
-                mSearchResultAdapter.refresh(mPatientRecords.values());
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
-                onChildAdded(dataSnapshot, prevChildKey);
-            }
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Record record = dataSnapshot.getValue(Record.class);
-                mPatientRecords.remove(record.getDatabaseId());
-                mSearchResultAdapter.refresh(mPatientRecords.values());
-            }
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
+        String masterTable = getResources().getString(R.string.masterTable);
+        String recordTable = getResources().getString(R.string.recordTable);
+        String vaccineTable = getResources().getString(R.string.vaccineTable);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child(masterTable);
+        mDatabase.child(recordTable).addChildEventListener(mRecordListener);
+        mDatabase.child(vaccineTable).addChildEventListener(mVaccineMasterListener);
+
         return true;
     }
 
@@ -195,9 +215,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void createNewRecord() {
-
         CreateRecordFragment newRecordFrag = CreateRecordFragment.newInstance();
-
 
         Bundle args = new Bundle();
         args.putSerializable("vaccines", new ArrayList<>(mVaccineMaster.values()));
@@ -222,6 +240,7 @@ public class SearchFragment extends Fragment {
                     mSearchFilter.setFilter(spinner.getItemAtPosition(pos).toString());
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -238,7 +257,6 @@ public class SearchFragment extends Fragment {
     private void renderListView(View view) {
         ListView patientListView = view.findViewById(R.id.record_list_view);
         patientListView.setAdapter(mSearchResultAdapter);
-        final SearchFragment searchFragment = this;
         // TODO refactor below out to separate method
         patientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -250,12 +268,10 @@ public class SearchFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putString("recordId", recordId);
                 recordFrag.setArguments(args);
-
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
-//                transaction.replace(getId(), searchFragment).addToBackStack(null); // so that back button works
-                transaction.replace(R.id.frame_layout, recordFrag).addToBackStack(null);
-                transaction.commit();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_layout, recordFrag)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }

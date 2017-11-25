@@ -1,14 +1,10 @@
-package mhealth.mvax.records.details.record.modify.create;
-
+package mhealth.mvax.records.details.patient.modify.create;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -17,13 +13,13 @@ import java.util.ArrayList;
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Record;
 import mhealth.mvax.model.record.Vaccine;
-import mhealth.mvax.records.details.DetailFragment;
-import mhealth.mvax.records.details.record.modify.ModifiableRecordDetailsAdapter;
-import mhealth.mvax.records.details.record.modify.ModifiableRecordFragment;
+import mhealth.mvax.records.details.patient.modify.ModifiableRecordFragment;
 import mhealth.mvax.records.search.SearchFragment;
 
 /**
  * @author Robert Steilberg
+ *         <p>
+ *         Fragment for creating patient data for a new record
  */
 
 public class CreateRecordFragment extends ModifiableRecordFragment {
@@ -46,8 +42,8 @@ public class CreateRecordFragment extends ModifiableRecordFragment {
         View view = inflater.inflate(R.layout.tab_record_details, container, false);
         mInflater = inflater;
 
-
-        ArrayList<Vaccine> vaccines = (ArrayList<Vaccine>) getArguments().getSerializable("vaccines");
+        // TODO fix unchecked cast
+        ArrayList<Vaccine> masterVaccines = (ArrayList<Vaccine>) getArguments().getSerializable("vaccines");
 
         String masterTable = getResources().getString(R.string.masterTable);
         String recordTable = getResources().getString(R.string.recordTable);
@@ -57,47 +53,18 @@ public class CreateRecordFragment extends ModifiableRecordFragment {
                 .child(masterTable)
                 .child(recordTable)
                 .push();
-        mNewRecord = new Record(mDatabase.getKey(), vaccines);
+        mNewRecord = new Record(mDatabase.getKey(), masterVaccines);
+
         renderListView(view);
         return view;
     }
 
     @Override
     public void onBack() {
+        // add "-> Search" to back stack
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_layout, new SearchFragment());
         transaction.commit();
     }
-
-    protected void renderListView(View view) {
-
-        TextView recordName = view.findViewById(R.id.record_details_title);
-        recordName.setText(R.string.new_record_title);
-
-        final ListView detailsListView = view.findViewById(R.id.details_list_view);
-        final ModifiableRecordDetailsAdapter adapter = new ModifiableRecordDetailsAdapter(getContext(), mNewRecord.getSectionedAttributes(getContext()));
-        detailsListView.setAdapter(adapter);
-
-        Button saveButton = (Button) mInflater.inflate(R.layout.save_record_button, null);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDatabase.setValue(mNewRecord);
-
-                DetailFragment recordFrag = DetailFragment.newInstance();
-                Bundle args = new Bundle();
-                args.putString("recordId", mNewRecord.getDatabaseId());
-                recordFrag.setArguments(args);
-
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.frame_layout, recordFrag);
-                transaction.commit();
-
-            }
-        });
-        detailsListView.addFooterView(saveButton);
-
-    }
-
 
 }

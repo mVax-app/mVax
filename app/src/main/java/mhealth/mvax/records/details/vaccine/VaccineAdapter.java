@@ -24,7 +24,7 @@ import mhealth.mvax.R;
 import mhealth.mvax.model.record.Record;
 import mhealth.mvax.model.record.Dose;
 import mhealth.mvax.model.record.Vaccine;
-import mhealth.mvax.records.details.record.RecordDateFormat;
+import mhealth.mvax.records.details.patient.RecordDateFormat;
 import mhealth.mvax.records.views.DoseDateView;
 
 /**
@@ -33,7 +33,8 @@ import mhealth.mvax.records.views.DoseDateView;
  *         Adapter for listing vaccines and their doses
  */
 
-// TODO: Implement sorting vaccines in the ListView
+// TODO: Implement sorting vaccines in the ListView by name and due date
+// TODO: This class needs work
 
 class VaccineAdapter extends BaseAdapter {
 
@@ -51,10 +52,10 @@ class VaccineAdapter extends BaseAdapter {
     // Constructors
     //================================================================================
 
-    VaccineAdapter(Context context, List<Vaccine> dataSource, Record currRecord) {
+    VaccineAdapter(Context context, Record currRecord) {
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContext = context;
-        mDataSource = dataSource;
+        mDataSource = currRecord.getVaccines();
         mCurrRecord = currRecord;
     }
 
@@ -78,18 +79,13 @@ class VaccineAdapter extends BaseAdapter {
         return position;
     }
 
-
-    //================================================================================
-    // Public methods
-    //================================================================================
-
     /**
      * Populates each row with a list of doses for the vaccine
      */
     @Override
     public View getView(int position, View rowView, ViewGroup parent) {
         ViewHolder holder;
-        Vaccine result = (Vaccine) getItem(position);
+        Vaccine vaccine = (Vaccine) getItem(position);
 
         if (rowView == null) {
             rowView = mInflater.inflate(R.layout.list_item_vaccine, parent, false);
@@ -101,10 +97,10 @@ class VaccineAdapter extends BaseAdapter {
             holder = (ViewHolder) rowView.getTag();
         }
 
-        holder.vaccineTextView.setText(result.getName());
+        holder.vaccineTextView.setText(vaccine.getName());
+        // clear out old view from reused LinearLayout
         holder.dosesLinearLayout.removeAllViews();
-        addDoses(result, holder.dosesLinearLayout, rowView);
-
+        renderDoses(rowView.getContext(), holder.dosesLinearLayout, vaccine);
         return rowView;
     }
 
@@ -115,113 +111,18 @@ class VaccineAdapter extends BaseAdapter {
 
 
     //================================================================================
-    // Private methods
+    // Public methods
     //================================================================================
 
-    private void addDoses(Vaccine vaccine, LinearLayout layout, View rowView) {
-
-        for (Dose dose : vaccine.getDoses()) {
-
-            // create LinearLayout to hold the label and date for each dose
-            LinearLayout doseLinearLayout = new LinearLayout(rowView.getContext());
-            doseLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            ));
-            doseLinearLayout.setPadding(0, 15, 0, 15);
-
-            // create dose label
-            TextView label = new TextView(rowView.getContext());
-            label.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT
-            ));
-            label.setText(dose.getLabel());
-            label.setTextSize(22);
-            label.setGravity(Gravity.CENTER);
-            label.setPadding(0, 0, 15, 0);
-
-            // create dose date
-            DoseDateView dateView = new DoseDateView(rowView.getContext(), vaccine, dose);
-            dateView.setLayoutParams(new LinearLayout.LayoutParams(
-                    250,
-                    LinearLayout.LayoutParams.MATCH_PARENT
-            ));
-            dateView.setPadding(5, 5, 5, 5);
-            dateView.setGravity(Gravity.CENTER);
-            dateView.setTextSize(22);
-//            SimpleDateFormat sdf = new SimpleDateFormat(mContext.getResources().getString(R.string.date_format), Locale.getDefault());
-
-            RecordDateFormat dateFormat = new RecordDateFormat(mContext.getResources().getString(R.string.date_format));
-
-//            if (dose.hasBeenCompleted()) {
-                dateView.setText(dateFormat.getString(dose.getDateCompleted()));
-//            }
-            GradientDrawable gd = new GradientDrawable();
-            gd.setColor(Color.LTGRAY);
-            dateView.setBackground(gd);
-            dateView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View dateView) {
-                    createNewDose(dateView);
-                }
-            });
-
-            // add dose label and date to the view
-            doseLinearLayout.addView(label);
-            doseLinearLayout.addView(dateView);
-
-            // add the total dose view to the vaccine view
-            layout.addView(doseLinearLayout);
-        }
-
-
-
-        ///////////////DUE DATE/////////////////
-
-
-        // create LinearLayout to hold the label and date for the next Due Date
-        LinearLayout dueDateLinearLayout = new LinearLayout(rowView.getContext());
-        dueDateLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        ));
-        dueDateLinearLayout.setPadding(0, 15, 0, 15);
-
-        // create Due Date label
-        TextView label = new TextView(rowView.getContext());
-        label.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        ));
-        //add a string variable for Due Date
-        label.setText(R.string.due_date);
-        label.setTextSize(22);
-        label.setGravity(Gravity.CENTER);
-        label.setPadding(0, 0, 15, 0);
-
-
-        //TextView for date of DueDate
-        // create dose Due Date
-        TextView dueDate = new TextView(rowView.getContext());
-        label.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        ));
-
-        //Temporary Due Date Placeholder
-        updateDueDate(vaccine, 1515992400L);
-        dueDate.setText("1/15/18");
-        dueDate.setPadding(5, 5, 5, 5);
-        dueDate.setGravity(Gravity.CENTER);
-        dueDate.setTextSize(22);
-
-        // add dose label and date to the view
-        dueDateLinearLayout.addView(label);
-        dueDateLinearLayout.addView(dueDate);
-        layout.addView(dueDateLinearLayout);
-
-
+    /**
+     * Updates views with data from an updated Record
+     *
+     * @param updatedRecord the updated Record
+     */
+    public void refresh(Record updatedRecord) {
+        mCurrRecord = updatedRecord;
+        mDataSource = updatedRecord.getVaccines();
+        notifyDataSetChanged();
     }
 
 
@@ -229,13 +130,100 @@ class VaccineAdapter extends BaseAdapter {
     // Private methods
     //================================================================================
 
+    private void renderDoses(Context rowContext, LinearLayout layout, Vaccine vaccine) {
+        layout.addView(getDueDateLinearLayout(rowContext, vaccine));
+        for (Dose dose : vaccine.getDoses()) {
+            layout.addView(getDoseLinearLayout(dose, rowContext));
+        }
+    }
+
+    private LinearLayout getDueDateLinearLayout(Context rowContext, Vaccine vaccine) {
+        // TODO fix DRY
+        // create LinearLayout to hold the label and date for the next due date
+        LinearLayout dueDateLinearLayout = new LinearLayout(rowContext);
+        dueDateLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        dueDateLinearLayout.setPadding(0, 15, 0, 15);
+
+        // create due date label
+        TextView label = new TextView(rowContext);
+        label.setText(R.string.due_date);
+        label.setTextSize(22);
+        label.setGravity(Gravity.CENTER);
+        label.setPadding(0, 0, 15, 0);
+        dueDateLinearLayout.addView(label);
+
+        // render actual due date
+        TextView dueDate = new TextView(rowContext);
+        // TODO fix temporary placeholder
+        updateDueDate(vaccine, 1515992400L);
+        dueDate.setText("1/15/18");
+        dueDate.setTextSize(22);
+        dueDate.setGravity(Gravity.CENTER);
+        dueDateLinearLayout.addView(dueDate);
+
+        return dueDateLinearLayout;
+    }
+
+    private LinearLayout getDoseLinearLayout(Dose dose, Context rowContext) {
+        // create LinearLayout to hold the label and date for each dose
+        LinearLayout doseLinearLayout = new LinearLayout(rowContext);
+        doseLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+        doseLinearLayout.setPadding(0, 15, 0, 15);
+
+        // create dose label
+        TextView label = new TextView(rowContext);
+        label.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        ));
+        label.setText(dose.getLabel());
+        label.setTextSize(22);
+        label.setGravity(Gravity.CENTER);
+        label.setPadding(0, 0, 15, 0);
+
+        // create dose date view
+        DoseDateView dateView = new DoseDateView(rowContext, dose);
+        dateView.setLayoutParams(new LinearLayout.LayoutParams(
+                250,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        ));
+        dateView.setPadding(5, 5, 5, 5);
+        dateView.setGravity(Gravity.CENTER);
+        dateView.setTextSize(22);
+
+        RecordDateFormat dateFormat = new RecordDateFormat(mContext.getString(R.string.date_format));
+        dateView.setText(dateFormat.getString(dose.getDateCompleted()));
+
+        GradientDrawable gd = new GradientDrawable();
+        gd.setColor(Color.LTGRAY);
+        dateView.setBackground(gd);
+        dateView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View dateView) {
+                newDosePrompt((DoseDateView) dateView);
+            }
+        });
+
+        // add dose label and date to the view
+        doseLinearLayout.addView(label);
+        doseLinearLayout.addView(dateView);
+
+        return doseLinearLayout;
+    }
+
     /**
      * Render a modal for modifying a vaccine dose record
      *
      * @param view is the DoseDateView object that displays the dose date
      */
-    private void createNewDose(final View view) {
-        final DoseDateView dateView = (DoseDateView) view;
+    private void newDosePrompt(final DoseDateView view) {
+        final DoseDateView dateView = view;
 
         // create modal
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -248,19 +236,15 @@ class VaccineAdapter extends BaseAdapter {
         builder.setPositiveButton(mContext.getResources().getString(R.string.modal_new_dosage_confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
                 cal.set(Calendar.MONTH, datePicker.getMonth());
                 cal.set(Calendar.YEAR, datePicker.getYear());
-
-                updateDose(dateView.getVaccine(), dateView.getDose(), cal.getTimeInMillis());
-
-                notifyDataSetChanged();
+                updateDose(dateView.getDose(), cal.getTimeInMillis());
             }
         });
 
-        builder.setNegativeButton(mContext.getResources().getString(R.string.modal_new_dosage_cancel), new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(mContext.getString(R.string.modal_new_dosage_cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -270,37 +254,27 @@ class VaccineAdapter extends BaseAdapter {
         builder.setNeutralButton(R.string.modal_new_dosage_neutral, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                updateDose(dateView.getVaccine(), dateView.getDose(), null);
+                updateDose(dateView.getDose(), null);
             }
         });
 
         builder.show();
     }
 
-    private void updateDose(Vaccine vaccine, Dose dose, Long doseDate) {
+    private void updateDose(Dose dose, Long doseDate) {
         dose.setDateCompleted(doseDate);
+        pushRecordToDatabase();
+    }
+
+    private void updateDueDate(Vaccine vaccine, Long dueDate) {
+        vaccine.setDueDate(dueDate);
+        pushRecordToDatabase();
+    }
+
+    private void pushRecordToDatabase() {
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
         String masterTable = mContext.getString(R.string.masterTable);
         String recordTable = mContext.getString(R.string.recordTable);
         db.child(masterTable).child(recordTable).child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
     }
-
-
-
-    // Updates Due Date in Firebase
-    private void updateDueDate(Vaccine vaccine, Long doseDate) {
-        vaccine.setDueDate(doseDate);
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        String masterTable = mContext.getString(R.string.masterTable);
-        String recordTable = mContext.getString(R.string.recordTable);
-        db.child(masterTable).child(recordTable).child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
-    }
-
-    public void refresh(Record newRecord) {
-        mCurrRecord = newRecord;
-        mDataSource = newRecord.getVaccines();
-        notifyDataSetChanged();
-    }
-
-
 }

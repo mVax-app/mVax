@@ -56,6 +56,16 @@ public class DummyDataGenerator {
         rotavirus.addDose(new Dose("4"));
         vaccines.add(rotavirus);
 
+        Vaccine yellowFever = new Vaccine("4", "Yellow Fever");
+        rotavirus.addDose(new Dose("1"));
+        rotavirus.addDose(new Dose("2"));
+        rotavirus.addDose(new Dose("3"));
+        rotavirus.addDose(new Dose("4"));
+        rotavirus.addDose(new Dose("5"));
+        rotavirus.addDose(new Dose("6"));
+        rotavirus.addDose(new Dose("7"));
+        vaccines.add(yellowFever);
+
 
         DatabaseReference patientRecords = mDatabase.child(mMasterTable).child(mRecordTable).push();
         Record rob = new Record(patientRecords.getKey(), vaccines);

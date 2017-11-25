@@ -18,8 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Record;
-import mhealth.mvax.records.details.record.view.RecordDetailsTab;
-import mhealth.mvax.records.details.vaccine.VaccineHistoryTab;
+import mhealth.mvax.records.details.patient.view.PatientDataTab;
+import mhealth.mvax.records.details.vaccine.VaccineScheduleTab;
 
 import android.widget.Toast;
 
@@ -35,12 +35,12 @@ public class DetailFragment extends Fragment implements TabLayout.OnTabSelectedL
     // Properties
     //================================================================================
 
+    private View mView;
     private ViewPager mViewPager;
-    private RecordDetailsTab mPatientDetailsTab;
-    private VaccineHistoryTab mVaccineScheduleTab;
+    private PatientDataTab mPatientDataTab;
+    private VaccineScheduleTab mVaccineScheduleTab;
     private String mRecordDatabaseId;
     private ChildEventListener mDatabaseListener;
-    private View mView;
 
     //================================================================================
     // Static methods
@@ -58,16 +58,10 @@ public class DetailFragment extends Fragment implements TabLayout.OnTabSelectedL
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_record_detail, container, false);
-        return mView;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // get databaseId of the record to be rendered in the fragment
         mRecordDatabaseId = getArguments().getString("recordId");
         initTabs();
         initDatabase(mRecordDatabaseId);
+        return mView;
     }
 
     @Override
@@ -118,12 +112,11 @@ public class DetailFragment extends Fragment implements TabLayout.OnTabSelectedL
         mViewPager = mView.findViewById(R.id.pager);
         // change selected tab when swiped
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+    }
 
-        mPatientDetailsTab = RecordDetailsTab.newInstance();
-        mVaccineScheduleTab = VaccineHistoryTab.newInstance();
-
+    private void initTabViews() {
         // init pager to manage tabs
-        DualTabPager pager = new DualTabPager(getChildFragmentManager(), mPatientDetailsTab, mVaccineScheduleTab);
+        DualTabPager pager = new DualTabPager(getChildFragmentManager(), mPatientDataTab, mVaccineScheduleTab);
         mViewPager.setAdapter(pager);
     }
 
@@ -140,26 +133,31 @@ public class DetailFragment extends Fragment implements TabLayout.OnTabSelectedL
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
 
         mDatabaseListener = new ChildEventListener() {
-
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                mPatientDataTab = PatientDataTab.newInstance();
+                mVaccineScheduleTab = VaccineScheduleTab.newInstance();
+
                 Record record = dataSnapshot.getValue(Record.class);
-                mPatientDetailsTab.renderRecordDetails(record);
-                mVaccineScheduleTab.renderVaccineHistory(record);
+                Bundle args = new Bundle();
+                args.putSerializable("record", record);
+                mPatientDataTab.setArguments(args);
+                mVaccineScheduleTab.setArguments(args);
+
+                initTabViews();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
                 Record record = dataSnapshot.getValue(Record.class);
-                mPatientDetailsTab.updateRecordDetails(record);
-                mVaccineScheduleTab.updateVaccineHistory(record);
+                mPatientDataTab.update(record);
+                mVaccineScheduleTab.update(record);
                 Toast.makeText(getActivity(), R.string.successful_record_update, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                // transition back to search
-                getActivity().onBackPressed();
+                getActivity().onBackPressed(); // transition back to search
             }
 
             @Override

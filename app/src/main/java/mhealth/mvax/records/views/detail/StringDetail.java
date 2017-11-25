@@ -7,26 +7,33 @@ import android.widget.EditText;
 
 /**
  * @author Robert Steilberg
+ *         <p>
+ *         Detail for storing String fields
  */
 
 public class StringDetail extends Detail<String> {
+
+    //================================================================================
+    // Constructors
+    //================================================================================
+
 
     public StringDetail(String label, String hint, String value, Context context) {
         super(label, hint, value, context);
     }
 
+
+    //================================================================================
+    // Override methods
+    //================================================================================
+
     @Override
-    public void valueViewListener(EditText valueView) {
+    public void setValueViewListener(EditText valueView) {
         valueView.requestFocus();
         // force keyboard to pop up
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null)
             imm.showSoftInput(valueView, InputMethodManager.SHOW_IMPLICIT);
-    }
-
-    @Override
-    public void updateStringValue(String value) {
-        setStringValue(value);
     }
 
     @Override
@@ -41,4 +48,10 @@ public class StringDetail extends Detail<String> {
             }
         });
     }
+
+    @Override
+    public void updateStringValue(String value) {
+        setStringValue(value);
+    }
+
 }

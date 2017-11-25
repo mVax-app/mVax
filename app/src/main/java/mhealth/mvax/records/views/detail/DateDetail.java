@@ -11,26 +11,31 @@ import android.widget.EditText;
 import org.joda.time.LocalDate;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.details.record.RecordDateFormat;
+import mhealth.mvax.records.details.patient.RecordDateFormat;
 
 /**
  * @author Robert Steilberg
+ *         <p>
+ *         Detail for storing Date fields
  */
 
 public class DateDetail extends Detail<Long> {
+
+    //================================================================================
+    // Constructors
+    //================================================================================
 
     public DateDetail(String label, String hint, Long value, Context context) {
         super(label, hint, value, context);
     }
 
-    @Override
-    public void updateStringValue(Long value) {
-        RecordDateFormat dateFormat = new RecordDateFormat(getContext().getString(R.string.date_format));
-        setStringValue(dateFormat.getString(value));
-    }
+    //================================================================================
+    // Override methods
+    //================================================================================
 
     @Override
-    public void valueViewListener(final EditText valueView) {
+    public void setValueViewListener(final EditText valueView) {
+        // TODO generalize this to a date dialog class
         final Context context = getContext();
 
         // init date picker dialog
@@ -79,6 +84,12 @@ public class DateDetail extends Detail<Long> {
 
     @Override
     public void configureValueView(EditText valueView) {
-        valueView.setFocusable(false);
+        valueView.setFocusable(false); // disable interaction since dialog
+    }
+
+    @Override
+    public void updateStringValue(Long value) {
+        RecordDateFormat dateFormat = new RecordDateFormat(getContext().getString(R.string.date_format));
+        setStringValue(dateFormat.getString(value));
     }
 }

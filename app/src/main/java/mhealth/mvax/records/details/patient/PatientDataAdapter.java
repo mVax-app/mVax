@@ -1,7 +1,5 @@
-package mhealth.mvax.records.details.record;
+package mhealth.mvax.records.details.patient;
 
-import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -19,10 +17,12 @@ import mhealth.mvax.records.views.detail.Detail;
 /**
  * @author Robert Steilberg
  *         <p>
- *         An adapter for listing details about a Record
+ *         Abstract adapter for listing details about a patient
+ *         from a Record, leaving implementation for getView up
+ *         to implementation
  */
 
-public abstract class RecordDetailsAdapter extends BaseAdapter {
+public abstract class PatientDataAdapter extends BaseAdapter {
 
     //================================================================================
     // Properties
@@ -30,14 +30,8 @@ public abstract class RecordDetailsAdapter extends BaseAdapter {
 
     protected static final int TYPE_SECTION = 0;
     protected static final int TYPE_FIELD = 1;
-
-    private LayoutInflater mInflater;
-
     protected List<Detail> mDataSource;
-
-    /**
-     * Contains position of headers and their titles
-     */
+    // contains position of headers mapped to their titles
     protected Map<Integer, String> mHeaders;
 
 
@@ -45,26 +39,22 @@ public abstract class RecordDetailsAdapter extends BaseAdapter {
     // Constructors
     //================================================================================
 
-    protected RecordDetailsAdapter(Context context, LinkedHashMap<String, ArrayList<Detail>> sectionedData) {
-        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        populateListView(sectionedData);
+    protected PatientDataAdapter(LinkedHashMap<String, ArrayList<Detail>> sectionedData) {
+        setDataSource(sectionedData);
     }
 
 
     //================================================================================
-    // Public methods
+    // Abstract methods
     //================================================================================
 
-    /**
-     * Refresh the ListView with new data
-     *
-     * @param sectionedData is the new data with which to populate the ListView
-     */
-    public void refresh(LinkedHashMap<String, ArrayList<Detail>> sectionedData) {
-        populateListView(sectionedData);
-        notifyDataSetChanged();
-    }
+    @Override
+    abstract public View getView(int position, View rowView, ViewGroup viewGroup);
 
+    public static class ViewHolder {
+        public TextView fieldView;
+        public EditText valueView;
+    }
 
     //================================================================================
     // Override methods
@@ -92,33 +82,40 @@ public abstract class RecordDetailsAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return 2; // type 1 is field, type 2 is header
     }
 
-    @Override
-    abstract public View getView(int position, View rowView, ViewGroup viewGroup);
+
+    //================================================================================
+    // Public methods
+    //================================================================================
+
+    /**
+     * Refresh the data source with new data
+     *
+     * @param newData is the new data with which to populate the data source
+     */
+    public void refresh(LinkedHashMap<String, ArrayList<Detail>> newData) {
+        setDataSource(newData);
+        notifyDataSetChanged();
+    }
 
 
     //================================================================================
     // Private methods
     //================================================================================
 
-    private void populateListView(LinkedHashMap<String, ArrayList<Detail>> sectionedData) {
+    private void setDataSource(LinkedHashMap<String, ArrayList<Detail>> sectionedData) {
         mDataSource = new ArrayList<>();
         mHeaders = new HashMap<>();
         for (String key : sectionedData.keySet()) {
             ArrayList<Detail> values = sectionedData.get(key);
-            // add a null to the data array so that separator doesn't mess up position ordering
+            // add a null to the data source so that separator doesn't mess up position ordering
             mDataSource.add(null);
+            // store the header's index in the data source
             mHeaders.put(mDataSource.size() - 1, key);
             mDataSource.addAll(values);
         }
-    }
-
-
-    public static class ViewHolder {
-        public TextView fieldView;
-        public EditText valueView;
     }
 
 }
