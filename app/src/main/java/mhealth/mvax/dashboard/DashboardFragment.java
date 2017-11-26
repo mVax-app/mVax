@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import java.util.Map;
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Record;
 import mhealth.mvax.model.record.Vaccine;
+import mhealth.mvax.records.utilities.VaccinationDummyDataGenerator;
 
 public class DashboardFragment extends Fragment {
 
@@ -81,6 +83,12 @@ public class DashboardFragment extends Fragment {
                 switchToFormsFragment();
             }
         });
+
+        //TODO REMOVE
+        VaccinationDummyDataGenerator generator = new VaccinationDummyDataGenerator();
+        generator.generateRecord();
+        Log.d("dataGenerated", "pls");
+
 
     }
 
