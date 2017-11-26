@@ -171,6 +171,8 @@
     <string name="sinova">SINOVA</string>
     <string name="sinova2">SINOVA 2</string>
     <string name="linv">LINV</string>
+    <string name="modal_choose_date">Choose Date for Form</string>
+    <string name="export">Export</string>
 
     <!-- FORMS FILE PATHS -->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>
