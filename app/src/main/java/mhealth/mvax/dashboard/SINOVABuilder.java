@@ -27,7 +27,7 @@ public class SINOVABuilder {
 
     }
 
-    public void autoFill(int day, String month, int year){
+    public void autoFill(int day, int month, int year){
         //TODO checking for correct input
 
         //Insert Firebase code
