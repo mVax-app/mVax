@@ -3,6 +3,8 @@ package mhealth.mvax.dashboard;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +77,14 @@ public class DashboardFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Button button = (Button)view.findViewById(R.id.button);
 
+        Button formsSwitch = (Button) view.findViewById(R.id.forms_button);
+        formsSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchToFormsFragment();
+            }
+        });
+
     }
 
     private boolean initDatabase() {
@@ -143,6 +153,15 @@ public class DashboardFragment extends Fragment {
         SINOVA2Builder sinova2Builder = new SINOVA2Builder(getActivity());
         //TODO allow for input of date
         sinova2Builder.autoFill(7, "November", 2017);
+    }
+
+    private void switchToFormsFragment(){
+        Fragment fragment = new FormsFragment();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
 

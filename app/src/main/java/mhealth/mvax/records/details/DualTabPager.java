@@ -23,7 +23,7 @@ class DualTabPager extends FragmentStatePagerAdapter {
     // Constructors
     //================================================================================
 
-    DualTabPager(FragmentManager fm, Fragment firstTab, Fragment secondTab) {
+     DualTabPager(FragmentManager fm, Fragment firstTab, Fragment secondTab) {
         super(fm);
         mFirstTab = firstTab;
         mSecondTab = secondTab;
