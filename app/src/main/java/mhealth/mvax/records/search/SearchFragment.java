@@ -87,8 +87,8 @@ public class SearchFragment extends Fragment {
         DummyDataGenerator generator = new DummyDataGenerator(table, recordTable, vaccineTable);
         // uncomment the below lines to populate database with dummy data
         // NOTE: recommend you clear out the database beforehand
-        generator.generateDummyPatientRecords();
-        generator.generateDummyVaccineMaster();
+//        generator.generateDummyPatientRecords();
+//        generator.generateDummyVaccineMaster();
 
         initDatabase(); // run this before touching mPatientRecords!
 
