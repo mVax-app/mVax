@@ -75,7 +75,7 @@
     <!-- Record details -->
     <string name="tab_title_record_details">Record Details</string>
     <string name="tab_title_vaccine_history">Vaccine History</string>
-    <string name="date_format">mm/dd/yyyy</string>
+    <string name="date_format">MM/dd/yyyy</string>
 
     <!-- New record -->
     <string name="modal_new_record_title">Create New Patient Record</string>
