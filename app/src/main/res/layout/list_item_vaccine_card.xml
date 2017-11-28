@@ -10,10 +10,16 @@
     android:paddingTop="4dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/vaccine_card_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
         <TextView
             android:id="@+id/vaccine_card_name"
@@ -23,6 +29,15 @@
             android:textStyle="bold"
             android:textSize="28dp"
             android:layout_margin="5dp"/>
+
+
+            <ImageView
+                android:id="@+id/vaccine_card_edit_button"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/ic_edit" />
+        </LinearLayout>
 
         <Spinner
             android:id="@+id/vaccine_card_month_spinner"
@@ -74,6 +89,8 @@
                         android:textSize="16dp"
                         android:text="12"
                         />
+
+
                 </LinearLayout>
             </RelativeLayout>
 

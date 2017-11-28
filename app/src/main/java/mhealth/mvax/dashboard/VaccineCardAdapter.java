@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -91,6 +92,7 @@ public class VaccineCardAdapter extends BaseAdapter {
 
 
         renderMonthSpinner(rowView);
+        renderEditButton(rowView);
 
         return rowView;
     }
@@ -137,6 +139,16 @@ public class VaccineCardAdapter extends BaseAdapter {
         ProgressBar progressBar;
         TextView percentageTV;
 
+    }
+
+    private void renderEditButton(View view) {
+        final ImageView editButton = view.findViewById(R.id.vaccine_card_edit_button);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("PRINT: CLICKED EDIT BUTTON");
+            }
+        });
     }
 
 
