@@ -148,7 +148,6 @@ public class ApproveUsersFragment extends android.support.v4.app.Fragment {
                 requests.remove(index);
                 adapter.notifyDataSetChanged();
                 dialog.dismiss();
-                refresh();
             }
         });
         builder.setNegativeButton(getResources().getString(R.string.deny_user), new DialogInterface.OnClickListener() {
@@ -159,7 +158,6 @@ public class ApproveUsersFragment extends android.support.v4.app.Fragment {
                 requests.remove(index);
                 adapter.notifyDataSetChanged();
                 dialog.dismiss();
-                refresh();
             }
         });
         builder.show();
