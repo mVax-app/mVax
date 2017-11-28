@@ -14,24 +14,22 @@ import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import mhealth.mvax.R;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import mhealth.mvax.R;
 import mhealth.mvax.model.record.Record;
 import mhealth.mvax.model.record.Vaccine;
-import mhealth.mvax.records.details.patient.modify.create.CreateRecordFragment;
 import mhealth.mvax.records.details.DetailFragment;
+import mhealth.mvax.records.details.patient.modify.create.CreateRecordFragment;
 import mhealth.mvax.records.utilities.DummyDataGenerator;
 
 /**
@@ -87,8 +85,8 @@ public class SearchFragment extends Fragment {
         DummyDataGenerator generator = new DummyDataGenerator(table, recordTable, vaccineTable);
         // uncomment the below lines to populate database with dummy data
         // NOTE: recommend you clear out the database beforehand
-//        generator.generateDummyPatientRecords();
-//        generator.generateDummyVaccineMaster();
+        //generator.generateDummyPatientRecords();
+        //generator.generateDummyVaccineMaster();
 
         initDatabase(); // run this before touching mPatientRecords!
 

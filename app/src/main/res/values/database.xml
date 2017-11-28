@@ -11,4 +11,6 @@
     <string name="email">email</string>
 
     <string name="userRequestsTable">userRequests</string>
+
+    <string name="vaccinationsTable">vaccinations</string>
 </resources>

@@ -14,6 +14,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_empty_field">Please fill in empty fields</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
@@ -166,12 +167,24 @@
     <string name="label_phone_number">Phone Number</string>
     <string name="hint_phone_number">phone</string>
 
+    <!-- FORM FRAGMENT-->
+    <string name="form_fragment_title">Export Forms</string>
+    <string name="sinova">SINOVA</string>
+    <string name="sinova2">SINOVA 2</string>
+    <string name="linv">LINV</string>
+    <string name="modal_choose_date">Choose Date for Form</string>
+    <string name="export">Export</string>
+    <string name="send_email">Send Email...</string>
+    <string name="email_header_insert"> for the date of </string>
+
     <!-- FORMS FILE PATHS -->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>
     <string name="sinova_2_file_name">SINOVA2.pdf</string>
     <string name="destination_file_extension">.pdf</string>
     <string name="destination_subfolder_sinova_1">/sinova1_</string>
     <string name="destination_subfolder_sinova_2">/sinova2_</string>
+    <string name="sinova_extension">sinova1_</string>
+    <string name="sinova2_extension">sinova2_</string>
 
     <!-- SINOVA GENERAL FORM PDF FIELDS -->
     <string name="establishment">ESTABLECIMIENTO</string>

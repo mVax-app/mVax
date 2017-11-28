@@ -8,6 +8,7 @@ import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -30,8 +31,12 @@ public class SINOVA2Builder {
 
     }
 
-    public void autoFill(int day, String month, int year){
+    public String autoFill(int day, int month, int year){
         //TODO checking for correct input
+
+        String extension = context.getResources().getString(R.string.sinova2_extension) + day + month + year + context.getResources().getString(R.string.destination_file_extension);
+        File file = new File(context.getExternalFilesDir(null), extension);
+
 
         //Insert Firebase code
         try {
@@ -39,11 +44,7 @@ public class SINOVA2Builder {
             AssetManager assetManager = context.getAssets();
             PdfReader reader = new PdfReader(assetManager.open(context.getResources().getString(R.string.sinova_2_file_name)));
 
-            //Indicating where output pdf should go
-            String outPath = context.getFilesDir().toString() + context.getResources().getString(R.string.destination_subfolder_sinova_2)
-                    + day + month + year + context.getResources().getString(R.string.destination_file_extension);
-            PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(outPath, true));
-
+            PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(file));
             //Filling in of available information
             AcroFields form = stamper.getAcroFields();
 
@@ -77,6 +78,7 @@ public class SINOVA2Builder {
             // Log.d("pdfError", "error in saving pdf");
             e.printStackTrace();
         }
+        return file.getAbsolutePath();
     }
 
     private void buildRow(AcroFields form, int rowNumber){
