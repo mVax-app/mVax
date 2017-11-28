@@ -59,7 +59,7 @@
     <string name="modal_update_title">Update Email</string>
     <string name="new_email">New Email</string>
     <string name="confirm_email">Confirm Email</string>
-    <string name="update_email_success">Updated request submitted</string>
+    <string name="update_email_success">Update request submitted</string>
 
     <!-- Setting page -->
     <string name="language">Language</string>
@@ -75,8 +75,7 @@
     <!-- Record details -->
     <string name="tab_title_record_details">Record Details</string>
     <string name="tab_title_vaccine_history">Vaccine History</string>
-
-    <string name="date_format">MM/dd/yyyy</string>
+    <string name="date_format">mm/dd/yyyy</string>
 
     <!-- New record -->
     <string name="modal_new_record_title">Create New Patient Record</string>

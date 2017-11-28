@@ -14,6 +14,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
+        android:textColor="@color/teal"
         android:text="@string/form_fragment_title"
         android:textSize="40sp" />
 

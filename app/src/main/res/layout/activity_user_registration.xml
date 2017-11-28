@@ -12,6 +12,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/TVdescription"
+        android:textColor="@color/teal"
         android:text="@string/REG_TITLE"
         android:textAlignment="center"
         android:textSize="48sp" />
