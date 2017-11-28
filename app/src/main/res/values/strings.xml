@@ -14,6 +14,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_empty_field">Please fill in empty fields</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
@@ -58,7 +59,7 @@
     <string name="modal_update_title">Update Email</string>
     <string name="new_email">New Email</string>
     <string name="confirm_email">Confirm Email</string>
-    <string name="update_email_success">Updated request submitted</string>
+    <string name="update_email_success">Update request submitted</string>
 
     <!-- Setting page -->
     <string name="language">Language</string>
@@ -74,7 +75,6 @@
     <!-- Record details -->
     <string name="tab_title_record_details">Record Details</string>
     <string name="tab_title_vaccine_history">Vaccine History</string>
-
     <string name="date_format">MM/dd/yyyy</string>
 
     <!-- New record -->
@@ -173,6 +173,8 @@
     <string name="linv">LINV</string>
     <string name="modal_choose_date">Choose Date for Form</string>
     <string name="export">Export</string>
+    <string name="send_email">Send Email...</string>
+    <string name="email_header_insert"> for the date of </string>
 
     <!-- FORMS FILE PATHS -->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>
@@ -180,6 +182,8 @@
     <string name="destination_file_extension">.pdf</string>
     <string name="destination_subfolder_sinova_1">/sinova1_</string>
     <string name="destination_subfolder_sinova_2">/sinova2_</string>
+    <string name="sinova_extension">sinova1_</string>
+    <string name="sinova2_extension">sinova2_</string>
 
     <!-- SINOVA GENERAL FORM PDF FIELDS -->
     <string name="establishment">ESTABLECIMIENTO</string>

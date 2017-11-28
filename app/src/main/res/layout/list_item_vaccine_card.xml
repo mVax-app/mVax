@@ -58,7 +58,7 @@
                     android:id="@+id/vaccine_card_target_square"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
-                    android:src="@drawable/blue_square"
+                    android:src="@drawable/teal_square"
                     android:layout_margin="5dp"
                     android:layout_gravity="center"/>
 
@@ -78,6 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
+                        android:textColor="@color/white"
                         android:textStyle="bold"
                         android:text="@string/dashboard_target"
                         />
@@ -86,6 +87,7 @@
                         android:id="@+id/vaccine_card_target_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/white"
                         android:textSize="16dp"
                         android:text="12"
                         />
@@ -105,7 +107,7 @@
                     android:id="@+id/vaccine_card_administered_square"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
-                    android:src="@drawable/blue_square"
+                    android:src="@drawable/teal_square"
                     android:layout_margin="5dp"
                     android:layout_gravity="center"/>
 
@@ -125,6 +127,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16dp"
+                        android:textColor="@color/white"
                         android:textStyle="bold"
                         android:text="@string/dashboard_administered"
                         />
@@ -133,6 +136,7 @@
                         android:id="@+id/vaccine_card_administered_value"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/white"
                         android:textSize="16dp"
                         android:text="9"
                         />

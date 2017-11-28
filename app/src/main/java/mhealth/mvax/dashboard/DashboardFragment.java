@@ -26,6 +26,7 @@ import java.util.Map;
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Record;
 import mhealth.mvax.model.record.Vaccine;
+import mhealth.mvax.records.utilities.VaccinationDummyDataGenerator;
 
 public class DashboardFragment extends Fragment {
 
@@ -81,6 +82,10 @@ public class DashboardFragment extends Fragment {
                 switchToFormsFragment();
             }
         });
+
+        //TODO REMOVE
+        VaccinationDummyDataGenerator generator = new VaccinationDummyDataGenerator();
+        generator.generateRecord();
 
     }
 

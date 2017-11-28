@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "839717021442",
+    "firebase_url": "https://mvax-dev.firebaseio.com",
+    "project_id": "mvax-dev",
+    "storage_bucket": "mvax-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:839717021442:android:1ef103ade013bc63",
+        "android_client_info": {
+          "package_name": "mhealth.mvax.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "839717021442-pk68iaula9km1ptj30j64kf3di884uln.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcovOocVlpVQJ6s5PvuRA3OncXfYXtVLw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

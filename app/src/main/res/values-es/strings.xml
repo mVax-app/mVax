@@ -14,6 +14,7 @@
     <string name="error_invalid_password">Esta contraseña es demasiado corta</string>
     <string name="error_incorrect_password">Esta contraseña es incorrecta</string>
     <string name="error_field_required">Este campo es necesario</string>
+    <string name="error_empty_field">Por favor rellene los campos vacíos</string>
     <string name="permission_rationale">"Los permisos de contactos son necesarios para proporcionar
         las terminacionesde correo electrónico."</string>
     <string name="emptystring" />
@@ -23,6 +24,7 @@
     <string name="title_alerts">Alertas</string>
     <string name="title_search">Busca</string>
     <string name="title_forms">Formas</string>
+    <string name="title_dashboard">El Tablero de Mandos</string>
 
     <string name="REG_DESCRIPTION">Por favor complete el siguiente formulario para empezar.</string>
     <string name="REG_TITLE">Registro de nuevo usuario</string>
@@ -36,6 +38,19 @@
     <string name="REG_ERROR_PASS_REQUIRE">La contraseña no cumple con los requisitos</string>
     <string name="REG_ERROR_PASS_CONFIRM">Las contraseñas no coinciden</string>
     <string name="REG_CONFIRMED">Solicitud enviada, ¡aguarde para ser aprobada!</string>
+    <string name="userRoles">Nivel de Permiso</string>
+
+    <string name="modal_user_decision_title">¿Aprobar la solicitud de usuario?</string>
+    <string name="approve_user">Aprobar</string>
+    <string name="deny_user">Negar</string>
+    <string name="user_not_approved">Usuario no aprobado todavía</string>
+    <string name="no_user_role">No se puede determinar el rol del usuario</string>
+
+    <!-- Update Email -->
+    <string name="modal_update_title">Actualizar correo electrónico</string>
+    <string name="new_email">Nuevo correo electrónico</string>
+    <string name="confirm_email">Confirmar correo electrónico</string>
+    <string name="update_email_success">Solicitud de actualización enviada</string>
 
 
     <!-- Reset Password-->
@@ -68,9 +83,20 @@
     <string name="community">Comunidad</string>
     <string name="add_new_record">Añadir Nuevo Registro</string>
 
+    <!-- FORM FRAGMENT-->
+    <string name="form_fragment_title">Exportar Formularios</string>
+    <string name="modal_choose_date">Elegir fecha para el formulario</string>
+    <string name="export">Exportar</string>
+    <string name="send_email">Enviar correo electrónico...</string>
+    <string name="email_header_insert">para la fecha de</string>
+
 
     <!-- Settings Page -->
     <string name="language">Idioma</string>
     <string name="spanish">Español</string>
+    <string name="update_email">Actualizar correo electrónico</string>
+    <string name="change_password">Cambiar contraseña</string>
+    <string name="sign_out">Cerrar sessión</string>
+
 
 </resources>

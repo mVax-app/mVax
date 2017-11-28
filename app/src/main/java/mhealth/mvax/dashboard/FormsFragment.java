@@ -4,6 +4,8 @@ package mhealth.mvax.dashboard;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Toast;
+
+import java.io.File;
 
 import mhealth.mvax.R;
 
@@ -147,13 +152,40 @@ public class FormsFragment extends android.support.v4.app.Fragment {
 
     public void buildSINOVA(int day, int month, int year){
         SINOVABuilder sinovaBuilder = new SINOVABuilder(getActivity());
-        sinovaBuilder.autoFill(day, month, year);
+        String fileName = sinovaBuilder.autoFill(day, month, year);
+
+        File pdf = new File(fileName);
+        String title = getResources().getString(R.string.sinova) + " " + getResources().getString(R.string.email_header_insert) + " " + day + "/" + month + "/" + year;
+        sendFile(title, "", pdf);
 
     }
 
     public void buildSINOVA2(int day, int month, int year){
         SINOVA2Builder sinova2Builder = new SINOVA2Builder(getActivity());
-        sinova2Builder.autoFill(day, month, year);
+        String fileName = sinova2Builder.autoFill(day, month, year);
+
+        File pdf = new File(fileName);
+        String title = getResources().getString(R.string.sinova2) + " " + getResources().getString(R.string.email_header_insert) + " " + day + "/" + month + "/" + year;
+        sendFile(title, "", pdf);
+    }
+
+
+    private void sendFile(String title, String body, File pdf){
+        //Code in this method with help from Stack Overflow: https://stackoverflow.com/questions/2197741/how-can-i-send-emails-from-my-android-application
+        Intent email = new Intent(Intent.ACTION_SEND);
+        email.setType("message/rfc822");
+      //  i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"recipient@example.com"});
+        email.putExtra(Intent.EXTRA_SUBJECT, title);
+        email.putExtra(Intent.EXTRA_TEXT   , body);
+
+        //Info for how to send email with an attachment was from: https://stackoverflow.com/questions/9974987/how-to-send-an-email-with-a-file-attachment-in-android
+        Uri path = Uri.fromFile(pdf);
+        email .putExtra(Intent.EXTRA_STREAM, path);
+        try {
+            startActivityForResult(Intent.createChooser(email, getResources().getString(R.string.send_email)), 2);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getActivity(), "There are no email clients installed.", Toast.LENGTH_LONG).show();
+        }
     }
 
 }

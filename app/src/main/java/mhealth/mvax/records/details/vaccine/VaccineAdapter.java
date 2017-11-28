@@ -26,6 +26,7 @@ import mhealth.mvax.model.record.Dose;
 import mhealth.mvax.model.record.Vaccine;
 import mhealth.mvax.records.details.patient.RecordDateFormat;
 import mhealth.mvax.records.views.DoseDateView;
+import mhealth.mvax.records.views.VaccineDateView;
 
 /**
  * @author Robert Steilberg
@@ -153,15 +154,34 @@ class VaccineAdapter extends BaseAdapter {
         label.setTextSize(22);
         label.setGravity(Gravity.CENTER);
         label.setPadding(0, 0, 15, 0);
-        dueDateLinearLayout.addView(label);
+        //dueDateLinearLayout.addView(label);
 
         // render actual due date
-        TextView dueDate = new TextView(rowContext);
-        // TODO fix temporary placeholder
-        updateDueDate(vaccine, 1515992400L);
-        dueDate.setText("1/15/18");
-        dueDate.setTextSize(22);
+        VaccineDateView dueDate = new VaccineDateView(rowContext, vaccine);
+
+        dueDate.setLayoutParams(new LinearLayout.LayoutParams(
+                250,
+                LinearLayout.LayoutParams.MATCH_PARENT
+        ));
+        dueDate.setPadding(5, 5, 5, 5);
         dueDate.setGravity(Gravity.CENTER);
+        dueDate.setTextSize(22);
+
+        RecordDateFormat dateFormat = new RecordDateFormat(mContext.getString(R.string.date_format));
+        dueDate.setText(dateFormat.getString(vaccine.getDueDate()));
+
+        GradientDrawable gd = new GradientDrawable();
+        gd.setColor(Color.LTGRAY);
+        dueDate.setBackground(gd);
+        dueDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View dueDate) {
+                newVaccinePrompt((VaccineDateView) dueDate);
+            }
+        });
+
+        // add dose label and date to the view
+        dueDateLinearLayout.addView(label);
         dueDateLinearLayout.addView(dueDate);
 
         return dueDateLinearLayout;
@@ -240,6 +260,8 @@ class VaccineAdapter extends BaseAdapter {
                 cal.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
                 cal.set(Calendar.MONTH, datePicker.getMonth());
                 cal.set(Calendar.YEAR, datePicker.getYear());
+                // cal.getTimeInMillis() gets the date chosen
+//                updateDueDate(dateView.getVaccine(), cal.getTimeInMillis());
                 updateDose(dateView.getDose(), cal.getTimeInMillis());
             }
         });
@@ -260,6 +282,55 @@ class VaccineAdapter extends BaseAdapter {
 
         builder.show();
     }
+
+
+    /**
+     *
+     * TODO: Refactor this
+     */
+
+    private void newVaccinePrompt(final VaccineDateView view) {
+        final VaccineDateView dateView = view;
+
+        // create modal
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle(R.string.modal_new_dosage_title);
+        View dialogView = mInflater.inflate(R.layout.modal_choose_date, null);
+        builder.setView(dialogView);
+
+        final DatePicker datePicker = dialogView.findViewById(R.id.date_picker);
+
+        builder.setPositiveButton(mContext.getResources().getString(R.string.modal_new_dosage_confirm), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+                cal.set(Calendar.MONTH, datePicker.getMonth());
+                cal.set(Calendar.YEAR, datePicker.getYear());
+                // cal.getTimeInMillis() gets the date chosen
+                updateDueDate(dateView.getVaccine(), cal.getTimeInMillis());
+//                updateDose(dateView.getDose(), cal.getTimeInMillis());
+            }
+        });
+
+        builder.setNegativeButton(mContext.getString(R.string.modal_new_dosage_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.setNeutralButton(R.string.modal_new_dosage_neutral, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                updateDueDate(dateView.getVaccine(), null);
+            }
+        });
+
+        builder.show();
+    }
+
+
 
     private void updateDose(Dose dose, Long doseDate) {
         dose.setDateCompleted(doseDate);
