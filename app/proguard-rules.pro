@@ -1,6 +1,6 @@
 # Add project specific ProGuard rules here.
 # By default, the flags in this file are appended to flags specified
-# in /Users/Robert/Library/Android/sdk/tools/proguard/proguard-android.txt
+# in /Users/$USER/Library/Android/sdk/tools/proguard/proguard-android.txt
 # You can edit the include path and order by changing the proguardFiles
 # directive in build.gradle.
 #
@@ -18,8 +18,19 @@
 
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+-keepattributes SourceFile,LineNumberTable
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# TODO comment this out and see if it is fixable
+-ignorewarnings
+
+
+# Firebase rules
+-keepattributes Signature
+-keepattributes *Annotation*
+-keepclassmembers class mhealth.mvax.model.** {
+  *;
+}

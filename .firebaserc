@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "mvax-65539"
+    "dev": "mvax-dev",
+    "qa": "mvax-qa",
+    "prod": "mvax-prod"
   }
 }
