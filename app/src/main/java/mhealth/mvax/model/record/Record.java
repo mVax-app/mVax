@@ -331,6 +331,7 @@ public class Record implements Serializable {
 
     @Exclude
     public String getFullName() {
+        // TODO handle lack of first and last name, and test for it
         StringBuilder nameBuilder = new StringBuilder();
         nameBuilder.append(mLastName);
         nameBuilder.append(", ");
@@ -348,6 +349,7 @@ public class Record implements Serializable {
 
     @Exclude
     public String getParentFullName() {
+        // TODO reduce DRY
         StringBuilder nameBuilder = new StringBuilder();
         nameBuilder.append(mParentLastName);
         nameBuilder.append(", ");
