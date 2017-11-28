@@ -26,6 +26,7 @@ import mhealth.mvax.model.record.Dose;
 import mhealth.mvax.model.record.Vaccine;
 import mhealth.mvax.records.details.patient.RecordDateFormat;
 import mhealth.mvax.records.views.DoseDateView;
+import mhealth.mvax.records.views.VaccineDateView;
 
 /**
  * @author Robert Steilberg
@@ -156,7 +157,7 @@ class VaccineAdapter extends BaseAdapter {
         dueDateLinearLayout.addView(label);
 
         // render actual due date
-        TextView dueDate = new TextView(rowContext);
+        VaccineDateView dueDate = new VaccineDateView(rowContext, vaccine);
         // TODO fix temporary placeholder
         updateDueDate(vaccine, 1515992400L);
         dueDate.setText("1/15/18");
@@ -240,6 +241,8 @@ class VaccineAdapter extends BaseAdapter {
                 cal.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
                 cal.set(Calendar.MONTH, datePicker.getMonth());
                 cal.set(Calendar.YEAR, datePicker.getYear());
+                // cal.getTimeInMillis() gets the date chosen
+//                updateDueDate(dateView.getVaccine(), cal.getTimeInMillis());
                 updateDose(dateView.getDose(), cal.getTimeInMillis());
             }
         });
