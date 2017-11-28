@@ -13,7 +13,7 @@ android {
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "mhealth.mvax"
-        minSdkVersion 26
+        minSdkVersion 24
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -22,23 +22,22 @@ android {
     flavorDimensions "default"
     productFlavors {
         dev {
-            minSdkVersion 26
             applicationId 'mhealth.mvax.dev'
+            minSdkVersion 24
             targetSdkVersion 26
             signingConfig signingConfigs.development
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
         qa {
-            minSdkVersion 26
             applicationId 'mhealth.mvax.qa'
+            minSdkVersion 24
             targetSdkVersion 26
             signingConfig signingConfigs.development
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
         prod {
-            applicationIdSuffix = ".prod"
-            minSdkVersion 26
             applicationId 'mhealth.mvax.prod'
+            minSdkVersion 24
             targetSdkVersion 26
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
