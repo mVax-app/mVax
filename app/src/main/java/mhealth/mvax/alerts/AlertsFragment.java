@@ -52,27 +52,27 @@ public class AlertsFragment extends Fragment {
     }
 
 
-    private boolean initDatabase(){
-
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        String masterTable = getResources().getString(R.string.masterTable);
-
-        DatabaseReference ref = mDatabase.child("mVax");
-
-        ref.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot.exists()) {
-                    String value = dataSnapshot.getValue(String.class);
-                    String key = dataSnapshot.getKey();
-                    String totl = key + ": " + value;
-
-                }
-            }
-        });
-        return true;
-    }
+//    private boolean initDatabase(){
+//
+//        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+//
+//        String masterTable = getResources().getString(R.string.masterTable);
+//
+//        DatabaseReference ref = mDatabase.child("mVax");
+//
+//        ref.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//                if (dataSnapshot.exists()) {
+//                    String value = dataSnapshot.getValue(String.class);
+//                    String key = dataSnapshot.getKey();
+//                    String totl = key + ": " + value;
+//
+//                }
+//            }
+//        });
+//        return true;
+//    }
 
 
 
