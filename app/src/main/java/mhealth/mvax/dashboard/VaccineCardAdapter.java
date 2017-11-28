@@ -4,12 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -65,9 +61,9 @@ public class VaccineCardAdapter extends BaseAdapter {
 
             holder.vaccineNameTV = rowView.findViewById(R.id.vaccine_card_name);
             holder.targetValueTV = rowView.findViewById(R.id.vaccine_card_target_value);
-            holder.givenValueTV = rowView.findViewById(R.id.vaccine_card_administered_value);
+            holder.givenValueTV = rowView.findViewById(R.id.vaccine_card_given_value);
             holder.progressBar = rowView.findViewById(R.id.vaccine_card_progress_bar);
-            holder.percentageTV = rowView.findViewById(R.id.vaccine_card_percentage);
+            //holder.percentageTV = rowView.findViewById(R.id.vaccine_card_percentage);
 
             rowView.setTag(holder);
         } else {
@@ -78,7 +74,7 @@ public class VaccineCardAdapter extends BaseAdapter {
         TextView targetValueTV = holder.targetValueTV;
         TextView administeredValueTV = holder.givenValueTV;
         ProgressBar progressBar = holder.progressBar;
-        TextView percentageTV = holder.percentageTV;
+        //TextView percentageTV = holder.percentageTV;
 
         Vaccine result = (Vaccine) getItem(position);
 
@@ -88,34 +84,33 @@ public class VaccineCardAdapter extends BaseAdapter {
         progressBar.setMax(result.getTargetCount());
         progressBar.setProgress(result.getGivenCount());
         double percent = (double) result.getGivenCount() / (double) result.getTargetCount() * 100;
-        percentageTV.setText(Double.toString(Math.round(percent)) + "%");
+        //percentageTV.setText(Double.toString(Math.round(percent)) + "%");
 
 
-        renderMonthSpinner(rowView);
-        renderEditButton(rowView);
+        //renderMonthSpinner(rowView);
 
         return rowView;
     }
 
-    private void renderMonthSpinner(View view) {
-        final Spinner spinner = view.findViewById(R.id.vaccine_card_month_spinner);
-        ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(view.getContext(),
-                R.array.vaccine_card_months_array, android.R.layout.simple_spinner_item);
-        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(filterAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-                if (pos != 0) {
-                    //TODO: user picks a month, new stats get displayed
-                }
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-    }
+//    private void renderMonthSpinner(View view) {
+//        final Spinner spinner = view.findViewById(R.id.vaccine_card_month_spinner);
+//        ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(view.getContext(),
+//                R.array.vaccine_card_months_array, android.R.layout.simple_spinner_item);
+//        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner.setAdapter(filterAdapter);
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+//                if (pos != 0) {
+//                    //TODO: user picks a month, new stats get displayed
+//                }
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+//    }
 
     @Override
     public int getCount() {
@@ -141,15 +136,7 @@ public class VaccineCardAdapter extends BaseAdapter {
 
     }
 
-    private void renderEditButton(View view) {
-        final ImageView editButton = view.findViewById(R.id.vaccine_card_edit_button);
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                System.out.println("PRINT: CLICKED EDIT BUTTON");
-            }
-        });
-    }
+
 
 
 }

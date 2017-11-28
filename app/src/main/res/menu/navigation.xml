@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_search"
+        android:id="@+id/navigation_patients"
         android:icon="@drawable/ic_search"
-        android:title="@string/title_search" />
+        android:title="@string/patients" />
 
     <item
-        android:id="@+id/navigation_alerts"
-        android:icon="@drawable/ic_notification"
-        android:title="@string/title_alerts" />
+        android:id="@+id/navigation_overdue"
+        android:icon="@drawable/ic_alerts"
+        android:title="@string/title_overdue" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_forms"
         android:icon="@drawable/ic_dashboard"
-        android:title="@string/title_dashboard" />
+        android:title="@string/title_forms" />
 
     <item
         android:id="@+id/navigation_settings"

@@ -53,13 +53,13 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         Fragment selectedFragment = null;
                         switch (item.getItemId()) {
-                            case R.id.navigation_search:
+                            case R.id.navigation_patients:
                                 selectedFragment = SearchFragment.newInstance();
                                 break;
-                            case R.id.navigation_alerts:
+                            case R.id.navigation_overdue:
                                 selectedFragment = AlertsFragment.newInstance();
                                 break;
-                            case R.id.navigation_dashboard:
+                            case R.id.navigation_forms:
                                 selectedFragment = DashboardFragment.newInstance();
                                 break;
                             case R.id.navigation_settings:
