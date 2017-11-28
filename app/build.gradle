@@ -22,14 +22,14 @@ android {
     flavorDimensions "default"
     productFlavors {
         dev {
-            minSdkVersion 26
+            minSdkVersion 24
             applicationId 'mhealth.mvax.dev'
             targetSdkVersion 26
             signingConfig signingConfigs.development
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
         qa {
-            minSdkVersion 26
+            minSdkVersion 24
             applicationId 'mhealth.mvax.qa'
             targetSdkVersion 26
             signingConfig signingConfigs.development
@@ -37,7 +37,7 @@ android {
         }
         prod {
             applicationIdSuffix = ".prod"
-            minSdkVersion 26
+            minSdkVersion 24
             applicationId 'mhealth.mvax.prod'
             targetSdkVersion 26
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
