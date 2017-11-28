@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/title_dashboard"
+        android:textColor="@color/teal"
         android:textSize="48sp"
         android:textStyle="bold"/>
 
