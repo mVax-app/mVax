@@ -29,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class AlertsFragment extends Fragment {
 
-    FirebaseDatabase db = FirebaseDatabase.getInstance();
+    ChildEventListener mPatientListener;
 
 
     public static AlertsFragment newInstance() {
@@ -52,27 +52,37 @@ public class AlertsFragment extends Fragment {
     }
 
 
-//    private boolean initDatabase(){
-//
-//        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-//
-//        String masterTable = getResources().getString(R.string.masterTable);
-//
-//        DatabaseReference ref = mDatabase.child("mVax");
-//
-//        ref.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                if (dataSnapshot.exists()) {
-//                    String value = dataSnapshot.getValue(String.class);
-//                    String key = dataSnapshot.getKey();
-//                    String totl = key + ": " + value;
-//
-//                }
-//            }
-//        });
-//        return true;
-//    }
+    private boolean initDatabase(){
+
+        mPatientListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        };
+        return true;
+    }
 
 
 
@@ -85,9 +95,9 @@ public class AlertsFragment extends Fragment {
         private String[] groups = { "High Priority (> 2 Weeks Overdue)", "Medium Priority (1 - 2 Weeks Overdue)", "Low Priority (< 1 Week Overdue)"};
 
         private String[][] children = {
-                { "Steilberg, Robert Hays II", "Bob, Muffin Lee IV", "Steilberg, Robert Hays", "Steilberg, Robert Hays" },
-                { "Bob, Muffin Lee IV", "Bob, Muffin Lee VI"},
-                { "Steilberg, Robert Hays III", "Steilberg, Robert Hays II" }
+                { "Steilberg, Robert Hays II", "Bob, Muffin Lee IV"},
+                { "Bob, Muffin Lee IV"},
+                { "Steilberg, Robert Hays II"}
         };
 
         @Override
@@ -137,7 +147,14 @@ public class AlertsFragment extends Fragment {
         @Override
         public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
             TextView textView = new TextView(AlertsFragment.this.getActivity());
-            textView.setText(getChild(i, i1).toString());
+            //Temporary PlaceHolder for patient contact info - Demo purpose
+            if(getChild(i, i1).toString().equals("Steilberg, Robert Hays II")){
+                textView.setText(getChild(i, i1).toString() + "\nPhone Number: 8046904814" + "\nCommunity: Alspaugh" + "\nAddress: 9014 Tarrytown Drive, Richmind, VA 23229");
+            }
+            else{
+                textView.setText(getChild(i, i1).toString() + "\nPhone Number: 3840185960" + "\nCommunity: Roatan" + "\nAddress: 1 Muffin Ln, Atlanta, GA");
+            }
+            //textView.setText(getChild(i, i1).toString() + " Phone Number: " + "8046904814");
             textView.setTextSize(25);
             textView.setPadding(100,0,0,0);
             return textView;
