@@ -16,7 +16,21 @@ import mhealth.mvax.R;
 import android.support.v4.app.Fragment;
 
 
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+
+
 public class AlertsFragment extends Fragment {
+
+    FirebaseDatabase db = FirebaseDatabase.getInstance();
+
 
     public static AlertsFragment newInstance() {
 //        AlertsFragment fragment = new AlertsFragment();
@@ -37,7 +51,36 @@ public class AlertsFragment extends Fragment {
         return v;
     }
 
+
+    private boolean initDatabase(){
+
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        String masterTable = getResources().getString(R.string.masterTable);
+
+        DatabaseReference ref = mDatabase.child("mVax");
+
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.exists()) {
+                    String value = dataSnapshot.getValue(String.class);
+                    String key = dataSnapshot.getKey();
+                    String totl = key + ": " + value;
+
+                }
+            }
+        });
+        return true;
+    }
+
+
+
+
+
+
     public class SavedTabsListAdapter extends BaseExpandableListAdapter {
+
 
         private String[] groups = { "High Priority (> 2 Weeks Overdue)", "Medium Priority (1 - 2 Weeks Overdue)", "Low Priority (< 1 Week Overdue)"};
 
