@@ -184,14 +184,6 @@ class VaccineAdapter extends BaseAdapter {
         dueDateLinearLayout.addView(label);
         dueDateLinearLayout.addView(dueDate);
 
-
-        // TODO fix temporary placeholder
-//        updateDueDate(vaccine, 1515992400L);
-//        dueDate.setText("1/15/18");
-//        dueDate.setTextSize(22);
-//        dueDate.setGravity(Gravity.CENTER);
-//        dueDateLinearLayout.addView(dueDate);
-
         return dueDateLinearLayout;
     }
 

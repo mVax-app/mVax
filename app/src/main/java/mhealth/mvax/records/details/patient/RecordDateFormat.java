@@ -17,6 +17,7 @@ public class RecordDateFormat extends SimpleDateFormat {
     }
 
     public String getString(Long date) {
+
         if (date != null) {
             return format(date);
         } else {
