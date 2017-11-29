@@ -63,14 +63,13 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-
-        Button signOut = (Button) v.findViewById(R.id.signOut);
-        signOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signOut();
-            }
-        });
+//        Button signOut = (Button) v.findViewById(R.id.signOut);
+//        signOut.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                signOut();
+//            }
+//        });
 
         createApproveUsersButton(v);
 
