@@ -20,12 +20,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.record.Record;
+import mhealth.mvax.model.record.Sex;
 import mhealth.mvax.model.record.VaccinationRecord;
 
 
 public class SINOVABuilder {
     public static final int maxRows = 15;
     private Activity context = null;
+    private DatabaseReference users;
+    private ArrayList<VaccinationRecord> records;
+    private PdfStamper stamper;
+    private AcroFields form;
+    private PdfReader reader;
 
     /**
      * Constructor for if the SINOVA Builder needs the activity for context / assets / file directory
@@ -33,159 +40,162 @@ public class SINOVABuilder {
      */
     public SINOVABuilder(Activity context){
         this.context = context;
+        users = FirebaseDatabase.getInstance().getReference()
+                .child(context.getResources().getString(R.string.masterTable))
+                .child(context.getResources().getString(R.string.recordTable));
 
     }
 
-    public String autoFill(int day, int month, int year){
-        final String date = String.valueOf(year) + String.valueOf(month) + String.valueOf(day);
-        //TODO checking for correct input
-        //Indicating where output pdf should go
-        //Commented out is for internal storage, second is for external storage
-//        String outPath = context.getFilesDir().toString() + context.getResources().getString(R.string.destination_subfolder_sinova_1)
-//                + day + month + year + context.getResources().getString(R.string.destination_file_extension);
+    public String autoFill(final int day, int month, int year) {
+        final String fDay = String.valueOf(day);
+        final String fMonth = String.valueOf(month+1);
+        final String fYear = String.valueOf(year);
+        final String date = fYear + fMonth + fDay;
+
+        Log.e("WORKS", date);
 
         String extension = context.getResources().getString(R.string.sinova_extension) + day + month + year + context.getResources().getString(R.string.destination_file_extension);
-        File file = new File(context.getExternalFilesDir(null), extension);
+        final File file = new File(context.getExternalFilesDir(null), extension);
+
+        //Reset instance variable for another fill
+        records = new ArrayList<>();
 
         //FIREBASE RECORD FETCHING:
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref = ref.child(context.getResources().getString(R.string.masterTable)).child(context.getResources().getString(R.string.vaccinationsTable));
-        final ArrayList<VaccinationRecord> records = new ArrayList<>();
+
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild(date)){
+                if (dataSnapshot.hasChild(date)) {
                     DataSnapshot child = dataSnapshot.child(date);
 
-                    for(DataSnapshot data: child.getChildren()){
+                    for (DataSnapshot data : child.getChildren()) {
                         records.add(data.getValue(VaccinationRecord.class));
-                        Log.e("WORKS", "WORKS");
+                        Log.e("WORKS", "ADDS");
                     }
+
+                    fillInForm(file, fDay, fMonth, fYear);
                 }
             }
-
-
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("DatabaseError", "DatabaseError");
             }
         });
-
-
-
-
-        try {
-            //Retrieval of the template
-            AssetManager assetManager = context.getAssets();
-            PdfReader reader = new PdfReader(assetManager.open(context.getResources().getString(R.string.sinova_1_file_name)));
-
-            PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(file));
-            //Filling in of available information
-            AcroFields form = stamper.getAcroFields();
-
-            //Insert the header info on the SINOVA
-            form.setField(context.getResources().getString(R.string.establishment), context.getResources().getString(R.string.form_clinic_name));
-            form.setField(context.getResources().getString(R.string.name_of_responsible_person), context.getResources().getString(R.string.form_vaccinator_name));
-            form.setField(context.getResources().getString(R.string.department), context.getResources().getString(R.string.form_department_name));
-            form.setField(context.getResources().getString(R.string.code),"2354");
-            form.setField(context.getResources().getString(R.string.municipality), context.getResources().getString(R.string.form_city_name));
-            form.setField(context.getResources().getString(R.string.date_day), String.valueOf(day));
-            form.setField(context.getResources().getString(R.string.date_month), String.valueOf(month));
-            form.setField(context.getResources().getString(R.string.date_year), String.valueOf(year));
-            form.setField(context.getResources().getString(R.string.location_place), context.getResources().getString(R.string.form_address));
-
-
-            //Inserting the rows of data
-            int rowNumber = 1;
-            while(rowNumber <= maxRows){// || no more patients to add)
-                buildRow(form, rowNumber);
-                rowNumber++;
-            }
-
-            //Closing of tools
-            stamper.setFormFlattening(false);
-            stamper.close();
-            reader.close();
-
-        }
-        catch(Exception e){
-           // Log.d("pdfError", "error in saving pdf");
-            e.printStackTrace();
-        }
         return file.getAbsolutePath();
     }
 
-    private void buildRow(AcroFields form, int rowNumber){
-        try {
+    private void fillInForm(File file, String day, String month, String year){
 
-            //TODO connect to firebase data now that it's mapped, remove dummy data
-            form.setField(context.getResources().getString(R.string.temporary_number_mothers_id) + rowNumber, "532732345");
-            form.setField(context.getResources().getString(R.string.number_of_children) + rowNumber, "1");
-            form.setField(context.getResources().getString(R.string.child_national_reg_number) + rowNumber, "823488682");
-            form.setField(context.getResources().getString(R.string.child_name)+ rowNumber, "FirstName MiddleName LastName1 LastName2");
-            form.setField(context.getResources().getString(R.string.date_of_birth) + rowNumber, "05/05/17");
-            form.setField(context.getResources().getString(R.string.sex_male) + rowNumber, "X");
-            form.setField(context.getResources().getString(R.string.sex_female) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.birth_department) + rowNumber, "some department");
-            form.setField(context.getResources().getString(R.string.birth_municipal)+ rowNumber, "some municipality");
-            form.setField(context.getResources().getString(R.string.residence_department) + rowNumber, "some residence");
-            form.setField(context.getResources().getString(R.string.residence_municipal) + rowNumber, "residence municipality");
-            form.setField(context.getResources().getString(R.string.residence_town) + rowNumber, "residence town");
-            form.setField(context.getResources().getString(R.string.residence_address) + rowNumber, "Next to the red truck");
-            form.setField(context.getResources().getString(R.string.cell_number) + rowNumber, "954-629-1345");
-            form.setField(context.getResources().getString(R.string.population_group) + rowNumber, "Other");
-            form.setField(context.getResources().getString(R.string.full_name_guardian) + rowNumber, "Alison MiddleName LastName1 LastName2");
+            try {
 
-            //vaccinations
-            form.setField(context.getResources().getString(R.string.HepB_DU) + rowNumber, "X");
-            form.setField(context.getResources().getString(R.string.BCG_RN_DU) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.BCG_1A_DU) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.BCG_14A_DU) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.POLIO_2M_1A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.POLIO_1ANO_2A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.POLIO_1ANO_3A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.POLIO_14ANO_1A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.POLIO_14ANO_2A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.POLIO_14ANO_3A) + rowNumber, "X");
-            form.setField(context.getResources().getString(R.string.POLIO_R) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.PENTA_1ANO_1A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.PENTA_1ANO_2A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.PENTA_1ANO_3A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.PENTA_14ANO_1A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.PENTA_14ANO_2A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.PENTA_14ANO_3A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.NEUM_1ANO_1A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.NEUM_1ANO_2A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.NEUM_1ANO_3A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.NEUM_14ANO_DU) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.ROTA_2M1A_1A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.ROTA_2M1A_2A) + rowNumber, "X");
-            form.setField(context.getResources().getString(R.string.SRP_1223M_DU) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.SRP_24ANO_DU) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.DPT_18M_1R) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.DPT_4A_2R) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.VPI_1A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.VPI_2A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.VPI_3A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.DT_PED_2A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.DT_PED_3A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.DT_PED_1R) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.DT_PED_2R) + rowNumber, "X");
-            form.setField(context.getResources().getString(R.string.VITA_611M_1A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.VITA_14A_1A) + rowNumber, "");
-            form.setField(context.getResources().getString(R.string.VITA_14A_2A) + rowNumber, "");
+                //Retrieval of the template
+                AssetManager assetManager = context.getAssets();
+                reader = new PdfReader(assetManager.open(context.getResources().getString(R.string.sinova_1_file_name)));
+
+                stamper = new PdfStamper(reader, new FileOutputStream(file));
+                //Filling in of available information
+                form = stamper.getAcroFields();
+
+                //Insert the header info on the SINOVA
+                form.setField(context.getResources().getString(R.string.establishment), context.getResources().getString(R.string.form_clinic_name));
+                form.setField(context.getResources().getString(R.string.name_of_responsible_person), context.getResources().getString(R.string.form_vaccinator_name));
+                form.setField(context.getResources().getString(R.string.department), context.getResources().getString(R.string.form_department_name));
+                form.setField(context.getResources().getString(R.string.code), "2354");
+                form.setField(context.getResources().getString(R.string.municipality), context.getResources().getString(R.string.form_city_name));
+                form.setField(context.getResources().getString(R.string.date_day), day);
+                form.setField(context.getResources().getString(R.string.date_month), month);
+                form.setField(context.getResources().getString(R.string.date_year), year);
+                form.setField(context.getResources().getString(R.string.location_place), context.getResources().getString(R.string.form_address));
+
+
+                buildRow(1);
+            } catch (Exception e) {
+                // Log.d("pdfError", "error in saving pdf");
+                //TODO REMOVE
+                e.printStackTrace();
+            }
+
         }
-        catch(DocumentException e){
-            //TODO resource file error messages
-            //Log.d("pdfError", "DocumentException when inputting fields");
-            //TODO remove the error printing
-            e.printStackTrace();
-        }
-        catch(IOException io){
-            //Log.d("pdfError", "IOExcpetion when inputting fields");
-            io.printStackTrace();
-        }
+
+
+    private void buildRow(int row){
+        final int rowNumber = row;
+        final String uid = records.get(row - 1).getPatientUID();
+
+            //PATIENT SPECIFIC DATA
+            users.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Record record = dataSnapshot.getValue(Record.class);
+                    Log.e("WORKS", record.getCommunity());
+
+                    try {
+                        form.setField(context.getResources().getString(R.string.temporary_number_mothers_id) + rowNumber, record.getParentId());
+                        form.setField(context.getResources().getString(R.string.number_of_children) + rowNumber, record.getNumDependents());
+                        form.setField(context.getResources().getString(R.string.child_national_reg_number) + rowNumber, record.getId());
+                        form.setField(context.getResources().getString(R.string.child_name)+ rowNumber, record.getFullName());
+                        form.setField(context.getResources().getString(R.string.date_of_birth) + rowNumber, String.valueOf(record.getDOB()));
+                        if(record.getSex() == Sex.MALE) {
+                            form.setField(context.getResources().getString(R.string.sex_male) + rowNumber, "X");
+                        }
+                        else {
+                            form.setField(context.getResources().getString(R.string.sex_female) + rowNumber, "X");
+                        }
+                        form.setField(context.getResources().getString(R.string.birth_department) + rowNumber, record.getPlaceOfBirth());
+                        form.setField(context.getResources().getString(R.string.birth_municipal)+ rowNumber, record.getPlaceOfBirth());
+                        form.setField(context.getResources().getString(R.string.residence_department) + rowNumber,  context.getResources().getString(R.string.unknown));
+                        form.setField(context.getResources().getString(R.string.residence_municipal) + rowNumber, context.getResources().getString(R.string.na));
+                        form.setField(context.getResources().getString(R.string.residence_town) + rowNumber, record.getCommunity());
+                        form.setField(context.getResources().getString(R.string.residence_address) + rowNumber, record.getParentAddress());
+                        form.setField(context.getResources().getString(R.string.cell_number) + rowNumber, record.getParentPhone());
+                        form.setField(context.getResources().getString(R.string.population_group) + rowNumber, context.getResources().getString(R.string.unknown));
+                        form.setField(context.getResources().getString(R.string.full_name_guardian) + rowNumber, record.getParentFullName());
+
+                        form.setField(context.getResources().getString(context.getResources().getIdentifier(records.get(rowNumber-1).getType(), "string", context.getPackageName())) + rowNumber, "X");
+
+                        if(rowNumber + 1 > records.size()){
+                            closePDF();
+                        }
+                        else{
+                            buildRow(rowNumber + 1);
+                        }
+                    }
+                    catch(DocumentException e){
+                        Log.e("WORKS", "DocumentException");
+                    }
+                    catch(IOException io){
+                        Log.e("WORKS", "IOException");
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
     }
+
+    private void closePDF(){
+        Log.e("WORKS", "CLOSING!");
+        //Closing of tools
+        try {
+            stamper.setFormFlattening(false);
+            stamper.close();
+            reader.close();
+        }
+        catch(DocumentException de){
+            Log.e("WORKS", "DocumentException");
+        }
+        catch (IOException io){
+            Log.e("WORKS", "IOException");
+        }
+
+
+    }
+
 
 }
