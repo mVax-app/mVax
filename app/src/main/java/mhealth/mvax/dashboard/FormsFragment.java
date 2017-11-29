@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import java.io.File;
 
 import mhealth.mvax.R;
+import mhealth.mvax.records.utilities.VaccinationDummyDataGenerator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,6 +77,11 @@ public class FormsFragment extends android.support.v4.app.Fragment {
     }
 
     private void sinovaClicked(){
+        //TODO REMOVE AFTER OTHER SIDE HOOKED UP
+        VaccinationDummyDataGenerator generator = new VaccinationDummyDataGenerator();
+        generator.generateRecord();
+
+
         final AlertDialog.Builder builder = createBasicDateChooseModal();
 
         final View dialogView = inflater.inflate(R.layout.modal_choose_date, null);
@@ -174,12 +181,12 @@ public class FormsFragment extends android.support.v4.app.Fragment {
         //Code in this method with help from Stack Overflow: https://stackoverflow.com/questions/2197741/how-can-i-send-emails-from-my-android-application
         Intent email = new Intent(Intent.ACTION_SEND);
         email.setType("message/rfc822");
-      //  i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"recipient@example.com"});
         email.putExtra(Intent.EXTRA_SUBJECT, title);
         email.putExtra(Intent.EXTRA_TEXT   , body);
 
-        //Info for how to send email with an attachment was from: https://stackoverflow.com/questions/9974987/how-to-send-an-email-with-a-file-attachment-in-android
-        Uri path = Uri.fromFile(pdf);
+        //Info for how to send email with an attachment was from: https://stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed/38858040#38858040
+        Uri path = FileProvider.getUriForFile(getContext(), getActivity().getApplicationContext().getPackageName() + ".dashboard.GenericFileProvider", pdf);
+
         email .putExtra(Intent.EXTRA_STREAM, path);
         try {
             startActivityForResult(Intent.createChooser(email, getResources().getString(R.string.send_email)), 2);
