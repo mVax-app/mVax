@@ -25,7 +25,7 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:layout_centerVertical="true"
-        android:text="@string/add_new_record"
+        android:text="@string/new_record_button"
         android:textSize="15sp" />
 
     <LinearLayout

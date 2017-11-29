@@ -85,8 +85,10 @@ public class SearchFragment extends Fragment {
         DummyDataGenerator generator = new DummyDataGenerator(table, recordTable, vaccineTable);
         // uncomment the below lines to populate database with dummy data
         // NOTE: recommend you clear out the database beforehand
-        //generator.generateDummyPatientRecords();
-        //generator.generateDummyVaccineMaster();
+        for (int i = 0; i < 100; i++) {
+//            generator.generateDummyPatientRecords();
+        }
+//        generator.generateDummyVaccineMaster();
 
         initDatabase(); // run this before touching mPatientRecords!
 
@@ -120,7 +122,7 @@ public class SearchFragment extends Fragment {
      *
      * @return true if authentication and initialization was successful, false otherwise
      */
-    private boolean initDatabase() {
+    public boolean initDatabase() {
 
         // listener for records
         mRecordListener = new ChildEventListener() {

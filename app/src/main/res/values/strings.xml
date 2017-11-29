@@ -129,7 +129,7 @@
 
     <!-- Search -->
     <string name="hint_search">Search…</string>
-    <string name="add_new_record">Add New Record</string>
+    <string name="new_record_button">Add New Patient</string>
     <string name="new_record_title">New Record</string>
 
 
