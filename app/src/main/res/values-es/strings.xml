@@ -21,7 +21,7 @@
     <string name="title_activity_search">BuscarActividad</string>
     <string name="title_home">Página Principal</string>
     <string name="title_settings">Configuración</string>
-    <string name="title_overdue">Alertas</string>
+    <string name="title_overdue">Pacientes atrasados</string>
     <string name="patients">Pacientes</string>
     <string name="title_patients">Pacientes</string>
     <string name="title_forms">Formas</string>
@@ -61,6 +61,9 @@
     <string name="reset_email_confirm">Se ha enviado el correo electrónico de restablecimiento de contraseña:</string>
     <string name="password_reset_confirm">¿Seguro que quieres restablecer tu contraseña?</string>
 
+    <!-- Vaccine card -->
+    <string name="vaccine_card_given_text">AHORA:</string>
+    <string name="vaccine_card_goal_text">META:</string>
 
     <!-- Record details -->
     <string name="patient_details">Detalles de Enfermo</string>

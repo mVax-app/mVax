@@ -134,8 +134,8 @@
 
 
     <!-- Dashboard -->
-    <string name="dashboard_target">TARGET:</string>
-    <string name="dashboard_given">GIVEN:</string>
+    <string name="vaccine_card_given_text">GIVEN:</string>
+    <string name="vaccine_card_goal_text">GOAL:</string>
 
     <string name="male_enum">Male</string>
     <string name="female_enum">Female</string>

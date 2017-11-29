@@ -91,12 +91,13 @@ public class SettingsFragment extends Fragment {
                     setLocale(getResources().getString(R.string.spanishCode));
                     navbar.getMenu().clear();
                     navbar.inflateMenu(R.menu.navigation_es);
+                    navbar.setSelectedItemId(R.id.nav_settings);
                 }
                 else if(!b && !getResources().getConfiguration().getLocales().toString().equals(getResources().getString(R.string.usLocaleCode))) {
                     setLocale(getResources().getString(R.string.englishCode));
-
                     navbar.getMenu().clear();
                     navbar.inflateMenu(R.menu.navigation);
+                    navbar.setSelectedItemId(R.id.nav_settings);
                 }
             }
         });

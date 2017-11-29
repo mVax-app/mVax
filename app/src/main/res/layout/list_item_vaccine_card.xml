@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
                     android:textStyle="bold"
-                    android:text="@string/dashboard_given"
+                    android:text="@string/vaccine_card_given_text"
                     />
                 <TextView
                     android:id="@+id/vaccine_card_given_value"
@@ -76,15 +76,15 @@
                 android:orientation="vertical"
                 android:gravity="center">
                 <TextView
-                    android:id="@+id/vaccine_card_target_text"
+                    android:id="@+id/vaccine_card_goal_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
                     android:textStyle="bold"
-                    android:text="@string/dashboard_target"
+                    android:text="@string/vaccine_card_goal_text"
                     />
                 <TextView
-                    android:id="@+id/vaccine_card_target_value"
+                    android:id="@+id/vaccine_card_goal_value"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
