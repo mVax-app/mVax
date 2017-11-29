@@ -2,7 +2,13 @@ package mhealth.mvax.dashboard;
 
 import android.app.Activity;
 import android.content.res.AssetManager;
+import android.util.Log;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
@@ -11,8 +17,10 @@ import com.itextpdf.text.pdf.PdfStamper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.record.VaccinationRecord;
 
 
 public class SINOVABuilder {
@@ -29,6 +37,7 @@ public class SINOVABuilder {
     }
 
     public String autoFill(int day, int month, int year){
+        final String date = String.valueOf(year) + String.valueOf(month) + String.valueOf(day);
         //TODO checking for correct input
         //Indicating where output pdf should go
         //Commented out is for internal storage, second is for external storage
@@ -38,8 +47,34 @@ public class SINOVABuilder {
         String extension = context.getResources().getString(R.string.sinova_extension) + day + month + year + context.getResources().getString(R.string.destination_file_extension);
         File file = new File(context.getExternalFilesDir(null), extension);
 
+        //FIREBASE RECORD FETCHING:
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        ref = ref.child(context.getResources().getString(R.string.masterTable)).child(context.getResources().getString(R.string.vaccinationsTable));
+        final ArrayList<VaccinationRecord> records = new ArrayList<>();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild(date)){
+                    DataSnapshot child = dataSnapshot.child(date);
 
-        //Insert Firebase code
+                    for(DataSnapshot data: child.getChildren()){
+                        records.add(data.getValue(VaccinationRecord.class));
+                        Log.e("WORKS", "WORKS");
+                    }
+                }
+            }
+
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("DatabaseError", "DatabaseError");
+            }
+        });
+
+
+
+
         try {
             //Retrieval of the template
             AssetManager assetManager = context.getAssets();
@@ -50,16 +85,15 @@ public class SINOVABuilder {
             AcroFields form = stamper.getAcroFields();
 
             //Insert the header info on the SINOVA
-            //TODO Connection to Firebase data, another issue
-            form.setField(context.getResources().getString(R.string.establishment),"Clinica Esperanza");
-            form.setField(context.getResources().getString(R.string.name_of_responsible_person), "Marlin LastName");
-            form.setField(context.getResources().getString(R.string.department), "");
-            form.setField(context.getResources().getString(R.string.code),"");
-            form.setField(context.getResources().getString(R.string.municipality), "");
-            form.setField(context.getResources().getString(R.string.date_day), "5");
-            form.setField(context.getResources().getString(R.string.date_month), "May");
-            form.setField(context.getResources().getString(R.string.date_year), "2017");
-            form.setField(context.getResources().getString(R.string.location_place), "Roatan, Honduras");
+            form.setField(context.getResources().getString(R.string.establishment), context.getResources().getString(R.string.form_clinic_name));
+            form.setField(context.getResources().getString(R.string.name_of_responsible_person), context.getResources().getString(R.string.form_vaccinator_name));
+            form.setField(context.getResources().getString(R.string.department), context.getResources().getString(R.string.form_department_name));
+            form.setField(context.getResources().getString(R.string.code),"2354");
+            form.setField(context.getResources().getString(R.string.municipality), context.getResources().getString(R.string.form_city_name));
+            form.setField(context.getResources().getString(R.string.date_day), String.valueOf(day));
+            form.setField(context.getResources().getString(R.string.date_month), String.valueOf(month));
+            form.setField(context.getResources().getString(R.string.date_year), String.valueOf(year));
+            form.setField(context.getResources().getString(R.string.location_place), context.getResources().getString(R.string.form_address));
 
 
             //Inserting the rows of data
