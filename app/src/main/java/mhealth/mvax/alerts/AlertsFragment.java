@@ -81,7 +81,7 @@ public class AlertsFragment extends Fragment {
     public class SavedTabsListAdapter extends BaseExpandableListAdapter {
 
 
-        private String[] groups = { "High Priority (> 2 Weeks Overdue)", "Medium Priority (1 - 2 Weeks Overdue)", "Low Priority (< 1 Week Overdue)"};
+        private String[] groups = { getResources().getString(R.string.high_priority), getResources().getString(R.string.medium_priority), getResources().getString(R.string.low_priority)};
 
         private String[][] children = {
                 { "Steilberg, Robert Hays II", "Bob, Muffin Lee IV"},

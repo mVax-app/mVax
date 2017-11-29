@@ -66,6 +66,12 @@
     <string name="vaccine_card_given_text">AHORA:</string>
     <string name="vaccine_card_goal_text">META:</string>
 
+    <!--Overdue-->
+    <string name="high_priority">Alta Prioridad (2+ Semanas Vencidas)</string>
+    <string name="medium_priority">Medio Prioridad (1 - 2 Semanas Vencidas)</string>
+    <string name="low_priority">Bajo Prioridad (1 Semanas Vencidas)</string>
+
+
     <!-- Record details -->
     <string name="patient_details">Detalles de Enfermo</string>
     <string name="date_format">dd/MM/yyyy</string>
