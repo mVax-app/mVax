@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sinova2_vaccines">
+        <item>HEPB_GER_1A</item>
+        <item>HEPB_GER_2A</item>
+        <item>HEPB_GER_3A</item>
+        <item>FA_1A_DU</item>
+        <item>SR_5A_DA</item>
+        <item>TD_11A_R</item>
+        <item>TD_EM_1A</item>
+        <item>TD_EM_2A</item>
+        <item>TD_EM_3A</item>
+        <item>TD_EM_4A</item>
+        <item>TD_EM_5A</item>
+        <item>OG_1A</item>
+        <item>OG_2A</item>
+        <item>OG_3A</item>
+        <item>OG_R</item>
+        <item>VPH_11A_1A</item>
+        <item>VPH_11A_2A</item>
+        <item>VITA_PU_DU</item>
+    </string-array>
+</resources>

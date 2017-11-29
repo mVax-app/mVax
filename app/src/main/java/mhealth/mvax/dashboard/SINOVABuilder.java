@@ -28,7 +28,7 @@ import mhealth.mvax.model.record.VaccinationRecord;
 public class SINOVABuilder {
     public static final int maxRows = 15;
     private Activity context = null;
-    private DatabaseReference users;
+
     private ArrayList<VaccinationRecord> records;
     private PdfStamper stamper;
     private AcroFields form;
@@ -40,9 +40,6 @@ public class SINOVABuilder {
      */
     public SINOVABuilder(Activity context){
         this.context = context;
-        users = FirebaseDatabase.getInstance().getReference()
-                .child(context.getResources().getString(R.string.masterTable))
-                .child(context.getResources().getString(R.string.recordTable));
 
     }
 
@@ -51,8 +48,6 @@ public class SINOVABuilder {
         final String fMonth = String.valueOf(month+1);
         final String fYear = String.valueOf(year);
         final String date = fYear + fMonth + fDay;
-
-        Log.e("WORKS", date);
 
         String extension = context.getResources().getString(R.string.sinova_extension) + day + month + year + context.getResources().getString(R.string.destination_file_extension);
         final File file = new File(context.getExternalFilesDir(null), extension);
@@ -72,7 +67,6 @@ public class SINOVABuilder {
 
                     for (DataSnapshot data : child.getChildren()) {
                         records.add(data.getValue(VaccinationRecord.class));
-                        Log.e("WORKS", "ADDS");
                     }
 
                     fillInForm(file, fDay, fMonth, fYear);
@@ -125,12 +119,15 @@ public class SINOVABuilder {
         final int rowNumber = row;
         final String uid = records.get(row - 1).getPatientUID();
 
+        DatabaseReference patients = FirebaseDatabase.getInstance().getReference()
+                .child(context.getResources().getString(R.string.masterTable))
+                .child(context.getResources().getString(R.string.recordTable));
+
             //PATIENT SPECIFIC DATA
-            users.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            patients.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Record record = dataSnapshot.getValue(Record.class);
-                    Log.e("WORKS", record.getCommunity());
 
                     try {
                         form.setField(context.getResources().getString(R.string.temporary_number_mothers_id) + rowNumber, record.getParentId());
@@ -156,7 +153,7 @@ public class SINOVABuilder {
 
                         form.setField(context.getResources().getString(context.getResources().getIdentifier(records.get(rowNumber-1).getType(), "string", context.getPackageName())) + rowNumber, "X");
 
-                        if(rowNumber + 1 > records.size()){
+                        if(rowNumber + 1 > records.size() || rowNumber == maxRows){
                             closePDF();
                         }
                         else{
@@ -180,7 +177,7 @@ public class SINOVABuilder {
     }
 
     private void closePDF(){
-        Log.e("WORKS", "CLOSING!");
+        Log.d("WORKS", "CLOSING!");
         //Closing of tools
         try {
             stamper.setFormFlattening(false);
