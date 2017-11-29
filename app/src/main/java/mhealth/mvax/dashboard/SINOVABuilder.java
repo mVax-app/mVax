@@ -18,6 +18,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Record;
@@ -33,6 +35,7 @@ public class SINOVABuilder {
     private PdfStamper stamper;
     private AcroFields form;
     private PdfReader reader;
+    private List<String> sinova_vaccines;
 
     /**
      * Constructor for if the SINOVA Builder needs the activity for context / assets / file directory
@@ -40,7 +43,7 @@ public class SINOVABuilder {
      */
     public SINOVABuilder(Activity context){
         this.context = context;
-
+        sinova_vaccines = Arrays.asList(context.getResources().getStringArray(R.array.sinova_vaccines));
     }
 
     public String autoFill(final int day, int month, int year) {
@@ -66,7 +69,10 @@ public class SINOVABuilder {
                     DataSnapshot child = dataSnapshot.child(date);
 
                     for (DataSnapshot data : child.getChildren()) {
-                        records.add(data.getValue(VaccinationRecord.class));
+                        VaccinationRecord record = data.getValue(VaccinationRecord.class);
+                        if(sinova_vaccines.contains(record.getType())){
+                            records.add(record);
+                        }
                     }
 
                     fillInForm(file, fDay, fMonth, fYear);
@@ -105,7 +111,14 @@ public class SINOVABuilder {
                 form.setField(context.getResources().getString(R.string.location_place), context.getResources().getString(R.string.form_address));
 
 
-                buildRow(1);
+                //Starts at row 1
+                if(records.size() != 0) {
+                    buildRow(1);
+                }
+                else{
+                    closePDF();
+                }
+
             } catch (Exception e) {
                 // Log.d("pdfError", "error in saving pdf");
                 //TODO REMOVE

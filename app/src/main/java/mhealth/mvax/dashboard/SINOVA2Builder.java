@@ -18,6 +18,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Record;
@@ -35,6 +37,7 @@ public class SINOVA2Builder {
     private PdfStamper stamper;
     private AcroFields form;
     private PdfReader reader;
+    private List<String> sinova2_vaccines;
 
 
     /**
@@ -43,7 +46,7 @@ public class SINOVA2Builder {
      */
     public SINOVA2Builder(Activity context){
         this.context = context;
-
+        sinova2_vaccines = Arrays.asList(context.getResources().getStringArray(R.array.sinova2_vaccines));
     }
 
     public String autoFill(int day, int month, int year) {
@@ -55,6 +58,7 @@ public class SINOVA2Builder {
         String extension = context.getResources().getString(R.string.sinova2_extension) + day + month + year + context.getResources().getString(R.string.destination_file_extension);
         final File file = new File(context.getExternalFilesDir(null), extension);
 
+        Log.e("WORKS", date);
         //Reset instance variable for another fill
         records = new ArrayList<>();
 
@@ -69,9 +73,15 @@ public class SINOVA2Builder {
                     DataSnapshot child = dataSnapshot.child(date);
 
                     for (DataSnapshot data : child.getChildren()) {
-                        records.add(data.getValue(VaccinationRecord.class));
+                        VaccinationRecord record = data.getValue(VaccinationRecord.class);
+                        if(sinova2_vaccines.contains(record.getType())) {
+                            records.add(data.getValue(VaccinationRecord.class));
+                        }
                     }
                     fillInForm(file, fDay, fMonth, fYear);
+                }
+                else{
+                    Log.e("WORKS", "noChildren");
                 }
             }
 
@@ -108,7 +118,13 @@ public class SINOVA2Builder {
 
 
             //Starts at row 1
-            buildRow(1);
+            if(records.size() != 0) {
+                buildRow(1);
+            }
+            else{
+                closePDF();
+            }
+
         }
         catch(Exception e){
             // Log.d("pdfError", "error in saving pdf");
@@ -125,7 +141,7 @@ public class SINOVA2Builder {
                 .child(context.getResources().getString(R.string.masterTable))
                 .child(context.getResources().getString(R.string.recordTable));
 
-        patients.addListenerForSingleValueEvent(new ValueEventListener() {
+        patients.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Record record = dataSnapshot.getValue(Record.class);
