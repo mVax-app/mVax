@@ -53,6 +53,7 @@ class SearchFilter {
                     }
                 }
 
+                // TODO this throws an error when sorting more than ~500 records of randomly generated names
                 filtered.sort(new Comparator<Record>() {
                     @Override
                     public int compare(Record patient1, Record patient2) {
