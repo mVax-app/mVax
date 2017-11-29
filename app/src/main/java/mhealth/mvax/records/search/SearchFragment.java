@@ -122,7 +122,7 @@ public class SearchFragment extends Fragment {
      *
      * @return true if authentication and initialization was successful, false otherwise
      */
-    private boolean initDatabase() {
+    public boolean initDatabase() {
 
         // listener for records
         mRecordListener = new ChildEventListener() {
