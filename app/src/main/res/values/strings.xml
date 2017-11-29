@@ -180,6 +180,15 @@
     <string name="send_email">Send Email...</string>
     <string name="email_header_insert"> for the date of </string>
 
+    <!-- FORM CONSTANTS-->
+    <string name="form_clinic_name">Clinica Esperanza</string>
+    <string name="form_vaccinator_name">The Vaccinator</string>
+    <string name="form_department_name">Vaccinations</string>
+    <string name="form_city_name">Roatan</string>
+    <string name="form_address">KM 10 Sandy Bay, Roatan</string>
+    <string name="unknown">DESCONOCIDO</string>
+    <string name="na">N/A</string>
+
     <!-- FORMS FILE PATHS -->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>
     <string name="sinova_2_file_name">SINOVA2.pdf</string>
