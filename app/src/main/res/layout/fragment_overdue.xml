@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="@string/title_alerts"
+        android:text="@string/title_overdue"
         android:textSize="48sp"
         android:textColor="@color/teal"
         android:textStyle="bold"

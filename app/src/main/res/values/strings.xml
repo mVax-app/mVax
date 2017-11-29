@@ -20,11 +20,12 @@
     </string>
     <string name="emptystring" />
     <string name="title_activity_search">SearchActivity</string>
-    <string name="title_home">Home</string>
+    <string name="title_patients">Patients</string>
     <string name="title_settings">Settings</string>
-    <string name="title_alerts">Alerts</string>
-    <string name="title_search">Search</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_overdue">Overdue Patients</string>
+    <string name="title_summary">Summary</string>
+    <string name="patients">Patients</string>
+    <string name="title_forms">Forms</string>
 
     <string name="REG_DESCRIPTION">Please fill out the following form to get started. After completion, an administrator will have to approve you and then a confirmation email will be sent to your account</string>
     <string name="REG_TITLE">New User Registration</string>
@@ -132,7 +133,7 @@
 
     <!-- Dashboard -->
     <string name="dashboard_target">TARGET:</string>
-    <string name="dashboard_administered">ADMINISTERED:</string>
+    <string name="dashboard_given">GIVEN:</string>
 
     <string name="male_enum">Male</string>
     <string name="female_enum">Female</string>
