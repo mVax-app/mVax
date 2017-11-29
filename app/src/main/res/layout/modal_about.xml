@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="40sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:textColor="@color/teal"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/version"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginBottom="25dp"
+        android:textSize="20sp"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bass_contributor"
+        android:layout_marginStart="30sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginEnd="30sp"
+        android:layout_marginBottom="25dp"
+        android:textSize="25sp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bass_project_leader_title"
+        android:layout_marginStart="30sp"
+        android:layout_marginEnd="30sp"
+        android:layout_marginBottom="2dp"
+        android:textSize="25sp"
+        android:textColor="@color/teal"
+        android:textStyle="bold"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bass_project_leader"
+        android:layout_marginStart="90sp"
+        android:layout_marginEnd="30sp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="25dp"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bass_development_title"
+        android:layout_marginStart="30sp"
+        android:layout_marginEnd="30sp"
+        android:layout_marginBottom="2dp"
+        android:textSize="25sp"
+        android:textColor="@color/teal"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bass_development"
+        android:layout_marginStart="90sp"
+        android:layout_marginEnd="30sp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="25dp"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bass_global_health_title"
+        android:layout_marginStart="30sp"
+        android:layout_marginEnd="30sp"
+        android:layout_marginBottom="2dp"
+        android:textSize="25sp"
+        android:textColor="@color/teal"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bass_global_health"
+        android:layout_marginStart="90sp"
+        android:layout_marginEnd="30sp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="35dp"
+        android:textSize="25sp"/>
+
+
+
+
+
+</LinearLayout>

@@ -63,6 +63,14 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        Button about = (Button) v.findViewById(R.id.aboutButton);
+        about.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createAboutModal();
+            }
+        });
+
 //        Button signOut = (Button) v.findViewById(R.id.signOut);
 //        signOut.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -224,5 +232,19 @@ public class SettingsFragment extends Fragment {
         transaction.replace(getId(), this).addToBackStack(null); // so that back button works
         transaction.replace(R.id.frame_layout, approveUsers);
         transaction.commit();
+    }
+
+    private void createAboutModal(){
+        //builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getResources().getString(R.string.about));
+
+        //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
+        LayoutInflater inflater = (LayoutInflater) getActivity().getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        final View dialogView = inflater.inflate(R.layout.modal_about, null);
+        builder.setView(dialogView);
+
+        builder.show();
     }
 }
