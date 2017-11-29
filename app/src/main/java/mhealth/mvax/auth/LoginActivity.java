@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             View focusView = null;
 
             // Check for a valid password, if the user entered one.
-            if(!TextUtils.isEmpty(password)){
+            if(TextUtils.isEmpty(password)){
                 mPasswordView.setError(getResources().getString(R.string.error_empty_field));
                 focusView = mPasswordView;
                 cancel = true;
