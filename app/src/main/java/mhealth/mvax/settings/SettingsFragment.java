@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
@@ -77,18 +78,25 @@ public class SettingsFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         languageSwitch = (Switch) view.findViewById(R.id.spanish);
 
         languageSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            BottomNavigationView navbar = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bar);
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b && !getResources().getConfiguration().getLocales().toString().equals(getResources().getString(R.string.spanishLocaleCode))){
                     setLocale(getResources().getString(R.string.spanishCode));
+                    navbar.getMenu().clear();
+                    navbar.inflateMenu(R.menu.navigation_es);
                 }
                 else if(!b && !getResources().getConfiguration().getLocales().toString().equals(getResources().getString(R.string.usLocaleCode))) {
                     setLocale(getResources().getString(R.string.englishCode));
+
+                    navbar.getMenu().clear();
+                    navbar.inflateMenu(R.menu.navigation);
                 }
             }
         });

@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/navigation_patients"
-        android:icon="@drawable/ic_search"
-        android:title="@string/patients" />
 
-    <item
-        android:id="@+id/navigation_overdue"
-        android:icon="@drawable/ic_alerts"
-        android:title="@string/title_overdue" />
 
-    <item
-        android:id="@+id/navigation_forms"
-        android:icon="@drawable/ic_dashboard"
-        android:title="@string/title_forms" />
+        <item
+            android:id="@+id/nav_patients"
+            android:icon="@drawable/ic_search"
+            android:title="@string/patients"
+            android:visible="true"/>
 
-    <item
-        android:id="@+id/navigation_settings"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/title_settings" />
+        <item
+            android:id="@+id/nav_overdue"
+            android:icon="@drawable/ic_alerts"
+            android:title="@string/title_overdue"
+            android:visible="true"/>
+
+        <item
+            android:id="@+id/nav_forms"
+            android:icon="@drawable/ic_dashboard"
+            android:title="@string/title_forms"
+            android:visible="true"/>
+
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/title_settings"
+            android:visible="true"/>
+
+
+
 </menu>
