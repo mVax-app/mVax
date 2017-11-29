@@ -64,7 +64,7 @@
 
     <!-- Setting page -->
     <string name="language">Language</string>
-    <string name="spanish">Spanish</string>
+    <string name="spanish">Change to Spanish</string>
     <string name="spanishCode">es</string>
     <string name="englishCode">en</string>
     <string name="spanishLocaleCode">[es]</string>
@@ -73,6 +73,8 @@
     <string name="change_password">Change Password</string>
     <string name="sign_out">Sign Out</string>
     <string name="approve_users">Approve Users</string>
+    <string name="admin_priv">Administrator Privileges</string>
+    <string name="user_settings">User Settings</string>
 
     <!-- Record details -->
     <string name="tab_title_record_details">Record Details</string>

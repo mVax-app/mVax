@@ -93,11 +93,13 @@
 
     <!-- Settings Page -->
     <string name="language">Idioma</string>
-    <string name="spanish">Español</string>
+    <string name="spanish">Cambiar a Inglés</string>
     <string name="update_email">Actualizar correo electrónico</string>
     <string name="change_password">Cambiar contraseña</string>
     <string name="sign_out">Cerrar sessión</string>
     <string name="approve_users">Aprobar usuarios</string>
+    <string name="admin_priv">Privilegios de Administrador</string>
+    <string name="user_settings">Configuración del Usuario</string>
 
 
 </resources>
