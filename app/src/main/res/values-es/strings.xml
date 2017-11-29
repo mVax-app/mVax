@@ -97,6 +97,7 @@
     <string name="update_email">Actualizar correo electrónico</string>
     <string name="change_password">Cambiar contraseña</string>
     <string name="sign_out">Cerrar sessión</string>
+    <string name="approve_users">Aprobar usuarios</string>
 
 
 </resources>

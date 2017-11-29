@@ -109,7 +109,7 @@
                 android:id="@+id/approveUsers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Approve Users"
+                android:text="@string/approve_users"
                 android:layout_marginTop="35dp"/>
 
         </LinearLayout>
