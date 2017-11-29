@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">mVax</string>
+    <string name="version">Versión: 1.0</string>
     <string name="title_activity_login">Registrese</string>
 
     <!-- Strings related to login -->
@@ -101,5 +102,12 @@
     <string name="admin_priv">Privilegios de Administrador</string>
     <string name="user_settings">Configuración del Usuario</string>
 
+    <!-- About Button -->
+    <string name="about">Acerca de la Aplicación</string>
+    <string name="contributors">Colaboradores:</string>
+    <string name="bass_contributor">Creado por Duke Bass Connections en cooperación con el Instituto Mundial de salud de Duke</string>
+    <string name="bass_project_leader_title">Facultad:</string>
+    <string name="bass_development_title">Equipo de Desarrollo:</string>
+    <string name="bass_global_health_title">Equipo de Salud Global:</string>
 
 </resources>
