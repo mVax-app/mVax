@@ -21,6 +21,13 @@
             android:name=".activities.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:launchMode="singleTop">
+<<<<<<< Updated upstream
+=======
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+>>>>>>> Stashed changes
         </activity>
         <activity
             android:name=".auth.LoginActivity"
@@ -30,10 +37,18 @@
         <activity
             android:name=".activities.SplashActivity"
             android:theme="@style/SplashTheme">
+<<<<<<< Updated upstream
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+=======
+
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+>>>>>>> Stashed changes
         </activity>
 
         <activity android:name=".auth.UserRegistrationActivity" />
