@@ -81,7 +81,7 @@
     <string name="first_name">Nombre</string>
     <string name="last_name">Apellido</string>
     <string name="community">Comunidad</string>
-    <string name="add_new_record">Añadir Nuevo Registro</string>
+    <string name="new_record_button">Añadir Nuevo Registro</string>
 
     <!-- FORM FRAGMENT-->
     <string name="form_fragment_title">Exportar Formularios</string>

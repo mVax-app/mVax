@@ -75,14 +75,14 @@ public class SexDetail extends Detail<Sex> {
                 dialog.cancel();
             }
         });
-
-        builder.setNeutralButton(context.getString(R.string.modal_neutral_choose_sex), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                updateValue(null);
-                valueView.setText(getStringValue());
-            }
-        });
+// TODO decide what to do about this
+//        builder.setNeutralButton(context.getString(R.string.modal_neutral_choose_sex), new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int which) {
+//                updateValue(null);
+//                valueView.setText(getStringValue());
+//            }
+//        });
 
         builder.show();
     }

@@ -88,14 +88,17 @@ public class DummyDataGenerator {
         rob.setParentAddress("9014 Tarrytown Drive, Richmond, VA 23229");
         rob.setParentPhone("8046904814");
 
-        patientRecords.setValue(rob);
+//        patientRecords.setValue(rob);
 
         patientRecords = mDatabase.child(mMasterTable).child(mRecordTable).push();
         Record muffin = new Record(patientRecords.getKey(), vaccines);
         muffin.setId("5748392019232");
-        muffin.setFirstName("Muffin");
-        muffin.setMiddleName("Lee");
-        muffin.setLastName("Bob");
+//        muffin.setFirstName("Muffin");
+//        muffin.setMiddleName("Lee");
+//        muffin.setLastName("Bob");
+        muffin.setFirstName(RandomStringGenerator.randomString(8));
+        muffin.setMiddleName(RandomStringGenerator.randomString(5));
+        muffin.setLastName(RandomStringGenerator.randomString(12));
         muffin.setSuffix("VI");
         muffin.setSex(Sex.FEMALE);
         muffin.setDOB(823485940200L);

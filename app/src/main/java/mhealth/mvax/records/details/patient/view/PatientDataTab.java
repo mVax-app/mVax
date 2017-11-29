@@ -134,7 +134,7 @@ public class PatientDataTab extends Fragment implements RecordTab {
             }
         });
 
-        vaccineListView.addFooterView(editButton);
+        vaccineListView.addHeaderView(editButton);
     }
 
     private void addDeleteButton(ListView vaccineListView) {
@@ -146,7 +146,7 @@ public class PatientDataTab extends Fragment implements RecordTab {
                 promptForRecordDelete();
             }
         });
-        vaccineListView.addFooterView(deleteButton);
+        vaccineListView.addHeaderView(deleteButton);
     }
 
     private void promptForRecordDelete() {
