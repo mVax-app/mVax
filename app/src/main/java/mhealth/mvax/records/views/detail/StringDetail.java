@@ -1,6 +1,7 @@
 package mhealth.mvax.records.views.detail;
 
 import android.content.Context;
+import android.text.InputType;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -38,6 +39,8 @@ public class StringDetail extends Detail<String> {
 
     @Override
     public void configureValueView(EditText valueView) {
+        // auto-capitalize every word
+        valueView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         valueView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
