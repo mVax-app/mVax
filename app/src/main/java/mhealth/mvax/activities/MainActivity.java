@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)
-                findViewById(R.id.navigation);
+                findViewById(R.id.navigation_bar);
 
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -53,18 +53,19 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                         Fragment selectedFragment = null;
                         switch (item.getItemId()) {
-                            case R.id.navigation_patients:
+                            case R.id.nav_patients:
                                 selectedFragment = SearchFragment.newInstance();
                                 break;
-                            case R.id.navigation_overdue:
+                            case R.id.nav_overdue:
                                 selectedFragment = AlertsFragment.newInstance();
                                 break;
-                            case R.id.navigation_forms:
+                            case R.id.nav_forms:
                                 selectedFragment = DashboardFragment.newInstance();
                                 break;
-                            case R.id.navigation_settings:
+                            case R.id.nav_settings:
                                 selectedFragment = SettingsFragment.newInstance();
                                 break;
+                            
                         }
 
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

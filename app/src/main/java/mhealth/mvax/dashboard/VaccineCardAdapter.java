@@ -60,7 +60,7 @@ public class VaccineCardAdapter extends BaseAdapter {
             holder = new CardHolder();
 
             holder.vaccineNameTV = rowView.findViewById(R.id.vaccine_card_name);
-            holder.targetValueTV = rowView.findViewById(R.id.vaccine_card_target_value);
+            holder.targetValueTV = rowView.findViewById(R.id.vaccine_card_goal_value);
             holder.givenValueTV = rowView.findViewById(R.id.vaccine_card_given_value);
             holder.progressBar = rowView.findViewById(R.id.vaccine_card_progress_bar);
             //holder.percentageTV = rowView.findViewById(R.id.vaccine_card_percentage);

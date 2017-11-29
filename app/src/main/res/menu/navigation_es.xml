@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item
+        android:id="@+id/nav_patients"
+        android:icon="@drawable/ic_search"
+        android:title="Pacientes" />
+
+    <item
+        android:id="@+id/nav_overdue"
+        android:icon="@drawable/ic_alerts"
+        android:title="Pacientes Atrasados" />
+
+    <item
+        android:id="@+id/nav_forms"
+        android:icon="@drawable/ic_dashboard"
+        android:title="Formas" />
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="Ajustes" />
+</menu>
