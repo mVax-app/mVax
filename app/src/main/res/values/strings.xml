@@ -139,6 +139,12 @@
     <string name="due_date">Due Date:</string>
 
 
+    <!--Overdue-->
+    <string name="high_priority">High Priority (2+ Weeks Overdue)</string>
+    <string name="medium_priority">Medium Priority (1 - 2 Weeks Overdue)</string>
+    <string name="low_priority">Low Priority (1 Week Overdue)</string>
+
+
     <!-- Search -->
     <string name="hint_search">Search…</string>
     <string name="new_record_button">Add New Patient</string>
