@@ -12,10 +12,12 @@
         android:textSize="48sp"
         android:textColor="@color/teal"
         android:textStyle="bold"
-        android:layout_marginBottom="100dp"/>
+        android:layout_marginBottom="10dp"/>
 
     <ExpandableListView android:id="@+id/list"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"/>
+        android:layout_width="wrap_content"
+        android:layout_margin="50dp"
+        android:layout_marginTop="250dp"/>
 
 </LinearLayout>
