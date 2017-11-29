@@ -2,7 +2,6 @@ package mhealth.mvax.settings;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -182,11 +181,7 @@ public class SettingsFragment extends Fragment {
     }
 
     public void signOut(){
-        //App restart
-        Intent i = getContext().getPackageManager().getLaunchIntentForPackage( getContext().getPackageName() );
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
-
+        getActivity().finish();
         FirebaseAuth.getInstance().signOut();
     }
 
