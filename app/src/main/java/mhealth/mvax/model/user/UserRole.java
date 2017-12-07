@@ -1,9 +1,11 @@
 package mhealth.mvax.model.user;
 
 /**
- * Created by mtribby on 11/14/17.
+ * This enum represents all possibilities for user roles.
+ * A user role defines an access level for a user to the app.
+ * @author Matthew Tribby
+ * November, 2017
  */
-
 public enum UserRole {
     ADMIN,
     READER

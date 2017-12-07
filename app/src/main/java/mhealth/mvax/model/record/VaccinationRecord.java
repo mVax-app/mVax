@@ -21,21 +21,6 @@ public class VaccinationRecord implements Serializable {
         this.patientUID = patientUID;
     }
 
-//    /**
-//     * Returns the date in yyyymmdd form (that way it is easily sorted chronologically
-//     * @return Date as a string
-//     */
-//    public String getDate(){
-//        return date;
-//    }
-//
-//    /**
-//     * Sets the date instance variable
-//     * @param date String
-//     */
-//    public void setDate(String date){
-//        this.date = date;
-//    }
 
     /**
      * Returns the vaccine type as a String.

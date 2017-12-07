@@ -31,9 +31,18 @@ import java.util.Locale;
 import mhealth.mvax.R;
 import mhealth.mvax.auth.ApproveUsersFragment;
 import mhealth.mvax.auth.LoginActivity;
+import mhealth.mvax.model.user.UserRole;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
+/**
+ * This Fragment represents the Settings Tab which contains the follwoing functionality:
+ *  1. Changing Languages
+ *  2. Changing Account settings (email, password)
+ *  3. Administrator Privileges (given that a user is registered as an ADMIN)
+ * @author Matthew Tribby, Alison Huang
+ * Last edited December, 2017
+ */
 public class SettingsFragment extends Fragment {
     private Switch languageSwitch;
 
@@ -204,18 +213,19 @@ public class SettingsFragment extends Fragment {
     private void createApproveUsersButton(View view){
         final Button approveUsers = (Button) view.findViewById(R.id.approveUsers);
 
+        //Following code sets the button to only show when user is an ADMIN
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref = ref.child(getResources().getString(R.string.userTable)).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(getResources().getString(R.string.role));
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-//                if(dataSnapshot.getValue().equals(UserRole.ADMIN.toString())){
-//                    approveUsers.setVisibility(View.VISIBLE);
-//                }
-//                else{
-//                    approveUsers.setVisibility(View.GONE);
-//                }
+                if(dataSnapshot.getValue().equals(UserRole.ADMIN.toString())){
+                    approveUsers.setVisibility(View.VISIBLE);
+                }
+                else{
+                    approveUsers.setVisibility(View.GONE);
+                }
             }
 
             @Override

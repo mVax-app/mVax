@@ -2,7 +2,6 @@ package mhealth.mvax.auth;
 
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,7 +28,11 @@ import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserRequest;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This fragment represents the page where administrators can approve or deny user requests to
+ * gain access to the application. The fragment is built around a simple 4 columned-list view with
+ * a modal that pops up for approval/denial
+ * @author Matthew Tribby
+ * November, 2017
  */
 public class ApproveUsersFragment extends android.support.v4.app.Fragment {
     public static final String FIRST_NAME = "FIRST_NAME";

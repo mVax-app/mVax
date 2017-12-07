@@ -26,6 +26,14 @@ import mhealth.mvax.R;
 import mhealth.mvax.model.user.UserRequest;
 import mhealth.mvax.model.user.UserRole;
 
+/**
+ * This activity represents a form that allows prospective users to submit a user request which can
+ * then be either approved or denied by ADMIN
+ *
+ * DEPENDENCIES: Firebase authentication and database
+ *
+ * @author Matthew Tribby
+ */
 public class UserRegistrationActivity extends AppCompatActivity {
     static UserRegistrationActivity checkLogin;
     private FirebaseAuth mAuth;

@@ -2,7 +2,6 @@ package mhealth.mvax.dashboard;
 
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,7 +21,11 @@ import mhealth.mvax.R;
 import mhealth.mvax.records.utilities.VaccinationDummyDataGenerator;
 
 /**
- * A simple {@link Fragment} subclass.
+ * This form represents a simple page where users can select which form they want to export which
+ * then brings up a calendar chooser which then sends off the auto-fill pdf job to be done by a builder.
+ *
+ * @author Matthew Tribby
+ * November, 2017
  */
 public class FormsFragment extends android.support.v4.app.Fragment {
     private LayoutInflater inflater;
@@ -177,6 +180,7 @@ public class FormsFragment extends android.support.v4.app.Fragment {
     }
 
 
+    //Sends email with file as an attachment
     private void sendFile(String title, String body, File pdf){
         //Code in this method with help from Stack Overflow: https://stackoverflow.com/questions/2197741/how-can-i-send-emails-from-my-android-application
         Intent email = new Intent(Intent.ACTION_SEND);

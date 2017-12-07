@@ -2,11 +2,7 @@ package mhealth.mvax.model.user;
 
 /**
  * @author Matthew Tribby
- *         <p>
  *         Object for storing information about mVax users
- *         <p>
- *         PLEASE READ DOCUMENTATION BEFORE ADDING, REMOVING,
- *         OR MODIFYING PROPERTIES
  */
 
 public class User {

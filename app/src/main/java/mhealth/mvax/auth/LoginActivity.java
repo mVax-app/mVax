@@ -39,7 +39,12 @@ import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
 
 /**
- * A login screen that offers login via email/password.
+ * Login Activity is the page where users can attempt to log in to the app, reset their password,
+ * or choose to register.
+ *
+ * DEPENDENCIES: Firebase authentication and database access
+ *
+ * @author Matthew Tribby, Steven Yang
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
@@ -47,10 +52,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public final String LOGIN_REGISTER = "REGISTER";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    /**
-     * Id to identity READ_CONTACTS permission request.
-     */
-    private static final int REQUEST_READ_CONTACTS = 0;
 
 
     // UI references.

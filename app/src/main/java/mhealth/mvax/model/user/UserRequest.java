@@ -1,9 +1,13 @@
 package mhealth.mvax.model.user;
 
 /**
- * Created by mtribby on 11/20/17.
+ * A model class which repesents a prospective user's request to be added as an approved user
+ * to the application. This model object is used to push user requests to the database so that
+ * admins may view the said requests.
+ *
+ * @author Matthew Tribby
+ * November, 2017
  */
-
 public class UserRequest extends User{
     private String mUid;
 
