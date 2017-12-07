@@ -26,7 +26,20 @@ import mhealth.mvax.model.record.Record;
 import mhealth.mvax.model.record.Sex;
 import mhealth.mvax.model.record.VaccinationRecord;
 
-
+/**
+ * The goal of this class is auto-fill in the SINOVA1.pdf which can be found in
+ * app_vaccination > app > src > main > assets
+ * SINOVA is a form from the Honduras Ministry of Health that the vaccinators need to fill in
+ * This builder will auto-fill and save to external memory the filled in PDF
+ *
+ * Dependencies / Assumptions:
+ * the SINOVA1.pdf needs to be in the correct location and have the correct name
+ * Firebase integration is used because the querying of the data is done in this class
+ * The Firebase integration should be eventually refactored out to make the design more flexible
+ *
+ * @author Matthew Tribby
+ * November, 2017
+ */
 public class SINOVABuilder {
     public static final int maxRows = 15;
     private Activity context = null;
@@ -46,6 +59,14 @@ public class SINOVABuilder {
         sinova_vaccines = Arrays.asList(context.getResources().getStringArray(R.array.sinova_vaccines));
     }
 
+    /**
+     * This method is the full functionality for the SINOVA builder. Given a specific day of the year,
+     * an autofilled form will be created given the records in the Firebase database
+     * @param day
+     * @param month
+     * @param year
+     * @return the path of the form. This can be used to retrieve it from external memory if wanted.
+     */
     public String autoFill(final int day, int month, int year) {
         final String fDay = String.valueOf(day);
         final String fMonth = String.valueOf(month+1);
@@ -62,6 +83,7 @@ public class SINOVABuilder {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref = ref.child(context.getResources().getString(R.string.masterTable)).child(context.getResources().getString(R.string.vaccinationsTable));
 
+        //The following listener queries for all records of the day and adds them to instance variable, records
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -87,6 +109,8 @@ public class SINOVABuilder {
         return file.getAbsolutePath();
     }
 
+    //This private method is a helper method which begins the process of actually filling in the form
+    //after the data was originally retrieved in autoFill()
     private void fillInForm(File file, String day, String month, String year){
 
             try {
@@ -127,7 +151,7 @@ public class SINOVABuilder {
 
         }
 
-
+    //This helper method is where the actual filling in of information into the AcroForm occurs
     private void buildRow(int row){
         final int rowNumber = row;
         final String uid = records.get(row - 1).getPatientUID();

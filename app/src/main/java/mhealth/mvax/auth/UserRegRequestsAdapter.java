@@ -13,10 +13,14 @@ import java.util.HashMap;
 import mhealth.mvax.R;
 
 /**
- * Created by mtribby on 11/18/17.
+ * This Adapter is a custom one that is for the ApproveUsersFragment
+ * There are three columsn, name, email, role
+ *
+ * Made with help from this tutorial: http://techlovejump.com/android-multicolumn-listview/
+ *
+ * @author Matthew Tribby
+ * Created on 11/18/17
  */
-
-//Made with help from this tutorial: http://techlovejump.com/android-multicolumn-listview/
 public class UserRegRequestsAdapter extends BaseAdapter{
 
     private Activity activity;
@@ -47,6 +51,7 @@ public class UserRegRequestsAdapter extends BaseAdapter{
 
         }
 
+        //TODO checking for .get()
         HashMap<String, String> map=requests.get(i);
         name.setText(map.get(ApproveUsersFragment.FIRST_NAME) + " " + map.get(ApproveUsersFragment.LAST_NAME));
         email.setText(map.get(ApproveUsersFragment.EMAIL));

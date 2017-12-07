@@ -26,9 +26,19 @@ import mhealth.mvax.model.record.Record;
 import mhealth.mvax.model.record.VaccinationRecord;
 
 /**
- * Created by mtribby on 11/6/17.
+ * The goal of this class is auto-fill in the SINOVA2.pdf which can be found in
+ * app_vaccination > app > src > main > assets
+ * SINOVA is a form from the Honduras Ministry of Health that the vaccinators need to fill in
+ * This builder will auto-fill and save to external memory the filled in PDF
+ *
+ * Dependencies / Assumptions:
+ * the SINOVA2.pdf needs to be in the correct location and have the correct name
+ * Firebase integration is used because the querying of the data is done in this class
+ * The Firebase integration should be eventually refactored out to make the design more flexible
+ *
+ * @author Matthew Tribby
+ * November, 2017
  */
-
 public class SINOVA2Builder {
     public static final int maxRows = 25;
     private Activity context = null;
@@ -49,6 +59,14 @@ public class SINOVA2Builder {
         sinova2_vaccines = Arrays.asList(context.getResources().getStringArray(R.array.sinova2_vaccines));
     }
 
+    /**
+     * This method is the full functionality for the SINOVA builder. Given a specific day of the year,
+     * an autofilled form will be created given the records in the Firebase database
+     * @param day
+     * @param month
+     * @param year
+     * @return the path of the form. This can be used to retrieve it from external memory if wanted.
+     */
     public String autoFill(int day, int month, int year) {
         final String fDay = String.valueOf(day);
         final String fMonth = String.valueOf(month + 1);
