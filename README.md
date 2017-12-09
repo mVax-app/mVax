@@ -51,7 +51,7 @@ The signed `.apk` file can now be downloaded to any Android device (i.e. via ema
 
 mVax is dependent on the following external libraries:
 
-* Firebase
-* iText
-* Joda-Time
-* Hamcrest
+* Firebase (external database)
+* iText (PDF export utility)
+* Joda-Time (enhanced data structure for dates)
+* Hamcrest (JUnit testing utilities)
