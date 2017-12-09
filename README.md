@@ -1,4 +1,4 @@
-#mVax
+# mVax
 
 mVax is an Android mobile application for managing a medical records database that stores immunization records for Clínica Esperanza in Roatán, Honduras.
 
@@ -38,7 +38,7 @@ Note: The Android device API minimum is 24.
 
 ##### Deploying a signed APK
 
-You will need to create your own release key and keystore. See [here](https://developer.android.com/studio/publish/app-signing.html) for more information. Store your generated keystore in the `keystores` directory located in the root directory.
+You will need to create your own release key and key store. See [here](https://developer.android.com/studio/publish/app-signing.html) for more information. Store your generated keystore in the `keystores` directory located in the root directory.
 1. Build &rarr; `Generate Signed APK`
 2. Click `Next`
 3. Ender the password for your key store and click `Next`
