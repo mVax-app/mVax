@@ -21,7 +21,7 @@ Currently, this repository is configured to point to the Firebase instance for C
 
 Note: mVax is optimized for an 8 inch screen, and was developed specifically for the Galaxy Tab S2.
 
-1. `Tools` &rarr; `Android` &rarr; `AVD Manager`
+1. In the menu bar, click `Tools` &rarr; `Android` &rarr; `AVD Manager`
 2. Click `Create Virtual Device...` and then `Import Hardware Profiles`
 3. Navigate to the `hardware_profiles` folder in the root directory and import `Galaxy Tab S2.xml`
 4. Select `Galaxy Tab S2` in the device definition list and click `Next`
@@ -39,7 +39,7 @@ Note: The Android device API minimum is 24.
 ##### Deploying a signed APK
 
 You will need to create your own release key and key store. See [here](https://developer.android.com/studio/publish/app-signing.html) for more information. Store your generated keystore in the `keystores` directory located in the root directory.
-1. Build &rarr; `Generate Signed APK`
+1. In the menu bar, click `Build` &rarr; `Generate Signed APK`
 2. Click `Next`
 3. Ender the password for your key store and click `Next`
 4. Choose the export destination under `APK Destination Folder`. Select `release` as the build type and choose which flavor should be used by the APK; select `V2` as the signature version
