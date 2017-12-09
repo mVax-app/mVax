@@ -10,5 +10,5 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU Affero General Public License for more details.
 
 A copy of the GNU Affero General Public License can be found in
-the included `AGPL.md` file. See https://www.gnu.org/licenses/
+the included `AGPL.md` file [here](AGPL.md). See https://www.gnu.org/licenses/
 for more details.
