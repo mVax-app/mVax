@@ -16,6 +16,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
 
+/**
+ * @author Steven Yang
+ *        Displaying Overdue Patients
+ */
+
 public class AlertsFragment extends Fragment {
 
     ChildEventListener mPatientListener;
@@ -72,10 +77,6 @@ public class AlertsFragment extends Fragment {
         };
         return true;
     }
-
-
-
-
 
 
     public class SavedTabsListAdapter extends BaseExpandableListAdapter {
