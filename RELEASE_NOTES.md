@@ -29,7 +29,7 @@
 
 ##### Alerts
 
-* View patients that are overdue to return to the clinic for an immunization
+* View patients that are overdue to return to the clinic for an immunization, and the degree to which they are overdue
 
 ##### Dashboard
 
@@ -42,6 +42,8 @@ mVax is an Android application only supported by devices that run the Android op
 
 mVax is currently optimized for an 8-inch screen, specifically that of the Samsung Galaxy Tab S2. The application supports both portrait and landscape mode. Running mVax on other Android devices may result in unintended consequences or cause unknown graphical errors.
 
-**Android 7.0 Nougat** is the minimum required Android operating system needed to run mVax. The minimum Android API level is **24**.
+**Minimum SDK**: Android 7.0 Nougat, Android API Level 24
 
-Thus, mVax can run on any Android device running at least Android 7.0 Nougat with Android API level 24 or greater. However, mVax has only been tested on the 8-inch Samsung Galaxy Tab S2 running Android 7.0 Nougat with Android API level 24.
+**Target and Compile SDK**: Android 8.0 Oreo, Android API Level 26
+
+mVax can run on any Android device running at least Android 7.0 Nougat with Android API Level 24 or greater. However, mVax has only been tested on the 8-inch Samsung Galaxy Tab S2 running Android 7.0 Nougat with Android API level 24, since this is the device with which it will be deployed at Clínica Esperanza.
