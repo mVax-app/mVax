@@ -2,7 +2,7 @@
 
 ## App Installation Instructions
 
-See the [README](../README.md) and [release notes](../RELEASE_NOTES.md) for full installation instructions and requirements. The most pertinent information is repeated below.
+See the [README](../README.md) and [release notes](../RELEASE_NOTES.md) for full installation instructions and requirements. The most pertinent information (in regards to installation instructions for a non-developer) is repeated below.
 
 #### Target device requirements
  
@@ -47,7 +47,7 @@ To modify a string in the app, open `app/src/main/res/values/strings.xml`. There
 * **QA**: Use for running automated tests
 * **prod**: Use for real user data--never develop or test on prod
 
-To access build variants, in the menu bar, select `View` &rarr; `Tool Windows` &rarr; `Build Variants`.
+To access build variants, in Android Studio's menu bar, select `View` &rarr; `Tool Windows` &rarr; `Build Variants`.
 
 You should use the debug variants of each flavor when testing, but you can test with release as well to make sure minify works. Prod release is currently unsigned and will not compile, since mVax has not been deployed to production yet.
 
@@ -89,7 +89,7 @@ You should use the debug variants of each flavor when testing, but you can test 
 
 ## Key Stores
 
-Key Stores store APK signing keys that are used to digitally sign the app for distribution under a `release` build variant.
+Key Stores store APK signing keys that are used to digitally sign the app for distribution under a `release` build variant. See the [README](../README.md) for full instructions on how to sign a release variant of mVax.
 
 ### Development Key Store
 * Path: `keystores/development_key_store`

@@ -1,6 +1,6 @@
 # mVax Backlog
 
-This file lists all changes and improvements that need to be addressed.
+This file lists all changes and improvements that need to be addressed and is organized by the UI elements relevant to each issue.
 
 ##### General
 
