@@ -89,7 +89,7 @@ You should use the debug variants of each flavor when testing, but you can test 
 
 ## Key Stores
 
-Key Stores store APK signing keys that are used to digitally sign the app for distribution under a `release` build variant.
+Key Stores store APK signing keys that are used to digitally sign the app for distribution under a `release` build variant. See the [README](../README.md) for full instructions on how to sign a release variant of mVax.
 
 ### Development Key Store
 * Path: `keystores/development_key_store`
