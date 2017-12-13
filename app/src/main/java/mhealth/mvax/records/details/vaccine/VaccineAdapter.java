@@ -244,7 +244,7 @@ class VaccineAdapter extends BaseAdapter {
      */
     private void newDosePrompt(final DoseDateView view) {
         final DoseDateView dateView = view;
-
+        // TODO generalize this modal somewhere
         // create modal
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(R.string.modal_new_dosage_title);
