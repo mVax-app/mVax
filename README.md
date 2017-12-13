@@ -38,7 +38,7 @@ Note: The Android device API minimum is 24.
 
 ##### Deploying a signed APK
 
-You should create your own release key and key store. See [here](https://developer.android.com/studio/publish/app-signing.html) for more information. Store your generated keystore in the `keystores` directory located in the root directory. There is currently a development key store in the `keystores` directory that can be used, but it should only be for development releases. See below for the passwords for the included development key store.
+You should create your own release key and key store. See [here](https://developer.android.com/studio/publish/app-signing.html) for more information. Store your generated keystore in the `keystores` directory located in the root directory. There is currently a development key store in the `keystores` directory that can be used, but it should only be used for development releases. See below for the passwords for the included development key store.
 1. In the menu bar, click `Build` &rarr; `Generate Signed APK`
 2. Click `Next`
 3. Ender the password for your key store and click `Next`
