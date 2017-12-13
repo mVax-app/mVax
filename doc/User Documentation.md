@@ -48,7 +48,7 @@ Once this form is submitted, a user request is sent that can be approved by an _
 
 A registered user can log into mVax and view patient data. A user can log in by inputting their email and password into the `Email` and `Password` fields on the `Sign in` page, shown on app startup.
 
-    ![Sign in](images/sign_in_page.png)
+![Sign in](images/sign_in_page.png)
 
 ### Change your password
 
