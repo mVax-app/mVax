@@ -47,7 +47,7 @@ To modify a string in the app, open `app/src/main/res/values/strings.xml`. There
 * **QA**: Use for running automated tests
 * **prod**: Use for real user data--never develop or test on prod
 
-To access build variants, in the menu bar, select `View` &rarr; `Tool Windows` &rarr; `Build Variants`.
+To access build variants, in Android Studio's menu bar, select `View` &rarr; `Tool Windows` &rarr; `Build Variants`.
 
 You should use the debug variants of each flavor when testing, but you can test with release as well to make sure minify works. Prod release is currently unsigned and will not compile, since mVax has not been deployed to production yet.
 
