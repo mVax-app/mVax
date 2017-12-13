@@ -4,14 +4,17 @@
 
 1. User approval process
 2. Log into mVax
-3. Search for a patient
-4. Create a new patient record
-5. Edit an existing patient record
-6. Delete an existing patient record
-7. Record an immunization
-8. Export forms
-9. View vaccine statistics
-10. Check for overdue patients
+3. Change your password
+4. Change your email
+5. Search for a patient
+6. Create a new patient record
+7. Edit an existing patient record
+8. Delete an existing patient record
+9. Record an immunization
+10. Export forms
+11. View vaccine statistics
+12. Check for overdue patients
+13. Change the language
 
 ### User approval process
 
@@ -28,11 +31,16 @@ When it comes to new user registration, we only want people associated with Clí
 
 Once this form is submitted, a user request is sent that can be approved by an _admin_.
 
-2. A different user with _admin_ privileges approves the user. After logging in, an administrator goes to the settings page.
+2. A different user with _admin_ privileges approves the user. After logging in, an administrator navigates to the settings page by tapping the gear icon in the bottom tab bar.
 
 ![Settings page](images/settings_page.png)
 
-The _admin_ then clicks on the `Approve Users` button. This displays the list of current user requests. They click on the user request and choose whether or not to approve it.
+3. The _admin_ then taps on the `Approve Users` button.
+
+![Approve users button](images/approve_users_button.png)
+
+
+4. The list of current user requests is displayed. They click on the user request and choose whether or not to approve it.
 
 ![Approve user](images/approve_user.png)
 
@@ -41,6 +49,41 @@ The _admin_ then clicks on the `Approve Users` button. This displays the list of
 A registered user can log into mVax and view patient data. They do this by inputting their email and password into the `Email` and `Password` fields on the `Sign in` page, shown on app startup.
 
 ![Sign in](images/sign_in_page.png)
+
+### Change your password
+
+There are two ways to reset your password. You can do so from the login screen for when you've forgotten your password, or you can do so in the settings page.
+
+##### Reset password
+
+1. Open mVax and click `Forgot Password?`.
+
+![Forgot password](images/forgot_password_login.png)
+
+
+2. Enter the email associated with your account and tap `Reset Password`. An email will be sent to your email account with a link for resetting your password.
+
+![Forgot password](images/forgot_password_modal.png)
+
+##### Change password
+
+1. Open mVax and log in. Navigate to the settings page by clicking the gear icon in the bottom tab bar. Tap the `Change Password` button.
+
+![Change password](images/change_password.png)
+
+2. A modal appears. Tap `Reset Password`. An email will be sent to the email address associated with your account containing instructions on how to change the password.
+
+
+### Change your email
+
+1. Open mVax and log in. Navigate to the settings page by clicking the gear icon in the bottom tab bar. Tap the `Update Email` button.
+
+![Change email](images/change_email.png)
+
+2. Enter a new email address to use with your account and tap `Update Email`.
+
+![Confirm email change](images/confirm_email_change.png)
+
 
 ### Search for a patient
 
@@ -179,3 +222,17 @@ This feature allows users to keep track of when a patient is next due for a part
 3. Each overdue patient is displayed with their contact information (phone number, community, and address). This allows the user to easily locate or call the patient to remind them they are due to come into the clinic for their next vaccination.
 
 ![Overdue patient](images/overdue_patient.png)
+
+### Change the language
+
+You can change the language of mVax between English and Spanish.
+
+1. Log into mVax, and navigate to the settings page by tapping the gear icon.
+
+![Settings page](images/settings_page.png)
+
+2. Tap the slider button next to "Change to Spanish". The app automatically reloads into Spanish.
+
+![Language toggle](images/language_toggle.png)
+
+3. To change the app language back to English, repeat these steps.
