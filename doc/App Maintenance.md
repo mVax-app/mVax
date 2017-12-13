@@ -2,7 +2,7 @@
 
 ## App Installation Instructions
 
-See the [README](../README.md) and [release notes](../RELEASE_NOTES.md) for full installation instructions and requirements. The most pertinent information is repeated below.
+See the [README](../README.md) and [release notes](../RELEASE_NOTES.md) for full installation instructions and requirements. The most pertinent information (in regards to installation instructions for a non-developer) is repeated below.
 
 #### Target device requirements
  
