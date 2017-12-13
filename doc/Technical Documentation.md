@@ -3,6 +3,7 @@
 ## Contents
 
 * Basics
+* Overall Architecture Design
 * Java Model Classes
 * Database Schema
 * Database Rules
@@ -28,6 +29,12 @@ mVax is an Android mobile application for managing a medical records database th
 mVax is configured to use Firebase for storing and retrieving data. The application supports concurrent creation and editing of record data, macro visualization of immunization progress and goals, multiple language support, and full functionality when connection to the Firebase server is not possible.
 
 Currently, this repository is configured to point to the Firebase instance for Clínica Esperanza.
+
+### Overall Architecture Design
+
+At a high level, this application splinters its functionality across the different tabs displayed in the user interface. Each screen independently queries, displays, modifies, and writes back information to the Firebase database. Information is retrieved from the database and reflected to a Java object supported by the back-end code. When an object is modified and flushed back out to the database, this information is updated in real-time. This allows all other screens in the application (as well as any other instances of our application being run on other devices) to be working with the most updated data.
+
+In regards to the user interface, the application is composed of three primary activities: login, registration, and main. The login activity is where authentication is executed, and registration allows new users to sign up to use the app. The main activity is where the different tabs of the application are hosted. There is a single navigation bar that resides in this main activity, and this bar holds access to the various tabs (which exist as "fragments"). 
 
 
 ### Java Model Classes
