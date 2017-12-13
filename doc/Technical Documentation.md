@@ -36,6 +36,10 @@ At a high level, this application splinters its functionality across the differe
 
 In regards to the user interface, the application is composed of three primary activities: login, registration, and main. The login activity is where authentication is executed, and registration allows new users to sign up to use the app. The main activity is where the different tabs of the application are hosted. There is a single navigation bar that resides in this main activity, and this bar holds access to the various tabs (which exist as "fragments"). 
 
+The high-level architecture of mVax is visualized below in the following diagram. Blue represents Activities, green represents fragments, yellow represents other classes, white represents exported products, and orange represents a call to a database table. Solid arrows describe transitions while dotted arrows describe data exchange.
+
+![mVax architecture](images/mvax_architecture.png)
+
 
 ### Java Model Classes
 
