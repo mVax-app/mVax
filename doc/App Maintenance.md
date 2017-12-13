@@ -3,8 +3,8 @@
 ## App Installation Instructions
 
 See the [README](../README.md) and [release notes](../RELEASE_NOTES.md) for full installation instructions and requirements. The most pertinent information is repeated below.
- 
- #### Target device requirements
+
+#### Target device requirements
  
  mVax is an Android application only supported by devices that run the Android operating system.
  
