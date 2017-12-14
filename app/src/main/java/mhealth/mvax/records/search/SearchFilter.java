@@ -1,3 +1,22 @@
+/*
+Copyright (C) 2018 Duke University
+
+This file is part of mVax.
+
+mVax is free software: you can redistribute it and/or
+modify it under the terms of the GNU Affero General Public License
+as published by the Free Software Foundation, either version 3,
+or (at your option) any later version.
+
+mVax is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU General Public
+License along with mVax; see the file LICENSE. If not, see
+<http://www.gnu.org/licenses/>.
+*/
 package mhealth.mvax.records.search;
 
 import android.text.Editable;
@@ -13,9 +32,9 @@ import mhealth.mvax.model.record.Record;
 
 /**
  * @author Alison Huang
- *
- * Contains algorithms for filtering database results based
- * on various queries
+ *         <p>
+ *         Contains algorithms for filtering database results based
+ *         on various queries
  */
 
 class SearchFilter {
@@ -47,7 +66,7 @@ class SearchFilter {
                 ArrayList<Record> filtered = new ArrayList<Record>();
                 for (Record p : mRecords.values()) {
                     String attribute = getAttribute(p, mFilter);
-                    System.out.println("PRINT: filter = "+mFilter+", attribute value = "+attribute);
+                    System.out.println("PRINT: filter = " + mFilter + ", attribute value = " + attribute);
                     if (attribute.toLowerCase().contains(charSequence.toString().toLowerCase())) {
                         filtered.add(p);
                     }
