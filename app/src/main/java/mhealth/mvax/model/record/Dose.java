@@ -29,9 +29,6 @@ import java.io.Serializable;
  *         Object for storing information about mVax doses;
  *         implements Serializable so that it can be bassed as
  *         a Bundle argument to fragments
- *         <p>
- *         PLEASE READ DOCUMENTATION BEFORE ADDING, REMOVING,
- *         OR MODIFYING PROPERTIES
  */
 
 public class Dose implements Serializable {
@@ -47,75 +44,76 @@ public class Dose implements Serializable {
     public Dose() {
     }
 
-    public Dose(String label1, String label2) {
-        mLabel1 = label1;
-        mLabel2 = label2;
+    private String databaseKey;
+
+    public String getDatabaseKey() {
+        return this.databaseKey;
     }
 
-    public Dose(String label1) {
-        mLabel1 = label1;
+    public void setDatabaseKey(String databaseKey) {
+        this.databaseKey = databaseKey;
     }
 
-    //================================================================================
-    // Properties
-    //================================================================================
+    private String vaccineDatabaseKey;
+
+    public String getVaccineDatabaseKey() {
+        return this.vaccineDatabaseKey;
+    }
+
+    public void setVaccineDatabaseKey(String vaccineDatabaseKey) {
+        this.vaccineDatabaseKey = vaccineDatabaseKey;
+    }
+
+    private String formCode;
+
+    public String getFormCode() {
+        return this.formCode;
+    }
+
+    public void setFormCode(String formCode) {
+        this.formCode = formCode;
+    }
 
     /**
      * The first label for the dose
      */
-    private String mLabel1;
+    private String label1;
 
     public String getLabel1() {
-        return this.mLabel1;
+        return this.label1;
     }
 
-    public void setLabel1(String label) {
-        this.mLabel1 = label;
+    public void setLabel1(String label1) {
+        this.label1 = label1;
     }
 
     /**
      * The second label for the dose, if there is one
      */
-    private String mLabel2;
+    private String label2;
 
     public String getLabel2() {
-        return this.mLabel2;
+        return this.label2;
     }
 
-    public void setLabel2(String label) {
-        this.mLabel2 = label;
+    public void setLabel2(String label2) {
+        this.label2 = label2;
     }
 
-    /**
-     * The amount of time until the next dose in the
-     * vaccine regimen should be administered
-     */
-    private Long mTimeUntilNextDose;
+//    /**
+//     * The amount of time until the next dose in the
+//     * vaccine regimen should be administered
+//     */
+//    private Long mTimeUntilNextDose;
+//
+//    public Long getTimeUntilNextDose() {
+//        return this.mTimeUntilNextDose;
+//    }
+//
+//    public void setTimeUntilNextDose(Long millis) {
+//        this.mTimeUntilNextDose = millis;
+//    }
 
-    public Long getTimeUntilNextDose() {
-        return this.mTimeUntilNextDose;
-    }
-
-    public void setTimeUntilNextDose(Long millis) {
-        this.mTimeUntilNextDose = millis;
-    }
-
-    /**
-     * The date at which the dose was completed
-     */
-    private Long mDateCompleted;
-
-    public Long getDateCompleted() {
-        return this.mDateCompleted;
-    }
-
-    public void setDateCompleted(Long date) {
-        this.mDateCompleted = date;
-        this.mCompleted = (date != null);
-    }
-
-    @Exclude
-    private Boolean mCompleted = false;
 
     //================================================================================
     // Computed getters
@@ -124,20 +122,16 @@ public class Dose implements Serializable {
     @Exclude
     public String getLabel() {
         StringBuilder sb = new StringBuilder();
-        if (mLabel2 != null) {
-            sb.append(mLabel1);
+        if (label2 != null) {
+            sb.append(label1);
             sb.append(" (");
-            sb.append(mLabel2);
+            sb.append(label2);
             sb.append("):");
         } else {
-            sb.append(mLabel1);
+            sb.append(label1);
             sb.append(":");
         }
         return sb.toString();
-    }
-
-    public Boolean hasBeenCompleted() {
-        return mCompleted;
     }
 
     //================================================================================
@@ -146,8 +140,8 @@ public class Dose implements Serializable {
 
     @Exclude
     public void setLabels(String label1, String label2) {
-        mLabel1 = label1;
-        mLabel2 = label2;
+        this.label1 = label1;
+        this.label2 = label2;
     }
 
 }

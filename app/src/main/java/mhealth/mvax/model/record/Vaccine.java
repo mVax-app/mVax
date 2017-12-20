@@ -24,6 +24,7 @@ import android.support.annotation.NonNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Robert Steilberg
@@ -42,102 +43,75 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     // Constructors
     //================================================================================
 
-    /**
-     * Default Firebase constructor; should not
-     * be used internally
-     */
     public Vaccine() {
-        mDoses = new ArrayList<>();
-    }
-
-    public Vaccine(String databaseKey, String name) {
-        mDatabaseKey = databaseKey;
-        mName = name;
-        mDoses = new ArrayList<>();
     }
 
     //================================================================================
     // Properties
     //================================================================================
 
-    /**
-     * Name of the vaccine
-     */
-    private String mDatabaseKey;
+
+    private String databaseKey;
 
     public String getDatabaseKey() {
-        return this.mDatabaseKey;
+        return this.databaseKey;
     }
 
     public void setDatabaseKey(String databaseKey) {
-        this.mDatabaseKey = databaseKey;
+        this.databaseKey = databaseKey;
     }
 
     /**
      * Name of the vaccine
      */
-    private String mName;
+    private String name;
 
     public String getName() {
-        return this.mName;
+        return this.name;
     }
 
     public void setName(String name) {
-        this.mName = name;
+        this.name = name;
     }
 
     /**
      * Target count for a single month
      */
-    private int mTargetCount;
+    private Integer targetCount;
 
-    public int getTargetCount() {
-        return this.mTargetCount;
+    public Integer getTargetCount() {
+        return this.targetCount;
     }
 
-    public void setTargetCount(int target) {
-        this.mTargetCount = target;
+    public void setTargetCount(Integer targetCount) {
+        this.targetCount = targetCount;
     }
 
     /**
      * Total count for a single month
      */
-    private int mGivenCount;
+    private Integer givenCount;
 
-    public int getGivenCount() {
-        return this.mGivenCount;
+    public Integer getGivenCount() {
+        return this.givenCount;
     }
 
-    public void setGivenCount(int given) {
-        this.mGivenCount = given;
-    }
-
-    /**
-     * Date at which the associated record is due
-     * to receive the next dose, expressed in
-     * milliseconds since Unix epoch
-     */
-    private Long mDueDate;
-
-    public Long getDueDate() {
-        return this.mDueDate;
-    }
-
-    public void setDueDate(Long date) {
-        this.mDueDate = date;
+    public void setGivenCount(Integer givenCount) {
+        this.givenCount = givenCount;
     }
 
     /**
-     * Array containing the vaccine's doses
+     * Array containing the vaccine's doses,
+     * represented by their unique database keys
      */
-    private ArrayList<Dose> mDoses;
+    private List<String> doses;
 
-    public ArrayList<Dose> getDoses() {
-        return this.mDoses;
+    public ArrayList<String> getDoses() {
+        return new ArrayList<>(this.doses);
     }
 
-    public void setDoses(ArrayList<Dose> doses) {
-        this.mDoses = doses;
+    public void setDoses(List<String> doses) {
+        this.doses = doses;
     }
 
     //================================================================================
@@ -150,11 +124,15 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
      * @param dose the new dose to add
      */
     public void addDose(Dose dose) {
-        mDoses.add(dose);
+        doses.add(dose.getDatabaseKey());
+    }
+
+    public void addDose(String dose) {
+        doses.add(dose);
     }
 
     @Override
     public int compareTo(@NonNull Vaccine that) {
-        return this.mName.compareTo(that.mName);
+        return this.name.compareTo(that.name);
     }
 }

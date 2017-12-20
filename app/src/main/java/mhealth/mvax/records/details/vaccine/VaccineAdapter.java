@@ -152,9 +152,9 @@ class VaccineAdapter extends BaseAdapter {
 
     private void renderDoses(Context rowContext, LinearLayout layout, Vaccine vaccine) {
         layout.addView(getDueDateLinearLayout(rowContext, vaccine));
-        for (Dose dose : vaccine.getDoses()) {
-            layout.addView(getDoseLinearLayout(dose, rowContext));
-        }
+//        for (Dose dose : vaccine.getDoses()) {
+//            layout.addView(getDoseLinearLayout(dose, rowContext));
+//        }
     }
 
     private LinearLayout getDueDateLinearLayout(Context rowContext, Vaccine vaccine) {
@@ -187,7 +187,7 @@ class VaccineAdapter extends BaseAdapter {
         dueDate.setTextSize(22);
 
         RecordDateFormat dateFormat = new RecordDateFormat(mContext.getString(R.string.date_format));
-        dueDate.setText(dateFormat.getString(vaccine.getDueDate()));
+//        dueDate.setText(dateFormat.getString(vaccine.getDueDate()));
 
         GradientDrawable gd = new GradientDrawable();
         gd.setColor(Color.LTGRAY);
@@ -237,7 +237,7 @@ class VaccineAdapter extends BaseAdapter {
         dateView.setTextSize(22);
 
         RecordDateFormat dateFormat = new RecordDateFormat(mContext.getString(R.string.date_format));
-        dateView.setText(dateFormat.getString(dose.getDateCompleted()));
+//        dateView.setText(dateFormat.getString(dose.getDateCompleted()));
 
         GradientDrawable gd = new GradientDrawable();
         gd.setColor(Color.LTGRAY);
@@ -352,12 +352,12 @@ class VaccineAdapter extends BaseAdapter {
 
 
     private void updateDose(Dose dose, Long doseDate) {
-        dose.setDateCompleted(doseDate);
+//        dose.setDateCompleted(doseDate);
         pushRecordToDatabase();
     }
 
     private void updateDueDate(Vaccine vaccine, Long dueDate) {
-        vaccine.setDueDate(dueDate);
+//        vaccine.setDueDate(dueDate);
         pushRecordToDatabase();
     }
 

@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.List;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.model.record.Record;
 import mhealth.mvax.records.details.patient.RecordDateFormat;
 
@@ -48,16 +49,16 @@ public class SearchResultAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<Record> mDataSource;
+    private List<Patient> mDataSource;
 
 
     //================================================================================
     // Constructors
     //================================================================================
 
-    SearchResultAdapter(Context context, Collection<Record> records) {
+    SearchResultAdapter(Context context, Collection<Patient> patients) {
         mContext = context;
-        mDataSource = new ArrayList<>(records);
+        mDataSource = new ArrayList<>(patients);
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -101,7 +102,7 @@ public class SearchResultAdapter extends BaseAdapter {
         TextView subtitleTextView = holder.subtitleTextView;
         TextView rightTextView = holder.rightTextView;
 
-        Record result = (Record) getItem(position);
+        Patient result = (Patient) getItem(position);
 
         titleTextView.setText(result.getFullName());
 
@@ -116,13 +117,14 @@ public class SearchResultAdapter extends BaseAdapter {
         return rowView;
     }
 
-    void refresh(Collection<Record> values) {
+    void refresh(Collection<Patient> values) {
         mDataSource = new ArrayList<>(values);
         notifyDataSetChanged();
     }
 
+    // TODO fix this method name
     String getPatientIdFromDataSource(int position) {
-        return mDataSource.get(position).getDatabaseId();
+        return mDataSource.get(position).getDatabaseKey();
     }
 
     private static class ViewHolder {

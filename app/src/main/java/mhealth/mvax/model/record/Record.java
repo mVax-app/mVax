@@ -41,9 +41,6 @@ import mhealth.mvax.records.views.detail.StringNumberDetail;
  *         Object for storing information about mVax records;
  *         implements Serializable so that it can be bassed as
  *         a Bundle argument to fragments
- *         <p>
- *         PLEASE READ DOCUMENTATION BEFORE ADDING, REMOVING,
- *         OR MODIFYING PROPERTIES
  */
 
 public class Record implements Serializable {

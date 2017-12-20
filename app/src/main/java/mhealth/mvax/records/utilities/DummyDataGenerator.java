@@ -19,11 +19,19 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.utilities;
 
+import android.content.Context;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
+import mhealth.mvax.R;
+import mhealth.mvax.model.record.Guardian;
+import mhealth.mvax.model.record.Patient;
+import mhealth.mvax.model.record.Person;
 import mhealth.mvax.model.record.Sex;
 import mhealth.mvax.model.record.Record;
 import mhealth.mvax.model.record.Dose;
@@ -40,161 +48,94 @@ public class DummyDataGenerator {
     private DatabaseReference mDatabase;
 
     private String mMasterTable;
-
-    private String mRecordTable;
-
+    private String mPatientTable;
+    private String mGuardianTable;
     private String mVaccineTable;
+    private String mDoseTable;
+    private String mVaccinationTable;
+    private String mDueDateTable;
 
-    public DummyDataGenerator(String table, String records, String vaccines) {
+    public DummyDataGenerator(Context context) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mMasterTable = table;
-        mRecordTable = records;
-        mVaccineTable = vaccines;
+        mMasterTable = context.getString(R.string.masterTable);
+        mPatientTable = context.getString(R.string.patientTable);
+        mGuardianTable = context.getString(R.string.guardianTable);
+        mVaccineTable = context.getString(R.string.vaccineTable);
+        mDoseTable = context.getString(R.string.doseTable);
+        mVaccinationTable = context.getString(R.string.vaccinationTable);
+        mDueDateTable = context.getString(R.string.dueDateTable);
     }
 
-    public void generateDummyPatientRecords() {
+    public void generatePatientData() {
+        DatabaseReference patientRef = mDatabase.child(mMasterTable).child(mPatientTable).push();
+        DatabaseReference parentRef = mDatabase.child(mMasterTable).child(mGuardianTable).push();
 
-
-        ArrayList<Vaccine> vaccines = new ArrayList<>();
-
-        Vaccine BCG = new Vaccine("1", "BCG");
-        BCG.addDose(new Dose("1"));
-        vaccines.add(BCG);
-
-        Vaccine polio = new Vaccine("2", "Polio");
-        polio.addDose(new Dose("1", "VPI"));
-        polio.addDose(new Dose("2", "VOP"));
-        polio.addDose(new Dose("3", "VOP"));
-        polio.addDose(new Dose("Refuerzo", "VOP"));
-        vaccines.add(polio);
-
-        Vaccine rotavirus = new Vaccine("3", "Rotavirus");
-        rotavirus.addDose(new Dose("1"));
-        rotavirus.addDose(new Dose("2"));
-        rotavirus.addDose(new Dose("3"));
-        rotavirus.addDose(new Dose("4"));
-        vaccines.add(rotavirus);
-
-        Vaccine yellowFever = new Vaccine("4", "Yellow Fever");
-        rotavirus.addDose(new Dose("1"));
-        rotavirus.addDose(new Dose("2"));
-        rotavirus.addDose(new Dose("3"));
-        rotavirus.addDose(new Dose("4"));
-        rotavirus.addDose(new Dose("5"));
-        rotavirus.addDose(new Dose("6"));
-        rotavirus.addDose(new Dose("7"));
-        vaccines.add(yellowFever);
-
-
-        DatabaseReference patientRecords = mDatabase.child(mMasterTable).child(mRecordTable).push();
-        Record rob = new Record(patientRecords.getKey(), vaccines);
-        rob.setId("0123456789012");
+        Patient rob = new Patient();
+        rob.setDatabaseKey(patientRef.getKey());
+        rob.setMedicalID("64573829174");
         rob.setFirstName("Robert");
         rob.setMiddleName("Hays");
-        rob.setLastName("Steilberg");
-        rob.setSuffix("II");
+        rob.setFirstSurname("Kemp");
+        rob.setLastSurname("Steilberg");
         rob.setSex(Sex.MALE);
+        rob.setGuardianDatabaseID(parentRef.getKey());
         rob.setDOB(823237200000L);
-        rob.setPlaceOfBirth("Harrisonburg, VA");
         rob.setCommunity("Alspaugh");
-        rob.setParentFirstName("Ann");
-        rob.setParentMiddleName("Kemp");
-        rob.setParentLastName("Steilberg");
-        rob.setParentSuffix("I");
-        rob.setParentSex(Sex.FEMALE);
-        rob.setParentId("1234567890123");
-        rob.setNumDependents("4");
-        rob.setParentAddress("9014 Tarrytown Drive, Richmond, VA 23229");
-        rob.setParentPhone("8046904814");
+        rob.setPlaceOfBirth("Harrisonburg");
+        rob.setAddress("2504 Vesson Ave, Durham, NC");
+        rob.setPhone("1234567890");
+        patientRef.setValue(rob);
 
-//        patientRecords.setValue(rob);
-
-        patientRecords = mDatabase.child(mMasterTable).child(mRecordTable).push();
-        Record muffin = new Record(patientRecords.getKey(), vaccines);
-        muffin.setId("5748392019232");
-//        muffin.setFirstName("Muffin");
-//        muffin.setMiddleName("Lee");
-//        muffin.setLastName("Bob");
-        muffin.setFirstName(RandomStringGenerator.randomString(8));
-        muffin.setMiddleName(RandomStringGenerator.randomString(5));
-        muffin.setLastName(RandomStringGenerator.randomString(12));
-        muffin.setSuffix("VI");
-        muffin.setSex(Sex.FEMALE);
-        muffin.setDOB(823485940200L);
-        muffin.setPlaceOfBirth("Atlanta, GA");
-        muffin.setCommunity("Roatán");
-        muffin.setParentFirstName("Gus");
-        muffin.setParentMiddleName("Bert");
-        muffin.setParentLastName("Gussy");
-        muffin.setParentSuffix("IV");
-        muffin.setParentSex(Sex.MALE);
-        muffin.setParentId("3950481745324");
-        muffin.setNumDependents("0");
-        muffin.setParentAddress("1 Muffin Ln, Atlanta, GA");
-        muffin.setParentPhone("3840185960");
-
-        patientRecords.setValue(muffin);
-
+        Guardian matt = new Guardian();
+        matt.setDatabaseKey(parentRef.getKey());
+        matt.setMedicalID("1239248354");
+        matt.setFirstName("Matt");
+        matt.setMiddleName("Muffin");
+        matt.setFirstSurname("Leroy");
+        matt.setLastSurname("Tribby");
+        matt.setSex(Sex.MALE);
+        matt.setDependents(new ArrayList<>(Collections.singletonList(patientRef.getKey())));
+        parentRef.setValue(matt);
     }
 
-    public void generateDummyVaccineMaster() {
+    public void generateVaccineData() {
 
-        DatabaseReference vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
+        DatabaseReference vaccineRef = mDatabase.child(mMasterTable).child(mVaccineTable).push();
+        DatabaseReference dose1Ref = mDatabase.child(mMasterTable).child(mDoseTable).push();
+        DatabaseReference dose2Ref = mDatabase.child(mMasterTable).child(mDoseTable).push();
+        DatabaseReference dose3Ref = mDatabase.child(mMasterTable).child(mDoseTable).push();
 
-        Vaccine hepatitis = new Vaccine(vaccineRecords.getKey(), "Hepatitis B");
-        Dose dose1 = new Dose("R.N.");
-        hepatitis.setTargetCount(100);
-        hepatitis.setGivenCount(50);
-        hepatitis.addDose(dose1);
+        Vaccine hepB = new Vaccine();
+        hepB.setDatabaseKey(vaccineRef.getKey());
+        hepB.setName("Hepatitis B");
+        hepB.setTargetCount(400);
+        hepB.setGivenCount(100);
+        hepB.setDoses(new ArrayList<>(Arrays.asList(dose1Ref.getKey(), dose2Ref.getKey(), dose3Ref.getKey())));
+        vaccineRef.setValue(hepB);
 
-        vaccineRecords.setValue(hepatitis);
+        Dose hepB1 = new Dose();
+        hepB1.setDatabaseKey(dose1Ref.getKey());
+        hepB1.setVaccineDatabaseKey(vaccineRef.getKey());
+        hepB1.setFormCode("HEPB_DU_1");
+        hepB1.setLabel1("1");
+        hepB1.setLabel2("PRI");
+        dose1Ref.setValue(hepB1);
 
-        vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
+        Dose hepB2 = new Dose();
+        hepB2.setDatabaseKey(dose2Ref.getKey());
+        hepB2.setVaccineDatabaseKey(vaccineRef.getKey());
+        hepB2.setFormCode("HEPB_DU_1");
+        hepB2.setLabel1("2");
+        hepB2.setLabel2("SEG");
+        dose2Ref.setValue(hepB2);
 
-        Vaccine BCG = new Vaccine(vaccineRecords.getKey(), "BCG");
-        BCG.setTargetCount(300);
-        BCG.setGivenCount(100);
-        BCG.addDose(new Dose("1"));
-        vaccineRecords.setValue(BCG);
-
-        vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
-
-        Vaccine polio = new Vaccine(vaccineRecords.getKey(), "Polio");
-        polio.setTargetCount(400);
-        polio.setGivenCount(300);
-        polio.addDose(new Dose("1", "VPI"));
-        polio.addDose(new Dose("2", "VOP"));
-        polio.addDose(new Dose("3", "VOP"));
-        polio.addDose(new Dose("Refuerzo", "VOP"));
-        vaccineRecords.setValue(polio);
-
-        vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
-        Vaccine rotavirus = new Vaccine(vaccineRecords.getKey(), "Rotavirus");
-        rotavirus.setTargetCount(500);
-        rotavirus.setGivenCount(450);
-        rotavirus.addDose(new Dose("1"));
-        rotavirus.addDose(new Dose("2"));
-        rotavirus.addDose(new Dose("3"));
-        rotavirus.addDose(new Dose("4"));
-        vaccineRecords.setValue(rotavirus);
-
-        vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
-        Vaccine varicella = new Vaccine(vaccineRecords.getKey(), "Varicella");
-        varicella.setTargetCount(200);
-        varicella.setGivenCount(200);
-        varicella.addDose(new Dose("F.N."));
-        vaccineRecords.setValue(varicella);
-
-        vaccineRecords = mDatabase.child(mMasterTable).child(mVaccineTable).push();
-        Vaccine yellow = new Vaccine(vaccineRecords.getKey(), "Yellow Fever");
-        yellow.setTargetCount(600);
-        yellow.setGivenCount(100);
-        yellow.addDose(new Dose("R.N.", "1"));
-        yellow.addDose(new Dose("R.N.", "3"));
-        yellow.addDose(new Dose("R.N.", "3"));
-        yellow.addDose(new Dose("R.N.", "3"));
-        vaccineRecords.setValue(yellow);
-
+        Dose hepB3 = new Dose();
+        hepB3.setDatabaseKey(dose3Ref.getKey());
+        hepB3.setVaccineDatabaseKey(vaccineRef.getKey());
+        hepB3.setFormCode("HEPB_DU_1");
+        hepB3.setLabel1("3");
+        hepB3.setLabel2("SEG");
+        dose3Ref.setValue(hepB3);
     }
 
 }
