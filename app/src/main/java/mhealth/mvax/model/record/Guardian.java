@@ -19,10 +19,14 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.record;
 
+import android.content.Context;
+
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import mhealth.mvax.records.views.detail.Detail;
 
 /**
  * @author Robert Steilberg
@@ -31,10 +35,14 @@ import java.util.List;
  */
 public class Guardian extends Person {
 
-    public Guardian() {
+    private Guardian() {}
+
+    public Guardian(String databaseKey) {
+        this.databaseKey = databaseKey;
+        dependents = new ArrayList<>();
     }
 
-    private List<String> dependents;
+    private List<String> dependents = new ArrayList<>();
 
     public ArrayList<String> getDependents() {
         return new ArrayList<>(this.dependents);
@@ -44,11 +52,12 @@ public class Guardian extends Person {
         this.dependents = dependents;
     }
 
-    @Exclude
-    private Integer numDependents;
-
-    @Exclude
     public Integer getNumDependents() {
         return this.dependents.size();
+    }
+
+    @Override
+    public List<Detail> getDetails(Context context) {
+        return getPersonDetails(context);
     }
 }

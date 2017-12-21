@@ -19,7 +19,18 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.record;
 
+
+import android.content.Context;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import mhealth.mvax.R;
+import mhealth.mvax.records.views.detail.Detail;
+import mhealth.mvax.records.views.detail.SexDetail;
+import mhealth.mvax.records.views.detail.StringDetail;
+import mhealth.mvax.records.views.detail.StringNumberDetail;
 
 /**
  * @author Robert Steilberg
@@ -30,13 +41,11 @@ import java.io.Serializable;
  */
 public abstract class Person implements Serializable {
 
-    public Person() {
-    }
-
     /**
-     * Unique Firebase key generated through push()
+     * Unique Firebase key generated through push();
+     * should be set in constructor
      */
-    private String databaseKey;
+    String databaseKey = "";
 
     public String getDatabaseKey() {
         return this.databaseKey;
@@ -47,9 +56,9 @@ public abstract class Person implements Serializable {
     }
 
     /**
-     * Medical ID of the person
+     * Medical ID assigned to the person
      */
-    private String medicalID;
+    private String medicalID = "";
 
     public String getMedicalID() {
         return this.medicalID;
@@ -62,7 +71,7 @@ public abstract class Person implements Serializable {
     /**
      * First name
      */
-    private String firstName;
+    private String firstName = "";
 
     public String getFirstName() {
         return this.firstName;
@@ -75,7 +84,7 @@ public abstract class Person implements Serializable {
     /**
      * Middle name
      */
-    private String middleName;
+    private String middleName = "";
 
     public String getMiddleName() {
         return this.middleName;
@@ -88,7 +97,7 @@ public abstract class Person implements Serializable {
     /**
      * First printed surname
      */
-    private String firstSurname;
+    private String firstSurname = "";
 
     public String getFirstSurname() {
         return this.firstSurname;
@@ -101,7 +110,7 @@ public abstract class Person implements Serializable {
     /**
      * Last printed surname
      */
-    private String lastSurname;
+    private String lastSurname = "";
 
     public String getLastSurname() {
         return this.lastSurname;
@@ -124,10 +133,112 @@ public abstract class Person implements Serializable {
         this.sex = sex;
     }
 
-    public String getName() {
-        StringBuilder sb = new StringBuilder;
+
+
+
+
+    public String getName(Context context) {
+        if (firstSurname.equals("")) {
+            return context.getString(R.string.no_patient_name);
+        }
+        StringBuilder sb = new StringBuilder();
         sb.append(firstSurname);
-        if (lastSurname.equals(""))
-        sb.append(lastSurname);
+        if (!lastSurname.equals("")) sb.append(" ").append(lastSurname);
+        if (!firstName.equals("")) sb.append(", ").append(firstName);
+        if (!middleName.equals("")) sb.append(" ").append(middleName);
+        return sb.toString();
     }
+
+    protected List<Detail> getPersonDetails(Context context) {
+        ArrayList<Detail> details = new ArrayList<>();
+
+        // medical ID
+        final StringNumberDetail medicalIdDetail = new StringNumberDetail(
+                context.getResources().getString(R.string.label_medicalID),
+                context.getResources().getString(R.string.hint_medicalID),
+                this.medicalID,
+                context);
+        medicalIdDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setMedicalID(medicalIdDetail.getValue());
+            }
+        });
+        details.add(medicalIdDetail);
+
+        // first name
+        final StringDetail firstNameDetail = new StringDetail(
+                context.getResources().getString(R.string.label_firstname),
+                context.getResources().getString(R.string.hint_firstname),
+                this.firstName,
+                context);
+        firstNameDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setFirstName(firstNameDetail.getValue());
+            }
+        });
+        details.add(firstNameDetail);
+
+        // patient middle name
+        final StringDetail middleNameDetail = new StringDetail(
+                context.getResources().getString(R.string.label_middlename),
+                context.getResources().getString(R.string.hint_middlename),
+                this.middleName,
+                context);
+        middleNameDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setMiddleName(middleNameDetail.getValue());
+            }
+        });
+        details.add(middleNameDetail);
+
+        // first surname
+        final StringDetail firstSurnameDetail = new StringDetail(
+                context.getResources().getString(R.string.label_first_surname),
+                context.getResources().getString(R.string.hint_first_surname),
+                this.firstSurname,
+                context);
+        firstSurnameDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setFirstSurname(firstSurnameDetail.getValue());
+            }
+        });
+        details.add(firstSurnameDetail);
+
+        // last surname
+        final StringDetail lastSurnameDetail = new StringDetail(
+                context.getResources().getString(R.string.label_last_surname),
+                context.getResources().getString(R.string.hint_last_surname),
+                this.lastSurname,
+                context);
+        lastSurnameDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setLastSurname(lastSurnameDetail.getValue());
+            }
+        });
+        details.add(lastSurnameDetail);
+
+        // patient sex
+        final SexDetail sexDetail = new SexDetail(
+                context.getResources().getString(R.string.label_sex),
+                context.getResources().getString(R.string.hint_sex),
+                this.sex,
+                context);
+        sexDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setSex(sexDetail.getValue());
+            }
+        });
+        details.add(sexDetail);
+
+        return details;
+    }
+
+    public abstract List<Detail> getDetails(Context context);
+
 }

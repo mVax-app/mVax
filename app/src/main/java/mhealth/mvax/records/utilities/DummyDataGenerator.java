@@ -31,9 +31,7 @@ import java.util.Collections;
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Guardian;
 import mhealth.mvax.model.record.Patient;
-import mhealth.mvax.model.record.Person;
 import mhealth.mvax.model.record.Sex;
-import mhealth.mvax.model.record.Record;
 import mhealth.mvax.model.record.Dose;
 import mhealth.mvax.model.record.Vaccine;
 
@@ -70,8 +68,7 @@ public class DummyDataGenerator {
         DatabaseReference patientRef = mDatabase.child(mMasterTable).child(mPatientTable).push();
         DatabaseReference parentRef = mDatabase.child(mMasterTable).child(mGuardianTable).push();
 
-        Patient rob = new Patient();
-        rob.setDatabaseKey(patientRef.getKey());
+        Patient rob = new Patient(patientRef.getKey());
         rob.setMedicalID("64573829174");
         rob.setFirstName("Robert");
         rob.setMiddleName("Hays");
@@ -83,11 +80,10 @@ public class DummyDataGenerator {
         rob.setCommunity("Alspaugh");
         rob.setPlaceOfBirth("Harrisonburg");
         rob.setAddress("2504 Vesson Ave, Durham, NC");
-        rob.setPhone("1234567890");
+        rob.setPhoneNumber("1234567890");
         patientRef.setValue(rob);
 
-        Guardian matt = new Guardian();
-        matt.setDatabaseKey(parentRef.getKey());
+        Guardian matt = new Guardian(parentRef.getKey());
         matt.setMedicalID("1239248354");
         matt.setFirstName("Matt");
         matt.setMiddleName("Muffin");

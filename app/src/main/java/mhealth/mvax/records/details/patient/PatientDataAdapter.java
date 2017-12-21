@@ -58,7 +58,7 @@ public abstract class PatientDataAdapter extends BaseAdapter {
     // Constructors
     //================================================================================
 
-    protected PatientDataAdapter(LinkedHashMap<String, ArrayList<Detail>> sectionedData) {
+    protected PatientDataAdapter(LinkedHashMap<String, List<Detail>> sectionedData) {
         setDataSource(sectionedData);
     }
 
@@ -114,7 +114,7 @@ public abstract class PatientDataAdapter extends BaseAdapter {
      *
      * @param newData is the new data with which to populate the data source
      */
-    public void refresh(LinkedHashMap<String, ArrayList<Detail>> newData) {
+    public void refresh(LinkedHashMap<String, List<Detail>> newData) {
         setDataSource(newData);
         notifyDataSetChanged();
     }
@@ -124,11 +124,11 @@ public abstract class PatientDataAdapter extends BaseAdapter {
     // Private methods
     //================================================================================
 
-    private void setDataSource(LinkedHashMap<String, ArrayList<Detail>> sectionedData) {
+    private void setDataSource(LinkedHashMap<String, List<Detail>> sectionedData) {
         mDataSource = new ArrayList<>();
         mHeaders = new HashMap<>();
         for (String key : sectionedData.keySet()) {
-            ArrayList<Detail> values = sectionedData.get(key);
+            List<Detail> values = sectionedData.get(key);
             // add a null to the data source so that separator doesn't mess up position ordering
             mDataSource.add(null);
             // store the header's index in the data source

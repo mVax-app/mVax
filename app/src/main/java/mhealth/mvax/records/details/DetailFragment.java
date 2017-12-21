@@ -36,6 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.model.record.Record;
 import mhealth.mvax.records.details.patient.view.PatientDataTab;
 import mhealth.mvax.records.details.vaccine.VaccineScheduleTab;
@@ -69,7 +70,6 @@ public class DetailFragment extends Fragment implements TabLayout.OnTabSelectedL
         return new DetailFragment();
     }
 
-
     //================================================================================
     // Override methods
     //================================================================================
@@ -77,9 +77,13 @@ public class DetailFragment extends Fragment implements TabLayout.OnTabSelectedL
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_record_detail, container, false);
-        mRecordDatabaseId = getArguments().getString("recordId");
+        mRecordDatabaseId = getArguments().getString("databaseKey");
         initTabs();
-        initDatabase(mRecordDatabaseId);
+        mPatientDataTab = PatientDataTab.newInstance(mRecordDatabaseId);
+        mVaccineScheduleTab = VaccineScheduleTab.newInstance();
+        initTabViews();
+
+//        initDatabase(mRecordDatabaseId);
         return mView;
     }
 
@@ -87,15 +91,15 @@ public class DetailFragment extends Fragment implements TabLayout.OnTabSelectedL
     public void onDestroyView() {
         super.onDestroyView();
         // remove listener so it doesn't fire after the fragment is destroyed
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        String masterTable = getResources().getString(R.string.masterTable);
-        String recordTable = getResources().getString(R.string.recordTable);
-        String databaseIdField = getResources().getString(R.string.databaseId);
-        db.child(masterTable)
-                .child(recordTable)
-                .orderByChild(databaseIdField)
-                .equalTo(mRecordDatabaseId)
-                .removeEventListener(mDatabaseListener);
+//        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+//        String masterTable = getResources().getString(R.string.masterTable);
+//        String patientTable = getResources().getString(R.string.patientTable);
+//        String databaseIdField = getResources().getString(R.string.databaseId);
+//        db.child(masterTable)
+//                .child(patientTable)
+//                .orderByChild(databaseIdField)
+//                .equalTo(mRecordDatabaseId)
+//                .removeEventListener(mDatabaseListener);
     }
 
 
@@ -151,51 +155,50 @@ public class DetailFragment extends Fragment implements TabLayout.OnTabSelectedL
         // TODO authentication validation, throw back false if failed
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
 
-        mDatabaseListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                mPatientDataTab = PatientDataTab.newInstance();
-                mVaccineScheduleTab = VaccineScheduleTab.newInstance();
-
-                Record record = dataSnapshot.getValue(Record.class);
-                Bundle args = new Bundle();
-                args.putSerializable("record", record);
-                mPatientDataTab.setArguments(args);
-                mVaccineScheduleTab.setArguments(args);
-
-                initTabViews();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
-                Record record = dataSnapshot.getValue(Record.class);
-                mPatientDataTab.update(record);
-                mVaccineScheduleTab.update(record);
-                Toast.makeText(getActivity(), R.string.successful_record_update, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                getActivity().onBackPressed(); // transition back to search
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), R.string.unsuccessful_record_update, Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        String masterTable = getResources().getString(R.string.masterTable);
-        String recordTable = getResources().getString(R.string.recordTable);
-        String databaseIdField = getResources().getString(R.string.databaseId);
-        db.child(masterTable).child(recordTable)
-                .orderByChild(databaseIdField)
-                .equalTo(databaseId)
-                .addChildEventListener(mDatabaseListener);
+//        mDatabaseListener = new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+//                mPatientDataTab = PatientDataTab.newInstance();
+//                mVaccineScheduleTab = VaccineScheduleTab.newInstance();
+//
+//                Patient patient = dataSnapshot.getValue(Patient.class);
+//                Bundle args = new Bundle();
+//                args.putSerializable("patient", patient);
+//                mPatientDataTab.setArguments(args);
+//                mVaccineScheduleTab.setArguments(args);
+//
+//                initTabViews();
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+//                Record record = dataSnapshot.getValue(Record.class);
+//                mPatientDataTab.update(record);
+//                mVaccineScheduleTab.update(record);
+//                Toast.makeText(getActivity(), R.string.successful_record_update, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                getActivity().onBackPressed(); // transition back to search
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Toast.makeText(getActivity(), R.string.unsuccessful_record_update, Toast.LENGTH_SHORT).show();
+//            }
+//        };
+//
+//        String masterTable = getResources().getString(R.string.masterTable);
+//        String patientTable = getResources().getString(R.string.patientTable);
+//        db.child(masterTable).child(patientTable)
+//                .orderByChild("databaseKey")
+//                .equalTo(databaseId)
+//                .addChildEventListener(mDatabaseListener);
         return true;
     }
 

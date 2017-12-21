@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.model.record.Record;
 import mhealth.mvax.records.details.RecordTab;
 
@@ -63,8 +64,8 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_vaccine_history, container, false);
-        mRecord = (Record) getArguments().getSerializable("record");
-        render();
+//        mRecord = (Record) getArguments().getSerializable("record");
+//        render();
         return mView;
     }
 
@@ -88,8 +89,8 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
      *
      * @param updatedRecord the updated record containing the vaccine schedule
      */
-    public void update(Record updatedRecord) {
-        mAdapter.refresh(updatedRecord);
+    public void update(Patient updatedRecord) {
+//        mAdapter.refresh(updatedRecord);
     }
 
 }

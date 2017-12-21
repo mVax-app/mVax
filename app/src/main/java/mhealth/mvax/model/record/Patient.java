@@ -19,6 +19,17 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.record;
 
+import android.content.Context;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import mhealth.mvax.R;
+import mhealth.mvax.records.views.detail.DateDetail;
+import mhealth.mvax.records.views.detail.Detail;
+import mhealth.mvax.records.views.detail.StringDetail;
+import mhealth.mvax.records.views.detail.StringNumberDetail;
+
 /**
  * @author Robert Steilberg
  *         <p>
@@ -27,21 +38,26 @@ package mhealth.mvax.model.record;
  */
 public class Patient extends Person {
 
-    public Patient() {
+    // TODO comment
+    private Patient() {
+    }
+
+    public Patient(String databaseKey) {
+        this.databaseKey = databaseKey;
     }
 
     /**
      * Unique Firebase key of the patient's primary
      * guardian
      */
-    private String guardianDatabaseID;
+    private String guardianDatabaseKey;
 
-    public String getGuardianDatabaseID() {
-        return this.guardianDatabaseID;
+    public String getGuardianDatabaseKey() {
+        return this.guardianDatabaseKey;
     }
 
-    public void setGuardianDatabaseID(String guardianDatabaseID) {
-        this.guardianDatabaseID = guardianDatabaseID;
+    public void setGuardianDatabaseID(String guardianDatabaseKey) {
+        this.guardianDatabaseKey = guardianDatabaseKey;
     }
 
     /**
@@ -101,13 +117,91 @@ public class Patient extends Person {
      * Phone number for contacting the patient
      * or their guardian
      */
-    private String phone;
+    private String phoneNumber;
 
-    public String getPhone() {
-        return this.phone;
+    public String getPhoneNumber() {
+        return this.phoneNumber;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public List<Detail> getDetails(Context context) {
+        ArrayList<Detail> details = new ArrayList<>();
+        details.addAll(getPersonDetails(context));
+
+        // date of birth
+        final DateDetail dobDetail = new DateDetail(
+                context.getResources().getString(R.string.label_dob),
+                context.getResources().getString(R.string.hint_dob),
+                this.DOB,
+                context);
+        dobDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setDOB(dobDetail.getValue());
+            }
+        });
+        details.add(dobDetail);
+
+        // community
+        final StringDetail communityDetail = new StringDetail(
+                context.getResources().getString(R.string.label_community),
+                context.getResources().getString(R.string.hint_community),
+                this.community,
+                context);
+        communityDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setCommunity(communityDetail.getValue());
+            }
+        });
+        details.add(communityDetail);
+
+        // place of birth
+        final StringDetail placeOfBirthDetail = new StringDetail(
+                context.getResources().getString(R.string.label_pob),
+                context.getResources().getString(R.string.hint_pob),
+                this.placeOfBirth,
+                context);
+        placeOfBirthDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setPlaceOfBirth(placeOfBirthDetail.getValue());
+            }
+        });
+        details.add(placeOfBirthDetail);
+
+        // address
+        final StringDetail addressDetail = new StringDetail(
+                context.getResources().getString(R.string.label_address),
+                context.getResources().getString(R.string.hint_address),
+                this.address,
+                context);
+        addressDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setAddress(addressDetail.getValue());
+            }
+        });
+        details.add(addressDetail);
+
+        // phone number
+        final StringNumberDetail phoneNumberDetail = new StringNumberDetail(
+                context.getResources().getString(R.string.label_phone_number),
+                context.getResources().getString(R.string.hint_phone_number),
+                this.phoneNumber,
+                context);
+        phoneNumberDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setPhoneNumber(phoneNumberDetail.getValue());
+            }
+        });
+        details.add(phoneNumberDetail);
+
+        return details;
     }
 }

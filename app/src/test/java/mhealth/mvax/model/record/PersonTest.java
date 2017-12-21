@@ -17,31 +17,16 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.records.details;
+package mhealth.mvax.model.record;
 
-import mhealth.mvax.model.record.Patient;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Robert Steilberg
  *         <p>
- *         Interface for defining the API of a record tab
+ *         DESCRIPTION HERE
  */
-
-public interface RecordTab {
-
-    /**
-     * Performs the initial render of the tab views, using
-     * the Record passed in as an argument to the Fragment
-     */
-    void render();
-
-    /**
-     * Called when the tab view needs to be updated with data
-     * from an updated record
-     *
-     * @param patient the new patient with which to update
-     *                      the view
-     */
-    void update(Patient patient);
-
+public class PersonTest {
 }

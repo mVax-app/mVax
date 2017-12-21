@@ -27,6 +27,7 @@ import android.view.inputmethod.EditorInfo;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.records.views.detail.Detail;
@@ -53,7 +54,7 @@ public class EditPatientDataAdapter extends PatientDataAdapter {
     // Constructors
     //================================================================================
 
-    EditPatientDataAdapter(Context context, LinkedHashMap<String, ArrayList<Detail>> sectionedData) {
+    EditPatientDataAdapter(Context context, LinkedHashMap<String, List<Detail>> sectionedData) {
         super(sectionedData);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

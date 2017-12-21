@@ -29,7 +29,6 @@ import java.util.Date;
 import java.util.Map;
 
 import mhealth.mvax.model.record.Patient;
-import mhealth.mvax.model.record.Record;
 
 /**
  * @author Alison Huang
@@ -114,9 +113,9 @@ class SearchFilter {
             case "Community":
                 return patient.getCommunity();
             case "Parent ID":
-                return patient.getGuardianDatabaseID();
+                return patient.getGuardianDatabaseKey();
             case "Parent name":
-                return patient.getGuardianDatabaseID();
+                return patient.getGuardianDatabaseKey();
             default:
                 return patient.getDatabaseKey();
         }

@@ -36,8 +36,10 @@ public class RecordTest {
 
     @Test
     public void vaccineListSort() throws Exception {
-        Vaccine a = new Vaccine("foo", "Hepatitis");
-        Vaccine b = new Vaccine("bar", "Rotavirus");
+        Vaccine a = new Vaccine();
+        a.setName("Hepatitis");
+        Vaccine b = new Vaccine();
+        b.setName("Rotavirus");
 
         ArrayList<Vaccine> vaccines = new ArrayList<>();
         // record will be initialized with Vaccine array ["Rotavirus", "Hepatitis"]

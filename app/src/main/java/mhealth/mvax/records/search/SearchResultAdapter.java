@@ -104,7 +104,7 @@ public class SearchResultAdapter extends BaseAdapter {
 
         Patient result = (Patient) getItem(position);
 
-        titleTextView.setText(result.getFullName());
+        titleTextView.setText(result.getName(rowView.getContext()));
 
         String DOBprompt = mContext.getResources().getString(R.string.DOB_prompt);
         RecordDateFormat dateFormat = new RecordDateFormat(mContext.getResources().getString(R.string.date_format));
@@ -122,8 +122,7 @@ public class SearchResultAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    // TODO fix this method name
-    String getPatientIdFromDataSource(int position) {
+    String getSelectedDatabaseKey(int position) {
         return mDataSource.get(position).getDatabaseKey();
     }
 
