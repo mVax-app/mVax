@@ -25,14 +25,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.LinkedHashMap;
+import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.record.Record;
+import mhealth.mvax.model.record.Guardian;
+import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.details.DetailFragment;
 import mhealth.mvax.records.search.SearchFragment;
+import mhealth.mvax.records.utilities.RecordJobs;
+import mhealth.mvax.records.views.detail.Detail;
 
 /**
  * @author Robert Steilberg
@@ -45,9 +51,33 @@ public abstract class ModifiableRecordFragment extends Fragment {
 
     protected LayoutInflater mInflater;
 
-    protected DatabaseReference mDatabase;
+    protected DatabaseReference mPatientDatabaseRef;
+    protected DatabaseReference mGuardianDatabaseRef;
 
-    protected Record mNewRecord;
+    protected Patient mPatient;
+    protected Guardian mGuardian;
+
+    protected ModifyPatientAdapter mAdapter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        String masterTable = getResources().getString(R.string.dataTable);
+        String patientTable = getResources().getString(R.string.patientTable);
+        String guardianTable = getResources().getString(R.string.guardianTable);
+
+        mPatientDatabaseRef = FirebaseDatabase
+                .getInstance()
+                .getReference()
+                .child(masterTable)
+                .child(patientTable);
+
+        mGuardianDatabaseRef = FirebaseDatabase
+                .getInstance()
+                .getReference()
+                .child(masterTable)
+                .child(guardianTable);
+    }
 
     @Override
     public void onDestroy() {
@@ -56,23 +86,24 @@ public abstract class ModifiableRecordFragment extends Fragment {
     }
 
     protected void renderListView(View view) {
-        TextView recordName = view.findViewById(R.id.record_details_title);
-        recordName.setText(R.string.new_record_title);
 
-        final ListView detailsListView = view.findViewById(R.id.details_list_view);
-        final EditPatientDataAdapter adapter = new EditPatientDataAdapter(getContext(), mNewRecord.getSectionedAttributes(getContext()));
-        detailsListView.setAdapter(adapter);
+        LinkedHashMap<String, List<Detail>> sectionedDetails = RecordJobs.getSectionedDetails(getContext(), mPatient, mGuardian);
+
+
+        ListView mListView = view.findViewById(R.id.details_list_view);
+        mAdapter = new ModifyPatientAdapter(getContext(), sectionedDetails);
+        mListView.setAdapter(mAdapter);
 
         Button saveButton = (Button) mInflater.inflate(R.layout.save_record_button, null);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDatabase.setValue(mNewRecord);
 
-                DetailFragment recordFrag = DetailFragment.newInstance();
-                Bundle args = new Bundle();
-                args.putString("recordId", mNewRecord.getDatabaseId());
-                recordFrag.setArguments(args);
+                // TODO maybe use firebase jobs
+                mPatientDatabaseRef.child(mPatient.getDatabaseKey()).setValue(mPatient);
+                mGuardianDatabaseRef.child(mGuardian.getDatabaseKey()).setValue(mGuardian);
+
+                DetailFragment recordFrag = DetailFragment.newInstance(mPatient.getDatabaseKey());
 
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame_layout, new SearchFragment())
@@ -85,7 +116,7 @@ public abstract class ModifiableRecordFragment extends Fragment {
                         .commit();
             }
         });
-        detailsListView.addFooterView(saveButton);
+        mListView.addHeaderView(saveButton);
 
     }
 

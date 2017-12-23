@@ -241,4 +241,7 @@ public abstract class Person implements Serializable {
 
     public abstract List<Detail> getDetails(Context context);
 
+
+    public abstract int getSectionTitleStringID();
+
 }

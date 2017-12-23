@@ -110,8 +110,8 @@
     <string name="save_record_button">Save Record</string>
 
     <string name="modal_record_delete_title">Confirm Record Deletion</string>
-    <string name="modal_record_delete_message">Are you sure you want to delete this record? This action CANNOT be undone.</string>
-    <string name="successful_record_update">Changes saved</string>
+    <string name="modal_record_delete_message">Are you sure you want to delete this record? All patient, guardian, and vaccine data will be deleted. This action cannot be undone.</string>
+    <string name="patient_update">Patient Updated</string>
     <string name="unsuccessful_record_update">Update failed</string>
 
     <string name="modal_title_choose_sex">Choose Sex</string>
@@ -308,8 +308,14 @@
     <string name="VPH_11A_1A">VPH_11A_1A_Row</string>
     <string name="VPH_11A_2A">VPH_11A_2A_Row</string>
     <string name="VITA_PU_DU">VITA_PU_DU_Row</string>
-    <string name="unsuccessful_record_download">Unable to Download Patient Data</string>
+    <string name="failure_patient_download">Unable to Download Patient Data</string>
     <string name="unsuccessful_guardian_download">Unable to Download Guardian Data</string>
+    <string name="guardian_update">Guardian Updated</string>
+    <string name="failure_vaccines_download">Unable to Download Vaccine Data</string>
+    <string name="failure_vaccinations_download">Unable to Download Vaccination Data</string>
+    <string name="failure_due_dates_download">Unable to Download Due Dates</string>
+    <string name="dummy_data">Generate Test Data</string>
+    <string name="generate_dummy_data_warning">WARNING: Generating dummy data will clear out the entire mVax-data table and replace it with dummy data defined in the DummyDataGenerator. If you are okay with all existing data being overwritten, click \"Confirm\".</string>
 
 
 </resources>

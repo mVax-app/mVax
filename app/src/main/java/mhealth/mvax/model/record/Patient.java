@@ -38,7 +38,7 @@ import mhealth.mvax.records.views.detail.StringNumberDetail;
  */
 public class Patient extends Person {
 
-    // TODO comment
+//    // TODO comment
     private Patient() {
     }
 
@@ -203,5 +203,10 @@ public class Patient extends Person {
         details.add(phoneNumberDetail);
 
         return details;
+    }
+
+    @Override
+    public int getSectionTitleStringID() {
+        return R.string.patient_detail_section_title;
     }
 }

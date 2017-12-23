@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="masterTable">mVax</string>
+    <string name="dataTable">mVax-data</string>
     <string name="patientTable">patients</string>
     <string name="guardianTable">guardians</string>
     <string name="vaccineTable">vaccines</string>
     <string name="doseTable">doses</string>
     <string name="vaccinationTable">vaccinations</string>
-    <string name="dueDateTable">dueDates</string>
+    <string name="dueDatesTable">dueDates</string>
 
 
 

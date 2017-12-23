@@ -92,11 +92,6 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        DummyDataGenerator generator = new DummyDataGenerator(getContext());
-        // uncomment the below lines to populate database with dummy data
-        // NOTE: recommend you clear out the database beforehand
-//        generator.generatePatientData();
-//        generator.generateVaccineData();
 
         initDatabase(); // run this before touching mPatients!
 
@@ -198,7 +193,7 @@ public class SearchFragment extends Fragment {
 //            mUserId = mFirebaseUser.getUid();
 //        }
 
-        String masterTable = getResources().getString(R.string.masterTable);
+        String masterTable = getResources().getString(R.string.dataTable);
         String patientTable = getResources().getString(R.string.patientTable);
 //        String vaccineTable = getResources().getString(R.string.vaccineTable);
 
@@ -221,10 +216,6 @@ public class SearchFragment extends Fragment {
 
     private void createNewRecord() {
         CreateRecordFragment newRecordFrag = CreateRecordFragment.newInstance();
-
-        Bundle args = new Bundle();
-//        args.putSerializable("vaccines", new ArrayList<>(mVaccineMaster.values()));
-        newRecordFrag.setArguments(args);
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_layout, newRecordFrag);
@@ -267,11 +258,7 @@ public class SearchFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedDatabaseKey = mSearchResultAdapter.getSelectedDatabaseKey(position);
 
-                DetailFragment detailFrag = DetailFragment.newInstance();
-
-                Bundle args = new Bundle();
-                args.putString("databaseKey", selectedDatabaseKey);
-                detailFrag.setArguments(args);
+                DetailFragment detailFrag = DetailFragment.newInstance(selectedDatabaseKey);
 
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame_layout, detailFrag)

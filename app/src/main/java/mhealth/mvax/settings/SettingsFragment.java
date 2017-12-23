@@ -51,16 +51,18 @@ import mhealth.mvax.R;
 import mhealth.mvax.auth.ApproveUsersFragment;
 import mhealth.mvax.auth.LoginActivity;
 import mhealth.mvax.model.user.UserRole;
+import mhealth.mvax.records.utilities.DummyDataGenerator;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
  * This Fragment represents the Settings Tab which contains the follwoing functionality:
- *  1. Changing Languages
- *  2. Changing Account settings (email, password)
- *  3. Administrator Privileges (given that a user is registered as an ADMIN)
+ * 1. Changing Languages
+ * 2. Changing Account settings (email, password)
+ * 3. Administrator Privileges (given that a user is registered as an ADMIN)
+ *
  * @author Matthew Tribby, Alison Huang
- * Last edited December, 2017
+ *         Last edited December, 2017
  */
 public class SettingsFragment extends Fragment {
     private Switch languageSwitch;
@@ -110,6 +112,14 @@ public class SettingsFragment extends Fragment {
 
         createApproveUsersButton(v);
 
+        Button dummyData = v.findViewById(R.id.dummyData);
+        dummyData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                generateDummyData();
+            }
+        });
+
         return v;
     }
 
@@ -121,15 +131,15 @@ public class SettingsFragment extends Fragment {
         languageSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             BottomNavigationView navbar = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bar);
+
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b && !getResources().getConfiguration().getLocales().toString().equals(getResources().getString(R.string.spanishLocaleCode))){
+                if (b && !getResources().getConfiguration().getLocales().toString().equals(getResources().getString(R.string.spanishLocaleCode))) {
                     setLocale(getResources().getString(R.string.spanishCode));
                     navbar.getMenu().clear();
                     navbar.inflateMenu(R.menu.navigation_es);
                     navbar.setSelectedItemId(R.id.nav_settings);
-                }
-                else if(!b && !getResources().getConfiguration().getLocales().toString().equals(getResources().getString(R.string.usLocaleCode))) {
+                } else if (!b && !getResources().getConfiguration().getLocales().toString().equals(getResources().getString(R.string.usLocaleCode))) {
                     setLocale(getResources().getString(R.string.englishCode));
                     navbar.getMenu().clear();
                     navbar.inflateMenu(R.menu.navigation);
@@ -169,14 +179,14 @@ public class SettingsFragment extends Fragment {
 
     }
 
-    public void updateEmail(View v){
+    public void updateEmail(View v) {
 
         //builder
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getResources().getString(R.string.modal_update_title));
 
         //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
-        LayoutInflater inflater = (LayoutInflater)getActivity().getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
         final View dialogView = inflater.inflate(R.layout.modal_update_email, null);
         builder.setView(dialogView);
@@ -186,12 +196,11 @@ public class SettingsFragment extends Fragment {
         builder.setPositiveButton(getResources().getString(R.string.update_email), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (LoginActivity.isEmailValid(address.getText().toString())){
+                if (LoginActivity.isEmailValid(address.getText().toString())) {
                     FirebaseAuth.getInstance().getCurrentUser().updateEmail(address.getText().toString());
                     dialog.dismiss();
                     Toast.makeText(getActivity(), R.string.update_email_success, Toast.LENGTH_LONG).show();
-                 }
-                 else{
+                } else {
                     Toast.makeText(getActivity(), R.string.error_invalid_email, Toast.LENGTH_LONG).show();
                 }
             }
@@ -200,36 +209,36 @@ public class SettingsFragment extends Fragment {
         builder.show();
     }
 
-    public void resetPassword(View v){
+    public void resetPassword(View v) {
 
-            //builder
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(getResources().getString(R.string.modal_reset_title));
+        //builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getResources().getString(R.string.modal_reset_title));
 
-            //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
-            LayoutInflater inflater = (LayoutInflater) getActivity().getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
+        LayoutInflater inflater = (LayoutInflater) getActivity().getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
-            final View dialogView = inflater.inflate(R.layout.modal_reset_password_confirm, null);
-            builder.setView(dialogView);
+        final View dialogView = inflater.inflate(R.layout.modal_reset_password_confirm, null);
+        builder.setView(dialogView);
 
-            builder.setPositiveButton(getResources().getString(R.string.reset_password_button), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    FirebaseAuth.getInstance().sendPasswordResetEmail(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-                    Toast.makeText(getActivity(), getResources().getString(R.string.reset_email_confirm) + FirebaseAuth.getInstance().getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
-                    dialog.dismiss();
-                }
-            });
+        builder.setPositiveButton(getResources().getString(R.string.reset_password_button), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseAuth.getInstance().sendPasswordResetEmail(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                Toast.makeText(getActivity(), getResources().getString(R.string.reset_email_confirm) + FirebaseAuth.getInstance().getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
+                dialog.dismiss();
+            }
+        });
 
-            builder.show();
+        builder.show();
     }
 
-    public void signOut(){
+    public void signOut() {
         getActivity().finish();
         FirebaseAuth.getInstance().signOut();
     }
 
-    private void createApproveUsersButton(View view){
+    private void createApproveUsersButton(View view) {
         final Button approveUsers = (Button) view.findViewById(R.id.approveUsers);
 
         //Following code sets the button to only show when user is an ADMIN
@@ -239,10 +248,9 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.getValue().equals(UserRole.ADMIN.toString())){
+                if (dataSnapshot.getValue().equals(UserRole.ADMIN.toString())) {
                     approveUsers.setVisibility(View.VISIBLE);
-                }
-                else{
+                } else {
                     approveUsers.setVisibility(View.GONE);
                 }
             }
@@ -257,13 +265,13 @@ public class SettingsFragment extends Fragment {
         approveUsers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               switchToApproveUsersFragment(view);
+                switchToApproveUsersFragment(view);
             }
         });
     }
 
 
-    private void switchToApproveUsersFragment(View view){
+    private void switchToApproveUsersFragment(View view) {
         ApproveUsersFragment approveUsers = new ApproveUsersFragment();
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -272,7 +280,7 @@ public class SettingsFragment extends Fragment {
         transaction.commit();
     }
 
-    private void createAboutModal(){
+    private void createAboutModal() {
         //builder
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getResources().getString(R.string.about));
@@ -282,6 +290,27 @@ public class SettingsFragment extends Fragment {
 
         final View dialogView = inflater.inflate(R.layout.modal_about, null);
         builder.setView(dialogView);
+
+        builder.show();
+    }
+
+    private void generateDummyData() {
+        //builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Generate Dummy Data");
+
+        LayoutInflater inflater = (LayoutInflater) getActivity().getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        final View dialogView = inflater.inflate(R.layout.modal_generate_dummy_data, null);
+        builder.setView(dialogView);
+
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DummyDataGenerator generator = new DummyDataGenerator(getContext());
+                generator.generateData();
+            }
+        });
 
         builder.show();
     }

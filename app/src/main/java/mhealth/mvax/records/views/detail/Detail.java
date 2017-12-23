@@ -69,7 +69,7 @@ public abstract class Detail<T> {
      *
      * @param valueView the View on which the listener is attached
      */
-    public abstract void setValueViewListener(EditText valueView);
+    public abstract void valueViewListener(EditText valueView);
 
     /**
      * Perform setup operations on the View displaying the value

@@ -101,7 +101,7 @@ public class SINOVA2Builder {
 
         //FIREBASE RECORD FETCHING:
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref = ref.child(context.getResources().getString(R.string.masterTable)).child(context.getResources().getString(R.string.vaccinationsTable));
+        ref = ref.child(context.getResources().getString(R.string.dataTable)).child(context.getResources().getString(R.string.vaccinationsTable));
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -175,7 +175,7 @@ public class SINOVA2Builder {
         final String uid = records.get(row - 1).getPatientUID();
 
         DatabaseReference patients = FirebaseDatabase.getInstance().getReference()
-                .child(context.getResources().getString(R.string.masterTable))
+                .child(context.getResources().getString(R.string.dataTable))
                 .child(context.getResources().getString(R.string.recordTable));
 
         patients.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {

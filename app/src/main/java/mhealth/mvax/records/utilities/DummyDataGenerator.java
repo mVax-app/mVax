@@ -25,14 +25,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.record.DueDate;
 import mhealth.mvax.model.record.Guardian;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.model.record.Sex;
 import mhealth.mvax.model.record.Dose;
+import mhealth.mvax.model.record.Vaccination;
 import mhealth.mvax.model.record.Vaccine;
 
 /**
@@ -53,22 +54,34 @@ public class DummyDataGenerator {
     private String mVaccinationTable;
     private String mDueDateTable;
 
+    private String mPatientDatabaseKey;
+    private String mDoseDatabaseKey;
+    private String mDueVaccineDatabaseKey;
+
     public DummyDataGenerator(Context context) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mMasterTable = context.getString(R.string.masterTable);
+        mMasterTable = context.getString(R.string.dataTable);
         mPatientTable = context.getString(R.string.patientTable);
         mGuardianTable = context.getString(R.string.guardianTable);
         mVaccineTable = context.getString(R.string.vaccineTable);
         mDoseTable = context.getString(R.string.doseTable);
         mVaccinationTable = context.getString(R.string.vaccinationTable);
-        mDueDateTable = context.getString(R.string.dueDateTable);
+        mDueDateTable = context.getString(R.string.dueDatesTable);
+        mDatabase.child(mMasterTable).setValue(null);
     }
 
-    public void generatePatientData() {
+    public void generateData() {
+        generatePatientData();
+        generateVaccineData();
+        generateVaccinationData();
+    }
+
+    private void generatePatientData() {
         DatabaseReference patientRef = mDatabase.child(mMasterTable).child(mPatientTable).push();
         DatabaseReference parentRef = mDatabase.child(mMasterTable).child(mGuardianTable).push();
 
         Patient rob = new Patient(patientRef.getKey());
+        mPatientDatabaseKey = rob.getDatabaseKey();
         rob.setMedicalID("64573829174");
         rob.setFirstName("Robert");
         rob.setMiddleName("Hays");
@@ -94,44 +107,70 @@ public class DummyDataGenerator {
         parentRef.setValue(matt);
     }
 
-    public void generateVaccineData() {
+    private void generateVaccineData() {
 
         DatabaseReference vaccineRef = mDatabase.child(mMasterTable).child(mVaccineTable).push();
         DatabaseReference dose1Ref = mDatabase.child(mMasterTable).child(mDoseTable).push();
         DatabaseReference dose2Ref = mDatabase.child(mMasterTable).child(mDoseTable).push();
         DatabaseReference dose3Ref = mDatabase.child(mMasterTable).child(mDoseTable).push();
 
-        Vaccine hepB = new Vaccine();
-        hepB.setDatabaseKey(vaccineRef.getKey());
+        Vaccine hepB = new Vaccine(vaccineRef.getKey());
+        mDueVaccineDatabaseKey = hepB.getDatabaseKey();
         hepB.setName("Hepatitis B");
         hepB.setTargetCount(400);
         hepB.setGivenCount(100);
-        hepB.setDoses(new ArrayList<>(Arrays.asList(dose1Ref.getKey(), dose2Ref.getKey(), dose3Ref.getKey())));
-        vaccineRef.setValue(hepB);
+//        hepB.setDoses(new ArrayList<>(Arrays.asList(dose1Ref.getKey(), dose2Ref.getKey(), dose3Ref.getKey())));
+//        vaccineRef.setValue(hepB);
 
-        Dose hepB1 = new Dose();
-        hepB1.setDatabaseKey(dose1Ref.getKey());
-        hepB1.setVaccineDatabaseKey(vaccineRef.getKey());
+        Dose hepB1 = new Dose(dose1Ref.getKey());
+//        hepB1.setVaccineDatabaseKey(vaccineRef.getKey());
         hepB1.setFormCode("HEPB_DU_1");
         hepB1.setLabel1("1");
         hepB1.setLabel2("PRI");
-        dose1Ref.setValue(hepB1);
+//        dose1Ref.setValue(hepB1);
 
-        Dose hepB2 = new Dose();
-        hepB2.setDatabaseKey(dose2Ref.getKey());
-        hepB2.setVaccineDatabaseKey(vaccineRef.getKey());
+        Dose hepB2 = new Dose(dose2Ref.getKey());
+        mDoseDatabaseKey = hepB2.getDatabaseKey();
+//        hepB2.setVaccineDatabaseKey(vaccineRef.getKey());
         hepB2.setFormCode("HEPB_DU_1");
         hepB2.setLabel1("2");
         hepB2.setLabel2("SEG");
-        dose2Ref.setValue(hepB2);
+//        dose2Ref.setValue(hepB2);
 
-        Dose hepB3 = new Dose();
-        hepB3.setDatabaseKey(dose3Ref.getKey());
-        hepB3.setVaccineDatabaseKey(vaccineRef.getKey());
+        Dose hepB3 = new Dose(dose3Ref.getKey());
+//        hepB3.setVaccineDatabaseKey(vaccineRef.getKey());
         hepB3.setFormCode("HEPB_DU_1");
         hepB3.setLabel1("3");
         hepB3.setLabel2("SEG");
-        dose3Ref.setValue(hepB3);
+//        dose3Ref.setValue(hepB3);
+
+        hepB.addDoses(hepB1, hepB2, hepB3);
+        vaccineRef.setValue(hepB);
+
+    }
+
+    private void generateVaccinationData() {
+        DatabaseReference vaccinationRef = mDatabase.child(mMasterTable).child(mVaccinationTable).push();
+
+        Vaccination vaccination = new Vaccination(vaccinationRef.getKey(), mPatientDatabaseKey, mDoseDatabaseKey, 823237200000L);
+        vaccinationRef.setValue(vaccination);
+
+        vaccinationRef = mDatabase.child(mMasterTable).child(mVaccinationTable).push();
+        Vaccination badVaccination = new Vaccination("badRef", "badPatient", "badDose", 823237200000L);
+        vaccinationRef.setValue(badVaccination);
+
+        generateDueDateData();
+    }
+
+    private void generateDueDateData() {
+        DatabaseReference dueDateRef = mDatabase.child(mMasterTable).child(mDueDateTable).push();
+
+        DueDate dueDate = new DueDate(dueDateRef.getKey(), mPatientDatabaseKey, mDueVaccineDatabaseKey, 823237200000L);
+        dueDateRef.setValue(dueDate);
+
+        dueDateRef = mDatabase.child(mMasterTable).child(mDueDateTable).push();
+        DueDate badDueDate = new DueDate("badRef", "badPatient", "badVaccine", 823637200000L);
+        dueDateRef.setValue(badDueDate);
     }
 
 }

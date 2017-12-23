@@ -26,6 +26,7 @@ import com.google.firebase.database.Exclude;
 import java.util.ArrayList;
 import java.util.List;
 
+import mhealth.mvax.R;
 import mhealth.mvax.records.views.detail.Detail;
 
 /**
@@ -59,5 +60,19 @@ public class Guardian extends Person {
     @Override
     public List<Detail> getDetails(Context context) {
         return getPersonDetails(context);
+    }
+
+    @Override
+    public int getSectionTitleStringID() {
+        return R.string.guardian_detail_section_title;
+    }
+
+
+    public void addDependent(Patient dependent) {
+        dependents.add(dependent.getDatabaseKey());
+    }
+
+    public void addDependent(String databaseKey) {
+        dependents.add(databaseKey);
     }
 }

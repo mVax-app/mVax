@@ -37,18 +37,19 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Guardian;
 import mhealth.mvax.model.record.Patient;
-import mhealth.mvax.model.record.Record;
+import mhealth.mvax.model.record.Person;
 import mhealth.mvax.records.details.DetailFragment;
 import mhealth.mvax.records.details.RecordTab;
 import mhealth.mvax.records.details.patient.PatientDataAdapter;
-import mhealth.mvax.records.details.patient.modify.edit.EditPatientDataFragment;
+import mhealth.mvax.records.details.patient.modify.edit.EditPatientFragment;
+import mhealth.mvax.records.utilities.FirebaseJobs;
+import mhealth.mvax.records.utilities.RecordJobs;
 import mhealth.mvax.records.views.detail.Detail;
 
 /**
@@ -70,6 +71,8 @@ public class PatientDataTab extends Fragment implements RecordTab {
     private PatientDataAdapter mAdapter;
     private Patient mPatient;
     private Guardian mGuardian;
+    private DatabaseReference mPatientRef;
+    private DatabaseReference mGuardianRef;
 
     //================================================================================
     // Static methods
@@ -100,7 +103,8 @@ public class PatientDataTab extends Fragment implements RecordTab {
 
     @Override
     public void onDestroyView() {
-        // kill listeners
+        mPatientRef.removeEventListener(mPatientListener);
+        mGuardianRef.removeEventListener(mGuardianListener);
         super.onDestroyView();
     }
 
@@ -116,32 +120,33 @@ public class PatientDataTab extends Fragment implements RecordTab {
     public void render() {
         setRecordName();
 
-        LinkedHashMap<String, List<Detail>> details = new LinkedHashMap<>();
+        LinkedHashMap<String, List<Detail>> sectionedDetails = RecordJobs.getSectionedDetails(getContext(), mPatient, mGuardian);
+        mAdapter = new ViewPatientDataAdapter(getContext(), sectionedDetails);
 
-        details.put(getContext().getString(R.string.patient_detail_section_title), mPatient.getDetails(getContext()));
-        details.put(getContext().getString(R.string.guardian_detail_section_title), mGuardian.getDetails(getContext()));
 
-        mAdapter = new ViewPatientDataAdapter(getContext(), details);
         ListView detailsListView = mView.findViewById(R.id.details_list_view);
         detailsListView.setAdapter(mAdapter);
 
         addEditButton(detailsListView);
-        addDeleteButton(detailsListView);
+        renderDeleteButton(detailsListView);
     }
 
     /**
      * Update record details after they have already been initialized
      * via renderRecordDetails()
      *
-     * @param patient contains the patient data with which to update details
+     * @param updatedPerson contains the patient data with which to update details
      */
-    public void update(Patient patient) {
-
-//        mRecord = record;
-//        setRecordName();
-//        mAdapter.refresh(record.getSectionedAttributes(getContext()));
+    public void update(Person updatedPerson) {
+        if (updatedPerson instanceof Patient) {
+            mPatient = (Patient) updatedPerson;
+            setRecordName();
+        } else if (updatedPerson instanceof Guardian) {
+            mGuardian = (Guardian) updatedPerson;
+        }
+        LinkedHashMap<String, List<Detail>> sectionedDetails = RecordJobs.getSectionedDetails(getContext(), mPatient, mGuardian);
+        mAdapter.refresh(sectionedDetails);
     }
-
 
     //================================================================================
     // Private methods
@@ -158,12 +163,13 @@ public class PatientDataTab extends Fragment implements RecordTab {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                // TODO
+                Patient updatedPatient = dataSnapshot.getValue(Patient.class);
+                update(updatedPatient);
+                Toast.makeText(getActivity(), R.string.patient_update, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                // TODO test this
                 getActivity().onBackPressed(); // transition back to search
             }
 
@@ -173,14 +179,18 @@ public class PatientDataTab extends Fragment implements RecordTab {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), R.string.unsuccessful_record_download, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.failure_patient_download, Toast.LENGTH_SHORT).show();
             }
         };
 
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        String masterTable = getResources().getString(R.string.masterTable);
+        String masterTable = getResources().getString(R.string.dataTable);
         String patientTable = getResources().getString(R.string.patientTable);
-        db.child(masterTable).child(patientTable)
+
+        mPatientRef = FirebaseDatabase.getInstance().getReference()
+                .child(masterTable)
+                .child(patientTable);
+
+        mPatientRef
                 .orderByKey()
                 .equalTo(databaseKey)
                 .addChildEventListener(mPatientListener);
@@ -191,13 +201,14 @@ public class PatientDataTab extends Fragment implements RecordTab {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 mGuardian = dataSnapshot.getValue(Guardian.class);
-                // TODO test for patient with no guardian
                 render();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                // TODO
+                Guardian updatedGuardian = dataSnapshot.getValue(Guardian.class);
+                update(updatedGuardian);
+                Toast.makeText(getActivity(), R.string.guardian_update, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -217,10 +228,14 @@ public class PatientDataTab extends Fragment implements RecordTab {
             }
         };
 
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        String masterTable = getResources().getString(R.string.masterTable);
+        String masterTable = getResources().getString(R.string.dataTable);
         String guardianTable = getResources().getString(R.string.guardianTable);
-        db.child(masterTable).child(guardianTable)
+
+        mGuardianRef = FirebaseDatabase.getInstance().getReference()
+                .child(masterTable)
+                .child(guardianTable);
+
+        mGuardianRef
                 .orderByKey()
                 .equalTo(databaseKey)
                 .addChildEventListener(mGuardianListener);
@@ -244,20 +259,14 @@ public class PatientDataTab extends Fragment implements RecordTab {
                 getActivity().getSupportFragmentManager().popBackStack();
 
                 // add "-> Detail" to back stack
-                DetailFragment onBackFrag = DetailFragment.newInstance();
-                Bundle args = new Bundle();
-                args.putString("recordId", mPatient.getDatabaseKey());
-                onBackFrag.setArguments(args);
+                DetailFragment onBackFrag = DetailFragment.newInstance(mPatient.getDatabaseKey());
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame_layout, onBackFrag)
                         .addToBackStack(null)
                         .commit();
 
                 // transition to edit patient data fragment
-                EditPatientDataFragment editDataFrag = EditPatientDataFragment.newInstance();
-                args = new Bundle();
-                args.putSerializable("record", mPatient);
-                editDataFrag.setArguments(args);
+                EditPatientFragment editDataFrag = EditPatientFragment.newInstance(mPatient, mGuardian);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame_layout, editDataFrag)
                         .addToBackStack(null)
@@ -268,7 +277,7 @@ public class PatientDataTab extends Fragment implements RecordTab {
         vaccineListView.addHeaderView(editButton);
     }
 
-    private void addDeleteButton(ListView vaccineListView) {
+    private void renderDeleteButton(ListView vaccineListView) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         Button deleteButton = (Button) inflater.inflate(R.layout.button_delete_record, null);
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -301,11 +310,8 @@ public class PatientDataTab extends Fragment implements RecordTab {
     }
 
     private void deleteCurrentRecord() {
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        String masterTable = getResources().getString(R.string.masterTable);
-        String recordTable = getResources().getString(R.string.recordTable);
-        db.child(masterTable).child(recordTable).child(mPatient.getDatabaseKey()).setValue(null);
-        getActivity().onBackPressed(); // deleted the current record, so end the activity
+        FirebaseJobs.deleteRecord(mPatient);
+        // segue out of patient detail handled by Firebase listener
     }
 
 }

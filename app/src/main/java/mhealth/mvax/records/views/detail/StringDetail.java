@@ -20,8 +20,9 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.records.views.detail;
 
 import android.content.Context;
+import android.text.Editable;
 import android.text.InputType;
-import android.view.View;
+import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -48,7 +49,7 @@ public class StringDetail extends Detail<String> {
     //================================================================================
 
     @Override
-    public void setValueViewListener(EditText valueView) {
+    public void valueViewListener(EditText valueView) {
         valueView.requestFocus();
         // force keyboard to pop up
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -57,16 +58,22 @@ public class StringDetail extends Detail<String> {
     }
 
     @Override
-    public void configureValueView(EditText valueView) {
+    public void configureValueView(final EditText valueView) {
         // auto-capitalize every word
         valueView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        valueView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+        valueView.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (!hasFocus) {
-                    EditText val = (EditText) view;
-                    updateValue(val.getText().toString());
-                }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                updateValue(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
             }
         });
     }

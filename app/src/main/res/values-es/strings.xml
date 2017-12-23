@@ -119,5 +119,6 @@
     <string name="bass_project_leader_title">Facultad:</string>
     <string name="bass_development_title">Equipo de Desarrollo:</string>
     <string name="bass_global_health_title">Equipo de Salud Global:</string>
+    <string name="dummy_data">Generate Test Data</string>
 
 </resources>

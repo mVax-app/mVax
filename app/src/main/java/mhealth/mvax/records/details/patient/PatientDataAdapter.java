@@ -70,11 +70,6 @@ public abstract class PatientDataAdapter extends BaseAdapter {
     @Override
     abstract public View getView(int position, View rowView, ViewGroup viewGroup);
 
-    public static class ViewHolder {
-        public TextView fieldView;
-        public EditText valueView;
-    }
-
     //================================================================================
     // Override methods
     //================================================================================

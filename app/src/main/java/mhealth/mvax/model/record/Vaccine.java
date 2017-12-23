@@ -43,7 +43,11 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     // Constructors
     //================================================================================
 
-    public Vaccine() {
+    private Vaccine() {
+    }
+
+    public Vaccine(String databaseKey) {
+        this.databaseKey = databaseKey;
     }
 
     //================================================================================
@@ -104,13 +108,13 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
      * Array containing the vaccine's doses,
      * represented by their unique database keys
      */
-    private List<String> doses;
+    private List<Dose> doses = new ArrayList<>();
 
-    public ArrayList<String> getDoses() {
+    public ArrayList<Dose> getDoses() {
         return new ArrayList<>(this.doses);
     }
 
-    public void setDoses(List<String> doses) {
+    public void setDoses(List<Dose> doses) {
         this.doses = doses;
     }
 
@@ -123,13 +127,13 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
      *
      * @param dose the new dose to add
      */
-    public void addDose(Dose dose) {
-        doses.add(dose.getDatabaseKey());
+    public void addDoses(Dose... doses) {
+        Collections.addAll(this.doses, doses);
     }
 
-    public void addDose(String dose) {
-        doses.add(dose);
-    }
+//    public void addDose(String dose) {
+//        doses.add(dose);
+//    }
 
     @Override
     public int compareTo(@NonNull Vaccine that) {

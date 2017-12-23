@@ -100,7 +100,7 @@ public class SINOVABuilder {
 
         //FIREBASE RECORD FETCHING:
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref = ref.child(context.getResources().getString(R.string.masterTable)).child(context.getResources().getString(R.string.vaccinationsTable));
+        ref = ref.child(context.getResources().getString(R.string.dataTable)).child(context.getResources().getString(R.string.vaccinationsTable));
 
         //The following listener queries for all records of the day and adds them to instance variable, records
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -176,7 +176,7 @@ public class SINOVABuilder {
         final String uid = records.get(row - 1).getPatientUID();
 
         DatabaseReference patients = FirebaseDatabase.getInstance().getReference()
-                .child(context.getResources().getString(R.string.masterTable))
+                .child(context.getResources().getString(R.string.dataTable))
                 .child(context.getResources().getString(R.string.recordTable));
 
             //PATIENT SPECIFIC DATA

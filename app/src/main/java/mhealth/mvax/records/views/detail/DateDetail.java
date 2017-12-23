@@ -53,7 +53,7 @@ public class DateDetail extends Detail<Long> {
     //================================================================================
 
     @Override
-    public void setValueViewListener(final EditText valueView) {
+    public void valueViewListener(final EditText valueView) {
         // TODO generalize this to a date dialog class
         final Context context = getContext();
 

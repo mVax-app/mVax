@@ -20,6 +20,7 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.records.details;
 
 import mhealth.mvax.model.record.Patient;
+import mhealth.mvax.model.record.Person;
 
 /**
  * @author Robert Steilberg
@@ -42,6 +43,6 @@ public interface RecordTab {
      * @param patient the new patient with which to update
      *                      the view
      */
-    void update(Patient patient);
+    void update(Person person);
 
 }

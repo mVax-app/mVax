@@ -36,12 +36,16 @@ import android.widget.TextView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.record.DueDate;
 import mhealth.mvax.model.record.Record;
 import mhealth.mvax.model.record.Dose;
+import mhealth.mvax.model.record.Vaccination;
 import mhealth.mvax.model.record.Vaccine;
 import mhealth.mvax.records.details.patient.RecordDateFormat;
 import mhealth.mvax.records.views.DoseDateView;
@@ -64,19 +68,26 @@ class VaccineAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
     private Context mContext;
-    private List<Vaccine> mDataSource;
-    private Record mCurrRecord;
 
+    private List<Vaccine> mDataSource;
+
+    private HashMap<String, Vaccine> mVaccines;
+    private HashMap<String, Vaccination> mVaccinations;
+    private HashMap<String, DueDate> mDueDates;
+    private String mPatientKey;
+    private Record mCurrRecord;
 
     //================================================================================
     // Constructors
     //================================================================================
 
-    VaccineAdapter(Context context, Record currRecord) {
+    VaccineAdapter(Context context, String patientKey, HashMap<String, Vaccine> vaccines, HashMap<String, Vaccination> vaccinations, HashMap<String, DueDate> dueDate) {
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContext = context;
-        mDataSource = currRecord.getVaccines();
-        mCurrRecord = currRecord;
+        mDataSource = new ArrayList<>(vaccines.values());
+        mVaccinations = vaccinations;
+        mDueDates = dueDate;
+        mPatientKey = patientKey;
     }
 
 
@@ -139,9 +150,8 @@ class VaccineAdapter extends BaseAdapter {
      *
      * @param updatedRecord the updated Record
      */
-    public void refresh(Record updatedRecord) {
-        mCurrRecord = updatedRecord;
-        mDataSource = updatedRecord.getVaccines();
+    public void refresh(HashMap<String, Vaccination> vaccinations) {
+        mVaccinations = vaccinations;
         notifyDataSetChanged();
     }
 
@@ -151,10 +161,10 @@ class VaccineAdapter extends BaseAdapter {
     //================================================================================
 
     private void renderDoses(Context rowContext, LinearLayout layout, Vaccine vaccine) {
-        layout.addView(getDueDateLinearLayout(rowContext, vaccine));
-//        for (Dose dose : vaccine.getDoses()) {
-//            layout.addView(getDoseLinearLayout(dose, rowContext));
-//        }
+//        layout.addView(getDueDateLinearLayout(rowContext, vaccine));
+        for (Dose dose : vaccine.getDoses()) {
+            layout.addView(getDoseLinearLayout(dose, rowContext));
+        }
     }
 
     private LinearLayout getDueDateLinearLayout(Context rowContext, Vaccine vaccine) {
@@ -206,7 +216,7 @@ class VaccineAdapter extends BaseAdapter {
         return dueDateLinearLayout;
     }
 
-    private LinearLayout getDoseLinearLayout(Dose dose, Context rowContext) {
+    private LinearLayout getDoseLinearLayout(final Dose dose, Context rowContext) {
         // create LinearLayout to hold the label and date for each dose
         LinearLayout doseLinearLayout = new LinearLayout(rowContext);
         doseLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(
@@ -237,7 +247,13 @@ class VaccineAdapter extends BaseAdapter {
         dateView.setTextSize(22);
 
         RecordDateFormat dateFormat = new RecordDateFormat(mContext.getString(R.string.date_format));
-//        dateView.setText(dateFormat.getString(dose.getDateCompleted()));
+
+
+        if (mVaccinations.containsKey(dose.getDatabaseKey())) {
+            String date = dateFormat.getString(mVaccinations.get(dose.getDatabaseKey()).getDate());
+            dateView.setText(date);
+        }
+
 
         GradientDrawable gd = new GradientDrawable();
         gd.setColor(Color.LTGRAY);
@@ -245,7 +261,7 @@ class VaccineAdapter extends BaseAdapter {
         dateView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View dateView) {
-                newDosePrompt((DoseDateView) dateView);
+                promptForDoseDate(dose.getDatabaseKey());
             }
         });
 
@@ -261,8 +277,8 @@ class VaccineAdapter extends BaseAdapter {
      *
      * @param view is the DoseDateView object that displays the dose date
      */
-    private void newDosePrompt(final DoseDateView view) {
-        final DoseDateView dateView = view;
+    private void promptForDoseDate(final String doseDatabaseKey) {
+//        final DoseDateView dateView = view;
         // TODO generalize this modal somewhere
         // create modal
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -279,9 +295,28 @@ class VaccineAdapter extends BaseAdapter {
                 cal.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
                 cal.set(Calendar.MONTH, datePicker.getMonth());
                 cal.set(Calendar.YEAR, datePicker.getYear());
-                // cal.getTimeInMillis() gets the date chosen
-//                updateDueDate(dateView.getVaccine(), cal.getTimeInMillis());
-                updateDose(dateView.getDose(), cal.getTimeInMillis());
+                final Long date = cal.getTimeInMillis();
+
+                String masterTable = mContext.getString(R.string.dataTable);
+                String vaccinationsTable = mContext.getString(R.string.vaccinationsTable);
+                DatabaseReference db = FirebaseDatabase.getInstance().getReference()
+                        .child(masterTable)
+                        .child(vaccinationsTable);
+
+                Vaccination vaccination;
+                if (mVaccinations.containsKey(doseDatabaseKey)) {
+                    vaccination = mVaccinations.get(doseDatabaseKey);
+                    vaccination.setDate(date);
+                    db.child(vaccination.getDatabaseKey()).setValue(vaccination);
+
+                } else {
+                    // make a new vaccination and set it
+                    db = db.push();
+                    vaccination = new Vaccination(db.getKey(), mPatientKey, doseDatabaseKey, date);
+                    db.setValue(vaccination);
+                }
+
+
             }
         });
 
@@ -295,7 +330,10 @@ class VaccineAdapter extends BaseAdapter {
         builder.setNeutralButton(R.string.modal_new_dosage_neutral, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                updateDose(dateView.getDose(), null);
+                if (mVaccinations.containsKey(doseDatabaseKey)) {
+                    Vaccination v = mVaccinations.get(doseDatabaseKey);
+                    deleteVaccination(v);
+                }
             }
         });
 
@@ -328,7 +366,7 @@ class VaccineAdapter extends BaseAdapter {
                 cal.set(Calendar.YEAR, datePicker.getYear());
                 // cal.getTimeInMillis() gets the date chosen
                 updateDueDate(dateView.getVaccine(), cal.getTimeInMillis());
-//                updateDose(dateView.getDose(), cal.getTimeInMillis());
+//                setVaccination(dateView.getDose(), cal.getTimeInMillis());
             }
         });
 
@@ -351,20 +389,37 @@ class VaccineAdapter extends BaseAdapter {
 
 
 
-    private void updateDose(Dose dose, Long doseDate) {
-//        dose.setDateCompleted(doseDate);
-        pushRecordToDatabase();
-    }
+//    private void setVaccination(Dose dose, Long doseDate) {
+////        dose.setDateCompleted(doseDate);
+//        updateVaccination();
+//    }
 
     private void updateDueDate(Vaccine vaccine, Long dueDate) {
 //        vaccine.setDueDate(dueDate);
-        pushRecordToDatabase();
+//        updateVaccination();
     }
 
-    private void pushRecordToDatabase() {
+    private void setVaccination(Vaccination vaccination) {
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        String masterTable = mContext.getString(R.string.masterTable);
-        String recordTable = mContext.getString(R.string.recordTable);
-        db.child(masterTable).child(recordTable).child(mCurrRecord.getDatabaseId()).setValue(mCurrRecord);
+        String masterTable = mContext.getString(R.string.dataTable);
+        String vaccinationsTable = mContext.getString(R.string.vaccinationsTable);
+
+        db
+                .child(masterTable)
+                .child(vaccinationsTable)
+                .child(vaccination.getDatabaseKey())
+                .setValue(vaccination);
+    }
+
+    private void deleteVaccination(Vaccination vaccination) {
+        String masterTable = mContext.getString(R.string.dataTable);
+        String vaccinationsTable = mContext.getString(R.string.vaccinationsTable);
+
+        FirebaseDatabase.getInstance().getReference()
+                .child(masterTable)
+                .child(vaccinationsTable)
+                .child(vaccination.getDatabaseKey())
+                .setValue(null);
+
     }
 }

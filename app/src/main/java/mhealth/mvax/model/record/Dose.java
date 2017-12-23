@@ -41,7 +41,11 @@ public class Dose implements Serializable {
      * Default Firebase constructor; should not
      * be used internally
      */
-    public Dose() {
+    private Dose() {
+    }
+
+    public Dose (String databaseKey) {
+        this.databaseKey = databaseKey;
     }
 
     private String databaseKey;
@@ -54,15 +58,15 @@ public class Dose implements Serializable {
         this.databaseKey = databaseKey;
     }
 
-    private String vaccineDatabaseKey;
-
-    public String getVaccineDatabaseKey() {
-        return this.vaccineDatabaseKey;
-    }
-
-    public void setVaccineDatabaseKey(String vaccineDatabaseKey) {
-        this.vaccineDatabaseKey = vaccineDatabaseKey;
-    }
+//    private String vaccineDatabaseKey;
+//
+//    public String getVaccineDatabaseKey() {
+//        return this.vaccineDatabaseKey;
+//    }
+//
+//    public void setVaccineDatabaseKey(String vaccineDatabaseKey) {
+//        this.vaccineDatabaseKey = vaccineDatabaseKey;
+//    }
 
     private String formCode;
 

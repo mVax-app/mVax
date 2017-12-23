@@ -66,8 +66,12 @@ public class DetailFragment extends Fragment implements TabLayout.OnTabSelectedL
     // Static methods
     //================================================================================
 
-    public static DetailFragment newInstance() {
-        return new DetailFragment();
+    public static DetailFragment newInstance(String databaseKey) {
+        DetailFragment newInstance = new DetailFragment();
+        Bundle args = new Bundle();
+        args.putString("databaseKey", databaseKey);
+        newInstance.setArguments(args);
+        return newInstance;
     }
 
     //================================================================================
@@ -80,7 +84,7 @@ public class DetailFragment extends Fragment implements TabLayout.OnTabSelectedL
         mRecordDatabaseId = getArguments().getString("databaseKey");
         initTabs();
         mPatientDataTab = PatientDataTab.newInstance(mRecordDatabaseId);
-        mVaccineScheduleTab = VaccineScheduleTab.newInstance();
+        mVaccineScheduleTab = VaccineScheduleTab.newInstance(mRecordDatabaseId);
         initTabViews();
 
 //        initDatabase(mRecordDatabaseId);
