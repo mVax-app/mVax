@@ -32,9 +32,6 @@ import java.util.List;
  *         Object for storing information about mVax vaccines;
  *         sorts by vaccine name, implements Serializable
  *         so that it can be bassed as a Bundle argument to fragments
- *         <p>
- *         PLEASE READ DOCUMENTATION BEFORE ADDING, REMOVING,
- *         OR MODIFYING PROPERTIES
  */
 
 public class Vaccine implements Serializable, Comparable<Vaccine> {
@@ -44,6 +41,7 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     //================================================================================
 
     private Vaccine() {
+        // Firebase constructor
     }
 
     public Vaccine(String databaseKey) {
@@ -54,7 +52,9 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     // Properties
     //================================================================================
 
-
+    /**
+     * Unique Firebase database key representing the Vaccine
+     */
     private String databaseKey;
 
     public String getDatabaseKey() {
@@ -66,7 +66,7 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     }
 
     /**
-     * Name of the vaccine
+     * Vaccine name
      */
     private String name;
 
@@ -79,7 +79,7 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     }
 
     /**
-     * Target count for a single month
+     * Vaccine target administered count
      */
     private Integer targetCount;
 
@@ -92,7 +92,7 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     }
 
     /**
-     * Total count for a single month
+     * Vaccine total administered count
      */
     private Integer givenCount;
 
@@ -105,8 +105,8 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     }
 
     /**
-     * Array containing the vaccine's doses,
-     * represented by their unique database keys
+     * Array containing the vaccine's doses, each
+     * represented by its unique Firebase database key
      */
     private List<Dose> doses = new ArrayList<>();
 
@@ -119,24 +119,29 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     }
 
     //================================================================================
-    // Public Methods
+    // Public methods
     //================================================================================
 
     /**
-     * Adds a new dose to the vaccine's associated doses
+     * Adds new doses to the vaccine's associated doses
      *
-     * @param dose the new dose to add
+     * @param doses array of new doses to add
      */
     public void addDoses(Dose... doses) {
         Collections.addAll(this.doses, doses);
     }
 
-//    public void addDose(String dose) {
-//        doses.add(dose);
-//    }
-
+    /**
+     * Sorts Vaccines by name
+     * // TODO implement compareTo for multiple properties
+     *
+     * @param that Vaccine to sort against
+     * @return negative integer, zero, or a positive integer if this
+     * Vaccine is less than, equal to, or greater than that Vaccine
+     */
     @Override
     public int compareTo(@NonNull Vaccine that) {
         return this.name.compareTo(that.name);
     }
+
 }

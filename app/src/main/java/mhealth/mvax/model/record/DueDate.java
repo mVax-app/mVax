@@ -22,11 +22,17 @@ package mhealth.mvax.model.record;
 /**
  * @author Robert Steilberg
  *         <p>
- *         DESCRIPTION HERE
+ *         Stores data representing a due date associated
+ *         with a particular patient and vaccine
  */
 public class DueDate {
 
+    //================================================================================
+    // Constructors
+    //================================================================================
+
     private DueDate() {
+        // Firebase constructor
     }
 
     public DueDate(String databaseKey, String patientDatabaseKey, String vaccineDatabaseKey, Long dueDate) {
@@ -40,6 +46,9 @@ public class DueDate {
     // Properties
     //================================================================================
 
+    /**
+     * Unique Firebase database key representing the DueDate
+     */
     private String databaseKey;
 
     public String getDatabaseKey() {
@@ -50,6 +59,10 @@ public class DueDate {
         this.databaseKey = databaseKey;
     }
 
+    /**
+     * Unique Firebase database key representing DueDate's
+     * associated Patient
+     */
     private String patientDatabaseKey;
 
     public String getPatientDatabaseKey() {
@@ -60,6 +73,10 @@ public class DueDate {
         this.patientDatabaseKey = patientDatabaseKey;
     }
 
+    /**
+     * Unique Firebase database key representing the
+     * DueDate's associated Vaccine
+     */
     private String vaccineDatabaseKey;
 
     public String getVaccineDatabaseKey() {
@@ -70,6 +87,9 @@ public class DueDate {
         this.vaccineDatabaseKey = vaccineDatabaseKey;
     }
 
+    /**
+     * Due date, represented as milliseconds since Unix epoch
+     */
     private Long dueDate;
 
     public Long getDueDate() {
@@ -79,6 +99,5 @@ public class DueDate {
     public void setDueDate(Long dueDate) {
         this.dueDate = dueDate;
     }
-
 
 }

@@ -33,22 +33,31 @@ import mhealth.mvax.records.views.detail.StringNumberDetail;
 /**
  * @author Robert Steilberg
  *         <p>
- *         Data structure representing a Patient, for which
- *         immunization and other medical data is recorded
+ *         Extends Person to store additional information
+ *         and define functionality specific to a Patient
  */
 public class Patient extends Person {
 
-//    // TODO comment
+    //================================================================================
+    // Constructors
+    //================================================================================
+
     private Patient() {
+        super(null);
+        // Firebase constructor
     }
 
     public Patient(String databaseKey) {
-        this.databaseKey = databaseKey;
+        super(databaseKey);
     }
 
+    //================================================================================
+    // Properties
+    //================================================================================
+
     /**
-     * Unique Firebase key of the patient's primary
-     * guardian
+     * Unique Firebase key representing the
+     * patient's primary guardian
      */
     private String guardianDatabaseKey;
 
@@ -56,13 +65,13 @@ public class Patient extends Person {
         return this.guardianDatabaseKey;
     }
 
-    public void setGuardianDatabaseID(String guardianDatabaseKey) {
+    public void setGuardianDatabaseKey(String guardianDatabaseKey) {
         this.guardianDatabaseKey = guardianDatabaseKey;
     }
 
     /**
-     * Patient date of birth, stored as
-     * milliseconds since Unix epoch
+     * Patient date of birth, represented as milliseconds
+     * since Unix epoch
      */
     private Long DOB;
 
@@ -75,9 +84,9 @@ public class Patient extends Person {
     }
 
     /**
-     * Patient's residential community
+     * Patient residential community
      */
-    private String community;
+    private String community = "";
 
     public String getCommunity() {
         return this.community;
@@ -88,9 +97,9 @@ public class Patient extends Person {
     }
 
     /**
-     * Patient's place of birth
+     * Patient place of birth
      */
-    private String placeOfBirth;
+    private String placeOfBirth = "";
 
     public String getPlaceOfBirth() {
         return this.placeOfBirth;
@@ -101,9 +110,9 @@ public class Patient extends Person {
     }
 
     /**
-     * Patient's address
+     * Patient address
      */
-    private String address;
+    private String address = "";
 
     public String getAddress() {
         return this.address;
@@ -117,7 +126,7 @@ public class Patient extends Person {
      * Phone number for contacting the patient
      * or their guardian
      */
-    private String phoneNumber;
+    private String phoneNumber = "";
 
     public String getPhoneNumber() {
         return this.phoneNumber;
@@ -127,16 +136,19 @@ public class Patient extends Person {
         this.phoneNumber = phoneNumber;
     }
 
+    //================================================================================
+    // Computed functions
+    //================================================================================
+
     @Override
     public List<Detail> getDetails(Context context) {
-        ArrayList<Detail> details = new ArrayList<>();
-        details.addAll(getPersonDetails(context));
+        ArrayList<Detail> details = new ArrayList<>(getPersonDetails(context));
 
         // date of birth
         final DateDetail dobDetail = new DateDetail(
-                context.getResources().getString(R.string.label_dob),
-                context.getResources().getString(R.string.hint_dob),
                 this.DOB,
+                context.getString(R.string.label_dob),
+                context.getString(R.string.hint_dob),
                 context);
         dobDetail.setSetter(new Runnable() {
             @Override
@@ -148,9 +160,9 @@ public class Patient extends Person {
 
         // community
         final StringDetail communityDetail = new StringDetail(
+                this.community,
                 context.getResources().getString(R.string.label_community),
                 context.getResources().getString(R.string.hint_community),
-                this.community,
                 context);
         communityDetail.setSetter(new Runnable() {
             @Override
@@ -162,9 +174,9 @@ public class Patient extends Person {
 
         // place of birth
         final StringDetail placeOfBirthDetail = new StringDetail(
+                this.placeOfBirth,
                 context.getResources().getString(R.string.label_pob),
                 context.getResources().getString(R.string.hint_pob),
-                this.placeOfBirth,
                 context);
         placeOfBirthDetail.setSetter(new Runnable() {
             @Override
@@ -176,9 +188,9 @@ public class Patient extends Person {
 
         // address
         final StringDetail addressDetail = new StringDetail(
+                this.address,
                 context.getResources().getString(R.string.label_address),
                 context.getResources().getString(R.string.hint_address),
-                this.address,
                 context);
         addressDetail.setSetter(new Runnable() {
             @Override
@@ -190,9 +202,9 @@ public class Patient extends Person {
 
         // phone number
         final StringNumberDetail phoneNumberDetail = new StringNumberDetail(
+                this.phoneNumber,
                 context.getResources().getString(R.string.label_phone_number),
                 context.getResources().getString(R.string.hint_phone_number),
-                this.phoneNumber,
                 context);
         phoneNumberDetail.setSetter(new Runnable() {
             @Override

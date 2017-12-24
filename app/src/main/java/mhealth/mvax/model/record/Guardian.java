@@ -32,17 +32,36 @@ import mhealth.mvax.records.views.detail.Detail;
 /**
  * @author Robert Steilberg
  *         <p>
- *         DESCRIPTION HERE
+ *         Extends Person to store additional information
+ *         and define functionality specific to a Guardian
  */
 public class Guardian extends Person {
 
-    private Guardian() {}
+    //================================================================================
+    // Constructors
+    //================================================================================
 
-    public Guardian(String databaseKey) {
-        this.databaseKey = databaseKey;
-        dependents = new ArrayList<>();
+    private Guardian() {
+        super(null);
+        // Firebase constructor
     }
 
+    public Guardian(String databaseKey, String patientDatabaseKey) {
+        super(databaseKey);
+        // TODO determine if orphaned guardians should be allowed; if so,
+        // don't require patientDatabaseKey in constructor
+        this.dependents.add(patientDatabaseKey);
+    }
+
+    //================================================================================
+    // Properties
+    //================================================================================
+
+    /**
+     * List of unique Firebase database keys, each of
+     * which represents a Patient who is one of the
+     * Guardian's dependents
+     */
     private List<String> dependents = new ArrayList<>();
 
     public ArrayList<String> getDependents() {
@@ -53,12 +72,41 @@ public class Guardian extends Person {
         this.dependents = dependents;
     }
 
+    //================================================================================
+    // Computed functions
+    //================================================================================
+
+    @Exclude
     public Integer getNumDependents() {
         return this.dependents.size();
     }
 
+    /**
+     * Adds a Patient to the Guardian's list of patients,
+     * denoting the Patient as a dependent of the Guardian
+     *
+     * @param dependent Patient object representing the
+     *                  dependent
+     */
+    public void addDependent(Patient dependent) {
+        dependents.add(dependent.getDatabaseKey());
+    }
+
+    /**
+     * Adds a Patient to the Guardian's list of patients,
+     * denoting the Patient as a dependent of the Guardian
+     *
+     * @param dependentDatabaseKey Firebase unique database key
+     *                             representing the dependent
+     */
+    public void addDependent(String dependentDatabaseKey) {
+        dependents.add(dependentDatabaseKey);
+    }
+
     @Override
     public List<Detail> getDetails(Context context) {
+        // nothing additional to return past what is
+        // already included at the Person level
         return getPersonDetails(context);
     }
 
@@ -67,12 +115,4 @@ public class Guardian extends Person {
         return R.string.guardian_detail_section_title;
     }
 
-
-    public void addDependent(Patient dependent) {
-        dependents.add(dependent.getDatabaseKey());
-    }
-
-    public void addDependent(String databaseKey) {
-        dependents.add(databaseKey);
-    }
 }

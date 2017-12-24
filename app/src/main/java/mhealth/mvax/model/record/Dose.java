@@ -26,9 +26,7 @@ import java.io.Serializable;
 /**
  * @author Robert Steilberg
  *         <p>
- *         Object for storing information about mVax doses;
- *         implements Serializable so that it can be bassed as
- *         a Bundle argument to fragments
+ *         Object for storing information about mVax doses
  */
 
 public class Dose implements Serializable {
@@ -37,17 +35,21 @@ public class Dose implements Serializable {
     // Constructors
     //================================================================================
 
-    /**
-     * Default Firebase constructor; should not
-     * be used internally
-     */
     private Dose() {
+        // Firebase constructor
     }
 
-    public Dose (String databaseKey) {
+    public Dose(String databaseKey) {
         this.databaseKey = databaseKey;
     }
 
+    //================================================================================
+    // Properties
+    //================================================================================
+
+    /**
+     * Unique Firebase database key
+     */
     private String databaseKey;
 
     public String getDatabaseKey() {
@@ -58,16 +60,9 @@ public class Dose implements Serializable {
         this.databaseKey = databaseKey;
     }
 
-//    private String vaccineDatabaseKey;
-//
-//    public String getVaccineDatabaseKey() {
-//        return this.vaccineDatabaseKey;
-//    }
-//
-//    public void setVaccineDatabaseKey(String vaccineDatabaseKey) {
-//        this.vaccineDatabaseKey = vaccineDatabaseKey;
-//    }
-
+    /**
+     * Form code used by iText to populate PDF forms
+     */
     private String formCode;
 
     public String getFormCode() {
@@ -79,7 +74,7 @@ public class Dose implements Serializable {
     }
 
     /**
-     * The first label for the dose
+     * First label
      */
     private String label1;
 
@@ -92,7 +87,7 @@ public class Dose implements Serializable {
     }
 
     /**
-     * The second label for the dose, if there is one
+     * Second label
      */
     private String label2;
 
@@ -104,25 +99,20 @@ public class Dose implements Serializable {
         this.label2 = label2;
     }
 
-//    /**
-//     * The amount of time until the next dose in the
-//     * vaccine regimen should be administered
-//     */
-//    private Long mTimeUntilNextDose;
-//
-//    public Long getTimeUntilNextDose() {
-//        return this.mTimeUntilNextDose;
-//    }
-//
-//    public void setTimeUntilNextDose(Long millis) {
-//        this.mTimeUntilNextDose = millis;
-//    }
-
-
     //================================================================================
-    // Computed getters
+    // Computed methods
     //================================================================================
 
+    @Exclude
+    public void setLabels(String label1, String label2) {
+        this.label1 = label1;
+        this.label2 = label2;
+    }
+
+    /**
+     * @return String representing a label for the dose
+     * to be used in a UI
+     */
     @Exclude
     public String getLabel() {
         StringBuilder sb = new StringBuilder();
@@ -136,16 +126,6 @@ public class Dose implements Serializable {
             sb.append(":");
         }
         return sb.toString();
-    }
-
-    //================================================================================
-    // Computed setters
-    //================================================================================
-
-    @Exclude
-    public void setLabels(String label1, String label2) {
-        this.label1 = label1;
-        this.label2 = label2;
     }
 
 }

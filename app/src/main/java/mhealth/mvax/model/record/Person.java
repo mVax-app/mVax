@@ -19,7 +19,6 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.record;
 
-
 import android.content.Context;
 
 import java.io.Serializable;
@@ -35,17 +34,28 @@ import mhealth.mvax.records.views.detail.StringNumberDetail;
 /**
  * @author Robert Steilberg
  *         <p>
- *         Data structure representing the basic info for
- *         a person, which can be any person represented
- *         in the database
+ *         Abstract data structure representing the basic info for
+ *         a person, which is extended to create a specialized
+ *         data structure (i.e. Patient, Guardian)
  */
 public abstract class Person implements Serializable {
 
+    //================================================================================
+    // Constructors
+    //================================================================================
+
+    Person(String databaseKey) {
+        this.databaseKey = databaseKey;
+    }
+
+    //================================================================================
+    // Properties
+    //================================================================================
+
     /**
-     * Unique Firebase key generated through push();
-     * should be set in constructor
+     * Unique Firebase database key representing the Person
      */
-    String databaseKey = "";
+    private String databaseKey;
 
     public String getDatabaseKey() {
         return this.databaseKey;
@@ -133,10 +143,38 @@ public abstract class Person implements Serializable {
         this.sex = sex;
     }
 
+    //================================================================================
+    // Abstract methods
+    //================================================================================
+
+    /**
+     * Get List of Detail objects specific to the extending class
+     *
+     * @param context Android context for fetching String values
+     * @return List of Detail objects, ordered according to how they
+     * will be displayed after the List of Person Detail objects
+     */
+    public abstract List<Detail> getDetails(Context context);
 
 
+    /**
+     * @return String id of the String used for the section title
+     * in the patient details ListView
+     */
+    public abstract int getSectionTitleStringID();
 
+    //================================================================================
+    // Computed functions
+    //================================================================================
 
+    /**
+     * Computes a String to display the Person's name, in format
+     * firstSurname lastSurname, firstName middleName
+     *
+     * @param context Android context for fetching String values
+     * @return formatted String representing full name, or no_patient_name
+     * if the patient does not have a first surname
+     */
     public String getName(Context context) {
         if (firstSurname.equals("")) {
             return context.getString(R.string.no_patient_name);
@@ -149,14 +187,22 @@ public abstract class Person implements Serializable {
         return sb.toString();
     }
 
-    protected List<Detail> getPersonDetails(Context context) {
+    /**
+     * Computes a List of Detail objects that represent each property that
+     * the Person contains
+     *
+     * @param context Android context for fetching String values
+     * @return List of Detail objects, ordered according to how they
+     * will be displayed
+     */
+    List<Detail> getPersonDetails(Context context) {
         ArrayList<Detail> details = new ArrayList<>();
 
         // medical ID
         final StringNumberDetail medicalIdDetail = new StringNumberDetail(
-                context.getResources().getString(R.string.label_medicalID),
-                context.getResources().getString(R.string.hint_medicalID),
                 this.medicalID,
+                context.getString(R.string.label_medicalID),
+                context.getString(R.string.hint_medicalID),
                 context);
         medicalIdDetail.setSetter(new Runnable() {
             @Override
@@ -168,9 +214,9 @@ public abstract class Person implements Serializable {
 
         // first name
         final StringDetail firstNameDetail = new StringDetail(
+                this.firstName,
                 context.getResources().getString(R.string.label_firstname),
                 context.getResources().getString(R.string.hint_firstname),
-                this.firstName,
                 context);
         firstNameDetail.setSetter(new Runnable() {
             @Override
@@ -182,9 +228,9 @@ public abstract class Person implements Serializable {
 
         // patient middle name
         final StringDetail middleNameDetail = new StringDetail(
+                this.middleName,
                 context.getResources().getString(R.string.label_middlename),
                 context.getResources().getString(R.string.hint_middlename),
-                this.middleName,
                 context);
         middleNameDetail.setSetter(new Runnable() {
             @Override
@@ -196,9 +242,9 @@ public abstract class Person implements Serializable {
 
         // first surname
         final StringDetail firstSurnameDetail = new StringDetail(
+                this.firstSurname,
                 context.getResources().getString(R.string.label_first_surname),
                 context.getResources().getString(R.string.hint_first_surname),
-                this.firstSurname,
                 context);
         firstSurnameDetail.setSetter(new Runnable() {
             @Override
@@ -210,9 +256,9 @@ public abstract class Person implements Serializable {
 
         // last surname
         final StringDetail lastSurnameDetail = new StringDetail(
+                this.lastSurname,
                 context.getResources().getString(R.string.label_last_surname),
                 context.getResources().getString(R.string.hint_last_surname),
-                this.lastSurname,
                 context);
         lastSurnameDetail.setSetter(new Runnable() {
             @Override
@@ -224,9 +270,9 @@ public abstract class Person implements Serializable {
 
         // patient sex
         final SexDetail sexDetail = new SexDetail(
+                this.sex,
                 context.getResources().getString(R.string.label_sex),
                 context.getResources().getString(R.string.hint_sex),
-                this.sex,
                 context);
         sexDetail.setSetter(new Runnable() {
             @Override
@@ -238,10 +284,5 @@ public abstract class Person implements Serializable {
 
         return details;
     }
-
-    public abstract List<Detail> getDetails(Context context);
-
-
-    public abstract int getSectionTitleStringID();
 
 }

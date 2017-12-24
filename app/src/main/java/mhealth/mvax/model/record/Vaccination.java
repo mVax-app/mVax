@@ -24,7 +24,8 @@ import java.io.Serializable;
 /**
  * @author Robert Steilberg
  *         <p>
- *         DESCRIPTION HERE
+ *         Stores data representing a vaccination
+ *         associated with a particular patient and dose
  */
 public class Vaccination implements Serializable {
 
@@ -33,6 +34,7 @@ public class Vaccination implements Serializable {
     //================================================================================
 
     private Vaccination() {
+        // Firebase constructor
     }
 
     public Vaccination(String databaseKey, String patientDatabaseKey, String doseDatabaseKey, Long date) {
@@ -46,6 +48,9 @@ public class Vaccination implements Serializable {
     // Properties
     //================================================================================
 
+    /**
+     * Unique Firebase database key representing the Vaccination
+     */
     private String databaseKey;
 
     public String getDatabaseKey() {
@@ -56,7 +61,10 @@ public class Vaccination implements Serializable {
         this.databaseKey = databaseKey;
     }
 
-
+    /**
+     * Unique Firebase database key representing the
+     * Vaccination's associated Patient
+     */
     private String patientDatabaseKey;
 
     public String getPatientDatabaseKey() {
@@ -67,6 +75,10 @@ public class Vaccination implements Serializable {
         this.patientDatabaseKey = patientDatabaseKey;
     }
 
+    /**
+     * Unique Firebase database key representing the
+     * Vaccination's associated Dose
+     */
     private String doseDatabaseKey;
 
     public String getDoseDatabaseKey() {
@@ -77,6 +89,10 @@ public class Vaccination implements Serializable {
         this.doseDatabaseKey = doseDatabaseKey;
     }
 
+    /**
+     * Vaccination date, represented as milliseconds since
+     * Unix epoch
+     */
     private Long date;
 
     public Long getDate() {
