@@ -37,7 +37,6 @@ import android.widget.Toast;
 import java.io.File;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.utilities.VaccinationDummyDataGenerator;
 
 /**
  * This form represents a simple page where users can select which form they want to export which
@@ -100,8 +99,8 @@ public class FormsFragment extends android.support.v4.app.Fragment {
 
     private void sinovaClicked(){
         //TODO REMOVE AFTER OTHER SIDE HOOKED UP
-        VaccinationDummyDataGenerator generator = new VaccinationDummyDataGenerator();
-        generator.generateRecord();
+//        VaccinationDummyDataGenerator generator = new VaccinationDummyDataGenerator();
+//        generator.generateRecord();
 
 
         final AlertDialog.Builder builder = createBasicDateChooseModal();
@@ -180,22 +179,22 @@ public class FormsFragment extends android.support.v4.app.Fragment {
     }
 
     public void buildSINOVA(int day, int month, int year){
-        SINOVABuilder sinovaBuilder = new SINOVABuilder(getActivity());
-        String fileName = sinovaBuilder.autoFill(day, month, year);
-
-        File pdf = new File(fileName);
-        String title = getResources().getString(R.string.sinova) + " " + getResources().getString(R.string.email_header_insert) + " " + day + "/" + month + "/" + year;
-        sendFile(title, "", pdf);
+//        SINOVABuilder sinovaBuilder = new SINOVABuilder(getActivity());
+//        String fileName = sinovaBuilder.autoFill(day, month, year);
+//
+//        File pdf = new File(fileName);
+//        String title = getResources().getString(R.string.sinova) + " " + getResources().getString(R.string.email_header_insert) + " " + day + "/" + month + "/" + year;
+//        sendFile(title, "", pdf);
 
     }
 
     public void buildSINOVA2(int day, int month, int year){
-        SINOVA2Builder sinova2Builder = new SINOVA2Builder(getActivity());
-        String fileName = sinova2Builder.autoFill(day, month, year);
-
-        File pdf = new File(fileName);
-        String title = getResources().getString(R.string.sinova2) + " " + getResources().getString(R.string.email_header_insert) + " " + day + "/" + month + "/" + year;
-        sendFile(title, "", pdf);
+//        SINOVA2Builder sinova2Builder = new SINOVA2Builder(getActivity());
+//        String fileName = sinova2Builder.autoFill(day, month, year);
+//
+//        File pdf = new File(fileName);
+//        String title = getResources().getString(R.string.sinova2) + " " + getResources().getString(R.string.email_header_insert) + " " + day + "/" + month + "/" + year;
+//        sendFile(title, "", pdf);
     }
 
 

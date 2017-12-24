@@ -32,7 +32,6 @@ import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Patient;
-import mhealth.mvax.model.record.Record;
 import mhealth.mvax.records.details.patient.RecordDateFormat;
 
 /**

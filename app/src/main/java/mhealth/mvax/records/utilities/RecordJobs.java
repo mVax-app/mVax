@@ -25,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.record.Guardian;
 import mhealth.mvax.model.record.Person;
 import mhealth.mvax.records.views.detail.Detail;
 

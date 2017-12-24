@@ -19,8 +19,6 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.details.patient.view;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -36,6 +34,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,7 +47,6 @@ import mhealth.mvax.records.details.DetailFragment;
 import mhealth.mvax.records.details.RecordTab;
 import mhealth.mvax.records.details.patient.PatientDataAdapter;
 import mhealth.mvax.records.details.patient.modify.edit.EditPatientFragment;
-import mhealth.mvax.records.utilities.FirebaseJobs;
 import mhealth.mvax.records.utilities.RecordJobs;
 import mhealth.mvax.records.views.detail.Detail;
 
@@ -73,6 +71,7 @@ public class PatientDataTab extends Fragment implements RecordTab {
     private Guardian mGuardian;
     private DatabaseReference mPatientRef;
     private DatabaseReference mGuardianRef;
+    private boolean mRendered = false;
 
     //================================================================================
     // Static methods
@@ -96,8 +95,6 @@ public class PatientDataTab extends Fragment implements RecordTab {
         mView = inflater.inflate(R.layout.tab_record_details, container, false);
         initPatientListener(getArguments().getString("databaseKey"));
 
-        //        mRecord = (Record) getArguments().getSerializable("record");
-//        render();
         return mView;
     }
 
@@ -118,17 +115,20 @@ public class PatientDataTab extends Fragment implements RecordTab {
      * fragment instance
      */
     public void render() {
-        setRecordName();
+        if (!mRendered) { // prevent multiple renders caused by Firebase
+            setRecordName();
 
-        LinkedHashMap<String, List<Detail>> sectionedDetails = RecordJobs.getSectionedDetails(getContext(), mPatient, mGuardian);
-        mAdapter = new ViewPatientDataAdapter(getContext(), sectionedDetails);
+            LinkedHashMap<String, List<Detail>> sectionedDetails = RecordJobs.getSectionedDetails(getContext(), mPatient, mGuardian);
+            mAdapter = new ViewPatientDataAdapter(getContext(), sectionedDetails);
 
 
-        ListView detailsListView = mView.findViewById(R.id.details_list_view);
-        detailsListView.setAdapter(mAdapter);
+            ListView detailsListView = mView.findViewById(R.id.details_list_view);
+            detailsListView.setAdapter(mAdapter);
 
-        addEditButton(detailsListView);
-        renderDeleteButton(detailsListView);
+            addEditButton(detailsListView);
+
+            mRendered = true;
+        }
     }
 
     /**
@@ -152,12 +152,11 @@ public class PatientDataTab extends Fragment implements RecordTab {
     // Private methods
     //================================================================================
 
-    private void initPatientListener(String databaseKey) {
+    private void initPatientListener(final String databaseKey) {
         mPatientListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 mPatient = dataSnapshot.getValue(Patient.class);
-                assert mPatient != null;
                 initGuardianListener(mPatient.getGuardianDatabaseKey());
             }
 
@@ -194,14 +193,18 @@ public class PatientDataTab extends Fragment implements RecordTab {
                 .orderByKey()
                 .equalTo(databaseKey)
                 .addChildEventListener(mPatientListener);
+
     }
 
     private void initGuardianListener(String databaseKey) {
         mGuardianListener = new ChildEventListener() {
+
+            boolean rendered = false;
+
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 mGuardian = dataSnapshot.getValue(Guardian.class);
-                render();
+                    render();
             }
 
             @Override
@@ -224,7 +227,7 @@ public class PatientDataTab extends Fragment implements RecordTab {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // TODO test
-                Toast.makeText(getActivity(), R.string.unsuccessful_guardian_download, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.failure_guardian_download, Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -234,6 +237,21 @@ public class PatientDataTab extends Fragment implements RecordTab {
         mGuardianRef = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
                 .child(guardianTable);
+
+
+//        mGuardianRef
+//                .addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(DataSnapshot dataSnapshot) {
+////                        render();
+//                        String f = "";
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(DatabaseError databaseError) {
+//                        Toast.makeText(getActivity(), R.string.failure_guardian_download, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
         mGuardianRef
                 .orderByKey()
@@ -275,43 +293,6 @@ public class PatientDataTab extends Fragment implements RecordTab {
         });
 
         vaccineListView.addHeaderView(editButton);
-    }
-
-    private void renderDeleteButton(ListView vaccineListView) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        Button deleteButton = (Button) inflater.inflate(R.layout.button_delete_record, null);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                promptForRecordDelete();
-            }
-        });
-        vaccineListView.addHeaderView(deleteButton);
-    }
-
-    private void promptForRecordDelete() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(R.string.modal_record_delete_title);
-        builder.setMessage(R.string.modal_record_delete_message);
-        builder.setPositiveButton(getResources().getString(R.string.modal_new_dosage_confirm), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                deleteCurrentRecord();
-            }
-        });
-
-        builder.setNegativeButton(getResources().getString(R.string.modal_new_dosage_cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        builder.show();
-    }
-
-    private void deleteCurrentRecord() {
-        FirebaseJobs.deleteRecord(mPatient);
-        // segue out of patient detail handled by Firebase listener
     }
 
 }

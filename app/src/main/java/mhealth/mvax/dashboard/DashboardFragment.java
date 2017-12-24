@@ -43,7 +43,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.record.Record;
 import mhealth.mvax.model.record.Vaccine;
 
 public class DashboardFragment extends Fragment {
@@ -131,8 +130,8 @@ public class DashboardFragment extends Fragment {
             }
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Record record = dataSnapshot.getValue(Record.class);
-                mVaccinationRecords.remove(record.getDatabaseId());
+//                Record record = dataSnapshot.getValue(Record.class);
+//                mVaccinationRecords.remove(record.getDatabaseId());
                 mVaccinationCardAdapter.refresh(mVaccinationRecords.values());
             }
             @Override

@@ -19,10 +19,14 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.details.patient.modify.edit;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +39,7 @@ import mhealth.mvax.model.record.Guardian;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.details.patient.modify.ModifiableRecordFragment;
 import mhealth.mvax.records.search.SearchFragment;
+import mhealth.mvax.records.utilities.FirebaseJobs;
 import mhealth.mvax.records.utilities.RecordJobs;
 
 /**
@@ -102,6 +107,8 @@ public class EditPatientFragment extends ModifiableRecordFragment {
         initGuardianListener();
 
         renderListView(mView);
+
+        addDeleteButton(mListView);
 
         return mView;
     }
@@ -182,7 +189,7 @@ public class EditPatientFragment extends ModifiableRecordFragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), R.string.unsuccessful_guardian_download, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.failure_guardian_download, Toast.LENGTH_SHORT).show();
             }
         };
         mGuardianDatabaseRef
@@ -276,7 +283,42 @@ public class EditPatientFragment extends ModifiableRecordFragment {
 //    }
 
 
+    private void addDeleteButton(ListView listView) {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        Button deleteButton = (Button) inflater.inflate(R.layout.button_delete_record, null);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                promptForRecordDelete();
+            }
+        });
+        listView.addFooterView(deleteButton);
+    }
 
+    private void promptForRecordDelete() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.modal_record_delete_title);
+        builder.setMessage(R.string.modal_record_delete_message);
+        builder.setPositiveButton(getResources().getString(R.string.modal_new_dosage_confirm), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteCurrentRecord();
+            }
+        });
+
+        builder.setNegativeButton(getResources().getString(R.string.modal_new_dosage_cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+    }
+
+    private void deleteCurrentRecord() {
+        FirebaseJobs.deleteRecord(mPatient);
+        // segue out of patient detail handled by Firebase listener
+    }
 
 
 }

@@ -35,7 +35,7 @@ public class FirebaseJobs {
 
     public static void deleteRecord(Patient patient) {
         DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        String masterTable = "mVax";
+        String masterTable = "mVax-data";
         String patientTable = "patients";
         String guardianTable = "guardians";
         db.child(masterTable).child(patientTable).child(patient.getDatabaseKey()).setValue(null);

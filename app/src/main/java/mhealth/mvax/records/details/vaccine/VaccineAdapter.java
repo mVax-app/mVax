@@ -43,7 +43,6 @@ import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.DueDate;
-import mhealth.mvax.model.record.Record;
 import mhealth.mvax.model.record.Dose;
 import mhealth.mvax.model.record.Vaccination;
 import mhealth.mvax.model.record.Vaccine;
@@ -75,7 +74,6 @@ class VaccineAdapter extends BaseAdapter {
     private HashMap<String, Vaccination> mVaccinations;
     private HashMap<String, DueDate> mDueDates;
     private String mPatientKey;
-    private Record mCurrRecord;
 
     //================================================================================
     // Constructors
@@ -295,6 +293,14 @@ class VaccineAdapter extends BaseAdapter {
                 cal.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
                 cal.set(Calendar.MONTH, datePicker.getMonth());
                 cal.set(Calendar.YEAR, datePicker.getYear());
+//                cal.set(datePicker.getYear(),
+//                        datePicker.getMonth(),
+//                        datePicker.getDayOfMonth(),
+//                        0,
+//                        0,
+//                        0);
+
+                      //  year month day hour minute second
                 final Long date = cal.getTimeInMillis();
 
                 String masterTable = mContext.getString(R.string.dataTable);

@@ -26,15 +26,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
-
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Guardian;
 import mhealth.mvax.model.record.Patient;
-import mhealth.mvax.model.record.Record;
-import mhealth.mvax.model.record.Vaccine;
 import mhealth.mvax.records.details.patient.modify.ModifiableRecordFragment;
 import mhealth.mvax.records.search.SearchFragment;
 

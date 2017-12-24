@@ -30,18 +30,12 @@ import android.view.ViewGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.record.Patient;
-import mhealth.mvax.model.record.Record;
 import mhealth.mvax.records.details.patient.view.PatientDataTab;
 import mhealth.mvax.records.details.vaccine.VaccineScheduleTab;
-
-import android.widget.Toast;
 
 /**
  * @author Robert Steilberg

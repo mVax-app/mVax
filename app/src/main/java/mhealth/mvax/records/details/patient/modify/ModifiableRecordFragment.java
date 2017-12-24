@@ -59,6 +59,8 @@ public abstract class ModifiableRecordFragment extends Fragment {
 
     protected ModifyPatientAdapter mAdapter;
 
+    protected ListView mListView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,10 +92,9 @@ public abstract class ModifiableRecordFragment extends Fragment {
         LinkedHashMap<String, List<Detail>> sectionedDetails = RecordJobs.getSectionedDetails(getContext(), mPatient, mGuardian);
 
 
-        ListView mListView = view.findViewById(R.id.details_list_view);
+        mListView = view.findViewById(R.id.details_list_view);
         mAdapter = new ModifyPatientAdapter(getContext(), sectionedDetails);
         mListView.setAdapter(mAdapter);
-
         Button saveButton = (Button) mInflater.inflate(R.layout.save_record_button, null);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

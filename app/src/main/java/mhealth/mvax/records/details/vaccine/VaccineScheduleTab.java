@@ -242,7 +242,10 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
                 .addChildEventListener(mVaccinationsListener);
 
         // TODO MAKE SURE THIS IS ONLY CALLED ONCE AND NOT ON SUBSEQUENT UPDATES/DELETES
-        mVaccinationsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        mVaccinationsRef
+                .orderByChild("patientDatabaseKey")
+                .equalTo(mPatientDatbaseKey)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 initDueDatesListener();
