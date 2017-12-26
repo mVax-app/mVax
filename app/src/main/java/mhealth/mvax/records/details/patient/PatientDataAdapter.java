@@ -22,8 +22,6 @@ package mhealth.mvax.records.details.patient;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import mhealth.mvax.records.views.detail.Detail;
+import mhealth.mvax.records.details.patient.detail.Detail;
 
 /**
  * @author Robert Steilberg

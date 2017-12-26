@@ -19,30 +19,18 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.utilities;
 
-import android.content.Context;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import mhealth.mvax.model.record.Person;
-import mhealth.mvax.records.details.patient.detail.Detail;
-
 /**
- * @author FIRST LAST
+ * @author Robert Steilberg
  *         <p>
- *         DESCRIPTION HERE
+ *         Runnable that passes a date through the
+ *         run() call
  */
-public class RecordJobs {
+public interface DateRunnable {
 
-    public static LinkedHashMap<String, List<Detail>> getSectionedDetails(Context context, Person... people) {
-        LinkedHashMap<String, List<Detail>> details = new LinkedHashMap<>();
-
-        for (Person p : people) {
-            if (p != null) {
-                details.put(context.getString(p.getSectionTitleStringID()), p.getDetails(context));
-            }
-        }
-        return details;
-    }
-
+    /**
+     * Defines the code to be run
+     *
+     * @param date represented as milliseconds since Unix epoch
+     */
+    void run(Long date);
 }

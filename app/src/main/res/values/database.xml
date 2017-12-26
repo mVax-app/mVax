@@ -1,29 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="dataTable">mVax-data</string>
+
     <string name="patientTable">patients</string>
+    <string name="patientDatabaseKeyField">patientDatabaseKey</string>
+
     <string name="guardianTable">guardians</string>
+
     <string name="vaccineTable">vaccines</string>
-    <string name="doseTable">doses</string>
-    <string name="vaccinationTable">vaccinations</string>
+    <string name="vaccinationsTable">vaccinations</string>
     <string name="dueDatesTable">dueDates</string>
 
 
 
-
-
-
-
-
-
-
-    <string name="recordTable">records</string>
-    <!--<string name="vaccineTable">vaccines</string>-->
     <string name="databaseId">databaseId</string>
     <string name="userTable">users</string>
     <string name="role">role</string>
     <string name="approved">approved</string>
     <string name="email">email</string>
     <string name="userRequestsTable">userRequests</string>
-    <string name="vaccinationsTable">vaccinations</string>
 </resources>

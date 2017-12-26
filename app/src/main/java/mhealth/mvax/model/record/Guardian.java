@@ -27,13 +27,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.views.detail.Detail;
+import mhealth.mvax.records.details.patient.detail.Detail;
 
 /**
  * @author Robert Steilberg
  *         <p>
  *         Extends Person to store additional information
- *         and define functionality specific to a Guardian
+ *         and define functionality specific to a Guardian,
+ *         which is associated with one or more Patients
  */
 public class Guardian extends Person {
 
@@ -42,14 +43,13 @@ public class Guardian extends Person {
     //================================================================================
 
     private Guardian() {
-        super(null);
-        // Firebase constructor
+        // Firebase POJO constructor
     }
 
     public Guardian(String databaseKey, String patientDatabaseKey) {
         super(databaseKey);
         // TODO determine if orphaned guardians should be allowed; if so,
-        // don't require patientDatabaseKey in constructor
+        // TODO don't require patientDatabaseKey in constructor
         this.dependents.add(patientDatabaseKey);
     }
 
@@ -85,25 +85,16 @@ public class Guardian extends Person {
      * Adds a Patient to the Guardian's list of patients,
      * denoting the Patient as a dependent of the Guardian
      *
-     * @param dependent Patient object representing the
-     *                  dependent
-     */
-    public void addDependent(Patient dependent) {
-        dependents.add(dependent.getDatabaseKey());
-    }
-
-    /**
-     * Adds a Patient to the Guardian's list of patients,
-     * denoting the Patient as a dependent of the Guardian
-     *
      * @param dependentDatabaseKey Firebase unique database key
      *                             representing the dependent
      */
+    @Exclude
     public void addDependent(String dependentDatabaseKey) {
         dependents.add(dependentDatabaseKey);
     }
 
     @Override
+    @Exclude
     public List<Detail> getDetails(Context context) {
         // nothing additional to return past what is
         // already included at the Person level
@@ -111,6 +102,7 @@ public class Guardian extends Person {
     }
 
     @Override
+    @Exclude
     public int getSectionTitleStringID() {
         return R.string.guardian_detail_section_title;
     }

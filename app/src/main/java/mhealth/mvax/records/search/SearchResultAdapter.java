@@ -32,12 +32,12 @@ import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Patient;
-import mhealth.mvax.records.details.patient.RecordDateFormat;
+import mhealth.mvax.records.details.patient.NullableDateFormat;
 
 /**
  * @author Robert Steilberg
  *         <p>
- *         An adapter for listing patient record search results
+ *         Adapter for listing record search results
  */
 
 public class SearchResultAdapter extends BaseAdapter {
@@ -48,8 +48,13 @@ public class SearchResultAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<Patient> mDataSource;
+    private List<Patient> mPatients;
 
+    private static class ViewHolder {
+        TextView titleTextView;
+        TextView subtitleTextView;
+        TextView rightTextView;
+    }
 
     //================================================================================
     // Constructors
@@ -57,8 +62,8 @@ public class SearchResultAdapter extends BaseAdapter {
 
     SearchResultAdapter(Context context, Collection<Patient> patients) {
         mContext = context;
-        mDataSource = new ArrayList<>(patients);
         mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mPatients = new ArrayList<>(patients);
     }
 
     //================================================================================
@@ -67,12 +72,12 @@ public class SearchResultAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mDataSource.size();
+        return mPatients.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mDataSource.get(position);
+        return mPatients.get(position);
     }
 
     @Override
@@ -82,52 +87,52 @@ public class SearchResultAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View rowView, ViewGroup parent) {
-
         ViewHolder holder;
         if (rowView == null) {
             rowView = mInflater.inflate(R.layout.list_item_search_result, parent, false);
             holder = new ViewHolder();
-
             holder.titleTextView = rowView.findViewById(R.id.search_result_title);
             holder.subtitleTextView = rowView.findViewById(R.id.search_result_subtitle);
             holder.rightTextView = rowView.findViewById(R.id.search_result_right);
-
             rowView.setTag(holder);
         } else {
             holder = (ViewHolder) rowView.getTag();
         }
 
-        TextView titleTextView = holder.titleTextView;
-        TextView subtitleTextView = holder.subtitleTextView;
-        TextView rightTextView = holder.rightTextView;
-
-        Patient result = (Patient) getItem(position);
-
-        titleTextView.setText(result.getName(rowView.getContext()));
-
-        String DOBprompt = mContext.getResources().getString(R.string.DOB_prompt);
-        RecordDateFormat dateFormat = new RecordDateFormat(mContext.getResources().getString(R.string.date_format));
-        String DOBstr = DOBprompt + " " + dateFormat.getString(result.getDOB());
-
-        subtitleTextView.setText(DOBstr);
-
-        rightTextView.setText(result.getCommunity());
+        final Patient result = (Patient) getItem(position);
+        setTitle(holder.titleTextView, result);
+        setSubTitle(holder.subtitleTextView, result);
+        setRightTitle(holder.rightTextView, result);
 
         return rowView;
     }
 
-    void refresh(Collection<Patient> values) {
-        mDataSource = new ArrayList<>(values);
+    public void refresh(Collection<Patient> values) {
+        mPatients = new ArrayList<>(values);
         notifyDataSetChanged();
     }
 
     String getSelectedDatabaseKey(int position) {
-        return mDataSource.get(position).getDatabaseKey();
+        return mPatients.get(position).getDatabaseKey();
     }
 
-    private static class ViewHolder {
-        TextView titleTextView;
-        TextView subtitleTextView;
-        TextView rightTextView;
+    //================================================================================
+    // Private methods
+    //================================================================================
+
+    private void setTitle(TextView titleTextView, Patient patient) {
+        titleTextView.setText(patient.getName(titleTextView.getContext()));
     }
+
+    private void setSubTitle(TextView subtitleTextView, Patient patient) {
+        final String DOBprompt = mContext.getResources().getString(R.string.DOB_prompt);
+        NullableDateFormat dateFormat = new NullableDateFormat(mContext.getResources().getString(R.string.date_format));
+        final String DOBstr = DOBprompt + " " + dateFormat.getString(patient.getDOB());
+        subtitleTextView.setText(DOBstr);
+    }
+
+    private void setRightTitle(TextView rightTextView, Patient patient) {
+        rightTextView.setText(patient.getCommunity());
+    }
+
 }

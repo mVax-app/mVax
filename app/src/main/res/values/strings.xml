@@ -103,9 +103,9 @@
     <string name="vaccine_title">Vaccine History</string>
     <string name="DOB_prompt">DOB:</string>
     <string name="modal_new_dosage_title">Add Dosage:</string>
-    <string name="modal_new_dosage_confirm">Confirm</string>
-    <string name="modal_new_dosage_cancel">Cancel</string>
-    <string name="modal_new_dosage_neutral">No date</string>
+    <string name="modal_date_confirm">Confirm</string>
+    <string name="modal_date_cancel">Cancel</string>
+    <string name="modal_date_neutral">No date</string>
     <string name="delete_record_button">Delete Record</string>
     <string name="save_record_button">Save Record</string>
 
@@ -316,6 +316,9 @@
     <string name="failure_due_dates_download">Unable to Download Due Dates</string>
     <string name="dummy_data">Generate Test Data</string>
     <string name="generate_dummy_data_warning">WARNING: Generating dummy data will clear out the entire mVax-data table and replace it with dummy data defined in the DummyDataGenerator. If you are okay with all existing data being overwritten, click \"Confirm\".</string>
+    <string name="failure_records_download">Unable to Download Record Data</string>
+    <string name="modal_date_title">Choose Date</string>
+    <string name="due_date_label">Due Date:</string>
 
 
 </resources>

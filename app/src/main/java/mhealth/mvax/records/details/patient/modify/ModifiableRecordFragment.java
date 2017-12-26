@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -38,7 +39,7 @@ import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.details.DetailFragment;
 import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.records.utilities.RecordJobs;
-import mhealth.mvax.records.views.detail.Detail;
+import mhealth.mvax.records.details.patient.detail.Detail;
 
 /**
  * @author Robert Steilberg
@@ -100,25 +101,39 @@ public abstract class ModifiableRecordFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                // TODO maybe use firebase jobs
                 mPatientDatabaseRef.child(mPatient.getDatabaseKey()).setValue(mPatient);
-                mGuardianDatabaseRef.child(mGuardian.getDatabaseKey()).setValue(mGuardian);
 
-                DetailFragment recordFrag = DetailFragment.newInstance(mPatient.getDatabaseKey());
+                mPatientDatabaseRef.child(mPatient.getDatabaseKey()).setValue(mPatient, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        mGuardianDatabaseRef.child(mGuardian.getDatabaseKey()).setValue(mGuardian, new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                transitionToDetail();
+                            }
+                        });
+                    }
+                });
 
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frame_layout, new SearchFragment())
-                        .addToBackStack(null)
-                        .commit();
 
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frame_layout, recordFrag)
-                        .addToBackStack(null)
-                        .commit();
             }
         });
         mListView.addHeaderView(saveButton);
 
+    }
+
+    private void transitionToDetail() {
+        DetailFragment recordFrag = DetailFragment.newInstance(mPatient.getDatabaseKey());
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout, new SearchFragment())
+                .addToBackStack(null)
+                .commit();
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout, recordFrag)
+                .addToBackStack(null)
+                .commit();
     }
 
     public abstract void onBack();

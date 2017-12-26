@@ -44,6 +44,13 @@ public class FirebaseJobs {
         // todo delete all vaccinations
     }
 
+
+
+
+
+
+
+
     public static void saveRecord(Patient patient, Guardian guardian) {
 //        mPatientDatabaseRef.child(patient.getDatabaseKey()).setValue(patient);
 //        mGuardianDatabaseRef.child(guardian.getDatabaseKey()).setValue(guardian);

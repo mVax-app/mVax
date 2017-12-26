@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
 /**
  * @author Robert Steilberg
  */
-public class DualTabPagerTest {
+public class DualTabPagerAdapterTest {
     @Before
     public void setUp() throws Exception {
     }

@@ -51,7 +51,6 @@ import mhealth.mvax.R;
 import mhealth.mvax.auth.ApproveUsersFragment;
 import mhealth.mvax.auth.LoginActivity;
 import mhealth.mvax.model.user.UserRole;
-import mhealth.mvax.records.utilities.DummyDataGenerator;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -307,7 +306,7 @@ public class SettingsFragment extends Fragment {
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                DummyDataGenerator generator = new DummyDataGenerator(getContext());
+                DataGenerator generator = new DataGenerator(getContext());
                 generator.generateData();
             }
         });

@@ -17,11 +17,10 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.records.views.detail;
+package mhealth.mvax.records.details.patient.detail;
 
 import android.content.Context;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -39,8 +38,8 @@ public class StringDetail extends Detail<String> {
     //================================================================================
 
 
-    public StringDetail(String label, String hint, String value, Context context) {
-        super(label, hint, value, context);
+    public StringDetail(String value, String label, String hint, Context context) {
+        super(value, label, hint, context);
     }
 
 
@@ -59,9 +58,6 @@ public class StringDetail extends Detail<String> {
 
     @Override
     public void configureValueView(final EditText valueView) {
-        // auto-capitalize every word
-        valueView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-
         valueView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

@@ -25,18 +25,17 @@ import java.util.Locale;
 /**
  * @author Robert Steilberg
  *         <p>
- *         Implementation of SimpleDateFormat that handles formatting
- *         null dates
+ *         Extension of SimpleDateFormat that handles formatting
+ *         null dates and initializes with default locale
  */
 
-public class RecordDateFormat extends SimpleDateFormat {
+public class NullableDateFormat extends SimpleDateFormat {
 
-    public RecordDateFormat(String pattern) {
+    public NullableDateFormat(String pattern) {
         super(pattern, Locale.getDefault());
     }
 
     public String getString(Long date) {
-
         if (date != null) {
             return format(date);
         } else {

@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.records.views.detail;
+package mhealth.mvax.records.details.patient.detail;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -42,8 +42,8 @@ public class SexDetail extends Detail<Sex> {
     // Constructors
     //================================================================================
 
-    public SexDetail(String label, String hint, Sex sex, Context context) {
-        super(label, hint, sex, context);
+    public SexDetail(Sex sex, String label, String hint, Context context) {
+        super(sex, label, hint, context);
     }
 
 

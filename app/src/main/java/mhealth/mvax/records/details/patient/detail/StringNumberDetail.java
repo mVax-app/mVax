@@ -17,49 +17,38 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.records.views;
+package mhealth.mvax.records.details.patient.detail;
 
 import android.content.Context;
-
-import mhealth.mvax.model.record.Dose;
-import mhealth.mvax.model.record.Vaccine;
+import android.text.InputType;
+import android.widget.EditText;
 
 /**
  * @author Robert Steilberg
- *
- * Adds functionality to TextView for storing Vaccine and Dose objects
+ *         <p>
+ *         Detail for storing String fields represented by numbers
+ *         only
  */
 
-public class DoseDateView extends android.support.v7.widget.AppCompatTextView {
-
-    //================================================================================
-    // Properties
-    //================================================================================
-
-    private Dose mDose;
+public class StringNumberDetail extends StringDetail {
 
     //================================================================================
     // Constructors
     //================================================================================
 
-    public DoseDateView(Context context, Dose dose) {
-        super(context);
-        mDose = dose;
+
+    public StringNumberDetail(String value, String label, String hint, Context context) {
+        super(value, label, hint, context);
     }
 
     //================================================================================
-    // Getters
+    // Override methods
     //================================================================================
 
-    public Dose getDose() {
-        return mDose;
+    @Override
+    public void configureValueView(EditText valueView) {
+        super.configureValueView(valueView);
+        valueView.setInputType(InputType.TYPE_CLASS_NUMBER); // number keypad for input
     }
 
-    //================================================================================
-    // Setters
-    //================================================================================
-
-    public void setDose(Dose dose) {
-        mDose = dose;
-    }
 }

@@ -26,12 +26,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.views.detail.Detail;
+import mhealth.mvax.records.details.patient.detail.Detail;
 import mhealth.mvax.records.details.patient.PatientDataAdapter;
 
 /**

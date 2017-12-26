@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.records.views.detail;
+package mhealth.mvax.records.details.patient.detail;
 
 import android.content.Context;
 import android.widget.EditText;
@@ -53,11 +53,12 @@ public abstract class Detail<T> {
     // Constructors
     //================================================================================
 
-    Detail(String label, String hint, T value, Context context) {
+    Detail(T value, String label, String hint, Context context) {
         this.label = label;
         this.hint = hint;
         mContext = context;
         initValue(value);
+
     }
 
     //================================================================================

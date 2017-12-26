@@ -19,17 +19,12 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.details.vaccine;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,57 +32,54 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.record.DueDate;
-import mhealth.mvax.model.record.Dose;
-import mhealth.mvax.model.record.Vaccination;
-import mhealth.mvax.model.record.Vaccine;
-import mhealth.mvax.records.details.patient.RecordDateFormat;
-import mhealth.mvax.records.views.DoseDateView;
-import mhealth.mvax.records.views.VaccineDateView;
+import mhealth.mvax.model.immunization.Date;
+import mhealth.mvax.model.immunization.DueDate;
+import mhealth.mvax.model.immunization.Dose;
+import mhealth.mvax.model.immunization.Vaccination;
+import mhealth.mvax.model.immunization.Vaccine;
+import mhealth.mvax.records.details.patient.NullableDateFormat;
+import mhealth.mvax.records.utilities.DateModal;
+import mhealth.mvax.records.utilities.DateRunnable;
 
 /**
  * @author Robert Steilberg
  *         <p>
- *         Adapter for listing vaccines and their doses
+ *         Adapter for displaying vaccines, their doses, and due dates;
+ *         handles updating due dates and vaccinations in the database
  */
-
-// TODO: Implement sorting vaccines in the ListView by name and due date
-// TODO: This class needs work
-
-class VaccineAdapter extends BaseAdapter {
+public class VaccineAdapter extends BaseAdapter {
 
     //================================================================================
     // Properties
     //================================================================================
 
-    private LayoutInflater mInflater;
-    private Context mContext;
+    private final LayoutInflater mInflater;
+    private final Context mContext;
 
-    private List<Vaccine> mDataSource;
-
-    private HashMap<String, Vaccine> mVaccines;
-    private HashMap<String, Vaccination> mVaccinations;
-    private HashMap<String, DueDate> mDueDates;
-    private String mPatientKey;
+    private final String mPatientDatabaseKey;
+    private List<Vaccine> mVaccines;
+    private HashMap<String, Date> mDates; // contains both Vaccinations and DueDates
 
     //================================================================================
     // Constructors
     //================================================================================
 
-    VaccineAdapter(Context context, String patientKey, HashMap<String, Vaccine> vaccines, HashMap<String, Vaccination> vaccinations, HashMap<String, DueDate> dueDate) {
+    VaccineAdapter(Context context,
+                   String patientKey,
+                   HashMap<String, Vaccine> vaccines,
+                   HashMap<String, Date> dates) {
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContext = context;
-        mDataSource = new ArrayList<>(vaccines.values());
-        mVaccinations = vaccinations;
-        mDueDates = dueDate;
-        mPatientKey = patientKey;
+        mPatientDatabaseKey = patientKey;
+        mVaccines = new ArrayList<>(vaccines.values());
+        Collections.sort(mVaccines);
+        mDates = dates;
     }
-
 
     //================================================================================
     // Override methods
@@ -95,12 +87,12 @@ class VaccineAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mDataSource.size();
+        return mVaccines.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return mDataSource.get(position);
+        return mVaccines.get(position);
     }
 
     @Override
@@ -109,323 +101,191 @@ class VaccineAdapter extends BaseAdapter {
     }
 
     /**
-     * Populates each row with a list of doses for the vaccine
+     * Populates each row with the vaccine's due date and
+     * list of doses for the vaccine
      */
     @Override
     public View getView(int position, View rowView, ViewGroup parent) {
-        ViewHolder holder;
-        Vaccine vaccine = (Vaccine) getItem(position);
+        final Vaccine vaccine = (Vaccine) getItem(position);
 
+        ViewHolder holder;
         if (rowView == null) {
             rowView = mInflater.inflate(R.layout.list_item_vaccine, parent, false);
             holder = new ViewHolder();
-            holder.vaccineTextView = rowView.findViewById(R.id.vaccine_name);
+            holder.vaccineNameTextView = rowView.findViewById(R.id.vaccine_name);
+            holder.vaccineLinearLayout = rowView.findViewById(R.id.vaccine_linear_layout);
             holder.dosesLinearLayout = rowView.findViewById(R.id.doses_linear_layout);
             rowView.setTag(holder);
         } else {
             holder = (ViewHolder) rowView.getTag();
         }
 
-        holder.vaccineTextView.setText(vaccine.getName());
-        // clear out old view from reused LinearLayout
+        // clear out old views from reused LinearLayout
+        holder.vaccineLinearLayout.removeAllViews();
+        // set vaccine name and add to LinearLayout
+        holder.vaccineNameTextView.setText(vaccine.getName());
+        holder.vaccineLinearLayout.addView(holder.vaccineNameTextView);
+        // add due date to LinearLayout
+        holder.vaccineLinearLayout.addView(linearLayoutForDate(vaccine.getDatabaseKey(),
+                mContext.getString(R.string.due_date_label),
+                R.string.dueDatesTable));
+
+        // clear out old views from reused LinearLayout
         holder.dosesLinearLayout.removeAllViews();
-        renderDoses(rowView.getContext(), holder.dosesLinearLayout, vaccine);
+        // add all doses to linear layout
+        for (Dose dose : vaccine.getDoses()) {
+            holder.dosesLinearLayout.addView(linearLayoutForDate(dose.getDatabaseKey(),
+                    dose.getLabel(),
+                    R.string.vaccinationsTable));
+        }
+
         return rowView;
     }
 
     private static class ViewHolder {
-        TextView vaccineTextView;
+        TextView vaccineNameTextView;
+        LinearLayout vaccineLinearLayout;
         LinearLayout dosesLinearLayout;
     }
-
 
     //================================================================================
     // Public methods
     //================================================================================
 
-    /**
-     * Updates views with data from an updated Record
-     *
-     * @param updatedRecord the updated Record
-     */
-    public void refresh(HashMap<String, Vaccination> vaccinations) {
-        mVaccinations = vaccinations;
+    public void refresh(HashMap<String, Vaccine> vaccines,
+                        HashMap<String, Date> dates) {
+        mVaccines = new ArrayList<>(vaccines.values());
+        Collections.sort(mVaccines);
+        mDates = dates;
         notifyDataSetChanged();
     }
-
 
     //================================================================================
     // Private methods
     //================================================================================
 
-    private void renderDoses(Context rowContext, LinearLayout layout, Vaccine vaccine) {
-//        layout.addView(getDueDateLinearLayout(rowContext, vaccine));
-        for (Dose dose : vaccine.getDoses()) {
-            layout.addView(getDoseLinearLayout(dose, rowContext));
-        }
-    }
+    /**
+     * Get the LinearLayout for a mVax Date object, which is a labeled gray box that
+     * displays the date and is set with the proper listeners
+     *
+     * @param associatedDatabaseKey unique Firebase database key associated with the Date object
+     *                              (i.e. vaccine database key for a DueDate)
+     * @param label                 label to be displayed next to the date
+     * @param databaseId            database string ID from resource file identifying the table
+     *                              on which the listener should be set
+     * @return LinearLayout initialized with proper listener and view properties
+     */
+    private DateLinearLayout linearLayoutForDate(final String associatedDatabaseKey,
+                                                 String label,
+                                                 final int databaseId) {
+        final DateLinearLayout doseLinearLayout = new DateLinearLayout(mContext);
 
-    private LinearLayout getDueDateLinearLayout(Context rowContext, Vaccine vaccine) {
-        // TODO fix DRY
-        // create LinearLayout to hold the label and date for the next due date
-        LinearLayout dueDateLinearLayout = new LinearLayout(rowContext);
-        dueDateLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        ));
-        dueDateLinearLayout.setPadding(0, 15, 0, 15);
+        doseLinearLayout.setLabel(label);
 
-        // create due date label
-        TextView label = new TextView(rowContext);
-        label.setText(R.string.due_date);
-        label.setTextSize(22);
-        label.setGravity(Gravity.CENTER);
-        label.setPadding(0, 0, 15, 0);
-        //dueDateLinearLayout.addView(label);
-
-        // render actual due date
-        VaccineDateView dueDate = new VaccineDateView(rowContext, vaccine);
-
-        dueDate.setLayoutParams(new LinearLayout.LayoutParams(
-                250,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        ));
-        dueDate.setPadding(5, 5, 5, 5);
-        dueDate.setGravity(Gravity.CENTER);
-        dueDate.setTextSize(22);
-
-        RecordDateFormat dateFormat = new RecordDateFormat(mContext.getString(R.string.date_format));
-//        dueDate.setText(dateFormat.getString(vaccine.getDueDate()));
-
-        GradientDrawable gd = new GradientDrawable();
-        gd.setColor(Color.LTGRAY);
-        dueDate.setBackground(gd);
-        dueDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View dueDate) {
-                newVaccinePrompt((VaccineDateView) dueDate);
-            }
-        });
-
-        // add dose label and date to the view
-        dueDateLinearLayout.addView(label);
-        dueDateLinearLayout.addView(dueDate);
-
-        return dueDateLinearLayout;
-    }
-
-    private LinearLayout getDoseLinearLayout(final Dose dose, Context rowContext) {
-        // create LinearLayout to hold the label and date for each dose
-        LinearLayout doseLinearLayout = new LinearLayout(rowContext);
-        doseLinearLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        ));
-        doseLinearLayout.setPadding(0, 15, 0, 15);
-
-        // create dose label
-        TextView label = new TextView(rowContext);
-        label.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        ));
-        label.setText(dose.getLabel());
-        label.setTextSize(22);
-        label.setGravity(Gravity.CENTER);
-        label.setPadding(0, 0, 15, 0);
-
-        // create dose date view
-        DoseDateView dateView = new DoseDateView(rowContext, dose);
-        dateView.setLayoutParams(new LinearLayout.LayoutParams(
-                250,
-                LinearLayout.LayoutParams.MATCH_PARENT
-        ));
-        dateView.setPadding(5, 5, 5, 5);
-        dateView.setGravity(Gravity.CENTER);
-        dateView.setTextSize(22);
-
-        RecordDateFormat dateFormat = new RecordDateFormat(mContext.getString(R.string.date_format));
-
-
-        if (mVaccinations.containsKey(dose.getDatabaseKey())) {
-            String date = dateFormat.getString(mVaccinations.get(dose.getDatabaseKey()).getDate());
-            dateView.setText(date);
+        if (mDates.containsKey(associatedDatabaseKey)) { // check if existing Date object exists
+            final NullableDateFormat dateFormat =
+                    new NullableDateFormat(mContext.getString(R.string.date_format));
+            final String dateString =
+                    dateFormat.getString(mDates.get(associatedDatabaseKey).getDate());
+            doseLinearLayout.setDate(dateString);
         }
 
-
-        GradientDrawable gd = new GradientDrawable();
-        gd.setColor(Color.LTGRAY);
-        dateView.setBackground(gd);
-        dateView.setOnClickListener(new View.OnClickListener() {
+        doseLinearLayout.setDateViewOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View dateView) {
-                promptForDoseDate(dose.getDatabaseKey());
+                promptForDate(associatedDatabaseKey, databaseId);
             }
         });
-
-        // add dose label and date to the view
-        doseLinearLayout.addView(label);
-        doseLinearLayout.addView(dateView);
 
         return doseLinearLayout;
     }
 
     /**
-     * Render a modal for modifying a vaccine dose record
+     * Displays a modal containing a DatePicker for choosing and returning a date;
+     * triggers listeners for saving the date to the proper object in the database
      *
-     * @param view is the DoseDateView object that displays the dose date
+     * @param associatedDatabaseKey unique Firebase database key associated with the Date object
+     *                              (i.e. vaccine database key for a DueDate)
+     * @param databaseId            database string ID from resource file identifying the table
+     *                              on which the listener should be set
      */
-    private void promptForDoseDate(final String doseDatabaseKey) {
-//        final DoseDateView dateView = view;
-        // TODO generalize this modal somewhere
-        // create modal
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle(R.string.modal_new_dosage_title);
-        View dialogView = mInflater.inflate(R.layout.modal_choose_date, null);
-        builder.setView(dialogView);
+    private void promptForDate(final String associatedDatabaseKey, final int databaseId) {
+        final DateModal dateModal = new DateModal(mContext);
 
-        final DatePicker datePicker = dialogView.findViewById(R.id.date_picker);
-
-        builder.setPositiveButton(mContext.getResources().getString(R.string.modal_new_dosage_confirm), new DialogInterface.OnClickListener() {
+        dateModal.setPositiveButtonAction(new DateRunnable() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
-                cal.set(Calendar.MONTH, datePicker.getMonth());
-                cal.set(Calendar.YEAR, datePicker.getYear());
-//                cal.set(datePicker.getYear(),
-//                        datePicker.getMonth(),
-//                        datePicker.getDayOfMonth(),
-//                        0,
-//                        0,
-//                        0);
-
-                      //  year month day hour minute second
-                final Long date = cal.getTimeInMillis();
-
-                String masterTable = mContext.getString(R.string.dataTable);
-                String vaccinationsTable = mContext.getString(R.string.vaccinationsTable);
-                DatabaseReference db = FirebaseDatabase.getInstance().getReference()
-                        .child(masterTable)
-                        .child(vaccinationsTable);
-
-                Vaccination vaccination;
-                if (mVaccinations.containsKey(doseDatabaseKey)) {
-                    vaccination = mVaccinations.get(doseDatabaseKey);
-                    vaccination.setDate(date);
-                    db.child(vaccination.getDatabaseKey()).setValue(vaccination);
-
-                } else {
-                    // make a new vaccination and set it
-                    db = db.push();
-                    vaccination = new Vaccination(db.getKey(), mPatientKey, doseDatabaseKey, date);
-                    db.setValue(vaccination);
-                }
-
-
+            public void run(Long date) {
+                setDate(associatedDatabaseKey, date, databaseId);
             }
         });
 
-        builder.setNegativeButton(mContext.getString(R.string.modal_new_dosage_cancel), new DialogInterface.OnClickListener() {
+        dateModal.setNeutralButtonAction(new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.setNeutralButton(R.string.modal_new_dosage_neutral, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (mVaccinations.containsKey(doseDatabaseKey)) {
-                    Vaccination v = mVaccinations.get(doseDatabaseKey);
-                    deleteVaccination(v);
+            public void onClick(DialogInterface dialogInterface, int which) {
+                if (mDates.containsKey(associatedDatabaseKey)) {
+                    final Date dateToDelete = mDates.get(associatedDatabaseKey);
+                    deleteDate(dateToDelete.getDatabaseKey(), databaseId);
                 }
             }
         });
 
-        builder.show();
+        dateModal.show();
     }
-
 
     /**
+     * Initialize and push a new Date object to the database, or update the existing
+     * Date object in the database, depending on whether or not the Date object
+     * already exists
      *
-     * TODO: Refactor this
+     * @param associatedDatabaseKey unique Firebase database key associated with the Date object
+     *                              (i.e. vaccine database key for a DueDate)
+     * @param date                  date with which to update, provided by the DatePicker
+     *                              modal and represented by milliseconds since Unix epoch
+     * @param databaseId            database string ID from resource file identifying the table
+     *                              on which the Date object should be set
      */
-
-    private void newVaccinePrompt(final VaccineDateView view) {
-        final VaccineDateView dateView = view;
-
-        // create modal
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle(R.string.modal_new_dosage_title);
-        View dialogView = mInflater.inflate(R.layout.modal_choose_date, null);
-        builder.setView(dialogView);
-
-        final DatePicker datePicker = dialogView.findViewById(R.id.date_picker);
-
-        builder.setPositiveButton(mContext.getResources().getString(R.string.modal_new_dosage_confirm), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Calendar cal = Calendar.getInstance();
-                cal.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
-                cal.set(Calendar.MONTH, datePicker.getMonth());
-                cal.set(Calendar.YEAR, datePicker.getYear());
-                // cal.getTimeInMillis() gets the date chosen
-                updateDueDate(dateView.getVaccine(), cal.getTimeInMillis());
-//                setVaccination(dateView.getDose(), cal.getTimeInMillis());
-            }
-        });
-
-        builder.setNegativeButton(mContext.getString(R.string.modal_new_dosage_cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.setNeutralButton(R.string.modal_new_dosage_neutral, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                updateDueDate(dateView.getVaccine(), null);
-            }
-        });
-
-        builder.show();
-    }
-
-
-
-//    private void setVaccination(Dose dose, Long doseDate) {
-////        dose.setDateCompleted(doseDate);
-//        updateVaccination();
-//    }
-
-    private void updateDueDate(Vaccine vaccine, Long dueDate) {
-//        vaccine.setDueDate(dueDate);
-//        updateVaccination();
-    }
-
-    private void setVaccination(Vaccination vaccination) {
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference();
-        String masterTable = mContext.getString(R.string.dataTable);
-        String vaccinationsTable = mContext.getString(R.string.vaccinationsTable);
-
-        db
+    private void setDate(String associatedDatabaseKey, Long date, int databaseId) {
+        final String masterTable = mContext.getString(R.string.dataTable);
+        final String dataTable = mContext.getString(databaseId); // corresponding data table
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
-                .child(vaccinationsTable)
-                .child(vaccination.getDatabaseKey())
-                .setValue(vaccination);
+                .child(dataTable);
+
+        Date datePair;
+        if (mDates.containsKey(associatedDatabaseKey)) {
+            // changing date of existing vaccination
+            datePair = mDates.get(associatedDatabaseKey);
+            datePair.setDate(date);
+            databaseRef.child(datePair.getDatabaseKey()).setValue(datePair);
+        } else {
+            // creating a new date
+            databaseRef = databaseRef.push();
+            if (databaseId == R.string.vaccinationsTable) { // creating a new Vaccination
+                datePair = new Vaccination(databaseRef.getKey(), mPatientDatabaseKey, associatedDatabaseKey, date);
+            } else { // creating a new DueDate
+                datePair = new DueDate(databaseRef.getKey(), mPatientDatabaseKey, associatedDatabaseKey, date);
+            }
+            databaseRef.setValue(datePair);
+        }
+
     }
 
-    private void deleteVaccination(Vaccination vaccination) {
-        String masterTable = mContext.getString(R.string.dataTable);
-        String vaccinationsTable = mContext.getString(R.string.vaccinationsTable);
-
+    /**
+     * Delete a Date object with the given databaseKey in the database table
+     * with the given databaseId
+     *
+     * @param databaseKey databaseKey of Date object to delete
+     * @param databaseId  String id representing the table in which the
+     *                    Date obejct to delete is located
+     */
+    private void deleteDate(String databaseKey, int databaseId) {
+        final String masterTable = mContext.getString(R.string.dataTable);
+        final String dataTable = mContext.getString(databaseId);
         FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
-                .child(vaccinationsTable)
-                .child(vaccination.getDatabaseKey())
+                .child(dataTable)
+                .child(databaseKey)
                 .setValue(null);
-
     }
+
 }

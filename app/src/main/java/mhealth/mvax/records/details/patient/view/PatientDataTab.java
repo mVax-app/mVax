@@ -20,6 +20,7 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.records.details.patient.view;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,7 +48,7 @@ import mhealth.mvax.records.details.RecordTab;
 import mhealth.mvax.records.details.patient.PatientDataAdapter;
 import mhealth.mvax.records.details.patient.modify.edit.EditPatientFragment;
 import mhealth.mvax.records.utilities.RecordJobs;
-import mhealth.mvax.records.views.detail.Detail;
+import mhealth.mvax.records.details.patient.detail.Detail;
 
 /**
  * @author Robert Steilberg
@@ -64,14 +64,15 @@ public class PatientDataTab extends Fragment implements RecordTab {
     //================================================================================
 
     private View mView;
-    private ChildEventListener mPatientListener;
-    private ChildEventListener mGuardianListener;
     private PatientDataAdapter mAdapter;
+
     private Patient mPatient;
-    private Guardian mGuardian;
     private DatabaseReference mPatientRef;
+    private ChildEventListener mPatientListener;
+
+    private Guardian mGuardian;
     private DatabaseReference mGuardianRef;
-    private boolean mRendered = false;
+    private ChildEventListener mGuardianListener;
 
     //================================================================================
     // Static methods
@@ -85,7 +86,6 @@ public class PatientDataTab extends Fragment implements RecordTab {
         return newInstance;
     }
 
-
     //================================================================================
     //Override methods
     //================================================================================
@@ -94,17 +94,15 @@ public class PatientDataTab extends Fragment implements RecordTab {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_record_details, container, false);
         initPatientListener(getArguments().getString("databaseKey"));
-
         return mView;
     }
 
     @Override
     public void onDestroyView() {
-        mPatientRef.removeEventListener(mPatientListener);
-        mGuardianRef.removeEventListener(mGuardianListener);
+        mPatientRef.orderByKey().equalTo(mPatient.getDatabaseKey()).removeEventListener(mPatientListener);
+        mGuardianRef.orderByKey().equalTo(mGuardian.getDatabaseKey()).removeEventListener(mGuardianListener);
         super.onDestroyView();
     }
-
 
     //================================================================================
     // Public methods
@@ -114,57 +112,77 @@ public class PatientDataTab extends Fragment implements RecordTab {
      * Initialize record details; this method should only be called once per
      * fragment instance
      */
+    @Override
     public void render() {
-        if (!mRendered) { // prevent multiple renders caused by Firebase
-            setRecordName();
 
-            LinkedHashMap<String, List<Detail>> sectionedDetails = RecordJobs.getSectionedDetails(getContext(), mPatient, mGuardian);
-            mAdapter = new ViewPatientDataAdapter(getContext(), sectionedDetails);
+        LinkedHashMap<String, List<Detail>> sectionedDetails = RecordJobs.getSectionedDetails(getContext(), mPatient, mGuardian);
+        mAdapter = new ViewPatientDataAdapter(getContext(), sectionedDetails);
 
+        ListView detailsListView = mView.findViewById(R.id.details_list_view);
+        detailsListView.setAdapter(mAdapter);
 
-            ListView detailsListView = mView.findViewById(R.id.details_list_view);
-            detailsListView.setAdapter(mAdapter);
-
-            addEditButton(detailsListView);
-
-            mRendered = true;
-        }
+        addEditButton(detailsListView);
     }
 
-    /**
-     * Update record details after they have already been initialized
-     * via renderRecordDetails()
-     *
-     * @param updatedPerson contains the patient data with which to update details
-     */
-    public void update(Person updatedPerson) {
-        if (updatedPerson instanceof Patient) {
-            mPatient = (Patient) updatedPerson;
-            setRecordName();
-        } else if (updatedPerson instanceof Guardian) {
-            mGuardian = (Guardian) updatedPerson;
+    @Override
+    public void refresh() {
+        if (mAdapter == null) {
+            String f = "";
         }
+        setRecordName();
         LinkedHashMap<String, List<Detail>> sectionedDetails = RecordJobs.getSectionedDetails(getContext(), mPatient, mGuardian);
         mAdapter.refresh(sectionedDetails);
     }
+
+//    /**
+//     * Update record details after they have already been initialized
+//     * via renderRecordDetails()
+//     *
+//     * @param updatedPerson contains the patient data with which to update details
+//     */
+//    public void update(Person updatedPerson) {
+//        if (updatedPerson instanceof Patient) {
+//            mPatient = (Patient) updatedPerson;
+//            setRecordName();
+//        } else if (updatedPerson instanceof Guardian) {
+//            mGuardian = (Guardian) updatedPerson;
+//        }
+//        LinkedHashMap<String, List<Detail>> sectionedDetails = RecordJobs.getSectionedDetails(getContext(), mPatient, mGuardian);
+//        mAdapter.refresh(sectionedDetails);
+//    }
 
     //================================================================================
     // Private methods
     //================================================================================
 
     private void initPatientListener(final String databaseKey) {
+        // define database ref
+        final String masterTable = getResources().getString(R.string.dataTable);
+        final String patientTable = getResources().getString(R.string.patientTable);
+        mPatientRef = FirebaseDatabase.getInstance().getReference()
+                .child(masterTable)
+                .child(patientTable);
+
+        // define listener
         mPatientListener = new ChildEventListener() {
+
+            boolean initialAdd = false;
+
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 mPatient = dataSnapshot.getValue(Patient.class);
-                initGuardianListener(mPatient.getGuardianDatabaseKey());
+                setRecordName();
+                if (!initialAdd && mPatient != null) { // debounce
+                    initGuardianListener(mPatient.getGuardianDatabaseKey());
+                    initialAdd = true;
+                }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Patient updatedPatient = dataSnapshot.getValue(Patient.class);
-                update(updatedPatient);
+                mPatient = dataSnapshot.getValue(Patient.class);
                 Toast.makeText(getActivity(), R.string.patient_update, Toast.LENGTH_SHORT).show();
+                refresh();
             }
 
             @Override
@@ -182,41 +200,43 @@ public class PatientDataTab extends Fragment implements RecordTab {
             }
         };
 
-        String masterTable = getResources().getString(R.string.dataTable);
-        String patientTable = getResources().getString(R.string.patientTable);
-
-        mPatientRef = FirebaseDatabase.getInstance().getReference()
-                .child(masterTable)
-                .child(patientTable);
-
+        // set listener to ref
         mPatientRef
                 .orderByKey()
                 .equalTo(databaseKey)
                 .addChildEventListener(mPatientListener);
-
     }
 
     private void initGuardianListener(String databaseKey) {
+        // define database ref
+        final String masterTable = getResources().getString(R.string.dataTable);
+        final String guardianTable = getResources().getString(R.string.guardianTable);
+        mGuardianRef = FirebaseDatabase.getInstance().getReference()
+                .child(masterTable)
+                .child(guardianTable);
+
+        // define listener
         mGuardianListener = new ChildEventListener() {
 
-            boolean rendered = false;
+            boolean initialAdd = false;
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 mGuardian = dataSnapshot.getValue(Guardian.class);
+                if (!initialAdd && mGuardian != null) { // debounce and check for
                     render();
+                }
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Guardian updatedGuardian = dataSnapshot.getValue(Guardian.class);
-                update(updatedGuardian);
+                mGuardian = dataSnapshot.getValue(Guardian.class);
                 Toast.makeText(getActivity(), R.string.guardian_update, Toast.LENGTH_SHORT).show();
+                refresh();
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                // TODO test
                 // handled by mPatientListener
             }
 
@@ -226,48 +246,25 @@ public class PatientDataTab extends Fragment implements RecordTab {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // TODO test
                 Toast.makeText(getActivity(), R.string.failure_guardian_download, Toast.LENGTH_SHORT).show();
             }
         };
 
-        String masterTable = getResources().getString(R.string.dataTable);
-        String guardianTable = getResources().getString(R.string.guardianTable);
-
-        mGuardianRef = FirebaseDatabase.getInstance().getReference()
-                .child(masterTable)
-                .child(guardianTable);
-
-
-//        mGuardianRef
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(DataSnapshot dataSnapshot) {
-////                        render();
-//                        String f = "";
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(DatabaseError databaseError) {
-//                        Toast.makeText(getActivity(), R.string.failure_guardian_download, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-
+        // set listener to ref
         mGuardianRef
                 .orderByKey()
                 .equalTo(databaseKey)
                 .addChildEventListener(mGuardianListener);
     }
 
-
     private void setRecordName() {
-        TextView recordNameTextView = mView.findViewById(R.id.record_details_title);
+        final TextView recordNameTextView = mView.findViewById(R.id.record_details_title);
         recordNameTextView.setText(mPatient.getName(getContext()));
     }
 
     private void addEditButton(ListView vaccineListView) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        Button editButton = (Button) inflater.inflate(R.layout.button_edit_record, null);
+        final LayoutInflater inflater = LayoutInflater.from(getContext());
+        final Button editButton = (Button) inflater.inflate(R.layout.button_edit_record, null);
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override

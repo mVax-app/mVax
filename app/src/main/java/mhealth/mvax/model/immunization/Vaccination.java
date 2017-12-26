@@ -27,53 +27,24 @@ import java.io.Serializable;
  *         Stores data representing a vaccination
  *         associated with a particular patient and dose
  */
-public class Vaccination implements Serializable {
+public class Vaccination extends Date implements Serializable {
 
     //================================================================================
     // Constructors
     //================================================================================
 
     private Vaccination() {
-        // Firebase constructor
+        // Firebase POJO constructor
     }
 
     public Vaccination(String databaseKey, String patientDatabaseKey, String doseDatabaseKey, Long date) {
-        this.databaseKey = databaseKey;
-        this.patientDatabaseKey = patientDatabaseKey;
+        super(databaseKey, patientDatabaseKey, date);
         this.doseDatabaseKey = doseDatabaseKey;
-        this.date = date;
     }
 
     //================================================================================
-    // Properties
+    // Extended properties
     //================================================================================
-
-    /**
-     * Unique Firebase database key representing the Vaccination
-     */
-    private String databaseKey;
-
-    public String getDatabaseKey() {
-        return this.databaseKey;
-    }
-
-    public void setDatabaseKey(String databaseKey) {
-        this.databaseKey = databaseKey;
-    }
-
-    /**
-     * Unique Firebase database key representing the
-     * Vaccination's associated Patient
-     */
-    private String patientDatabaseKey;
-
-    public String getPatientDatabaseKey() {
-        return this.patientDatabaseKey;
-    }
-
-    public void setPatientDatabaseKey(String patientDatabaseKey) {
-        this.patientDatabaseKey = patientDatabaseKey;
-    }
 
     /**
      * Unique Firebase database key representing the
@@ -87,20 +58,6 @@ public class Vaccination implements Serializable {
 
     public void setDoseDatabaseKey(String doseDatabaseKey) {
         this.doseDatabaseKey = doseDatabaseKey;
-    }
-
-    /**
-     * Vaccination date, represented as milliseconds since
-     * Unix epoch
-     */
-    private Long date;
-
-    public Long getDate() {
-        return this.date;
-    }
-
-    public void setDate(Long date) {
-        this.date = date;
     }
 
 }

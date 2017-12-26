@@ -21,14 +21,16 @@ package mhealth.mvax.model.record;
 
 import android.content.Context;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.views.detail.DateDetail;
-import mhealth.mvax.records.views.detail.Detail;
-import mhealth.mvax.records.views.detail.StringDetail;
-import mhealth.mvax.records.views.detail.StringNumberDetail;
+import mhealth.mvax.records.details.patient.detail.DateDetail;
+import mhealth.mvax.records.details.patient.detail.Detail;
+import mhealth.mvax.records.details.patient.detail.StringDetail;
+import mhealth.mvax.records.details.patient.detail.StringNumberDetail;
 
 /**
  * @author Robert Steilberg
@@ -43,8 +45,7 @@ public class Patient extends Person {
     //================================================================================
 
     private Patient() {
-        super(null);
-        // Firebase constructor
+        // Firebase POJO constructor
     }
 
     public Patient(String databaseKey) {
@@ -141,6 +142,7 @@ public class Patient extends Person {
     //================================================================================
 
     @Override
+    @Exclude
     public List<Detail> getDetails(Context context) {
         ArrayList<Detail> details = new ArrayList<>(getPersonDetails(context));
 
@@ -218,6 +220,7 @@ public class Patient extends Person {
     }
 
     @Override
+    @Exclude
     public int getSectionTitleStringID() {
         return R.string.patient_detail_section_title;
     }

@@ -19,30 +19,21 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.details;
 
-import mhealth.mvax.model.record.Patient;
-import mhealth.mvax.model.record.Person;
-
 /**
  * @author Robert Steilberg
  *         <p>
- *         Interface for defining the API of a record tab
+ *         Interface for defining the API of a DetailFragment tab
  */
-
 public interface RecordTab {
 
     /**
-     * Performs the initial render of the tab views, using
-     * the Record passed in as an argument to the Fragment
+     * Performs the initial render of the tab view
      */
     void render();
 
     /**
-     * Called when the tab view needs to be updated with data
-     * from an updated record
-     *
-     * @param patient the new patient with which to update
-     *                      the view
+     * Updates the tab view when data is updated via a
+     * database listener
      */
-    void update(Person person);
-
+    void refresh();
 }

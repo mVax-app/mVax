@@ -17,38 +17,60 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.records.views.detail;
+package mhealth.mvax.records.details;
 
-import android.content.Context;
-import android.text.InputType;
-import android.widget.EditText;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Detail for storing String fields represented by numbers
- *         only
  */
 
-public class StringNumberDetail extends StringDetail {
+class DualTabPagerAdapter extends FragmentStatePagerAdapter {
+
+    //================================================================================
+    // Properties
+    //================================================================================
+
+    private static final int TAB_COUNT = 2;
+    private Fragment mFirstTab;
+    private Fragment mSecondTab;
+
 
     //================================================================================
     // Constructors
     //================================================================================
 
-
-    public StringNumberDetail(String label, String hint, String value, Context context) {
-        super(label, hint, value, context);
+     DualTabPagerAdapter(FragmentManager fm, Fragment firstTab, Fragment secondTab) {
+        super(fm);
+        mFirstTab = firstTab;
+        mSecondTab = secondTab;
     }
+
 
     //================================================================================
     // Override methods
     //================================================================================
 
+    /**
+     * Return the tab at the specified position
+     */
     @Override
-    public void configureValueView(EditText valueView) {
-        super.configureValueView(valueView);
-        valueView.setInputType(InputType.TYPE_CLASS_NUMBER); // number keypad for input
+    public Fragment getItem(int position) {
+        switch (position) {
+            case 0:
+                return mFirstTab;
+            case 1:
+                return mSecondTab;
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public int getCount() {
+        return TAB_COUNT;
     }
 
 }

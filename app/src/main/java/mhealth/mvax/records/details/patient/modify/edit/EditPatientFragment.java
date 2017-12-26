@@ -299,14 +299,14 @@ public class EditPatientFragment extends ModifiableRecordFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.modal_record_delete_title);
         builder.setMessage(R.string.modal_record_delete_message);
-        builder.setPositiveButton(getResources().getString(R.string.modal_new_dosage_confirm), new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getResources().getString(R.string.modal_date_confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 deleteCurrentRecord();
             }
         });
 
-        builder.setNegativeButton(getResources().getString(R.string.modal_new_dosage_cancel), new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getResources().getString(R.string.modal_date_cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

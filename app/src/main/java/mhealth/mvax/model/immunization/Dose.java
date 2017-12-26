@@ -26,7 +26,7 @@ import java.io.Serializable;
 /**
  * @author Robert Steilberg
  *         <p>
- *         Object for storing information about mVax doses
+ *         Stores information about doses
  */
 
 public class Dose implements Serializable {
@@ -36,7 +36,7 @@ public class Dose implements Serializable {
     //================================================================================
 
     private Dose() {
-        // Firebase constructor
+        // Firebase POJO constructor
     }
 
     public Dose(String databaseKey) {
@@ -48,7 +48,7 @@ public class Dose implements Serializable {
     //================================================================================
 
     /**
-     * Unique Firebase database key
+     * Unique Firebase database key of the Dose object
      */
     private String databaseKey;
 
@@ -63,7 +63,7 @@ public class Dose implements Serializable {
     /**
      * Form code used by iText to populate PDF forms
      */
-    private String formCode;
+    private String formCode = "";
 
     public String getFormCode() {
         return this.formCode;
@@ -76,7 +76,7 @@ public class Dose implements Serializable {
     /**
      * First label
      */
-    private String label1;
+    private String label1 = "";
 
     public String getLabel1() {
         return this.label1;
@@ -89,7 +89,7 @@ public class Dose implements Serializable {
     /**
      * Second label
      */
-    private String label2;
+    private String label2 = "";
 
     public String getLabel2() {
         return this.label2;

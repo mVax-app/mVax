@@ -120,5 +120,7 @@
     <string name="bass_development_title">Equipo de Desarrollo:</string>
     <string name="bass_global_health_title">Equipo de Salud Global:</string>
     <string name="dummy_data">Generate Test Data</string>
+    <string name="failure_records_download">Unable to Download Record Data</string>
+    <string name="due_date_label">Due Date:</string>
 
 </resources>

@@ -19,59 +19,32 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.immunization;
 
+import java.io.Serializable;
+
 /**
  * @author Robert Steilberg
  *         <p>
  *         Stores data representing a due date associated
  *         with a particular patient and vaccine
  */
-public class DueDate {
+public class DueDate extends Date implements Serializable {
 
     //================================================================================
     // Constructors
     //================================================================================
 
     private DueDate() {
-        // Firebase constructor
+        // Firebase POJO constructor
     }
 
-    public DueDate(String databaseKey, String patientDatabaseKey, String vaccineDatabaseKey, Long dueDate) {
-        this.databaseKey = databaseKey;
-        this.patientDatabaseKey = patientDatabaseKey;
+    public DueDate(String databaseKey, String patientDatabaseKey, String vaccineDatabaseKey, Long date) {
+        super(databaseKey, patientDatabaseKey, date);
         this.vaccineDatabaseKey = vaccineDatabaseKey;
-        this.dueDate = dueDate;
     }
 
     //================================================================================
-    // Properties
+    // Extended properties
     //================================================================================
-
-    /**
-     * Unique Firebase database key representing the DueDate
-     */
-    private String databaseKey;
-
-    public String getDatabaseKey() {
-        return this.databaseKey;
-    }
-
-    public void setDatabaseKey(String databaseKey) {
-        this.databaseKey = databaseKey;
-    }
-
-    /**
-     * Unique Firebase database key representing DueDate's
-     * associated Patient
-     */
-    private String patientDatabaseKey;
-
-    public String getPatientDatabaseKey() {
-        return this.patientDatabaseKey;
-    }
-
-    public void setPatientDatabaseKey(String patientDatabaseKey) {
-        this.patientDatabaseKey = patientDatabaseKey;
-    }
 
     /**
      * Unique Firebase database key representing the
@@ -85,19 +58,6 @@ public class DueDate {
 
     public void setVaccineDatabaseKey(String vaccineDatabaseKey) {
         this.vaccineDatabaseKey = vaccineDatabaseKey;
-    }
-
-    /**
-     * Due date, represented as milliseconds since Unix epoch
-     */
-    private Long dueDate;
-
-    public Long getDueDate() {
-        return this.dueDate;
-    }
-
-    public void setDueDate(Long dueDate) {
-        this.dueDate = dueDate;
     }
 
 }

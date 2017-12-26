@@ -22,6 +22,8 @@ package mhealth.mvax.model.record;
 import org.junit.Before;
 import org.junit.Test;
 
+import mhealth.mvax.model.immunization.Dose;
+
 import static org.junit.Assert.*;
 
 /**

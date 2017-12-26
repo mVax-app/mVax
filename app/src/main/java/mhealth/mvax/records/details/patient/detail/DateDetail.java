@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.records.views.detail;
+package mhealth.mvax.records.details.patient.detail;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -30,7 +30,7 @@ import android.widget.EditText;
 import org.joda.time.LocalDate;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.details.patient.RecordDateFormat;
+import mhealth.mvax.records.details.patient.NullableDateFormat;
 
 /**
  * @author Robert Steilberg
@@ -44,8 +44,8 @@ public class DateDetail extends Detail<Long> {
     // Constructors
     //================================================================================
 
-    public DateDetail(String label, String hint, Long value, Context context) {
-        super(label, hint, value, context);
+    public DateDetail(Long value, String label, String hint, Context context) {
+        super(value, label, hint, context);
     }
 
     //================================================================================
@@ -109,7 +109,7 @@ public class DateDetail extends Detail<Long> {
 
     @Override
     public void updateStringValue(Long value) {
-        RecordDateFormat dateFormat = new RecordDateFormat(getContext().getString(R.string.date_format));
+        NullableDateFormat dateFormat = new NullableDateFormat(getContext().getString(R.string.date_format));
         setStringValue(dateFormat.getString(value));
     }
 }

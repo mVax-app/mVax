@@ -29,9 +29,7 @@ import java.util.List;
 /**
  * @author Robert Steilberg
  *         <p>
- *         Object for storing information about mVax vaccines;
- *         sorts by vaccine name, implements Serializable
- *         so that it can be bassed as a Bundle argument to fragments
+ *         Stores information about vaccines; sorts by vaccine name
  */
 
 public class Vaccine implements Serializable, Comparable<Vaccine> {
@@ -41,7 +39,7 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     //================================================================================
 
     private Vaccine() {
-        // Firebase constructor
+        // Firebase POJO constructor
     }
 
     public Vaccine(String databaseKey) {
@@ -53,7 +51,7 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     //================================================================================
 
     /**
-     * Unique Firebase database key representing the Vaccine
+     * Unique Firebase database key of the Vaccine object
      */
     private String databaseKey;
 
@@ -68,7 +66,7 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     /**
      * Vaccine name
      */
-    private String name;
+    private String name = "";
 
     public String getName() {
         return this.name;
@@ -81,7 +79,7 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     /**
      * Vaccine target administered count
      */
-    private Integer targetCount;
+    private Integer targetCount = 0;
 
     public Integer getTargetCount() {
         return this.targetCount;
@@ -94,7 +92,7 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     /**
      * Vaccine total administered count
      */
-    private Integer givenCount;
+    private Integer givenCount = 0;
 
     public Integer getGivenCount() {
         return this.givenCount;
@@ -106,7 +104,8 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
 
     /**
      * Array containing the vaccine's doses, each
-     * represented by its unique Firebase database key
+     * represented by the dose's unique Firebase database
+     * key
      */
     private List<Dose> doses = new ArrayList<>();
 

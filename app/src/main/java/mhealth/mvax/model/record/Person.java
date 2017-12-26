@@ -21,15 +21,17 @@ package mhealth.mvax.model.record;
 
 import android.content.Context;
 
+import com.google.firebase.database.Exclude;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.views.detail.Detail;
-import mhealth.mvax.records.views.detail.SexDetail;
-import mhealth.mvax.records.views.detail.StringDetail;
-import mhealth.mvax.records.views.detail.StringNumberDetail;
+import mhealth.mvax.records.details.patient.detail.Detail;
+import mhealth.mvax.records.details.patient.detail.SexDetail;
+import mhealth.mvax.records.details.patient.detail.StringDetail;
+import mhealth.mvax.records.details.patient.detail.StringNumberDetail;
 
 /**
  * @author Robert Steilberg
@@ -44,6 +46,10 @@ public abstract class Person implements Serializable {
     // Constructors
     //================================================================================
 
+    Person() {
+        // Firebase POJO constructor
+    }
+
     Person(String databaseKey) {
         this.databaseKey = databaseKey;
     }
@@ -53,7 +59,7 @@ public abstract class Person implements Serializable {
     //================================================================================
 
     /**
-     * Unique Firebase database key representing the Person
+     * Unique Firebase database key of the Person object
      */
     private String databaseKey;
 
@@ -154,6 +160,7 @@ public abstract class Person implements Serializable {
      * @return List of Detail objects, ordered according to how they
      * will be displayed after the List of Person Detail objects
      */
+    @Exclude
     public abstract List<Detail> getDetails(Context context);
 
 
@@ -161,6 +168,7 @@ public abstract class Person implements Serializable {
      * @return String id of the String used for the section title
      * in the patient details ListView
      */
+    @Exclude
     public abstract int getSectionTitleStringID();
 
     //================================================================================
@@ -175,11 +183,12 @@ public abstract class Person implements Serializable {
      * @return formatted String representing full name, or no_patient_name
      * if the patient does not have a first surname
      */
+    @Exclude
     public String getName(Context context) {
         if (firstSurname.equals("")) {
             return context.getString(R.string.no_patient_name);
         }
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append(firstSurname);
         if (!lastSurname.equals("")) sb.append(" ").append(lastSurname);
         if (!firstName.equals("")) sb.append(", ").append(firstName);
@@ -189,12 +198,13 @@ public abstract class Person implements Serializable {
 
     /**
      * Computes a List of Detail objects that represent each property that
-     * the Person contains
+     * every Person contains
      *
      * @param context Android context for fetching String values
      * @return List of Detail objects, ordered according to how they
      * will be displayed
      */
+    @Exclude
     List<Detail> getPersonDetails(Context context) {
         ArrayList<Detail> details = new ArrayList<>();
 

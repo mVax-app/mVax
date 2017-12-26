@@ -63,10 +63,10 @@ public class CreateRecordFragment extends ModifiableRecordFragment {
         recordName.setText(R.string.new_record_title);
 
         mPatient = new Patient(mPatientDatabaseRef.push().getKey());
-        mGuardian = new Guardian(mGuardianDatabaseRef.push().getKey());
+        mGuardian = new Guardian(mGuardianDatabaseRef.push().getKey(), mPatient.getDatabaseKey());
 
-        mPatient.setGuardianDatabaseID(mGuardian.getDatabaseKey());
-        mGuardian.addDependent(mPatient.getDatabaseKey());
+        mPatient.setGuardianDatabaseKey(mGuardian.getDatabaseKey());
+
 
         renderListView(view);
         return view;

@@ -23,6 +23,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import mhealth.mvax.model.immunization.Vaccine;
+
 import static org.junit.Assert.*;
 
 // https://github.com/ravidsrk/android-testing-guide#espresso

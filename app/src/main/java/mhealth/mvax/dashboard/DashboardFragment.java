@@ -43,7 +43,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.record.Vaccine;
+import mhealth.mvax.model.immunization.Vaccine;
 
 public class DashboardFragment extends Fragment {
 
