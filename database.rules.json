@@ -1,7 +1,6 @@
 {
   "rules": {
     "mVax-data": {
-      // TODO handle in-app read/write restriction notifications
       ".read": "auth != null",
       ".write": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'",
       "vaccinations": {
