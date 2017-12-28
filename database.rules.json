@@ -1,9 +1,23 @@
 {
   "rules": {
-    "mVax": {
+    "mVax-data": {
+      // TODO handle in-app read/write restriction notifications
       ".read": "auth != null",
+      ".write": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'",
+      "vaccinations": {
+        ".indexOn": "patientDatabaseKey"
+      },
+      "dueDates": {
+        ".indexOn": "patientDatabaseKey"
+      }
+    },
+    "users": {
+      ".read": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'",
       ".write": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'"
+    },
+    "userRequests": {
+      ".read": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'",
+      ".write": "auth != null"
     }
-
   }
 }
