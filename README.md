@@ -6,8 +6,13 @@ mVax is configured to use Firebase for storing and retrieving data. The applicat
 
 Currently, this repository is configured to point to the Firebase instance for Clínica Esperanza.
 
+## Requirements
 
-[//]: # (change above to reflect instructions for configuring for any Firebase instance)
+**Minimum SDK**: Android 7.0 Nougat, Android API Level 24
+
+**Target and Compile SDK**: Android 8.0 Oreo, Android API Level 26
+
+mVax can run on any Android device running at least Android 7.0 Nougat with Android API Level 24 or greater. However, mVax has only been tested on the 8-inch Samsung Galaxy Tab S2 running Android 7.0 Nougat with Android API level 24, since this is the device with which it will be deployed at Clínica Esperanza.
 
 ## Installation
 
