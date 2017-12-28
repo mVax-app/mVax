@@ -19,13 +19,15 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.user;
 
+import java.io.Serializable;
+
 /**
  * This enum represents all possibilities for user roles.
  * A user role defines an access level for a user to the app.
  * @author Matthew Tribby
  * November, 2017
  */
-public enum UserRole {
+public enum UserRole implements Serializable {
     ADMIN,
     READER
 }

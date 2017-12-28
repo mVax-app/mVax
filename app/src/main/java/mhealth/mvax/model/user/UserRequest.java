@@ -27,7 +27,7 @@ package mhealth.mvax.model.user;
  * @author Matthew Tribby
  * November, 2017
  */
-public class UserRequest extends User{
+public class UserRequest extends User {
     private String mUid;
 
     public UserRequest(){

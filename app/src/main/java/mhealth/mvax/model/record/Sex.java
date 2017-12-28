@@ -19,6 +19,8 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.record;
 
+import java.io.Serializable;
+
 import mhealth.mvax.R;
 
 /**
@@ -26,7 +28,7 @@ import mhealth.mvax.R;
  *         <p>
  *         Enum for representing supported sexes
  */
-public enum Sex {
+public enum Sex implements Serializable {
     MALE(R.string.male_enum),
     FEMALE(R.string.female_enum);
 

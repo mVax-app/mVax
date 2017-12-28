@@ -19,12 +19,14 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.user;
 
+import java.io.Serializable;
+
 /**
  * @author Matthew Tribby
  *         Object for storing information about mVax users
  */
 
-public class User {
+public class User implements Serializable {
     private String mFirstName;
     private String mLastName;
     private String mEmail;

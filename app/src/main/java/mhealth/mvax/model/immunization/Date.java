@@ -19,13 +19,15 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.immunization;
 
+import java.io.Serializable;
+
 /**
  * @author Robert Steilberg
  *         <p>
  *         Generic data structure for associating a patient
  *         with a date
  */
-public class Date {
+public class Date implements Serializable {
 
     Date() {
         // Firebase POJO constructor
