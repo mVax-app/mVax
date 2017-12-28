@@ -19,18 +19,16 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.record;
 
-import android.content.Context;
-
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.details.patient.detail.DateDetail;
-import mhealth.mvax.records.details.patient.detail.Detail;
-import mhealth.mvax.records.details.patient.detail.StringDetail;
-import mhealth.mvax.records.details.patient.detail.StringNumberDetail;
+import mhealth.mvax.records.record.patient.detail.DateDetail;
+import mhealth.mvax.records.record.patient.detail.Detail;
+import mhealth.mvax.records.record.patient.detail.StringDetail;
+import mhealth.mvax.records.record.patient.detail.StringNumberDetail;
 
 /**
  * @author Robert Steilberg
@@ -138,20 +136,19 @@ public class Patient extends Person {
     }
 
     //================================================================================
-    // Computed functions
+    // Public methods
     //================================================================================
 
     @Override
     @Exclude
-    public List<Detail> getDetails(Context context) {
-        ArrayList<Detail> details = new ArrayList<>(getPersonDetails(context));
+    public List<Detail> getDetails() {
+        ArrayList<Detail> details = new ArrayList<>(getPersonDetails());
 
         // date of birth
         final DateDetail dobDetail = new DateDetail(
                 this.DOB,
-                context.getString(R.string.label_dob),
-                context.getString(R.string.hint_dob),
-                context);
+                R.string.label_dob,
+                R.string.hint_dob);
         dobDetail.setSetter(new Runnable() {
             @Override
             public void run() {
@@ -163,9 +160,8 @@ public class Patient extends Person {
         // community
         final StringDetail communityDetail = new StringDetail(
                 this.community,
-                context.getResources().getString(R.string.label_community),
-                context.getResources().getString(R.string.hint_community),
-                context);
+                R.string.label_community,
+                R.string.hint_community);
         communityDetail.setSetter(new Runnable() {
             @Override
             public void run() {
@@ -177,9 +173,8 @@ public class Patient extends Person {
         // place of birth
         final StringDetail placeOfBirthDetail = new StringDetail(
                 this.placeOfBirth,
-                context.getResources().getString(R.string.label_pob),
-                context.getResources().getString(R.string.hint_pob),
-                context);
+                R.string.label_pob,
+                R.string.hint_pob);
         placeOfBirthDetail.setSetter(new Runnable() {
             @Override
             public void run() {
@@ -191,9 +186,8 @@ public class Patient extends Person {
         // address
         final StringDetail addressDetail = new StringDetail(
                 this.address,
-                context.getResources().getString(R.string.label_address),
-                context.getResources().getString(R.string.hint_address),
-                context);
+                R.string.label_address,
+                R.string.hint_address);
         addressDetail.setSetter(new Runnable() {
             @Override
             public void run() {
@@ -205,9 +199,8 @@ public class Patient extends Person {
         // phone number
         final StringNumberDetail phoneNumberDetail = new StringNumberDetail(
                 this.phoneNumber,
-                context.getResources().getString(R.string.label_phone_number),
-                context.getResources().getString(R.string.hint_phone_number),
-                context);
+                R.string.label_phone_number,
+                R.string.hint_phone_number);
         phoneNumberDetail.setSetter(new Runnable() {
             @Override
             public void run() {

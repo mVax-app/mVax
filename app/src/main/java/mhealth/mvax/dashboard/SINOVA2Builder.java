@@ -58,7 +58,7 @@
 // */
 //public class SINOVA2Builder {
 //    public static final int maxRows = 25;
-//    private Activity context = null;
+//    private Activity mContext = null;
 //
 //    private ArrayList<VaccinationRecord> records;
 //    private PdfStamper stamper;
@@ -68,12 +68,12 @@
 //
 //
 //    /**
-//     * Constructor for if the SINOVA Builder needs the activity for context / assets / file directory
-//     * @param context
+//     * Constructor for if the SINOVA Builder needs the activity for mContext / assets / file directory
+//     * @param mContext
 //     */
-//    public SINOVA2Builder(Activity context){
-//        this.context = context;
-//        sinova2_vaccines = Arrays.asList(context.getResources().getStringArray(R.array.sinova2_vaccines));
+//    public SINOVA2Builder(Activity mContext){
+//        this.mContext = mContext;
+//        sinova2_vaccines = Arrays.asList(mContext.getResources().getStringArray(R.array.sinova2_vaccines));
 //    }
 //
 //    /**
@@ -90,8 +90,8 @@
 //        final String fYear = String.valueOf(year);
 //        final String date = fYear + fMonth + fDay;
 //
-//        String extension = context.getResources().getString(R.string.sinova2_extension) + day + month + year + context.getResources().getString(R.string.destination_file_extension);
-//        final File file = new File(context.getExternalFilesDir(null), extension);
+//        String extension = mContext.getResources().getString(R.string.sinova2_extension) + day + month + year + mContext.getResources().getString(R.string.destination_file_extension);
+//        final File file = new File(mContext.getExternalFilesDir(null), extension);
 //
 //        Log.e("WORKS", date);
 //        //Reset instance variable for another fill
@@ -99,7 +99,7 @@
 //
 //        //FIREBASE RECORD FETCHING:
 //        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-//        ref = ref.child(context.getResources().getString(R.string.dataTable)).child(context.getResources().getString(R.string.vaccinationsTable));
+//        ref = ref.child(mContext.getResources().getString(R.string.dataTable)).child(mContext.getResources().getString(R.string.vaccinationsTable));
 //
 //        ref.addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
@@ -132,24 +132,24 @@
 //    private void fillInForm(File file, String day, String month, String year){
 //        try {
 //            //Retrieval of the template
-//            AssetManager assetManager = context.getAssets();
-//            reader = new PdfReader(assetManager.open(context.getResources().getString(R.string.sinova_2_file_name)));
+//            AssetManager assetManager = mContext.getAssets();
+//            reader = new PdfReader(assetManager.open(mContext.getResources().getString(R.string.sinova_2_file_name)));
 //
 //            stamper = new PdfStamper(reader, new FileOutputStream(file));
 //            //Filling in of available information
 //            form = stamper.getAcroFields();
 //
 //            //Insert the header info on the SINOVA 2
-//            form.setField(context.getResources().getString(R.string.establishment),context.getResources().getString(R.string.form_clinic_name));
-//            form.setField(context.getResources().getString(R.string.name_of_responsible_person), context.getResources().getString(R.string.form_vaccinator_name));
-//            form.setField(context.getResources().getString(R.string.department), context.getResources().getString(R.string.form_department_name));
+//            form.setField(mContext.getResources().getString(R.string.establishment),mContext.getResources().getString(R.string.form_clinic_name));
+//            form.setField(mContext.getResources().getString(R.string.name_of_responsible_person), mContext.getResources().getString(R.string.form_vaccinator_name));
+//            form.setField(mContext.getResources().getString(R.string.department), mContext.getResources().getString(R.string.form_department_name));
 //            //TODO FIGURE OUT WHAT CODE IS
-//            form.setField(context.getResources().getString(R.string.code),"2543");
-//            form.setField(context.getResources().getString(R.string.municipality), context.getResources().getString(R.string.form_city_name));
-//            form.setField(context.getResources().getString(R.string.date_day), day);
-//            form.setField(context.getResources().getString(R.string.date_month), month);
-//            form.setField(context.getResources().getString(R.string.date_year), year);
-//            form.setField(context.getResources().getString(R.string.location_place), context.getResources().getString(R.string.form_address));
+//            form.setField(mContext.getResources().getString(R.string.code),"2543");
+//            form.setField(mContext.getResources().getString(R.string.municipality), mContext.getResources().getString(R.string.form_city_name));
+//            form.setField(mContext.getResources().getString(R.string.date_day), day);
+//            form.setField(mContext.getResources().getString(R.string.date_month), month);
+//            form.setField(mContext.getResources().getString(R.string.date_year), year);
+//            form.setField(mContext.getResources().getString(R.string.location_place), mContext.getResources().getString(R.string.form_address));
 //
 //
 //            //Starts at row 1
@@ -173,19 +173,19 @@
 //        final String uid = records.get(row - 1).getPatientUID();
 //
 //        DatabaseReference patients = FirebaseDatabase.getInstance().getReference()
-//                .child(context.getResources().getString(R.string.dataTable))
-//                .child(context.getResources().getString(R.string.recordTable));
+//                .child(mContext.getResources().getString(R.string.dataTable))
+//                .child(mContext.getResources().getString(R.string.recordTable));
 //
 //        patients.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(DataSnapshot dataSnapshot) {
 //                Record record = dataSnapshot.getValue(Record.class);
 //                try {
-//                    form.setField(context.getResources().getString(R.string.sinova2_complete_name) + rowNumber, record.getFullName());
-//                    form.setField(context.getResources().getString(R.string.sinova2_origin) + rowNumber, record.getPlaceOfBirth());
+//                    form.setField(mContext.getResources().getString(R.string.sinova2_complete_name) + rowNumber, record.getFullName());
+//                    form.setField(mContext.getResources().getString(R.string.sinova2_origin) + rowNumber, record.getPlaceOfBirth());
 //
 //                    //VACCINE SPECIFIC
-//                    form.setField(context.getResources().getString(context.getResources().getIdentifier(records.get(rowNumber-1).getType(), "string", context.getPackageName())) + rowNumber, "X");
+//                    form.setField(mContext.getResources().getString(mContext.getResources().getIdentifier(records.get(rowNumber-1).getType(), "string", mContext.getPackageName())) + rowNumber, "X");
 //
 //                    if(rowNumber + 1 > records.size() || rowNumber == maxRows){
 //                        closePDF();

@@ -44,8 +44,8 @@ import java.util.Map;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Patient;
-import mhealth.mvax.records.details.DetailFragment;
-import mhealth.mvax.records.details.patient.modify.create.CreateRecordFragment;
+import mhealth.mvax.records.record.RecordFragment;
+import mhealth.mvax.records.record.patient.modify.create.CreateRecordFragment;
 
 /**
  * @author Robert Steilberg, Alison Huang
@@ -53,7 +53,6 @@ import mhealth.mvax.records.details.patient.modify.create.CreateRecordFragment;
  *         Fragment for searching for patients and seguing to
  *         detail and immunization views
  */
-
 public class SearchFragment extends Fragment {
 
     //================================================================================
@@ -81,15 +80,9 @@ public class SearchFragment extends Fragment {
     //================================================================================
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mPatients = new HashMap<>();
-    }
-
-    @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_search, container, false);
-
+        mPatients = new HashMap<>();
         mSearchResultAdapter = new SearchResultAdapter(view.getContext(), mPatients.values());
 
         initDatabase();
@@ -170,11 +163,10 @@ public class SearchFragment extends Fragment {
     }
 
     private void createNewRecord() {
-        final CreateRecordFragment newRecordFrag = CreateRecordFragment.newInstance();
-        final FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, newRecordFrag);
-        transaction.addToBackStack(null); // back button brings us back to SearchFragment
-        transaction.commit();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_layout, CreateRecordFragment.newInstance())
+                .addToBackStack(null) // back button brings us back to SearchFragment
+                .commit();
     }
 
     private void renderFilterSpinner(View view) {
@@ -213,7 +205,7 @@ public class SearchFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final String selectedDatabaseKey = mSearchResultAdapter.getSelectedDatabaseKey(position);
 
-                final DetailFragment detailFrag = DetailFragment.newInstance(selectedDatabaseKey);
+                final RecordFragment detailFrag = RecordFragment.newInstance(selectedDatabaseKey);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame_layout, detailFrag)
                         .addToBackStack(null) // back button brings us back to SearchFragment
@@ -221,5 +213,7 @@ public class SearchFragment extends Fragment {
             }
         });
     }
+
+
 
 }

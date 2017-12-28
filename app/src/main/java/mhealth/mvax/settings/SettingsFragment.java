@@ -52,8 +52,6 @@ import mhealth.mvax.auth.ApproveUsersFragment;
 import mhealth.mvax.auth.LoginActivity;
 import mhealth.mvax.model.user.UserRole;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-
 /**
  * This Fragment represents the Settings Tab which contains the follwoing functionality:
  * 1. Changing Languages
@@ -185,12 +183,12 @@ public class SettingsFragment extends Fragment {
         builder.setTitle(getResources().getString(R.string.modal_update_title));
 
         //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
-        LayoutInflater inflater = (LayoutInflater) getActivity().getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = getLayoutInflater();
 
         final View dialogView = inflater.inflate(R.layout.modal_update_email, null);
         builder.setView(dialogView);
 
-        final TextView address = (TextView) dialogView.findViewById(R.id.emailReset);
+        final TextView address = dialogView.findViewById(R.id.emailReset);
 
         builder.setPositiveButton(getResources().getString(R.string.update_email), new DialogInterface.OnClickListener() {
             @Override
@@ -215,7 +213,7 @@ public class SettingsFragment extends Fragment {
         builder.setTitle(getResources().getString(R.string.modal_reset_title));
 
         //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
-        LayoutInflater inflater = (LayoutInflater) getActivity().getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = getLayoutInflater();
 
         final View dialogView = inflater.inflate(R.layout.modal_reset_password_confirm, null);
         builder.setView(dialogView);
@@ -285,7 +283,7 @@ public class SettingsFragment extends Fragment {
         builder.setTitle(getResources().getString(R.string.about));
 
         //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
-        LayoutInflater inflater = (LayoutInflater) getActivity().getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = getLayoutInflater();
 
         final View dialogView = inflater.inflate(R.layout.modal_about, null);
         builder.setView(dialogView);
@@ -298,7 +296,7 @@ public class SettingsFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Generate Dummy Data");
 
-        LayoutInflater inflater = (LayoutInflater) getActivity().getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = getLayoutInflater();
 
         final View dialogView = inflater.inflate(R.layout.modal_generate_dummy_data, null);
         builder.setView(dialogView);

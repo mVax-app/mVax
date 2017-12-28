@@ -82,7 +82,7 @@ class DataGenerator {
 
         Patient rob = new Patient(patientRef.getKey());
         mPatientDatabaseKey = rob.getDatabaseKey();
-        rob.setMedicalID("64573829174");
+        rob.setMedicalId("64573829174");
         rob.setFirstName("Robert");
         rob.setMiddleName("Hays");
         rob.setFirstSurname("Kemp");
@@ -97,7 +97,7 @@ class DataGenerator {
         patientRef.setValue(rob);
 
         Guardian matt = new Guardian(parentRef.getKey(), patientRef.getKey());
-        matt.setMedicalID("1239248354");
+        matt.setMedicalId("1239248354");
         matt.setFirstName("Matt");
         matt.setMiddleName("Muffin");
         matt.setFirstSurname("Leroy");

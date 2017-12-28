@@ -36,7 +36,6 @@ import mhealth.mvax.model.record.Patient;
  *         Contains algorithms for filtering database results based
  *         on various queries
  */
-
 class SearchFilter {
 
     private Map<String, Patient> mRecords;

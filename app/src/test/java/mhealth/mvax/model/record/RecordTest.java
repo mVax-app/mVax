@@ -57,7 +57,7 @@ public class RecordTest {
 
         record.setVaccines(vaccines);
 
-        assertEquals("record's vaccine list not sorted by vaccine name after setter",
+        assertEquals("record's vaccine list not sorted by vaccine name after mSetter",
                 "Hepatitis",
                 firstVaccineName);
     }

@@ -51,17 +51,17 @@ public class DoseTest {
     public void getLabel() throws Exception {
 //        assertEquals("empty dose doesn't have empty label",
 //                "",
-//                dose.getLabel());
+//                dose.getLabelStringId());
 
         dose.setLabel1("Foo");
 
-        assertEquals("getLabel does not properly format dose with one label",
+        assertEquals("getLabelStringId does not properly format dose with one label",
                 "Foo:",
                 dose.getLabel());
 
         dose.setLabel2("Bar");
 
-        assertEquals("getLabel does not properly format dose with one label",
+        assertEquals("getLabelStringId does not properly format dose with one label",
                 "Foo (Bar):",
                 dose.getLabel());
     }

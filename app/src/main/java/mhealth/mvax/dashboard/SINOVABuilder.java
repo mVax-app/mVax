@@ -59,7 +59,7 @@
 // */
 //public class SINOVABuilder {
 //    public static final int maxRows = 15;
-//    private Activity context = null;
+//    private Activity mContext = null;
 //
 ////    private ArrayList<VaccinationRecord> records;
 //    private PdfStamper stamper;
@@ -68,12 +68,12 @@
 //    private List<String> sinova_vaccines;
 //
 //    /**
-//     * Constructor for if the SINOVA Builder needs the activity for context / assets / file directory
-//     * @param context
+//     * Constructor for if the SINOVA Builder needs the activity for mContext / assets / file directory
+//     * @param mContext
 //     */
-//    public SINOVABuilder(Activity context){
-//        this.context = context;
-//        sinova_vaccines = Arrays.asList(context.getResources().getStringArray(R.array.sinova_vaccines));
+//    public SINOVABuilder(Activity mContext){
+//        this.mContext = mContext;
+//        sinova_vaccines = Arrays.asList(mContext.getResources().getStringArray(R.array.sinova_vaccines));
 //    }
 //
 //    /**
@@ -90,15 +90,15 @@
 //        final String fYear = String.valueOf(year);
 //        final String date = fYear + fMonth + fDay;
 //
-//        String extension = context.getResources().getString(R.string.sinova_extension) + day + month + year + context.getResources().getString(R.string.destination_file_extension);
-//        final File file = new File(context.getExternalFilesDir(null), extension);
+//        String extension = mContext.getResources().getString(R.string.sinova_extension) + day + month + year + mContext.getResources().getString(R.string.destination_file_extension);
+//        final File file = new File(mContext.getExternalFilesDir(null), extension);
 //
 //        //Reset instance variable for another fill
 //        records = new ArrayList<>();
 //
 //        //FIREBASE RECORD FETCHING:
 //        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-//        ref = ref.child(context.getResources().getString(R.string.dataTable)).child(context.getResources().getString(R.string.vaccinationsTable));
+//        ref = ref.child(mContext.getResources().getString(R.string.dataTable)).child(mContext.getResources().getString(R.string.vaccinationsTable));
 //
 //        //The following listener queries for all records of the day and adds them to instance variable, records
 //        ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -133,23 +133,23 @@
 //            try {
 //
 //                //Retrieval of the template
-//                AssetManager assetManager = context.getAssets();
-//                reader = new PdfReader(assetManager.open(context.getResources().getString(R.string.sinova_1_file_name)));
+//                AssetManager assetManager = mContext.getAssets();
+//                reader = new PdfReader(assetManager.open(mContext.getResources().getString(R.string.sinova_1_file_name)));
 //
 //                stamper = new PdfStamper(reader, new FileOutputStream(file));
 //                //Filling in of available information
 //                form = stamper.getAcroFields();
 //
 //                //Insert the header info on the SINOVA
-//                form.setField(context.getResources().getString(R.string.establishment), context.getResources().getString(R.string.form_clinic_name));
-//                form.setField(context.getResources().getString(R.string.name_of_responsible_person), context.getResources().getString(R.string.form_vaccinator_name));
-//                form.setField(context.getResources().getString(R.string.department), context.getResources().getString(R.string.form_department_name));
-//                form.setField(context.getResources().getString(R.string.code), "2354");
-//                form.setField(context.getResources().getString(R.string.municipality), context.getResources().getString(R.string.form_city_name));
-//                form.setField(context.getResources().getString(R.string.date_day), day);
-//                form.setField(context.getResources().getString(R.string.date_month), month);
-//                form.setField(context.getResources().getString(R.string.date_year), year);
-//                form.setField(context.getResources().getString(R.string.location_place), context.getResources().getString(R.string.form_address));
+//                form.setField(mContext.getResources().getString(R.string.establishment), mContext.getResources().getString(R.string.form_clinic_name));
+//                form.setField(mContext.getResources().getString(R.string.name_of_responsible_person), mContext.getResources().getString(R.string.form_vaccinator_name));
+//                form.setField(mContext.getResources().getString(R.string.department), mContext.getResources().getString(R.string.form_department_name));
+//                form.setField(mContext.getResources().getString(R.string.code), "2354");
+//                form.setField(mContext.getResources().getString(R.string.municipality), mContext.getResources().getString(R.string.form_city_name));
+//                form.setField(mContext.getResources().getString(R.string.date_day), day);
+//                form.setField(mContext.getResources().getString(R.string.date_month), month);
+//                form.setField(mContext.getResources().getString(R.string.date_year), year);
+//                form.setField(mContext.getResources().getString(R.string.location_place), mContext.getResources().getString(R.string.form_address));
 //
 //
 //                //Starts at row 1
@@ -174,8 +174,8 @@
 //        final String uid = records.get(row - 1).getPatientUID();
 //
 //        DatabaseReference patients = FirebaseDatabase.getInstance().getReference()
-//                .child(context.getResources().getString(R.string.dataTable))
-//                .child(context.getResources().getString(R.string.recordTable));
+//                .child(mContext.getResources().getString(R.string.dataTable))
+//                .child(mContext.getResources().getString(R.string.recordTable));
 //
 //            //PATIENT SPECIFIC DATA
 //            patients.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -184,28 +184,28 @@
 //                    Record record = dataSnapshot.getValue(Record.class);
 //
 //                    try {
-//                        form.setField(context.getResources().getString(R.string.temporary_number_mothers_id) + rowNumber, record.getParentId());
-//                        form.setField(context.getResources().getString(R.string.number_of_children) + rowNumber, record.getNumDependents());
-//                        form.setField(context.getResources().getString(R.string.child_national_reg_number) + rowNumber, record.getId());
-//                        form.setField(context.getResources().getString(R.string.child_name)+ rowNumber, record.getFullName());
-//                        form.setField(context.getResources().getString(R.string.date_of_birth) + rowNumber, String.valueOf(record.getDOB()));
+//                        form.setField(mContext.getResources().getString(R.string.temporary_number_mothers_id) + rowNumber, record.getParentId());
+//                        form.setField(mContext.getResources().getString(R.string.number_of_children) + rowNumber, record.getNumDependents());
+//                        form.setField(mContext.getResources().getString(R.string.child_national_reg_number) + rowNumber, record.getId());
+//                        form.setField(mContext.getResources().getString(R.string.child_name)+ rowNumber, record.getFullName());
+//                        form.setField(mContext.getResources().getString(R.string.date_of_birth) + rowNumber, String.valueOf(record.getDOB()));
 //                        if(record.getSex() == Sex.MALE) {
-//                            form.setField(context.getResources().getString(R.string.sex_male) + rowNumber, "X");
+//                            form.setField(mContext.getResources().getString(R.string.sex_male) + rowNumber, "X");
 //                        }
 //                        else {
-//                            form.setField(context.getResources().getString(R.string.sex_female) + rowNumber, "X");
+//                            form.setField(mContext.getResources().getString(R.string.sex_female) + rowNumber, "X");
 //                        }
-//                        form.setField(context.getResources().getString(R.string.birth_department) + rowNumber, record.getPlaceOfBirth());
-//                        form.setField(context.getResources().getString(R.string.birth_municipal)+ rowNumber, record.getPlaceOfBirth());
-//                        form.setField(context.getResources().getString(R.string.residence_department) + rowNumber,  context.getResources().getString(R.string.unknown));
-//                        form.setField(context.getResources().getString(R.string.residence_municipal) + rowNumber, context.getResources().getString(R.string.na));
-//                        form.setField(context.getResources().getString(R.string.residence_town) + rowNumber, record.getCommunity());
-//                        form.setField(context.getResources().getString(R.string.residence_address) + rowNumber, record.getParentAddress());
-//                        form.setField(context.getResources().getString(R.string.cell_number) + rowNumber, record.getParentPhone());
-//                        form.setField(context.getResources().getString(R.string.population_group) + rowNumber, context.getResources().getString(R.string.unknown));
-//                        form.setField(context.getResources().getString(R.string.full_name_guardian) + rowNumber, record.getParentFullName());
+//                        form.setField(mContext.getResources().getString(R.string.birth_department) + rowNumber, record.getPlaceOfBirth());
+//                        form.setField(mContext.getResources().getString(R.string.birth_municipal)+ rowNumber, record.getPlaceOfBirth());
+//                        form.setField(mContext.getResources().getString(R.string.residence_department) + rowNumber,  mContext.getResources().getString(R.string.unknown));
+//                        form.setField(mContext.getResources().getString(R.string.residence_municipal) + rowNumber, mContext.getResources().getString(R.string.na));
+//                        form.setField(mContext.getResources().getString(R.string.residence_town) + rowNumber, record.getCommunity());
+//                        form.setField(mContext.getResources().getString(R.string.residence_address) + rowNumber, record.getParentAddress());
+//                        form.setField(mContext.getResources().getString(R.string.cell_number) + rowNumber, record.getParentPhone());
+//                        form.setField(mContext.getResources().getString(R.string.population_group) + rowNumber, mContext.getResources().getString(R.string.unknown));
+//                        form.setField(mContext.getResources().getString(R.string.full_name_guardian) + rowNumber, record.getParentFullName());
 //
-//                        form.setField(context.getResources().getString(context.getResources().getIdentifier(records.get(rowNumber-1).getType(), "string", context.getPackageName())) + rowNumber, "X");
+//                        form.setField(mContext.getResources().getString(mContext.getResources().getIdentifier(records.get(rowNumber-1).getType(), "string", mContext.getPackageName())) + rowNumber, "X");
 //
 //                        if(rowNumber + 1 > records.size() || rowNumber == maxRows){
 //                            closePDF();

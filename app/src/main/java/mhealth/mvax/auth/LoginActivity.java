@@ -299,12 +299,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         builder.setTitle(getResources().getString(R.string.modal_reset_title));
 
         //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
-        LayoutInflater inflater = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = getLayoutInflater();
 
         final View dialogView = inflater.inflate(R.layout.modal_reset_password, null);
         builder.setView(dialogView);
 
-        final TextView address = (TextView) dialogView.findViewById(R.id.emailReset);
+        final TextView address = dialogView.findViewById(R.id.emailReset);
 
         builder.setPositiveButton(getResources().getString(R.string.reset_password_button), new DialogInterface.OnClickListener() {
             @Override

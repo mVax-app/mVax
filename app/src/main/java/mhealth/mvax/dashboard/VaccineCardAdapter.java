@@ -58,7 +58,7 @@ public class VaccineCardAdapter extends BaseAdapter {
     VaccineCardAdapter(Context context, Collection<Vaccine> vaccines) {
         mContext = context;
         mDataSource = new ArrayList<>(vaccines);
-        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = LayoutInflater.from(context);
     }
 
     void refresh(Collection<Vaccine> values) {

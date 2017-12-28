@@ -32,14 +32,13 @@ import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Patient;
-import mhealth.mvax.records.details.patient.NullableDateFormat;
+import mhealth.mvax.records.utilities.NullableDateFormat;
 
 /**
  * @author Robert Steilberg
  *         <p>
  *         Adapter for listing record search results
  */
-
 public class SearchResultAdapter extends BaseAdapter {
 
     //================================================================================
@@ -62,7 +61,7 @@ public class SearchResultAdapter extends BaseAdapter {
 
     SearchResultAdapter(Context context, Collection<Patient> patients) {
         mContext = context;
-        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = LayoutInflater.from(context);
         mPatients = new ArrayList<>(patients);
     }
 
@@ -76,7 +75,7 @@ public class SearchResultAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Patient getItem(int position) {
         return mPatients.get(position);
     }
 
@@ -99,7 +98,7 @@ public class SearchResultAdapter extends BaseAdapter {
             holder = (ViewHolder) rowView.getTag();
         }
 
-        final Patient result = (Patient) getItem(position);
+        final Patient result = getItem(position);
         setTitle(holder.titleTextView, result);
         setSubTitle(holder.subtitleTextView, result);
         setRightTitle(holder.rightTextView, result);
@@ -121,7 +120,7 @@ public class SearchResultAdapter extends BaseAdapter {
     //================================================================================
 
     private void setTitle(TextView titleTextView, Patient patient) {
-        titleTextView.setText(patient.getName(titleTextView.getContext()));
+        titleTextView.setText(patient.getName());
     }
 
     private void setSubTitle(TextView subtitleTextView, Patient patient) {

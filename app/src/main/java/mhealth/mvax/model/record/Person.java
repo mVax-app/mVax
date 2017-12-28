@@ -19,19 +19,19 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.record;
 
-import android.content.Context;
-
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.details.patient.detail.Detail;
-import mhealth.mvax.records.details.patient.detail.SexDetail;
-import mhealth.mvax.records.details.patient.detail.StringDetail;
-import mhealth.mvax.records.details.patient.detail.StringNumberDetail;
+import mhealth.mvax.records.record.patient.detail.Detail;
+import mhealth.mvax.records.record.patient.detail.SexDetail;
+import mhealth.mvax.records.record.patient.detail.StringDetail;
+import mhealth.mvax.records.utilities.StringFetcher;
+import mhealth.mvax.records.record.patient.detail.StringNumberDetail;
 
 /**
  * @author Robert Steilberg
@@ -74,14 +74,14 @@ public abstract class Person implements Serializable {
     /**
      * Medical ID assigned to the person
      */
-    private String medicalID = "";
+    private String medicalId = "";
 
-    public String getMedicalID() {
-        return this.medicalID;
+    public String getMedicalId() {
+        return this.medicalId;
     }
 
-    public void setMedicalID(String medicalID) {
-        this.medicalID = medicalID;
+    public void setMedicalId(String medicalId) {
+        this.medicalId = medicalId;
     }
 
     /**
@@ -156,13 +156,11 @@ public abstract class Person implements Serializable {
     /**
      * Get List of Detail objects specific to the extending class
      *
-     * @param context Android context for fetching String values
      * @return List of Detail objects, ordered according to how they
      * will be displayed after the List of Person Detail objects
      */
     @Exclude
-    public abstract List<Detail> getDetails(Context context);
-
+    public abstract List<Detail> getDetails();
 
     /**
      * @return String id of the String used for the section title
@@ -172,21 +170,38 @@ public abstract class Person implements Serializable {
     public abstract int getSectionTitleStringID();
 
     //================================================================================
-    // Computed functions
+    // Static methods
+    //================================================================================
+
+    /**
+     * @param people variadic list of Person objects
+     * @return a map, ordered by key, that maps a String resource id,
+     * representing a section title, to a Person object's details
+     */
+    @Exclude
+    public static LinkedHashMap<Integer, List<Detail>> getSectionedDetails(Person... people) {
+        final LinkedHashMap<Integer, List<Detail>> details = new LinkedHashMap<>();
+        for (final Person p : people) {
+            if (p != null) details.put(p.getSectionTitleStringID(), p.getDetails());
+        }
+        return details;
+    }
+
+    //================================================================================
+    // Public methods
     //================================================================================
 
     /**
      * Computes a String to display the Person's name, in format
      * firstSurname lastSurname, firstName middleName
      *
-     * @param context Android context for fetching String values
      * @return formatted String representing full name, or no_patient_name
      * if the patient does not have a first surname
      */
     @Exclude
-    public String getName(Context context) {
+    public String getName() {
         if (firstSurname.equals("")) {
-            return context.getString(R.string.no_patient_name);
+            return StringFetcher.fetchString(R.string.no_patient_name);
         }
         final StringBuilder sb = new StringBuilder();
         sb.append(firstSurname);
@@ -200,24 +215,22 @@ public abstract class Person implements Serializable {
      * Computes a List of Detail objects that represent each property that
      * every Person contains
      *
-     * @param context Android context for fetching String values
      * @return List of Detail objects, ordered according to how they
      * will be displayed
      */
     @Exclude
-    List<Detail> getPersonDetails(Context context) {
+    List<Detail> getPersonDetails() {
         ArrayList<Detail> details = new ArrayList<>();
 
         // medical ID
         final StringNumberDetail medicalIdDetail = new StringNumberDetail(
-                this.medicalID,
-                context.getString(R.string.label_medicalID),
-                context.getString(R.string.hint_medicalID),
-                context);
+                this.medicalId,
+                R.string.label_medicalID,
+                R.string.hint_medicalID);
         medicalIdDetail.setSetter(new Runnable() {
             @Override
             public void run() {
-                setMedicalID(medicalIdDetail.getValue());
+                setMedicalId(medicalIdDetail.getValue());
             }
         });
         details.add(medicalIdDetail);
@@ -225,9 +238,8 @@ public abstract class Person implements Serializable {
         // first name
         final StringDetail firstNameDetail = new StringDetail(
                 this.firstName,
-                context.getResources().getString(R.string.label_firstname),
-                context.getResources().getString(R.string.hint_firstname),
-                context);
+                R.string.label_firstname,
+                R.string.hint_firstname);
         firstNameDetail.setSetter(new Runnable() {
             @Override
             public void run() {
@@ -239,9 +251,8 @@ public abstract class Person implements Serializable {
         // patient middle name
         final StringDetail middleNameDetail = new StringDetail(
                 this.middleName,
-                context.getResources().getString(R.string.label_middlename),
-                context.getResources().getString(R.string.hint_middlename),
-                context);
+                R.string.label_middlename,
+                R.string.hint_middlename);
         middleNameDetail.setSetter(new Runnable() {
             @Override
             public void run() {
@@ -253,9 +264,8 @@ public abstract class Person implements Serializable {
         // first surname
         final StringDetail firstSurnameDetail = new StringDetail(
                 this.firstSurname,
-                context.getResources().getString(R.string.label_first_surname),
-                context.getResources().getString(R.string.hint_first_surname),
-                context);
+                R.string.label_first_surname,
+                R.string.hint_first_surname);
         firstSurnameDetail.setSetter(new Runnable() {
             @Override
             public void run() {
@@ -267,9 +277,8 @@ public abstract class Person implements Serializable {
         // last surname
         final StringDetail lastSurnameDetail = new StringDetail(
                 this.lastSurname,
-                context.getResources().getString(R.string.label_last_surname),
-                context.getResources().getString(R.string.hint_last_surname),
-                context);
+                R.string.label_last_surname,
+                R.string.hint_last_surname);
         lastSurnameDetail.setSetter(new Runnable() {
             @Override
             public void run() {
@@ -281,9 +290,8 @@ public abstract class Person implements Serializable {
         // patient sex
         final SexDetail sexDetail = new SexDetail(
                 this.sex,
-                context.getResources().getString(R.string.label_sex),
-                context.getResources().getString(R.string.hint_sex),
-                context);
+                R.string.label_sex,
+                R.string.hint_sex);
         sexDetail.setSetter(new Runnable() {
             @Override
             public void run() {

@@ -19,15 +19,13 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.record;
 
-import android.content.Context;
-
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.details.patient.detail.Detail;
+import mhealth.mvax.records.record.patient.detail.Detail;
 
 /**
  * @author Robert Steilberg
@@ -73,7 +71,7 @@ public class Guardian extends Person {
     }
 
     //================================================================================
-    // Computed functions
+    // Public methods
     //================================================================================
 
     @Exclude
@@ -95,10 +93,10 @@ public class Guardian extends Person {
 
     @Override
     @Exclude
-    public List<Detail> getDetails(Context context) {
+    public List<Detail> getDetails() {
         // nothing additional to return past what is
         // already included at the Person level
-        return getPersonDetails(context);
+        return getPersonDetails();
     }
 
     @Override

@@ -159,11 +159,11 @@
     <string name="male_enum">Male</string>
     <string name="female_enum">Female</string>
     <string name="empty_string" />
-    <string name="modal_neutral_choose_sex">No Sex</string>
+    <string name="modal_neutral_choose_sex">Remove Sex</string>
     <string name="modal_title_choose_date">Choose Date</string>
     <string name="modal_positive_choose_date">Ok</string>
     <string name="modal_negative_choose_date">Cancel</string>
-    <string name="modal_neutral_choose_date">No Date</string>
+    <string name="modal_neutral_choose_date">Remove Date</string>
     <string name="label_numDependents">Dependents</string>
     <string name="hint_numDependents">total dependents</string>
     <string name="patient_detail_section_title">Patient Information</string>
@@ -319,6 +319,14 @@
     <string name="failure_records_download">Unable to Download Record Data</string>
     <string name="modal_date_title">Choose Date</string>
     <string name="due_date_label">Due Date:</string>
+    <string name="modal_sex_confirm">Confirm</string>
+    <string name="modal_sex_title">Choose Sex</string>
+    <string name="modal_sex_neutral">Remove Sex</string>
+    <string name="modal_sex_cancel">Cancel</string>
+    <string name="modal_cancel">Cancel</string>
+    <string name="patient_delete">Patient Deleted</string>
+    <string name="guardian_delete">Guardian Deleted</string>
+    <string name="modal_confirm">Confirm</string>
 
 
 </resources>
