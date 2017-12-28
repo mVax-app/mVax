@@ -2,7 +2,7 @@
 
 mVax is an Android mobile application for managing a medical records database that stores immunization records for Clínica Esperanza in Roatán, Honduras.
 
-mVax is configured to use Firebase for storing and retrieving data. The application supports concurrent creation and editing of record data, macro visualization of immunization progress and goals, multiple language support, and full functionality when connection to the Firebase server is not possible.
+mVax is configured to use Firebase for storing and retrieving data. The application supports concurrent creation and editing of record data, macro visualization of immunization progress and goals, multiple language support, and full functionality when establishing a connection to the Firebase server is not possible.
 
 Currently, this repository is configured to point to the Firebase instance for Clínica Esperanza.
 
