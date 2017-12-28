@@ -23,6 +23,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import mhealth.mvax.model.immunization.Vaccine;
+
 import static org.junit.Assert.*;
 
 // https://github.com/ravidsrk/android-testing-guide#espresso
@@ -36,8 +38,10 @@ public class RecordTest {
 
     @Test
     public void vaccineListSort() throws Exception {
-        Vaccine a = new Vaccine("foo", "Hepatitis");
-        Vaccine b = new Vaccine("bar", "Rotavirus");
+        Vaccine a = new Vaccine();
+        a.setName("Hepatitis");
+        Vaccine b = new Vaccine();
+        b.setName("Rotavirus");
 
         ArrayList<Vaccine> vaccines = new ArrayList<>();
         // record will be initialized with Vaccine array ["Rotavirus", "Hepatitis"]
@@ -53,7 +57,7 @@ public class RecordTest {
 
         record.setVaccines(vaccines);
 
-        assertEquals("record's vaccine list not sorted by vaccine name after setter",
+        assertEquals("record's vaccine list not sorted by vaccine name after mSetter",
                 "Hepatitis",
                 firstVaccineName);
     }

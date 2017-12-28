@@ -25,6 +25,7 @@
         android:id="@+id/textview_value"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:inputType="textCapWords|textNoSuggestions"
         android:background="@android:color/transparent"
         android:singleLine="true"
         android:textAlignment="viewEnd"

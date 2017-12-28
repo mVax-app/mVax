@@ -103,15 +103,15 @@
     <string name="vaccine_title">Vaccine History</string>
     <string name="DOB_prompt">DOB:</string>
     <string name="modal_new_dosage_title">Add Dosage:</string>
-    <string name="modal_new_dosage_confirm">Confirm</string>
-    <string name="modal_new_dosage_cancel">Cancel</string>
-    <string name="modal_new_dosage_neutral">No date</string>
+    <string name="modal_date_confirm">Confirm</string>
+    <string name="modal_date_cancel">Cancel</string>
+    <string name="modal_date_neutral">No date</string>
     <string name="delete_record_button">Delete Record</string>
     <string name="save_record_button">Save Record</string>
 
     <string name="modal_record_delete_title">Confirm Record Deletion</string>
-    <string name="modal_record_delete_message">Are you sure you want to delete this record? This action CANNOT be undone.</string>
-    <string name="successful_record_update">Changes saved</string>
+    <string name="modal_record_delete_message">Are you sure you want to delete this record? All patient, guardian, and vaccine data will be deleted. This action cannot be undone.</string>
+    <string name="patient_update">Patient Updated</string>
     <string name="unsuccessful_record_update">Update failed</string>
 
     <string name="modal_title_choose_sex">Choose Sex</string>
@@ -119,8 +119,8 @@
     <string name="modal_positive_choose_sex">OK</string>
     <string name="modal_negative_choose_sex">Cancel</string>
 
-    <string name="label_id">ID</string>
-    <string name="hint_id">13-digit id number</string>
+    <string name="label_medicalID">ID</string>
+    <string name="hint_medicalID">13-digit id number</string>
 
     <string name="label_firstname">First name</string>
     <string name="hint_firstname">first</string>
@@ -149,6 +149,7 @@
     <string name="hint_search">Search…</string>
     <string name="new_record_button">Add New Patient</string>
     <string name="new_record_title">New Record</string>
+    <string name="no_patient_name">Unnamed Patient</string>
 
 
     <!-- Dashboard -->
@@ -158,19 +159,21 @@
     <string name="male_enum">Male</string>
     <string name="female_enum">Female</string>
     <string name="empty_string" />
-    <string name="modal_neutral_choose_sex">No Sex</string>
+    <string name="modal_neutral_choose_sex">Remove Sex</string>
     <string name="modal_title_choose_date">Choose Date</string>
     <string name="modal_positive_choose_date">Ok</string>
     <string name="modal_negative_choose_date">Cancel</string>
-    <string name="modal_neutral_choose_date">No Date</string>
+    <string name="modal_neutral_choose_date">Remove Date</string>
     <string name="label_numDependents">Dependents</string>
     <string name="hint_numDependents">total dependents</string>
     <string name="patient_detail_section_title">Patient Information</string>
     <string name="guardian_detail_section_title">Guardian Details</string>
     <string name="edit_record_button">Edit Record</string>
     <string name="edit_record_title">Edit Record</string>
-    <string name="label_lastname">Last Name</string>
-    <string name="hint_lastname">last</string>
+    <string name="label_first_surname">First Surname</string>
+    <string name="hint_first_surname">first surname</string>
+    <string name="label_last_surname">Last Surname</string>
+    <string name="hint_last_surname">last surname</string>
     <string name="label_suffix">Suffix</string>
     <string name="hint_suffix">suffix</string>
     <string name="label_pob">Place of Birth</string>
@@ -183,8 +186,8 @@
     <string name="label_guardian_lastname">Guardian Last Name</string>
     <string name="label_guardian_suffix">Guardian Suffix</string>
     <string name="label_guardian_sex">Guardian Sex</string>
-    <string name="label_guardian_address">Address</string>
-    <string name="hint_guardian_address">address</string>
+    <string name="label_address">Address</string>
+    <string name="hint_address">address</string>
     <string name="label_phone_number">Phone Number</string>
     <string name="hint_phone_number">phone</string>
 
@@ -305,6 +308,25 @@
     <string name="VPH_11A_1A">VPH_11A_1A_Row</string>
     <string name="VPH_11A_2A">VPH_11A_2A_Row</string>
     <string name="VITA_PU_DU">VITA_PU_DU_Row</string>
+    <string name="failure_patient_download">Unable to Download Patient Data</string>
+    <string name="failure_guardian_download">Unable to Download Guardian Data</string>
+    <string name="guardian_update">Guardian Updated</string>
+    <string name="failure_vaccines_download">Unable to Download Vaccine Data</string>
+    <string name="failure_vaccinations_download">Unable to Download Vaccination Data</string>
+    <string name="failure_due_dates_download">Unable to Download Due Dates</string>
+    <string name="dummy_data">Generate Test Data</string>
+    <string name="generate_dummy_data_warning">WARNING: Generating dummy data will clear out the entire mVax-data table and replace it with dummy data defined in the DummyDataGenerator. If you are okay with all existing data being overwritten, click \"Confirm\".</string>
+    <string name="failure_records_download">Unable to Download Record Data</string>
+    <string name="modal_date_title">Choose Date</string>
+    <string name="due_date_label">Due Date:</string>
+    <string name="modal_sex_confirm">Confirm</string>
+    <string name="modal_sex_title">Choose Sex</string>
+    <string name="modal_sex_neutral">Remove Sex</string>
+    <string name="modal_sex_cancel">Cancel</string>
+    <string name="modal_cancel">Cancel</string>
+    <string name="patient_delete">Patient Deleted</string>
+    <string name="guardian_delete">Guardian Deleted</string>
+    <string name="modal_confirm">Confirm</string>
 
 
 </resources>

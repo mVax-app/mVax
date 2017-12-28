@@ -28,7 +28,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
 
-import mhealth.mvax.model.record.Record;
+import mhealth.mvax.model.record.Patient;
 
 /**
  * @author Alison Huang
@@ -36,10 +36,9 @@ import mhealth.mvax.model.record.Record;
  *         Contains algorithms for filtering database results based
  *         on various queries
  */
-
 class SearchFilter {
 
-    private Map<String, Record> mRecords;
+    private Map<String, Patient> mRecords;
 
     private SearchResultAdapter mAdapter;
 
@@ -47,7 +46,7 @@ class SearchFilter {
 
     private String mFilter;
 
-    SearchFilter(Map<String, Record> records, SearchResultAdapter adapter, EditText searchBar) {
+    SearchFilter(Map<String, Patient> records, SearchResultAdapter adapter, EditText searchBar) {
         mRecords = records;
         mAdapter = adapter;
         mSearchBar = searchBar;
@@ -63,8 +62,8 @@ class SearchFilter {
             @SuppressWarnings("Since15")
             @Override
             public void onTextChanged(final CharSequence charSequence, int i, int i1, int i2) {
-                ArrayList<Record> filtered = new ArrayList<Record>();
-                for (Record p : mRecords.values()) {
+                ArrayList<Patient> filtered = new ArrayList<>();
+                for (Patient p : mRecords.values()) {
                     String attribute = getAttribute(p, mFilter);
                     System.out.println("PRINT: filter = " + mFilter + ", attribute value = " + attribute);
                     if (attribute.toLowerCase().contains(charSequence.toString().toLowerCase())) {
@@ -73,9 +72,9 @@ class SearchFilter {
                 }
 
                 // TODO this throws an error when sorting more than ~500 records of randomly generated names
-                filtered.sort(new Comparator<Record>() {
+                filtered.sort(new Comparator<Patient>() {
                     @Override
-                    public int compare(Record patient1, Record patient2) {
+                    public int compare(Patient patient1, Patient patient2) {
                         String attr1 = getAttribute(patient1, mFilter);
                         String attr2 = getAttribute(patient2, mFilter);
 
@@ -99,25 +98,25 @@ class SearchFilter {
 
     }
 
-    private String getAttribute(Record record, String filter) {
+    private String getAttribute(Patient patient, String filter) {
         // TODO default search?
-        if (filter == null) return record.getFullName();
+        if (filter == null) return patient.getFirstName();
         switch (filter) {
             case "Patient ID":
-                return record.getDatabaseId();
+                return patient.getDatabaseKey();
             case "Patient name":
-                return record.getFullName();
+                return patient.getFirstName();
             case "Year of birth":
-                Date date = new Date(record.getDOB());
+                Date date = new Date(patient.getDOB());
                 return date.toString().substring(24, 28);
             case "Community":
-                return record.getCommunity();
+                return patient.getCommunity();
             case "Parent ID":
-                return record.getParentId();
+                return patient.getGuardianDatabaseKey();
             case "Parent name":
-                return record.getParentFullName();
+                return patient.getGuardianDatabaseKey();
             default:
-                return record.getDatabaseId();
+                return patient.getDatabaseKey();
         }
     }
 

@@ -119,5 +119,15 @@
     <string name="bass_project_leader_title">Facultad:</string>
     <string name="bass_development_title">Equipo de Desarrollo:</string>
     <string name="bass_global_health_title">Equipo de Salud Global:</string>
+    <string name="dummy_data">Generate Test Data</string>
+    <string name="failure_records_download">Unable to Download Record Data</string>
+    <string name="due_date_label">Due Date:</string>
+    <string name="modal_sex_confirm">Confirm</string>
+    <string name="modal_sex_neutral">Remove Sex</string>
+    <string name="modal_sex_cancel">Cancel</string>
+    <string name="modal_cancel">Cancel</string>
+    <string name="patient_delete">Patient Deleted</string>
+    <string name="guardian_delete">Guardian Deleted</string>
+    <string name="modal_confirm">Confirm</string>
 
 </resources>

@@ -32,7 +32,7 @@ import java.util.Collection;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.record.Vaccine;
+import mhealth.mvax.model.immunization.Vaccine;
 
 /**
  * Created by AlisonHuang on 11/1/17.
@@ -58,7 +58,7 @@ public class VaccineCardAdapter extends BaseAdapter {
     VaccineCardAdapter(Context context, Collection<Vaccine> vaccines) {
         mContext = context;
         mDataSource = new ArrayList<>(vaccines);
-        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mInflater = LayoutInflater.from(context);
     }
 
     void refresh(Collection<Vaccine> values) {
