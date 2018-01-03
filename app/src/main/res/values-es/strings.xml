@@ -75,6 +75,9 @@
     <!-- Record details -->
     <string name="patient_details">Detalles de Enfermo</string>
     <string name="date_format">dd/MM/yyyy</string>
+    <string name="tab_title_record_details">Detalles de Registro</string>
+    <string name="tab_title_vaccine_history">Historia de la Vacuna/</string>
+
 
     <!-- New record -->
     <string name="pick_dob">Fecha de Nacimiento</string>
@@ -86,6 +89,37 @@
     <string name="DOB_prompt">FDN:</string>
     <string name="gender_prompt">Sexo:</string>
     <string name="community_prompt">Comunidad:</string>
+    <string name="modal_new_dosage_title">Agregar Dosis:</string>
+    <string name="modal_date_confirm">Confirmar</string>
+    <string name="modal_date_cancel">Cancelar</string>
+    <string name="modal_date_neutral">Sin Fecha</string>
+    <string name="delete_record_button">Eliminar Registro</string>
+    <string name="save_record_button">Guardar Registro</string>
+
+    <string name="modal_record_delete_title">Confirmar La Eliminacion De Registros</string>
+    <string name="modal_record_delete_message">¿Seguro que quieres borrar este registro? Se eliminarán todos los datos de pacientes, tutores y vacunas. Esta acción no se puede deshacer.</string>
+    <string name="patient_update">Paciente actualizado</string>
+    <string name="unsuccessful_record_update">Actualizacion fallida</string>
+
+    <string name="modal_title_choose_sex">Elegir Sexo</string>
+
+    <string name="modal_positive_choose_sex">OK</string>
+    <string name="modal_negative_choose_sex">Cancelar</string>
+
+    <string name="label_medicalID">ID</string>
+    <string name="hint_medicalID">Numero de identificacion de 13 digitos</string>
+
+    <string name="label_firstname">Primer Nombre</string>
+    <string name="hint_firstname">primer nombre</string>
+
+    <string name="label_middlename">Segundo Nombre</string>
+    <string name="hint_middlename">segundo nombre</string>
+
+    <string name="label_dob">Fecha de Nacimiento</string>
+    <string name="hint_dob">fecha de nacimiento</string>
+
+    <string name="label_sex">Sexo</string>
+    <string name="hint_sex">sexo</string>
 
     <!-- Search result -->
     <string name="hint_search">Busca...</string>
@@ -121,13 +155,55 @@
     <string name="bass_global_health_title">Equipo de Salud Global:</string>
     <string name="dummy_data">Generate Test Data</string>
     <string name="failure_records_download">Unable to Download Record Data</string>
-    <string name="due_date_label">Due Date:</string>
-    <string name="modal_sex_confirm">Confirm</string>
-    <string name="modal_sex_neutral">Remove Sex</string>
-    <string name="modal_sex_cancel">Cancel</string>
-    <string name="modal_cancel">Cancel</string>
-    <string name="patient_delete">Patient Deleted</string>
-    <string name="guardian_delete">Guardian Deleted</string>
-    <string name="modal_confirm">Confirm</string>
+    <string name="due_date_label">Fecha de Vencimiento:</string>
+    <string name="modal_sex_confirm">Confirmar</string>
+    <string name="modal_sex_neutral">Eliminar Sexo</string>
+    <string name="modal_sex_cancel">Cancelar</string>
+    <string name="modal_cancel">Cancelar</string>
+    <string name="patient_delete">Paciente Eliminado</string>
+    <string name="guardian_delete">Tutor/a Elimindao</string>
+    <string name="modal_confirm">Confirmar</string>
+
+    <!-- Patient Record Details -->
+
+    <string name="male_enum">Masculino</string>
+    <string name="female_enum">Hembra</string>
+    <string name="empty_string" />
+    <string name="modal_neutral_choose_sex">Eliminar el genero</string>
+    <string name="modal_title_choose_date">Elegir la fecha</string>
+    <string name="modal_positive_choose_date">Guardar cambios</string>
+    <string name="modal_negative_choose_date">Cancelar</string>
+    <string name="modal_neutral_choose_date">Eliminar fecha</string>
+    <string name="label_numDependents">Dependientes</string>
+    <string name="hint_numDependents">Dependientes Totales</string>
+    <string name="patient_detail_section_title">Informacion del paciente</string>
+    <string name="guardian_detail_section_title">Detalles de tutor/a</string>
+    <string name="edit_record_button">Editar el registro</string>
+    <string name="edit_record_title">Editar el registro</string>
+    <string name="label_first_surname">Primer Apellido</string>
+    <string name="hint_first_surname">primer apellido</string>
+    <string name="label_last_surname">Ultimo Apellido</string>
+    <string name="hint_last_surname">ultimo apellido</string>
+    <string name="label_suffix">Sufijo</string>
+    <string name="hint_suffix">sufijo</string>
+    <string name="label_pob">Lugar De Nacimiento</string>
+    <string name="hint_pob">lugar de nacimiento</string>
+    <string name="label_community">Comunidad</string>
+    <string name="hint_community">comunidad</string>
+    <string name="label_guardian_id">ID de tutor/a</string>
+    <string name="label_guardian_firstname">Nombre de tutor/a</string>
+    <string name="label_guardian_middlname">Segundo nombre de tutor/a</string>
+    <string name="label_guardian_lastname">Apellido de tutor/a</string>
+    <string name="label_guardian_suffix">Sufijo de tutor/a</string>
+    <string name="label_guardian_sex">Sexo de tutor/a</string>
+    <string name="label_address">Direccion de tutor/a</string>
+    <string name="hint_address">direccion de tutor/a</string>
+    <string name="label_phone_number">Numero de telefono</string>
+    <string name="hint_phone_number">numero de telefono</string>
+
+
+    <!--Vaccine Dates-->
+    <string name="due_date">Fecha de Vencimiento:</string>
+
 
 </resources>
