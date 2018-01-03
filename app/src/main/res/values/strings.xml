@@ -156,6 +156,8 @@
     <string name="vaccine_card_given_text">GIVEN:</string>
     <string name="vaccine_card_goal_text">GOAL:</string>
 
+    <!-- Patient Record Details -->
+
     <string name="male_enum">Male</string>
     <string name="female_enum">Female</string>
     <string name="empty_string" />
