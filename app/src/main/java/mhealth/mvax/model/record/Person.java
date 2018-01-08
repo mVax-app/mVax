@@ -27,6 +27,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import mhealth.mvax.R;
+import mhealth.mvax.records.record.patient.detail.DateDetail;
 import mhealth.mvax.records.record.patient.detail.Detail;
 import mhealth.mvax.records.record.patient.detail.SexDetail;
 import mhealth.mvax.records.record.patient.detail.StringDetail;
@@ -40,17 +41,17 @@ import mhealth.mvax.records.record.patient.detail.StringNumberDetail;
  *         a person, which is extended to create a specialized
  *         data structure (i.e. Patient, Guardian)
  */
-public abstract class Person implements Serializable {
+public class Person implements Serializable {
 
     //================================================================================
     // Constructors
     //================================================================================
 
-    Person() {
+    private Person() {
         // Firebase POJO constructor
     }
 
-    Person(String databaseKey) {
+    public Person(String databaseKey) {
         this.databaseKey = databaseKey;
     }
 
@@ -149,43 +150,129 @@ public abstract class Person implements Serializable {
         this.sex = sex;
     }
 
-    //================================================================================
-    // Abstract methods
-    //================================================================================
+    /**
+     * Patient date of birth, represented as milliseconds
+     * since Unix epoch
+     */
+    private Long DOB;
+
+    public Long getDOB() {
+        return this.DOB;
+    }
+
+    public void setDOB(Long DOB) {
+        this.DOB = DOB;
+    }
 
     /**
-     * Get List of Detail objects specific to the extending class
+     * Patient residential community
+     */
+    private String community = "";
+
+    public String getCommunity() {
+        return this.community;
+    }
+
+    public void setCommunity(String community) {
+        this.community = community;
+    }
+
+    /**
+     * Patient place of birth
+     */
+    private String placeOfBirth = "";
+
+    public String getPlaceOfBirth() {
+        return this.placeOfBirth;
+    }
+
+    public void setPlaceOfBirth(String placeOfBirth) {
+        this.placeOfBirth = placeOfBirth;
+    }
+
+    /**
+     * Patient address
+     */
+    private String address = "";
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    /**
+     * Phone number for contacting the patient
+     */
+    private String phoneNumber = "";
+
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * Unique Firebase key representing the
+     * patient's primary guardian
+     */
+    private String guardianDatabaseKey;
+
+    public String getGuardianDatabaseKey() {
+        return this.guardianDatabaseKey;
+    }
+
+    public void setGuardianDatabaseKey(String guardianDatabaseKey) {
+        this.guardianDatabaseKey = guardianDatabaseKey;
+    }
+
+    /**
+     * List of unique Firebase database keys, each of
+     * which represents a Patient who is one of this
+     * Patient's dependents
+     */
+    private List<String> dependents = new ArrayList<>();
+
+    public ArrayList<String> getDependents() {
+        return new ArrayList<>(this.dependents);
+    }
+
+    public void setDependents(List<String> dependents) {
+        this.dependents = dependents;
+    }
+
+    /**
+     * Adds a Patient to this Patient's list of patients
      *
-     * @return List of Detail objects, ordered according to how they
-     * will be displayed after the List of Person Detail objects
+     * @param dependentDatabaseKey Firebase unique database key
+     *                             representing the dependent
      */
     @Exclude
-    public abstract List<Detail> getDetails();
-
-    /**
-     * @return String id of the String used for the section title
-     * in the patient details ListView
-     */
-    @Exclude
-    public abstract int getSectionTitleStringID();
+    public void addDependent(String dependentDatabaseKey) {
+        dependents.add(dependentDatabaseKey);
+    }
 
     //================================================================================
     // Static methods
     //================================================================================
 
-    /**
-     * @param people variadic list of Person objects
-     * @return a map, ordered by key, that maps a String resource id,
-     * representing a section title, to a Person object's details
-     */
-    @Exclude
-    public static LinkedHashMap<Integer, List<Detail>> getSectionedDetails(Person... people) {
-        final LinkedHashMap<Integer, List<Detail>> details = new LinkedHashMap<>();
-        for (final Person p : people) {
-            if (p != null) details.put(p.getSectionTitleStringID(), p.getDetails());
-        }
-        return details;
-    }
+//    /**
+//     * @param people variadic list of Person objects
+//     * @return a map, ordered by key, that maps a String resource id,
+//     * representing a section title, to a Person object's details
+//     */
+//    @Exclude
+//    public static LinkedHashMap<Integer, List<Detail>> getSectionedDetails(Person... people) {
+//        final LinkedHashMap<Integer, List<Detail>> details = new LinkedHashMap<>();
+//        for (final Person p : people) {
+//            if (p != null) details.put(p.getSectionTitleStringID(), p.getDetails());
+//        }
+//        return details;
+//    }
 
     //================================================================================
     // Public methods
@@ -219,7 +306,7 @@ public abstract class Person implements Serializable {
      * will be displayed
      */
     @Exclude
-    List<Detail> getPersonDetails() {
+    List<Detail> getDetails() {
         ArrayList<Detail> details = new ArrayList<>();
 
         // medical ID
@@ -299,6 +386,71 @@ public abstract class Person implements Serializable {
             }
         });
         details.add(sexDetail);
+
+        // date of birth
+        final DateDetail dobDetail = new DateDetail(
+                this.DOB,
+                R.string.label_dob,
+                R.string.hint_dob);
+        dobDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setDOB(dobDetail.getValue());
+            }
+        });
+        details.add(dobDetail);
+
+        // community
+        final StringDetail communityDetail = new StringDetail(
+                this.community,
+                R.string.label_community,
+                R.string.hint_community);
+        communityDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setCommunity(communityDetail.getValue());
+            }
+        });
+        details.add(communityDetail);
+
+        // place of birth
+        final StringDetail placeOfBirthDetail = new StringDetail(
+                this.placeOfBirth,
+                R.string.label_pob,
+                R.string.hint_pob);
+        placeOfBirthDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setPlaceOfBirth(placeOfBirthDetail.getValue());
+            }
+        });
+        details.add(placeOfBirthDetail);
+
+        // address
+        final StringDetail addressDetail = new StringDetail(
+                this.address,
+                R.string.label_address,
+                R.string.hint_address);
+        addressDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setAddress(addressDetail.getValue());
+            }
+        });
+        details.add(addressDetail);
+
+        // phone number
+        final StringNumberDetail phoneNumberDetail = new StringNumberDetail(
+                this.phoneNumber,
+                R.string.label_phone_number,
+                R.string.hint_phone_number);
+        phoneNumberDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setPhoneNumber(phoneNumberDetail.getValue());
+            }
+        });
+        details.add(phoneNumberDetail);
 
         return details;
     }
