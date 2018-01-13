@@ -47,17 +47,17 @@ public abstract class PatientDetailsAdapter extends BaseAdapter {
     //================================================================================
 
     protected final LayoutInflater mInflater;
-    protected static final int TYPE_SECTION = 0; // Section title row
-    protected static final int TYPE_FIELD = 1; // Data row
+//    protected static final int TYPE_SECTION = 0; // Section title row
+//    protected static final int TYPE_FIELD = 1; // Data row
     protected List<Detail> mDataSource; // holds Patient and Guardian details
-    private SparseIntArray mHeaders; // maps header position to header title string id
+//    private SparseIntArray mHeaders; // maps header position to header title string id
 
     //================================================================================
     // Constructors
     //================================================================================
 
-    protected PatientDetailsAdapter(Context context, LinkedHashMap<Integer, List<Detail>> sectionedData) {
-        setDataSource(sectionedData);
+    protected PatientDetailsAdapter(Context context, List<Detail> details) {
+        mDataSource = details;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -87,15 +87,15 @@ public abstract class PatientDetailsAdapter extends BaseAdapter {
         return position;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return (mHeaders.get(position) != 0) ? TYPE_SECTION : TYPE_FIELD;
-    }
+//    @Override
+//    public int getItemViewType(int position) {
+//        return (mHeaders.get(position) != 0) ? TYPE_SECTION : TYPE_FIELD;
+//    }
 
-    @Override
-    public int getViewTypeCount() {
-        return 2; // type 0 is header, type 1 is field, so 2 total view types
-    }
+//    @Override
+//    public int getViewTypeCount() {
+//        return 2; // type 0 is header, type 1 is field, so 2 total view types
+//    }
 
     //================================================================================
     // Public methods
@@ -106,8 +106,8 @@ public abstract class PatientDetailsAdapter extends BaseAdapter {
      *
      * @param newData is the sectioned, new data with which to populate the data source
      */
-    public void refresh(LinkedHashMap<Integer, List<Detail>> newData) {
-        setDataSource(newData);
+    public void refresh(List<Detail> newData) {
+        mDataSource = newData;
         notifyDataSetChanged();
     }
 
@@ -115,38 +115,38 @@ public abstract class PatientDetailsAdapter extends BaseAdapter {
     // Protected methods
     //================================================================================
 
-    /**
-     * @param position position of the header in the ListView
-     * @param parent   parent to inflate the row view with
-     * @return row view for a section header
-     */
-    protected View getSectionHeaderView(int position, ViewGroup parent) {
-        final View view = mInflater.inflate(R.layout.list_item_record_detail_section, parent, false);
-        final TextView fieldView = view.findViewById(R.id.record_detail_separator);
-        fieldView.setText(mHeaders.get(position));  // set section title text
-        return view;
-    }
+//    /**
+//     * @param position position of the header in the ListView
+//     * @param parent   parent to inflate the row view with
+//     * @return row view for a section header
+//     */
+//    protected View getSectionHeaderView(int position, ViewGroup parent) {
+//        final View view = mInflater.inflate(R.layout.list_item_record_detail_section, parent, false);
+//        final TextView fieldView = view.findViewById(R.id.record_detail_separator);
+//        fieldView.setText(mHeaders.get(position));  // set section title text
+//        return view;
+//    }
 
     //================================================================================
     // Private methods
     //================================================================================
 
-    /**
-     * Properly set up a single data source containing both Patient and Guardian details
-     * along with section titles
-     *
-     * @param sectionedData a map, ordered by key, that maps a String resource id,
-     *                      representing a section's title, to a Person object's details
-     */
-    private void setDataSource(LinkedHashMap<Integer, List<Detail>> sectionedData) {
-        mDataSource = new ArrayList<>();
-        mHeaders = new SparseIntArray(getViewTypeCount());
-        for (Integer key : sectionedData.keySet()) {
-            List<Detail> values = sectionedData.get(key);
-            mDataSource.add(null); // add a null to the data source for separator
-            mHeaders.put(mDataSource.size() - 1, key); // store the header's position in mDataSource
-            mDataSource.addAll(values);  // add Detail objects to data source
-        }
-    }
+//    /**
+//     * Properly set up a single data source containing both Patient and Guardian details
+//     * along with section titles
+//     *
+//     * @param sectionedData a map, ordered by key, that maps a String resource id,
+//     *                      representing a section's title, to a Person object's details
+//     */
+//    private void setDataSource(LinkedHashMap<Integer, List<Detail>> sectionedData) {
+//        mDataSource = new ArrayList<>();
+//        mHeaders = new SparseIntArray(getViewTypeCount());
+//        for (Integer key : sectionedData.keySet()) {
+//            List<Detail> values = sectionedData.get(key);
+//            mDataSource.add(null); // add a null to the data source for separator
+//            mHeaders.put(mDataSource.size() - 1, key); // store the header's position in mDataSource
+//            mDataSource.addAll(values);  // add Detail objects to data source
+//        }
+//    }
 
 }

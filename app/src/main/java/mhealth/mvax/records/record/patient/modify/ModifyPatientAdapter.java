@@ -44,8 +44,8 @@ public class ModifyPatientAdapter extends PatientDetailsAdapter {
     // Constructors
     //================================================================================
 
-    ModifyPatientAdapter(Context context, LinkedHashMap<Integer, List<Detail>> sectionedData) {
-        super(context, sectionedData);
+    ModifyPatientAdapter(Context context, List<Detail> details) {
+        super(context, details);
     }
 
     //================================================================================
@@ -55,11 +55,11 @@ public class ModifyPatientAdapter extends PatientDetailsAdapter {
     @Override
     public View getView(final int position, View rowView, ViewGroup viewGroup) {
         int rowType = getItemViewType(position);
-        switch (rowType) {
-            case TYPE_SECTION: // section header
-                rowView = getSectionHeaderView(position, viewGroup);
-                break;
-            case TYPE_FIELD: // field displaying Detail
+//        switch (rowType) {
+//            case TYPE_SECTION: // section header
+//                rowView = getSectionHeaderView(position, viewGroup);
+//                break;
+//            case TYPE_FIELD: // field displaying Detail
                 rowView = mInflater.inflate(R.layout.list_item_record_detail, viewGroup, false);
 
                 final TextView fieldView = rowView.findViewById(R.id.textview_field);
@@ -95,8 +95,8 @@ public class ModifyPatientAdapter extends PatientDetailsAdapter {
 
                 // place cursor at end of text
                 valueView.setSelection(valueView.getText().length());
-                break;
-        }
+//                break;
+//        }
         return rowView;
     }
 

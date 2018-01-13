@@ -33,7 +33,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.record.Guardian;
+//import mhealth.mvax.model.record.Guardian;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.record.patient.modify.ModifiablePatientFragment;
 
@@ -49,17 +49,17 @@ public class EditPatientFragment extends ModifiablePatientFragment {
     //================================================================================
 
     private ChildEventListener mPatientListener;
-    private ChildEventListener mGuardianListener;
+//    private ChildEventListener mGuardianListener;
 
     //================================================================================
     // Static methods
     //================================================================================
 
-    public static EditPatientFragment newInstance(Patient patient, Guardian guardian) {
+    public static EditPatientFragment newInstance(Patient patient) {
         final EditPatientFragment newInstance = new EditPatientFragment();
         final Bundle args = new Bundle();
         args.putSerializable("patient", patient);
-        args.putSerializable("guardian", guardian);
+//        args.putSerializable("guardian", guardian);
         newInstance.setArguments(args);
         return newInstance;
     }
@@ -74,9 +74,9 @@ public class EditPatientFragment extends ModifiablePatientFragment {
         setFragmentTitle(view, R.string.edit_record_title);
 
         mPatient = (Patient) getArguments().getSerializable("patient");
-        mGuardian = (Guardian) getArguments().getSerializable("guardian");
+//        mGuardian = (Guardian) getArguments().getSerializable("guardian");
         initPatientListener();
-        initGuardianListener();
+//        initGuardianListener();
 
         renderListView(view);
         addDeleteButton();
@@ -86,7 +86,7 @@ public class EditPatientFragment extends ModifiablePatientFragment {
     @Override
     public void onDestroyView() {
         mPatientRef.orderByKey().equalTo(mPatient.getDatabaseKey()).removeEventListener(mPatientListener);
-        mGuardianRef.orderByKey().equalTo(mGuardian.getDatabaseKey()).removeEventListener(mGuardianListener);
+//        mGuardianRef.orderByKey().equalTo(mGuardian.getDatabaseKey()).removeEventListener(mGuardianListener);
         super.onDestroyView();
     }
 
@@ -134,42 +134,42 @@ public class EditPatientFragment extends ModifiablePatientFragment {
                 .addChildEventListener(mPatientListener);
     }
 
-    private void initGuardianListener() {
-        // define listener
-        mGuardianListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                mGuardian = dataSnapshot.getValue(Guardian.class);
-                update();
-                Toast.makeText(getActivity(), R.string.guardian_update, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Toast.makeText(getActivity(), R.string.guardian_delete, Toast.LENGTH_SHORT).show();
-                // transition handled by mPatientListener onChildRemoved() call
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), R.string.failure_guardian_download, Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        // set listener to ref
-        mGuardianRef
-                .orderByKey()
-                .equalTo(mGuardian.getDatabaseKey())
-                .addChildEventListener(mGuardianListener);
-    }
+//    private void initGuardianListener() {
+//        // define listener
+//        mGuardianListener = new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+//            }
+//
+//            @Override
+//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//                mGuardian = dataSnapshot.getValue(Guardian.class);
+//                update();
+//                Toast.makeText(getActivity(), R.string.guardian_update, Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                Toast.makeText(getActivity(), R.string.guardian_delete, Toast.LENGTH_SHORT).show();
+//                // transition handled by mPatientListener onChildRemoved() call
+//            }
+//
+//            @Override
+//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Toast.makeText(getActivity(), R.string.failure_guardian_download, Toast.LENGTH_SHORT).show();
+//            }
+//        };
+//
+//        // set listener to ref
+//        mGuardianRef
+//                .orderByKey()
+//                .equalTo(mGuardian.getDatabaseKey())
+//                .addChildEventListener(mGuardianListener);
+//    }
 
     private void addDeleteButton() {
         final LayoutInflater inflater = LayoutInflater.from(getContext());
@@ -204,7 +204,7 @@ public class EditPatientFragment extends ModifiablePatientFragment {
 
     private void deleteCurrentRecord() {
         mPatientRef.child(mPatient.getDatabaseKey()).setValue(null);
-        mGuardianRef.child(mGuardian.getDatabaseKey()).setValue(null);
+//        mGuardianRef.child(mGuardian.getDatabaseKey()).setValue(null);
         // segue out of patient detail handled by mPatientListener
     }
 

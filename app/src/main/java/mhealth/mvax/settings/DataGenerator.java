@@ -24,9 +24,11 @@ import android.content.Context;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import mhealth.mvax.R;
 import mhealth.mvax.model.immunization.DueDate;
-import mhealth.mvax.model.record.Guardian;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.model.record.Sex;
 import mhealth.mvax.model.immunization.Dose;
@@ -78,7 +80,7 @@ class DataGenerator {
 
     private void generatePatientData() {
         DatabaseReference patientRef = mDatabase.child(mDataTable).child(mPatientTable).push();
-        DatabaseReference parentRef = mDatabase.child(mDataTable).child(mGuardianTable).push();
+        DatabaseReference parentRef = mDatabase.child(mDataTable).child(mPatientTable).push();
 
         Patient rob = new Patient(patientRef.getKey());
         mPatientDatabaseKey = rob.getDatabaseKey();
@@ -88,22 +90,23 @@ class DataGenerator {
         rob.setFirstSurname("Kemp");
         rob.setLastSurname("Steilberg");
         rob.setSex(Sex.MALE);
-        rob.setGuardianDatabaseKey(parentRef.getKey());
         rob.setDOB(823237200000L);
         rob.setCommunity("Alspaugh");
         rob.setPlaceOfBirth("Harrisonburg");
         rob.setAddress("2504 Vesson Ave, Durham, NC");
         rob.setPhoneNumber("1234567890");
+        rob.setGuardianDatabaseKey(parentRef.getKey());
+
         patientRef.setValue(rob);
 
-        Guardian matt = new Guardian(parentRef.getKey(), patientRef.getKey());
+        Patient matt = new Patient(parentRef.getKey());
         matt.setMedicalId("1239248354");
         matt.setFirstName("Matt");
         matt.setMiddleName("Muffin");
         matt.setFirstSurname("Leroy");
         matt.setLastSurname("Tribby");
         matt.setSex(Sex.MALE);
-//        matt.setDependents(new ArrayList<>(Collections.singletonList(patientRef.getKey())));
+        matt.setDependents(new ArrayList<>(Collections.singletonList(patientRef.getKey())));
         parentRef.setValue(matt);
     }
 

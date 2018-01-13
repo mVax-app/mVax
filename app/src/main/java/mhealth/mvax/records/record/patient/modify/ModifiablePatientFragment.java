@@ -35,9 +35,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.record.Guardian;
+//import mhealth.mvax.model.record.Guardian;
 import mhealth.mvax.model.record.Patient;
-import mhealth.mvax.model.record.Person;
+//import mhealth.mvax.model.record.Person;
 import mhealth.mvax.records.record.RecordFragment;
 import mhealth.mvax.records.record.patient.detail.Detail;
 
@@ -59,8 +59,8 @@ public abstract class ModifiablePatientFragment extends Fragment {
     protected Patient mPatient;
     protected DatabaseReference mPatientRef;
 
-    protected Guardian mGuardian;
-    protected DatabaseReference mGuardianRef;
+//    protected Guardian mGuardian;
+//    protected DatabaseReference mGuardianRef;
 
     //================================================================================
     // Override methods
@@ -86,10 +86,10 @@ public abstract class ModifiablePatientFragment extends Fragment {
      * mGuardian with a button to save any changes
      */
     protected void renderListView(View view) {
-        final LinkedHashMap<Integer, List<Detail>> sectionedDetails =
-                Person.getSectionedDetails(mPatient, mGuardian);
+//        final LinkedHashMap<Integer, List<Detail>> sectionedDetails =
+//                Person.getSectionedDetails(mPatient, mGuardian);
         mListView = view.findViewById(R.id.details_list_view);
-        mAdapter = new ModifyPatientAdapter(getContext(), sectionedDetails);
+        mAdapter = new ModifyPatientAdapter(getContext(), mPatient.getDetails());
         mListView.setAdapter(mAdapter);
         addSaveButton();
     }
@@ -98,7 +98,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
      * Update the UI when either mPatient or mGuardian has changed
      */
     protected void update() {
-        mAdapter.refresh(Person.getSectionedDetails(mPatient, mGuardian));
+        mAdapter.refresh(mPatient.getDetails());
     }
 
     //================================================================================
@@ -113,9 +113,9 @@ public abstract class ModifiablePatientFragment extends Fragment {
         mPatientRef = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
                 .child(patientTable);
-        mGuardianRef = FirebaseDatabase.getInstance().getReference()
-                .child(masterTable)
-                .child(guardianTable);
+//        mGuardianRef = FirebaseDatabase.getInstance().getReference()
+//                .child(masterTable)
+//                .child(guardianTable);
     }
 
     private void addSaveButton() {
@@ -135,14 +135,15 @@ public abstract class ModifiablePatientFragment extends Fragment {
         mPatientRef.child(mPatient.getDatabaseKey()).setValue(mPatient, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                // on Patient save completion, save Guardian object to database
-                mGuardianRef.child(mGuardian.getDatabaseKey()).setValue(mGuardian, new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                        // on Guardian save completion, transition to view record mode (RecordFragment)
-                        viewRecord();
-                    }
-                });
+//                // on Patient save completion, save Guardian object to database
+//                mGuardianRef.child(mGuardian.getDatabaseKey()).setValue(mGuardian, new DatabaseReference.CompletionListener() {
+//                    @Override
+//                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+//                        // on Guardian save completion, transition to view record mode (RecordFragment)
+//                        viewRecord();
+//                    }
+//                });
+                viewRecord();
             }
         });
     }
