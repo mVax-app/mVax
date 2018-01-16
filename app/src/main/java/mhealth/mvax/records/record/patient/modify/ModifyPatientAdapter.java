@@ -54,49 +54,41 @@ public class ModifyPatientAdapter extends PatientDetailsAdapter {
 
     @Override
     public View getView(final int position, View rowView, ViewGroup viewGroup) {
-        int rowType = getItemViewType(position);
-//        switch (rowType) {
-//            case TYPE_SECTION: // section header
-//                rowView = getSectionHeaderView(position, viewGroup);
-//                break;
-//            case TYPE_FIELD: // field displaying Detail
-                rowView = mInflater.inflate(R.layout.list_item_record_detail, viewGroup, false);
+        rowView = mInflater.inflate(R.layout.list_item_record_detail, viewGroup, false);
 
-                final TextView fieldView = rowView.findViewById(R.id.textview_field);
-                final EditText valueView = rowView.findViewById(R.id.textview_value);
+        final TextView fieldView = rowView.findViewById(R.id.textview_field);
+        final EditText valueView = rowView.findViewById(R.id.textview_value);
 
-                // perform any setup operations defined by the Detail type
-                mDataSource.get(position).configureValueView(valueView);
+        // perform any setup operations defined by the Detail type
+        mDataSource.get(position).configureValueView(valueView);
 
-                // set field label, hint, and value
-                fieldView.setText(mDataSource.get(position).getLabelStringId());
-                valueView.setHint(mDataSource.get(position).getHintStringId());
-                valueView.setText(mDataSource.get(position).getStringValue());
+        // set field label, hint, and value
+        fieldView.setText(mDataSource.get(position).getLabelStringId());
+        valueView.setHint(mDataSource.get(position).getHintStringId());
+        valueView.setText(mDataSource.get(position).getStringValue());
 
-                // attach listeners to row view
-                rowView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mDataSource.get(position).getValueViewListener(valueView);
-                    }
-                });
-                valueView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mDataSource.get(position).getValueViewListener(valueView);
-                    }
-                });
+        // attach listeners to row view
+        rowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDataSource.get(position).getValueViewListener(valueView);
+            }
+        });
+        valueView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDataSource.get(position).getValueViewListener(valueView);
+            }
+        });
 
-                if (position == mDataSource.size() - 1) { // last field has done button
-                    valueView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-                } else { // otherwise has tab button to shift focus to next field in ListView
-                    valueView.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-                }
+        if (position == mDataSource.size() - 1) { // last field has done button
+            valueView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        } else { // otherwise has tab button to shift focus to next field in ListView
+            valueView.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        }
 
-                // place cursor at end of text
-                valueView.setSelection(valueView.getText().length());
-//                break;
-//        }
+        // place cursor at end of text
+        valueView.setSelection(valueView.getText().length());
         return rowView;
     }
 

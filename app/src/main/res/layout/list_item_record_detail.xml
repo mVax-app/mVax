@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/record_detail_linear_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="80dp"
     android:background="#FFF"
     android:orientation="horizontal"
     android:paddingBottom="4dp"
@@ -15,20 +15,22 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.9"
+        android:layout_marginStart="15dp"
         android:gravity="center_vertical"
-        android:labelFor="@+id/edittext_value"
+        android:labelFor="@+id/textview_value"
         android:padding="5dp"
-        android:textColor="#FF000000"
-        android:textSize="25sp" />
+        android:textColor="#727372"
+        android:textSize="30sp" />
 
     <EditText
         android:id="@+id/textview_value"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginEnd="15dp"
         android:inputType="textCapWords|textNoSuggestions"
         android:background="@android:color/transparent"
         android:singleLine="true"
         android:textAlignment="viewEnd"
-        android:textSize="25sp" />
+        android:textSize="30sp" />
 
 </LinearLayout>

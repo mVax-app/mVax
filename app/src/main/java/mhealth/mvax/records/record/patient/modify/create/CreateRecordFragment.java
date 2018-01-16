@@ -25,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import mhealth.mvax.R;
-//import mhealth.mvax.model.record.Guardian;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.record.patient.modify.ModifiablePatientFragment;
 
@@ -52,15 +51,10 @@ public class CreateRecordFragment extends ModifiablePatientFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.record_details, container, false);
+        final View view = inflater.inflate(R.layout.tab_record_details, container, false);
         setFragmentTitle(view, R.string.new_record_title);
-
-        // create Patient and Guardian objects for new record
+        // create Patient object for new record
         mPatient = new Patient(mPatientRef.push().getKey());
-        // create association between Patient and Guardian
-//        mGuardian = new Guardian(mGuardianRef.push().getKey(), mPatient.getDatabaseKey());
-//        mPatient.setGuardianDatabaseKey(mGuardian.getDatabaseKey());
-
         renderListView(view);
         return view;
     }

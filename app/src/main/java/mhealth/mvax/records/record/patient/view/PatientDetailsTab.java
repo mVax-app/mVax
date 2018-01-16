@@ -35,18 +35,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import mhealth.mvax.R;
-//import mhealth.mvax.model.record.Guardian;
 import mhealth.mvax.model.record.Patient;
-//import mhealth.mvax.model.record.Person;
 import mhealth.mvax.records.record.RecordFragment;
 import mhealth.mvax.records.record.RecordTab;
 import mhealth.mvax.records.record.patient.PatientDetailsAdapter;
 import mhealth.mvax.records.record.patient.modify.edit.EditPatientFragment;
-import mhealth.mvax.records.record.patient.detail.Detail;
 
 /**
  * @author Robert Steilberg
@@ -66,10 +60,6 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
     private DatabaseReference mPatientRef;
     private ChildEventListener mPatientListener;
 
-//    private Guardian mGuardian;
-//    private DatabaseReference mGuardianRef;
-//    private ChildEventListener mGuardianListener;
-
     //================================================================================
     // Static methods
     //================================================================================
@@ -88,7 +78,7 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.record_details, container, false);
+        mView = inflater.inflate(R.layout.tab_record_details, container, false);
         initPatientListener(getArguments().getString("databaseKey"));
         return mView;
     }
@@ -96,7 +86,6 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
     @Override
     public void onDestroyView() {
         mPatientRef.orderByKey().equalTo(mPatient.getDatabaseKey()).removeEventListener(mPatientListener);
-//        mGuardianRef.orderByKey().equalTo(mGuardian.getDatabaseKey()).removeEventListener(mGuardianListener);
         super.onDestroyView();
     }
 
@@ -106,22 +95,17 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
 
     @Override
     public void render() {
-//        final LinkedHashMap<Integer, List<Detail>> sectionedDetails =
-//                Person.getSectionedDetails(mPatient, mGuardian);
+        setRecordName();
         mAdapter = new ViewPatientAdapter(getContext(), mPatient.getDetails());
         final ListView detailsListView = mView.findViewById(R.id.details_list_view);
         detailsListView.setAdapter(mAdapter);
-
         addEditButton(detailsListView);
     }
 
     @Override
     public void refresh() {
         setRecordName();
-//        final LinkedHashMap<Integer, List<Detail>> sectionedDetails =
-//                mPatient.getDetails();
-//                Person.getSectionedDetails(mPatient, mGuardian);
-        mAdapter.refresh(mPatient.getDetails()); // update UI
+        mAdapter.refresh(mPatient.getDetails());
     }
 
     //================================================================================
@@ -138,17 +122,10 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
 
         // define listener
         mPatientListener = new ChildEventListener() {
-            boolean initialAdd = true;
-
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 mPatient = dataSnapshot.getValue(Patient.class);
-                if (initialAdd) { // debounce
-                    setRecordName();
-                    render();
-//                    initGuardianListener(mPatient.getGuardianDatabaseKey());
-                    initialAdd = false;
-                }
+                render();
             }
 
             @Override
@@ -182,59 +159,8 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
                 .addChildEventListener(mPatientListener);
     }
 
-//    private void initGuardianListener(String databaseKey) {
-//        // define database ref
-//        final String masterTable = getResources().getString(R.string.dataTable);
-//        final String guardianTable = getResources().getString(R.string.guardianTable);
-//        mGuardianRef = FirebaseDatabase.getInstance().getReference()
-//                .child(masterTable)
-//                .child(guardianTable);
-//
-//        // define listener
-//        mGuardianListener = new ChildEventListener() {
-//            boolean initialAdd = true;
-//
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                mGuardian = dataSnapshot.getValue(Guardian.class);
-//                if (initialAdd) { // debounce
-//                    render(); // data download complete, render UI
-//                    initialAdd = false;
-//                }
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                mGuardian = dataSnapshot.getValue(Guardian.class);
-//                Toast.makeText(getActivity(), R.string.guardian_update, Toast.LENGTH_SHORT).show();
-//                refresh();
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//                Toast.makeText(getActivity(), R.string.guardian_delete, Toast.LENGTH_SHORT).show();
-//                // transition handled by mPatientListener onChildRemoved() call
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                Toast.makeText(getActivity(), R.string.failure_guardian_download, Toast.LENGTH_SHORT).show();
-//            }
-//        };
-//
-//        // set listener to ref
-//        mGuardianRef
-//                .orderByKey()
-//                .equalTo(databaseKey)
-//                .addChildEventListener(mGuardianListener);
-//    }
-
     private void setRecordName() {
-        final TextView recordNameTextView = mView.findViewById(R.id.record_details_title);
+        final TextView recordNameTextView = mView.findViewById(R.id.record_details_tab_title);
         recordNameTextView.setText(mPatient.getName());
     }
 

@@ -91,7 +91,7 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.vaccine_schedule, container, false);
+        mView = inflater.inflate(R.layout.tab_vaccine_schedule, container, false);
         mPatientDatabaseKey = getArguments().getString("patientDatabaseKey");
         initVaccineListener();
         initVaccinationsListener();

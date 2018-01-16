@@ -80,34 +80,21 @@ class DataGenerator {
 
     private void generatePatientData() {
         DatabaseReference patientRef = mDatabase.child(mDataTable).child(mPatientTable).push();
-        DatabaseReference parentRef = mDatabase.child(mDataTable).child(mPatientTable).push();
 
         Patient rob = new Patient(patientRef.getKey());
         mPatientDatabaseKey = rob.getDatabaseKey();
         rob.setMedicalId("64573829174");
-        rob.setFirstName("Robert");
-        rob.setMiddleName("Hays");
-        rob.setFirstSurname("Kemp");
-        rob.setLastSurname("Steilberg");
+        rob.setFirstName("Robert Hays");
+        rob.setLastName("Steilberg II");
         rob.setSex(Sex.MALE);
         rob.setDOB(823237200000L);
         rob.setCommunity("Alspaugh");
         rob.setPlaceOfBirth("Harrisonburg");
-        rob.setAddress("2504 Vesson Ave, Durham, NC");
+        rob.setResidence("2504 Vesson Ave, Durham, NC");
         rob.setPhoneNumber("1234567890");
-        rob.setGuardianDatabaseKey(parentRef.getKey());
+        rob.setGuardianName("Ann Kemp Steilberg");
 
         patientRef.setValue(rob);
-
-        Patient matt = new Patient(parentRef.getKey());
-        matt.setMedicalId("1239248354");
-        matt.setFirstName("Matt");
-        matt.setMiddleName("Muffin");
-        matt.setFirstSurname("Leroy");
-        matt.setLastSurname("Tribby");
-        matt.setSex(Sex.MALE);
-        matt.setDependents(new ArrayList<>(Collections.singletonList(patientRef.getKey())));
-        parentRef.setValue(matt);
     }
 
     private void generateVaccineData() {

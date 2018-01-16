@@ -31,15 +31,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-
 import mhealth.mvax.R;
 //import mhealth.mvax.model.record.Guardian;
 import mhealth.mvax.model.record.Patient;
 //import mhealth.mvax.model.record.Person;
 import mhealth.mvax.records.record.RecordFragment;
-import mhealth.mvax.records.record.patient.detail.Detail;
 
 /**
  * @author Robert Steilberg
@@ -59,9 +55,6 @@ public abstract class ModifiablePatientFragment extends Fragment {
     protected Patient mPatient;
     protected DatabaseReference mPatientRef;
 
-//    protected Guardian mGuardian;
-//    protected DatabaseReference mGuardianRef;
-
     //================================================================================
     // Override methods
     //================================================================================
@@ -77,7 +70,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
     //================================================================================
 
     protected void setFragmentTitle(View view, int stringId) {
-        final TextView fragmentTitle = view.findViewById(R.id.record_details_title);
+        final TextView fragmentTitle = view.findViewById(R.id.record_details_tab_title);
         fragmentTitle.setText(stringId);
     }
 
@@ -86,8 +79,6 @@ public abstract class ModifiablePatientFragment extends Fragment {
      * mGuardian with a button to save any changes
      */
     protected void renderListView(View view) {
-//        final LinkedHashMap<Integer, List<Detail>> sectionedDetails =
-//                Person.getSectionedDetails(mPatient, mGuardian);
         mListView = view.findViewById(R.id.details_list_view);
         mAdapter = new ModifyPatientAdapter(getContext(), mPatient.getDetails());
         mListView.setAdapter(mAdapter);
@@ -109,13 +100,9 @@ public abstract class ModifiablePatientFragment extends Fragment {
         // initialize database references
         final String masterTable = getResources().getString(R.string.dataTable);
         final String patientTable = getResources().getString(R.string.patientTable);
-        final String guardianTable = getResources().getString(R.string.guardianTable);
         mPatientRef = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
                 .child(patientTable);
-//        mGuardianRef = FirebaseDatabase.getInstance().getReference()
-//                .child(masterTable)
-//                .child(guardianTable);
     }
 
     private void addSaveButton() {
@@ -135,14 +122,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
         mPatientRef.child(mPatient.getDatabaseKey()).setValue(mPatient, new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-//                // on Patient save completion, save Guardian object to database
-//                mGuardianRef.child(mGuardian.getDatabaseKey()).setValue(mGuardian, new DatabaseReference.CompletionListener() {
-//                    @Override
-//                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-//                        // on Guardian save completion, transition to view record mode (RecordFragment)
-//                        viewRecord();
-//                    }
-//                });
+                // on Patient save completion, transition to view record mode (RecordFragment)
                 viewRecord();
             }
         });

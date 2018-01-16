@@ -37,9 +37,7 @@ import mhealth.mvax.records.record.patient.detail.StringNumberDetail;
 /**
  * @author Robert Steilberg
  *         <p>
- *         Abstract data structure representing the basic info for
- *         a person, which is extended to create a specialized
- *         data structure (i.e. Patient, Guardian)
+ *         Data structure that represents a Patient
  */
 public class Patient implements Serializable {
 
@@ -99,42 +97,16 @@ public class Patient implements Serializable {
     }
 
     /**
-     * Middle name
+     * Last name
      */
-    private String middleName = "";
+    private String lastName = "";
 
-    public String getMiddleName() {
-        return this.middleName;
+    public String getLastName() {
+        return this.lastName;
     }
 
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
-
-    /**
-     * First printed surname
-     */
-    private String firstSurname = "";
-
-    public String getFirstSurname() {
-        return this.firstSurname;
-    }
-
-    public void setFirstSurname(String firstSurname) {
-        this.firstSurname = firstSurname;
-    }
-
-    /**
-     * Last printed surname
-     */
-    private String lastSurname = "";
-
-    public String getLastSurname() {
-        return this.lastSurname;
-    }
-
-    public void setLastSurname(String lastSurname) {
-        this.lastSurname = lastSurname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     /**
@@ -191,16 +163,16 @@ public class Patient implements Serializable {
     }
 
     /**
-     * Patient address
+     * Patient residence
      */
-    private String address = "";
+    private String residence = "";
 
-    public String getAddress() {
-        return this.address;
+    public String getResidence() {
+        return this.residence;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setResidence(String residence) {
+        this.residence = residence;
     }
 
     /**
@@ -217,62 +189,17 @@ public class Patient implements Serializable {
     }
 
     /**
-     * Unique Firebase key representing the
-     * patient's primary guardian
+     * Guardian name
      */
-    private String guardianDatabaseKey;
+    private String guardianName = "";
 
-    public String getGuardianDatabaseKey() {
-        return this.guardianDatabaseKey;
+    public String getGuardianName() {
+        return this.guardianName;
     }
 
-    public void setGuardianDatabaseKey(String guardianDatabaseKey) {
-        this.guardianDatabaseKey = guardianDatabaseKey;
+    public void setGuardianName(String guardianName) {
+        this.guardianName = guardianName;
     }
-
-    /**
-     * List of unique Firebase database keys, each of
-     * which represents a Patient who is one of this
-     * Patient's dependents
-     */
-    private List<String> dependents = new ArrayList<>();
-
-    public ArrayList<String> getDependents() {
-        return new ArrayList<>(this.dependents);
-    }
-
-    public void setDependents(List<String> dependents) {
-        this.dependents = dependents;
-    }
-
-    /**
-     * Adds a Patient to this Patient's list of patients
-     *
-     * @param dependentDatabaseKey Firebase unique database key
-     *                             representing the dependent
-     */
-    @Exclude
-    public void addDependent(String dependentDatabaseKey) {
-        dependents.add(dependentDatabaseKey);
-    }
-
-    //================================================================================
-    // Static methods
-    //================================================================================
-
-//    /**
-//     * @param people variadic list of Person objects
-//     * @return a map, ordered by key, that maps a String resource id,
-//     * representing a section title, to a Person object's details
-//     */
-//    @Exclude
-//    public static LinkedHashMap<Integer, List<Detail>> getSectionedDetails(Person... people) {
-//        final LinkedHashMap<Integer, List<Detail>> details = new LinkedHashMap<>();
-//        for (final Person p : people) {
-//            if (p != null) details.put(p.getSectionTitleStringID(), p.getDetails());
-//        }
-//        return details;
-//    }
 
     //================================================================================
     // Public methods
@@ -280,21 +207,19 @@ public class Patient implements Serializable {
 
     /**
      * Computes a String to display the Person's name, in format
-     * firstSurname lastSurname, firstName middleName
+     * lastName, firstName
      *
      * @return formatted String representing full name, or no_patient_name
-     * if the patient does not have a first surname
+     * if the patient does not have a last name
      */
     @Exclude
     public String getName() {
-        if (firstSurname.equals("")) {
+        if (lastName.equals("")) {
             return StringFetcher.fetchString(R.string.no_patient_name);
         }
         final StringBuilder sb = new StringBuilder();
-        sb.append(firstSurname);
-        if (!lastSurname.equals("")) sb.append(" ").append(lastSurname);
+        sb.append(lastName);
         if (!firstName.equals("")) sb.append(", ").append(firstName);
-        if (!middleName.equals("")) sb.append(" ").append(middleName);
         return sb.toString();
     }
 
@@ -335,44 +260,18 @@ public class Patient implements Serializable {
         });
         details.add(firstNameDetail);
 
-        // patient middle name
-        final StringDetail middleNameDetail = new StringDetail(
-                this.middleName,
-                R.string.label_middlename,
-                R.string.hint_middlename);
-        middleNameDetail.setSetter(new Runnable() {
+        // last name
+        final StringDetail lastNameDetail = new StringDetail(
+                this.lastName,
+                R.string.label_last_name,
+                R.string.hint_last_name);
+        lastNameDetail.setSetter(new Runnable() {
             @Override
             public void run() {
-                setMiddleName(middleNameDetail.getValue());
+                setLastName(lastNameDetail.getValue());
             }
         });
-        details.add(middleNameDetail);
-
-        // first surname
-        final StringDetail firstSurnameDetail = new StringDetail(
-                this.firstSurname,
-                R.string.label_first_surname,
-                R.string.hint_first_surname);
-        firstSurnameDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setFirstSurname(firstSurnameDetail.getValue());
-            }
-        });
-        details.add(firstSurnameDetail);
-
-        // last surname
-        final StringDetail lastSurnameDetail = new StringDetail(
-                this.lastSurname,
-                R.string.label_last_surname,
-                R.string.hint_last_surname);
-        lastSurnameDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setLastSurname(lastSurnameDetail.getValue());
-            }
-        });
-        details.add(lastSurnameDetail);
+        details.add(lastNameDetail);
 
         // patient sex
         final SexDetail sexDetail = new SexDetail(
@@ -427,17 +326,17 @@ public class Patient implements Serializable {
         details.add(placeOfBirthDetail);
 
         // address
-        final StringDetail addressDetail = new StringDetail(
-                this.address,
-                R.string.label_address,
-                R.string.hint_address);
-        addressDetail.setSetter(new Runnable() {
+        final StringDetail residenceDetail = new StringDetail(
+                this.residence,
+                R.string.label_residence,
+                R.string.hint_residence);
+        residenceDetail.setSetter(new Runnable() {
             @Override
             public void run() {
-                setAddress(addressDetail.getValue());
+                setResidence(residenceDetail.getValue());
             }
         });
-        details.add(addressDetail);
+        details.add(residenceDetail);
 
         // phone number
         final StringNumberDetail phoneNumberDetail = new StringNumberDetail(
@@ -451,6 +350,19 @@ public class Patient implements Serializable {
             }
         });
         details.add(phoneNumberDetail);
+
+        // guardian name
+        final StringDetail guardianNameDetail = new StringDetail(
+                this.guardianName,
+                R.string.label_guardian_name,
+                R.string.hint_guardian_name);
+        guardianNameDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setGuardianName(guardianNameDetail.getValue());
+            }
+        });
+        details.add(guardianNameDetail);
 
         return details;
     }
