@@ -19,6 +19,7 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.views;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -91,7 +92,7 @@ public class DateModal extends TypeModal<Long> {
 
         // render the date picker
         final LayoutInflater inflater = LayoutInflater.from(getContext());
-        final View dialogView = inflater.inflate(R.layout.modal_choose_date, null);
+        final View dialogView = inflater.inflate(R.layout.modal_date_picker, null);
         setView(dialogView);
         mDatePicker = dialogView.findViewById(R.id.date_picker);
 

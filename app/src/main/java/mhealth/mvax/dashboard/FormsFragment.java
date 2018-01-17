@@ -105,7 +105,7 @@ public class FormsFragment extends android.support.v4.app.Fragment {
 
         final AlertDialog.Builder builder = createBasicDateChooseModal();
 
-        final View dialogView = inflater.inflate(R.layout.modal_choose_date, null);
+        final View dialogView = inflater.inflate(R.layout.modal_date_picker, null);
         builder.setView(dialogView);
 
         final DatePicker datePicker = dialogView.findViewById(R.id.date_picker);
@@ -128,7 +128,7 @@ public class FormsFragment extends android.support.v4.app.Fragment {
     private void sinova2Clicked(){
         AlertDialog.Builder builder = createBasicDateChooseModal();
 
-        final View dialogView = inflater.inflate(R.layout.modal_choose_date, null);
+        final View dialogView = inflater.inflate(R.layout.modal_date_picker, null);
         builder.setView(dialogView);
 
         final DatePicker datePicker = dialogView.findViewById(R.id.date_picker);
@@ -150,7 +150,7 @@ public class FormsFragment extends android.support.v4.app.Fragment {
     private void linvClicked(){
         AlertDialog.Builder builder = createBasicDateChooseModal();
 
-        final View dialogView = inflater.inflate(R.layout.modal_choose_date, null);
+        final View dialogView = inflater.inflate(R.layout.modal_date_picker, null);
         builder.setView(dialogView);
 
         final DatePicker datePicker = dialogView.findViewById(R.id.date_picker);

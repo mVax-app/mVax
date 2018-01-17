@@ -49,7 +49,6 @@ class DataGenerator {
     private String mDataTable;
 
     private String mPatientTable;
-    private String mGuardianTable;
     private String mVaccineTable;
 
     private String mVaccinationTable;
@@ -63,7 +62,6 @@ class DataGenerator {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDataTable = context.getString(R.string.dataTable);
         mPatientTable = context.getString(R.string.patientTable);
-        mGuardianTable = context.getString(R.string.guardianTable);
         mVaccineTable = context.getString(R.string.vaccineTable);
         mVaccinationTable = context.getString(R.string.vaccinationsTable);
         mDueDateTable = context.getString(R.string.dueDatesTable);
