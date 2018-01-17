@@ -20,8 +20,11 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.records.views;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.widget.TextView;
 
 import mhealth.mvax.R;
 import mhealth.mvax.records.utilities.TypeRunnable;
@@ -47,7 +50,9 @@ abstract class TypeModal<T> extends AlertDialog.Builder {
     TypeModal(T value, Context context) {
         super(context);
         this.mValue = value;
+
         initBuilder();
+
         // set negative button to cancel action and close modal
         setNegativeButton(getContext().getString(R.string.modal_cancel), new DialogInterface.OnClickListener() {
             @Override
@@ -77,4 +82,45 @@ abstract class TypeModal<T> extends AlertDialog.Builder {
      */
     abstract void setNeutralButtonAction(DialogInterface.OnClickListener listener);
 
+    //================================================================================
+    // Override methods
+    //================================================================================
+
+    @Override
+    public AlertDialog show() {
+        AlertDialog dialog = super.show();
+        int textSize = 22;
+        dialog.getButton(Dialog.BUTTON_POSITIVE).setTextSize(textSize);
+        dialog.getButton(Dialog.BUTTON_NEUTRAL).setTextSize(textSize);
+        dialog.getButton(Dialog.BUTTON_NEGATIVE).setTextSize(textSize);
+        return null;
+    }
+
+    @Override
+    public AlertDialog.Builder setTitle(CharSequence title) {
+        TextView titleView = getTitleTextView();
+        titleView.setText(title);
+        setCustomTitle(titleView);
+        return null;
+    }
+
+    @Override
+    public AlertDialog.Builder setTitle(int titleStringId) {
+        TextView titleView = getTitleTextView();
+        titleView.setText(titleStringId);
+        setCustomTitle(titleView);
+        return null;
+    }
+
+    //================================================================================
+    // Private methods
+    //================================================================================
+
+    private TextView getTitleTextView() {
+        TextView titleView = new TextView(getContext());
+        titleView.setTextSize(30);
+        titleView.setPaddingRelative(50,50,50,0);
+        titleView.setTextColor(Color.BLACK);
+        return titleView;
+    }
 }

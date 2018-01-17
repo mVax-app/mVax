@@ -97,7 +97,7 @@ public class SexModal extends TypeModal<Sex> {
 
         // render the radio group
         final LayoutInflater inflater = LayoutInflater.from(getContext());
-        final View dialogView = inflater.inflate(R.layout.modal_choose_sex, null);
+        final View dialogView = inflater.inflate(R.layout.modal_sex_picker, null);
         setView(dialogView);
         mRadioGroup = dialogView.findViewById(R.id.choose_sex_radio_group);
 

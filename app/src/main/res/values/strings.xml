@@ -90,7 +90,7 @@
 
     <!-- Record details -->
     <string name="tab_title_record_details">Record Details</string>
-    <string name="tab_title_vaccine_history">Vaccine History</string>
+    <string name="tab_title_vaccine_schedule">Vaccine Schedule</string>
     <string name="date_format">MM/dd/yyyy</string>
 
     <!-- New record -->
@@ -172,24 +172,19 @@
     <string name="guardian_detail_section_title">Guardian Details</string>
     <string name="edit_record_button">Edit Record</string>
     <string name="edit_record_title">Edit Record</string>
-    <string name="label_first_surname">First Surname</string>
-    <string name="hint_first_surname">first surname</string>
-    <string name="label_last_surname">Last Surname</string>
-    <string name="hint_last_surname">last surname</string>
-    <string name="label_suffix">Suffix</string>
-    <string name="hint_suffix">suffix</string>
+    <string name="label_last_name">Last Name</string>
+    <string name="hint_last_name">last name</string>
     <string name="label_pob">Place of Birth</string>
     <string name="hint_pob">place of birth</string>
     <string name="label_community">Community</string>
     <string name="hint_community">community</string>
     <string name="label_guardian_id">Guardian ID</string>
-    <string name="label_guardian_firstname">Guardian First Name</string>
-    <string name="label_guardian_middlname">Guardian Middle Name</string>
-    <string name="label_guardian_lastname">Guardian Last Name</string>
+    <string name="label_guardian_name">Guardian Name</string>
+    <string name="hint_guardian_name">guardian name</string>
     <string name="label_guardian_suffix">Guardian Suffix</string>
     <string name="label_guardian_sex">Guardian Sex</string>
-    <string name="label_address">Address</string>
-    <string name="hint_address">address</string>
+    <string name="label_residence">Residence</string>
+    <string name="hint_residence">residence</string>
     <string name="label_phone_number">Phone Number</string>
     <string name="hint_phone_number">phone</string>
 

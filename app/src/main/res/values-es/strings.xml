@@ -76,7 +76,7 @@
     <string name="patient_details">Detalles de Enfermo</string>
     <string name="date_format">dd/MM/yyyy</string>
     <string name="tab_title_record_details">Detalles de Registro</string>
-    <string name="tab_title_vaccine_history">Historia de la Vacuna/</string>
+    <string name="tab_title_vaccine_schedule">Historia de la Vacuna/</string>
 
 
     <!-- New record -->

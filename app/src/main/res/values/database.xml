@@ -5,13 +5,9 @@
     <string name="patientTable">patients</string>
     <string name="patientDatabaseKeyField">patientDatabaseKey</string>
 
-    <string name="guardianTable">guardians</string>
-
     <string name="vaccineTable">vaccines</string>
     <string name="vaccinationsTable">vaccinations</string>
     <string name="dueDatesTable">dueDates</string>
-
-
 
     <string name="databaseId">databaseId</string>
     <string name="userTable">users</string>

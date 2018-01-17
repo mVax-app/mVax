@@ -94,7 +94,7 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
         // set up tab layout
         final TabLayout tabLayout = mView.findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_title_record_details)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_title_vaccine_history)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_title_vaccine_schedule)));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.addOnTabSelectedListener(this); // enable swipe views
 

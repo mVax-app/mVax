@@ -24,9 +24,11 @@ import android.content.Context;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import mhealth.mvax.R;
 import mhealth.mvax.model.immunization.DueDate;
-import mhealth.mvax.model.record.Guardian;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.model.record.Sex;
 import mhealth.mvax.model.immunization.Dose;
@@ -47,7 +49,6 @@ class DataGenerator {
     private String mDataTable;
 
     private String mPatientTable;
-    private String mGuardianTable;
     private String mVaccineTable;
 
     private String mVaccinationTable;
@@ -61,7 +62,6 @@ class DataGenerator {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDataTable = context.getString(R.string.dataTable);
         mPatientTable = context.getString(R.string.patientTable);
-        mGuardianTable = context.getString(R.string.guardianTable);
         mVaccineTable = context.getString(R.string.vaccineTable);
         mVaccinationTable = context.getString(R.string.vaccinationsTable);
         mDueDateTable = context.getString(R.string.dueDatesTable);
@@ -78,33 +78,21 @@ class DataGenerator {
 
     private void generatePatientData() {
         DatabaseReference patientRef = mDatabase.child(mDataTable).child(mPatientTable).push();
-        DatabaseReference parentRef = mDatabase.child(mDataTable).child(mGuardianTable).push();
 
         Patient rob = new Patient(patientRef.getKey());
         mPatientDatabaseKey = rob.getDatabaseKey();
         rob.setMedicalId("64573829174");
-        rob.setFirstName("Robert");
-        rob.setMiddleName("Hays");
-        rob.setFirstSurname("Kemp");
-        rob.setLastSurname("Steilberg");
+        rob.setFirstName("Robert Hays");
+        rob.setLastName("Steilberg II");
         rob.setSex(Sex.MALE);
-        rob.setGuardianDatabaseKey(parentRef.getKey());
         rob.setDOB(823237200000L);
         rob.setCommunity("Alspaugh");
         rob.setPlaceOfBirth("Harrisonburg");
-        rob.setAddress("2504 Vesson Ave, Durham, NC");
+        rob.setResidence("2504 Vesson Ave, Durham, NC");
         rob.setPhoneNumber("1234567890");
-        patientRef.setValue(rob);
+        rob.setGuardianName("Ann Kemp Steilberg");
 
-        Guardian matt = new Guardian(parentRef.getKey(), patientRef.getKey());
-        matt.setMedicalId("1239248354");
-        matt.setFirstName("Matt");
-        matt.setMiddleName("Muffin");
-        matt.setFirstSurname("Leroy");
-        matt.setLastSurname("Tribby");
-        matt.setSex(Sex.MALE);
-//        matt.setDependents(new ArrayList<>(Collections.singletonList(patientRef.getKey())));
-        parentRef.setValue(matt);
+        patientRef.setValue(rob);
     }
 
     private void generateVaccineData() {

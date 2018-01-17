@@ -21,22 +21,24 @@ package mhealth.mvax.model.record;
 
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.records.record.patient.detail.DateDetail;
 import mhealth.mvax.records.record.patient.detail.Detail;
+import mhealth.mvax.records.record.patient.detail.SexDetail;
 import mhealth.mvax.records.record.patient.detail.StringDetail;
+import mhealth.mvax.records.utilities.StringFetcher;
 import mhealth.mvax.records.record.patient.detail.StringNumberDetail;
 
 /**
  * @author Robert Steilberg
  *         <p>
- *         Extends Person to store additional information
- *         and define functionality specific to a Patient
+ *         Data structure that represents a Patient
  */
-public class Patient extends Person {
+public class Patient implements Serializable {
 
     //================================================================================
     // Constructors
@@ -47,7 +49,7 @@ public class Patient extends Person {
     }
 
     public Patient(String databaseKey) {
-        super(databaseKey);
+        this.databaseKey = databaseKey;
     }
 
     //================================================================================
@@ -55,17 +57,68 @@ public class Patient extends Person {
     //================================================================================
 
     /**
-     * Unique Firebase key representing the
-     * patient's primary guardian
+     * Unique Firebase database key of the Person object
      */
-    private String guardianDatabaseKey;
+    private String databaseKey;
 
-    public String getGuardianDatabaseKey() {
-        return this.guardianDatabaseKey;
+    public String getDatabaseKey() {
+        return this.databaseKey;
     }
 
-    public void setGuardianDatabaseKey(String guardianDatabaseKey) {
-        this.guardianDatabaseKey = guardianDatabaseKey;
+    public void setDatabaseKey(String databaseKey) {
+        this.databaseKey = databaseKey;
+    }
+
+    /**
+     * Medical ID assigned to the person
+     */
+    private String medicalId = "";
+
+    public String getMedicalId() {
+        return this.medicalId;
+    }
+
+    public void setMedicalId(String medicalId) {
+        this.medicalId = medicalId;
+    }
+
+    /**
+     * First name
+     */
+    private String firstName = "";
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    /**
+     * Last name
+     */
+    private String lastName = "";
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    /**
+     * Sex (Male or Female)
+     */
+    private Sex sex;
+
+    public Sex getSex() {
+        return this.sex;
+    }
+
+    public void setSex(Sex sex) {
+        this.sex = sex;
     }
 
     /**
@@ -109,21 +162,20 @@ public class Patient extends Person {
     }
 
     /**
-     * Patient address
+     * Patient residence
      */
-    private String address = "";
+    private String residence = "";
 
-    public String getAddress() {
-        return this.address;
+    public String getResidence() {
+        return this.residence;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setResidence(String residence) {
+        this.residence = residence;
     }
 
     /**
      * Phone number for contacting the patient
-     * or their guardian
      */
     private String phoneNumber = "";
 
@@ -135,14 +187,103 @@ public class Patient extends Person {
         this.phoneNumber = phoneNumber;
     }
 
+    /**
+     * Guardian name
+     */
+    private String guardianName = "";
+
+    public String getGuardianName() {
+        return this.guardianName;
+    }
+
+    public void setGuardianName(String guardianName) {
+        this.guardianName = guardianName;
+    }
+
     //================================================================================
     // Public methods
     //================================================================================
 
-    @Override
+    /**
+     * Computes a String to display the Person's name, in format
+     * lastName, firstName
+     *
+     * @return formatted String representing full name, or no_patient_name
+     * if the patient does not have a last name
+     */
+    @Exclude
+    public String getName() {
+        if (lastName.equals("")) {
+            return StringFetcher.fetchString(R.string.no_patient_name);
+        }
+        final StringBuilder sb = new StringBuilder();
+        sb.append(lastName);
+        if (!firstName.equals("")) sb.append(", ").append(firstName);
+        return sb.toString();
+    }
+
+    /**
+     * Computes a List of Detail objects that represent each property that
+     * every Person contains
+     *
+     * @return List of Detail objects, ordered according to how they
+     * will be displayed
+     */
     @Exclude
     public List<Detail> getDetails() {
-        ArrayList<Detail> details = new ArrayList<>(getPersonDetails());
+        ArrayList<Detail> details = new ArrayList<>();
+
+        // medical ID
+        final StringNumberDetail medicalIdDetail = new StringNumberDetail(
+                this.medicalId,
+                R.string.label_medicalID,
+                R.string.hint_medicalID);
+        medicalIdDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setMedicalId(medicalIdDetail.getValue());
+            }
+        });
+        details.add(medicalIdDetail);
+
+        // first name
+        final StringDetail firstNameDetail = new StringDetail(
+                this.firstName,
+                R.string.label_firstname,
+                R.string.hint_firstname);
+        firstNameDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setFirstName(firstNameDetail.getValue());
+            }
+        });
+        details.add(firstNameDetail);
+
+        // last name
+        final StringDetail lastNameDetail = new StringDetail(
+                this.lastName,
+                R.string.label_last_name,
+                R.string.hint_last_name);
+        lastNameDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setLastName(lastNameDetail.getValue());
+            }
+        });
+        details.add(lastNameDetail);
+
+        // patient sex
+        final SexDetail sexDetail = new SexDetail(
+                this.sex,
+                R.string.label_sex,
+                R.string.hint_sex);
+        sexDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setSex(sexDetail.getValue());
+            }
+        });
+        details.add(sexDetail);
 
         // date of birth
         final DateDetail dobDetail = new DateDetail(
@@ -184,17 +325,17 @@ public class Patient extends Person {
         details.add(placeOfBirthDetail);
 
         // address
-        final StringDetail addressDetail = new StringDetail(
-                this.address,
-                R.string.label_address,
-                R.string.hint_address);
-        addressDetail.setSetter(new Runnable() {
+        final StringDetail residenceDetail = new StringDetail(
+                this.residence,
+                R.string.label_residence,
+                R.string.hint_residence);
+        residenceDetail.setSetter(new Runnable() {
             @Override
             public void run() {
-                setAddress(addressDetail.getValue());
+                setResidence(residenceDetail.getValue());
             }
         });
-        details.add(addressDetail);
+        details.add(residenceDetail);
 
         // phone number
         final StringNumberDetail phoneNumberDetail = new StringNumberDetail(
@@ -209,12 +350,20 @@ public class Patient extends Person {
         });
         details.add(phoneNumberDetail);
 
+        // guardian name
+        final StringDetail guardianNameDetail = new StringDetail(
+                this.guardianName,
+                R.string.label_guardian_name,
+                R.string.hint_guardian_name);
+        guardianNameDetail.setSetter(new Runnable() {
+            @Override
+            public void run() {
+                setGuardianName(guardianNameDetail.getValue());
+            }
+        });
+        details.add(guardianNameDetail);
+
         return details;
     }
 
-    @Override
-    @Exclude
-    public int getSectionTitleStringID() {
-        return R.string.patient_detail_section_title;
-    }
 }

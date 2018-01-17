@@ -112,9 +112,9 @@ class SearchFilter {
             case "Community":
                 return patient.getCommunity();
             case "Parent ID":
-                return patient.getGuardianDatabaseKey();
+//                return patient.getGuardianDatabaseKey();
             case "Parent name":
-                return patient.getGuardianDatabaseKey();
+//                return patient.getGuardianDatabaseKey();
             default:
                 return patient.getDatabaseKey();
         }
