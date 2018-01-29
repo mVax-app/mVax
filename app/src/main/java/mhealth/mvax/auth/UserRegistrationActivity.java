@@ -114,7 +114,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
                 Boolean cancel = false;
                 View focusView = null;
 
-                if(!LoginActivity.isEmailValid(email)){
+                if(!isEmailValid(email)){
                     newUserEmail.setError(getResources().getString(R.string.REG_ERROR_EMAIL));
                     focusView = newUserEmail;
                     cancel = true;
