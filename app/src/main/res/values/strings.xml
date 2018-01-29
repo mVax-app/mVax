@@ -34,7 +34,7 @@
     <string name="REG_NAME">First Name</string>
     <string name="REG_NAME_LAST">Last Name</string>
     <string name="REG_EMAIL">Email</string>
-    <string name="REG_PASS_REQUIRE">Password must be at least 6 characters.</string>
+    <string name="REG_PASS_REQUIRE">Password must be at least 8 characters and must contain at least one uppercase letter, one lowercase letter, a number, and a special character.</string>
     <string name="REG_PASSWORD">Password</string>
     <string name="REG_PASSWORD_CONFIRM">Confirm Password</string>
     <string name="REG_ERROR_EMAIL">Invalid email address</string>

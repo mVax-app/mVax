@@ -49,7 +49,7 @@ import java.util.Locale;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.ApproveUsersFragment;
-import mhealth.mvax.auth.LoginActivity;
+import mhealth.mvax.auth.UserRegistrationActivity;
 import mhealth.mvax.model.user.UserRole;
 
 /**
@@ -193,7 +193,7 @@ public class SettingsFragment extends Fragment {
         builder.setPositiveButton(getResources().getString(R.string.update_email), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (LoginActivity.isEmailValid(address.getText().toString())) {
+                if (UserRegistrationActivity.isEmailValid(address.getText().toString())) {
                     FirebaseAuth.getInstance().getCurrentUser().updateEmail(address.getText().toString());
                     dialog.dismiss();
                     Toast.makeText(getActivity(), R.string.update_email_success, Toast.LENGTH_LONG).show();
