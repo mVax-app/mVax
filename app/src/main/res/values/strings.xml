@@ -28,6 +28,10 @@
     <string name="patients">Patients</string>
     <string name="title_forms">Forms</string>
 
+    <string name="LOGIN_TITLE">mVax</string>
+    <string name="LOGIN_SIGNIN">Sign In</string>
+    <string name="LOGIN_REGISTER">Don\'t have an account? Register</string>
+
     <string name="REG_DESCRIPTION">Please fill out the following form to get started. After completion, an administrator will have to approve you and then a confirmation email will be sent to your account</string>
     <string name="REG_TITLE">New User Registration</string>
     <string name="REG_ButtonReg">Register</string>
