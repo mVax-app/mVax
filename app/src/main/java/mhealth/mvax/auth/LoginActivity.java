@@ -200,19 +200,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 focusView = mPasswordView;
                 cancel = true;
             }
-            else if (!isPasswordValid(password)) {
-                mPasswordView.setError(getString(R.string.error_invalid_password));
-                focusView = mPasswordView;
-                cancel = true;
-            }
 
             // Check for a valid email address.
             if (TextUtils.isEmpty(email)) {
                 mEmailView.setError(getString(R.string.error_field_required));
-                focusView = mEmailView;
-                cancel = true;
-            } else if (!isEmailValid(email)) {
-                mEmailView.setError(getString(R.string.error_invalid_email));
                 focusView = mEmailView;
                 cancel = true;
             }
@@ -246,18 +237,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         });
             }
 
-    }
-
-
-
-    public static boolean isEmailValid(String email) {
-        //TODO replace logic
-        return email.contains("@");
-    }
-
-    public static boolean isPasswordValid(String password) {
-        //Currently requirement is just 6 characters, may augment later
-        return password.length() >= 6;
     }
 
     private void checkIfApproved(){

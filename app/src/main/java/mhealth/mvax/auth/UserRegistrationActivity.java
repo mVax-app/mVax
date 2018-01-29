@@ -120,7 +120,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
                     cancel = true;
                 }
 
-                if(!LoginActivity.isPasswordValid(password)){
+                if(!isPasswordValid(password)){
                     newUserPassword.setError(getResources().getString(R.string.REG_ERROR_PASS_REQUIRE));
                     focusView = newUserPassword;
                     cancel = true;
@@ -167,6 +167,15 @@ public class UserRegistrationActivity extends AppCompatActivity {
             }
         });
     }
+
+    private static boolean isPasswordValid(String password){
+        PasswordVerifier verifier = new ComplexPasswordVerifier();
+        return verifier.checkPassword(password);
+    }
+    public static boolean isEmailValid(String email) {
+        return email.contains("@");
+    }
+
 
     private List<String> getRoles(){
         List<String> roles = new ArrayList<String>();
