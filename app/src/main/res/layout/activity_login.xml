@@ -29,12 +29,28 @@
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/login_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/LOGIN_TITLE"
+                android:layout_marginBottom="10dp"
+                android:focusable="true"
+                android:textAlignment="center"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:textColor="@color/teal"/>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
+                android:layout_height="wrap_content"
+                android:paddingStart="90dp"
+                android:paddingEnd="90dp">
                 <AutoCompleteTextView
                     android:id="@+id/email"
                     android:layout_width="match_parent"
@@ -42,13 +58,16 @@
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
+                    android:textSize="25sp"
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingStart="90dp"
+                android:paddingEnd="90dp">
 
                 <EditText
                     android:id="@+id/password"
@@ -60,6 +79,7 @@
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
+                    android:textSize="25sp"
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
@@ -67,20 +87,29 @@
             <Button
                 android:id="@+id/Bsignin"
                 style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
+                android:layout_width="200dp"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/emptystring"
-                android:textStyle="bold" />
+                android:layout_marginTop="45dp"
+                android:layout_marginBottom="20dp"
+                android:text="@string/LOGIN_SIGNIN"
+                android:textStyle="bold"
+                android:paddingStart="30dp"
+                android:paddingEnd="30dp"
+                android:textSize="25sp"/>
 
-            <Button
-                android:id="@+id/Bregister"
-                style="?android:textAppearanceSmall"
+            <TextView
+                android:id="@+id/register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/emptystring"
-                android:textStyle="bold" />
+                android:backgroundTint="@android:color/transparent"
+                android:text="@string/LOGIN_REGISTER"
+                android:clickable="true"
+                android:layout_marginBottom="10dp"
+                android:focusable="true"
+                android:textAlignment="center"
+                android:textSize="20sp"/>
 
             <TextView
                 android:id="@+id/resetPassword"
@@ -89,6 +118,7 @@
                 android:text="@string/resetPassword"
                 android:onClick="resetPassword"
                 android:clickable="true"
+                android:focusable="true"
                 android:textAlignment="center"
                 android:textSize="20sp" />
 
@@ -99,8 +129,8 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_gravity="center"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
                 app:srcCompat="@drawable/logo" />
 
         </LinearLayout>

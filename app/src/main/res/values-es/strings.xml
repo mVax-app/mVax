@@ -5,6 +5,9 @@
     <string name="title_activity_login">Registrese</string>
 
     <!-- Strings related to login -->
+    <string name="LOGIN_TITLE">Inicio de Sesión</string>
+    <string name="LOGIN_SIGNIN">Entrar</string>
+    <string name="LOGIN_REGISTER">Registre</string>
     <string name="auth_failed">Error de Autenticación</string>
     <string name="prompt_email">Correo Electrónico</string>
     <string name="prompt_password">Contraseña (opcional)</string>

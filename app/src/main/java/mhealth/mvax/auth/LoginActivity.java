@@ -67,8 +67,6 @@ import mhealth.mvax.activities.MainActivity;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
-    public final String LOGIN_SIGNIN = "SIGN IN";
-    public final String LOGIN_REGISTER = "REGISTER";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -122,19 +120,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
 
-        setAllText();
         setOnClick();
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
 
-    private void setAllText() {
-        Button Bsignin = (Button)findViewById(R.id.Bsignin);
-        Bsignin.setText(LOGIN_SIGNIN);
-        Button Bregister = (Button)findViewById(R.id.Bregister);
-        Bregister.setText(LOGIN_REGISTER);
-    }
 
     private void setOnClick(){
         //When sign in button is clicked
@@ -147,8 +138,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         //When register button clicked
-        Button Bregister = (Button)findViewById(R.id.Bregister);
-        Bregister.setOnClickListener(new OnClickListener() {
+        TextView register = (TextView) findViewById(R.id.register);
+        register.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Toggle to true because there now exists users in the system
@@ -231,7 +222,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                                     Log.w("failedLogin", "signInWithEmail:failed", task.getException());
                                     Toast.makeText(LoginActivity.this, R.string.auth_failed,
-                                            Toast.LENGTH_SHORT).show();
+                                            Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
