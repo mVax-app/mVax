@@ -99,13 +99,13 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-//        Button signOut = (Button) v.findViewById(R.id.signOut);
-//        signOut.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                signOut();
-//            }
-//        });
+        Button signOut = (Button) v.findViewById(R.id.signOut);
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signOut();
+            }
+        });
 
         createApproveUsersButton(v);
 
@@ -231,8 +231,8 @@ public class SettingsFragment extends Fragment {
     }
 
     public void signOut() {
-        getActivity().finish();
         FirebaseAuth.getInstance().signOut();
+        getActivity().finish();
     }
 
     private void createApproveUsersButton(View view) {
@@ -254,7 +254,7 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), getResources().getString(R.string.no_user_role), Toast.LENGTH_LONG);
+                //Toast.makeText(getActivity(), getResources().getString(R.string.no_user_role), Toast.LENGTH_LONG);
             }
         });
 

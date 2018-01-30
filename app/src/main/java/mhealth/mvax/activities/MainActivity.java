@@ -113,4 +113,17 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onUserLeaveHint() {
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        System.out.println("PRINT: WAHOO PAUSEEEE");
+        FirebaseAuth.getInstance().signOut();
+        this.finish();
+    }
+
 }

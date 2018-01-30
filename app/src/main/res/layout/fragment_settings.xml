@@ -127,7 +127,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/change_password"
                 android:textSize="25sp" />
-<!--
+
             <Button
                 android:id="@+id/signOut"
                 android:layout_width="wrap_content"
@@ -139,7 +139,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                />
-               -->
+
 
             <Space
                 android:layout_width="match_parent"
