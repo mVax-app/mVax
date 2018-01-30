@@ -69,19 +69,33 @@ public class FormsFragment extends android.support.v4.app.Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         inflater = (LayoutInflater) getActivity().getLayoutInflater();
 
-        Button sinova = (Button) view.findViewById(R.id.SINOVA_Adolescent);
-        Button sinova2 = (Button) view.findViewById(R.id.SINOVA2_Adolescent);
+        Button sinovaAdolescent = (Button) view.findViewById(R.id.SINOVA_Adolescent);
+        Button sinova2Adolescent = (Button) view.findViewById(R.id.SINOVA2_Adolescent);
+        Button sinovaAdult = (Button) view.findViewById(R.id.SINOVA_Adult);
+        Button sinova2Adult = (Button) view.findViewById(R.id.SINOVA2_Adult);
         Button linv = (Button)view.findViewById(R.id.LINV);
         ImageView info = (ImageView) view.findViewById(R.id.info);
 
-        sinova.setOnClickListener(new View.OnClickListener() {
+        sinovaAdolescent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sinovaClicked();
+            }
+        });
+        sinovaAdult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sinovaClicked();
             }
         });
 
-        sinova2.setOnClickListener(new View.OnClickListener() {
+        sinova2Adolescent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sinova2Clicked();
+            }
+        });
+        sinova2Adult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sinova2Clicked();
@@ -142,6 +156,8 @@ public class FormsFragment extends android.support.v4.app.Fragment {
 
         final DatePicker datePicker = dialogView.findViewById(R.id.date_picker);
 
+
+
         builder.setPositiveButton(getResources().getString(R.string.export), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -154,6 +170,7 @@ public class FormsFragment extends android.support.v4.app.Fragment {
         });
         builder.show();
     }
+
 
     private void linvClicked(){
         AlertDialog.Builder builder = createBasicDateChooseModal();
