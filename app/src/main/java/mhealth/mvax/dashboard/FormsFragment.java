@@ -69,19 +69,33 @@ public class FormsFragment extends android.support.v4.app.Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         inflater = (LayoutInflater) getActivity().getLayoutInflater();
 
-        Button sinova = (Button) view.findViewById(R.id.SINOVA);
-        Button sinova2 = (Button) view.findViewById(R.id.SINOVA2);
+        Button sinovaAdolescent = (Button) view.findViewById(R.id.SINOVA_Adolescent);
+        Button sinova2Adolescent = (Button) view.findViewById(R.id.SINOVA2_Adolescent);
+        Button sinovaAdult = (Button) view.findViewById(R.id.SINOVA_Adult);
+        Button sinova2Adult = (Button) view.findViewById(R.id.SINOVA2_Adult);
         Button linv = (Button)view.findViewById(R.id.LINV);
         ImageView info = (ImageView) view.findViewById(R.id.info);
 
-        sinova.setOnClickListener(new View.OnClickListener() {
+        sinovaAdolescent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sinovaClicked();
+            }
+        });
+        sinovaAdult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sinovaClicked();
             }
         });
 
-        sinova2.setOnClickListener(new View.OnClickListener() {
+        sinova2Adolescent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sinova2Clicked();
+            }
+        });
+        sinova2Adult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sinova2Clicked();
@@ -142,19 +156,21 @@ public class FormsFragment extends android.support.v4.app.Fragment {
 
         final DatePicker datePicker = dialogView.findViewById(R.id.date_picker);
 
+
+
         builder.setPositiveButton(getResources().getString(R.string.export), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 int year = datePicker.getYear();
-                int day = datePicker.getDayOfMonth();
                 int month = datePicker.getMonth();
 
-                buildSINOVA2(day, month, year);
+                buildSINOVA2(month, year);
                 dialogInterface.dismiss();
             }
         });
         builder.show();
     }
+
 
     private void linvClicked(){
         AlertDialog.Builder builder = createBasicDateChooseModal();
@@ -188,22 +204,22 @@ public class FormsFragment extends android.support.v4.app.Fragment {
     }
 
     public void buildSINOVA(int day, int month, int year){
-//        SINOVABuilder sinovaBuilder = new SINOVABuilder(getActivity());
-//        String fileName = sinovaBuilder.autoFill(day, month, year);
-//
-//        File pdf = new File(fileName);
-//        String title = getResources().getString(R.string.sinova) + " " + getResources().getString(R.string.email_header_insert) + " " + day + "/" + month + "/" + year;
-//        sendFile(title, "", pdf);
+        SINOVABuilder sinovaBuilder = new SINOVABuilder(getActivity());
+        String fileName = sinovaBuilder.autoFill(day, month, year);
+
+        File pdf = new File(fileName);
+        String title = getResources().getString(R.string.sinova) + " " + getResources().getString(R.string.email_header_insert) + " " + day + "/" + month + "/" + year;
+        sendFile(title, "", pdf);
 
     }
 
-    public void buildSINOVA2(int day, int month, int year){
-//        SINOVA2Builder sinova2Builder = new SINOVA2Builder(getActivity());
-//        String fileName = sinova2Builder.autoFill(day, month, year);
-//
-//        File pdf = new File(fileName);
-//        String title = getResources().getString(R.string.sinova2) + " " + getResources().getString(R.string.email_header_insert) + " " + day + "/" + month + "/" + year;
-//        sendFile(title, "", pdf);
+    public void buildSINOVA2(int month, int year){
+        SINOVA2Builder sinova2Builder = new SINOVA2Builder(getActivity());
+        String fileName = sinova2Builder.autoFill(month, year);
+
+        File pdf = new File(fileName);
+        String title = getResources().getString(R.string.sinova2) + " " + getResources().getString(R.string.email_header_insert) + " " + month + "/" + year;
+        sendFile(title, "", pdf);
     }
 
 

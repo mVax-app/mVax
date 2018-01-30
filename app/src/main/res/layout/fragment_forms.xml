@@ -20,6 +20,7 @@
         android:layout_gravity="top|right"
         android:clickable="true" />
 
+
     <TextView
         android:id="@+id/form_title"
         android:layout_width="wrap_content"
@@ -28,42 +29,118 @@
         android:layout_gravity="center"
         android:textColor="@color/teal"
         android:text="@string/form_fragment_title"
+        android:textStyle="bold"
         android:textSize="40sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
+    <TextView
+        android:id="@+id/sinova_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/teal"
+        android:text="@string/sinova_title"
+        android:layout_marginBottom="5dp"
+        android:textSize="25sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <Button
+            android:id="@+id/SINOVA_Adolescent"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/sinovaAdolescent"
+            android:textSize="30sp"
+            android:layout_marginEnd="20dp"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/SINOVA_Adult"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/sinovaAdult"
+            android:textSize="30sp"
+            android:layout_marginStart="20dp"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+
+    <View
+        android:layout_width="600dp"
+        android:layout_gravity="center"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
+
+    <TextView
+        android:id="@+id/sinova2_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textColor="@color/teal"
+        android:text="@string/sinova2_title"
+        android:layout_marginBottom="5dp"
+        android:textSize="25sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <Button
+            android:id="@+id/SINOVA2_Adolescent"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/sinova2Adolescent"
+            android:textSize="30sp"
+            android:layout_marginEnd="20dp"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:id="@+id/SINOVA2_Adult"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/sinova2Adult"
+            android:textSize="30sp"
+            android:layout_marginStart="20dp"
+            android:textAllCaps="false"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <View
+        android:layout_width="600dp"
+        android:layout_gravity="center"
+        android:layout_height="1dp"
+        android:background="@android:color/black" />
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="40dp" />
 
     <Button
-        android:id="@+id/SINOVA"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:text="@string/sinova"
-        android:textSize="30sp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <Button
-        android:id="@+id/SINOVA2"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:text="@string/sinova2"
-        android:textSize="30sp" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="20dp" />
-
-    <Button
         android:id="@+id/LINV"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="@string/linv"
+        android:padding="30dp"
         android:textSize="30sp" />
 
 
