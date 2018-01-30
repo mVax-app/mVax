@@ -226,6 +226,8 @@
     <string name="na">N/A</string>
 
     <!-- FORMS FILE PATHS -->
+    <string name="sinova">SINOVA</string>
+    <string name="sinova2">SINOVA 2</string>
     <string name="sinova_1_file_name">SINOVA1.pdf</string>
     <string name="sinova_2_file_name">SINOVA2.pdf</string>
     <string name="destination_file_extension">.pdf</string>

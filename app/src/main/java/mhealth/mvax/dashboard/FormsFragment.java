@@ -146,10 +146,9 @@ public class FormsFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 int year = datePicker.getYear();
-                int day = datePicker.getDayOfMonth();
                 int month = datePicker.getMonth();
 
-                buildSINOVA2(day, month, year);
+                buildSINOVA2(month, year);
                 dialogInterface.dismiss();
             }
         });
@@ -188,22 +187,22 @@ public class FormsFragment extends android.support.v4.app.Fragment {
     }
 
     public void buildSINOVA(int day, int month, int year){
-//        SINOVABuilder sinovaBuilder = new SINOVABuilder(getActivity());
-//        String fileName = sinovaBuilder.autoFill(day, month, year);
-//
-//        File pdf = new File(fileName);
-//        String title = getResources().getString(R.string.sinova) + " " + getResources().getString(R.string.email_header_insert) + " " + day + "/" + month + "/" + year;
-//        sendFile(title, "", pdf);
+        SINOVABuilder sinovaBuilder = new SINOVABuilder(getActivity());
+        String fileName = sinovaBuilder.autoFill(day, month, year);
+
+        File pdf = new File(fileName);
+        String title = getResources().getString(R.string.sinova) + " " + getResources().getString(R.string.email_header_insert) + " " + day + "/" + month + "/" + year;
+        sendFile(title, "", pdf);
 
     }
 
-    public void buildSINOVA2(int day, int month, int year){
-//        SINOVA2Builder sinova2Builder = new SINOVA2Builder(getActivity());
-//        String fileName = sinova2Builder.autoFill(day, month, year);
-//
-//        File pdf = new File(fileName);
-//        String title = getResources().getString(R.string.sinova2) + " " + getResources().getString(R.string.email_header_insert) + " " + day + "/" + month + "/" + year;
-//        sendFile(title, "", pdf);
+    public void buildSINOVA2(int month, int year){
+        SINOVA2Builder sinova2Builder = new SINOVA2Builder(getActivity());
+        String fileName = sinova2Builder.autoFill(month, year);
+
+        File pdf = new File(fileName);
+        String title = getResources().getString(R.string.sinova2) + " " + getResources().getString(R.string.email_header_insert) + " " + month + "/" + year;
+        sendFile(title, "", pdf);
     }
 
 

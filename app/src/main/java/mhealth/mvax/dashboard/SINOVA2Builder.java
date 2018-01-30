@@ -38,10 +38,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.immunization.Dose;
 import mhealth.mvax.model.immunization.Vaccination;
+import mhealth.mvax.model.immunization.Vaccine;
+import mhealth.mvax.model.record.Patient;
 
 
 /**
@@ -63,6 +68,7 @@ public class SINOVA2Builder {
     private Activity mContext = null;
 
     private ArrayList<Vaccination> records;
+    private Map<String, String> possibleDoses;
     private PdfStamper stamper;
     private AcroFields form;
     private PdfReader reader;
@@ -76,46 +82,45 @@ public class SINOVA2Builder {
     public SINOVA2Builder(Activity mContext){
         this.mContext = mContext;
         sinova2_vaccines = Arrays.asList(mContext.getResources().getStringArray(R.array.sinova2_vaccines));
+
+        readDosesFromDB();
     }
 
     /**
      * This method is the full functionality for the SINOVA builder. Given a specific day of the year,
      * an autofilled form will be created given the records in the Firebase database
-     * @param day
      * @param month
      * @param year
      * @return the path of the form. This can be used to retrieve it from external memory if wanted.
      */
-    public String autoFill(int day, int month, int year) {
-        final String fDay = String.valueOf(day);
+    public String autoFill(int month, int year) {
         final String fMonth = String.valueOf(month + 1);
         final String fYear = String.valueOf(year);
-        final String date = fYear + fMonth + fDay;
+        final String date = fYear + fMonth;
 
-        String extension = mContext.getResources().getString(R.string.sinova2_extension) + day + month + year + mContext.getResources().getString(R.string.destination_file_extension);
+        String extension = mContext.getResources().getString(R.string.sinova2_extension) + month + year + mContext.getResources().getString(R.string.destination_file_extension);
         final File file = new File(mContext.getExternalFilesDir(null), extension);
 
-        Log.e("WORKS", date);
         //Reset instance variable for another fill
         records = new ArrayList<>();
 
         //FIREBASE RECORD FETCHING:
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref = ref.child(mContext.getResources().getString(R.string.dataTable)).child(mContext.getResources().getString(R.string.vaccinationsTable));
+        DatabaseReference vaccRef = ref.child(mContext.getResources().getString(R.string.dataTable)).child(mContext.getResources().getString(R.string.vaccinationsTable));
 
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        vaccRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild(date)) {
                     DataSnapshot child = dataSnapshot.child(date);
 
                     for (DataSnapshot data : child.getChildren()) {
-                        VaccinationRecord record = data.getValue(VaccinationRecord.class);
-                        if(sinova2_vaccines.contains(record.getType())) {
-                            records.add(data.getValue(VaccinationRecord.class));
+                        Vaccination vacc = data.getValue(Vaccination.class);
+                        if(possibleDoses.containsKey(vacc.getDoseDatabaseKey())) {
+                            records.add(vacc);
                         }
                     }
-                    fillInForm(file, fDay, fMonth, fYear);
+                    fillInForm(file, fMonth, fYear);
                 }
                 else{
                     Log.e("WORKS", "noChildren");
@@ -131,7 +136,7 @@ public class SINOVA2Builder {
         return file.getAbsolutePath();
     }
 
-    private void fillInForm(File file, String day, String month, String year){
+    private void fillInForm(File file, String month, String year){
         try {
             //Retrieval of the template
             AssetManager assetManager = mContext.getAssets();
@@ -148,7 +153,7 @@ public class SINOVA2Builder {
             //TODO FIGURE OUT WHAT CODE IS
             form.setField(mContext.getResources().getString(R.string.code),"2543");
             form.setField(mContext.getResources().getString(R.string.municipality), mContext.getResources().getString(R.string.form_city_name));
-            form.setField(mContext.getResources().getString(R.string.date_day), day);
+            //form.setField(mContext.getResources().getString(R.string.date_day), day);
             form.setField(mContext.getResources().getString(R.string.date_month), month);
             form.setField(mContext.getResources().getString(R.string.date_year), year);
             form.setField(mContext.getResources().getString(R.string.location_place), mContext.getResources().getString(R.string.form_address));
@@ -172,22 +177,22 @@ public class SINOVA2Builder {
 
     private void buildRow(int row){
         final int rowNumber = row;
-        final String uid = records.get(row - 1).getPatientUID();
+        final String dbKey = records.get(row - 1).getPatientDatabaseKey();
 
         DatabaseReference patients = FirebaseDatabase.getInstance().getReference()
                 .child(mContext.getResources().getString(R.string.dataTable))
-                .child(mContext.getResources().getString(R.string.recordTable));
+                .child(mContext.getResources().getString(R.string.patientTable));
 
-        patients.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+        patients.child(dbKey).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Record record = dataSnapshot.getValue(Record.class);
+                Patient record = dataSnapshot.getValue(Patient.class);
                 try {
-                    form.setField(mContext.getResources().getString(R.string.sinova2_complete_name) + rowNumber, record.getFullName());
+                    form.setField(mContext.getResources().getString(R.string.sinova2_complete_name) + rowNumber, record.getName());
                     form.setField(mContext.getResources().getString(R.string.sinova2_origin) + rowNumber, record.getPlaceOfBirth());
 
                     //VACCINE SPECIFIC
-                    form.setField(mContext.getResources().getString(mContext.getResources().getIdentifier(records.get(rowNumber-1).getType(), "string", mContext.getPackageName())) + rowNumber, "X");
+                    form.setField(mContext.getResources().getString(mContext.getResources().getIdentifier(possibleDoses.get(records.get(rowNumber-1).getDoseDatabaseKey()), "string", mContext.getPackageName())) + rowNumber, "X");
 
                     if(rowNumber + 1 > records.size() || rowNumber == maxRows){
                         closePDF();
@@ -201,8 +206,7 @@ public class SINOVA2Builder {
                     Log.e("pdfError", "DocumentException when inputting fields");
                 }
                 catch(IOException io){
-                    //Log.d("pdfError", "IOExcpetion when inputting fields");
-                    io.printStackTrace();
+                    Log.d("pdfError", "IOExcpetion when inputting fields");
                 }
             }
 
@@ -227,5 +231,31 @@ public class SINOVA2Builder {
             Log.e("WORKS", "IOException");
         }
     }
+
+    private void readDosesFromDB(){
+        possibleDoses = new HashMap<>();
+
+        DatabaseReference vaccineRef = FirebaseDatabase.getInstance().getReference().child(mContext.getResources().getString(R.string.dataTable))
+                .child(mContext.getResources().getString(R.string.vaccineTable));
+        vaccineRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    Vaccine vacc = snapshot.getValue(Vaccine.class);
+                    for(Dose dose : vacc.getDoses()){
+                        if(sinova2_vaccines.contains(dose.getFormCode())) {
+                            possibleDoses.put(dose.getDatabaseKey(), dose.getFormCode());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
 }

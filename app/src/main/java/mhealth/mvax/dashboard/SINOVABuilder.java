@@ -117,7 +117,10 @@ public class SINOVABuilder {
                     DataSnapshot child = dataSnapshot.child(date);
 
                     for (DataSnapshot data : child.getChildren()) {
-                        records.add(data.getValue(Vaccination.class));
+                        Vaccination vacc = data.getValue(Vaccination.class);
+                        if(possibleDoses.containsKey(vacc.getDoseDatabaseKey())) {
+                            records.add(vacc);
+                        }
                     }
 
                     fillInForm(file, fDay, fMonth, fYear);
