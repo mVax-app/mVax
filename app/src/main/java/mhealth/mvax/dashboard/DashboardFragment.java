@@ -90,7 +90,6 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button button = (Button)view.findViewById(R.id.button);
 
         Button formsSwitch = (Button) view.findViewById(R.id.forms_button);
         formsSwitch.setOnClickListener(new View.OnClickListener() {

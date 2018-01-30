@@ -202,6 +202,15 @@
     <string name="send_email">Send Email...</string>
     <string name="email_header_insert"> for the date of </string>
 
+    <!-- FORM INFO MODAL -->
+    <string name="form_info_title">Exporting Form Information</string>
+    <string name="form_info_body1">The form page is used to autofill data from the database into a PDF copy of the forms listed.</string>
+    <string name="form_info_body2">
+        To start, simply click on which form you would like to export. Then a screen will pop up where you will have to provide
+            additional information to narrow down what you want on the form. For the SINOVA this is the date you want the data from. For
+            SINOVA 2 it is the month you want the data from. And for the LINV, it is which patients you want contained. </string>
+    <string name="ok">Ok</string>
+
     <!-- FORM CONSTANTS-->
     <string name="form_clinic_name">Clinica Esperanza</string>
     <string name="form_vaccinator_name">The Vaccinator</string>

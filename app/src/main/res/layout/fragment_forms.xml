@@ -1,47 +1,70 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="mhealth.mvax.dashboard.DashboardFragment">
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
 
-    <!-- TODO: Update blank fragment layout -->
+    tools:context="mhealth.mvax.dashboard.FormsFragment">
+
+    <ImageView
+        android:id="@+id/info"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_info"
+        android:backgroundTint="@color/teal"
+        android:layout_gravity="top|right"
+        android:clickable="true" />
+
     <TextView
+        android:id="@+id/form_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_forms"
-        android:textSize="40sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="121dp"
-        android:id="@+id/textView4" />
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:textColor="@color/teal"
+        android:text="@string/form_fragment_title"
+        android:textSize="40sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/SINOVA"
         android:layout_width="300dp"
         android:layout_height="100dp"
-        android:layout_alignStart="@+id/button2"
-        android:layout_centerVertical="true"
-        android:text="VAC2"
+        android:layout_gravity="center"
+        android:text="@string/sinova"
         android:textSize="30sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/SINOVA2"
         android:layout_width="300dp"
         android:layout_height="100dp"
-        android:layout_below="@+id/textView4"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="64dp"
-        android:text="VAC1"
+        android:layout_gravity="center"
+        android:text="@string/sinova2"
         android:textSize="30sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/LINV"
         android:layout_width="300dp"
         android:layout_height="100dp"
-        android:layout_alignStart="@+id/button3"
-        android:layout_below="@+id/button"
-        android:layout_marginTop="62dp"
-        android:text="LINV"
+        android:layout_gravity="center"
+        android:text="@string/linv"
         android:textSize="30sp" />
 
-</RelativeLayout>
+
+</LinearLayout>
