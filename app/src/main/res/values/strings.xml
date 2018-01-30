@@ -194,9 +194,14 @@
 
     <!-- FORM FRAGMENT-->
     <string name="form_fragment_title">Export Forms</string>
-    <string name="sinova">SINOVA</string>
-    <string name="sinova2">SINOVA 2</string>
+    <string name="sinova_title">SINOVA</string>
+    <string name="sinova2_title">SINOVA 2</string>
+    <string name="sinovaAdolescent">SINOVA for Adolescents</string>
+    <string name="sinovaAdult">SINOVA for Adults</string>
+    <string name="sinova2Adolescent">SINOVA 2 for Adolescents</string>
+    <string name="sinova2Adult">SINOVA 2 for Adults</string>
     <string name="linv">LINV</string>
+    <string name="linv_title">LINV</string>
     <string name="modal_choose_date">Choose Date for Form</string>
     <string name="export">Export</string>
     <string name="send_email">Send Email...</string>

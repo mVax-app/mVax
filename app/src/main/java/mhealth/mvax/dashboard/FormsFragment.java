@@ -69,8 +69,8 @@ public class FormsFragment extends android.support.v4.app.Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         inflater = (LayoutInflater) getActivity().getLayoutInflater();
 
-        Button sinova = (Button) view.findViewById(R.id.SINOVA);
-        Button sinova2 = (Button) view.findViewById(R.id.SINOVA2);
+        Button sinova = (Button) view.findViewById(R.id.SINOVA_Adolescent);
+        Button sinova2 = (Button) view.findViewById(R.id.SINOVA2_Adolescent);
         Button linv = (Button)view.findViewById(R.id.LINV);
         ImageView info = (ImageView) view.findViewById(R.id.info);
 
