@@ -135,6 +135,17 @@
     <string name="send_email">Enviar correo electrónico...</string>
     <string name="email_header_insert">para la fecha de</string>
 
+    <!-- CHECK THESE -->
+    <!-- FORM INFO MODAL -->
+    <string name="form_info_title">Información Sobre la Exportación de Formularios</string>
+    <string name="form_info_body1">La página de formulario se utiliza para rellenar los datos de la base de datos en una copia PDF de los formularios enumerados.</string>
+    <string name="form_info_body2">
+        Para empezar, simplemente haga clic en el formulario que le gustaría exportar. Luego aparecerá una pantalla donde tendrá que proporcionar
+        información adicional para deducir lo que desea en el formulario. Para el SINOVA esta es la fecha de la que desea obtener los datos. Para
+        SINOVA 2 es el mes en el que desea obtener los datos. Y para el LINV, es que los pacientes que usted quiere contenido.
+    </string>
+    <string name="ok">Ok</string>
+
 
     <!-- Settings Page -->
     <string name="language">Idioma</string>

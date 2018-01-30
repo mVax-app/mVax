@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -60,7 +61,7 @@ public class FormsFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_forms2, container, false);
+        return inflater.inflate(R.layout.fragment_forms, container, false);
 
     }
 
@@ -71,6 +72,7 @@ public class FormsFragment extends android.support.v4.app.Fragment {
         Button sinova = (Button) view.findViewById(R.id.SINOVA);
         Button sinova2 = (Button) view.findViewById(R.id.SINOVA2);
         Button linv = (Button)view.findViewById(R.id.LINV);
+        ImageView info = (ImageView) view.findViewById(R.id.info);
 
         sinova.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +92,13 @@ public class FormsFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View view) {
                 linvClicked();
+            }
+        });
+
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                displayHelpModal();
             }
         });
 
@@ -215,6 +224,23 @@ public class FormsFragment extends android.support.v4.app.Fragment {
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(getActivity(), "There are no email clients installed.", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void displayHelpModal(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        final View dialogView = inflater.inflate(R.layout.modal_form_info, null);
+        builder.setView(dialogView);
+
+        builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        builder.show();
+
     }
 
 }
