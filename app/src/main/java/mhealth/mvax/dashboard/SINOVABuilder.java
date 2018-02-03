@@ -23,11 +23,6 @@ import android.app.Activity;
 import android.content.res.AssetManager;
 import android.util.Log;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
@@ -36,16 +31,13 @@ import com.itextpdf.text.pdf.PdfStamper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.immunization.Dose;
-import mhealth.mvax.model.immunization.Vaccination;
-import mhealth.mvax.model.immunization.Vaccine;
+import mhealth.mvax.dashboard.VaccinationFetcher.FirebaseVaccinationFetcher;
+import mhealth.mvax.dashboard.VaccinationFetcher.VaccinationBundle;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.model.record.Sex;
 
@@ -63,16 +55,15 @@ import mhealth.mvax.model.record.Sex;
  * @author Matthew Tribby
  * November, 2017
  */
-public class SINOVABuilder {
+public class SINOVABuilder{
     public static final int maxRows = 15;
     private Activity mContext = null;
 
-    private ArrayList<Vaccination> records;
-    private Map<String, String> possibleDoses;
     private PdfStamper stamper;
     private AcroFields form;
     private PdfReader reader;
-    private List<String> sinova_vaccines;
+
+    private Map<Patient, List<String>> patientFormCodes;
 
     /**
      * Constructor for if the SINOVA Builder needs the activity for mContext / assets / file directory
@@ -80,9 +71,6 @@ public class SINOVABuilder {
      */
     public SINOVABuilder(Activity mContext){
         this.mContext = mContext;
-        sinova_vaccines = Arrays.asList(mContext.getResources().getStringArray(R.array.sinova_vaccines));
-
-        readDosesFromDB();
     }
 
     /**
@@ -102,36 +90,14 @@ public class SINOVABuilder {
         String extension = mContext.getResources().getString(R.string.sinova_extension) + day + month + year + mContext.getResources().getString(R.string.destination_file_extension);
         final File file = new File(mContext.getExternalFilesDir(null), extension);
 
-        //Reset instance variable for another fill
-        records = new ArrayList<>();
+        FirebaseVaccinationFetcher vaccFetcher = new FirebaseVaccinationFetcher(mContext);
+        VaccinationBundle bundle = vaccFetcher.getVaccinationsByDay(fDay, fMonth, fYear, Arrays.asList(mContext.getResources().getStringArray(R.array.sinova_vaccines)));
+        patientFormCodes = bundle.getPatientFormCodes();
 
-        //FIREBASE RECORD FETCHING:
-        final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child(mContext.getResources().getString(R.string.dataTable));
-        DatabaseReference vaxRef = dbRef.child(mContext.getResources().getString(R.string.vaccinationsTable));
 
-        //The following listener queries for all records of the day and adds them to instance variable, records
-        vaxRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild(date)) {
-                    DataSnapshot child = dataSnapshot.child(date);
+        fillInForm(file, fDay, fMonth, fYear);
 
-                    for (DataSnapshot data : child.getChildren()) {
-                        Vaccination vacc = data.getValue(Vaccination.class);
-                        if(possibleDoses.containsKey(vacc.getDoseDatabaseKey())) {
-                            records.add(vacc);
-                        }
-                    }
 
-                    fillInForm(file, fDay, fMonth, fYear);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("DatabaseError", "DatabaseError");
-            }
-        });
         return file.getAbsolutePath();
     }
 
@@ -162,8 +128,12 @@ public class SINOVABuilder {
 
 
                 //Starts at row 1
-                if(records.size() != 0) {
-                    buildRow(1);
+                if(patientFormCodes.size() != 0) {
+                    int rowNum = 1;
+                    for(Patient patient : patientFormCodes.keySet()){
+                        buildRow(rowNum, patient);
+                        rowNum++;
+                    }
                 }
                 else{
                     closePDF();
@@ -176,66 +146,48 @@ public class SINOVABuilder {
         }
 
     //This helper method is where the actual filling in of information into the AcroForm occurs
-    private void buildRow(int row){
-        final int rowNumber = row;
-        final String dbKey = records.get(row - 1).getPatientDatabaseKey();
+    private void buildRow(int rowNumber, Patient record){
 
-        DatabaseReference patients = FirebaseDatabase.getInstance().getReference()
-                .child(mContext.getResources().getString(R.string.dataTable))
-                .child(mContext.getResources().getString(R.string.patientTable));
 
-            //PATIENT SPECIFIC DATA
-            patients.child(dbKey).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Patient record = dataSnapshot.getValue(Patient.class);
 
-                    try {
-                        //Commented out are not currently supported by DB
-                        //form.setField(mContext.getResources().getString(R.string.temporary_number_mothers_id) + rowNumber, record.getParentId());
-                        //form.setField(mContext.getResources().getString(R.string.number_of_children) + rowNumber, record.getNumDependents());
-                        form.setField(mContext.getResources().getString(R.string.child_national_reg_number) + rowNumber, record.getMedicalId());
-                        form.setField(mContext.getResources().getString(R.string.child_name)+ rowNumber, record.getName());
-                        form.setField(mContext.getResources().getString(R.string.date_of_birth) + rowNumber, String.valueOf(record.getDOB()));
-                        if(record.getSex() == Sex.MALE) {
-                            form.setField(mContext.getResources().getString(R.string.sex_male) + rowNumber, "X");
-                        }
-                        else {
-                            form.setField(mContext.getResources().getString(R.string.sex_female) + rowNumber, "X");
-                        }
-                        form.setField(mContext.getResources().getString(R.string.birth_department) + rowNumber, record.getPlaceOfBirth());
-                        form.setField(mContext.getResources().getString(R.string.birth_municipal)+ rowNumber, record.getPlaceOfBirth());
-                        form.setField(mContext.getResources().getString(R.string.residence_department) + rowNumber,  mContext.getResources().getString(R.string.unknown));
-                        form.setField(mContext.getResources().getString(R.string.residence_municipal) + rowNumber, mContext.getResources().getString(R.string.na));
-                        form.setField(mContext.getResources().getString(R.string.residence_town) + rowNumber, record.getCommunity());
-                        form.setField(mContext.getResources().getString(R.string.residence_address) + rowNumber, record.getResidence());
-                        form.setField(mContext.getResources().getString(R.string.cell_number) + rowNumber, record.getPhoneNumber());
-                        form.setField(mContext.getResources().getString(R.string.population_group) + rowNumber, mContext.getResources().getString(R.string.unknown));
-                        form.setField(mContext.getResources().getString(R.string.full_name_guardian) + rowNumber, record.getGuardianName());
+        try {
+            //Commented out are not currently supported by DB
+            //form.setField(mContext.getResources().getString(R.string.temporary_number_mothers_id) + rowNumber, record.getParentId());
+            //form.setField(mContext.getResources().getString(R.string.number_of_children) + rowNumber, record.getNumDependents());
+            form.setField(mContext.getResources().getString(R.string.child_national_reg_number) + rowNumber, record.getMedicalId());
+            form.setField(mContext.getResources().getString(R.string.child_name)+ rowNumber, record.getName());
+            form.setField(mContext.getResources().getString(R.string.date_of_birth) + rowNumber, String.valueOf(record.getDOB()));
+            if(record.getSex() == Sex.MALE) {
+                form.setField(mContext.getResources().getString(R.string.sex_male) + rowNumber, "X");
+            }
+            else {
+                form.setField(mContext.getResources().getString(R.string.sex_female) + rowNumber, "X");
+            }
+            form.setField(mContext.getResources().getString(R.string.birth_department) + rowNumber, record.getPlaceOfBirth());
+            form.setField(mContext.getResources().getString(R.string.birth_municipal)+ rowNumber, record.getPlaceOfBirth());
+            form.setField(mContext.getResources().getString(R.string.residence_department) + rowNumber,  mContext.getResources().getString(R.string.unknown));
+            form.setField(mContext.getResources().getString(R.string.residence_municipal) + rowNumber, mContext.getResources().getString(R.string.na));
+            form.setField(mContext.getResources().getString(R.string.residence_town) + rowNumber, record.getCommunity());
+            form.setField(mContext.getResources().getString(R.string.residence_address) + rowNumber, record.getResidence());
+            form.setField(mContext.getResources().getString(R.string.cell_number) + rowNumber, record.getPhoneNumber());
+            form.setField(mContext.getResources().getString(R.string.population_group) + rowNumber, mContext.getResources().getString(R.string.unknown));
+            form.setField(mContext.getResources().getString(R.string.full_name_guardian) + rowNumber, record.getGuardianName());
 
-                        form.setField(mContext.getResources().getString(mContext.getResources().getIdentifier(possibleDoses.get(records.get(rowNumber-1).getDoseDatabaseKey()), "string", mContext.getPackageName())) + rowNumber, "X");
+            for(String code : patientFormCodes.get(record)){
+                form.setField(code + rowNumber, "X");
+                //form.setField(mContext.getResources().getString(mContext.getResources().getIdentifier(possibleDoses.get(records.get(rowNumber-1).getDoseDatabaseKey()), "string", mContext.getPackageName())) + rowNumber, "X");
+            }
+            if(rowNumber + 1 > patientFormCodes.size() || rowNumber == maxRows){
+                 closePDF();
+             }
 
-                        if(rowNumber + 1 > records.size() || rowNumber == maxRows){
-                            closePDF();
-                        }
-                        else{
-                            buildRow(rowNumber + 1);
-                        }
-                    }
-                    catch(DocumentException e){
-                        Log.e("WORKS", "DocumentException");
-                    }
-                    catch(IOException io){
-                        Log.e("WORKS", "IOException");
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+        }
+        catch(DocumentException e){
+            Log.e("WORKS", "DocumentException");
+        }
+        catch(IOException io){
+            Log.e("WORKS", "IOException");
+        }
     }
 
     private void closePDF(){
@@ -256,30 +208,6 @@ public class SINOVABuilder {
 
     }
 
-    private void readDosesFromDB(){
-        possibleDoses = new HashMap<>();
-
-        DatabaseReference vaccineRef = FirebaseDatabase.getInstance().getReference().child(mContext.getResources().getString(R.string.dataTable))
-                .child(mContext.getResources().getString(R.string.vaccineTable));
-        vaccineRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Vaccine vacc = snapshot.getValue(Vaccine.class);
-                    for(Dose dose : vacc.getDoses()){
-                        if(sinova_vaccines.contains(dose.getFormCode())) {
-                            possibleDoses.put(dose.getDatabaseKey(), dose.getFormCode());
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
 
 
 }

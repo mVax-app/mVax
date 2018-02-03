@@ -87,7 +87,7 @@ public class FirebaseVaccinationFetcher implements VaccinationFetcher {
                 Log.e("DatabaseError", "DatabaseError");
             }
         });
-        
+
         return new VaccinationBundle(patientVacc, formCodes);
     }
 
