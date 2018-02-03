@@ -203,7 +203,7 @@ public class FormsFragment extends android.support.v4.app.Fragment {
         SINOVABuilder sinovaBuilder = new SINOVABuilder(getActivity());
         String filePath = sinovaBuilder.autoFill(day, month, year);
 
-        String title = getResources().getString(R.string.sinova) + " " + getResources().getString(R.string.email_header_insert) + " " + filePath;
+        String title = getResources().getString(R.string.sinova) + " " + getResources().getString(R.string.email_header_insert) + " " + day+"/"+month+"/"+year;
         sendFile(title, new File(filePath));
 
     }

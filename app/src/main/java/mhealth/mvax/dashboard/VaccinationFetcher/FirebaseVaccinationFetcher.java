@@ -35,11 +35,12 @@ public class FirebaseVaccinationFetcher implements VaccinationFetcher {
 
     private Map<String, String> possibleFormCodes;
 
-    private final DatabaseReference vaxRef = FirebaseDatabase.getInstance().getReference().child(mContext.getResources().getString(R.string.dataTable)).child(mContext.getResources().getString(R.string.vaccinationsTable));
-
+    private DatabaseReference vaxRef;
 
     public FirebaseVaccinationFetcher(Activity context){
         this.mContext = context;
+        vaxRef = FirebaseDatabase.getInstance().getReference().child(mContext.getResources().getString(R.string.dataTable)).child(mContext.getResources().getString(R.string.vaccinationsTable));
+
     }
 
 

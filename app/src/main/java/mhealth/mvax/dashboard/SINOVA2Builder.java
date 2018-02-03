@@ -155,7 +155,7 @@ public class SINOVA2Builder {
                 form.setField(code + rowNumber, "X");
                 //form.setField(mContext.getResources().getString(mContext.getResources().getIdentifier(possibleDoses.get(records.get(rowNumber-1).getDoseDatabaseKey()), "string", mContext.getPackageName())) + rowNumber, "X");
             }
-            
+
             if(rowNumber + 1 > patientFormCodes.size() || rowNumber == maxRows){
                         closePDF();
             }
@@ -163,15 +163,15 @@ public class SINOVA2Builder {
         }
         catch(DocumentException e){
             //TODO resource file error messages
-            Log.e("pdfError", "DocumentException when inputting fields");
+            Log.e("PDF_ERROR", "DocumentException when inputting fields");
         }
         catch(IOException io){
-            Log.d("pdfError", "IOExcpetion when inputting fields");
+            Log.d("PDF_ERROR", "IOException when inputting fields");
         }
     }
 
     private void closePDF(){
-        Log.d("WORKS", "CLOSING!");
+        Log.d("PDF_ERROR", "CLOSING!");
         //Closing of tools
         try {
             stamper.setFormFlattening(false);
@@ -179,10 +179,10 @@ public class SINOVA2Builder {
             reader.close();
         }
         catch(DocumentException de){
-            Log.e("WORKS", "DocumentException");
+            Log.e("PDF_ERROR", "DocumentException");
         }
         catch (IOException io){
-            Log.e("WORKS", "IOException");
+            Log.e("PDF_ERROR", "IOException");
         }
     }
 
