@@ -1,4 +1,4 @@
-package mhealth.mvax.dashboard;
+package mhealth.mvax.dashboard.VaccinationFetcher;
 
 import android.app.Activity;
 import android.util.Log;
@@ -23,49 +23,39 @@ import mhealth.mvax.model.record.Patient;
 /**
  * @author Matthew Tribby
  *         Class acts as a Firebase getter for Vaccination Data
+ *         Dependency Firebase
+ *         FB implementation of the VaccinationFetcher interface
  */
 
-public class VaccinationFetcher {
+public class FirebaseVaccinationFetcher implements VaccinationFetcher {
     private Activity mContext;
-    private Map<String, String> doses;
-    private Map<Patient, ArrayList<Vaccination>> patientVacc;
 
-    public VaccinationFetcher(Activity context){
+    private Map<Patient, List<Vaccination>> patientVacc;
+    private Map<Vaccination, String> formCodes;
+
+    private Map<String, String> possibleFormCodes;
+
+    private final DatabaseReference vaxRef = FirebaseDatabase.getInstance().getReference().child(mContext.getResources().getString(R.string.dataTable)).child(mContext.getResources().getString(R.string.vaccinationsTable));
+
+
+    public FirebaseVaccinationFetcher(Activity context){
         this.mContext = context;
     }
 
 
-    public VaccinationPdfBundle getVaccinationsByDay(String day, String month, String year, List<String> possibleDoses){
+    public VaccinationBundle getVaccinationsByDay(String day, String month, String year, List<String> possibleDoses){
 
         patientVacc = new HashMap<>();
+        formCodes = new HashMap<>();
 
         final String date = year+month+day;
-        final List<Vaccination> vaccinations = new ArrayList<Vaccination>();
-
-        getPossibleFormCodes(possibleDoses);
-
-        final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child(mContext.getResources().getString(R.string.dataTable));
-        DatabaseReference vaxRef = dbRef.child(mContext.getResources().getString(R.string.vaccinationsTable));
+        findPossibleFormCodes(possibleDoses);
 
         //The following listener queries for all records of the day and adds them to instance variable, records
         vaxRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild(date)) {
-                    DataSnapshot child = dataSnapshot.child(date);
 
-                    for (DataSnapshot data : child.getChildren()) {
-                        Vaccination vacc = data.getValue(Vaccination.class);
-                        if(doses.containsKey(vacc.getDoseDatabaseKey())) {
-                            vaccinations.add(vacc);
-                        }
-                    }
-
-                    for(Vaccination vaccination : vaccinations){
-                        matchAssociatedPatient(vaccination);
-                    }
-
-                }
             }
 
             @Override
@@ -74,7 +64,45 @@ public class VaccinationFetcher {
             }
         });
 
-        return new VaccinationPdfBundle(patientVacc, getVaccFormCodes(vaccinations));
+        return new VaccinationBundle(patientVacc, formCodes);
+    }
+
+    public VaccinationBundle getVaccinationsByMonth(String month, String year, List<String> possibleDoses){
+        patientVacc = new HashMap<>();
+        formCodes = new HashMap<>();
+
+        final String date = year+month;
+        findPossibleFormCodes(possibleDoses);
+
+        vaxRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(int i = 1; i <= 31; i++){
+                    collectDataFromDb(dataSnapshot, date + i);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("DatabaseError", "DatabaseError");
+            }
+        });
+        
+        return new VaccinationBundle(patientVacc, formCodes);
+    }
+
+    private void collectDataFromDb(DataSnapshot dataSnapshot, String date){
+        if (dataSnapshot.hasChild(date)) {
+            DataSnapshot child = dataSnapshot.child(date);
+
+            for (DataSnapshot data : child.getChildren()) {
+                Vaccination vacc = data.getValue(Vaccination.class);
+                if (possibleFormCodes.containsKey(vacc.getDoseDatabaseKey())) {
+                    matchAssociatedPatient(vacc);
+                    formCodes.put(vacc, possibleFormCodes.get(vacc.getDoseDatabaseKey()));
+                }
+            }
+        }
     }
 
     private void matchAssociatedPatient(Vaccination record){
@@ -90,7 +118,7 @@ public class VaccinationFetcher {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Patient patient = dataSnapshot.getValue(Patient.class);
                 if(patientVacc.containsKey(patient)){
-                    ArrayList<Vaccination> records = patientVacc.get(patient);
+                    List<Vaccination> records = patientVacc.get(patient);
                     records.add(vaccination);
                     patientVacc.put(patient, records);
                 }
@@ -110,8 +138,8 @@ public class VaccinationFetcher {
     }
 
 
-    private void getPossibleFormCodes(final List<String> possibleDoses){
-        doses = new HashMap<>();
+    private void findPossibleFormCodes(final List<String> possibleDoses){
+        this.possibleFormCodes = new HashMap<>();
 
         DatabaseReference vaccineRef = FirebaseDatabase.getInstance().getReference().child(mContext.getResources().getString(R.string.dataTable))
                 .child(mContext.getResources().getString(R.string.vaccineTable));
@@ -122,7 +150,7 @@ public class VaccinationFetcher {
                     Vaccine vacc = snapshot.getValue(Vaccine.class);
                     for(Dose dose : vacc.getDoses()){
                         if(possibleDoses.contains(dose.getFormCode())) {
-                            doses.put(dose.getDatabaseKey(), dose.getFormCode());
+                            possibleFormCodes.put(dose.getDatabaseKey(), dose.getFormCode());
                         }
                     }
                 }
@@ -134,17 +162,6 @@ public class VaccinationFetcher {
             }
         });
 
-    }
-
-    private Map<Vaccination, String> getVaccFormCodes(List<Vaccination> vaccinations){
-        //doses has the key and the value is the form code
-        //Vaccinations have the key
-        Map<Vaccination, String> formCodes = new HashMap<>();
-        for(Vaccination vacc : vaccinations){
-            formCodes.put(vacc, doses.get(vacc.getDoseDatabaseKey()));
-        }
-
-        return formCodes;
     }
 
 

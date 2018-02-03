@@ -121,10 +121,6 @@ public class FormsFragment extends android.support.v4.app.Fragment {
     }
 
     private void sinovaClicked(){
-        //TODO REMOVE AFTER OTHER SIDE HOOKED UP
-//        VaccinationDummyDataGenerator generator = new VaccinationDummyDataGenerator();
-//        generator.generateRecord();
-
 
         final AlertDialog.Builder builder = createBasicDateChooseModal();
 
