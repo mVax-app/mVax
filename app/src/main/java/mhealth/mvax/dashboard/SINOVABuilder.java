@@ -38,6 +38,7 @@ import java.util.Map;
 import mhealth.mvax.R;
 import mhealth.mvax.dashboard.VaccinationFetcher.FirebaseVaccinationFetcher;
 import mhealth.mvax.dashboard.VaccinationFetcher.VaccinationBundle;
+import mhealth.mvax.dashboard.VaccinationFetcher.VaccinationFetcher;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.model.record.Sex;
 
@@ -90,7 +91,7 @@ public class SINOVABuilder{
         String extension = mContext.getResources().getString(R.string.sinova_extension) + day + month + year + mContext.getResources().getString(R.string.destination_file_extension);
         final File file = new File(mContext.getExternalFilesDir(null), extension);
 
-        FirebaseVaccinationFetcher vaccFetcher = new FirebaseVaccinationFetcher(mContext);
+        VaccinationFetcher vaccFetcher = new FirebaseVaccinationFetcher(mContext);
         VaccinationBundle bundle = vaccFetcher.getVaccinationsByDay(fDay, fMonth, fYear, Arrays.asList(mContext.getResources().getStringArray(R.array.sinova_vaccines)));
         patientFormCodes = bundle.getPatientFormCodes();
 
