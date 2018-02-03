@@ -33,10 +33,10 @@ public class DoseTest {
 
     private Dose dose;
 
-    @Before
-    public void setup() {
-        dose = new Dose();
-    }
+//    @Before
+//    public void setup() {
+//        dose = new Dose();
+//    }
 
     @Test
     public void setDateCompleted() throws Exception {
