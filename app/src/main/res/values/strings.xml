@@ -92,6 +92,7 @@
     <string name="user_name">Name</string>
     <string name="user_email">Email</string>
     <string name="user_role">Role</string>
+    <string name="modal_current_user_title">Edit User\'s Access</string>
 
 
     <!-- About Button -->

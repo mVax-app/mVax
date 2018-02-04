@@ -167,6 +167,13 @@
     <!-- Current Users Fragment -->
     <string name="current_users_title">Usuarios Actuales</string>
 
+    <!-- User Fragments -->
+    <string name="user_name">Nombre</string>
+    <string name="user_email">Correo Electrónico</string>
+    <string name="user_role">Nivel de Acceso</string>
+    <string name="modal_current_user_title">Editar el Acceso del Usuario</string>
+
+
 
     <!-- About Button -->
     <string name="about">Acerca de la Aplicación</string>

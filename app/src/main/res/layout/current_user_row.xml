@@ -11,7 +11,8 @@
         android:layout_weight="1"
         android:textAlignment="center"
         android:textSize="20sp"
-       />
+        android:gravity="left"
+        />
 
     <TextView
         android:id="@+id/email"
@@ -19,7 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textAlignment="center"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:gravity="left"/>
 
 
     <TextView
@@ -28,6 +30,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textAlignment="center"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:gravity="left"/>
+
 
 </LinearLayout>

@@ -72,7 +72,9 @@
     <ListView
         android:id="@+id/currentUsersLV"
         android:layout_width="match_parent"
-        android:layout_height="400dp" />
+        android:layout_height="400dp"
+        android:dividerHeight="10.0sp"
+        android:textAlignment="viewStart"/>
 
     
 

@@ -1,11 +1,18 @@
 package mhealth.mvax.auth;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,6 +25,8 @@ import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.user.User;
+import mhealth.mvax.model.user.UserRole;
+import mhealth.mvax.model.user.UserWithUID;
 
 /**
  * Matthew Tribby
@@ -25,7 +34,7 @@ import mhealth.mvax.model.user.User;
 public class CurrentUsersFragment extends android.support.v4.app.Fragment {
 
     private ListView currentUsersLV;
-    private List<User> users;
+    private List<UserWithUID> users;
     private CurrentUsersAdapter adapter;
 
     public CurrentUsersFragment() {
@@ -64,17 +73,26 @@ public class CurrentUsersFragment extends android.support.v4.app.Fragment {
     private void setUpLV(View view){
         currentUsersLV = (ListView) view.findViewById(R.id.currentUsersLV);
 
-        users = new ArrayList<User>();
+        users = new ArrayList<UserWithUID>();
         adapter = new CurrentUsersAdapter(getActivity(), users);
 
         currentUsersLV.setAdapter(adapter);
+
+        currentUsersLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                createModalForEditingUser(i);
+            }
+        });
+
 
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child(getResources().getString(R.string.userTable));
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()){
-                    users.add(child.getValue(User.class));
+                    User user = child.getValue(User.class);
+                    users.add(new UserWithUID(child.getKey(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole()));
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -86,6 +104,46 @@ public class CurrentUsersFragment extends android.support.v4.app.Fragment {
         });
 
 
+    }
+
+    private void createModalForEditingUser(int row){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        builder.setTitle(getResources().getString(R.string.modal_current_user_title));
+
+        //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
+        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
+
+        final View dialogView = inflater.inflate(R.layout.modal_current_user, null);
+        builder.setView(dialogView);
+
+        final UserWithUID user = (UserWithUID) currentUsersLV.getAdapter().getItem(row);
+
+        TextView name = (TextView) dialogView.findViewById(R.id.name);
+        name.setText(user.getFirstName() + " " + user.getLastName());
+
+        TextView email = (TextView) dialogView.findViewById(R.id.email);
+        email.setText(user.getEmail());
+
+        final Spinner roleSpinner = (Spinner) dialogView.findViewById(R.id.role);
+        List<String> rolesList = UserRole.getRoles();
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, rolesList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        roleSpinner.setAdapter(dataAdapter);
+
+
+        builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if(!((String) roleSpinner.getSelectedItem()).equals(user.getUid())){
+                    Log.d("OK", "OK");
+                }
+            }
+        });
+
+
+        builder.show();
 
     }
 }
