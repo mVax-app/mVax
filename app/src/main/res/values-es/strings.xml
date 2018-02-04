@@ -156,9 +156,17 @@
     <string name="update_email">Actualizar correo electrónico</string>
     <string name="change_password">Cambiar contraseña</string>
     <string name="sign_out">Cerrar sessión</string>
-    <string name="approve_users">Aprobar usuarios</string>
+    <string name="approve_users">Aprobar Usuarios</string>
+    <string name="current_users">Usuarios Actuales</string>
     <string name="admin_priv">Privilegios de Administrador</string>
     <string name="user_settings">Configuración del Usuario</string>
+
+    <!-- Approve Users Fragment -->
+    <string name="approve_users_title">Aprobar Usuarios</string>
+
+    <!-- Current Users Fragment -->
+    <string name="current_users_title">Usuarios Actuales</string>
+
 
     <!-- About Button -->
     <string name="about">Acerca de la Aplicación</string>

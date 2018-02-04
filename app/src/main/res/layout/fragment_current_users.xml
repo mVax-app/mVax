@@ -2,24 +2,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center"
-    tools:context="mhealth.mvax.auth.ApproveUsersFragment">
-
+    tools:context="mhealth.mvax.auth.CurrentUsersFragment"
+    android:layout_marginStart="30dp"
+    android:layout_marginEnd="30dp"
+    android:layout_marginTop="30dp"
+    android:layout_marginBottom="30dp"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/approveUsersTitle"
-        android:layout_width="wrap_content"
+        android:id="@+id/currentUsersTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Approve Users"
+        android:text="@string/current_users_title"
         android:textColor="@color/teal"
         android:textAlignment="center"
+        android:gravity="center"
         android:textSize="30sp" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="30dp" />
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,12 +67,14 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="10dp" />
+        android:layout_height="30dp" />
 
     <ListView
-        android:id="@+id/approveUsersLV"
+        android:id="@+id/currentUsersLV"
         android:layout_width="match_parent"
-        android:layout_height="457dp" >
+        android:layout_height="400dp" />
 
-    </ListView>
+    
+
+
 </LinearLayout>
