@@ -97,6 +97,11 @@
     <string name="modal_new_role">Change user\'s role: </string>
     <string name="role_no_change">No Change</string>
 
+    <!-- User Info Fragment -->
+    <string name="modal_role_info_title">User Roles Types</string>
+    <string name="admin_info">ADMIN: have access to read and write data. Only admin can input new records. Additionally, can approve new user requests and view current users</string>
+    <string name="reader_info">READER: have access to see the data but cannot write any new information. Cannot handle other users.</string>
+
 
     <!-- About Button -->
     <string name="about">About</string>

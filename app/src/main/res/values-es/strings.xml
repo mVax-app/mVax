@@ -176,6 +176,10 @@
     <string name="modal_new_role">Cambiar el rol del usuario: </string>
     <string name="role_no_change">ningún cambio</string>
 
+    <!-- User Info Fragment -->
+    <string name="modal_role_info_title">Tipos de Roles de Usuarios</string>
+    <string name="admin_info">ADMIN: tener acceso a los datos de lectura y escritura. Sólo el administrador puede introducir nuevos registros. Además, puede aprobar nuevas solicitudes de usuario y ver a los usuarios actuales</string>
+    <string name="reader_info">READER: tiene acceso para ver los datos pero no puede escribir ninguna información nueva. No se puede controlar a otros usuarios.</string>
 
 
     <!-- About Button -->

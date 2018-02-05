@@ -3,8 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
     android:gravity="center"
     tools:context="mhealth.mvax.auth.ApproveUsersFragment">
+
+    <ImageView
+        android:id="@+id/info"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_info"
+        android:backgroundTint="@color/teal"
+        android:layout_gravity="top|right"
+        android:clickable="true" />
 
 
     <TextView
