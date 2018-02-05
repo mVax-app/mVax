@@ -167,7 +167,7 @@
     <string name="error_select_role">Debe seleccionar rol de usuario para la solicitud</string>
     <string name="user_request_decision">Decisión</string>
     <string name="approve_user_instructions">Para aprobar una solicitud de usuario para unirse, debe seleccionar un nivel de acceso para ellos (consulte el botón info en la parte superior derecha para obtener más información). También puede denegar una solicitud de usuario.</string>
-
+    <string name="empty_approve_list_view">No solicitud de usuario</string>
 
     <!-- Current Users Fragment -->
     <string name="current_users_title">Usuarios Actuales</string>

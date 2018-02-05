@@ -99,6 +99,8 @@ public class ApproveUsersFragment extends android.support.v4.app.Fragment {
 
         userRequests.setAdapter(adapter);
 
+        userRequests.setEmptyView(view.findViewById(R.id.empty_list));
+
         //Get data out of user requests
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ref = ref.child(getResources().getString(R.string.userRequestsTable));

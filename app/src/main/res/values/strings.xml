@@ -88,6 +88,7 @@
     <string name="error_select_role">Must select user role for request</string>
     <string name="user_request_decision">Decision</string>
     <string name="approve_user_instructions">In order to approve a user\'s request to join, you must select an access level for them (see the info button in the top right for more information). You can also deny a user request.</string>
+    <string name="empty_approve_list_view">No user requests</string>
 
     <!-- Current Users Fragment -->
     <string name="current_users_title">Current Users</string>
