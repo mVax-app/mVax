@@ -38,12 +38,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.user.UserRequest;
 import mhealth.mvax.model.user.UserRole;
+import mhealth.mvax.model.user.UserWithUID;
 
 /**
  * This activity represents a form that allows prospective users to submit a user request which can
@@ -81,11 +80,10 @@ public class UserRegistrationActivity extends AppCompatActivity {
         newUserPasswordConfirm = (EditText) findViewById(R.id.TFpasswordConfirm);
 
         userRole = (Spinner) this.findViewById(R.id.TFrole);
-        List<String> rolesList = getRoles();
+        List<String> rolesList = UserRole.getRoles();
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(UserRegistrationActivity.this,
                 android.R.layout.simple_spinner_item, rolesList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         userRole.setAdapter(dataAdapter);
 
         mAuth= FirebaseAuth.getInstance();
@@ -155,7 +153,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
                                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
                                         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                         DatabaseReference account = ref.child(getResources().getString(R.string.userRequestsTable)).child(uid);
-                                        UserRequest newUser = new UserRequest(uid, firstName.getText().toString(), lastName.getText().toString(), newUserEmail.getText().toString(), userRole.getSelectedItem().toString());
+                                        UserWithUID newUser = new UserWithUID(uid, firstName.getText().toString(), lastName.getText().toString(), newUserEmail.getText().toString(), userRole.getSelectedItem().toString());
                                         account.setValue(newUser);
                                     }
                                 }
@@ -177,14 +175,6 @@ public class UserRegistrationActivity extends AppCompatActivity {
     }
 
 
-    private List<String> getRoles(){
-        List<String> roles = new ArrayList<String>();
-        UserRole[] values = UserRole.class.getEnumConstants();
-        for(int i = 0; i < values.length; i++){
-            roles.add(values[i].name());
-        }
-        return roles;
 
-    }
 
 }

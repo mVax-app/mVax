@@ -27,14 +27,14 @@ package mhealth.mvax.model.user;
  * @author Matthew Tribby
  * November, 2017
  */
-public class UserRequest extends User {
+public class UserWithUID extends User {
     private String mUid;
 
-    public UserRequest(){
+    public UserWithUID(){
         //required empty constructor for Firebase
     }
 
-    public UserRequest(String uid, String firstName, String lastName, String email, String role){
+    public UserWithUID(String uid, String firstName, String lastName, String email, String role){
         super(firstName, lastName, email, role);
         this.mUid = uid;
     }

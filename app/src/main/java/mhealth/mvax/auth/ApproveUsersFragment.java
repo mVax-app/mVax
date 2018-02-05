@@ -44,7 +44,7 @@ import java.util.HashMap;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.user.User;
-import mhealth.mvax.model.user.UserRequest;
+import mhealth.mvax.model.user.UserWithUID;
 
 /**
  * This fragment represents the page where administrators can approve or deny user requests to
@@ -108,7 +108,7 @@ public class ApproveUsersFragment extends android.support.v4.app.Fragment {
                 //requests = new ArrayList<HashMap<String, String>>();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
 
-                    UserRequest user = snapshot.getValue(UserRequest.class);
+                    UserWithUID user = snapshot.getValue(UserWithUID.class);
                     HashMap<String, String> userRequest = new HashMap<>();
                     userRequest.put(FIRST_NAME, user.getFirstName());
                     userRequest.put(LAST_NAME, user.getLastName());
