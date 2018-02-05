@@ -111,7 +111,6 @@ public class CurrentUsersFragment extends android.support.v4.app.Fragment {
 
         builder.setTitle(getResources().getString(R.string.modal_current_user_title));
 
-        //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
         LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
 
         final View dialogView = inflater.inflate(R.layout.modal_current_user, null);
@@ -119,25 +118,24 @@ public class CurrentUsersFragment extends android.support.v4.app.Fragment {
 
         final UserWithUID user = (UserWithUID) currentUsersLV.getAdapter().getItem(row);
 
-        TextView name = (TextView) dialogView.findViewById(R.id.name);
-        name.setText(user.getFirstName() + " " + user.getLastName());
+        setModalText(dialogView,  user);
 
-        TextView email = (TextView) dialogView.findViewById(R.id.email);
-        email.setText(user.getEmail());
-
-        final Spinner roleSpinner = (Spinner) dialogView.findViewById(R.id.role);
-        List<String> rolesList = UserRole.getRoles();
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, rolesList);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        roleSpinner.setAdapter(dataAdapter);
-
+        final Spinner roleSpinner = createSpinner(dialogView, user.getRole());
 
         builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if(!((String) roleSpinner.getSelectedItem()).equals(user.getUid())){
-                    Log.d("OK", "OK");
+                if(!((String) roleSpinner.getSelectedItem()).equals(user.getRole())){
+                    Log.d("CHANGE", "Change role to: " + roleSpinner.getSelectedItem());
+
+                    //Update Database
+                    User newUserAttributes = new User(user.getFirstName(), user.getLastName(), user.getEmail(), roleSpinner.getSelectedItem().toString());
+                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child(getResources().getString(R.string.userTable)).child(user.getUid());
+                    userRef.setValue(newUserAttributes);
+
+                    //Update Adapter
+                    user.setRole(roleSpinner.getSelectedItem().toString());
+                    adapter.notifyDataSetChanged();
                 }
             }
         });
@@ -145,5 +143,31 @@ public class CurrentUsersFragment extends android.support.v4.app.Fragment {
 
         builder.show();
 
+    }
+
+    private void setModalText(View dialogView, UserWithUID user){
+
+        TextView name = (TextView) dialogView.findViewById(R.id.name);
+        name.setText(user.getFirstName() + " " + user.getLastName());
+
+        TextView email = (TextView) dialogView.findViewById(R.id.email);
+        email.setText(user.getEmail());
+    }
+
+
+    private Spinner createSpinner(View dialogView, String spinnerRole){
+
+        final Spinner roleSpinner = (Spinner) dialogView.findViewById(R.id.role_spinner);
+        List<String> rolesList = new ArrayList<>();
+        rolesList.addAll(UserRole.getRoles());
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_spinner_item, rolesList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        roleSpinner.setAdapter(dataAdapter);
+        roleSpinner.setSelected(false);
+
+        roleSpinner.setSelection(rolesList.indexOf(spinnerRole));
+
+        return roleSpinner;
     }
 }

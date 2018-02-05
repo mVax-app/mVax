@@ -93,6 +93,9 @@
     <string name="user_email">Email</string>
     <string name="user_role">Role</string>
     <string name="modal_current_user_title">Edit User\'s Access</string>
+    <string name="modal_current_role">Role: </string>
+    <string name="modal_new_role">Change user\'s role: </string>
+    <string name="role_no_change">No Change</string>
 
 
     <!-- About Button -->
