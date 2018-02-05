@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -119,6 +120,7 @@ public class CurrentUsersFragment extends android.support.v4.app.Fragment {
         final UserWithUID user = (UserWithUID) currentUsersLV.getAdapter().getItem(row);
 
         setModalText(dialogView,  user);
+        setInfoButton(dialogView);
 
         final Spinner roleSpinner = createSpinner(dialogView, user.getRole());
 
@@ -152,6 +154,16 @@ public class CurrentUsersFragment extends android.support.v4.app.Fragment {
 
         TextView email = (TextView) dialogView.findViewById(R.id.email);
         email.setText(user.getEmail());
+    }
+
+    private void setInfoButton(View dialogView){
+        ImageView info = (ImageView) dialogView.findViewById(R.id.info);
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new UserRoleInfoBuilder(getActivity()).getBuilder().show();
+            }
+        });
     }
 
 

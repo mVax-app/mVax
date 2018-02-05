@@ -30,6 +30,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -78,9 +79,21 @@ public class ApproveUsersFragment extends android.support.v4.app.Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        setInfoButton(view);
         setupUserRequestLV(view);
 
+
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void setInfoButton(View view){
+        ImageView info = (ImageView) view.findViewById(R.id.info);
+        info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new UserRoleInfoBuilder(getActivity()).getBuilder().show();
+            }
+        });
     }
 
     private void setupUserRequestLV(View view){
