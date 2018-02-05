@@ -176,7 +176,6 @@ public class CurrentUsersFragment extends android.support.v4.app.Fragment {
                 android.R.layout.simple_spinner_item, rolesList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         roleSpinner.setAdapter(dataAdapter);
-        roleSpinner.setSelected(false);
 
         roleSpinner.setSelection(rolesList.indexOf(spinnerRole));
 

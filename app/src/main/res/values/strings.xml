@@ -84,6 +84,10 @@
 
     <!-- Approve Users Fragment -->
     <string name="approve_users_title">Approve Users</string>
+    <string name="select_user_role">Select User Role</string>
+    <string name="error_select_role">Must select user role for request</string>
+    <string name="user_request_decision">Decision</string>
+    <string name="approve_user_instructions">In order to approve a user\'s request to join, you must select an access level for them (see the info button in the top right for more information). You can also deny a user request.</string>
 
     <!-- Current Users Fragment -->
     <string name="current_users_title">Current Users</string>
@@ -91,7 +95,7 @@
     <!-- User Fragments -->
     <string name="user_name">Name</string>
     <string name="user_email">Email</string>
-    <string name="user_role">Role</string>
+    <string name="user_role">Access Level</string>
     <string name="modal_current_user_title">Edit User\'s Access</string>
     <string name="modal_current_role">Role: </string>
     <string name="modal_new_role">Change user\'s role: </string>

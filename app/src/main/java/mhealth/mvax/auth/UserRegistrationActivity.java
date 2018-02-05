@@ -25,10 +25,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,10 +36,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.List;
-
 import mhealth.mvax.R;
-import mhealth.mvax.model.user.UserRole;
 import mhealth.mvax.model.user.UserWithUID;
 
 /**
@@ -63,7 +58,6 @@ public class UserRegistrationActivity extends AppCompatActivity {
     private EditText newUserPasswordConfirm;
     private EditText firstName;
     private EditText lastName;
-    private Spinner userRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,13 +72,6 @@ public class UserRegistrationActivity extends AppCompatActivity {
         newUserEmail = (EditText)findViewById(R.id.TFemail);
         newUserPassword = (EditText)findViewById(R.id.TFpassword);
         newUserPasswordConfirm = (EditText) findViewById(R.id.TFpasswordConfirm);
-
-        userRole = (Spinner) this.findViewById(R.id.TFrole);
-        List<String> rolesList = UserRole.getRoles();
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(UserRegistrationActivity.this,
-                android.R.layout.simple_spinner_item, rolesList);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        userRole.setAdapter(dataAdapter);
 
         mAuth= FirebaseAuth.getInstance();
     }
@@ -153,7 +140,9 @@ public class UserRegistrationActivity extends AppCompatActivity {
                                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
                                         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                         DatabaseReference account = ref.child(getResources().getString(R.string.userRequestsTable)).child(uid);
-                                        UserWithUID newUser = new UserWithUID(uid, firstName.getText().toString(), lastName.getText().toString(), newUserEmail.getText().toString(), userRole.getSelectedItem().toString());
+
+                                        //TODO fix null UserRole, doesn't break anything just sloppy
+                                        UserWithUID newUser = new UserWithUID(uid, firstName.getText().toString(), lastName.getText().toString(), newUserEmail.getText().toString(), null);
                                         account.setValue(newUser);
                                     }
                                 }

@@ -20,16 +20,31 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.auth;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.user.User;
+import mhealth.mvax.model.user.UserRole;
 
 /**
  * This Adapter is a custom one that is for the ApproveUsersFragment
@@ -46,7 +61,9 @@ public class UserRegRequestsAdapter extends BaseAdapter{
     private ArrayList<HashMap<String, String>> requests;
     private TextView name;
     private TextView email;
-    private TextView role;
+    private Spinner roleSpinner;
+    private ImageView approve;
+    private ImageView deny;
 
 
     public UserRegRequestsAdapter(Activity activity, ArrayList<HashMap<String, String>> list){
@@ -65,18 +82,80 @@ public class UserRegRequestsAdapter extends BaseAdapter{
 
             name = (TextView) view.findViewById(R.id.name);
             email = (TextView) view.findViewById(R.id.email);
-            role = (TextView) view.findViewById(R.id.role);
+            roleSpinner = (Spinner) view.findViewById(R.id.role_spinner);
+            approve = (ImageView) view.findViewById(R.id.approve_icon);
+            deny = (ImageView) view.findViewById(R.id.deny_icon);
 
 
         }
 
-        //TODO checking for .get()
         HashMap<String, String> map=requests.get(i);
         name.setText(map.get(ApproveUsersFragment.FIRST_NAME) + " " + map.get(ApproveUsersFragment.LAST_NAME));
         email.setText(map.get(ApproveUsersFragment.EMAIL));
-        role.setText(map.get(ApproveUsersFragment.ROLE));
+      //  role.setText(map.get(ApproveUsersFragment.ROLE));
+        createSpinner();
+        setDecisionButtons(i);
 
         return view;
+    }
+
+    private void createSpinner(){
+        List<String> userRoles = new ArrayList<>();
+        userRoles.add(activity.getResources().getString(R.string.select_user_role));
+        userRoles.addAll(UserRole.getRoles());
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(activity,
+                android.R.layout.simple_spinner_item, userRoles);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        roleSpinner.setAdapter(dataAdapter);
+    }
+
+    private void setDecisionButtons(final int index){
+        approve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(roleSpinner.getSelectedItemPosition() != 0){
+                    addUserToDB(index);
+                }
+                else{
+                    Toast.makeText(activity, activity.getResources().getString(R.string.error_select_role), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        deny.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                removeUserRequestFromDB(index);
+            }
+        });
+    }
+
+    private void addUserToDB(int index){
+        Map<String, String> data = requests.get(index);
+        User newUser = new User(data.get(ApproveUsersFragment.FIRST_NAME), data.get(ApproveUsersFragment.LAST_NAME), data.get(ApproveUsersFragment.EMAIL), roleSpinner.getSelectedItem().toString());
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        ref = ref.child(activity.getResources().getString(R.string.userTable)).child(data.get(ApproveUsersFragment.UID));
+        ref.setValue(newUser);
+
+        removeUserRequestFromDB(index);
+    }
+
+    private void removeUserRequestFromDB(int index){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference account = ref.child(activity.getResources().getString(R.string.userRequestsTable)).child(requests.get(index).get(ApproveUsersFragment.UID));
+        requests.remove(index);
+        account.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                dataSnapshot.getRef().removeValue();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("databaseError", "Error in ApproveUsersFragment");
+            }});
+
+        notifyDataSetChanged();
     }
 
     @Override
