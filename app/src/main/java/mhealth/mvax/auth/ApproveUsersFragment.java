@@ -20,8 +20,6 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.auth;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -29,10 +27,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,7 +40,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserWithUID;
 
 /**
@@ -58,7 +53,6 @@ public class ApproveUsersFragment extends android.support.v4.app.Fragment {
     public static final String FIRST_NAME = "FIRST_NAME";
     public static final String LAST_NAME = "LAST_NAME";
     public static final String EMAIL = "EMAIL";
-    public static final String ROLE = "ROLE";
     public static final String UID = "UID";
 
     private ListView userRequests;
@@ -99,12 +93,6 @@ public class ApproveUsersFragment extends android.support.v4.app.Fragment {
     private void setupUserRequestLV(View view){
         userRequests = (ListView) view.findViewById(R.id.approveUsersLV);
 
-        userRequests.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                decisionModal(view, i);
-            }
-        });
         requests = new ArrayList<HashMap<String, String>>();
 
         adapter = new UserRegRequestsAdapter(getActivity(), requests);
@@ -126,7 +114,6 @@ public class ApproveUsersFragment extends android.support.v4.app.Fragment {
                     userRequest.put(FIRST_NAME, user.getFirstName());
                     userRequest.put(LAST_NAME, user.getLastName());
                     userRequest.put(EMAIL, user.getEmail());
-                    userRequest.put(ROLE, user.getRole());
                     userRequest.put(UID, user.getUid());
                     requests.add(userRequest);
                     adapter.notifyDataSetChanged();
@@ -142,77 +129,7 @@ public class ApproveUsersFragment extends android.support.v4.app.Fragment {
 
     }
 
-    private void decisionModal(View view, int i){
-        final int index = i;
-        //builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        builder.setTitle(getResources().getString(R.string.modal_user_decision_title));
-
-        //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
-        LayoutInflater inflater = (LayoutInflater) getActivity().getLayoutInflater();
-
-        final View dialogView = inflater.inflate(R.layout.modal_user_request_decision, null);
-        builder.setView(dialogView);
-
-        final HashMap<String, String> data = (HashMap<String, String>) userRequests.getAdapter().getItem(i);
-
-        TextView name = (TextView) dialogView.findViewById(R.id.name);
-        name.setText(data.get(FIRST_NAME) + " " + data.get(LAST_NAME));
-
-        TextView email = (TextView) dialogView.findViewById(R.id.email);
-        email.setText(data.get(EMAIL));
-
-        TextView role = (TextView) dialogView.findViewById(R.id.role);
-        role.setText(data.get(ROLE));
-
-        // This stack overflow post helped for querying https://stackoverflow.com/questions/39135619/java-firebase-search-by-child-value
-        builder.setPositiveButton(getResources().getString(R.string.approve_user), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //Delete Entry
-                deleteUserRequest(data);
-
-                //Make a user in the user table
-                User newUser = new User(data.get(FIRST_NAME), data.get(LAST_NAME), data.get(EMAIL), data.get(ROLE));
-
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                ref = ref.child(getResources().getString(R.string.userTable)).child(data.get(UID));
-                ref.setValue(newUser);
-
-                requests.remove(index);
-                adapter.notifyDataSetChanged();
-                dialog.dismiss();
-            }
-        });
-        builder.setNegativeButton(getResources().getString(R.string.deny_user), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                deleteUserRequest(data);
-
-                requests.remove(index);
-                adapter.notifyDataSetChanged();
-                dialog.dismiss();
-            }
-        });
-        builder.show();
-    }
-
-    private void deleteUserRequest(final HashMap<String, String> data){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference account = ref.child(getResources().getString(R.string.userRequestsTable)).child(data.get(UID));
-        account.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                dataSnapshot.getRef().removeValue();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("databaseError", "Error in ApproveUsersFragment");
-            }
-        });
-    }
 
     private void refresh(){
         FragmentTransaction tr = getFragmentManager().beginTransaction();
