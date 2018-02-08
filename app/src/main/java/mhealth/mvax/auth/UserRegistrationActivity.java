@@ -124,7 +124,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
         PasswordVerifier verifier = new ComplexPasswordVerifier();
         return verifier.checkPassword(password);
     }
-    private static boolean isEmailValid(String email) {
+    public static boolean isEmailValid(String email) {
         return email.contains("@");
     }
 
