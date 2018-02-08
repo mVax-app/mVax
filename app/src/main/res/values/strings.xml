@@ -16,6 +16,7 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_empty_field">Please fill in empty fields</string>
+    <string name="error_used_email">Account already registered with this email</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
