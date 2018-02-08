@@ -49,10 +49,8 @@ import mhealth.mvax.model.user.UserWithUID;
  */
 public class UserRegistrationActivity extends AppCompatActivity {
     static UserRegistrationActivity checkLogin;
-    private FirebaseAuth mAuth;
 
     //UI components
-    private EditText newUserName;
     private EditText newUserEmail;
     private EditText newUserPassword;
     private EditText newUserPasswordConfirm;
@@ -68,12 +66,9 @@ public class UserRegistrationActivity extends AppCompatActivity {
         checkLogin = this;
         firstName = (EditText) findViewById(R.id.TFname);
         lastName = (EditText) findViewById(R.id.TFnameLast);
-        newUserName = (EditText)findViewById(R.id.TFname);
         newUserEmail = (EditText)findViewById(R.id.TFemail);
         newUserPassword = (EditText)findViewById(R.id.TFpassword);
         newUserPasswordConfirm = (EditText) findViewById(R.id.TFpasswordConfirm);
-
-        mAuth= FirebaseAuth.getInstance();
     }
 
     //Allow access to this activity through this method
@@ -86,83 +81,90 @@ public class UserRegistrationActivity extends AppCompatActivity {
         Bregister.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //Set default errors
-                newUserEmail.setError(null);
-                newUserPassword.setError(null);
-                newUserPasswordConfirm.setError(null);
-
-                String email = newUserEmail.getText().toString();
-                String password = newUserPassword.getText().toString();
-
-
-                Boolean cancel = false;
-                View focusView = null;
-
-                if(!isEmailValid(email)){
-                    newUserEmail.setError(getResources().getString(R.string.REG_ERROR_EMAIL));
-                    focusView = newUserEmail;
-                    cancel = true;
-                }
-
-                if(!isPasswordValid(password)){
-                    newUserPassword.setError(getResources().getString(R.string.REG_ERROR_PASS_REQUIRE));
-                    focusView = newUserPassword;
-                    cancel = true;
-                }
-
-                if(!password.equals(newUserPasswordConfirm.getText().toString())){
-                    newUserPasswordConfirm.setError(getResources().getString(R.string.REG_ERROR_PASS_CONFIRM));
-                    focusView = newUserPasswordConfirm;
-                    cancel = true;
-                }
-
-                if(cancel){
-                    focusView.requestFocus();
-                }
-
-
-                if(!cancel) {
-                    mAuth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(UserRegistrationActivity.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    Log.d("createCredentials", "createUserWithEmail:onComplete:" + task.isSuccessful());
-
-                                    // If sign in fails, display a message to the user. If sign in succeeds
-                                    // the auth state listener will be notified and logic to handle the
-                                    // signed in user can be handled in the listener.
-                                    if (!task.isSuccessful()) {
-                                        Toast.makeText(UserRegistrationActivity.this, R.string.auth_failed,
-                                                Toast.LENGTH_LONG).show();
-                                    }
-                                    else{
-                                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                        DatabaseReference account = ref.child(getResources().getString(R.string.userRequestsTable)).child(uid);
-
-                                        //TODO fix null UserRole, doesn't break anything just sloppy
-                                        UserWithUID newUser = new UserWithUID(uid, firstName.getText().toString(), lastName.getText().toString(), newUserEmail.getText().toString(), null);
-                                        account.setValue(newUser);
-                                    }
-                                }
-                            });
-
-                    Toast.makeText(UserRegistrationActivity.this, getResources().getString(R.string.REG_CONFIRMED), Toast.LENGTH_LONG).show();
-
-                }
+                attemptRegisterUser();
             }
         });
+    }
+
+
+    private void attemptRegisterUser(){
+        if(checkFormFields()) {
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(newUserEmail.getText().toString(), newUserPassword.getText().toString())
+                    .addOnCompleteListener(UserRegistrationActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            Log.d("createCredentials", "createUserWithEmail:onComplete:" + task.isSuccessful());
+
+                            // If sign in fails, display a message to the user. If sign in succeeds
+                            // the auth state listener will be notified and logic to handle the
+                            // signed in user can be handled in the listener.
+                            if (!task.isSuccessful()) {
+                                Toast.makeText(UserRegistrationActivity.this, task.getException().getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                DatabaseReference account = ref.child(getResources().getString(R.string.userRequestsTable)).child(uid);
+
+                                //TODO fix null UserRole, doesn't break anything just sloppy
+                                UserWithUID newUser = new UserWithUID(uid, firstName.getText().toString(), lastName.getText().toString(), newUserEmail.getText().toString(), null);
+                                account.setValue(newUser);
+                                Toast.makeText(UserRegistrationActivity.this, getResources().getString(R.string.REG_CONFIRMED), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
+
+        }
+
     }
 
     private static boolean isPasswordValid(String password){
         PasswordVerifier verifier = new ComplexPasswordVerifier();
         return verifier.checkPassword(password);
     }
-    public static boolean isEmailValid(String email) {
+    private static boolean isEmailValid(String email) {
         return email.contains("@");
     }
 
+    //Returns a boolean which will evaluate whether registration should continue as well as set the error field for focusView
+    private boolean checkFormFields(){
+        //Set default errors
+        newUserEmail.setError(null);
+        newUserPassword.setError(null);
+        newUserPasswordConfirm.setError(null);
+
+        String email = newUserEmail.getText().toString();
+        String password = newUserPassword.getText().toString();
+
+        Boolean cancel = false;
+        View focusView = null;
+
+        if(!isEmailValid(email)){
+            newUserEmail.setError(getResources().getString(R.string.REG_ERROR_EMAIL));
+            focusView = newUserEmail;
+            cancel = true;
+        }
+
+        if(!isPasswordValid(password)){
+            newUserPassword.setError(getResources().getString(R.string.REG_ERROR_PASS_REQUIRE));
+            focusView = newUserPassword;
+            cancel = true;
+        }
+
+        if(!password.equals(newUserPasswordConfirm.getText().toString())){
+            newUserPasswordConfirm.setError(getResources().getString(R.string.REG_ERROR_PASS_CONFIRM));
+            focusView = newUserPasswordConfirm;
+            cancel = true;
+        }
+
+        if(cancel){
+            focusView.requestFocus();
+        }
+
+        return true;
+    }
 
 
 
