@@ -306,6 +306,8 @@
     <string name="VPH_11A_2A">VPH_11A_2A_Row</string>
     <string name="VITA_PU_DU">VITA_PU_DU_Row</string>
     <string name="failure_patient_download">Unable to Download Patient Data</string>
+    <string name="failure_search_init">Unable to Initialize Search Service</string>
+    <string name="failure_search">Search Failed</string>
     <string name="failure_guardian_download">Unable to Download Guardian Data</string>
     <string name="guardian_update">Guardian Updated</string>
     <string name="failure_vaccines_download">Unable to Download Vaccine Data</string>
