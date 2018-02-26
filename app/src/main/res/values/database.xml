@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="dataTable">mVax-data</string>
+    <string name="dataTable">data</string>
+    <string name="configTable">config</string>
+    <string name="algoliaTable">algolia</string>
 
     <string name="patientTable">patients</string>
     <string name="patientDatabaseKeyField">patientDatabaseKey</string>
