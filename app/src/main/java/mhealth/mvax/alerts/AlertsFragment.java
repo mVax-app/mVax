@@ -30,9 +30,12 @@ import mhealth.mvax.R;
 import android.support.v4.app.Fragment;
 
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 /**
@@ -41,6 +44,14 @@ import com.google.firebase.database.DatabaseError;
  */
 
 public class AlertsFragment extends Fragment {
+
+    //================================================================================
+    // Properties
+    //================================================================================
+
+    private FirebaseAuth mAuth;
+
+    private DatabaseReference mDatabase;
 
     ChildEventListener mPatientListener;
 
@@ -66,6 +77,12 @@ public class AlertsFragment extends Fragment {
 
 
     private boolean initDatabase(){
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        String masterTable = getResources().getString(R.string.dataTable);
+        //get overdue table
+        String vaccineTable = getResources().getString(R.string.vaccineTable);
 
         mPatientListener = new ChildEventListener() {
             @Override
