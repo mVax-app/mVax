@@ -116,6 +116,7 @@ public class UserRegRequestsAdapter extends BaseAdapter{
             public void onClick(View view) {
                 if(roleSpinner.getSelectedItemPosition() != 0){
                     addUserToDB(index);
+                    sendAcceptanceEmail("tribby.matt5@gmail.com");
                 }
                 else{
                     Toast.makeText(activity, activity.getResources().getString(R.string.error_select_role), Toast.LENGTH_LONG).show();
@@ -139,6 +140,10 @@ public class UserRegRequestsAdapter extends BaseAdapter{
         ref.setValue(newUser);
 
         removeUserRequestFromDB(index);
+    }
+
+    private void sendAcceptanceEmail(String email){
+        new UtilityEmailer().sendEmail(email, activity.getResources().getString(R.string.acceptance_email_subject), activity.getResources().getString(R.string.acceptance_email_body));
     }
 
     private void removeUserRequestFromDB(int index){
