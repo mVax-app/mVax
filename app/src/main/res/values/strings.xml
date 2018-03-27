@@ -92,6 +92,8 @@
     <string name="empty_approve_list_view">No user requests</string>
     <string name="acceptance_email_subject">mVax User Registration Approved!</string>
     <string name="acceptance_email_body">Welcome! You have been approved to join mVax. You are now able to sign in with your credentials</string>
+    <string name="rejection_email_subject">mVax User Registration Denied</string>
+    <string name="rejection_email_body">Hello, your request to join mVax has been denied. Contact an administrator for more details.</string>
 
     <!-- Current Users Fragment -->
     <string name="current_users_title">Current Users</string>
