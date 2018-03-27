@@ -19,7 +19,6 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.activities;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,6 +26,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,21 +42,13 @@ import mhealth.mvax.settings.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
-
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser mFirebaseUser = auth.getCurrentUser();
-        // TODO handle auth fail
-//        if (mFirebaseUser == null) {
-////            Not logged in, launch the Log In activity
-//        } else {
-//            mUserId = mFirebaseUser.getUid();
-//        }
+
 
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference database = db.getReference();
@@ -99,10 +91,15 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.frame_layout, SearchFragment.newInstance());
         transaction.commit();
 
+        Log.d("Language", "Main Activity: " + getResources().getConfiguration().locale.toString());
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-
+    }
 
     /**
      * Handler updating a patient record; calls super to pass this handler to fragments
@@ -121,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        System.out.println("PRINT: WAHOO PAUSEEEE");
+
         FirebaseAuth.getInstance().signOut();
         this.finish();
     }
