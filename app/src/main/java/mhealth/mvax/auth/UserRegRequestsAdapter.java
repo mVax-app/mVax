@@ -125,7 +125,7 @@ public class UserRegRequestsAdapter extends BaseAdapter{
         deny.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                removeUserRequestFromDB(index);
+                removeUserRequestFromDB(index, false);
             }
         });
     }
@@ -139,22 +139,33 @@ public class UserRegRequestsAdapter extends BaseAdapter{
         ref.setValue(newUser);
 
         Log.d("Remove", "remove request submitted: "+ index);
-        removeUserRequestFromDB(index);
-        sendAcceptanceEmail(newUser.getEmail());
+        removeUserRequestFromDB(index, true);
     }
 
     private void sendAcceptanceEmail(String email){
-      UtilityEmailer.sendEmail(activity, email, activity.getResources().getString(R.string.acceptance_email_subject), activity.getResources().getString(R.string.acceptance_email_body));
+        UtilityEmailer.sendEmail(activity, email, activity.getResources().getString(R.string.acceptance_email_subject), activity.getResources().getString(R.string.acceptance_email_body));
     }
 
-    private void removeUserRequestFromDB(int index){
+    private void sendRejectionEmail(String email){
+        UtilityEmailer.sendEmail(activity, email, activity.getResources().getString(R.string.rejection_email_subject), activity.getResources().getString(R.string.rejection_email_body));
+    }
+
+    private void removeUserRequestFromDB(int index, final boolean successful){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         DatabaseReference account = ref.child(activity.getResources().getString(R.string.userRequestsTable)).child(requests.get(index).get(ApproveUsersFragment.UID));
+        final String userEmail = requests.get(index).get(ApproveUsersFragment.EMAIL);
         requests.remove(index);
+
         account.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 dataSnapshot.getRef().removeValue();
+                if(successful){
+                    sendAcceptanceEmail(userEmail);
+                }
+                else{
+                    sendRejectionEmail(userEmail);
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -163,6 +174,7 @@ public class UserRegRequestsAdapter extends BaseAdapter{
 
         notifyDataSetChanged();
     }
+
 
     @Override
     public int getCount() {

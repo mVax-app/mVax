@@ -171,6 +171,8 @@
     <string name="empty_approve_list_view">No solicitud de usuario</string>
     <string name="acceptance_email_subject">mVax: el registro de usuario aprobado!</string>
     <string name="acceptance_email_body">Bienvenido! Usted ha sido aprobado para unirse a mVax. Ahora puede iniciar sesión con su nombre de usuario y contraseña.</string>
+    <string name="rejection_email_subject">Se ha negado el registro de usuario de mVax</string>
+    <string name="rejection_email_body">Hola, su solicitud para unirse a mVax ha sido denegada. Póngase en contacto con un administrador para obtener más detalles.</string>
 
     <!-- Current Users Fragment -->
     <string name="current_users_title">Usuarios Actuales</string>
