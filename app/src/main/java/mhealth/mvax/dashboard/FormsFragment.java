@@ -49,8 +49,8 @@ import mhealth.mvax.R;
 public class FormsFragment extends android.support.v4.app.Fragment {
     private LayoutInflater inflater;
 
-    public static DashboardFragment newInstance() {
-        return new DashboardFragment();
+    public static FormsFragment newInstance() {
+        return new FormsFragment();
     }
 
     public FormsFragment() {

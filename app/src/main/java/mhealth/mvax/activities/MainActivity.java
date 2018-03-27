@@ -37,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import mhealth.mvax.R;
 import mhealth.mvax.alerts.AlertsFragment;
 import mhealth.mvax.dashboard.DashboardFragment;
+import mhealth.mvax.dashboard.FormsFragment;
 import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.settings.SettingsFragment;
 
@@ -70,8 +71,11 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_overdue:
                                 selectedFragment = AlertsFragment.newInstance();
                                 break;
-                            case R.id.nav_forms:
+                            case R.id.nav_data:
                                 selectedFragment = DashboardFragment.newInstance();
+                                break;
+                            case R.id.nav_forms:
+                                selectedFragment = FormsFragment.newInstance();
                                 break;
                             case R.id.nav_settings:
                                 selectedFragment = SettingsFragment.newInstance();
