@@ -21,15 +21,12 @@ package mhealth.mvax.settings;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,12 +43,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Locale;
-
 import mhealth.mvax.R;
 import mhealth.mvax.auth.ApproveUsersFragment;
 import mhealth.mvax.auth.CurrentUsersFragment;
 import mhealth.mvax.auth.UserRegistrationActivity;
+import mhealth.mvax.language.LanguageUtillity;
 import mhealth.mvax.model.user.UserRole;
 
 /**
@@ -160,22 +156,11 @@ public class SettingsFragment extends Fragment {
 
 
     //Stack overflow: https://stackoverflow.com/questions/45584865/change-default-locale-language-android
-    public void setLocale(String lang) {
-        Locale locale = new Locale(lang);
-        Locale.setDefault(locale);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Locale.setDefault(locale);
-        Configuration config = res.getConfiguration();
-        config.setLocale(locale);
-        //Deprecated in API 25, minSDK for this project is 24
-        res.updateConfiguration(config, dm);
+    private void setLocale(String lang) {
+        LanguageUtillity.changeLangauge(getResources(), lang);
 
-        //TODO save instance state beforehand
-
-        //getActivity().recreate();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(this).attach(this).commit();
+       ft.detach(this).attach(this).commit();
 
     }
 

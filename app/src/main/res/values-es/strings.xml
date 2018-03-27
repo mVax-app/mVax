@@ -169,6 +169,8 @@
     <string name="user_request_decision">Decisión</string>
     <string name="approve_user_instructions">Para aprobar una solicitud de usuario para unirse, debe seleccionar un nivel de acceso para ellos (consulte el botón info en la parte superior derecha para obtener más información). También puede denegar una solicitud de usuario.</string>
     <string name="empty_approve_list_view">No solicitud de usuario</string>
+    <string name="acceptance_email_subject">mVax: el registro de usuario aprobado!</string>
+    <string name="acceptance_email_body">Bienvenido! Usted ha sido aprobado para unirse a mVax. Ahora puede iniciar sesión con su nombre de usuario y contraseña.</string>
 
     <!-- Current Users Fragment -->
     <string name="current_users_title">Usuarios Actuales</string>
