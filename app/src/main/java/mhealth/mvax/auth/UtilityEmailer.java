@@ -1,13 +1,11 @@
 package mhealth.mvax.auth;
 
-import java.util.Properties;
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.widget.Toast;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import mhealth.mvax.R;
 
 /**
  * @author Matthew Tribby
@@ -17,37 +15,18 @@ import javax.mail.internet.MimeMessage;
 
 public class UtilityEmailer {
 
-    public static void sendEmail(String to, String subject, String body){
+    public static void sendEmail(Activity activity, String to, String subject, String body){
 
-        // Sender's email ID needs to be mentioned
-        String from = "mvaxapp@gmail.com";
+        Intent email = new Intent(Intent.ACTION_SENDTO);
+        email.setType("message/rfc822");
 
-        // Assuming you are sending email from localhost
-        String host = "localhost";
-
-        // Get system properties
-        Properties properties = System.getProperties();
-
-        // Setup mail server
-        properties.setProperty("mail.smtp.host", host);
-
-        // Get the default Session object.
-        Session session = Session.getDefaultInstance(properties);
+        Uri emailUri = Uri.parse("mailto:" + to + "?subject=" + subject + "&body=" + body);
+        email.setData(emailUri);
 
         try {
-            // Create a default MimeMessage object.
-            MimeMessage message = new MimeMessage(session);
-
-            message.setFrom(new InternetAddress(from));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject(subject);
-            message.setText(body);
-
-            // Send message
-            Transport.send(message);
-
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
+            activity.startActivityForResult(Intent.createChooser(email, activity.getResources().getString(R.string.send_email)), 2);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(activity, "There are no email clients installed.", Toast.LENGTH_LONG).show();
         }
     }
 

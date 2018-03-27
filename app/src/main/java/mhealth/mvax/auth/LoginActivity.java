@@ -111,7 +111,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         setUpLoginForm();
 
-
         setOnClick();
 
         mLoginFormView = findViewById(R.id.login_form);
