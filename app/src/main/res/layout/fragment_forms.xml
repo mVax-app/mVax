@@ -152,7 +152,7 @@
         android:id="@+id/pdf_config"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text = "PDF Configuration"
+        android:text = "@string/pdf_config_title"
         android:textSize="20sp"
         android:layout_gravity="center"
         android:textAllCaps="false"

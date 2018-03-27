@@ -3,9 +3,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="50dp"
     android:layout_marginBottom="30dp"
     android:layout_marginStart="30dp"
+    android:layout_marginTop="40dp"
     android:layout_marginEnd="30dp"
     android:layout_gravity="center"
     android:gravity="center">
@@ -16,6 +16,7 @@
         android:layout_gravity="center"
         android:textColor="@color/teal"
         android:textAlignment="center"
+        android:text="@string/pdf_config_title"
         android:gravity="center"
         android:textSize="30sp" />
 
@@ -27,54 +28,54 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Input:"/>
+            android:textSize="30sp"
+            android:text="@string/config_address"/>
 
         <EditText
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="current"/>
+            android:textSize="30sp"
+            android:text="@string/form_address"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="30dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:layout_marginEnd="10dp"
-            android:text="Input2:"/>
+            android:text="@string/config_department"/>
 
         <EditText
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="current2"/>
+            android:textSize="30sp"
+            android:text="@string/form_department_name"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="30dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:layout_marginEnd="10dp"
-            android:text="Input3:"/>
+            android:text="@string/config_vaccinator"/>
 
         <EditText
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="current3"/>
+            android:textSize="30sp"
+            android:text="@string/form_vaccinator_name"/>
     </LinearLayout>
 
 </LinearLayout>
