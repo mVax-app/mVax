@@ -74,6 +74,7 @@ public class FormsFragment extends android.support.v4.app.Fragment {
         Button sinovaAdult = (Button) view.findViewById(R.id.SINOVA_Adult);
         Button sinova2Adult = (Button) view.findViewById(R.id.SINOVA2_Adult);
         Button linv = (Button)view.findViewById(R.id.LINV);
+        Button pdfConfig = (Button) view.findViewById(R.id.pdf_config);
         ImageView info = (ImageView) view.findViewById(R.id.info);
 
         sinovaAdolescent.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +109,12 @@ public class FormsFragment extends android.support.v4.app.Fragment {
                 linvClicked();
             }
         });
-
+        pdfConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayConfigModal();
+            }
+        });
         info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -250,7 +256,22 @@ public class FormsFragment extends android.support.v4.app.Fragment {
         });
 
         builder.show();
+    }
 
+    private void displayConfigModal(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        final View dialogView = inflater.inflate(R.layout.modal_pdf_config, null);
+        builder.setView(dialogView);
+
+        builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        builder.show();
     }
 
 }

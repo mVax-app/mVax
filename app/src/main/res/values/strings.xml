@@ -240,6 +240,12 @@
     <string name="send_email">Send Email...</string>
     <string name="email_header_insert"> for the date of </string>
 
+    <!-- PDF CONFIG OPTIONS -->
+    <string name="pdf_config_title">Form Constants</string>
+    <string name="config_address">Address/Location</string>
+    <string name="config_department">Department</string>
+    <string name="config_vaccinator">Vaccinator</string>
+
     <!-- FORM INFO MODAL -->
     <string name="form_info_title">Exporting Form Information</string>
     <string name="form_info_body1">The form page is used to autofill data from the database into a PDF copy of the forms listed.</string>
