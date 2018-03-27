@@ -22,14 +22,12 @@ package mhealth.mvax.settings;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,12 +45,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Locale;
-
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
 import mhealth.mvax.auth.ApproveUsersFragment;
+import mhealth.mvax.auth.CurrentUsersFragment;
 import mhealth.mvax.auth.UserRegistrationActivity;
+import mhealth.mvax.language.LanguageUtillity;
 import mhealth.mvax.model.user.UserRole;
 
 /**
@@ -118,7 +116,9 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        createApproveUsersButton(v);
+
+        createUsersButtons(v);
+
 
         Button dummyData = v.findViewById(R.id.dummyData);
         dummyData.setOnClickListener(new View.OnClickListener() {
@@ -168,22 +168,11 @@ public class SettingsFragment extends Fragment {
 
 
     //Stack overflow: https://stackoverflow.com/questions/45584865/change-default-locale-language-android
-    public void setLocale(String lang) {
-        Locale locale = new Locale(lang);
-        Locale.setDefault(locale);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Locale.setDefault(locale);
-        Configuration config = res.getConfiguration();
-        config.setLocale(locale);
-        //Deprecated in API 25, minSDK for this project is 24
-        res.updateConfiguration(config, dm);
+    private void setLocale(String lang) {
+        LanguageUtillity.changeLangauge(getResources(), lang);
 
-        //TODO save instance state beforehand
-
-        //getActivity().recreate();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(this).attach(this).commit();
+       ft.detach(this).attach(this).commit();
 
     }
 
@@ -273,8 +262,9 @@ public class SettingsFragment extends Fragment {
         getActivity().finish();
     }
 
-    private void createApproveUsersButton(View view) {
+    private void createUsersButtons(View view) {
         final Button approveUsers = (Button) view.findViewById(R.id.approveUsers);
+        final Button currentUsers = (Button) view.findViewById(R.id.currentUsers);
 
         //Following code sets the button to only show when user is an ADMIN
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
@@ -285,8 +275,10 @@ public class SettingsFragment extends Fragment {
 
                 if (dataSnapshot.getValue().equals(UserRole.ADMIN.toString())) {
                     approveUsers.setVisibility(View.VISIBLE);
+                    currentUsers.setVisibility(View.VISIBLE);
                 } else {
                     approveUsers.setVisibility(View.GONE);
+                    currentUsers.setVisibility(View.GONE);
                 }
             }
 
@@ -300,19 +292,36 @@ public class SettingsFragment extends Fragment {
         approveUsers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switchToApproveUsersFragment(view);
+                switchToApproveUsersFragment();
+            }
+        });
+
+        currentUsers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switchToCurrentUsersFragment();
             }
         });
     }
 
 
-    private void switchToApproveUsersFragment(View view) {
+    private void switchToApproveUsersFragment() {
         ApproveUsersFragment approveUsers = new ApproveUsersFragment();
 
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(getId(), this).addToBackStack(null); // so that back button works
         transaction.replace(R.id.frame_layout, approveUsers);
+        transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    private void switchToCurrentUsersFragment(){
+        Fragment fragment =  new CurrentUsersFragment();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     private void createAboutModal() {

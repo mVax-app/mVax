@@ -103,24 +103,6 @@
             android:textAlignment="center"
             android:textSize="24sp" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="36sp" />
-
-        <TextView
-            android:id="@+id/userRoleLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="30sp"
-            android:text="@string/userRoles"
-            android:textAlignment="viewStart"
-            android:textSize="20sp" />
-
-        <Spinner
-            android:id="@+id/TFrole"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
     </LinearLayout>
 
     <Space

@@ -25,6 +25,7 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
@@ -54,8 +55,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
+
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
+import mhealth.mvax.language.LanguageUtillity;
 
 /**
  * Login Activity is the page where users can attempt to log in to the app, reset their password,
@@ -103,6 +107,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         };
 
+        handleDefaultLanguage();
+
+        setUpLoginForm();
+
+        setOnClick();
+
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
+    }
+
+    private void handleDefaultLanguage(){
+        String tablet_locale= Resources.getSystem().getConfiguration().locale.toString();
+        Log.d("Language", "tablet_locale: "+ tablet_locale);
+        Log.d("Language", "default "+ Locale.getDefault().toString());
+
+
+        if(!tablet_locale.equals(Locale.getDefault().toString())) {
+            LanguageUtillity.changeLangauge(getResources(), tablet_locale);
+            this.recreate();
+        }
+
+    }
+
+    private void setUpLoginForm(){
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
@@ -119,12 +147,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-
-        setOnClick();
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
     }
+
 
 
     private void setOnClick(){

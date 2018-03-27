@@ -19,7 +19,6 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.activities;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,6 +26,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,13 +37,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import mhealth.mvax.R;
 import mhealth.mvax.alerts.AlertsFragment;
 import mhealth.mvax.dashboard.DashboardFragment;
+import mhealth.mvax.dashboard.FormsFragment;
 import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.settings.SettingsFragment;
 
 public class MainActivity extends TimeoutActivity {
-
-    private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +49,7 @@ public class MainActivity extends TimeoutActivity {
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser mFirebaseUser = auth.getCurrentUser();
-        // TODO handle auth fail
-//        if (mFirebaseUser == null) {
-////            Not logged in, launch the Log In activity
-//        } else {
-//            mUserId = mFirebaseUser.getUid();
-//        }
+
 
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference database = db.getReference();
@@ -78,8 +71,11 @@ public class MainActivity extends TimeoutActivity {
                             case R.id.nav_overdue:
                                 selectedFragment = AlertsFragment.newInstance();
                                 break;
-                            case R.id.nav_forms:
+                            case R.id.nav_data:
                                 selectedFragment = DashboardFragment.newInstance();
+                                break;
+                            case R.id.nav_forms:
+                                selectedFragment = FormsFragment.newInstance();
                                 break;
                             case R.id.nav_settings:
                                 selectedFragment = SettingsFragment.newInstance();
@@ -99,10 +95,15 @@ public class MainActivity extends TimeoutActivity {
         transaction.replace(R.id.frame_layout, SearchFragment.newInstance());
         transaction.commit();
 
+        Log.d("Language", "Main Activity: " + getResources().getConfiguration().locale.toString());
+
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
-
+    }
 
     /**
      * Handler updating a patient record; calls super to pass this handler to fragments

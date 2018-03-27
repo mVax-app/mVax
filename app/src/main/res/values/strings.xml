@@ -16,6 +16,7 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_empty_field">Please fill in empty fields</string>
+    <string name="error_used_email">Account already registered with this email</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
@@ -27,6 +28,7 @@
     <string name="title_summary">Summary</string>
     <string name="patients">Patients</string>
     <string name="title_forms">Forms</string>
+    <string name="title_dashboard">Dashboard</string>
 
     <string name="LOGIN_TITLE">mVax</string>
     <string name="LOGIN_SIGNIN">Sign In</string>
@@ -87,15 +89,46 @@
     <string name="change_password">Change Password</string>
     <string name="sign_out">Sign Out</string>
     <string name="approve_users">Approve Users</string>
+    <string name="current_users">Current Users</string>
     <string name="admin_priv">Administrator Privileges</string>
     <string name="user_settings">User Settings</string>
+
+    <!-- Approve Users Fragment -->
+    <string name="approve_users_title">Approve Users</string>
+    <string name="select_user_role">Select User Role</string>
+    <string name="error_select_role">Must select user role for request</string>
+    <string name="user_request_decision">Decision</string>
+    <string name="approve_user_instructions">In order to approve a user\'s request to join, you must select an access level for them (see the info button in the top right for more information). You can also deny a user request.</string>
+    <string name="empty_approve_list_view">No user requests</string>
+    <string name="acceptance_email_subject">mVax User Registration Approved!</string>
+    <string name="acceptance_email_body">Welcome! You have been approved to join mVax. You are now able to sign in with your credentials</string>
+    <string name="rejection_email_subject">mVax User Registration Denied</string>
+    <string name="rejection_email_body">Hello, your request to join mVax has been denied. Contact an administrator for more details.</string>
+
+    <!-- Current Users Fragment -->
+    <string name="current_users_title">Current Users</string>
+
+    <!-- User Fragments -->
+    <string name="user_name">Name</string>
+    <string name="user_email">Email</string>
+    <string name="user_role">Access Level</string>
+    <string name="modal_current_user_title">Edit User\'s Access</string>
+    <string name="modal_current_role">Role: </string>
+    <string name="modal_new_role">Change user\'s role: </string>
+    <string name="role_no_change">No Change</string>
+
+    <!-- User Info Fragment -->
+    <string name="modal_role_info_title">User Roles Types</string>
+    <string name="admin_info">ADMIN: have access to read and write data. Only admin can input new records. Additionally, can approve new user requests and view current users</string>
+    <string name="reader_info">READER: have access to see the data but cannot write any new information. Cannot handle other users.</string>
+
 
     <!-- About Button -->
     <string name="about">About</string>
     <string name="contributors">Contributors:</string>
     <string name="bass_contributor">Created by Duke Bass Connections in cooperation with the Duke Global Health Institute</string>
     <string name="bass_project_leader_title">Faculty Leaders:</string>
-    <string name="bass_project_leader">Lavanya Vasudevan, Ph.D.\nDennis Clements, Ph.D.\nRobert Duvall\nRichard Lucic</string>
+    <string name="bass_project_leader">Lavanya Vasudevan, Ph.D.\nDennis Clements, M.D.\nRobert Duvall\nRichard Lucic</string>
     <string name="bass_development_title">Development Team:</string>
     <string name="bass_development">Alison Huang\nRobert Steilberg\nMatthew Tribby\nSteven Yang</string>
     <string name="bass_global_health_title">Global Health Team:</string>
@@ -216,6 +249,12 @@
     <string name="send_email">Send Email...</string>
     <string name="email_header_insert"> for the date of </string>
 
+    <!-- PDF CONFIG OPTIONS -->
+    <string name="pdf_config_title">Form Constants</string>
+    <string name="config_address">Address/Location</string>
+    <string name="config_department">Department</string>
+    <string name="config_vaccinator">Vaccinator</string>
+
     <!-- FORM INFO MODAL -->
     <string name="form_info_title">Exporting Form Information</string>
     <string name="form_info_body1">The form page is used to autofill data from the database into a PDF copy of the forms listed.</string>
@@ -335,6 +374,8 @@
     <string name="VPH_11A_2A">VPH_11A_2A_Row</string>
     <string name="VITA_PU_DU">VITA_PU_DU_Row</string>
     <string name="failure_patient_download">Unable to Download Patient Data</string>
+    <string name="failure_search_init">Unable to Initialize Search Service</string>
+    <string name="failure_search">Search Failed</string>
     <string name="failure_guardian_download">Unable to Download Guardian Data</string>
     <string name="guardian_update">Guardian Updated</string>
     <string name="failure_vaccines_download">Unable to Download Vaccine Data</string>
@@ -353,6 +394,9 @@
     <string name="patient_delete">Patient Deleted</string>
     <string name="guardian_delete">Guardian Deleted</string>
     <string name="modal_confirm">Confirm</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

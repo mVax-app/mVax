@@ -21,13 +21,30 @@
         android:textAlignment="center"
         android:textSize="18sp" />
 
-
-    <TextView
-        android:id="@+id/role"
-        android:layout_width="0dp"
+    <Spinner
+        android:id="@+id/role_spinner"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textAlignment="center"
-        android:textSize="18sp" />
+        android:gravity="center"
+        android:layout_gravity="center"/>
+
+
+    <ImageView
+        android:id="@+id/approve_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_approve"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_weight=".25"/>
+
+    <ImageView
+        android:id="@+id/deny_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_deny"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_weight=".25"/>
 
 </LinearLayout>

@@ -3,8 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
     android:gravity="center"
     tools:context="mhealth.mvax.auth.ApproveUsersFragment">
+
+    <ImageView
+        android:id="@+id/info"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_info"
+        android:backgroundTint="@color/teal"
+        android:layout_gravity="top|right"
+        android:clickable="true" />
 
 
     <TextView
@@ -12,10 +24,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Approve Users"
+        android:text="@string/approve_users_title"
         android:textColor="@color/teal"
         android:textAlignment="center"
         android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/approve_users_instructions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/approve_user_instructions"
+        android:textSize="17sp" />
+
+
 
     <Space
         android:layout_width="match_parent"
@@ -24,7 +50,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:orientation="horizontal">
 
         <TextView
@@ -33,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAlignment="center"
-            android:text="Name"
+            android:text="@string/user_name"
             android:textSize="22sp"
             android:textStyle="bold"/>
 
@@ -43,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textAlignment="center"
-            android:text="Email"
+            android:text="@string/user_email"
             android:textSize="22sp"
             android:textStyle="bold"/>
 
@@ -52,9 +77,19 @@
             android:id="@+id/roleHeader"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.3"
             android:textAlignment="center"
-            android:text="Role"
+            android:text="@string/user_role"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/decision"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".6"
+            android:textAlignment="viewStart"
+            android:text="@string/user_request_decision"
             android:textSize="22sp"
             android:textStyle="bold"/>
 
@@ -68,6 +103,16 @@
         android:id="@+id/approveUsersLV"
         android:layout_width="match_parent"
         android:layout_height="457dp" >
-
     </ListView>
+
+    <TextView
+        android:id="@+id/empty_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:textAlignment="center"
+        android:text="@string/empty_approve_list_view"
+        android:textSize="25sp" />
+
+
 </LinearLayout>

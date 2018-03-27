@@ -49,8 +49,8 @@ import mhealth.mvax.R;
 public class FormsFragment extends android.support.v4.app.Fragment {
     private LayoutInflater inflater;
 
-    public static DashboardFragment newInstance() {
-        return new DashboardFragment();
+    public static FormsFragment newInstance() {
+        return new FormsFragment();
     }
 
     public FormsFragment() {
@@ -74,6 +74,7 @@ public class FormsFragment extends android.support.v4.app.Fragment {
         Button sinovaAdult = (Button) view.findViewById(R.id.SINOVA_Adult);
         Button sinova2Adult = (Button) view.findViewById(R.id.SINOVA2_Adult);
         Button linv = (Button)view.findViewById(R.id.LINV);
+        Button pdfConfig = (Button) view.findViewById(R.id.pdf_config);
         ImageView info = (ImageView) view.findViewById(R.id.info);
 
         sinovaAdolescent.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +109,12 @@ public class FormsFragment extends android.support.v4.app.Fragment {
                 linvClicked();
             }
         });
-
+        pdfConfig.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayConfigModal();
+            }
+        });
         info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,10 +127,6 @@ public class FormsFragment extends android.support.v4.app.Fragment {
     }
 
     private void sinovaClicked(){
-        //TODO REMOVE AFTER OTHER SIDE HOOKED UP
-//        VaccinationDummyDataGenerator generator = new VaccinationDummyDataGenerator();
-//        generator.generateRecord();
-
 
         final AlertDialog.Builder builder = createBasicDateChooseModal();
 
@@ -203,33 +205,31 @@ public class FormsFragment extends android.support.v4.app.Fragment {
         return builder;
     }
 
-    public void buildSINOVA(int day, int month, int year){
+    private void buildSINOVA(int day, int month, int year){
         SINOVABuilder sinovaBuilder = new SINOVABuilder(getActivity());
-        String fileName = sinovaBuilder.autoFill(day, month, year);
+        String filePath = sinovaBuilder.autoFill(day, month, year);
 
-        File pdf = new File(fileName);
-        String title = getResources().getString(R.string.sinova) + " " + getResources().getString(R.string.email_header_insert) + " " + day + "/" + month + "/" + year;
-        sendFile(title, "", pdf);
+        String title = getResources().getString(R.string.sinova) + " " + getResources().getString(R.string.email_header_insert) + " " + day+"/"+month+"/"+year;
+        sendFile(title, new File(filePath));
 
     }
 
-    public void buildSINOVA2(int month, int year){
+    private void buildSINOVA2(int month, int year){
         SINOVA2Builder sinova2Builder = new SINOVA2Builder(getActivity());
         String fileName = sinova2Builder.autoFill(month, year);
 
         File pdf = new File(fileName);
         String title = getResources().getString(R.string.sinova2) + " " + getResources().getString(R.string.email_header_insert) + " " + month + "/" + year;
-        sendFile(title, "", pdf);
+        sendFile(title,  pdf);
     }
 
-
     //Sends email with file as an attachment
-    private void sendFile(String title, String body, File pdf){
+    private void sendFile(String title, File pdf){
         //Code in this method with help from Stack Overflow: https://stackoverflow.com/questions/2197741/how-can-i-send-emails-from-my-android-application
         Intent email = new Intent(Intent.ACTION_SEND);
         email.setType("message/rfc822");
         email.putExtra(Intent.EXTRA_SUBJECT, title);
-        email.putExtra(Intent.EXTRA_TEXT   , body);
+        email.putExtra(Intent.EXTRA_TEXT   , "");
 
         //Info for how to send email with an attachment was from: https://stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed/38858040#38858040
         Uri path = FileProvider.getUriForFile(getContext(), getActivity().getApplicationContext().getPackageName() + ".dashboard.GenericFileProvider", pdf);
@@ -256,7 +256,22 @@ public class FormsFragment extends android.support.v4.app.Fragment {
         });
 
         builder.show();
+    }
 
+    private void displayConfigModal(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        final View dialogView = inflater.inflate(R.layout.modal_pdf_config, null);
+        builder.setView(dialogView);
+
+        builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+
+        builder.show();
     }
 
 }

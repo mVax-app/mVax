@@ -31,7 +31,6 @@ import java.util.Collection;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.utilities.NullableDateFormat;
 
 /**
@@ -47,7 +46,7 @@ public class SearchResultAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private List<Patient> mPatients;
+    private List<SearchResult> mSearchResults;
 
     private static class ViewHolder {
         TextView titleTextView;
@@ -59,10 +58,10 @@ public class SearchResultAdapter extends BaseAdapter {
     // Constructors
     //================================================================================
 
-    SearchResultAdapter(Context context, Collection<Patient> patients) {
+    SearchResultAdapter(Context context, Collection<SearchResult> searchResults) {
         mContext = context;
         mInflater = LayoutInflater.from(context);
-        mPatients = new ArrayList<>(patients);
+        mSearchResults = new ArrayList<>(searchResults);
     }
 
     //================================================================================
@@ -71,12 +70,12 @@ public class SearchResultAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mPatients.size();
+        return mSearchResults.size();
     }
 
     @Override
-    public Patient getItem(int position) {
-        return mPatients.get(position);
+    public SearchResult getItem(int position) {
+        return mSearchResults.get(position);
     }
 
     @Override
@@ -98,7 +97,7 @@ public class SearchResultAdapter extends BaseAdapter {
             holder = (ViewHolder) rowView.getTag();
         }
 
-        final Patient result = getItem(position);
+        final SearchResult result = getItem(position);
         setTitle(holder.titleTextView, result);
         setSubTitle(holder.subtitleTextView, result);
         setRightTitle(holder.rightTextView, result);
@@ -106,31 +105,31 @@ public class SearchResultAdapter extends BaseAdapter {
         return rowView;
     }
 
-    public void refresh(Collection<Patient> values) {
-        mPatients = new ArrayList<>(values);
+    public void refresh(Collection<SearchResult> values) {
+        mSearchResults = new ArrayList<>(values);
         notifyDataSetChanged();
     }
 
     String getSelectedDatabaseKey(int position) {
-        return mPatients.get(position).getDatabaseKey();
+        return mSearchResults.get(position).getDatabaseKey();
     }
 
     //================================================================================
     // Private methods
     //================================================================================
 
-    private void setTitle(TextView titleTextView, Patient patient) {
+    private void setTitle(TextView titleTextView, SearchResult patient) {
         titleTextView.setText(patient.getName());
     }
 
-    private void setSubTitle(TextView subtitleTextView, Patient patient) {
+    private void setSubTitle(TextView subtitleTextView, SearchResult patient) {
         final String DOBprompt = mContext.getResources().getString(R.string.DOB_prompt);
         NullableDateFormat dateFormat = new NullableDateFormat(mContext.getResources().getString(R.string.date_format));
         final String DOBstr = DOBprompt + " " + dateFormat.getString(patient.getDOB());
         subtitleTextView.setText(DOBstr);
     }
 
-    private void setRightTitle(TextView rightTextView, Patient patient) {
+    private void setRightTitle(TextView rightTextView, SearchResult patient) {
         rightTextView.setText(patient.getCommunity());
     }
 

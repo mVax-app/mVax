@@ -21,29 +21,38 @@ package mhealth.mvax.records.search;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
+import com.algolia.search.saas.AlgoliaException;
+import com.algolia.search.saas.Client;
+import com.algolia.search.saas.CompletionHandler;
+import com.algolia.search.saas.Index;
+import com.algolia.search.saas.Query;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.record.RecordFragment;
 import mhealth.mvax.records.record.patient.modify.create.CreateRecordFragment;
 
@@ -59,13 +68,13 @@ public class SearchFragment extends Fragment {
     // Properties
     //================================================================================
 
-    private Map<String, Patient> mPatients;
+    private static final String ALGOLIA_INDEX = "patients";
 
+    private Index mSearchIndex;
+    private Map<String, SearchResult> mSearchResults;
     private SearchResultAdapter mSearchResultAdapter;
-    private SearchFilter mSearchFilter;
-
-    private DatabaseReference mPatientRef;
-    private ChildEventListener mPatientListener;
+    private Timer searchTimer = new Timer();
+    private View mView;
 
     //================================================================================
     // Static methods
@@ -81,120 +90,133 @@ public class SearchFragment extends Fragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_search, container, false);
-        mPatients = new HashMap<>();
-        mSearchResultAdapter = new SearchResultAdapter(view.getContext(), mPatients.values());
-
-        initDatabase();
-        renderNewRecordButton(view, inflater);
-        renderFilterSpinner(view);
-        initRecordFilters(view);
-        renderListView(view);
-
-        return view;
-    }
-
-    @Override
-    public void onDestroyView() {
-        mPatientRef.removeEventListener(mPatientListener);
-        super.onDestroyView();
+        mView = inflater.inflate(R.layout.fragment_search, container, false);
+        mSearchResults = new HashMap<>();
+        mSearchResultAdapter = new SearchResultAdapter(mView.getContext(), mSearchResults.values());
+        renderNewRecordButton(mView);
+        initSearchIndex();
+        return mView;
     }
 
     //================================================================================
     // Private methods
     //================================================================================
 
-    /**
-     * Initializes the Firebase connection and sets up data listeners
-     */
-    private void initDatabase() {
-        // define database ref
-        final String dataTable = getResources().getString(R.string.dataTable);
-        final String patientTable = getResources().getString(R.string.patientTable);
-        mPatientRef = FirebaseDatabase.getInstance().getReference().child(dataTable).child(patientTable);
-
-        // define listener
-        mPatientListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                final Patient patient = dataSnapshot.getValue(Patient.class);
-                if (patient != null) {
-                    mPatients.put(patient.getDatabaseKey(), patient);
-                    mSearchResultAdapter.refresh(mPatients.values());
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
-                onChildAdded(dataSnapshot, prevChildKey);
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                final Patient patient = dataSnapshot.getValue(Patient.class);
-                if (patient != null) {
-                    mPatients.remove(patient.getDatabaseKey());
-                    mSearchResultAdapter.refresh(mPatients.values());
-                }
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String prevChildKey) {
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), R.string.failure_records_download, Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        // set listener to ref
-        mPatientRef.addChildEventListener(mPatientListener);
-    }
-
-    private void renderNewRecordButton(View view, final LayoutInflater inflater) {
+    private void renderNewRecordButton(View view) {
         final Button newRecordButton = view.findViewById((R.id.new_record_button));
         newRecordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createNewRecord();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_layout, CreateRecordFragment.newInstance())
+                        .addToBackStack(null) // back button brings us back to SearchFragment
+                        .commit();
             }
         });
     }
 
-    private void createNewRecord() {
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.frame_layout, CreateRecordFragment.newInstance())
-                .addToBackStack(null) // back button brings us back to SearchFragment
-                .commit();
+    private void initSearchIndex() {
+        final String configTable = getResources().getString(R.string.configTable);
+        final String algoliaTable = getResources().getString(R.string.algoliaTable);
+        FirebaseDatabase.getInstance().getReference()
+                .child(configTable)
+                .child(algoliaTable)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        GenericTypeIndicator<Map<String, String>> t = new GenericTypeIndicator<Map<String, String>>() {
+                        };
+                        Map<String, String> configVars = dataSnapshot.getValue(t);
+                        if (configVars != null) {
+                            // get Algolia application ID and API key from server
+                            String applicationId = configVars.get("application_id");
+                            String searchAPIKey = configVars.get("api_key_search");
+                            Client algoliaClient = new Client(applicationId, searchAPIKey);
+                            mSearchIndex = algoliaClient.getIndex(ALGOLIA_INDEX);
+                            // searching is now possible, render the views
+                            initSearchBar();
+                            renderListView(mView);
+                        } else {
+                            Toast.makeText(getActivity(), R.string.failure_search_init, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Toast.makeText(getActivity(), R.string.failure_search_init, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
-    private void renderFilterSpinner(View view) {
-        // TODO replace all of this with Firebase queries
-        final Spinner spinner = view.findViewById(R.id.search_filter_spinner);
-        ArrayAdapter<CharSequence> filterAdapter = ArrayAdapter.createFromResource(view.getContext(),
-                R.array.filter_spinner_array, android.R.layout.simple_spinner_item);
-        filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(filterAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    private void initSearchBar() {
+        final EditText searchBar = mView.findViewById(R.id.search_bar);
+        searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-                if (pos != 0) {
-                    mSearchFilter.setFilter(spinner.getItemAtPosition(pos).toString());
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(final CharSequence charSequence, int i, int i1, int i2) {
+                try {
+                    searchTimer.cancel();
+                } catch (IllegalStateException ignored) {
+                }
+                searchTimer = new Timer();
+                searchTimer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        // perform the query if nothing typed for `delay` milliseconds
+                        search(charSequence.toString());
+                    }
+                }, 1000);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+    }
+
+    private void search(String rawQuery) {
+        String query = rawQuery.trim();
+        mSearchResults.clear(); // clear out results from previous search
+
+        if (query.isEmpty()) {
+            // no query, don't return anything
+            refreshSearchResults();
+            return;
+        }
+
+        mSearchIndex.searchAsync(new Query(query), new CompletionHandler() {
+            @Override
+            public void requestCompleted(JSONObject result, AlgoliaException e) {
+                try {
+                    JSONArray hits = (JSONArray) result.get("hits");
+                    for (int i = 0; i < hits.length(); i++) {
+                        JSONObject patient = (JSONObject) hits.get(i);
+                        SearchResult s = new SearchResult((String) patient.get("databaseKey"));
+                        s.setFirstName((String) patient.get("firstName"));
+                        s.setLastName((String) patient.get("lastName"));
+                        s.setDOB((Long) patient.get("dob"));
+                        s.setCommunity((String) patient.get("community"));
+                        mSearchResults.put(s.getDatabaseKey(), s);
+                        refreshSearchResults();
+                    }
+                } catch (JSONException e1) {
+                    Toast.makeText(getActivity(), R.string.failure_search, Toast.LENGTH_SHORT).show();
                 }
             }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
         });
     }
 
-    private void initRecordFilters(View view) {
-        // TODO replace all of this with Firebase queries
-        final EditText searchBar = view.findViewById(R.id.search_bar);
-        mSearchFilter = new SearchFilter(mPatients, mSearchResultAdapter, searchBar);
-        mSearchFilter.addFilters();
+    private void refreshSearchResults() {
+        // force UI updates to the main thread
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mSearchResultAdapter.refresh(mSearchResults.values());
+            }
+        });
     }
 
     private void renderListView(View view) {
@@ -204,7 +226,6 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final String selectedDatabaseKey = mSearchResultAdapter.getSelectedDatabaseKey(position);
-
                 final RecordFragment detailFrag = RecordFragment.newInstance(selectedDatabaseKey);
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame_layout, detailFrag)
@@ -213,7 +234,4 @@ public class SearchFragment extends Fragment {
             }
         });
     }
-
-
-
 }

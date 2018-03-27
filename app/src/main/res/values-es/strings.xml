@@ -19,6 +19,7 @@
     <string name="error_incorrect_password">Esta contraseña es incorrecta</string>
     <string name="error_field_required">Este campo es necesario</string>
     <string name="error_empty_field">Por favor rellene los campos vacíos</string>
+    <string name="error_used_email">Usuario ya registrado con este correo electrónico</string>
     <string name="permission_rationale">"Los permisos de contactos son necesarios para proporcionar
         las terminacionesde correo electrónico."</string>
     <string name="emptystring" />
@@ -156,9 +157,40 @@
     <string name="update_email">Actualizar correo electrónico</string>
     <string name="change_password">Cambiar contraseña</string>
     <string name="sign_out">Cerrar sessión</string>
-    <string name="approve_users">Aprobar usuarios</string>
+    <string name="approve_users">Aprobar Usuarios</string>
+    <string name="current_users">Usuarios Actuales</string>
     <string name="admin_priv">Privilegios de Administrador</string>
     <string name="user_settings">Configuración del Usuario</string>
+
+    <!-- Approve Users Fragment -->
+    <string name="approve_users_title">Aprobar Usuarios</string>
+    <string name="select_user_role">Seleccionar Rol de Usuario</string>
+    <string name="error_select_role">Debe seleccionar rol de usuario para la solicitud</string>
+    <string name="user_request_decision">Decisión</string>
+    <string name="approve_user_instructions">Para aprobar una solicitud de usuario para unirse, debe seleccionar un nivel de acceso para ellos (consulte el botón info en la parte superior derecha para obtener más información). También puede denegar una solicitud de usuario.</string>
+    <string name="empty_approve_list_view">No solicitud de usuario</string>
+    <string name="acceptance_email_subject">mVax: el registro de usuario aprobado!</string>
+    <string name="acceptance_email_body">Bienvenido! Usted ha sido aprobado para unirse a mVax. Ahora puede iniciar sesión con su nombre de usuario y contraseña.</string>
+    <string name="rejection_email_subject">Se ha negado el registro de usuario de mVax</string>
+    <string name="rejection_email_body">Hola, su solicitud para unirse a mVax ha sido denegada. Póngase en contacto con un administrador para obtener más detalles.</string>
+
+    <!-- Current Users Fragment -->
+    <string name="current_users_title">Usuarios Actuales</string>
+
+    <!-- User Fragments -->
+    <string name="user_name">Nombre</string>
+    <string name="user_email">Correo Electrónico</string>
+    <string name="user_role">Nivel de Acceso</string>
+    <string name="modal_current_user_title">Editar el Acceso del Usuario</string>
+    <string name="modal_current_role">Nivel de Acceso: </string>
+    <string name="modal_new_role">Cambiar el rol del usuario: </string>
+    <string name="role_no_change">ningún cambio</string>
+
+    <!-- User Info Fragment -->
+    <string name="modal_role_info_title">Tipos de Roles de Usuarios</string>
+    <string name="admin_info">ADMIN: tener acceso a los datos de lectura y escritura. Sólo el administrador puede introducir nuevos registros. Además, puede aprobar nuevas solicitudes de usuario y ver a los usuarios actuales</string>
+    <string name="reader_info">READER: tiene acceso para ver los datos pero no puede escribir ninguna información nueva. No se puede controlar a otros usuarios.</string>
+
 
     <!-- About Button -->
     <string name="about">Acerca de la Aplicación</string>
