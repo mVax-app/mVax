@@ -54,6 +54,15 @@
     <string name="user_not_approved">User not approved yet</string>
     <string name="no_user_role">Unable to determine user role</string>
 
+    <!-- Timeout -->
+    <string name="timeout_title">Session Timeout</string>
+    <string name="timeout_msg">You have been inactive for too long. You will now be logged out.</string>
+    <string name="change_timeout">Change Timeout Duration</string>
+    <string name="modal_timeout_title">Change Timeout Duration</string>
+    <string name="timeout_save_change">Save Change</string>
+    <string name="current_timeout">Current Timeout Duration: </string>
+    <string name="timeout_unit">seconds</string>
+
     <!-- Reset Password-->
     <string name="modal_reset_title">Reset Password</string>
     <string name="reset_email">Account email</string>

@@ -40,7 +40,7 @@ import mhealth.mvax.dashboard.DashboardFragment;
 import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.settings.SettingsFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends TimeoutActivity {
 
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
@@ -121,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
-        System.out.println("PRINT: WAHOO PAUSEEEE");
         FirebaseAuth.getInstance().signOut();
         this.finish();
     }
