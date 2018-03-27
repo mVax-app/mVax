@@ -252,4 +252,14 @@
     <string name="due_date">Fecha de Vencimiento:</string>
 
 
+    <!-- PDF CONFIG OPTIONS -->
+    <string name="pdf_config_title">PDF Constantes</string>
+    <string name="config_address">localidad</string>
+    <string name="config_department">departamento</string>
+    <string name="config_vaccinator">persona responsable</string>
+    <string name="config_code">codigo</string>
+    <string name="config_muncip">muncipio</string>
+    <string name="config_establishment">establecimiento</string>
+
+
 </resources>

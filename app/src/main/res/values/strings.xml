@@ -245,6 +245,9 @@
     <string name="config_address">Address/Location</string>
     <string name="config_department">Department</string>
     <string name="config_vaccinator">Vaccinator</string>
+    <string name="config_code">Code</string>
+    <string name="config_muncip">Municipality</string>
+    <string name="config_establishment">Establishment</string>
 
     <!-- FORM INFO MODAL -->
     <string name="form_info_title">Exporting Form Information</string>
