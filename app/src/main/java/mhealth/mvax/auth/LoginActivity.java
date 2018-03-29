@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -47,7 +46,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
@@ -60,45 +58,39 @@ import mhealth.mvax.activities.MainActivity;
  */
 public class LoginActivity extends AppCompatActivity {
 
+    private static final int ANIMATION_SPEED = 500;
+    private static final int ANIMATION_SPEED_INSTANT = 0;
+
     private FirebaseAuth mAuth;
-    private TextInputLayout mEmailInput;
     private AutoCompleteTextView mEmailView;
-    private TextInputLayout mPasswordInput;
     private EditText mPasswordView;
-    private ProgressBar mProgressSpinner;
-    private int mSpinnerOrigin;
+    private ProgressBar mSpinner;
+    private int mScreenWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // MUST BE CALLED BEFORE ANY OTHER FIREBASE API CALLS
-        // enables offline data persistence
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-
         mAuth = FirebaseAuth.getInstance();
 
-        mEmailInput = findViewById(R.id.input_email);
         mEmailView = findViewById(R.id.edittext_email);
-
-        mPasswordInput = findViewById(R.id.input_password);
         mPasswordView = findViewById(R.id.edittext_password);
-        mPasswordView.setText("");
-
-        mProgressSpinner = findViewById(R.id.login_progress);
+        mSpinner = findViewById(R.id.login_progress);
+        mScreenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
         initTextFields();
         initButtons();
-        configureSpinner();
+        mSpinner.setX(mScreenWidth);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        // clear out any existing auth info
+        FirebaseAuth.getInstance().signOut();
         // ensure auth text fields are visible
-        animateTextInputs(false);
-        mPasswordView.setText("");
+        animateTextInputs(ANIMATION_SPEED_INSTANT, false);
     }
 
     private void initTextFields() {
@@ -106,7 +98,9 @@ public class LoginActivity extends AppCompatActivity {
         mEmailView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                if (event != null
+                        && event.getAction() == KeyEvent.ACTION_DOWN // debounce
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     authenticate();
                     return true;
                 }
@@ -119,16 +113,17 @@ public class LoginActivity extends AppCompatActivity {
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean result = false;
-                if (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                if (event != null
+                        && event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     authenticate();
-                    result = true;
+                    return true;
                 }
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     authenticate();
-                    result = true;
+                    return true;
                 }
-                return result;
+                return false;
             }
         });
 
@@ -171,28 +166,20 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void configureSpinner() {
-        mSpinnerOrigin = Resources.getSystem().getDisplayMetrics().widthPixels;
-        mProgressSpinner.setX(mSpinnerOrigin);
-    }
-
-    private void animateTextInputs(boolean goingOffScreen) {
-        int x = 1, y = 0;
-        if (goingOffScreen) {
-            x = 0;
-            y = 1;
-        }
+    private void animateTextInputs(int speed, boolean goingOffScreen) {
+        int in = goingOffScreen ? 0 : 1;
+        int out = goingOffScreen ? 1 : 0;
 
         // move email and password fields
         LinearLayout inputs = findViewById(R.id.inputs);
         ObjectAnimator animInputs = ObjectAnimator.ofFloat(inputs,
-                View.TRANSLATION_X, -1 * inputs.getWidth() * x, -1 * inputs.getWidth() * y);
-        animInputs.setDuration(500).start();
+                View.TRANSLATION_X, -1 * mScreenWidth * in, -1 * mScreenWidth * out);
+        animInputs.setDuration(speed).start();
 
         // move progress spinner
-        ObjectAnimator animProgress = ObjectAnimator.ofFloat(mProgressSpinner,
-                View.TRANSLATION_X, mSpinnerOrigin * y, mSpinnerOrigin * x);
-        animProgress.setDuration(500).start();
+        ObjectAnimator animProgress = ObjectAnimator.ofFloat(mSpinner,
+                View.TRANSLATION_X, mScreenWidth * out, mScreenWidth * in);
+        animProgress.setDuration(speed).start();
     }
 
     /**
@@ -203,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
         if (fieldsValid(email, password)) {
-            animateTextInputs(true);
+            animateTextInputs(ANIMATION_SPEED, true);
 
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -217,13 +204,14 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(mainIntent);
                             } else {
                                 Log.w("failedLogin", "signInWithEmail:failed", task.getException());
-                                animateTextInputs(false);
+                                animateTextInputs(ANIMATION_SPEED, false);
                                 Toast.makeText(LoginActivity.this, R.string.auth_failed,
                                         Toast.LENGTH_LONG).show();
                             }
                         }
                     });
         }
+        mPasswordView.setText("");
     }
 
     private boolean fieldsValid(String email, String password) {
@@ -242,7 +230,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void promptForPasswordReset(View v) {
-
         final AlertDialog builder = new AlertDialog.Builder(this)
                 .setTitle(getResources().getString(R.string.modal_reset_title))
                 .setView(getLayoutInflater().inflate(R.layout.modal_reset_password, (ViewGroup) v.getParent(), false))

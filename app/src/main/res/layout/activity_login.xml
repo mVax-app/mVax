@@ -44,32 +44,37 @@
                     android:id="@+id/inputs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginStart="24dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/input_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="0dp"
-                        android:paddingEnd="0dp">
+                        android:paddingEnd="0dp"
+                        android:paddingStart="0dp">
+
                         <AutoCompleteTextView
                             android:id="@+id/edittext_email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/prompt_email"
+                            android:imeOptions="actionNext"
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
-                            android:textSize="25sp"
                             android:singleLine="true"
-                            android:imeOptions="actionNext"/>
+                            android:textSize="25sp" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/input_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="0dp"
-                        android:paddingEnd="0dp">
+                        android:paddingEnd="0dp"
+                        android:paddingStart="0dp">
 
                         <EditText
                             android:id="@+id/edittext_password"
@@ -80,8 +85,8 @@
                             android:imeOptions="actionUnspecified"
                             android:inputType="textPassword"
                             android:maxLines="1"
-                            android:textSize="25sp"
-                            android:singleLine="true"/>
+                            android:singleLine="true"
+                            android:textSize="25sp" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -90,7 +95,7 @@
 
                 <ProgressBar
                     android:id="@+id/login_progress"
-                    style="?android:attr/progressBarStyleLarge"
+                    style="@android:style/Widget.DeviceDefault.ProgressBar.Large"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
