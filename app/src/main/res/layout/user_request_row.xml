@@ -14,7 +14,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/email"
+        android:id="@+id/edittext_email"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"

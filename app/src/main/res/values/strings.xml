@@ -5,17 +5,17 @@
 
     <!-- Strings related to login -->
     <string name="title_activity_login">Sign in</string>
-    <string name="auth_failed">Authentication Failed</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
+    <string name="auth_failed">Incorrect email or password</string>
+    <string name="prompt_email">email</string>
+    <string name="prompt_password">password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="resetPassword">Forgot Password?</string>
+    <string name="resetPassword">Forgot password?</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="error_empty_field">Please fill in empty fields</string>
+    <string name="error_empty_field">Required field</string>
     <string name="error_used_email">Account already registered with this email</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
@@ -30,9 +30,9 @@
     <string name="title_forms">Forms</string>
     <string name="title_dashboard">Dashboard</string>
 
-    <string name="LOGIN_TITLE">mVax</string>
+    <string name="title_login">Welcome to mVax!</string>
     <string name="LOGIN_SIGNIN">Sign In</string>
-    <string name="LOGIN_REGISTER">Don\'t have an account? Register</string>
+    <string name="LOGIN_REGISTER">Request an account</string>
 
     <string name="REG_DESCRIPTION">Please fill out the following form to get started. After completion, an administrator will have to approve you and then a confirmation email will be sent to your account</string>
     <string name="REG_TITLE">New User Registration</string>
@@ -57,10 +57,12 @@
     <string name="no_user_role">Unable to determine user role</string>
 
     <!-- Reset Password-->
-    <string name="modal_reset_title">Reset Password</string>
-    <string name="reset_email">Account email</string>
-    <string name="reset_password_button">Reset Password</string>
-    <string name="reset_email_confirm">Password Reset Email has been sent to: </string>
+    <string name="modal_reset_title">Password Reset</string>
+    <string name="modal_reset_password_subtitle">Enter your email address and tap Submit. An email will be sent to you with password reset instructions if the provided email address is associated with an mVax account.</string>
+    <string name="hint_reset_email">email address</string>
+    <string name="button_reset_password_submit">Submit</string>
+    <string name="button_reset_password_cancel">Cancel</string>
+    <string name="reset_email_confirm">Password reset request submitted</string>
     <string name="password_reset_confirm">Are you sure you want to reset your password?</string>
 
     <!-- Update Email -->

@@ -206,7 +206,7 @@ public class SettingsFragment extends Fragment {
         final View dialogView = inflater.inflate(R.layout.modal_reset_password_confirm, null);
         builder.setView(dialogView);
 
-        builder.setPositiveButton(getResources().getString(R.string.reset_password_button), new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getResources().getString(R.string.button_reset_password_positive), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 FirebaseAuth.getInstance().sendPasswordResetEmail(FirebaseAuth.getInstance().getCurrentUser().getEmail());
