@@ -20,8 +20,6 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.auth;
 
 import android.animation.ObjectAnimator;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -32,7 +30,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -44,11 +41,14 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
+import mhealth.mvax.auth.modals.PasswordResetModal;
 
 /**
  * @author Matthew Tribby, Steven Yang, Robert Steilberg
@@ -161,7 +161,8 @@ public class LoginActivity extends AppCompatActivity {
         forgotButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                promptForPasswordReset(v);
+                PasswordResetModal resetModal = new PasswordResetModal(v);
+                resetModal.show();
             }
         });
     }
@@ -196,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d("attemptedLogin", "signInWithEmail:attemped:" + task.isSuccessful());
+                            Log.d("attemptedLogin", "signInWithEmail:attempted:" + task.isSuccessful());
                             if (task.isSuccessful()) {
                                 Log.w("successLogin", "signInWithEmail:success", task.getException());
                                 // login successful, transition to root Activity
@@ -204,9 +205,21 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(mainIntent);
                             } else {
                                 Log.w("failedLogin", "signInWithEmail:failed", task.getException());
-                                animateTextInputs(ANIMATION_SPEED, false);
-                                Toast.makeText(LoginActivity.this, R.string.auth_failed,
-                                        Toast.LENGTH_LONG).show();
+
+                                animateTextInputs(ANIMATION_SPEED, false); // bring back auth fields
+                                // see what the error was
+                                boolean noInternet = task.getException() instanceof FirebaseNetworkException;
+                                boolean badCredentials = task.getException() instanceof FirebaseAuthException;
+                                if (noInternet) {
+                                    Toast.makeText(LoginActivity.this, R.string.firebase_fail_no_connection,
+                                            Toast.LENGTH_LONG).show();
+                                } else if (badCredentials) {
+                                    Toast.makeText(LoginActivity.this, R.string.auth_fail_bad_credentials,
+                                            Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, R.string.firebase_fail_unknown,
+                                            Toast.LENGTH_LONG).show();
+                                }
                             }
                         }
                     });
@@ -227,44 +240,6 @@ public class LoginActivity extends AppCompatActivity {
             fieldsValid = false;
         }
         return fieldsValid;
-    }
-
-    private void promptForPasswordReset(View v) {
-        final AlertDialog builder = new AlertDialog.Builder(this)
-                .setTitle(getResources().getString(R.string.modal_reset_title))
-                .setView(getLayoutInflater().inflate(R.layout.modal_reset_password, (ViewGroup) v.getParent(), false))
-                .setPositiveButton(getResources().getString(R.string.button_reset_password_submit), null)
-                .setNegativeButton(getResources().getString(R.string.button_reset_password_cancel), null)
-                .create();
-
-        builder.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                Button button = builder.getButton(AlertDialog.BUTTON_POSITIVE);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final TextView emailTextView = builder.findViewById(R.id.emailReset);
-                        String emailAddress = emailTextView.getText().toString();
-                        if (TextUtils.isEmpty(emailAddress)) {
-                            emailTextView.setError(getResources().getString(R.string.error_empty_field));
-                            emailTextView.requestFocus();
-                        } else {
-                            sendResetEmail(emailAddress);
-                            builder.dismiss();
-                        }
-                    }
-                });
-            }
-        });
-
-        builder.show();
-    }
-
-    private void sendResetEmail(String emailAddress) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.sendPasswordResetEmail(emailAddress);
-        Toast.makeText(LoginActivity.this, getResources().getString(R.string.reset_email_confirm), Toast.LENGTH_LONG).show();
     }
 
 }

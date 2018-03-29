@@ -176,7 +176,7 @@ public class SettingsFragment extends Fragment {
         final View dialogView = inflater.inflate(R.layout.modal_update_email, null);
         builder.setView(dialogView);
 
-        final TextView address = dialogView.findViewById(R.id.emailReset);
+        final TextView address = dialogView.findViewById(R.id.textview_email_reset);
 
         builder.setPositiveButton(getResources().getString(R.string.update_email), new DialogInterface.OnClickListener() {
             @Override

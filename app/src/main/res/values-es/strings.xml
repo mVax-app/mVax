@@ -8,7 +8,7 @@
     <string name="title_login">Inicio de Sesión</string>
     <string name="LOGIN_SIGNIN">Entrar</string>
     <string name="LOGIN_REGISTER">Registre</string>
-    <string name="auth_failed">Error de Autenticación</string>
+    <string name="auth_fail_bad_credentials">Error de Autenticación</string>
     <string name="prompt_email">Correo Electrónico</string>
     <string name="prompt_password">Contraseña (opcional)</string>
     <string name="action_sign_in">Registrese o Registra</string>

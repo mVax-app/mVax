@@ -5,7 +5,9 @@
 
     <!-- Strings related to login -->
     <string name="title_activity_login">Sign in</string>
-    <string name="auth_failed">Incorrect email or password</string>
+    <string name="auth_fail_bad_credentials">Incorrect email or password</string>
+    <string name="firebase_fail_no_connection">No internet connection</string>
+    <string name="firebase_fail_unknown">An unknown error occurred</string>
     <string name="prompt_email">email</string>
     <string name="prompt_password">password</string>
     <string name="action_sign_in">Sign in or register</string>
