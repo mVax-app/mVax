@@ -19,5 +19,7 @@
     <string name="role">role</string>
     <string name="approved">approved</string>
     <string name="email">email</string>
+
     <string name="userRequestsTable">userRequests</string>
+
 </resources>

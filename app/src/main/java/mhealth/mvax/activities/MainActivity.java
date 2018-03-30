@@ -47,18 +47,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser mFirebaseUser = auth.getCurrentUser();
-
-
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference database = db.getReference();
-
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
-                findViewById(R.id.navigation_bar);
+        initNavBar();
 
+
+
+        //Manually displaying the first fragment - one time only
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout, SearchFragment.newInstance());
+        transaction.commit();
+
+        Log.d("Language", "Main Activity: " + getResources().getConfiguration().locale.toString());
+
+    }
+
+    private void initNavBar() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation_bar);
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -80,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_settings:
                                 selectedFragment = SettingsFragment.newInstance();
                                 break;
-                            
+
                         }
 
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -89,14 +99,6 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-
-        //Manually displaying the first fragment - one time only
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, SearchFragment.newInstance());
-        transaction.commit();
-
-        Log.d("Language", "Main Activity: " + getResources().getConfiguration().locale.toString());
-
     }
 
     @Override

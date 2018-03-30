@@ -24,7 +24,7 @@ public class LanguageUtillity {
 
         Configuration config = resources.getConfiguration();
         config.setLocale(locale);
-        Locale.setDefault(locale);
+//        Locale.setDefault(locale);
 
         resources.updateConfiguration(config, resources.getDisplayMetrics());
     }

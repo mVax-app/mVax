@@ -152,7 +152,7 @@ public class CurrentUsersFragment extends android.support.v4.app.Fragment {
         TextView name = (TextView) dialogView.findViewById(R.id.name);
         name.setText(user.getFirstName() + " " + user.getLastName());
 
-        TextView email = (TextView) dialogView.findViewById(R.id.email);
+        TextView email = (TextView) dialogView.findViewById(R.id.edittext_email);
         email.setText(user.getEmail());
     }
 

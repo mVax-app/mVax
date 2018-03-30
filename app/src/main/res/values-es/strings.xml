@@ -5,10 +5,10 @@
     <string name="title_activity_login">Registrese</string>
 
     <!-- Strings related to login -->
-    <string name="LOGIN_TITLE">Inicio de Sesión</string>
+    <string name="title_login">Inicio de Sesión</string>
     <string name="LOGIN_SIGNIN">Entrar</string>
     <string name="LOGIN_REGISTER">Registre</string>
-    <string name="auth_failed">Error de Autenticación</string>
+    <string name="auth_fail_bad_credentials">Error de Autenticación</string>
     <string name="prompt_email">Correo Electrónico</string>
     <string name="prompt_password">Contraseña (opcional)</string>
     <string name="action_sign_in">Registrese o Registra</string>
@@ -62,7 +62,7 @@
     <!-- Reset Password-->
     <string name="modal_reset_title">Restablecer contraseña</string>
     <string name="reset_email">Correo electrónico de la cuenta</string>
-    <string name="reset_password_button">Restablecer contraseña</string>
+    <string name="button_reset_password_positive">Restablecer contraseña</string>
     <string name="reset_email_confirm">Se ha enviado el correo electrónico de restablecimiento de contraseña:</string>
     <string name="password_reset_confirm">¿Seguro que quieres restablecer tu contraseña?</string>
 
@@ -260,6 +260,8 @@
     <string name="config_code">codigo</string>
     <string name="config_muncip">muncipio</string>
     <string name="config_establishment">establecimiento</string>
+    <string name="modal_reset_password_subtitle">Enter your email. An email will be sent to you with password reset instructions if the entered email is associated with an mVax account.</string>
+    <string name="modal_register_title">Request New Account</string>
 
 
 </resources>

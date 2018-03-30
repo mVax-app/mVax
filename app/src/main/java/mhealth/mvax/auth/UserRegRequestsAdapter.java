@@ -81,7 +81,7 @@ public class UserRegRequestsAdapter extends BaseAdapter{
             view=inflater.inflate(R.layout.user_request_row, null);
 
             name = (TextView) view.findViewById(R.id.name);
-            email = (TextView) view.findViewById(R.id.email);
+            email = (TextView) view.findViewById(R.id.edittext_email);
             roleSpinner = (Spinner) view.findViewById(R.id.role_spinner);
             approve = (ImageView) view.findViewById(R.id.approve_icon);
             deny = (ImageView) view.findViewById(R.id.deny_icon);
