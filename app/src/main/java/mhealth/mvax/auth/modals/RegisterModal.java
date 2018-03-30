@@ -27,9 +27,9 @@ import mhealth.mvax.R;
 /**
  * @author Robert Steilberg
  *         <p>
- *         Displays a modal for resetting an mVax user's password
+ *         Displays a modal for requesting a new mVax account
  */
-public class PasswordResetModal extends AlertDialog.Builder {
+public class RegisterModal extends AlertDialog.Builder {
 
     private Activity mActivity;
     private View mView;
@@ -41,7 +41,7 @@ public class PasswordResetModal extends AlertDialog.Builder {
     private Button mPositiveButton;
     private Button mNegativeButton;
 
-    public PasswordResetModal(View view) {
+    public RegisterModal(View view) {
         super(view.getContext());
         mActivity = (Activity) view.getContext();
         mView = view;
@@ -59,51 +59,51 @@ public class PasswordResetModal extends AlertDialog.Builder {
 
     private AlertDialog initBuilder() {
         mBuilder = new AlertDialog.Builder(mActivity)
-                .setTitle(mResources.getString(R.string.modal_reset_title))
-                .setView(mActivity.getLayoutInflater().inflate(R.layout.modal_reset_password, (ViewGroup) mView.getParent(), false))
+                .setTitle(mResources.getString(R.string.modal_register_title))
+                .setView(mActivity.getLayoutInflater().inflate(R.layout.modal_register_account, (ViewGroup) mView.getParent(), false))
                 .setPositiveButton(mResources.getString(R.string.button_reset_password_submit), null)
                 .setNegativeButton(mResources.getString(R.string.button_reset_password_cancel), null)
                 .create();
 
-        // attach listener; ensure text field isn't empty on submit
-        mBuilder.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-
-                mFields = mBuilder.findViewById(R.id.reset_fields);
-                mSpinner = mBuilder.findViewById(R.id.reset_progress);
-                mPositiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
-                mNegativeButton = mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE);
-
-                final TextView emailTextView = mBuilder.findViewById(R.id.textview_email_reset);
-
-                // in email EditText, enter on hardware keyboard submits for authentication;
-                // "Done" button submits for reset too
-                emailTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                    @Override
-                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                        if (event != null
-                                && event.getAction() == KeyEvent.ACTION_DOWN
-                                && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                            attemptPasswordReset(emailTextView);
-                            return true;
-                        }
-                        if (actionId == EditorInfo.IME_ACTION_DONE) {
-                            attemptPasswordReset(emailTextView);
-                            return true;
-                        }
-                        return false;
-                    }
-                });
-
-                mPositiveButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        attemptPasswordReset(emailTextView);
-                    }
-                });
-            }
-        });
+//        // attach listener; ensure text field isn't empty on submit
+//        mBuilder.setOnShowListener(new DialogInterface.OnShowListener() {
+//            @Override
+//            public void onShow(DialogInterface dialogInterface) {
+//
+//                mFields = mBuilder.findViewById(R.id.reset_fields);
+//                mSpinner = mBuilder.findViewById(R.id.reset_progress);
+//                mPositiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
+//                mNegativeButton = mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE);
+//
+//                final TextView emailTextView = mBuilder.findViewById(R.id.textview_email_reset);
+//
+//                // in email EditText, enter on hardware keyboard submits for authentication;
+//                // "Done" button submits for reset too
+//                emailTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//                    @Override
+//                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//                        if (event != null
+//                                && event.getAction() == KeyEvent.ACTION_DOWN
+//                                && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+//                            attemptPasswordReset(emailTextView);
+//                            return true;
+//                        }
+//                        if (actionId == EditorInfo.IME_ACTION_DONE) {
+//                            attemptPasswordReset(emailTextView);
+//                            return true;
+//                        }
+//                        return false;
+//                    }
+//                });
+//
+//                mPositiveButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        attemptPasswordReset(emailTextView);
+//                    }
+//                });
+//            }
+//        });
         return mBuilder;
     }
 

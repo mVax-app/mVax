@@ -49,6 +49,7 @@ import com.google.firebase.auth.FirebaseAuthException;
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
 import mhealth.mvax.auth.modals.PasswordResetModal;
+import mhealth.mvax.auth.modals.RegisterModal;
 
 /**
  * @author Matthew Tribby, Steven Yang, Robert Steilberg
@@ -152,16 +153,16 @@ public class LoginActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent register = new Intent(getApplicationContext(), UserRegistrationActivity.class);
-                startActivity(register);
+                RegisterModal registerModal = new RegisterModal(view);
+                registerModal.show();
             }
         });
         // tie reset password action to "Reset Password" TextView
         TextView forgotButton = findViewById(R.id.textview_reset_password);
         forgotButton.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v) {
-                PasswordResetModal resetModal = new PasswordResetModal(v);
+            public void onClick(View view) {
+                PasswordResetModal resetModal = new PasswordResetModal(view);
                 resetModal.show();
             }
         });
@@ -172,7 +173,7 @@ public class LoginActivity extends AppCompatActivity {
         int out = goingOffScreen ? 1 : 0;
 
         // move email and password fields
-        LinearLayout inputs = findViewById(R.id.inputs);
+        LinearLayout inputs = findViewById(R.id.auth_inputs);
         ObjectAnimator animInputs = ObjectAnimator.ofFloat(inputs,
                 View.TRANSLATION_X, -1 * mScreenWidth * in, -1 * mScreenWidth * out);
         animInputs.setDuration(speed).start();

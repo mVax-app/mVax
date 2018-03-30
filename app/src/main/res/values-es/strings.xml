@@ -261,6 +261,7 @@
     <string name="config_muncip">muncipio</string>
     <string name="config_establishment">establecimiento</string>
     <string name="modal_reset_password_subtitle">Enter your email. An email will be sent to you with password reset instructions if the entered email is associated with an mVax account.</string>
+    <string name="modal_register_title">Request New Account</string>
 
 
 </resources>

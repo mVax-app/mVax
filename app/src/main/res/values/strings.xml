@@ -51,6 +51,10 @@
     <string name="REG_CONFIRMED">Request submitted, wait to be approved!</string>
     <string name="userRoles">Account Permission Level</string>
 
+
+
+
+
     <string name="modal_user_decision_title">Approve User Request?</string>
     <string name="approve_user">Approve</string>
     <string name="deny_user">Deny</string>
@@ -58,7 +62,14 @@
     <string name="user_not_approved">User not approved yet</string>
     <string name="no_user_role">Unable to determine user role</string>
 
-    <!-- Reset Password-->
+    <!-- New user registration-->
+    <string name="modal_register_title">Request New Account</string>
+    <string name="modal_register_subtitle">You can request an mVax account by providing your name and email and tapping Submit. An mVax administrator will then approve or deny your request for an account. Upon approval, you can log into mVax and will be prompted to set a password for your account.</string>
+    <string name="hint_register_name">full name</string>
+    <string name="hint_register_email">email address</string>
+    <string name="hint_register_email_2">confirm email address</string>
+
+    <!-- Reset password-->
     <string name="modal_reset_title">Password Reset</string>
     <string name="modal_reset_password_subtitle">Enter your email address and tap Submit. An email will be sent to you with password reset instructions if the provided email address is associated with an mVax account.</string>
     <string name="hint_reset_email">email address</string>
