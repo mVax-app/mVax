@@ -53,9 +53,9 @@ import mhealth.mvax.auth.modals.RegisterModal;
 
 /**
  * @author Matthew Tribby, Steven Yang, Robert Steilberg
- *         <p>
- *         Activity that handles user authentication, password reset, and new user registration;
- *         all operations done via Firbase authentication API
+ * <p>
+ * Activity that handles user authentication, password reset, and new user registration;
+ * all operations done via Firbase authentication and database API
  */
 public class LoginActivity extends AppCompatActivity {
 
@@ -168,22 +168,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void animateTextInputs(int speed, boolean goingOffScreen) {
-        int in = goingOffScreen ? 0 : 1;
-        int out = goingOffScreen ? 1 : 0;
-
-        // move email and password fields
-        LinearLayout inputs = findViewById(R.id.auth_inputs);
-        ObjectAnimator animInputs = ObjectAnimator.ofFloat(inputs,
-                View.TRANSLATION_X, -1 * mScreenWidth * in, -1 * mScreenWidth * out);
-        animInputs.setDuration(speed).start();
-
-        // move progress spinner
-        ObjectAnimator animProgress = ObjectAnimator.ofFloat(mSpinner,
-                View.TRANSLATION_X, mScreenWidth * out, mScreenWidth * in);
-        animProgress.setDuration(speed).start();
-    }
-
     /**
      * Attempt authentication; validate that email and password fields are valid;
      * if not, no authentication attempt is made
@@ -193,35 +177,11 @@ public class LoginActivity extends AppCompatActivity {
         String password = mPasswordView.getText().toString();
         if (fieldsValid(email, password)) {
             animateTextInputs(ANIMATION_SPEED, true);
-
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d("attemptedLogin", "signInWithEmail:attempted:" + task.isSuccessful());
-                            if (task.isSuccessful()) {
-                                Log.w("successLogin", "signInWithEmail:success", task.getException());
-                                // login successful, transition to root Activity
-                                Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(mainIntent);
-                            } else {
-                                Log.w("failedLogin", "signInWithEmail:failed", task.getException());
-
-                                animateTextInputs(ANIMATION_SPEED, false); // bring back auth fields
-                                // see what the error was
-                                boolean noInternet = task.getException() instanceof FirebaseNetworkException;
-                                boolean badCredentials = task.getException() instanceof FirebaseAuthException;
-                                if (noInternet) {
-                                    Toast.makeText(LoginActivity.this, R.string.firebase_fail_no_connection,
-                                            Toast.LENGTH_LONG).show();
-                                } else if (badCredentials) {
-                                    Toast.makeText(LoginActivity.this, R.string.auth_fail_bad_credentials,
-                                            Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(LoginActivity.this, R.string.firebase_fail_unknown,
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            }
+                            handleAuthCallback(task);
                         }
                     });
         }
@@ -241,6 +201,45 @@ public class LoginActivity extends AppCompatActivity {
             fieldsValid = false;
         }
         return fieldsValid;
+    }
+
+    private void handleAuthCallback(Task<AuthResult> task) {
+        Log.d("attemptedLogin", "signInWithEmail:attempted:" + task.isSuccessful());
+        if (task.isSuccessful()) {
+            Log.w("successLogin", "signInWithEmail:success", task.getException());
+            // login successful, transition to root Activity
+            Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(mainIntent);
+        } else {
+            Log.w("failedLogin", "signInWithEmail:failed", task.getException());
+            animateTextInputs(ANIMATION_SPEED, false); // bring back auth fields
+            // see what the error was
+            boolean noInternet = task.getException() instanceof FirebaseNetworkException;
+            boolean badCredentials = task.getException() instanceof FirebaseAuthException;
+            if (noInternet) {
+                Toast.makeText(LoginActivity.this, R.string.firebase_fail_no_connection, Toast.LENGTH_LONG).show();
+            } else if (badCredentials) {
+                Toast.makeText(LoginActivity.this, R.string.auth_fail_bad_credentials, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(LoginActivity.this, R.string.firebase_fail_unknown, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void animateTextInputs(int speed, boolean goingOffScreen) {
+        int in = goingOffScreen ? 0 : 1;
+        int out = goingOffScreen ? 1 : 0;
+
+        // move email and password fields
+        LinearLayout inputs = findViewById(R.id.auth_inputs);
+        ObjectAnimator animInputs = ObjectAnimator.ofFloat(inputs,
+                View.TRANSLATION_X, -1 * mScreenWidth * in, -1 * mScreenWidth * out);
+        animInputs.setDuration(speed).start();
+
+        // move progress spinner
+        ObjectAnimator animProgress = ObjectAnimator.ofFloat(mSpinner,
+                View.TRANSLATION_X, mScreenWidth * out, mScreenWidth * in);
+        animProgress.setDuration(speed).start();
     }
 
 }

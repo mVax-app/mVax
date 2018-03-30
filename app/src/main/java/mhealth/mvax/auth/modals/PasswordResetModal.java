@@ -1,3 +1,22 @@
+/*
+Copyright (C) 2018 Duke University
+
+This file is part of mVax.
+
+mVax is free software: you can redistribute it and/or
+modify it under the terms of the GNU Affero General Public License
+as published by the Free Software Foundation, either version 3,
+or (at your option) any later version.
+
+mVax is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU General Public
+License along with mVax; see the file LICENSE. If not, see
+<http://www.gnu.org/licenses/>.
+*/
 package mhealth.mvax.auth.modals;
 
 import android.app.Activity;
@@ -23,11 +42,12 @@ import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.FirebaseAuth;
 
 import mhealth.mvax.R;
+import mhealth.mvax.auth.AuthInputValidator;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Displays a modal for resetting an mVax user's password
+ * <p>
+ * Displays a modal for resetting an mVax user's password
  */
 public class PasswordResetModal extends AlertDialog.Builder {
 
@@ -71,7 +91,7 @@ public class PasswordResetModal extends AlertDialog.Builder {
             public void onShow(DialogInterface dialogInterface) {
 
                 mFields = mBuilder.findViewById(R.id.reset_fields);
-                mSpinner = mBuilder.findViewById(R.id.reset_progress);
+                mSpinner = mBuilder.findViewById(R.id.reset_spinner);
                 mPositiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
                 mNegativeButton = mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE);
 
@@ -112,6 +132,9 @@ public class PasswordResetModal extends AlertDialog.Builder {
         if (TextUtils.isEmpty(emailAddress)) { // trying to submit with no email
             emailTextView.setError(mResources.getString(R.string.error_empty_field));
             emailTextView.requestFocus();
+        } else if (!AuthInputValidator.emailValid(emailAddress)) { // invalid email
+            emailTextView.setError(mResources.getString(R.string.error_invalid_email));
+            emailTextView.requestFocus();
         } else {
             toggleSpinner(true);
             sendResetEmail(emailAddress);
@@ -124,21 +147,24 @@ public class PasswordResetModal extends AlertDialog.Builder {
                 .addOnCompleteListener(mActivity, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Log.d("attemptedReset", "resetPassword:attempted:" + task.isSuccessful());
-                        if (task.getException() instanceof FirebaseNetworkException) {
-                            // only show error for no internet; don't let user know if email
-                            // isn't associated with an account
-                            Log.w("failedReset", "resetPassword:failed", task.getException());
-                            Toast.makeText(mActivity, R.string.firebase_fail_no_connection,
-                                    Toast.LENGTH_LONG).show();
-                        } else { // success
-                            Log.w("successReset", "resetPassword:success", task.getException());
-                            mBuilder.dismiss();
-                            Toast.makeText(mActivity, mResources.getString(R.string.reset_email_confirm), Toast.LENGTH_LONG).show();
-                        }
-                        toggleSpinner(false);
+                        handleCallback(task);
                     }
                 });
+    }
+
+    private void handleCallback(Task<Void> task) {
+        Log.d("attemptedReset", "resetPassword:attempted:" + task.isSuccessful());
+        if (task.getException() instanceof FirebaseNetworkException) {
+            // only show error for no internet; don't let user know if email
+            // isn't associated with an account
+            Log.w("failedReset", "resetPassword:failed", task.getException());
+            Toast.makeText(mActivity, R.string.firebase_fail_no_connection, Toast.LENGTH_LONG).show();
+        } else { // success
+            Log.w("successReset", "resetPassword:success", task.getException());
+            mBuilder.dismiss();
+            Toast.makeText(mActivity, mResources.getString(R.string.reset_email_confirm), Toast.LENGTH_LONG).show();
+        }
+        toggleSpinner(false);
     }
 
     private void toggleSpinner(boolean showSpinner) {

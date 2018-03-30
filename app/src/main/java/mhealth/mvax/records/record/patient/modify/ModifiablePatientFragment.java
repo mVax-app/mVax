@@ -39,9 +39,9 @@ import mhealth.mvax.records.record.RecordFragment;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Abstract class for modifying Patient or Guardian details,
- *         either newly created or already existing
+ * <p>
+ * Abstract class for modifying Patient or Guardian details,
+ * either newly created or already existing
  */
 public abstract class ModifiablePatientFragment extends Fragment {
 

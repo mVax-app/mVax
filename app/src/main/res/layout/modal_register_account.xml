@@ -16,7 +16,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/reset_fields"
+            android:id="@+id/linearlayout_register_fields"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -33,7 +33,7 @@
                 android:text="@string/modal_register_subtitle" />
 
             <EditText
-                android:id="@+id/edittext_name"
+                android:id="@+id/edittext_register_name"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginLeft="8dp"
@@ -42,8 +42,8 @@
                 android:layout_weight="2.53"
                 android:ems="10"
                 android:hint="@string/hint_register_name"
-                android:inputType=""
-                app:layout_constraintHorizontal_bias="0.503"/>
+                android:inputType="textCapWords"
+                app:layout_constraintHorizontal_bias="0.503" />
 
             <EditText
                 android:id="@+id/edittext_register_email"
@@ -58,7 +58,7 @@
                 android:inputType="textEmailAddress" />
 
             <EditText
-                android:id="@+id/edittext_register_email_2"
+                android:id="@+id/edittext_register_email_confirm"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginLeft="8dp"
@@ -67,20 +67,20 @@
                 android:layout_weight="2.53"
                 android:ems="10"
                 android:hint="@string/hint_register_email_2"
-                android:inputType="textEmailAddress"/>
+                android:inputType="textEmailAddress" />
 
         </LinearLayout>
 
         <ProgressBar
-            android:id="@+id/reset_progress"
+            android:id="@+id/register_spinner"
             style="@android:style/Widget.DeviceDefault.ProgressBar.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="invisible"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 

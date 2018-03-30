@@ -1,33 +1,50 @@
+/*
+Copyright (C) 2018 Duke University
+
+This file is part of mVax.
+
+mVax is free software: you can redistribute it and/or
+modify it under the terms of the GNU Affero General Public License
+as published by the Free Software Foundation, either version 3,
+or (at your option) any later version.
+
+mVax is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU General Public
+License along with mVax; see the file LICENSE. If not, see
+<http://www.gnu.org/licenses/>.
+*/
 package mhealth.mvax.auth.modals;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseNetworkException;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
+import mhealth.mvax.auth.AuthInputValidator;
+import mhealth.mvax.model.user.UserRequest;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Displays a modal for requesting a new mVax account
+ * <p>
+ * Displays a modal for requesting a new mVax account
  */
 public class RegisterModal extends AlertDialog.Builder {
 
@@ -36,7 +53,10 @@ public class RegisterModal extends AlertDialog.Builder {
     private Resources mResources;
     private AlertDialog mBuilder;
 
-    private LinearLayout mFields;
+    private TextView mSubtitleView;
+    private TextView mNameView;
+    private TextView mEmailView;
+    private TextView mConfirmEmailView;
     private ProgressBar mSpinner;
     private Button mPositiveButton;
     private Button mNegativeButton;
@@ -49,7 +69,7 @@ public class RegisterModal extends AlertDialog.Builder {
     }
 
     /**
-     * Build and display the modal to reset user password
+     * Build and display the modal to request a new user account
      */
     @Override
     public AlertDialog show() {
@@ -65,90 +85,137 @@ public class RegisterModal extends AlertDialog.Builder {
                 .setNegativeButton(mResources.getString(R.string.button_reset_password_cancel), null)
                 .create();
 
-//        // attach listener; ensure text field isn't empty on submit
-//        mBuilder.setOnShowListener(new DialogInterface.OnShowListener() {
-//            @Override
-//            public void onShow(DialogInterface dialogInterface) {
-//
-//                mFields = mBuilder.findViewById(R.id.reset_fields);
-//                mSpinner = mBuilder.findViewById(R.id.reset_progress);
-//                mPositiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
-//                mNegativeButton = mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE);
-//
-//                final TextView emailTextView = mBuilder.findViewById(R.id.textview_email_reset);
-//
-//                // in email EditText, enter on hardware keyboard submits for authentication;
-//                // "Done" button submits for reset too
-//                emailTextView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//                    @Override
-//                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                        if (event != null
-//                                && event.getAction() == KeyEvent.ACTION_DOWN
-//                                && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-//                            attemptPasswordReset(emailTextView);
-//                            return true;
-//                        }
-//                        if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                            attemptPasswordReset(emailTextView);
-//                            return true;
-//                        }
-//                        return false;
-//                    }
-//                });
-//
-//                mPositiveButton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        attemptPasswordReset(emailTextView);
-//                    }
-//                });
-//            }
-//        });
+        mBuilder.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+
+                // get generated views
+                mSubtitleView = mBuilder.findViewById(R.id.textView_register_subtitle);
+                mNameView = mBuilder.findViewById(R.id.edittext_register_name);
+                mEmailView = mBuilder.findViewById(R.id.edittext_register_email);
+                mConfirmEmailView = mBuilder.findViewById(R.id.edittext_register_email_confirm);
+                mSpinner = mBuilder.findViewById(R.id.register_spinner);
+                mPositiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
+                mNegativeButton = mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE);
+
+                initListeners();
+            }
+        });
         return mBuilder;
     }
 
-    private void attemptPasswordReset(final TextView emailTextView) {
-        String emailAddress = emailTextView.getText().toString();
-        if (TextUtils.isEmpty(emailAddress)) { // trying to submit with no email
-            emailTextView.setError(mResources.getString(R.string.error_empty_field));
-            emailTextView.requestFocus();
-        } else {
+    private void initListeners() {
+        // hardware enter and Done button attempts to submit request
+        mConfirmEmailView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (event != null
+                        && event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    attemptRegister();
+                    return true;
+                }
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    attemptRegister();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        mPositiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptRegister();
+            }
+        });
+    }
+
+    private void attemptRegister() {
+        if (noEmptyFields() && emailFieldsValid()) {
+            String name = mNameView.getText().toString();
+            String email = mEmailView.getText().toString();
             toggleSpinner(true);
-            sendResetEmail(emailAddress);
+            registerAccount(name, email);
         }
     }
 
-    private void sendResetEmail(String emailAddress) {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.sendPasswordResetEmail(emailAddress)
-                .addOnCompleteListener(mActivity, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Log.d("attemptedReset", "resetPassword:attempted:" + task.isSuccessful());
-                        if (task.getException() instanceof FirebaseNetworkException) {
-                            // only show error for no internet; don't let user know if email
-                            // isn't associated with an account
-                            Log.w("failedReset", "resetPassword:failed", task.getException());
-                            Toast.makeText(mActivity, R.string.firebase_fail_no_connection,
-                                    Toast.LENGTH_LONG).show();
-                        } else { // success
-                            Log.w("successReset", "resetPassword:success", task.getException());
-                            mBuilder.dismiss();
-                            Toast.makeText(mActivity, mResources.getString(R.string.reset_email_confirm), Toast.LENGTH_LONG).show();
-                        }
-                        toggleSpinner(false);
-                    }
-                });
+    private boolean noEmptyFields() {
+        boolean noEmptyFields = true;
+        // no confirm email
+        if (TextUtils.isEmpty(mConfirmEmailView.getText().toString())) {
+            mConfirmEmailView.setError(mResources.getString(R.string.error_empty_field));
+            mConfirmEmailView.requestFocus();
+            noEmptyFields = false;
+        }
+        // no email
+        if (TextUtils.isEmpty(mEmailView.getText().toString())) {
+            mEmailView.setError(mResources.getString(R.string.error_empty_field));
+            mEmailView.requestFocus();
+            noEmptyFields = false;
+        }
+        // no name
+        if (TextUtils.isEmpty(mNameView.getText().toString())) {
+            mNameView.setError(mResources.getString(R.string.error_empty_field));
+            mNameView.requestFocus();
+            noEmptyFields = false;
+        }
+        return noEmptyFields;
+    }
+
+    private boolean emailFieldsValid() {
+        boolean emailFieldsValid = true;
+
+        String email = mEmailView.getText().toString();
+        String emailConfirm = mConfirmEmailView.getText().toString();
+        if (!TextUtils.equals(email, emailConfirm)) { // email fields don't match
+            mEmailView.setError(mResources.getString(R.string.error_field_mismatch));
+            mConfirmEmailView.setError(mResources.getString(R.string.error_field_mismatch));
+            mEmailView.requestFocus();
+            emailFieldsValid = false;
+        }
+        if (!AuthInputValidator.emailValid(email)) {
+            mEmailView.setError(mResources.getString(R.string.error_invalid_email));
+            mEmailView.requestFocus();
+            emailFieldsValid = false;
+        }
+        return emailFieldsValid;
+    }
+
+    // validation complete, go for actual register request
+    private void registerAccount(String name, String email) {
+        final String requestsTable = mResources.getString(R.string.userRequestsTable);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
+                .child(requestsTable);
+
+        UserRequest request = new UserRequest(ref.push().getKey());
+        request.setName(name);
+        request.setEmail(email);
+
+        ref.child(request.getDatabaseKey()).setValue(request, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                toggleSpinner(false);
+                mBuilder.dismiss();
+                Toast.makeText(mActivity, R.string.request_submit_success, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void toggleSpinner(boolean showSpinner) {
         if (showSpinner) {
-            mFields.setVisibility(View.INVISIBLE);
+            mSubtitleView.setVisibility(View.INVISIBLE);
+            mNameView.setVisibility(View.INVISIBLE);
+            mEmailView.setVisibility(View.INVISIBLE);
+            mConfirmEmailView.setVisibility(View.INVISIBLE);
             mPositiveButton.setVisibility(View.INVISIBLE);
             mNegativeButton.setVisibility(View.INVISIBLE);
             mSpinner.setVisibility(View.VISIBLE);
         } else {
-            mFields.setVisibility(View.VISIBLE);
+            mSubtitleView.setVisibility(View.VISIBLE);
+            mNameView.setVisibility(View.VISIBLE);
+            mEmailView.setVisibility(View.VISIBLE);
+            mConfirmEmailView.setVisibility(View.VISIBLE);
             mPositiveButton.setVisibility(View.VISIBLE);
             mNegativeButton.setVisibility(View.VISIBLE);
             mSpinner.setVisibility(View.INVISIBLE);

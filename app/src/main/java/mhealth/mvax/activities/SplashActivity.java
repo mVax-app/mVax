@@ -30,8 +30,8 @@ import mhealth.mvax.auth.LoginActivity;
 
 /**
  * @author Steven Yang
- *         <p>
- *         Renders splash screen upon intial app start
+ * <p>
+ * Renders splash screen upon intial app start
  */
 public class SplashActivity extends AppCompatActivity {
     @Override
