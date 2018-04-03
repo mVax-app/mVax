@@ -75,10 +75,10 @@ public class AlertsFragment extends Fragment {
     }
 
     public void initializeCalendar() {
-        calendar = (CalendarView) findViewById(R.id.calendar);
+        calendar = (CalendarView) getView().findViewById(R.id.calendar);
 
         // sets whether to show the week number.
-        calendar.setShowWeekNumber(false);
+        /*calendar.setShowWeekNumber(false);
 
         // sets the first day of week according to Calendar.
         // here we set Monday as the first day of the Calendar
@@ -103,7 +103,7 @@ public class AlertsFragment extends Fragment {
             public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
                 Toast.makeText(getApplicationContext(), day + "/" + month + "/" + year, Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
     }
 
 
