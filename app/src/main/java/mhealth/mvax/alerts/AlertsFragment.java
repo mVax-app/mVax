@@ -105,11 +105,11 @@ public class AlertsFragment extends Fragment {
 
 
 
-    public static AlertsFragment newInstance() {
-//        AlertsFragment fragment = new AlertsFragment();
-//        return fragment;
-        return new AlertsFragment();
-    }
+//    public static AlertsFragment newInstance() {
+////        AlertsFragment fragment = new AlertsFragment();
+////        return fragment;
+//        return new AlertsFragment();
+//    }
 //
 //    public void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
