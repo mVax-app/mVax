@@ -56,17 +56,14 @@ public class AlertsFragment extends Fragment {
 
     ChildEventListener mPatientListener;
 
-
-    //Calendar Integration
-
     CalendarView calendar;
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        
-        //initializes the calendarview
-        initializeCalendar();
+
+    public static AlertsFragment newInstance(){
+        AlertsFragment fragment = new AlertsFragment();
+        return fragment;
     }
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
