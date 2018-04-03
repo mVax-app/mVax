@@ -106,9 +106,9 @@ public class EditPatientFragment extends ModifiablePatientFragment {
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Toast.makeText(getActivity(), R.string.patient_delete, Toast.LENGTH_SHORT).show();
                 // pop "Edit -> Record" from back stack and commit it
-                getActivity().getSupportFragmentManager().popBackStack();
+                getActivity().getFragmentManager().popBackStack();
                 // pop "Record -> Search" from back stack and commit it
-                getActivity().getSupportFragmentManager().popBackStack();
+                getActivity().getFragmentManager().popBackStack();
             }
 
             @Override
