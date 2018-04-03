@@ -35,8 +35,8 @@ import mhealth.mvax.records.record.patient.detail.StringNumberDetail;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Data structure that represents a Patient
+ * <p>
+ * Data structure that represents a Patient
  */
 public class Patient implements Serializable {
 

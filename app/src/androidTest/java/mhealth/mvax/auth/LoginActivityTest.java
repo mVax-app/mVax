@@ -49,11 +49,11 @@ public class LoginActivityTest {
         Activity activity = MVaxActivityTestRule.getActivity();
         assertNotNull(activity.findViewById(R.id.login_progress));
         assertNotNull(activity.findViewById(R.id.email_login_form));
-        assertNotNull(activity.findViewById(R.id.email));
-        assertNotNull(activity.findViewById(R.id.password));
-        assertNotNull(activity.findViewById(R.id.Bsignin));
+        assertNotNull(activity.findViewById(R.id.edittext_email));
+        assertNotNull(activity.findViewById(R.id.edittext_password));
+        assertNotNull(activity.findViewById(R.id.button_authenticate));
         assertNotNull(activity.findViewById(R.id.Bregister));
-        assertNotNull(activity.findViewById(R.id.resetPassword));
+        assertNotNull(activity.findViewById(R.id.textview_reset_password));
 
 //        TextView helloView = (TextView) activity.findViewById(R.id.text_hello);
 //        assertTrue(helloView.isShown());

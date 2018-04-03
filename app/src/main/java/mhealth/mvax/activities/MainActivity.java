@@ -19,13 +19,13 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.activities;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -44,21 +44,32 @@ import mhealth.mvax.settings.SettingsFragment;
 public class MainActivity extends TimeoutActivity {
 
 
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser mFirebaseUser = auth.getCurrentUser();
-
-
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference database = db.getReference();
-
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView)
-                findViewById(R.id.navigation_bar);
+        initNavBar();
 
+
+
+        //Manually displaying the first fragment - one time only
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_layout, SearchFragment.newInstance());
+        transaction.commit();
+
+        Log.d("Language", "Main Activity: " + getResources().getConfiguration().locale.toString());
+
+    }
+
+    private void initNavBar() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation_bar);
         bottomNavigationView.setOnNavigationItemSelectedListener
                 (new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -80,23 +91,15 @@ public class MainActivity extends TimeoutActivity {
                             case R.id.nav_settings:
                                 selectedFragment = SettingsFragment.newInstance();
                                 break;
-                            
+
                         }
 
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
                         transaction.replace(R.id.frame_layout, selectedFragment);
                         transaction.commit();
                         return true;
                     }
                 });
-
-        //Manually displaying the first fragment - one time only
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, SearchFragment.newInstance());
-        transaction.commit();
-
-        Log.d("Language", "Main Activity: " + getResources().getConfiguration().locale.toString());
-
     }
 
     @Override

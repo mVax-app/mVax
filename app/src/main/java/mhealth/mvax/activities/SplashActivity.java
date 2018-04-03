@@ -24,17 +24,25 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import mhealth.mvax.auth.LoginActivity;
 
 /**
- * Created by stevenyang on 10/24/17.
+ * @author Steven Yang
+ * <p>
+ * Renders splash screen upon intial app start
  */
 public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // MUST BE CALLED BEFORE ANY OTHER FIREBASE API CALLS
+        // enables offline data persistence
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
         Intent intent = new Intent(this, LoginActivity.class);
-        //Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }

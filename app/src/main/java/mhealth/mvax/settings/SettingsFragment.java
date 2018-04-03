@@ -21,13 +21,13 @@ package mhealth.mvax.settings;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,8 +48,8 @@ import com.google.firebase.database.ValueEventListener;
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
 import mhealth.mvax.auth.ApproveUsersFragment;
+import mhealth.mvax.auth.AuthInputValidator;
 import mhealth.mvax.auth.CurrentUsersFragment;
-import mhealth.mvax.auth.UserRegistrationActivity;
 import mhealth.mvax.language.LanguageUtillity;
 import mhealth.mvax.model.user.UserRole;
 
@@ -188,12 +188,12 @@ public class SettingsFragment extends Fragment {
         final View dialogView = inflater.inflate(R.layout.modal_update_email, null);
         builder.setView(dialogView);
 
-        final TextView address = dialogView.findViewById(R.id.emailReset);
+        final TextView address = dialogView.findViewById(R.id.textview_email_reset);
 
         builder.setPositiveButton(getResources().getString(R.string.update_email), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (UserRegistrationActivity.isEmailValid(address.getText().toString())) {
+                if (AuthInputValidator.emailValid(address.getText().toString())) {
                     FirebaseAuth.getInstance().getCurrentUser().updateEmail(address.getText().toString());
                     dialog.dismiss();
                     Toast.makeText(getActivity(), R.string.update_email_success, Toast.LENGTH_LONG).show();
@@ -218,7 +218,7 @@ public class SettingsFragment extends Fragment {
         final View dialogView = inflater.inflate(R.layout.modal_reset_password_confirm, null);
         builder.setView(dialogView);
 
-        builder.setPositiveButton(getResources().getString(R.string.reset_password_button), new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getResources().getString(R.string.button_reset_password_positive), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 FirebaseAuth.getInstance().sendPasswordResetEmail(FirebaseAuth.getInstance().getCurrentUser().getEmail());
@@ -308,7 +308,7 @@ public class SettingsFragment extends Fragment {
     private void switchToApproveUsersFragment() {
         ApproveUsersFragment approveUsers = new ApproveUsersFragment();
 
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
         transaction.replace(getId(), this).addToBackStack(null); // so that back button works
         transaction.replace(R.id.frame_layout, approveUsers);
         transaction.addToBackStack(null);
@@ -317,7 +317,7 @@ public class SettingsFragment extends Fragment {
 
     private void switchToCurrentUsersFragment(){
         Fragment fragment =  new CurrentUsersFragment();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = getActivity().getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.addToBackStack(null);

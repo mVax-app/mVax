@@ -19,319 +19,227 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.auth;
 
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.DialogInterface;
+import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.res.Resources;
-import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.Locale;
+import com.google.firebase.auth.FirebaseAuthException;
 
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
-import mhealth.mvax.language.LanguageUtillity;
+import mhealth.mvax.auth.modals.PasswordResetModal;
+import mhealth.mvax.auth.modals.RegisterModal;
 
 /**
- * Login Activity is the page where users can attempt to log in to the app, reset their password,
- * or choose to register.
- *
- * DEPENDENCIES: Firebase authentication and database access
- *
- * @author Matthew Tribby, Steven Yang
+ * @author Matthew Tribby, Steven Yang, Robert Steilberg
+ * <p>
+ * Activity that handles user authentication, password reset, and new user registration;
+ * all operations done via Firbase authentication and database API
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends Activity {
+
+    private static final int ANIMATION_SPEED = 500;
+    private static final int ANIMATION_SPEED_INSTANT = 0;
+
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-
-
-    // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
-
-    //tracks whether there exists users in the system
-    private static boolean existUser = false;
+    private ProgressBar mSpinner;
+    private int mScreenWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    existUser = true;
-                    Log.d("signedIn", "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.d("signedOut", "onAuthStateChanged:signed_out");
-                }
 
-            }
-        };
+        mEmailView = findViewById(R.id.edittext_email);
+        mPasswordView = findViewById(R.id.edittext_password);
+        mSpinner = findViewById(R.id.login_progress);
+        mScreenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-        handleDefaultLanguage();
-
-        setUpLoginForm();
-
-        setOnClick();
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        initTextFields();
+        initButtons();
+        mSpinner.setX(mScreenWidth);
     }
 
-    private void handleDefaultLanguage(){
-        String tablet_locale= Resources.getSystem().getConfiguration().locale.toString();
-        Log.d("Language", "tablet_locale: "+ tablet_locale);
-        Log.d("Language", "default "+ Locale.getDefault().toString());
-
-
-        if(!tablet_locale.equals(Locale.getDefault().toString())) {
-            LanguageUtillity.changeLangauge(getResources(), tablet_locale);
-            this.recreate();
-        }
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        // clear out any existing auth info
+        FirebaseAuth.getInstance().signOut();
+        // ensure auth text fields are visible
+        animateTextInputs(ANIMATION_SPEED_INSTANT, false);
     }
 
-    private void setUpLoginForm(){
-        // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-
-
-        mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+    private void initTextFields() {
+        // in email EditText, enter on hardware keyboard submits for authentication
+        mEmailView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (event != null
+                        && event.getAction() == KeyEvent.ACTION_DOWN // debounce
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    authenticate();
                     return true;
                 }
                 return false;
             }
         });
 
-    }
-
-
-
-    private void setOnClick(){
-        //When sign in button is clicked
-        Button mEmailSignInButton = (Button) findViewById(R.id.Bsignin);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        // in password EditText, enter on hardware keyboard submits for authentication;
+        // "Done" button submits for authentication too
+        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View view) {
-                attemptLogin();
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (event != null
+                        && event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    authenticate();
+                    return true;
+                }
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    authenticate();
+                    return true;
+                }
+                return false;
             }
         });
 
-        //When register button clicked
-        TextView register = (TextView) findViewById(R.id.register);
-        register.setOnClickListener(new OnClickListener() {
+        // re-focusing to the password EditText clears out any text
+        mPasswordView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                //Toggle to true because there now exists users in the system
-                LoginActivity.existUser = true;
-                Intent register = new Intent(getApplicationContext(), UserRegistrationActivity.class);
-                startActivity(register);
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    mPasswordView.setText("");
+                }
             }
         });
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-
+    private void initButtons() {
+        // tie authenticate action to "Sign In" button
+        Button signInButton = findViewById(R.id.button_authenticate);
+        signInButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                authenticate();
+            }
+        });
+        // tie register action to "Register" TextView
+        TextView registerButton = findViewById(R.id.textview_register);
+        registerButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RegisterModal registerModal = new RegisterModal(view);
+                registerModal.show();
+            }
+        });
+        // tie reset password action to "Reset Password" TextView
+        TextView forgotButton = findViewById(R.id.textview_reset_password);
+        forgotButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PasswordResetModal resetModal = new PasswordResetModal(view);
+                resetModal.show();
+            }
+        });
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
+    /**
+     * Attempt authentication; validate that email and password fields are valid;
+     * if not, no authentication attempt is made
+     */
+    private void authenticate() {
+        String email = mEmailView.getText().toString();
+        String password = mPasswordView.getText().toString();
+        if (fieldsValid(email, password)) {
+            animateTextInputs(ANIMATION_SPEED, true);
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            handleAuthCallback(task);
+                        }
+                    });
+        }
+        mPasswordView.setText("");
+    }
+
+    private boolean fieldsValid(String email, String password) {
+        boolean fieldsValid = true;
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getResources().getString(R.string.error_empty_field));
+            mPasswordView.requestFocus();
+            fieldsValid = false;
+        }
+        if (TextUtils.isEmpty(email)) {
+            mEmailView.setError(getString(R.string.error_field_required));
+            mEmailView.requestFocus();
+            fieldsValid = false;
+        }
+        return fieldsValid;
+    }
+
+    private void handleAuthCallback(Task<AuthResult> task) {
+        Log.d("attemptedLogin", "signInWithEmail:attempted:" + task.isSuccessful());
+        if (task.isSuccessful()) {
+            Log.w("successLogin", "signInWithEmail:success", task.getException());
+            // login successful, transition to root Activity
+            Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(mainIntent);
+        } else {
+            Log.w("failedLogin", "signInWithEmail:failed", task.getException());
+            animateTextInputs(ANIMATION_SPEED, false); // bring back auth fields
+            // see what the error was
+            boolean noInternet = task.getException() instanceof FirebaseNetworkException;
+            boolean badCredentials = task.getException() instanceof FirebaseAuthException;
+            if (noInternet) {
+                Toast.makeText(LoginActivity.this, R.string.firebase_fail_no_connection, Toast.LENGTH_LONG).show();
+            } else if (badCredentials) {
+                Toast.makeText(LoginActivity.this, R.string.auth_fail_bad_credentials, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(LoginActivity.this, R.string.firebase_fail_unknown, Toast.LENGTH_LONG).show();
+            }
         }
     }
 
+    private void animateTextInputs(int speed, boolean goingOffScreen) {
+        int in = goingOffScreen ? 0 : 1;
+        int out = goingOffScreen ? 1 : 0;
 
+        // move email and password fields
+        LinearLayout inputs = findViewById(R.id.auth_inputs);
+        ObjectAnimator animInputs = ObjectAnimator.ofFloat(inputs,
+                View.TRANSLATION_X, -1 * mScreenWidth * in, -1 * mScreenWidth * out);
+        animInputs.setDuration(speed).start();
 
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
-    private void attemptLogin() {
-
-        // Reset errors.
-        mEmailView.setError(null);
-        mPasswordView.setError(null);
-
-        // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
-
-            boolean cancel = false;
-            View focusView = null;
-
-            // Check for a valid password, if the user entered one.
-            if(TextUtils.isEmpty(password)){
-                mPasswordView.setError(getResources().getString(R.string.error_empty_field));
-                focusView = mPasswordView;
-                cancel = true;
-            }
-
-            // Check for a valid email address.
-            if (TextUtils.isEmpty(email)) {
-                mEmailView.setError(getString(R.string.error_field_required));
-                focusView = mEmailView;
-                cancel = true;
-            }
-
-
-            if (cancel) {
-                // There was an error; don't attempt login and focus the first
-                // form field with an error.
-                focusView.requestFocus();
-            }
-            else {
-
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                Log.d("attemptedLogin", "signInWithEmail:onComplete:" + task.isSuccessful());
-
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                if (task.isSuccessful()) {
-                                    checkIfApproved();
-                                } else {
-
-                                    Log.w("failedLogin", "signInWithEmail:failed", task.getException());
-                                    Toast.makeText(LoginActivity.this, R.string.auth_failed,
-                                            Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
-            }
-
-    }
-
-    private void checkIfApproved(){
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child(getResources().getString(R.string.userTable)).child(uid);
-
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()) {
-                    Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(mainIntent);
-                }
-                else {
-                    Log.d("failedLogin", "userNotApproved");
-                    Toast.makeText(LoginActivity.this, getResources().getString(R.string.user_not_approved), Toast.LENGTH_LONG).show();
-                    FirebaseAuth.getInstance().signOut();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("dbError", "error in LoginActivity.java");
-            }
-
-        });
-
-
-    }
-
-    /**
-     * Create modal which is a form for allowing users to enter their email to reset their password
-     */
-    public void resetPassword(View v){
-
-        //builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getResources().getString(R.string.modal_reset_title));
-
-        //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
-        LayoutInflater inflater = getLayoutInflater();
-
-        final View dialogView = inflater.inflate(R.layout.modal_reset_password, null);
-        builder.setView(dialogView);
-
-        final TextView address = dialogView.findViewById(R.id.emailReset);
-
-        builder.setPositiveButton(getResources().getString(R.string.reset_password_button), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                sendResetEmail(address.getText().toString());
-                dialog.dismiss();
-            }
-        });
-
-        builder.show();
-    }
-
-    private void sendResetEmail(String address){
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        auth.sendPasswordResetEmail(address);
-        Toast.makeText(LoginActivity.this, getResources().getString(R.string.reset_email_confirm) + address, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return null;
-    }
-
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-
+        // move progress spinner
+        ObjectAnimator animProgress = ObjectAnimator.ofFloat(mSpinner,
+                View.TRANSLATION_X, mScreenWidth * out, mScreenWidth * in);
+        animProgress.setDuration(speed).start();
     }
 
 }
-

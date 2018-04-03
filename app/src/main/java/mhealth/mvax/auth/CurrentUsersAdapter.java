@@ -34,7 +34,7 @@ public class CurrentUsersAdapter extends BaseAdapter {
         view=inflater.inflate(R.layout.current_user_row, null);
 
         TextView name = (TextView) view.findViewById(R.id.name);
-        TextView email = (TextView) view.findViewById(R.id.email);
+        TextView email = (TextView) view.findViewById(R.id.edittext_email);
         TextView role = (TextView) view.findViewById(R.id.role);
 
         UserWithUID user = users.get(i);

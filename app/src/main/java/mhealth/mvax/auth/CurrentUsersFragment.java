@@ -1,6 +1,7 @@
 package mhealth.mvax.auth;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -32,7 +33,7 @@ import mhealth.mvax.model.user.UserWithUID;
 /**
  * Matthew Tribby
  */
-public class CurrentUsersFragment extends android.support.v4.app.Fragment {
+public class CurrentUsersFragment extends Fragment {
 
     private ListView currentUsersLV;
     private List<UserWithUID> users;
@@ -152,7 +153,7 @@ public class CurrentUsersFragment extends android.support.v4.app.Fragment {
         TextView name = (TextView) dialogView.findViewById(R.id.name);
         name.setText(user.getFirstName() + " " + user.getLastName());
 
-        TextView email = (TextView) dialogView.findViewById(R.id.email);
+        TextView email = (TextView) dialogView.findViewById(R.id.edittext_email);
         email.setText(user.getEmail());
     }
 
