@@ -1,7 +1,6 @@
 package mhealth.mvax.auth;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -33,7 +32,7 @@ import mhealth.mvax.model.user.UserWithUID;
 /**
  * Matthew Tribby
  */
-public class CurrentUsersFragment extends Fragment {
+public class CurrentUsersFragment extends android.support.v4.app.Fragment {
 
     private ListView currentUsersLV;
     private List<UserWithUID> users;

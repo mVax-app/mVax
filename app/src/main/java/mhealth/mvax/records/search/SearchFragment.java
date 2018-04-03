@@ -19,8 +19,8 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.search;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -107,7 +107,7 @@ public class SearchFragment extends Fragment {
         newRecordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().getFragmentManager().beginTransaction()
+                getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame_layout, CreateRecordFragment.newInstance())
                         .addToBackStack(null) // back button brings us back to SearchFragment
                         .commit();
@@ -227,7 +227,7 @@ public class SearchFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final String selectedDatabaseKey = mSearchResultAdapter.getSelectedDatabaseKey(position);
                 final RecordFragment detailFrag = RecordFragment.newInstance(selectedDatabaseKey);
-                getActivity().getFragmentManager().beginTransaction()
+                getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame_layout, detailFrag)
                         .addToBackStack(null) // back button brings us back to SearchFragment
                         .commit();
