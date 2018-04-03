@@ -20,13 +20,13 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.settings;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -269,7 +269,7 @@ public class SettingsFragment extends Fragment {
     private void switchToApproveUsersFragment() {
         ApproveUsersFragment approveUsers = new ApproveUsersFragment();
 
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
         transaction.replace(getId(), this).addToBackStack(null); // so that back button works
         transaction.replace(R.id.frame_layout, approveUsers);
         transaction.addToBackStack(null);
@@ -278,7 +278,7 @@ public class SettingsFragment extends Fragment {
 
     private void switchToCurrentUsersFragment(){
         Fragment fragment =  new CurrentUsersFragment();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentManager fragmentManager = getActivity().getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.addToBackStack(null);

@@ -19,9 +19,9 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
