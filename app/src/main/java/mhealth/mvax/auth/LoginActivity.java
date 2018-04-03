@@ -20,11 +20,11 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.auth;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -57,7 +57,7 @@ import mhealth.mvax.auth.modals.RegisterModal;
  * Activity that handles user authentication, password reset, and new user registration;
  * all operations done via Firbase authentication and database API
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends Activity {
 
     private static final int ANIMATION_SPEED = 500;
     private static final int ANIMATION_SPEED_INSTANT = 0;

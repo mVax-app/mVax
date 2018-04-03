@@ -19,8 +19,8 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.view;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,7 +139,7 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 Toast.makeText(getActivity(), R.string.patient_delete, Toast.LENGTH_SHORT).show();
                 // pop "Record -> Search" from back stack and commit it
-                getActivity().getSupportFragmentManager().popBackStack();
+                getActivity().getFragmentManager().popBackStack();
             }
 
             @Override
@@ -171,18 +171,18 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
             @Override
             public void onClick(View view) {
                 // pop "Record -> Search" from back stack and commit it
-                getActivity().getSupportFragmentManager().popBackStack();
+                getActivity().getFragmentManager().popBackStack();
 
                 // commit "Search -> Record, adding "Record -> Search to back stack
                 final RecordFragment onBackFrag = RecordFragment.newInstance(mPatient.getDatabaseKey());
-                getActivity().getSupportFragmentManager().beginTransaction()
+                getActivity().getFragmentManager().beginTransaction()
                         .replace(R.id.frame_layout, onBackFrag)
                         .addToBackStack(null)
                         .commit();
 
                 // commit "Record -> Edit", adding "Edit -> Record to back stack
                 final EditPatientFragment editDataFrag = EditPatientFragment.newInstance(mPatient);
-                getActivity().getSupportFragmentManager().beginTransaction()
+                getActivity().getFragmentManager().beginTransaction()
                         .replace(R.id.frame_layout, editDataFrag)
                         .addToBackStack(null)
                         .commit();
