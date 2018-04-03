@@ -19,7 +19,6 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.alerts;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +28,7 @@ import android.widget.CalendarView;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import mhealth.mvax.R;
+import android.support.v4.app.Fragment;
 
 
 import com.google.firebase.auth.FirebaseAuth;

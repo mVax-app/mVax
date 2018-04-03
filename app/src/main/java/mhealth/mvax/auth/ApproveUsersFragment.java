@@ -20,10 +20,9 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.auth;
 
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +49,7 @@ import mhealth.mvax.model.user.UserWithUID;
  * @author Matthew Tribby
  * November, 2017
  */
-public class ApproveUsersFragment extends Fragment {
+public class ApproveUsersFragment extends android.support.v4.app.Fragment {
     public static final String FIRST_NAME = "FIRST_NAME";
     public static final String LAST_NAME = "LAST_NAME";
     public static final String EMAIL = "EMAIL";
