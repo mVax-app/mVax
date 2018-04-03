@@ -21,6 +21,7 @@ package mhealth.mvax.dashboard;
 
 
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -46,7 +47,7 @@ import mhealth.mvax.R;
  * @author Matthew Tribby
  * November, 2017
  */
-public class FormsFragment extends android.support.v4.app.Fragment {
+public class FormsFragment extends Fragment {
     private LayoutInflater inflater;
 
     public static FormsFragment newInstance() {

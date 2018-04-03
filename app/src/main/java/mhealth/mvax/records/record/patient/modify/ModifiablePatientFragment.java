@@ -19,8 +19,8 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.modify;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -32,9 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
-//import mhealth.mvax.model.record.Guardian;
 import mhealth.mvax.model.record.Patient;
-//import mhealth.mvax.model.record.Person;
 import mhealth.mvax.records.record.RecordFragment;
 
 /**
@@ -131,14 +129,14 @@ public abstract class ModifiablePatientFragment extends Fragment {
     private void viewRecord() {
         // in case of create, pop "Edit -> Search" from back stack and commit it
         // in case of edit, pop "Edit -> Record" from back stack and commit it
-        getActivity().getSupportFragmentManager().popBackStack();
+        getActivity().getFragmentManager().popBackStack();
 
         // in case of create, back stack is empty, so nothing happens
         // in cse of edit, pop "Record -> Search" from back stack and commit it
-        getActivity().getSupportFragmentManager().popBackStack();
+        getActivity().getFragmentManager().popBackStack();
 
         // commit "Search -> Record", adding "Record -> Search" to back stack
-        getActivity().getSupportFragmentManager().beginTransaction()
+        getActivity().getFragmentManager().beginTransaction()
                 .replace(R.id.frame_layout, RecordFragment.newInstance(mPatient.getDatabaseKey()))
                 .addToBackStack(null)
                 .commit();
