@@ -19,7 +19,6 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.auth;
 
-
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -44,13 +43,13 @@ import mhealth.mvax.R;
 import mhealth.mvax.model.user.UserWithUID;
 
 /**
- * This fragment represents the page where administrators can approve or deny user requests to
- * gain access to the application. The fragment is built around a simple 4 columned-list view with
- * a modal that pops up for approval/denial
- * @author Matthew Tribby
- * November, 2017
+ * Supports a fragment that allows an administrator to approve or deny requests
+ * for new mVax accounts
+ *
+ * @author Matthew Tribby, Robert Steilberg
  */
-public class ApproveUsersFragment extends Fragment {
+public class ApproveFragment extends Fragment {
+
     public static final String FIRST_NAME = "FIRST_NAME";
     public static final String LAST_NAME = "LAST_NAME";
     public static final String EMAIL = "EMAIL";
@@ -60,29 +59,20 @@ public class ApproveUsersFragment extends Fragment {
     private ArrayList<HashMap<String, String>> requests;
     private UserRegRequestsAdapter adapter;
 
-    public ApproveUsersFragment() {
-        // Required empty public constructor
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_approve_users, container, false);
+    public static ApproveFragment newInstance() {
+        return new ApproveFragment();
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_approve_users, container, false);
         setInfoButton(view);
         setupUserRequestLV(view);
-
-
-        super.onViewCreated(view, savedInstanceState);
+        return view;
     }
 
-    private void setInfoButton(View view){
-        ImageView info = (ImageView) view.findViewById(R.id.info);
+    private void setInfoButton(View view) {
+        ImageView info = view.findViewById(R.id.info);
         info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,7 +81,7 @@ public class ApproveUsersFragment extends Fragment {
         });
     }
 
-    private void setupUserRequestLV(View view){
+    private void setupUserRequestLV(View view) {
         userRequests = (ListView) view.findViewById(R.id.approveUsersLV);
 
         requests = new ArrayList<HashMap<String, String>>();
@@ -110,7 +100,7 @@ public class ApproveUsersFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //help from: https://stackoverflow.com/questions/40366717/firebase-for-android-how-can-i-loop-through-a-child-for-each-child-x-do-y
                 //requests = new ArrayList<HashMap<String, String>>();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                     UserWithUID user = snapshot.getValue(UserWithUID.class);
                     HashMap<String, String> userRequest = new HashMap<>();
@@ -126,17 +116,16 @@ public class ApproveUsersFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d("databaseError", "Error in ApproveUsersFragment.java");
+                Log.d("databaseError", "Error in ApproveFragment.java");
             }
         });
 
     }
 
 
-
-    private void refresh(){
+    private void refresh() {
         FragmentTransaction tr = getFragmentManager().beginTransaction();
-        tr.replace(R.id.frame_layout, new ApproveUsersFragment());
+        tr.replace(R.id.frame_layout, new ApproveFragment());
         tr.commit();
     }
 }

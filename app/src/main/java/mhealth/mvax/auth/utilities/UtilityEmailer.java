@@ -1,4 +1,4 @@
-package mhealth.mvax.auth;
+package mhealth.mvax.auth.utilities;
 
 import android.app.Activity;
 import android.content.Intent;

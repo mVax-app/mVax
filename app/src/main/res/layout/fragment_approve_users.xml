@@ -7,7 +7,7 @@
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
     android:gravity="center"
-    tools:context="mhealth.mvax.auth.ApproveUsersFragment">
+    tools:context="mhealth.mvax.auth.ApproveFragment">
 
     <ImageView
         android:id="@+id/info"

@@ -43,11 +43,12 @@ import java.util.List;
 import java.util.Map;
 
 import mhealth.mvax.R;
+import mhealth.mvax.auth.utilities.UtilityEmailer;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserRole;
 
 /**
- * This Adapter is a custom one that is for the ApproveUsersFragment
+ * This Adapter is a custom one that is for the ApproveFragment
  * There are three columsn, name, email, role
  *
  * Made with help from this tutorial: http://techlovejump.com/android-multicolumn-listview/
@@ -90,9 +91,9 @@ public class UserRegRequestsAdapter extends BaseAdapter{
         }
 
         HashMap<String, String> map=requests.get(i);
-        name.setText(map.get(ApproveUsersFragment.FIRST_NAME) + " " + map.get(ApproveUsersFragment.LAST_NAME));
-        email.setText(map.get(ApproveUsersFragment.EMAIL));
-      //  role.setText(map.get(ApproveUsersFragment.ROLE));
+        name.setText(map.get(ApproveFragment.FIRST_NAME) + " " + map.get(ApproveFragment.LAST_NAME));
+        email.setText(map.get(ApproveFragment.EMAIL));
+      //  role.setText(map.get(ApproveFragment.ROLE));
         createSpinner();
         setDecisionButtons(i);
 
@@ -132,10 +133,10 @@ public class UserRegRequestsAdapter extends BaseAdapter{
 
     private void addUserToDB(int index){
         Map<String, String> data = requests.get(index);
-        User newUser = new User(data.get(ApproveUsersFragment.FIRST_NAME), data.get(ApproveUsersFragment.LAST_NAME), data.get(ApproveUsersFragment.EMAIL), roleSpinner.getSelectedItem().toString());
+        User newUser = new User(data.get(ApproveFragment.FIRST_NAME), data.get(ApproveFragment.LAST_NAME), data.get(ApproveFragment.EMAIL), roleSpinner.getSelectedItem().toString());
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref = ref.child(activity.getResources().getString(R.string.userTable)).child(data.get(ApproveUsersFragment.UID));
+        ref = ref.child(activity.getResources().getString(R.string.userTable)).child(data.get(ApproveFragment.UID));
         ref.setValue(newUser);
 
         Log.d("Remove", "remove request submitted: "+ index);
@@ -152,8 +153,8 @@ public class UserRegRequestsAdapter extends BaseAdapter{
 
     private void removeUserRequestFromDB(int index, final boolean successful){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference account = ref.child(activity.getResources().getString(R.string.userRequestsTable)).child(requests.get(index).get(ApproveUsersFragment.UID));
-        final String userEmail = requests.get(index).get(ApproveUsersFragment.EMAIL);
+        DatabaseReference account = ref.child(activity.getResources().getString(R.string.userRequestsTable)).child(requests.get(index).get(ApproveFragment.UID));
+        final String userEmail = requests.get(index).get(ApproveFragment.EMAIL);
         requests.remove(index);
 
         account.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -169,7 +170,7 @@ public class UserRegRequestsAdapter extends BaseAdapter{
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e("databaseError", "Error in ApproveUsersFragment");
+                Log.e("databaseError", "Error in ApproveFragment");
             }});
 
         notifyDataSetChanged();

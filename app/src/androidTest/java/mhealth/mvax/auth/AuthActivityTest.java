@@ -39,10 +39,10 @@ import static junit.framework.Assert.assertTrue;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class LoginActivityTest {
+public class AuthActivityTest {
 
     @Rule
-    public MVaxActivityTestRule<LoginActivity> MVaxActivityTestRule = new MVaxActivityTestRule<LoginActivity>(LoginActivity.class);
+    public MVaxActivityTestRule<AuthActivity> MVaxActivityTestRule = new MVaxActivityTestRule<AuthActivity>(AuthActivity.class);
 
     @Test
     public void testUINotNull() {

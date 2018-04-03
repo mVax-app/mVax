@@ -57,7 +57,7 @@ import mhealth.mvax.auth.modals.RegisterModal;
  * Activity that handles user authentication, password reset, and new user registration;
  * all operations done via Firbase authentication and database API
  */
-public class LoginActivity extends Activity {
+public class AuthActivity extends Activity {
 
     private static final int ANIMATION_SPEED = 500;
     private static final int ANIMATION_SPEED_INSTANT = 0;
@@ -217,11 +217,11 @@ public class LoginActivity extends Activity {
             boolean noInternet = task.getException() instanceof FirebaseNetworkException;
             boolean badCredentials = task.getException() instanceof FirebaseAuthException;
             if (noInternet) {
-                Toast.makeText(LoginActivity.this, R.string.firebase_fail_no_connection, Toast.LENGTH_LONG).show();
+                Toast.makeText(AuthActivity.this, R.string.firebase_fail_no_connection, Toast.LENGTH_LONG).show();
             } else if (badCredentials) {
-                Toast.makeText(LoginActivity.this, R.string.auth_fail_bad_credentials, Toast.LENGTH_LONG).show();
+                Toast.makeText(AuthActivity.this, R.string.auth_fail_bad_credentials, Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(LoginActivity.this, R.string.firebase_fail_unknown, Toast.LENGTH_LONG).show();
+                Toast.makeText(AuthActivity.this, R.string.firebase_fail_unknown, Toast.LENGTH_LONG).show();
             }
         }
     }
