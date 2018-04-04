@@ -30,7 +30,7 @@
 
         <activity
             android:name=".auth.AuthActivity"
-            android:label="@string/title_activity_login" />
+            android:label="@string/title_activity_login"/>
 
         <activity
             android:name=".activities.MainActivity"
