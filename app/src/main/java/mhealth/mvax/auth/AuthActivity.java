@@ -21,6 +21,7 @@ package mhealth.mvax.auth;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,6 +47,8 @@ import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+
+import java.util.Objects;
 
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
@@ -208,6 +212,7 @@ public class AuthActivity extends Activity {
         if (task.isSuccessful()) {
             Log.w("successLogin", "signInWithEmail:success", task.getException());
             // login successful, transition to root Activity
+            dismissKeyboard();
             Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(mainIntent);
         } else {
@@ -219,6 +224,7 @@ public class AuthActivity extends Activity {
             if (noInternet) {
                 Toast.makeText(AuthActivity.this, R.string.firebase_fail_no_connection, Toast.LENGTH_LONG).show();
             } else if (badCredentials) {
+                mPasswordView.requestFocus();
                 Toast.makeText(AuthActivity.this, R.string.auth_fail_bad_credentials, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(AuthActivity.this, R.string.firebase_fail_unknown, Toast.LENGTH_LONG).show();
@@ -240,6 +246,12 @@ public class AuthActivity extends Activity {
         ObjectAnimator animProgress = ObjectAnimator.ofFloat(mSpinner,
                 View.TRANSLATION_X, mScreenWidth * out, mScreenWidth * in);
         animProgress.setDuration(speed).start();
+    }
+
+    private void dismissKeyboard() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        assert imm != null;
+        imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
     }
 
 }

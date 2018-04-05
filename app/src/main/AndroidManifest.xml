@@ -21,7 +21,8 @@
 
         <activity
             android:name=".activities.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -30,11 +31,13 @@
 
         <activity
             android:name=".auth.AuthActivity"
-            android:label="@string/title_activity_login"/>
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
             android:name=".activities.MainActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+            <!--TODO it's bad that we have configChanges-->
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->

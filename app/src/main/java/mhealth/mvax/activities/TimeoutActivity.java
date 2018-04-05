@@ -11,7 +11,8 @@ import mhealth.mvax.R;
 
 public class TimeoutActivity extends Activity {
 
-    private long timeoutDuration = 60000; // 10 sec = 10 * 1000 ms
+//    private long timeoutDuration = 60000; // 10 sec = 10 * 1000 ms
+private long timeoutDuration = 600000000; // 10 sec = 10 * 1000 ms
 
     private Handler disconnectHandler = new Handler() {
         public void handleMessage(Message msg) {
