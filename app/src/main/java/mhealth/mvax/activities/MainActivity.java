@@ -41,7 +41,8 @@ import mhealth.mvax.dashboard.FormsFragment;
 import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.settings.SettingsFragment;
 
-public class MainActivity extends Activity {
+public class MainActivity extends TimeoutActivity {
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +103,7 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
 
     }
@@ -124,7 +125,6 @@ public class MainActivity extends Activity {
     @Override
     public void onPause() {
         super.onPause();
-
         FirebaseAuth.getInstance().signOut();
         this.finish();
     }

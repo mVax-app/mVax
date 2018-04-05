@@ -128,6 +128,27 @@
                 android:text="@string/change_password"
                 android:textSize="25sp" />
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <Button
+                android:id="@+id/changeTimeout"
+                style="@android:style/Widget.Material.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start|center_vertical"
+                android:textAllCaps="false"
+                android:layout_marginEnd="90dp"
+                android:layout_marginStart="90dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/change_timeout"
+                android:textSize="25sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
             <Button
                 android:id="@+id/signOut"
                 android:layout_width="match_parent"
@@ -137,12 +158,8 @@
                 android:layout_marginEnd="90dp"
                 android:layout_marginStart="90dp"
                 android:layout_marginTop="28dp"
-                android:textSize="25sp"
                 android:text="@string/sign_out"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-               />
-
+                android:textSize="25sp" />
 
             <Space
                 android:layout_width="match_parent"
