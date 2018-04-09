@@ -42,7 +42,7 @@ import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.FirebaseAuth;
 
 import mhealth.mvax.R;
-import mhealth.mvax.auth.AuthInputValidator;
+import mhealth.mvax.auth.utilities.AuthInputValidator;
 
 /**
  * @author Robert Steilberg

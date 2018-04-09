@@ -24,19 +24,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This enum represents all possibilities for user roles.
- * A user role defines an access level for a user to the app.
+ * Enum representing user role, which defines access levels to read/write
+ * privileges of mVax data
+ *
  * @author Matthew Tribby
- * November, 2017
  */
 public enum UserRole implements Serializable {
     ADMIN,
     READER;
 
-    public static List<String> getRoles(){
+    // TODO try to get rid of this
+    public static List<String> getRoles() {
         List<String> roles = new ArrayList<String>();
         UserRole[] values = UserRole.class.getEnumConstants();
-        for(int i = 0; i < values.length; i++){
+        for (int i = 0; i < values.length; i++) {
             roles.add(values[i].name());
         }
         return roles;
