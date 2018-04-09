@@ -16,7 +16,7 @@
     },
     "userRequests": {
       ".read": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'",
-      ".write": "auth != null"
+      ".write": "true"
     }
   }
 }

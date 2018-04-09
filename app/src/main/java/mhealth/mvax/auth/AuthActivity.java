@@ -25,12 +25,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
@@ -41,19 +39,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 
 import java.util.Objects;
 
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
 import mhealth.mvax.auth.modals.PasswordResetModal;
-import mhealth.mvax.auth.modals.RegisterModal;
+import mhealth.mvax.auth.modals.RequestAccountModal;
 
 /**
  * @author Matthew Tribby, Steven Yang, Robert Steilberg
@@ -100,45 +98,36 @@ public class AuthActivity extends Activity {
 
     private void initTextFields() {
         // in email EditText, enter on hardware keyboard submits for authentication
-        mEmailView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (event != null
-                        && event.getAction() == KeyEvent.ACTION_DOWN // debounce
-                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                    authenticate();
-                    return true;
-                }
-                return false;
+        mEmailView.setOnEditorActionListener((v, actionId, event) -> {
+            if (event != null
+                    && event.getAction() == KeyEvent.ACTION_DOWN // debounce
+                    && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                authenticate();
+                return true;
             }
+            return false;
         });
 
         // in password EditText, enter on hardware keyboard submits for authentication;
         // "Done" button submits for authentication too
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (event != null
-                        && event.getAction() == KeyEvent.ACTION_DOWN
-                        && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                    authenticate();
-                    return true;
-                }
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    authenticate();
-                    return true;
-                }
-                return false;
+        mPasswordView.setOnEditorActionListener((v, actionId, event) -> {
+            if (event != null
+                    && event.getAction() == KeyEvent.ACTION_DOWN
+                    && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                authenticate();
+                return true;
             }
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                authenticate();
+                return true;
+            }
+            return false;
         });
 
         // re-focusing to the password EditText clears out any text
-        mPasswordView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    mPasswordView.setText("");
-                }
+        mPasswordView.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                mPasswordView.setText("");
             }
         });
     }
@@ -146,29 +135,18 @@ public class AuthActivity extends Activity {
     private void initButtons() {
         // tie authenticate action to "Sign In" button
         Button signInButton = findViewById(R.id.button_authenticate);
-        signInButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                authenticate();
-            }
-        });
+        signInButton.setOnClickListener(view -> authenticate());
         // tie register action to "Register" TextView
         TextView registerButton = findViewById(R.id.textview_register);
-        registerButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                RegisterModal registerModal = new RegisterModal(view);
-                registerModal.show();
-            }
+        registerButton.setOnClickListener(view -> {
+            RequestAccountModal requestAccountModal = new RequestAccountModal(view);
+            requestAccountModal.show();
         });
         // tie reset password action to "Reset Password" TextView
         TextView forgotButton = findViewById(R.id.textview_reset_password);
-        forgotButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PasswordResetModal resetModal = new PasswordResetModal(view);
-                resetModal.show();
-            }
+        forgotButton.setOnClickListener(view -> {
+            PasswordResetModal resetModal = new PasswordResetModal(view);
+            resetModal.show();
         });
     }
 
@@ -182,12 +160,7 @@ public class AuthActivity extends Activity {
         if (fieldsValid(email, password)) {
             animateTextInputs(ANIMATION_SPEED, true);
             mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            handleAuthCallback(task);
-                        }
-                    });
+                    .addOnCompleteListener(this, task -> handleAuthCallback(task));
         }
         mPasswordView.setText("");
     }
@@ -220,12 +193,17 @@ public class AuthActivity extends Activity {
             animateTextInputs(ANIMATION_SPEED, false); // bring back auth fields
             // see what the error was
             boolean noInternet = task.getException() instanceof FirebaseNetworkException;
-            boolean badCredentials = task.getException() instanceof FirebaseAuthException;
+            boolean authError = task.getException() instanceof FirebaseAuthException;
             if (noInternet) {
                 Toast.makeText(AuthActivity.this, R.string.firebase_fail_no_connection, Toast.LENGTH_LONG).show();
-            } else if (badCredentials) {
-                mPasswordView.requestFocus();
-                Toast.makeText(AuthActivity.this, R.string.auth_fail_bad_credentials, Toast.LENGTH_LONG).show();
+            } else if (authError) {
+                FirebaseAuthException q = (FirebaseAuthException) task.getException();
+                if (q.getErrorCode().equals("ERROR_USER_DISABLED")) {
+                    Toast.makeText(AuthActivity.this, R.string.auth_fail_disabled_user, Toast.LENGTH_LONG).show();
+                } else {
+                    mPasswordView.requestFocus();
+                    Toast.makeText(AuthActivity.this, R.string.auth_fail_bad_credentials, Toast.LENGTH_LONG).show();
+                }
             } else {
                 Toast.makeText(AuthActivity.this, R.string.firebase_fail_unknown, Toast.LENGTH_LONG).show();
             }
@@ -249,7 +227,7 @@ public class AuthActivity extends Activity {
     }
 
     private void dismissKeyboard() {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         assert imm != null;
         imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
     }

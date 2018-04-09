@@ -33,7 +33,7 @@
                 android:text="@string/modal_register_subtitle" />
 
             <EditText
-                android:id="@+id/edittext_register_name"
+                android:id="@+id/display_name"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginLeft="8dp"
@@ -41,7 +41,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_weight="2.53"
                 android:ems="10"
-                android:hint="@string/hint_register_name"
+                android:hint="@string/hint_register_display_name"
                 android:inputType="textCapWords"
                 app:layout_constraintHorizontal_bias="0.503" />
 
@@ -66,8 +66,32 @@
                 android:layout_marginTop="8dp"
                 android:layout_weight="2.53"
                 android:ems="10"
-                android:hint="@string/hint_register_email_2"
+                android:hint="@string/hint_register_email_confirm"
                 android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/edittext_register_password"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="2.53"
+                android:ems="10"
+                android:hint="@string/hint_register_password"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/edittext_register_password_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="2.53"
+                android:ems="10"
+                android:hint="@string/hint_register_password_confirm"
+                android:inputType="textPassword" />
 
         </LinearLayout>
 

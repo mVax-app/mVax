@@ -6,6 +6,7 @@
     <!-- Strings related to login -->
     <string name="title_activity_login">Sign in</string>
     <string name="auth_fail_bad_credentials">Incorrect email or password</string>
+    <string name="auth_fail_disabled_user">User has not been approved by administrator</string>
     <string name="firebase_fail_no_connection">No internet connection</string>
     <string name="firebase_fail_unknown">An unknown error occurred</string>
     <string name="prompt_email">email</string>
@@ -14,11 +15,13 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="resetPassword">Forgot password?</string>
     <string name="error_invalid_email">Invalid email address</string>
-    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_password">Invalid password</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_empty_field">Required field</string>
-    <string name="error_field_mismatch">Email fields must match</string>
+    <string name="email_field_mismatch">Email fields must match</string>
+    <string name="password_field_mismatch">Password fields must match</string>
+
     <string name="request_submit_success">Account request successfully submitted</string>
     <string name="error_used_email">Account already registered with this email</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
@@ -73,10 +76,13 @@
 
     <!-- New user registration-->
     <string name="modal_register_title">Request New Account</string>
-    <string name="modal_register_subtitle">You can request an mVax account by providing your name and email and tapping Submit. An mVax administrator will then approve or deny your request for an account. Upon approval, you can log into mVax and will be prompted to set a password for your account.</string>
-    <string name="hint_register_name">full name</string>
+    <string name="modal_register_subtitle">You can request an mVax account by providing your name and email and tapping Submit. An mVax administrator will then approve or deny your request for an account. Upon approval, you can log into mVax.</string>
+    <string name="hint_register_display_name">full name</string>
     <string name="hint_register_email">email address</string>
-    <string name="hint_register_email_2">confirm email address</string>
+    <string name="hint_register_email_confirm">confirm email address</string>
+    <string name="hint_register_password">password</string>
+    <string name="hint_register_password_confirm">confirm password</string>
+    <string name="request_submit_fail">There is already an existing user or an existing user request with this email</string>
 
     <!-- Reset password-->
     <string name="modal_reset_title">Password Reset</string>
@@ -132,6 +138,21 @@
                                   \n
                                   A READER can:\n
                                     &#8226; view all users and vaccination records</string>
+    <string name="modal_approve_user_request_title">Approve user request</string>
+    <string name="modal_approve_user_request_message">You\'ve chosen to confirm %1$s\'s request for a %2$s mVax account. Tap Confirm to activate the new account.</string>
+    <string name="hint_password">password</string>
+    <string name="hint_password_confirm">confirm password</string>
+    <string name="button_approve_user_confirm">Confirm</string>
+    <string name="button_approve_user_cancel">Cancel</string>
+
+    <string name="modal_deny_user_request_title">Deny user request</string>
+    <string name="modal_deny_user_request_message">Are you sure you want to deny this user\'s request for an mVax account? They will be able to request another account later if they wish.</string>
+    <string name="request_deny_success">User request denied</string>
+    <string name="request_deny_fail">Unexpected error denying user request</string>
+
+    <string name="approve_user_success">User has been approved and their account activated</string>
+    <string name="approve_user_fail">Unexpected error approving user request</string>
+
 
     <!-- User Info Fragment -->
     <string name="modal_role_info_title">User Roles Types</string>

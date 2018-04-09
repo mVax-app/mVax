@@ -57,7 +57,7 @@ public class Patient implements Serializable {
     //================================================================================
 
     /**
-     * Unique Firebase database key of the Person object
+     * Unique Firebase database key
      */
     private String databaseKey;
 

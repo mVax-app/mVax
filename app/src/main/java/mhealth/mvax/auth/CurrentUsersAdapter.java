@@ -11,7 +11,6 @@ import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.user.User;
-import mhealth.mvax.model.user.UserWithUID;
 
 /**
  * @author Matthew Tribby
@@ -21,9 +20,9 @@ import mhealth.mvax.model.user.UserWithUID;
 
 public class CurrentUsersAdapter extends BaseAdapter {
     private Activity mActivity;
-    private List<UserWithUID> users;
+    private List<User> users;
 
-    public CurrentUsersAdapter(Activity activity, List<UserWithUID> users){
+    public CurrentUsersAdapter(Activity activity, List<User> users){
         this.mActivity = activity;
         this.users = users;
     }
@@ -37,10 +36,10 @@ public class CurrentUsersAdapter extends BaseAdapter {
         TextView email = (TextView) view.findViewById(R.id.edittext_email);
         TextView role = (TextView) view.findViewById(R.id.role);
 
-        UserWithUID user = users.get(i);
-        name.setText(user.getFirstName() + " " + user.getLastName());
+        User user = users.get(i);
+        name.setText(user.getDisplayName());
         email.setText(user.getEmail());
-        role.setText(user.getRole());
+//        role.setText(user.getRole());
         return view;
     }
 
