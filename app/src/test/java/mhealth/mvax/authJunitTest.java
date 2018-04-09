@@ -21,6 +21,8 @@ package mhealth.mvax;
 
 import org.junit.Test;
 
+import mhealth.mvax.auth.LoginActivity;
+
 /**
  * Created by mtribby on 10/23/17.
  */
@@ -32,13 +34,13 @@ public class authJunitTest {
     @Test
     public void checkInvalidEmail(){
         //need to add more edge cases
-        //assert(AuthActivity.isEmailValid(TEST_BAD_USERNAME) == false);
+        //assert(LoginActivity.isEmailValid(TEST_BAD_USERNAME) == false);
     }
 
     @Test
     public void checkInvalidPassword(){
         //Need to add more edge cases / define proper password requirements
-        //assert(AuthActivity.isPasswordValid(TEST_BAD_PASSWORD) == false);
+        //assert(LoginActivity.isPasswordValid(TEST_BAD_PASSWORD) == false);
     }
 
 }

@@ -47,8 +47,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
-import mhealth.mvax.auth.ApproveFragment;
-import mhealth.mvax.auth.utilities.AuthInputValidator;
+import mhealth.mvax.auth.ApproveUsersFragment;
+import mhealth.mvax.auth.AuthInputValidator;
 import mhealth.mvax.auth.CurrentUsersFragment;
 import mhealth.mvax.language.LanguageUtillity;
 import mhealth.mvax.model.user.UserRole;
@@ -306,7 +306,7 @@ public class SettingsFragment extends Fragment {
 
 
     private void switchToApproveUsersFragment() {
-        ApproveFragment approveUsers = new ApproveFragment();
+        ApproveUsersFragment approveUsers = new ApproveUsersFragment();
 
         FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
         transaction.replace(getId(), this).addToBackStack(null); // so that back button works
