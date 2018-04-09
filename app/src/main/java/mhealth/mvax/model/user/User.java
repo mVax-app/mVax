@@ -22,85 +22,101 @@ package mhealth.mvax.model.user;
 import java.io.Serializable;
 
 /**
- * @author Matthew Tribby, Robert Steilberg
+ * @author Matthew Tribby
  * <p>
  * Object for storing information about mVax users
  */
 
 public class User implements Serializable {
+    private String mFirstName;
+    private String mLastName;
+    private String mEmail;
+    private String mRole;
 
-    private User() {
-        // Firebase POJO constructor
+    /**
+     * Default Firebase constructor; should not
+     * be used internally
+     */
+    public User() {
     }
 
-    public User(String databaseKey, String UID) {
-        this.databaseKey = databaseKey;
-        this.UID = UID;
+    public User(String firstName, String lastName, String email, String role) {
+        this.mFirstName = firstName;
+        this.mLastName = lastName;
+        this.mEmail = email;
+        this.mRole = role;
     }
 
     /**
-     * Unique Firebase database key
+     * For the mFirstName attribute, return for Firebase
+     *
+     * @return First name of user
      */
-    private String databaseKey;
-
-    public String getDatabaseKey() {
-        return this.databaseKey;
-    }
-
-    public void setDatabaseKey(String databaseKey) {
-        this.databaseKey = databaseKey;
+    public String getFirstName() {
+        return mFirstName;
     }
 
     /**
-     * Firebase UID to link user to their auth table entry
+     * For the mFirstName attribute, sets value
+     *
+     * @param firstName
      */
-    private String UID;
-
-    public String getUID() {
-        return this.UID;
-    }
-
-    public void setUID(String UID) {
-        this.UID = UID;
+    public void setFirstName(String firstName) {
+        this.mFirstName = firstName;
     }
 
     /**
-     * User's display name
+     * For the mLastName attribute, return for Firebase
+     *
+     * @return First name of user
      */
-    private String displayName;
-
-    public String getDisplayName() {
-        return this.displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public String getLastName() {
+        return mLastName;
     }
 
     /**
-     * User's email/username
+     * For the mLastName attribute, sets value
+     *
+     * @param lastName
      */
-    private String email;
+    public void setLastName(String lastName) {
+        this.mLastName = lastName;
+    }
 
+    /**
+     * For the mRole attribute, return for Firebase
+     *
+     * @return UserRole
+     */
+    public String getRole() {
+        return mRole;
+    }
+
+    /**
+     * Sets the UserRole enum value
+     *
+     * @param role
+     */
+    public void setRole(String role) {
+        this.mRole = role;
+    }
+
+    /**
+     * For the mEmail attribute, return for Firebase
+     *
+     * @return email string
+     */
     public String getEmail() {
-        return this.email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+        return mEmail;
     }
 
     /**
-     * User's permission level
+     * Sets the email value
+     *
+     * @param email
      */
-    private UserRole role;
-
-    public UserRole getRole() {
-        return this.role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
+    public void setEmail(String email) {
+        this.mEmail = email;
     }
 
 }

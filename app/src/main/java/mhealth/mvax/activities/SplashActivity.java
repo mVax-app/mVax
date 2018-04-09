@@ -26,7 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.google.firebase.database.FirebaseDatabase;
 
-import mhealth.mvax.auth.AuthActivity;
+import mhealth.mvax.auth.LoginActivity;
 
 /**
  * @author Steven Yang
@@ -42,7 +42,7 @@ public class SplashActivity extends AppCompatActivity {
         // enables offline data persistence
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
-        Intent intent = new Intent(this, AuthActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
