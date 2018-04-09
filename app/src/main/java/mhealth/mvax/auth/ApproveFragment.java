@@ -20,37 +20,24 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.auth;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.UserRecoverableException;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.user.User;
-import mhealth.mvax.model.user.UserRequest;
-import mhealth.mvax.model.user.UserWithUID;
 
 /**
  * Supports a fragment that allows an administrator to approve or deny requests
@@ -72,8 +59,6 @@ public class ApproveFragment extends Fragment {
     public static ApproveFragment newInstance() {
         return new ApproveFragment();
     }
-
-    // ondestroy
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,29 +92,30 @@ public class ApproveFragment extends Fragment {
         final String requestTable = getResources().getString(R.string.userRequestsTable);
         mRef = FirebaseDatabase.getInstance().getReference()
                 .child(requestTable);
+
         mListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                UserRequest request = dataSnapshot.getValue(UserRequest.class);
+                User request = dataSnapshot.getValue(User.class);
                 mAdapter.addRequest(request);
                 mNoRequestText.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                // this should not ever happen
+                // this should never happen
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                UserRequest request = dataSnapshot.getValue(UserRequest.class);
+                User request = dataSnapshot.getValue(User.class);
                 mAdapter.removeRequest(request);
                 if (mAdapter.getItemCount() == 0) mNoRequestText.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                // this should not ever happen
+                // this should never happen
             }
 
             @Override
@@ -141,91 +127,4 @@ public class ApproveFragment extends Fragment {
         mRef.addChildEventListener(mListener);
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    private void setInfoButton(View view) {
-//        ImageView info = view.findViewById(R.id.info);
-//        info.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                new UserRoleInfoBuilder(getActivity()).getBuilder().show();
-//            }
-//        });
-//    }
-//
-//    private void setupUserRequestLV(View view) {
-//        userRequests = (ListView) view.findViewById(R.id.approveUsersLV);
-//
-//        requests = new ArrayList<HashMap<String, String>>();
-//
-//        adapter = new UserRegRequestsAdapter(getActivity(), requests);
-//
-//        userRequests.setAdapter(adapter);
-//
-//        userRequests.setEmptyView(view.findViewById(R.id.empty_list));
-//
-//        //Get data out of user requests
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-//        ref = ref.child(getResources().getString(R.string.userRequestsTable));
-//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                //help from: https://stackoverflow.com/questions/40366717/firebase-for-android-how-can-i-loop-through-a-child-for-each-child-x-do-y
-//                //requests = new ArrayList<HashMap<String, String>>();
-//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//
-//                    UserWithUID user = snapshot.getValue(UserWithUID.class);
-//                    HashMap<String, String> userRequest = new HashMap<>();
-//                    userRequest.put(FIRST_NAME, user.getFirstName());
-//                    userRequest.put(LAST_NAME, user.getLastName());
-//                    userRequest.put(EMAIL, user.getEmail());
-//                    userRequest.put(UID, user.getUid());
-//                    requests.add(userRequest);
-//                    adapter.notifyDataSetChanged();
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                Log.d("databaseError", "Error in ApproveFragment.java");
-//            }
-//        });
-//
-//    }
-//
-//
-//    private void refresh() {
-//        FragmentTransaction tr = getFragmentManager().beginTransaction();
-//        tr.replace(R.id.frame_layout, new ApproveFragment());
-//        tr.commit();
-//    }
 }

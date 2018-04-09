@@ -28,7 +28,6 @@ import java.util.List;
 import mhealth.mvax.R;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserRole;
-import mhealth.mvax.model.user.UserWithUID;
 
 /**
  * Matthew Tribby
@@ -36,7 +35,7 @@ import mhealth.mvax.model.user.UserWithUID;
 public class CurrentUsersFragment extends Fragment {
 
     private ListView currentUsersLV;
-    private List<UserWithUID> users;
+    private List<User> users;
     private CurrentUsersAdapter adapter;
 
     public CurrentUsersFragment() {
@@ -75,7 +74,7 @@ public class CurrentUsersFragment extends Fragment {
     private void setUpLV(View view){
         currentUsersLV = (ListView) view.findViewById(R.id.currentUsersLV);
 
-        users = new ArrayList<UserWithUID>();
+        users = new ArrayList<User>();
         adapter = new CurrentUsersAdapter(getActivity(), users);
 
         currentUsersLV.setAdapter(adapter);
@@ -94,7 +93,7 @@ public class CurrentUsersFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()){
                     User user = child.getValue(User.class);
-                    users.add(new UserWithUID(child.getKey(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole()));
+//                    users.add(new UserWithUID(child.getKey(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole()));
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -118,40 +117,40 @@ public class CurrentUsersFragment extends Fragment {
         final View dialogView = inflater.inflate(R.layout.modal_current_user, null);
         builder.setView(dialogView);
 
-        final UserWithUID user = (UserWithUID) currentUsersLV.getAdapter().getItem(row);
+        final User user = (User) currentUsersLV.getAdapter().getItem(row);
 
         setModalText(dialogView,  user);
         setInfoButton(dialogView);
 
-        final Spinner roleSpinner = createSpinner(dialogView, user.getRole());
-
-        builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                if(!((String) roleSpinner.getSelectedItem()).equals(user.getRole())){
-                    Log.d("CHANGE", "Change role to: " + roleSpinner.getSelectedItem());
-
-                    //Update Database
-                    User newUserAttributes = new User(user.getFirstName(), user.getLastName(), user.getEmail(), roleSpinner.getSelectedItem().toString());
-                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child(getResources().getString(R.string.userTable)).child(user.getUid());
-                    userRef.setValue(newUserAttributes);
-
-                    //Update Adapter
-                    user.setRole(roleSpinner.getSelectedItem().toString());
-                    adapter.notifyDataSetChanged();
-                }
-            }
-        });
+//        final Spinner roleSpinner = createSpinner(dialogView, user.getRole());
+//
+//        builder.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                if(!((String) roleSpinner.getSelectedItem()).equals(user.getRole())){
+//                    Log.d("CHANGE", "Change role to: " + roleSpinner.getSelectedItem());
+//
+//                    //Update Database
+//                    User newUserAttributes = new User(user.getFirstName(), user.getLastName(), user.getEmail(), roleSpinner.getSelectedItem().toString());
+//                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child(getResources().getString(R.string.userTable)).child(user.getUid());
+//                    userRef.setValue(newUserAttributes);
+//
+//                    //Update Adapter
+//                    user.setRole(roleSpinner.getSelectedItem().toString());
+//                    adapter.notifyDataSetChanged();
+//                }
+//            }
+//        });
 
 
         builder.show();
 
     }
 
-    private void setModalText(View dialogView, UserWithUID user){
+    private void setModalText(View dialogView, User user){
 
         TextView name = (TextView) dialogView.findViewById(R.id.name);
-        name.setText(user.getFirstName() + " " + user.getLastName());
+        name.setText(user.getDisplayName());
 
         TextView email = (TextView) dialogView.findViewById(R.id.edittext_email);
         email.setText(user.getEmail());
@@ -172,7 +171,7 @@ public class CurrentUsersFragment extends Fragment {
 
         final Spinner roleSpinner = (Spinner) dialogView.findViewById(R.id.role_spinner);
         List<String> rolesList = new ArrayList<>();
-        rolesList.addAll(UserRole.getRoles());
+//        rolesList.addAll(UserRole.getRoles());
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_spinner_item, rolesList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
