@@ -10,7 +10,7 @@
     android:paddingTop="10dp"
     android:weightSum="1"
     android:gravity="center"
-    tools:context="mhealth.mvax.auth.LoginActivity">
+    tools:context="mhealth.mvax.auth.AuthActivity">
 
 
     <EditText

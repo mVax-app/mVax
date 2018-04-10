@@ -6,13 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 
 import mhealth.mvax.R;
 
-public class TimeoutActivity extends AppCompatActivity {
+public class TimeoutActivity extends Activity {
 
-    private long timeoutDuration = 60000; // 10 sec = 10 * 1000 ms
+//    private long timeoutDuration = 60000; // 10 sec = 10 * 1000 ms
+private long timeoutDuration = 600000000; // 10 sec = 10 * 1000 ms
 
     private Handler disconnectHandler = new Handler() {
         public void handleMessage(Message msg) {

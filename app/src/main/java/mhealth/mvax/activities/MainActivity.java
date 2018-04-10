@@ -28,11 +28,14 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.functions.FirebaseFunctions;
 
 import mhealth.mvax.R;
 import mhealth.mvax.alerts.AlertsFragment;
@@ -48,6 +51,8 @@ public class MainActivity extends TimeoutActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // kill action bar
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser mFirebaseUser = auth.getCurrentUser();

@@ -6,6 +6,7 @@
     <!-- Strings related to login -->
     <string name="title_activity_login">Sign in</string>
     <string name="auth_fail_bad_credentials">Incorrect email or password</string>
+    <string name="auth_fail_disabled_user">User has not been approved by administrator</string>
     <string name="firebase_fail_no_connection">No internet connection</string>
     <string name="firebase_fail_unknown">An unknown error occurred</string>
     <string name="prompt_email">email</string>
@@ -14,11 +15,13 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="resetPassword">Forgot password?</string>
     <string name="error_invalid_email">Invalid email address</string>
-    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_password">Invalid password</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_empty_field">Required field</string>
-    <string name="error_field_mismatch">Email fields must match</string>
+    <string name="email_field_mismatch">Email fields must match</string>
+    <string name="password_field_mismatch">Password fields must match</string>
+
     <string name="request_submit_success">Account request successfully submitted</string>
     <string name="error_used_email">Account already registered with this email</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
@@ -73,10 +76,13 @@
 
     <!-- New user registration-->
     <string name="modal_register_title">Request New Account</string>
-    <string name="modal_register_subtitle">You can request an mVax account by providing your name and email and tapping Submit. An mVax administrator will then approve or deny your request for an account. Upon approval, you can log into mVax and will be prompted to set a password for your account.</string>
-    <string name="hint_register_name">full name</string>
+    <string name="modal_register_subtitle">You can request an mVax account by providing your name and email and tapping Submit. An mVax administrator will then approve or deny your request for an account. Upon approval, you can log into mVax.</string>
+    <string name="hint_register_display_name">full name</string>
     <string name="hint_register_email">email address</string>
-    <string name="hint_register_email_2">confirm email address</string>
+    <string name="hint_register_email_confirm">confirm email address</string>
+    <string name="hint_register_password">password</string>
+    <string name="hint_register_password_confirm">confirm password</string>
+    <string name="request_submit_fail">There is already an existing user or an existing user request with this email</string>
 
     <!-- Reset password-->
     <string name="modal_reset_title">Password Reset</string>
@@ -113,12 +119,48 @@
     <string name="select_user_role">Select User Role</string>
     <string name="error_select_role">Must select user role for request</string>
     <string name="user_request_decision">Decision</string>
-    <string name="approve_user_instructions">In order to approve a user\'s request to join, you must select an access level for them (see the info button in the top right for more information). You can also deny a user request.</string>
-    <string name="empty_approve_list_view">No user requests</string>
+    <string name="approve_user_instructions">Select a role for a user and tap Approve to create their mVax account, or tap Deny to deny their request.</string>
+    <string name="no_user_requests">No user requests</string>
+    <string name="no_role_selected">Please select a role for the user before approving them</string>
     <string name="acceptance_email_subject">mVax User Registration Approved!</string>
     <string name="acceptance_email_body">Welcome! You have been approved to join mVax. You are now able to sign in with your credentials</string>
     <string name="rejection_email_subject">mVax User Registration Denied</string>
     <string name="rejection_email_body">Hello, your request to join mVax has been denied. Contact an administrator for more details.</string>
+    <string name="failure_user_request_download">Unable to download user requests</string>
+    <string name="role_info_title">Roles</string>
+    <string name="role_info_desc">mVax supports two different roles: ADMIN and READER.\n\n
+                                  An ADMIN can:\n
+                                    &#8226; view all users and vaccine records\n
+                                    &#8226; create new users and vaccine records\n
+                                    &#8226; edit or delete existing data\n
+                                    &#8226; approve new users\n
+                                    &#8226; change the role of or deactivate existing users\n
+                                  \n
+                                  A READER can:\n
+                                    &#8226; view all users and vaccination records</string>
+    <string name="modal_approve_user_request_title">Approve user request</string>
+    <string name="modal_approve_user_request_message">You\'ve chosen to confirm %1$s\'s request for a %2$s mVax account. Tap Confirm to activate the new account.</string>
+    <string name="hint_password">password</string>
+    <string name="hint_password_confirm">confirm password</string>
+    <string name="button_approve_user_confirm">Confirm</string>
+    <string name="button_approve_user_cancel">Cancel</string>
+
+    <string name="modal_deny_user_request_title">Deny user request</string>
+    <string name="modal_deny_user_request_message">Are you sure you want to deny this user\'s request for an mVax account? They will be able to request another account later if they wish.</string>
+    <string name="request_deny_success">User request denied</string>
+    <string name="request_deny_fail">Unexpected error denying user request</string>
+
+    <string name="approve_user_success">User has been approved and their account activated</string>
+    <string name="approve_user_fail">Unexpected error approving user request</string>
+
+
+    <!-- User Info Fragment -->
+    <string name="modal_role_info_title">User Roles Types</string>
+
+    <string name="admin_info">ADMIN: have access to read and write data. Only admin can input new records. Additionally, can approve new user requests and view current users</string>
+    <string name="reader_info">READER: have access to see the data but cannot write any new information. Cannot handle other users.</string>
+
+
 
     <!-- Current Users Fragment -->
     <string name="current_users_title">Current Users</string>
@@ -126,16 +168,15 @@
     <!-- User Fragments -->
     <string name="user_name">Name</string>
     <string name="user_email">Email</string>
-    <string name="user_role">Access Level</string>
+    <string name="user_role">Role</string>
+    <string name="user_role_info">Details about user roles</string>
     <string name="modal_current_user_title">Edit User\'s Access</string>
     <string name="modal_current_role">Role: </string>
+    <string name="admin_role">Admin</string>
+    <string name="reader_role">Reader</string>
     <string name="modal_new_role">Change user\'s role: </string>
     <string name="role_no_change">No Change</string>
 
-    <!-- User Info Fragment -->
-    <string name="modal_role_info_title">User Roles Types</string>
-    <string name="admin_info">ADMIN: have access to read and write data. Only admin can input new records. Additionally, can approve new user requests and view current users</string>
-    <string name="reader_info">READER: have access to see the data but cannot write any new information. Cannot handle other users.</string>
 
 
     <!-- About Button -->
@@ -280,7 +321,7 @@
         To start, simply click on which form you would like to export. Then a screen will pop up where you will have to provide
             additional information to narrow down what you want on the form. For the SINOVA this is the date you want the data from. For
             SINOVA 2 it is the month you want the data from. And for the LINV, it is which patients you want contained. </string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
 
     <!-- FORM CONSTANTS-->
     <string name="form_clinic_name">Clinica Esperanza</string>
