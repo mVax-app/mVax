@@ -1,6 +1,10 @@
 {
   "rules": {
-    "mVax-data": {
+    "config" : {
+      ".read": "auth != null",
+      ".write": "false"
+    },
+    "data": {
       ".read": "auth != null",
       ".write": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'",
       "vaccinations": {

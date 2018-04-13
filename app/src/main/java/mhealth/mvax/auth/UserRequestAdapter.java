@@ -55,6 +55,7 @@ import java.util.Map;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.modals.ApproveUserModal;
+import mhealth.mvax.auth.modals.DenyUserModal;
 import mhealth.mvax.auth.utilities.UtilityEmailer;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserRole;
@@ -155,47 +156,9 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
         approveModal.show();
     }
 
-    private Task<String> deleteUser(String uid) {
-        HashMap<String, Object> args = new HashMap<>();
-        args.put("uid", uid);
-        FirebaseFunctions functions = FirebaseFunctions.getInstance();
-        return functions.getHttpsCallable("deleteAccount").call(args).continueWith(task -> null);
-    }
-
-    private void deleteUserRequest(User request) {
-
-        deleteUser(request.getUID()).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-
-                final String requestsTable = StringFetcher.fetchString(R.string.userRequestsTable);
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
-                        .child(requestsTable);
-                ref.child(request.getDatabaseKey()).setValue(null).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-
-                    }
-                });
-
-            } else {
-//                Toast.makeText(getActivity(), R.string.deny_user_fail, Toast.LENGTH_LONG).show();
-            }
-
-        });
-    }
-
-
     private void attemptDeny(View v, User request) {
-        new AlertDialog.Builder(v.getContext())
-                .setTitle(v.getResources().getString(R.string.modal_deny_user_request_title))
-                .setMessage(R.string.modal_deny_user_request_message)
-                .setPositiveButton(v.getResources().getString(R.string.ok), (dialog, which) -> {
-
-                    deleteUserRequest(request);
-
-                })
-                .setNegativeButton(v.getResources().getString(R.string.button_reset_password_cancel), null)
-                .show();
+        DenyUserModal denyModal = new DenyUserModal(v, request);
+        denyModal.show();
     }
 
 }

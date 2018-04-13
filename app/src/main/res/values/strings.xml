@@ -153,6 +153,9 @@
     <string name="approve_user_success">User has been approved and their account activated</string>
     <string name="approve_user_fail">Unexpected error approving user request</string>
 
+    <string name="deny_user_success">User request successfully denied</string>
+    <string name="deny_user_fail">Unexpected error denying user request</string>
+
 
     <!-- User Info Fragment -->
     <string name="modal_role_info_title">User Roles Types</string>

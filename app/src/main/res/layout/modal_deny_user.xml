@@ -30,7 +30,7 @@
                 android:layout_marginStart="14dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:text="@string/modal_approve_user_request_message" />
+                android:text="@string/modal_deny_user_request_message" />
 
         </LinearLayout>
 
