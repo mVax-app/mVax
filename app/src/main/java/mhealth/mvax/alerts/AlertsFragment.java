@@ -222,7 +222,7 @@ public class AlertsFragment extends Fragment {
 //        @Override
 //        public View getChildView(int i, int i1, boolean b, View view, ViewGroup viewGroup) {
 //            TextView textView = new TextView(AlertsFragment.this.getActivity());
-//            //Temporary PlaceHolder for patient contact info - Demo purpose
+//            //Temporary PlaceHolder for patient contact infoButton - Demo purpose
 //            if(getChild(i, i1).toString().equals("Steilberg, Robert Hays II")){
 //                textView.setText(getChild(i, i1).toString() + "\nPhone Number: 8046904814" + "\nCommunity: Alspaugh" + "\nAddress: 9014 Tarrytown Drive, Richmind, VA 23229");
 //            }

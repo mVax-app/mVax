@@ -28,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="14dp"
                 android:layout_marginStart="14dp"
-                android:text="@string/modal_approve_user_request_message" />
+                android:text="@string/modal_deny_user_request_message" />
 
         </LinearLayout>
 
