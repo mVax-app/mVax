@@ -76,13 +76,14 @@
 
     <!-- New user registration-->
     <string name="modal_register_title">Request New Account</string>
-    <string name="modal_register_subtitle">You can request an mVax account by providing your name and email and tapping Submit. An mVax administrator will then approve or deny your request for an account. Upon approval, you can log into mVax.</string>
+    <string name="modal_register_subtitle">You can request an mVax account by providing your name and email and tapping Submit. An mVax administrator will then approve or deny your request for an account. Upon approval, you can log into mVax.\n\nYour password must have at least one uppercase letter, one lowercase letter, one digit, and one special character.</string>
     <string name="hint_register_display_name">full name</string>
     <string name="hint_register_email">email address</string>
     <string name="hint_register_email_confirm">confirm email address</string>
     <string name="hint_register_password">password</string>
     <string name="hint_register_password_confirm">confirm password</string>
     <string name="request_submit_fail">There is already an existing user or an existing user request with this email</string>
+    <string name="request_submit_unknown_fail">User account request was not successful; try your request again</string>
 
     <!-- Reset password-->
     <string name="modal_reset_title">Password Reset</string>
@@ -126,7 +127,7 @@
     <string name="acceptance_email_body">Welcome! You have been approved to join mVax. You are now able to sign in with your credentials</string>
     <string name="rejection_email_subject">mVax User Registration Denied</string>
     <string name="rejection_email_body">Hello, your request to join mVax has been denied. Contact an administrator for more details.</string>
-    <string name="failure_user_request_download">Unable to download user requests</string>
+    <string name="fail_user_request_download">Unable to download user requests</string>
     <string name="role_info_title">Roles</string>
     <string name="role_info_desc">mVax supports two different roles: ADMIN and READER.\n\n
                                   An ADMIN can:\n
@@ -152,9 +153,13 @@
 
     <string name="approve_user_success">User has been approved and their account activated</string>
     <string name="approve_user_fail">Unexpected error approving user request</string>
+    <string name="approve_user_incomplete">User approval did not complete successfully; try approving the user again</string>
 
     <string name="deny_user_success">User request successfully denied</string>
     <string name="deny_user_fail">Unexpected error denying user request</string>
+
+    <string name="welcome_email_subject">mVax Account Approved</string>
+    <string name="welcome_email_body">Hello %1$s,\nYour request for an mVax account has been approved. An administrator has activated your account with %2$s privileges. You can now use your email and password to log into mVax.\nThanks,\nThe mVax Team</string>
 
 
     <!-- User Info Fragment -->

@@ -19,56 +19,42 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.auth.modals;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.support.annotation.NonNull;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.functions.FirebaseFunctions;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.auth.utilities.AuthInputValidator;
+import mhealth.mvax.auth.utilities.FirebaseUtilities;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.records.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
  * <p>
- * Displays a modal for requesting a new mVax account
+ * Modal and functionality for denying an mVax user account request
  */
 public class DenyUserModal extends CustomModal {
 
     private AlertDialog mBuilder;
     private User mRequest;
 
-    private TextView mMessageView;
-
     private ProgressBar mSpinner;
-    private Button mPositiveButton;
-    private Button mNegativeButton;
+    private List<View> mViews;
 
     public DenyUserModal(View view, User request) {
         super(view);
         mRequest = request;
+        mViews = new ArrayList<>();
     }
-
 
     @Override
     AlertDialog createDialog() {
@@ -80,67 +66,47 @@ public class DenyUserModal extends CustomModal {
                 .create();
 
         mBuilder.setOnShowListener(dialogInterface -> {
-            mPositiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
-            mNegativeButton = mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE);
             mSpinner = mBuilder.findViewById(R.id.spinner);
-            mMessageView = mBuilder.findViewById(R.id.message);
 
-            mPositiveButton.setOnClickListener(view -> deleteUserRequest());
+            final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(view -> deleteUser());
+            mViews.add(positiveButton);
 
+            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
+            mViews.add(mBuilder.findViewById(R.id.message));
         });
-
-
-
         return mBuilder;
     }
 
-    private void deleteUserRequest() {
-        toggleSpinner(true);
+    private void deleteUser() {
+        showSpinner(mSpinner, mViews);
 
-        deleteUser(mRequest.getUID()).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-
-                final String requestsTable = StringFetcher.fetchString(R.string.userRequestsTable);
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
-                        .child(requestsTable);
-                ref.child(mRequest.getDatabaseKey()).setValue(null).addOnCompleteListener(task1 -> {
-                    if (task1.isSuccessful()) {
-                        mBuilder.dismiss();
-                        Toast.makeText(getActivity(), R.string.deny_user_success, Toast.LENGTH_LONG).show();
-                    } else {
-                        toggleSpinner(false);
-                        Toast.makeText(getActivity(), R.string.deny_user_fail, Toast.LENGTH_LONG).show();
-                    }
-                });
-
+        FirebaseUtilities.deleteUser(mRequest.getUID()).addOnCompleteListener(userDelete -> {
+            if (userDelete.isSuccessful()) {
+                deleteUserRequest();
             } else {
-                toggleSpinner(false);
+                hideSpinner(mSpinner, mViews);
                 Toast.makeText(getActivity(), R.string.deny_user_fail, Toast.LENGTH_LONG).show();
             }
-
         });
     }
 
-    private Task<String> deleteUser(String uid) {
-        HashMap<String, Object> args = new HashMap<>();
-        args.put("uid", uid);
-        FirebaseFunctions functions = FirebaseFunctions.getInstance();
-        return functions.getHttpsCallable("deleteAccount").call(args).continueWith(task -> null);
-    }
+    private void deleteUserRequest() {
+        final String requestsTable = StringFetcher.fetchString(R.string.userRequestsTable);
+        final DatabaseReference requestsRef = FirebaseDatabase.getInstance().getReference()
+                .child(requestsTable);
 
-
-    private void toggleSpinner(boolean showSpinner) {
-        if (showSpinner) {
-            mMessageView.setVisibility(View.INVISIBLE);
-            mPositiveButton.setVisibility(View.INVISIBLE);
-            mNegativeButton.setVisibility(View.INVISIBLE);
-            mSpinner.setVisibility(View.VISIBLE);
-        } else {
-            mMessageView.setVisibility(View.VISIBLE);
-            mPositiveButton.setVisibility(View.VISIBLE);
-            mNegativeButton.setVisibility(View.VISIBLE);
-            mSpinner.setVisibility(View.INVISIBLE);
-        }
+        requestsRef.child(mRequest.getDatabaseKey()).setValue(null).addOnCompleteListener(userRequestDelete -> {
+            if (userRequestDelete.isSuccessful()) {
+                // user request denial workflow completed
+                hideSpinner(mSpinner, mViews);
+                mBuilder.dismiss();
+                Toast.makeText(getActivity(), R.string.deny_user_success, Toast.LENGTH_LONG).show();
+            } else {
+                hideSpinner(mSpinner, mViews);
+                Toast.makeText(getActivity(), R.string.deny_user_fail, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }

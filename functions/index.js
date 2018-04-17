@@ -36,6 +36,7 @@ exports.activateAccount = functions.https.onCall((data, context) => {
     disabled: false
   })
   .then(function(userRecord) {
+    sendAccountActivatedEmail(data.email, data.subject, data.body);
     console.log("user " + data.uid + " activated")
   }).catch(function(error) {
     throw new functions.https.HttpsError('error', error);
@@ -50,6 +51,31 @@ exports.deleteAccount = functions.https.onCall((data, context) => {
     throw new functions.https.HttpsError('error', error);
   })
 });
+
+
+const nodemailer = require('nodemailer');
+const gmailEmail = functions.config().gmail.email;
+const gmailPassword = functions.config().gmail.password;
+const mailTransport = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: gmailEmail,
+    pass: gmailPassword,
+  },
+});
+
+function sendAccountActivatedEmail(email, subject, body) {
+  const mailOptions = {
+    from: `mVax <mvaxapp@gmail.com>`,
+    to: email,
+  };
+
+  mailOptions.subject = subject;
+  mailOptions.text = body;
+  return mailTransport.sendMail(mailOptions).then(() => {
+    return console.log('account activated email sent to ', email);
+  });
+}
 
 
 // ALGOLIA SEARCH
