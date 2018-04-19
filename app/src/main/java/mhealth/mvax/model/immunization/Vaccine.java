@@ -21,6 +21,8 @@ package mhealth.mvax.model.immunization;
 
 import android.support.annotation.NonNull;
 
+import com.google.firebase.database.Exclude;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -141,6 +143,22 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     @Override
     public int compareTo(@NonNull Vaccine that) {
         return this.name.compareTo(that.name);
+    }
+
+    /**
+     * Increment a vaccine's given count by one
+     */
+    @Exclude
+    public void incrementGivenCount() {
+        givenCount++;
+    }
+
+    /**
+     * Decrement a vaccine's given count by one
+     */
+    @Exclude
+    public void decrementGivenCount() {
+        givenCount--;
     }
 
 }

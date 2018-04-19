@@ -99,6 +99,19 @@ public class Dose implements Serializable {
         this.label2 = label2;
     }
 
+    /**
+     * Vaccine total administered count
+     */
+    private Integer givenCount = 0;
+
+    public Integer getGivenCount() {
+        return this.givenCount;
+    }
+
+    public void setGivenCount(Integer givenCount) {
+        this.givenCount = givenCount;
+    }
+
     //================================================================================
     // Computed methods
     //================================================================================
@@ -126,6 +139,22 @@ public class Dose implements Serializable {
             sb.append(":");
         }
         return sb.toString();
+    }
+
+    /**
+     * Increment a dose's given count by one
+     */
+    @Exclude
+    public void incrementGivenCount() {
+        givenCount++;
+    }
+
+    /**
+     * Decrement a dose's given count by one
+     */
+    @Exclude
+    public void decrementGivenCount() {
+        givenCount--;
     }
 
 }
