@@ -48,9 +48,9 @@ import mhealth.mvax.records.utilities.TypeRunnable;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Adapter for displaying vaccines, their doses, and due dates;
- *         handles updating due dates and vaccinations in the database
+ * <p>
+ * Adapter for displaying vaccines, their doses, and due dates;
+ * handles updating due dates and vaccinations in the database
  */
 public class VaccineAdapter extends BaseAdapter {
 
@@ -121,7 +121,9 @@ public class VaccineAdapter extends BaseAdapter {
         holder.vaccineNameTextView.setText(vaccine.getName());
         holder.vaccineLinearLayout.addView(holder.vaccineNameTextView);
         // add due date to LinearLayout
-        holder.vaccineLinearLayout.addView(linearLayoutForDate(vaccine.getDatabaseKey(),
+        holder.vaccineLinearLayout.addView(linearLayoutForDate(
+                vaccine,
+                vaccine.getDatabaseKey(),
                 mContext.getString(R.string.due_date_label),
                 R.string.dueDatesTable));
 
@@ -129,7 +131,9 @@ public class VaccineAdapter extends BaseAdapter {
         holder.dosesLinearLayout.removeAllViews();
         // add all doses to linear layout
         for (Dose dose : vaccine.getDoses()) {
-            holder.dosesLinearLayout.addView(linearLayoutForDate(dose.getDatabaseKey(),
+            holder.dosesLinearLayout.addView(linearLayoutForDate(
+                    vaccine,
+                    dose.getDatabaseKey(),
                     dose.getLabel(),
                     R.string.vaccinationsTable));
         }
@@ -170,7 +174,8 @@ public class VaccineAdapter extends BaseAdapter {
      *                              on which the listener should be set
      * @return LinearLayout initialized with proper listener and view properties
      */
-    private DateLinearLayout linearLayoutForDate(final String associatedDatabaseKey,
+    private DateLinearLayout linearLayoutForDate(final Vaccine vaccine,
+                                                 final String associatedDatabaseKey,
                                                  String label,
                                                  final int databaseId) {
         final DateLinearLayout doseLinearLayout = new DateLinearLayout(mContext);
@@ -188,7 +193,7 @@ public class VaccineAdapter extends BaseAdapter {
         doseLinearLayout.setDateViewOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View dateView) {
-                promptForDate(associatedDatabaseKey, databaseId);
+                promptForDate(vaccine, associatedDatabaseKey, databaseId);
             }
         });
 
@@ -204,7 +209,7 @@ public class VaccineAdapter extends BaseAdapter {
      * @param databaseId            database string ID from resource file identifying the table
      *                              on which the listener should be set
      */
-    private void promptForDate(final String associatedDatabaseKey, final int databaseId) {
+    private void promptForDate(final Vaccine vaccine, final String associatedDatabaseKey, final int databaseId) {
         Long existingDate = null;
         if (mDates.containsKey(associatedDatabaseKey)) {
             existingDate = mDates.get(associatedDatabaseKey).getDate();
@@ -214,7 +219,7 @@ public class VaccineAdapter extends BaseAdapter {
         dateModal.setPositiveButtonAction(new TypeRunnable<Long>() {
             @Override
             public void run(Long date) {
-                setDate(associatedDatabaseKey, date, databaseId);
+                setDate(vaccine, associatedDatabaseKey, date, databaseId);
             }
         });
         dateModal.setNeutralButtonAction(new DialogInterface.OnClickListener() {
@@ -222,7 +227,7 @@ public class VaccineAdapter extends BaseAdapter {
             public void onClick(DialogInterface dialogInterface, int which) {
                 if (mDates.containsKey(associatedDatabaseKey)) {
                     final Date dateToDelete = mDates.get(associatedDatabaseKey);
-                    deleteDate(dateToDelete.getDatabaseKey(), databaseId);
+                    deleteDate(vaccine, associatedDatabaseKey, dateToDelete.getDatabaseKey(), databaseId);
                 }
             }
         });
@@ -241,7 +246,7 @@ public class VaccineAdapter extends BaseAdapter {
      * @param databaseId            database string ID from resource file identifying the table
      *                              on which the Date object should be set
      */
-    private void setDate(String associatedDatabaseKey, Long date, int databaseId) {
+    private void setDate(Vaccine vaccine, String associatedDatabaseKey, Long date, int databaseId) {
         final String masterTable = mContext.getString(R.string.dataTable);
         final String dataTable = mContext.getString(databaseId); // corresponding data table
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference()
@@ -259,6 +264,24 @@ public class VaccineAdapter extends BaseAdapter {
             databaseRef = databaseRef.push();
             if (databaseId == R.string.vaccinationsTable) { // creating a new Vaccination
                 datePair = new Vaccination(databaseRef.getKey(), mPatientDatabaseKey, associatedDatabaseKey, date);
+
+                // TODO refactor
+                for (Dose d : vaccine.getDoses()) {
+                    if (d.getDatabaseKey().equals(associatedDatabaseKey)) {
+                        d.incrementGivenCount();
+                    }
+                    if (d.getDatabaseKey().equals(vaccine.getDoses().get(vaccine.getDoses().size()-1).getDatabaseKey())) {
+                        vaccine.incrementGivenCount();
+                    }
+                }
+
+                final String vaccineTable = mContext.getString(R.string.vaccineTable); // corresponding data table
+                DatabaseReference vaccineRef = FirebaseDatabase.getInstance().getReference()
+                        .child(masterTable)
+                        .child(vaccineTable)
+                        .child(vaccine.getDatabaseKey());
+                vaccineRef.setValue(vaccine);
+
             } else { // creating a new DueDate
                 datePair = new DueDate(databaseRef.getKey(), mPatientDatabaseKey, associatedDatabaseKey, date);
             }
@@ -275,7 +298,7 @@ public class VaccineAdapter extends BaseAdapter {
      * @param databaseId  String id representing the table in which the
      *                    Date obejct to delete is located
      */
-    private void deleteDate(String databaseKey, int databaseId) {
+    private void deleteDate(Vaccine vaccine, String associatedDatabaseKey, String databaseKey, int databaseId) {
         final String masterTable = mContext.getString(R.string.dataTable);
         final String dataTable = mContext.getString(databaseId);
         FirebaseDatabase.getInstance().getReference()
@@ -283,6 +306,25 @@ public class VaccineAdapter extends BaseAdapter {
                 .child(dataTable)
                 .child(databaseKey)
                 .setValue(null);
+
+        // TODO refactor
+        if (databaseId == R.string.vaccinationsTable) {
+            for (Dose d : vaccine.getDoses()) {
+                if (d.getDatabaseKey().equals(associatedDatabaseKey)) {
+                    d.decrementGivenCount();
+                }
+                if (d.getDatabaseKey().equals(vaccine.getDoses().get(vaccine.getDoses().size()-1).getDatabaseKey())) {
+                    vaccine.decrementGivenCount();
+                }
+            }
+            final String vaccineTable = mContext.getString(R.string.vaccineTable); // corresponding data table
+            DatabaseReference vaccineRef = FirebaseDatabase.getInstance().getReference()
+                    .child(masterTable)
+                    .child(vaccineTable)
+                    .child(vaccine.getDatabaseKey());
+            vaccineRef.setValue(vaccine);
+
+        }
     }
 
 }
