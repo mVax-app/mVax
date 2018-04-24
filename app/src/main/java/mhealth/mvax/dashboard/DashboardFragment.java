@@ -1,27 +1,10 @@
-/*
-Copyright (C) 2018 Duke University
-
-This file is part of mVax.
-
-mVax is free software: you can redistribute it and/or
-modify it under the terms of the GNU Affero General Public License
-as published by the Free Software Foundation, either version 3,
-or (at your option) any later version.
-
-mVax is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU General Public
-License along with mVax; see the file LICENSE. If not, see
-<http://www.gnu.org/licenses/>.
-*/
 package mhealth.mvax.dashboard;
 
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,107 +25,81 @@ import java.util.Map;
 import mhealth.mvax.R;
 import mhealth.mvax.model.immunization.Vaccine;
 
-public class DashboardFragment extends Fragment {
+
+public class DashboardFragment extends android.app.Fragment implements TabLayout.OnTabSelectedListener {
 
     //================================================================================
     // Properties
     //================================================================================
 
-    private FirebaseAuth mAuth;
+    private View mView;
+    private ViewPager mViewPager;
 
-    private DatabaseReference mDatabase;
-
-    private Map<String, Vaccine> mVaccinationRecords;
-
-    private VaccineCardAdapter mVaccinationCardAdapter;
+    //================================================================================
+    // Static methods
+    //================================================================================
 
     public static DashboardFragment newInstance() {
-        return new DashboardFragment();
+        final DashboardFragment newInstance = new DashboardFragment();
+//        final Bundle args = new Bundle();
+//        args.putString("databaseKey", databaseKey);
+//        newInstance.setArguments(args);
+        return newInstance;
+    }
+
+    //================================================================================
+    // Override methods
+    //================================================================================
+
+    @Override
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        initTabs();
+        return mView;
+    }
+
+    //================================================================================
+    // TabLayout override methods
+    //================================================================================
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        mViewPager.setCurrentItem(tab.getPosition());
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mVaccinationRecords = new HashMap<>();
+    public void onTabUnselected(TabLayout.Tab tab) {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-
-        // uncomment the below line to populate database with dummy data
-        // NOTE: recommend you clear out the database beforehand
-//        new DummyDataGenerator().generateDummyData();
-
-        initDatabase(); // run this before touching mPatientRecords!
-
-        mVaccinationCardAdapter = new VaccineCardAdapter(view.getContext(), mVaccinationRecords.values());
-
-        renderListView(view);
-
-        return view;
+    public void onTabReselected(TabLayout.Tab tab) {
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
-    }
+    //================================================================================
+    // Private methods
+    //================================================================================
 
-    private boolean initDatabase() {
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser mFirebaseUser = mAuth.getCurrentUser();
-        // TODO handle auth fail
-//        if (mFirebaseUser == null) {
-////            Not logged in, launch the Log In activity
-//        } else {
-//            mUserId = mFirebaseUser.getUid();
-//        }
+    private void initTabs() {
+        // set up tab layout
+        final TabLayout tabLayout = mView.findViewById(R.id.dashboard_tabs);
+        tabLayout.addTab(tabLayout.newTab().setText("Progress Bars"));
+        tabLayout.addTab(tabLayout.newTab().setText("Charts"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.addOnTabSelectedListener(this); // enable swipe views
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        // set up pager
+        mViewPager = mView.findViewById(R.id.dashboard_viewpager);
+        // change selected tab when swiped
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-        String masterTable = getResources().getString(R.string.dataTable);
-        String vaccineTable = getResources().getString(R.string.vaccineTable);
+        // initialize tab fragments
+        final ProgressBarTab progressBarTab = ProgressBarTab.newInstance();
+        final ChartTab chartTab = ChartTab.newInstance();
 
-        mDatabase.child(masterTable).child(vaccineTable).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
-                mVaccinationRecords.put(vaccine.getName(), vaccine);
-                mVaccinationCardAdapter.refresh(mVaccinationRecords.values());
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevChildKey) {
-                onChildAdded(dataSnapshot, prevChildKey);
-            }
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//                Record record = dataSnapshot.getValue(Record.class);
-//                mVaccinationRecords.remove(record.getDatabaseId());
-                mVaccinationCardAdapter.refresh(mVaccinationRecords.values());
-            }
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
-        return true;
-    }
-
-    private void renderListView(View view) {
-        ListView vaccineListView = view.findViewById(R.id.vaccine_card_list_view);
-        vaccineListView.setAdapter(mVaccinationCardAdapter);
-        final DashboardFragment dashboardFragment = this;
-        vaccineListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String recordId = mVaccinationCardAdapter.getVaccineNameFromDataSource(position);
-            }
-        });
-
-
+        // init adapter for pager
+        final TabPageAdapter pager = new TabPageAdapter(getChildFragmentManager(), progressBarTab, chartTab);
+        mViewPager.setAdapter(pager);
     }
 
 }

@@ -28,8 +28,8 @@ import org.junit.runner.RunWith;
  * Created by AlisonHuang on 12/12/17.
  */
 @RunWith(AndroidJUnit4.class)
-public class DashboardFragmentUITest {
+public class ProgressBarTabUITest {
 
 //    @Rule
-//    public DashboardFragmentUITestRule<DashboardFragment> dashboardFragmentUITestRule = new DashboardFragmentUITestRule<DashboardFragment>(DashboardFragment.class);
+//    public DashboardFragmentUITestRule<ProgressBarTab> dashboardFragmentUITestRule = new DashboardFragmentUITestRule<ProgressBarTab>(ProgressBarTab.class);
 }

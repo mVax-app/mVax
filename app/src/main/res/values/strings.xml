@@ -35,7 +35,7 @@
     <string name="title_summary">Summary</string>
     <string name="patients">Patients</string>
     <string name="title_forms">Forms</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_progressbar">Dashboard</string>
 
     <string name="title_login">Welcome to mVax!</string>
     <string name="LOGIN_SIGNIN">Sign In</string>
@@ -55,7 +55,6 @@
     <string name="REG_ERROR_PASS_CONFIRM">Passwords do not match</string>
     <string name="REG_CONFIRMED">Request submitted, wait to be approved!</string>
     <string name="userRoles">Account Permission Level</string>
-
 
 
     <string name="modal_user_decision_title">Approve User Request?</string>
@@ -161,7 +160,6 @@
     <string name="reader_info">READER: have access to see the data but cannot write any new information. Cannot handle other users.</string>
 
 
-
     <!-- Current Users Fragment -->
     <string name="current_users_title">Current Users</string>
 
@@ -176,7 +174,6 @@
     <string name="reader_role">Reader</string>
     <string name="modal_new_role">Change user\'s role: </string>
     <string name="role_no_change">No Change</string>
-
 
 
     <!-- About Button -->
