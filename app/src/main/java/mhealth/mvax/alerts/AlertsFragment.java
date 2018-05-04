@@ -21,6 +21,7 @@ package mhealth.mvax.alerts;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ import android.widget.CalendarView;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import mhealth.mvax.R;
+import mhealth.mvax.model.immunization.Date;
+import mhealth.mvax.model.immunization.DueDate;
 
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +40,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 
 /**
@@ -54,13 +59,18 @@ public class AlertsFragment extends Fragment {
 
     private DatabaseReference mDatabase;
 
-    ChildEventListener mPatientListener;
+    private ChildEventListener mDueDatesListener;
+
+    // maps Patient to DueDate
+    private HashMap<Long, String> mPatientDates = new HashMap<>();
 
     CalendarView calendar;
 
 
     public static AlertsFragment newInstance(){
         AlertsFragment fragment = new AlertsFragment();
+        Log.d("test", "test");
+
         return fragment;
     }
 
@@ -68,8 +78,55 @@ public class AlertsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        initDueDateListener();
+        Log.d("test", "test");
         return view;
     }
+
+
+
+    private void initDueDateListener(){
+        final String masterTable = getResources().getString(R.string.dataTable);
+        final String dueDatesTable = getResources().getString(R.string.dueDatesTable);
+        mDatabase = FirebaseDatabase.getInstance().getReference()
+                .child(masterTable)
+                .child(dueDatesTable);
+
+        mDueDatesListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
+                final DueDate addedDueDate = dataSnapshot.getValue(DueDate.class);
+                if (addedDueDate != null) {
+                    mPatientDates.put(addedDueDate.getDate(), addedDueDate.getPatientDatabaseKey());
+                    //refresh();
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevKey) {
+                onChildAdded(dataSnapshot, prevKey);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+    }
+
+
+
+
 
     public void initializeCalendar() {
         calendar = (CalendarView) getView().findViewById(R.id.calendar);
