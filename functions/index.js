@@ -36,6 +36,7 @@ exports.activateAccount = functions.https.onCall((data, context) => {
     disabled: false
   })
   .then(function(userRecord) {
+//    sendAccountActivatedEmail(data.email, data.subject, data.body);
     console.log("user " + data.uid + " activated")
   }).catch(function(error) {
     throw new functions.https.HttpsError('error', error);
@@ -52,6 +53,31 @@ exports.deleteAccount = functions.https.onCall((data, context) => {
 });
 
 
+//const nodemailer = require('nodemailer');
+//const gmailEmail = functions.config().gmail.email;
+//const gmailPassword = functions.config().gmail.password;
+//const mailTransport = nodemailer.createTransport({
+//  service: 'gmail',
+//  auth: {
+//    user: gmailEmail,
+//    pass: gmailPassword,
+//  },
+//});
+//
+//function sendAccountActivatedEmail(email, subject, body) {
+//  const mailOptions = {
+//    from: `mVax <mvaxapp@gmail.com>`,
+//    to: email,
+//  };
+//
+//  mailOptions.subject = subject;
+//  mailOptions.text = body;
+//  return mailTransport.sendMail(mailOptions).then(() => {
+//    return console.log('account activated email sent to ', email);
+//  });
+//}
+
+
 // ALGOLIA SEARCH
 
 const algoliasearch = require('algoliasearch');
@@ -62,24 +88,23 @@ const ALGOLIA_SEARCH_KEY = functions.config().algolia.search_key;
 const ALGOLIA_INDEX_NAME = 'patients';
 const client = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY);
 
-exports.addPatientIndex = functions.database.ref('data/patients/{databaseKey}').onCreate((event) => {
-  return indexPatient(event);
+exports.addPatientIndex = functions.database.ref('data/patients/{databaseKey}').onCreate((snap, context) => {
+  return indexPatient(snap.val());
 });
 
-exports.updatePatientIndex = functions.database.ref('data/patients/{databaseKey}').onUpdate((event) => {
-  return indexPatient(event);
+exports.updatePatientIndex = functions.database.ref('data/patients/{databaseKey}').onUpdate((change, context) => {
+  return indexPatient(change.after.data());
 });
 
-exports.deletePatientIndex = functions.database.ref('data/patients/{databaseKey}').onDelete((event) => {
-  const objectID = event.params.databaseKey;
+exports.deletePatientIndex = functions.database.ref('data/patients/{databaseKey}').onDelete((snap, context) => {
+  const objectID = snap.val().databaseKey;
   const index = client.initIndex(ALGOLIA_INDEX_NAME);
   return index.deleteObject(objectID);
 });
 
-function indexPatient(event) {
-  const patient = event.data.val();
+function indexPatient(patient) {
   // objectID required for Algolia to parse object
-  patient.objectID = event.params.databaseKey;
+  patient.objectID = patient.databaseKey;
   const index = client.initIndex(ALGOLIA_INDEX_NAME);
   return index.saveObject(patient);
 }

@@ -23,11 +23,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.res.Resources;
 import android.view.View;
+import android.widget.ProgressBar;
+
+import java.util.List;
 
 /**
  * @author Robert Steilberg
  * <p>
- * Abstract class the standardizes how custom AlertDialogs are made
+ * Abstract class the standardizes auth-related AlertDialogs
  */
 public abstract class CustomModal extends AlertDialog.Builder {
 
@@ -35,7 +38,7 @@ public abstract class CustomModal extends AlertDialog.Builder {
     private View mView;
     private Resources mResources;
 
-    public CustomModal(View view) {
+    CustomModal(View view) {
         super(view.getContext());
         mActivity = (Activity) view.getContext();
         mView = view;
@@ -71,5 +74,22 @@ public abstract class CustomModal extends AlertDialog.Builder {
         return mResources.getString(id);
     }
 
+    /**
+     * @param spinner ProgressBar to show
+     * @param views List of Android Views to hide
+     */
+    void showSpinner(ProgressBar spinner, List<View> views) {
+        views.forEach(view -> view.setVisibility(View.INVISIBLE));
+        spinner.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * @param spinner ProgressBar to hide
+     * @param views List of Android Views to show
+     */
+    void hideSpinner(ProgressBar spinner, List<View> views) {
+        views.forEach(view -> view.setVisibility(View.VISIBLE));
+        spinner.setVisibility(View.INVISIBLE);
+    }
 
 }

@@ -112,7 +112,7 @@ public class SINOVA2Builder {
             //Filling in of available information
             form = stamper.getAcroFields();
 
-            //Insert the header info on the SINOVA 2
+            //Insert the header infoButton on the SINOVA 2
             form.setField(mContext.getResources().getString(R.string.establishment),mContext.getResources().getString(R.string.form_clinic_name));
             form.setField(mContext.getResources().getString(R.string.name_of_responsible_person), mContext.getResources().getString(R.string.form_vaccinator_name));
             form.setField(mContext.getResources().getString(R.string.department), mContext.getResources().getString(R.string.form_department_name));

@@ -66,6 +66,8 @@ public class SettingsFragment extends Fragment {
     private Switch languageSwitch;
 
 
+    private LayoutInflater mInflater;
+
     public static SettingsFragment newInstance() {
         SettingsFragment fragment = new SettingsFragment();
         return fragment;
@@ -75,7 +77,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
-
+        mInflater = inflater;
         Button changeEmail = (Button) v.findViewById(R.id.changeEmail);
         changeEmail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,9 +185,8 @@ public class SettingsFragment extends Fragment {
         builder.setTitle(getResources().getString(R.string.modal_update_title));
 
         //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
-        LayoutInflater inflater = getLayoutInflater();
 
-        final View dialogView = inflater.inflate(R.layout.modal_update_email, null);
+        final View dialogView = mInflater.inflate(R.layout.modal_update_email, null);
         builder.setView(dialogView);
 
         final TextView address = dialogView.findViewById(R.id.textview_email_reset);
@@ -213,9 +214,8 @@ public class SettingsFragment extends Fragment {
         builder.setTitle(getResources().getString(R.string.modal_reset_title));
 
         //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
-        LayoutInflater inflater = getLayoutInflater();
 
-        final View dialogView = inflater.inflate(R.layout.modal_reset_password_confirm, null);
+        final View dialogView = mInflater.inflate(R.layout.modal_reset_password_confirm, null);
         builder.setView(dialogView);
 
         builder.setPositiveButton(getResources().getString(R.string.button_reset_password_positive), new DialogInterface.OnClickListener() {
@@ -238,9 +238,8 @@ public class SettingsFragment extends Fragment {
         builder.setTitle(getResources().getString(R.string.modal_timeout_title));
 
         //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
-        LayoutInflater inflater = getLayoutInflater();
 
-        final View dialogView = inflater.inflate(R.layout.modal_change_timeout, null);
+        final View dialogView = mInflater.inflate(R.layout.modal_change_timeout, null);
         builder.setView(dialogView);
 
 
@@ -330,7 +329,7 @@ public class SettingsFragment extends Fragment {
         builder.setTitle(getResources().getString(R.string.about));
 
         //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
-        LayoutInflater inflater = getLayoutInflater();
+        LayoutInflater inflater = mInflater;
 
         final View dialogView = inflater.inflate(R.layout.modal_about, null);
         builder.setView(dialogView);
@@ -343,9 +342,8 @@ public class SettingsFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Generate Dummy Data");
 
-        LayoutInflater inflater = getLayoutInflater();
 
-        final View dialogView = inflater.inflate(R.layout.modal_generate_dummy_data, null);
+        final View dialogView = mInflater.inflate(R.layout.modal_generate_dummy_data, null);
         builder.setView(dialogView);
 
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
