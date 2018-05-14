@@ -5,9 +5,16 @@ android:layout_height="match_parent"
 android:padding="20dp"
 android:orientation="vertical" >
 
-<CalendarView
-    android:id="@+id/calendar"
-    android:layout_margin="10dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
+    <CalendarView
+        android:id="@+id/calendar"
+        android:layout_width="match_parent"
+        android:layout_height="256dp"
+        android:layout_margin="10dp" />
+
+    <TextView
+        android:id="@+id/showDates"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_below="@id/calendar" />
+
 </LinearLayout>

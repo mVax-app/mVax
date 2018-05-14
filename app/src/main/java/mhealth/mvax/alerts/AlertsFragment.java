@@ -21,6 +21,7 @@ package mhealth.mvax.alerts;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ import android.widget.CalendarView;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import mhealth.mvax.R;
+import mhealth.mvax.model.immunization.Date;
+import mhealth.mvax.model.immunization.DueDate;
 
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,6 +40,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 
 /**
@@ -50,13 +55,15 @@ public class AlertsFragment extends Fragment {
     // Properties
     //================================================================================
 
+    CalendarView calendar;
+
+    private View mView;
+
     private FirebaseAuth mAuth;
 
-    private DatabaseReference mDatabase;
-
-    ChildEventListener mPatientListener;
-
-    CalendarView calendar;
+    private DueDate mDueDate;
+    private DatabaseReference mDueDateRef;
+    private ChildEventListener mDueDateListener;
 
 
     public static AlertsFragment newInstance(){
@@ -67,9 +74,58 @@ public class AlertsFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
-        return view;
+        mView = inflater.inflate(R.layout.fragment_calendar, container, false);
+        initDueDateListener();
+        return mView;
+
     }
+
+
+
+    private void initDueDateListener(){
+        final String masterTable = getResources().getString(R.string.dataTable);
+        final String dueDatesTable = getResources().getString(R.string.dueDatesTable);
+        mDueDateRef = FirebaseDatabase.getInstance().getReference()
+                .child(masterTable)
+                .child(dueDatesTable);
+
+        mDueDateListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                mDueDate = dataSnapshot.getValue(DueDate.class);
+                setDates();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String prevKey) {
+                mDueDate = dataSnapshot.getValue(DueDate.class);
+                setDates();
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+    }
+
+    public void setDates(){
+        final TextView dates = mView.findViewById(R.id.showDates);
+        //testing
+        dates.setText("hello");
+    }
+
+
 
     public void initializeCalendar() {
         calendar = (CalendarView) getView().findViewById(R.id.calendar);
