@@ -26,7 +26,7 @@
     <string name="title_activity_search">BuscarActividad</string>
     <string name="title_home">Página Principal</string>
     <string name="title_settings">Configuración</string>
-    <string name="title_overdue">Pacientes atrasados</string>
+    <string name="title_calendar">Calendario</string>
     <string name="patients">Pacientes</string>
     <string name="title_patients">Pacientes</string>
     <string name="title_forms">Formas</string>
@@ -162,6 +162,15 @@
     <string name="admin_priv">Privilegios de Administrador</string>
     <string name="user_settings">Configuración del Usuario</string>
 
+    <!-- Timeout -->
+    <string name="timeout_title">Sesión Fuera de Servicio</string>
+    <string name="timeout_msg">No estar inactivo por mucho tiempo. El sistéma automaticamente tesaca.</string>
+    <string name="change_timeout">Cambiarlo la Duración del Tiempo de Espera</string>
+    <string name="modal_timeout_title">Cambiarlo la Duración del Tiempo de Espera</string>
+    <string name="timeout_save_change">Guarda Cambio</string>
+    <string name="current_timeout">Duración del Tiempo Actual: </string>
+    <string name="timeout_unit">segundos</string>
+
     <!-- Approve Users Fragment -->
     <string name="approve_users_title">Aprobar Usuarios</string>
     <string name="select_user_role">Seleccionar Rol de Usuario</string>
@@ -199,7 +208,7 @@
     <string name="bass_project_leader_title">Facultad:</string>
     <string name="bass_development_title">Equipo de Desarrollo:</string>
     <string name="bass_global_health_title">Equipo de Salud Global:</string>
-    <string name="dummy_data">Generate Test Data</string>
+    <string name="dummy_data">Generar Datos de Prueba</string>
     <string name="failure_records_download">Unable to Download Record Data</string>
     <string name="due_date_label">Fecha de Vencimiento:</string>
     <string name="modal_sex_confirm">Confirmar</string>
@@ -236,6 +245,8 @@
     <string name="hint_pob">lugar de nacimiento</string>
     <string name="label_community">Comunidad</string>
     <string name="hint_community">comunidad</string>
+    <string name="label_residence">Residencia</string>
+    <string name="hint_residence">residencia</string>
     <string name="label_guardian_id">ID de tutor/a</string>
     <string name="label_guardian_firstname">Nombre de tutor/a</string>
     <string name="label_guardian_middlname">Segundo nombre de tutor/a</string>

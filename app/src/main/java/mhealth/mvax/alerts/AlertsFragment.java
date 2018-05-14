@@ -57,6 +57,7 @@ public class AlertsFragment extends Fragment {
     ChildEventListener mPatientListener;
 
     CalendarView calendar;
+    TextView selectedTV;
 
 
     public static AlertsFragment newInstance(){
@@ -68,11 +69,13 @@ public class AlertsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        initializeCalendar(view);
         return view;
     }
 
-    public void initializeCalendar() {
-        calendar = (CalendarView) getView().findViewById(R.id.calendar);
+    public void initializeCalendar(View view) {
+        calendar = (CalendarView) view.findViewById(R.id.calendar);
+        selectedTV = (TextView) view.findViewById(R.id.calendar_selected_text);
 
         // sets whether to show the week number.
         /*calendar.setShowWeekNumber(false);
@@ -92,15 +95,16 @@ public class AlertsFragment extends Fragment {
 
         //sets the color for the vertical bar shown at the beginning and at the end of the selected date.
         calendar.setSelectedDateVerticalBar(R.color.darkgreen);
+        */
 
         //sets the listener to be notified upon selected date change.
-        calendar.setOnDateChangeListener(new OnDateChangeListener() {
-            //show the selected date as a toast
+        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
-                Toast.makeText(getApplicationContext(), day + "/" + month + "/" + year, Toast.LENGTH_LONG).show();
+                selectedTV.setText(String.valueOf(month+1)+"/"+String.valueOf(day)+"/"+String.valueOf(year));
+                System.out.println("PRINT: day change selected");
             }
-        });*/
+        });
     }
 
 
