@@ -67,7 +67,10 @@ class DataGenerator {
         mDueDateTable = context.getString(R.string.dueDatesTable);
 
         // clear out existing data
-        mDatabase.child(mDataTable).setValue(null);
+        mDatabase.child(mDataTable).child(mDueDateTable).setValue(null);
+        mDatabase.child(mDataTable).child(mVaccinationTable).setValue(null);
+        mDatabase.child(mDataTable).child(mVaccineTable).setValue(null);
+
     }
 
     void generateData() {
@@ -77,22 +80,22 @@ class DataGenerator {
     }
 
     private void generatePatientData() {
-        DatabaseReference patientRef = mDatabase.child(mDataTable).child(mPatientTable).push();
-
-        Patient rob = new Patient(patientRef.getKey());
-        mPatientDatabaseKey = rob.getDatabaseKey();
-        rob.setMedicalId("64573829174");
-        rob.setFirstName("Robert Hays");
-        rob.setLastName("Steilberg II");
-        rob.setSex(Sex.MALE);
-        rob.setDOB(823237200000L);
-        rob.setCommunity("Alspaugh");
-        rob.setPlaceOfBirth("Harrisonburg");
-        rob.setResidence("2504 Vesson Ave, Durham, NC");
-        rob.setPhoneNumber("1234567890");
-        rob.setGuardianName("Ann Kemp Steilberg");
-
-        patientRef.setValue(rob);
+//        DatabaseReference patientRef = mDatabase.child(mDataTable).child(mPatientTable).push();
+//
+//        Patient rob = new Patient(patientRef.getKey());
+//        mPatientDatabaseKey = rob.getDatabaseKey();
+//        rob.setMedicalId("64573829174");
+//        rob.setFirstName("Robert Hays");
+//        rob.setLastName("Steilberg II");
+//        rob.setSex(Sex.MALE);
+//        rob.setDOB(823237200000L);
+//        rob.setCommunity("Alspaugh");
+//        rob.setPlaceOfBirth("Harrisonburg");
+//        rob.setResidence("2504 Vesson Ave, Durham, NC");
+//        rob.setPhoneNumber("1234567890");
+//        rob.setGuardianName("Ann Kemp Steilberg");
+//
+//        patientRef.setValue(rob);
     }
 
     private void generateVaccineData() {
@@ -102,17 +105,20 @@ class DataGenerator {
         hepB1.setFormCode("HEPB_DU_1");
         hepB1.setLabel1("1");
         hepB1.setLabel2("PRI");
+        hepB1.setGivenCount(20);
 
         Dose hepB2 = new Dose(mDatabase.push().getKey());
         mDoseDatabaseKey = hepB2.getDatabaseKey(); // for dummy Vaccination creation
         hepB2.setFormCode("HEPB_DU_1");
         hepB2.setLabel1("2");
         hepB2.setLabel2("SEG");
+        hepB2.setGivenCount(0);
 
         Dose hepB3 = new Dose(mDatabase.push().getKey());
         hepB3.setFormCode("HEPB_DU_1");
         hepB3.setLabel1("3");
         hepB3.setLabel2("SEG");
+        hepB3.setGivenCount(14);
 
         // create vaccine that will contain the doses
         DatabaseReference vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
@@ -128,18 +134,19 @@ class DataGenerator {
         // another vaccine
 
         vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
-        Vaccine yellow = new Vaccine(vaccineRef.getKey());
-        yellow.setName("Yellow Fever");
-        yellow.setTargetCount(300);
-        yellow.setGivenCount(50);
+        Vaccine pneu = new Vaccine(vaccineRef.getKey());
+        pneu.setName("Pneumococcal");
+        pneu.setTargetCount(300);
+        pneu.setGivenCount(50);
 
         for (int i = 0; i < 5; i++) {
             Dose d = new Dose(mDatabase.push().getKey());
             d.setFormCode("CODE");
             d.setLabel1(Integer.toString(i));
-            yellow.addDoses(d);
+            d.setGivenCount(0);
+            pneu.addDoses(d);
         }
-        vaccineRef.setValue(yellow);
+        vaccineRef.setValue(pneu);
 
         // another vaccine
 
@@ -154,6 +161,7 @@ class DataGenerator {
             d.setFormCode("CODE");
             d.setLabel1(Integer.toString(i));
             d.setLabel2("VOP");
+            d.setGivenCount(1);
             rota.addDoses(d);
         }
         vaccineRef.setValue(rota);
@@ -161,36 +169,38 @@ class DataGenerator {
         // another vaccine
 
         vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
-        Vaccine muffin = new Vaccine(vaccineRef.getKey());
-        muffin.setName("Muffin Flu");
-        muffin.setTargetCount(3440);
-        muffin.setGivenCount(200);
+        Vaccine polio = new Vaccine(vaccineRef.getKey());
+        polio.setName("Polio");
+        polio.setTargetCount(3440);
+        polio.setGivenCount(200);
 
         for (int i = 0; i < 1; i++) {
             Dose d = new Dose(mDatabase.push().getKey());
             d.setFormCode("CODE");
             d.setLabel1(Integer.toString(i));
             d.setLabel2("ROT");
-            muffin.addDoses(d);
+            d.setGivenCount(10);
+            polio.addDoses(d);
         }
-        vaccineRef.setValue(muffin);
+        vaccineRef.setValue(polio);
 
         // another vaccine
 
         vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
-        Vaccine ebola = new Vaccine(vaccineRef.getKey());
-        ebola.setName("Ebola");
-        ebola.setTargetCount(30);
-        ebola.setGivenCount(1);
+        Vaccine bcg = new Vaccine(vaccineRef.getKey());
+        bcg.setName("BCG");
+        bcg.setTargetCount(30);
+        bcg.setGivenCount(1);
 
         for (int i = 0; i < 10; i++) {
             Dose d = new Dose(mDatabase.push().getKey());
             d.setFormCode("CODE");
             d.setLabel1(Integer.toString(i));
             d.setLabel2("LOL");
-            ebola.addDoses(d);
+            d.setGivenCount(0);
+            bcg.addDoses(d);
         }
-        vaccineRef.setValue(ebola);
+        vaccineRef.setValue(bcg);
     }
 
     private void generateVaccinationData() {

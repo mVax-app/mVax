@@ -22,21 +22,21 @@ android {
     productFlavors {
         dev {
             applicationId 'mhealth.mvax.dev'
-            minSdkVersion 26
+            minSdkVersion 24
             targetSdkVersion 26
             signingConfig signingConfigs.development
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
         qa {
             applicationId 'mhealth.mvax.qa'
-            minSdkVersion 26
+            minSdkVersion 24
             targetSdkVersion 26
             signingConfig signingConfigs.development
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
         prod {
             applicationId 'mhealth.mvax.prod'
-            minSdkVersion 26
+            minSdkVersion 24
             targetSdkVersion 26
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }

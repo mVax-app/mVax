@@ -32,33 +32,33 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.functions.FirebaseFunctions;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import mhealth.mvax.R;
+import mhealth.mvax.auth.utilities.FirebaseUtilities;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserRole;
 
 /**
  * @author Robert Steilberg
  * <p>
- * Modal for approving a new mVax user account
+ * Modal and functionality for approving a new mVax user account
  */
 public class ApproveUserModal extends CustomModal {
 
     private AlertDialog mBuilder;
     private User mRequest;
-    private UserRole mRole;
-    private Button mPositiveButton;
-    private Button mNegativeButton;
+
     private ProgressBar mSpinner;
-    private TextView mConfirmMessage;
+    private List<View> mViews;
 
     public ApproveUserModal(View view, User request, UserRole role) {
         super(view);
         mRequest = request;
-        mRequest.setRole(role);
+        mRequest.setRole(role); // do this here so modal can't be called without a role
+        mViews = new ArrayList<>();
     }
 
     @Override
@@ -71,83 +71,67 @@ public class ApproveUserModal extends CustomModal {
                 .create();
 
         mBuilder.setOnShowListener(dialogInterface -> {
+            mSpinner = mBuilder.findViewById(R.id.spinner);
 
-            mConfirmMessage = mBuilder.findViewById(R.id.approve_user_message);
-            String userName = mRequest.getDisplayName();
-            String text = String.format(getString(R.string.modal_approve_user_request_message), userName, mRequest.getRole().toString());
-            mConfirmMessage.setText(text);
+            final TextView confirmMessage = mBuilder.findViewById(R.id.message);
+            final String userName = mRequest.getDisplayName();
+            // interpolate user's name and role in display string
+            final String text = String.format(getString(R.string.modal_approve_user_request_message),
+                    userName,
+                    mRequest.getRole().toString());
+            confirmMessage.setText(text);
+            mViews.add(confirmMessage);
 
+            final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(view -> activateUser());
+            mViews.add(positiveButton);
 
-            // get generated views
-
-            mSpinner = mBuilder.findViewById(R.id.approve_spinner);
-            mPositiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
-            mNegativeButton = mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE);
-
-            mPositiveButton.setOnClickListener(view -> approveRequest());
-
+            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
         });
         return mBuilder;
     }
 
-    private Task<String> activateUser(String uid) {
-        HashMap<String, Object> args = new HashMap<>();
-        args.put("uid", uid);
-        FirebaseFunctions functions = FirebaseFunctions.getInstance();
-        return functions.getHttpsCallable("activateAccount").call(args).continueWith(task -> (String) task.getResult().getData());
-    }
-
-
-    private void approveRequest() {
-        toggleSpinner(true);
-        activateUser(mRequest.getUID()).addOnCompleteListener(task -> {
-
-            if (task.isSuccessful()) {
-
-                final String requestsTable = getString(R.string.userRequestsTable);
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
-                        .child(requestsTable);
-
-
-                ref.child(mRequest.getDatabaseKey()).setValue(null).addOnCompleteListener(task1 -> {
-
-                    final String userTable = getString(R.string.userTable);
-                    DatabaseReference userTableRef = FirebaseDatabase.getInstance().getReference()
-                            .child(userTable);
-                    userTableRef.child(mRequest.getDatabaseKey()).setValue(mRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            toggleSpinner(false);
-                            mBuilder.dismiss();
-                            Toast.makeText(getActivity(), R.string.approve_user_success, Toast.LENGTH_LONG).show();
-
-                        }
-                    });
-
-                });
-
+    private void activateUser() {
+        showSpinner(mSpinner, mViews);
+        FirebaseUtilities.activateUser(mRequest).addOnCompleteListener(userActivate -> {
+            if (userActivate.isSuccessful()) {
+                updateUserTable();
             } else {
                 Toast.makeText(getActivity(), R.string.approve_user_fail, Toast.LENGTH_LONG).show();
-                toggleSpinner(false);
+                hideSpinner(mSpinner, mViews);
             }
-
-
         });
     }
 
-    private void toggleSpinner(boolean showSpinner) {
-        if (showSpinner) {
-            mConfirmMessage.setVisibility(View.INVISIBLE);
-            mPositiveButton.setVisibility(View.INVISIBLE);
-            mNegativeButton.setVisibility(View.INVISIBLE);
-            mSpinner.setVisibility(View.VISIBLE);
-        } else {
-            mConfirmMessage.setVisibility(View.VISIBLE);
-            mPositiveButton.setVisibility(View.VISIBLE);
-            mNegativeButton.setVisibility(View.VISIBLE);
-            mSpinner.setVisibility(View.INVISIBLE);
-        }
+    private void updateUserTable() {
+        final String userTable = getString(R.string.userTable);
+        final DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference()
+                .child(userTable);
+
+        usersRef.child(mRequest.getDatabaseKey()).setValue(mRequest).addOnCompleteListener(userTableAdd -> {
+            if (userTableAdd.isSuccessful()) {
+                updateRequestsTable();
+            } else {
+                Toast.makeText(getActivity(), R.string.approve_user_incomplete, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
+    private void updateRequestsTable() {
+        final String requestsTable = getString(R.string.userRequestsTable);
+        final DatabaseReference requestsRef = FirebaseDatabase.getInstance().getReference()
+                .child(requestsTable);
+
+        requestsRef.child(mRequest.getDatabaseKey()).setValue(null).addOnCompleteListener(userRequestDelete -> {
+            if (userRequestDelete.isSuccessful()) {
+                // user activation workflow completed
+                hideSpinner(mSpinner, mViews);
+                Toast.makeText(getActivity(), R.string.approve_user_success, Toast.LENGTH_LONG).show();
+                mBuilder.dismiss();
+            } else {
+                Toast.makeText(getActivity(), R.string.approve_user_incomplete, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
 }

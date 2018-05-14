@@ -47,13 +47,10 @@ import mhealth.mvax.model.user.User;
  */
 public class ApproveFragment extends Fragment {
 
-
-    private RecyclerView mUserRequestList;
-    private LinearLayoutManager mLayoutManager;
     private UserRequestAdapter mAdapter;
-    private DatabaseReference mRef;
+    private DatabaseReference mRequestsRef;
     private ChildEventListener mListener;
-    private TextView mNoRequestText;
+    private TextView mNoRequestTextView;
 
 
     public static ApproveFragment newInstance() {
@@ -62,35 +59,32 @@ public class ApproveFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_approve_users, container, false);
-
+        final View view = inflater.inflate(R.layout.fragment_approve_users, container, false);
 
         initDatabase();
 
-        mNoRequestText = view.findViewById(R.id.no_user_requests);
+        mNoRequestTextView = view.findViewById(R.id.no_user_requests);
 
-
-        mUserRequestList = view.findViewById(R.id.user_request_list);
-        mUserRequestList.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(view.getContext());
-        mUserRequestList.setLayoutManager(mLayoutManager);
+        RecyclerView userRequestList = view.findViewById(R.id.user_request_list);
+        userRequestList.setHasFixedSize(true);
+        userRequestList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mAdapter = new UserRequestAdapter();
-        mUserRequestList.setAdapter(mAdapter);
-        mUserRequestList.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
+        userRequestList.setAdapter(mAdapter);
+        userRequestList.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
 
         return view;
     }
 
     @Override
     public void onDestroyView() {
-        mRef.removeEventListener(mListener);
+        mRequestsRef.removeEventListener(mListener);
         super.onDestroyView();
     }
 
     private void initDatabase() {
 
         final String requestTable = getResources().getString(R.string.userRequestsTable);
-        mRef = FirebaseDatabase.getInstance().getReference()
+        mRequestsRef = FirebaseDatabase.getInstance().getReference()
                 .child(requestTable);
 
         mListener = new ChildEventListener() {
@@ -98,19 +92,22 @@ public class ApproveFragment extends Fragment {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 User request = dataSnapshot.getValue(User.class);
                 mAdapter.addRequest(request);
-                mNoRequestText.setVisibility(View.INVISIBLE);
+                mNoRequestTextView.setVisibility(View.GONE);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                // this should never happen
+                User request = dataSnapshot.getValue(User.class);
+                mAdapter.removeRequest(request); // remove old request
+                mAdapter.addRequest(request);
+                mNoRequestTextView.setVisibility(View.GONE);
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
                 User request = dataSnapshot.getValue(User.class);
                 mAdapter.removeRequest(request);
-                if (mAdapter.getItemCount() == 0) mNoRequestText.setVisibility(View.VISIBLE);
+                if (mAdapter.getItemCount() == 0) mNoRequestTextView.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -120,11 +117,9 @@ public class ApproveFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), R.string.failure_user_request_download, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.fail_user_request_download, Toast.LENGTH_SHORT).show();
             }
         };
-
-        mRef.addChildEventListener(mListener);
-
+        mRequestsRef.addChildEventListener(mListener);
     }
 }

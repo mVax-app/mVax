@@ -90,7 +90,7 @@ public class AuthActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        // clear out any existing auth info
+        // clear out any existing auth infoButton
         FirebaseAuth.getInstance().signOut();
         // ensure auth text fields are visible
         animateTextInputs(ANIMATION_SPEED_INSTANT, false);
@@ -134,16 +134,16 @@ public class AuthActivity extends Activity {
 
     private void initButtons() {
         // tie authenticate action to "Sign In" button
-        Button signInButton = findViewById(R.id.button_authenticate);
+        final Button signInButton = findViewById(R.id.button_authenticate);
         signInButton.setOnClickListener(view -> authenticate());
         // tie register action to "Register" TextView
-        TextView registerButton = findViewById(R.id.textview_register);
+        final TextView registerButton = findViewById(R.id.textview_register);
         registerButton.setOnClickListener(view -> {
             RequestAccountModal requestAccountModal = new RequestAccountModal(view);
             requestAccountModal.show();
         });
         // tie reset password action to "Reset Password" TextView
-        TextView forgotButton = findViewById(R.id.textview_reset_password);
+        final TextView forgotButton = findViewById(R.id.textview_reset_password);
         forgotButton.setOnClickListener(view -> {
             PasswordResetModal resetModal = new PasswordResetModal(view);
             resetModal.show();
@@ -155,12 +155,12 @@ public class AuthActivity extends Activity {
      * if not, no authentication attempt is made
      */
     private void authenticate() {
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String email = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
         if (fieldsValid(email, password)) {
             animateTextInputs(ANIMATION_SPEED, true);
             mAuth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, task -> handleAuthCallback(task));
+                    .addOnCompleteListener(this, this::handleAuthCallback);
         }
         mPasswordView.setText("");
     }
@@ -181,15 +181,12 @@ public class AuthActivity extends Activity {
     }
 
     private void handleAuthCallback(Task<AuthResult> task) {
-        Log.d("attemptedLogin", "signInWithEmail:attempted:" + task.isSuccessful());
         if (task.isSuccessful()) {
-            Log.w("successLogin", "signInWithEmail:success", task.getException());
-            // login successful, transition to root Activity
             dismissKeyboard();
+            // transition to root Activity
             Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(mainIntent);
         } else {
-            Log.w("failedLogin", "signInWithEmail:failed", task.getException());
             animateTextInputs(ANIMATION_SPEED, false); // bring back auth fields
             // see what the error was
             boolean noInternet = task.getException() instanceof FirebaseNetworkException;
@@ -211,23 +208,23 @@ public class AuthActivity extends Activity {
     }
 
     private void animateTextInputs(int speed, boolean goingOffScreen) {
-        int in = goingOffScreen ? 0 : 1;
-        int out = goingOffScreen ? 1 : 0;
+        final int in = goingOffScreen ? 0 : 1;
+        final int out = goingOffScreen ? 1 : 0;
 
         // move email and password fields
-        LinearLayout inputs = findViewById(R.id.auth_inputs);
-        ObjectAnimator animInputs = ObjectAnimator.ofFloat(inputs,
+        final LinearLayout inputs = findViewById(R.id.auth_inputs);
+        final ObjectAnimator animInputs = ObjectAnimator.ofFloat(inputs,
                 View.TRANSLATION_X, -1 * mScreenWidth * in, -1 * mScreenWidth * out);
         animInputs.setDuration(speed).start();
 
         // move progress spinner
-        ObjectAnimator animProgress = ObjectAnimator.ofFloat(mSpinner,
+        final ObjectAnimator animProgress = ObjectAnimator.ofFloat(mSpinner,
                 View.TRANSLATION_X, mScreenWidth * out, mScreenWidth * in);
         animProgress.setDuration(speed).start();
     }
 
     private void dismissKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         assert imm != null;
         imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
     }
