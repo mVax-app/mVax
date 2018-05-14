@@ -75,7 +75,7 @@ public class VaccineCardAdapter extends BaseAdapter {
 
         CardHolder holder;
         if (rowView == null) {
-            rowView = mInflater.inflate(R.layout.list_item_vaccine_card, parent, false);
+            rowView = mInflater.inflate(R.layout.list_item_progressbars, parent, false);
             holder = new CardHolder();
 
             holder.vaccineNameTV = rowView.findViewById(R.id.vaccine_card_name);

@@ -131,7 +131,7 @@ public class ProgressBarTab extends Fragment {
     }
 
     private void renderListView(View view) {
-        ListView vaccineListView = view.findViewById(R.id.vaccine_card_list_view);
+        ListView vaccineListView = view.findViewById(R.id.progress_bar_list_view);
         vaccineListView.setAdapter(mVaccinationCardAdapter);
         final ProgressBarTab progressBarTab = this;
         vaccineListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

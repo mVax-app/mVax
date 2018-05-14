@@ -14,6 +14,8 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/dashboard_tabs"
             app:tabMaxWidth="0dp"
+            app:tabTextColor="@color/teal"
+            app:tabSelectedTextColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize" />
 

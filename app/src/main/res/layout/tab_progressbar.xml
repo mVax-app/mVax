@@ -26,7 +26,7 @@
         android:layout_gravity="center_horizontal">
 
         <ListView
-            android:id="@+id/vaccine_card_list_view"
+            android:id="@+id/progress_bar_list_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
