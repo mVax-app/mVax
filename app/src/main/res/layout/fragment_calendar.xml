@@ -7,14 +7,17 @@ android:orientation="vertical" >
 
     <CalendarView
         android:id="@+id/calendar"
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="256dp"
-        android:layout_margin="10dp" />
+        android:layout_height="wrap_content" />
+
 
     <TextView
-        android:id="@+id/showDates"
+        android:id="@+id/calendar_selected_text"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_below="@id/calendar" />
+        android:layout_height="match_parent"
+        android:textSize="50sp"
+        android:layout_gravity="center_horizontal"
+        android:text="Hello World!"/>
 
 </LinearLayout>

@@ -65,6 +65,8 @@ public class AlertsFragment extends Fragment {
     private DatabaseReference mDueDateRef;
     private ChildEventListener mDueDateListener;
 
+    TextView selectedTV;
+
 
     public static AlertsFragment newInstance(){
         AlertsFragment fragment = new AlertsFragment();
@@ -74,61 +76,14 @@ public class AlertsFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_calendar, container, false);
-        initDueDateListener();
-        return mView;
-
+        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        initializeCalendar(view);
+        return view;
     }
 
-
-
-    private void initDueDateListener(){
-        final String masterTable = getResources().getString(R.string.dataTable);
-        final String dueDatesTable = getResources().getString(R.string.dueDatesTable);
-        mDueDateRef = FirebaseDatabase.getInstance().getReference()
-                .child(masterTable)
-                .child(dueDatesTable);
-
-        mDueDateListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                mDueDate = dataSnapshot.getValue(DueDate.class);
-                setDates();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevKey) {
-                mDueDate = dataSnapshot.getValue(DueDate.class);
-                setDates();
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-    }
-
-    public void setDates(){
-        final TextView dates = mView.findViewById(R.id.showDates);
-        //testing
-        dates.setText("hello");
-    }
-
-
-
-    public void initializeCalendar() {
-        calendar = (CalendarView) getView().findViewById(R.id.calendar);
+    public void initializeCalendar(View view) {
+        calendar = (CalendarView) view.findViewById(R.id.calendar);
+        selectedTV = (TextView) view.findViewById(R.id.calendar_selected_text);
 
         // sets whether to show the week number.
         /*calendar.setShowWeekNumber(false);
@@ -148,15 +103,16 @@ public class AlertsFragment extends Fragment {
 
         //sets the color for the vertical bar shown at the beginning and at the end of the selected date.
         calendar.setSelectedDateVerticalBar(R.color.darkgreen);
+        */
 
         //sets the listener to be notified upon selected date change.
-        calendar.setOnDateChangeListener(new OnDateChangeListener() {
-            //show the selected date as a toast
+        calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int day) {
-                Toast.makeText(getApplicationContext(), day + "/" + month + "/" + year, Toast.LENGTH_LONG).show();
+                selectedTV.setText(String.valueOf(month+1)+"/"+String.valueOf(day)+"/"+String.valueOf(year));
+                System.out.println("PRINT: day change selected");
             }
-        });*/
+        });
     }
 
 

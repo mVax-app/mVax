@@ -23,21 +23,21 @@ android {
         dev {
             applicationId 'mhealth.mvax.dev'
             minSdkVersion 24
-            targetSdkVersion 24
+            targetSdkVersion 26
             signingConfig signingConfigs.development
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
         qa {
             applicationId 'mhealth.mvax.qa'
             minSdkVersion 24
-            targetSdkVersion 24
+            targetSdkVersion 26
             signingConfig signingConfigs.development
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
         prod {
             applicationId 'mhealth.mvax.prod'
             minSdkVersion 24
-            targetSdkVersion 24
+            targetSdkVersion 26
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
     }
