@@ -112,6 +112,33 @@ public class Dose implements Serializable {
         this.givenCount = givenCount;
     }
 
+    /**
+     * Number of days until next dose
+     */
+    private Integer monthsUntilNext = 0;
+
+    public Integer getMonthsUntilNext() {
+        return this.monthsUntilNext;
+    }
+
+    public void setMonthsUntilNext(Integer monthsUntilNext) {
+        this.monthsUntilNext = monthsUntilNext;
+    }
+
+    /**
+     * Database ID for dosage to follow this
+     */
+
+    private String nextDoseID = "";
+
+    public String getNextDoseID() {
+        return this.nextDoseID;
+    }
+
+    public void setNextDoseID(String nextDoseID) {
+        this.nextDoseID = nextDoseID;
+    }
+
     //================================================================================
     // Computed methods
     //================================================================================

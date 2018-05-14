@@ -40,7 +40,7 @@ import mhealth.mvax.dashboard.DashboardFragment;
 import mhealth.mvax.dashboard.ProgressBarTab;
 import mhealth.mvax.dashboard.FormsFragment;
 import mhealth.mvax.records.search.SearchFragment;
-import mhealth.mvax.settings.SettingsFragment;
+import mhealth.mvax.settings.*;
 
 public class MainActivity extends TimeoutActivity {
 
@@ -57,6 +57,9 @@ public class MainActivity extends TimeoutActivity {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         DatabaseReference database = db.getReference();
         setContentView(R.layout.activity_main);
+
+        //DataGenerator generator = new DataGenerator(getApplicationContext());
+        //generator.generateData();
 
         initNavBar();
 

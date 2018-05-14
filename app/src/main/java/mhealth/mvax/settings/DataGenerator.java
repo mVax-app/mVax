@@ -42,7 +42,7 @@ import mhealth.mvax.model.immunization.Vaccine;
  *         with dummy data
  */
 
-class DataGenerator {
+public class DataGenerator {
 
     private DatabaseReference mDatabase;
 
@@ -58,7 +58,7 @@ class DataGenerator {
     private String mDoseDatabaseKey;
     private String mDueVaccineDatabaseKey;
 
-    DataGenerator(Context context) {
+    public DataGenerator(Context context) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mDataTable = context.getString(R.string.dataTable);
         mPatientTable = context.getString(R.string.patientTable);
@@ -67,16 +67,18 @@ class DataGenerator {
         mDueDateTable = context.getString(R.string.dueDatesTable);
 
         // clear out existing data
-        mDatabase.child(mDataTable).child(mDueDateTable).setValue(null);
-        mDatabase.child(mDataTable).child(mVaccinationTable).setValue(null);
+        //mDatabase.child(mDataTable).child(mDueDateTable).setValue(null);
+        //mDatabase.child(mDataTable).child(mVaccinationTable).setValue(null);
         mDatabase.child(mDataTable).child(mVaccineTable).setValue(null);
+
+
 
     }
 
-    void generateData() {
-        generatePatientData();
+    public void generateData() {
+        //generatePatientData();
         generateVaccineData();
-        generateVaccinationData();
+        //generateVaccinationData();
     }
 
     private void generatePatientData() {
@@ -100,108 +102,288 @@ class DataGenerator {
 
     private void generateVaccineData() {
 
-        // create doses
-        Dose hepB1 = new Dose(mDatabase.push().getKey());
-        hepB1.setFormCode("HEPB_DU_1");
-        hepB1.setLabel1("1");
-        hepB1.setLabel2("PRI");
-        hepB1.setGivenCount(20);
+        // Neumococo
 
-        Dose hepB2 = new Dose(mDatabase.push().getKey());
-        mDoseDatabaseKey = hepB2.getDatabaseKey(); // for dummy Vaccination creation
-        hepB2.setFormCode("HEPB_DU_1");
-        hepB2.setLabel1("2");
-        hepB2.setLabel2("SEG");
-        hepB2.setGivenCount(0);
-
-        Dose hepB3 = new Dose(mDatabase.push().getKey());
-        hepB3.setFormCode("HEPB_DU_1");
-        hepB3.setLabel1("3");
-        hepB3.setLabel2("SEG");
-        hepB3.setGivenCount(14);
-
-        // create vaccine that will contain the doses
         DatabaseReference vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
-        Vaccine hepB = new Vaccine(vaccineRef.push().getKey());
-        mDueVaccineDatabaseKey = hepB.getDatabaseKey(); // for dummy due date creation
-        hepB.setName("Hepatitis B");
-        hepB.setTargetCount(400);
-        hepB.setGivenCount(100);
-        hepB.addDoses(hepB1, hepB2, hepB3);
+        Vaccine neu = new Vaccine(vaccineRef.getKey());
+        neu.setName("Neumococo");
+        neu.setTargetCount(300);
+        neu.setGivenCount(50);
 
-        vaccineRef.setValue(hepB);
+        Dose neu1 = new Dose(mDatabase.push().getKey());
+        neu1.setFormCode("Neu1");
+        neu1.setLabel1("Label 1");
+        neu1.setLabel2("Label 2");
+        neu1.setGivenCount(0);
+        neu1.setMonthsUntilNext(2);
 
-        // another vaccine
+        Dose neu2 = new Dose(mDatabase.push().getKey());
+        neu2.setFormCode("Neu2");
+        neu2.setLabel1("Label 1");
+        neu2.setLabel2("Label 2");
+        neu2.setGivenCount(0);
+        neu2.setMonthsUntilNext(2);
+
+        Dose neu3 = new Dose(mDatabase.push().getKey());
+        neu3.setFormCode("Neu3");
+        neu3.setLabel1("Label 1");
+        neu3.setLabel2("Label 2");
+        neu3.setGivenCount(0);
+        neu3.setMonthsUntilNext(0);
+
+        neu1.setNextDoseID(neu2.getDatabaseKey());
+        neu2.setNextDoseID(neu3.getDatabaseKey());
+        neu3.setNextDoseID(null);
+
+        neu.addDoses(neu1, neu2, neu3);
+        vaccineRef.setValue(neu);
+
+        // VPI
+        vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
+        Vaccine VPI = new Vaccine(vaccineRef.getKey());
+        VPI.setName("VPI");
+        VPI.setTargetCount(200);
+        VPI.setGivenCount(70);
+
+        Dose VPI1 = new Dose(mDatabase.push().getKey());
+        VPI1.setFormCode("VPI");
+        VPI1.setLabel1("Label 1");
+        VPI1.setLabel2("Label 2");
+        VPI1.setGivenCount(0);
+        VPI1.setMonthsUntilNext(0);
+
+        VPI1.setNextDoseID(null);
+
+        VPI.addDoses(VPI1);
+        vaccineRef.setValue(VPI);
+
+        // Sabin
 
         vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
-        Vaccine pneu = new Vaccine(vaccineRef.getKey());
-        pneu.setName("Pneumococcal");
-        pneu.setTargetCount(300);
-        pneu.setGivenCount(50);
+        Vaccine sab = new Vaccine(vaccineRef.getKey());
+        sab.setName("Sabin");
+        sab.setTargetCount(300);
+        sab.setGivenCount(50);
 
-        for (int i = 0; i < 5; i++) {
-            Dose d = new Dose(mDatabase.push().getKey());
-            d.setFormCode("CODE");
-            d.setLabel1(Integer.toString(i));
-            d.setGivenCount(0);
-            pneu.addDoses(d);
-        }
-        vaccineRef.setValue(pneu);
+        Dose sab1 = new Dose(mDatabase.push().getKey());
+        sab1.setFormCode("Sab1");
+        sab1.setLabel1("Label 1");
+        sab1.setLabel2("Label 2");
+        sab1.setGivenCount(0);
+        sab1.setMonthsUntilNext(2);
 
-        // another vaccine
+        Dose sab2 = new Dose(mDatabase.push().getKey());
+        sab2.setFormCode("Sab2");
+        sab2.setLabel1("Label 1");
+        sab2.setLabel2("Label 2");
+        sab2.setGivenCount(0);
+        sab2.setMonthsUntilNext(12);
+
+        Dose sab3 = new Dose(mDatabase.push().getKey());
+        sab3.setFormCode("Sab3");
+        sab3.setLabel1("Label 1");
+        sab3.setLabel2("Label 2");
+        sab3.setGivenCount(0);
+        sab3.setMonthsUntilNext(0);
+
+        sab1.setNextDoseID(sab2.getDatabaseKey());
+        sab2.setNextDoseID(sab3.getDatabaseKey());
+        sab3.setNextDoseID(null);
+
+        sab.addDoses(sab1, sab2, sab3);
+        vaccineRef.setValue(sab);
+
+        // Rotavirus
 
         vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
         Vaccine rota = new Vaccine(vaccineRef.getKey());
         rota.setName("Rotavirus");
-        rota.setTargetCount(30);
-        rota.setGivenCount(12);
+        rota.setTargetCount(300);
+        rota.setGivenCount(50);
 
-        for (int i = 0; i < 3; i++) {
-            Dose d = new Dose(mDatabase.push().getKey());
-            d.setFormCode("CODE");
-            d.setLabel1(Integer.toString(i));
-            d.setLabel2("VOP");
-            d.setGivenCount(1);
-            rota.addDoses(d);
-        }
+        Dose rota1 = new Dose(mDatabase.push().getKey());
+        rota1.setFormCode("Rota1");
+        rota1.setLabel1("Label 1");
+        rota1.setLabel2("Label 2");
+        rota1.setGivenCount(0);
+        rota1.setMonthsUntilNext(2);
+
+        Dose rota2 = new Dose(mDatabase.push().getKey());
+        rota2.setFormCode("Rota2");
+        rota2.setLabel1("Label 1");
+        rota2.setLabel2("Label 2");
+        rota2.setGivenCount(0);
+        rota2.setMonthsUntilNext(0);
+
+        rota1.setNextDoseID(rota2.getDatabaseKey());
+        rota2.setNextDoseID(null);
+
+        rota.addDoses(rota1, rota2);
         vaccineRef.setValue(rota);
 
-        // another vaccine
+        // Pentavalente
 
         vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
-        Vaccine polio = new Vaccine(vaccineRef.getKey());
-        polio.setName("Polio");
-        polio.setTargetCount(3440);
-        polio.setGivenCount(200);
+        Vaccine penval = new Vaccine(vaccineRef.getKey());
+        penval.setName("Pentavalente");
+        penval.setTargetCount(300);
+        penval.setGivenCount(50);
 
-        for (int i = 0; i < 1; i++) {
-            Dose d = new Dose(mDatabase.push().getKey());
-            d.setFormCode("CODE");
-            d.setLabel1(Integer.toString(i));
-            d.setLabel2("ROT");
-            d.setGivenCount(10);
-            polio.addDoses(d);
-        }
-        vaccineRef.setValue(polio);
+        Dose penval1 = new Dose(mDatabase.push().getKey());
+        penval1.setFormCode("PenVal1");
+        penval1.setLabel1("Label 1");
+        penval1.setLabel2("Label 2");
+        penval1.setGivenCount(0);
+        penval1.setMonthsUntilNext(2);
 
-        // another vaccine
+        Dose penval2 = new Dose(mDatabase.push().getKey());
+        penval2.setFormCode("PenVal2");
+        penval2.setLabel1("Label 1");
+        penval2.setLabel2("Label 2");
+        penval2.setGivenCount(0);
+        penval2.setMonthsUntilNext(2);
+
+        Dose penval3 = new Dose(mDatabase.push().getKey());
+        penval3.setFormCode("PenVal3");
+        penval3.setLabel1("Label 1");
+        penval3.setLabel2("Label 2");
+        penval3.setGivenCount(0);
+        penval3.setMonthsUntilNext(0);
+
+        penval1.setNextDoseID(penval2.getDatabaseKey());
+        penval2.setNextDoseID(penval3.getDatabaseKey());
+        penval3.setNextDoseID(null);
+
+        penval.addDoses(penval1, penval2, penval3);
+        vaccineRef.setValue(penval);
+
+        // Vitamin A
 
         vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
-        Vaccine bcg = new Vaccine(vaccineRef.getKey());
-        bcg.setName("BCG");
-        bcg.setTargetCount(30);
-        bcg.setGivenCount(1);
+        Vaccine vitA = new Vaccine(vaccineRef.getKey());
+        vitA.setName("Vitamin A");
+        vitA.setTargetCount(300);
+        vitA.setGivenCount(50);
 
-        for (int i = 0; i < 10; i++) {
-            Dose d = new Dose(mDatabase.push().getKey());
-            d.setFormCode("CODE");
-            d.setLabel1(Integer.toString(i));
-            d.setLabel2("LOL");
-            d.setGivenCount(0);
-            bcg.addDoses(d);
-        }
-        vaccineRef.setValue(bcg);
+        Dose vitA1 = new Dose(mDatabase.push().getKey());
+        vitA1.setFormCode("VitA1");
+        vitA1.setLabel1("Label 1");
+        vitA1.setLabel2("Label 2");
+        vitA1.setGivenCount(0);
+        vitA1.setMonthsUntilNext(6);
+
+        Dose vitA2 = new Dose(mDatabase.push().getKey());
+        vitA2.setFormCode("VitA2");
+        vitA2.setLabel1("Label 1");
+        vitA2.setLabel2("Label 2");
+        vitA2.setGivenCount(0);
+        vitA2.setMonthsUntilNext(0);
+
+        vitA1.setNextDoseID(vitA2.getDatabaseKey());
+        vitA2.setNextDoseID(null);
+
+        vitA.addDoses(vitA1, vitA2);
+        vaccineRef.setValue(vitA);
+
+        // SRP
+
+        vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
+        Vaccine srp = new Vaccine(vaccineRef.getKey());
+        srp.setName("SRP");
+        srp.setTargetCount(300);
+        srp.setGivenCount(50);
+
+        Dose srp1 = new Dose(mDatabase.push().getKey());
+        srp1.setFormCode("SRP1");
+        srp1.setLabel1("Label 1");
+        srp1.setLabel2("Label 2");
+        srp1.setGivenCount(0);
+        srp1.setMonthsUntilNext(6);
+
+        Dose srp2 = new Dose(mDatabase.push().getKey());
+        srp2.setFormCode("SRP2");
+        srp2.setLabel1("Label 1");
+        srp2.setLabel2("Label 2");
+        srp2.setGivenCount(0);
+        srp2.setMonthsUntilNext(0);
+
+        srp1.setNextDoseID(srp2.getDatabaseKey());
+        srp2.setNextDoseID(null);
+
+        srp.addDoses(srp1, srp2);
+        vaccineRef.setValue(srp);
+
+        // DPT
+
+        vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
+        Vaccine dpt = new Vaccine(vaccineRef.getKey());
+        dpt.setName("DPT");
+        dpt.setTargetCount(300);
+        dpt.setGivenCount(50);
+
+        Dose dpt1 = new Dose(mDatabase.push().getKey());
+        dpt1.setFormCode("DPT1");
+        dpt1.setLabel1("Label 1");
+        dpt1.setLabel2("Label 2");
+        dpt1.setGivenCount(0);
+        dpt1.setMonthsUntilNext(6);
+
+        Dose dpt2 = new Dose(mDatabase.push().getKey());
+        dpt2.setFormCode("DPT2");
+        dpt2.setLabel1("Label 1");
+        dpt2.setLabel2("Label 2");
+        dpt2.setGivenCount(0);
+        dpt2.setMonthsUntilNext(0);
+
+        dpt1.setNextDoseID(dpt2.getDatabaseKey());
+        dpt2.setNextDoseID(null);
+
+        dpt.addDoses(dpt1, dpt2);
+        vaccineRef.setValue(dpt);
+
+        // TD
+
+        vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
+        Vaccine td = new Vaccine(vaccineRef.getKey());
+        td.setName("TD");
+        td.setTargetCount(200);
+        td.setGivenCount(70);
+
+        Dose td1 = new Dose(mDatabase.push().getKey());
+        td1.setFormCode("TD1");
+        td1.setLabel1("Label 1");
+        td1.setLabel2("Label 2");
+        td1.setGivenCount(0);
+        td1.setMonthsUntilNext(0);
+
+        td1.setNextDoseID(null);
+
+        td.addDoses(td1);
+        vaccineRef.setValue(td);
+
+        // VPH
+
+        vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
+        Vaccine vph = new Vaccine(vaccineRef.getKey());
+        vph.setName("VPH");
+        vph.setTargetCount(200);
+        vph.setGivenCount(70);
+
+        Dose vph1 = new Dose(mDatabase.push().getKey());
+        vph1.setFormCode("VPH1");
+        vph1.setLabel1("Label 1");
+        vph1.setLabel2("Label 2");
+        vph1.setGivenCount(0);
+        vph1.setMonthsUntilNext(0);
+
+        vph1.setNextDoseID(null);
+
+        vph.addDoses(vph1);
+        vaccineRef.setValue(vph);
+
+
     }
+
 
     private void generateVaccinationData() {
         DatabaseReference vaccinationRef = mDatabase.child(mDataTable).child(mVaccinationTable).push();
