@@ -55,32 +55,29 @@ public class AlertsFragment extends Fragment {
     // Properties
     //================================================================================
 
+    CalendarView calendar;
+
+    private View mView;
+
     private FirebaseAuth mAuth;
 
-    private DatabaseReference mDatabase;
-
-    private ChildEventListener mDueDatesListener;
-
-    // maps Patient to DueDate
-    private HashMap<Long, String> mPatientDates = new HashMap<>();
-
-    CalendarView calendar;
+    private DueDate mDueDate;
+    private DatabaseReference mDueDateRef;
+    private ChildEventListener mDueDateListener;
 
 
     public static AlertsFragment newInstance(){
         AlertsFragment fragment = new AlertsFragment();
-        Log.d("test", "test");
-
         return fragment;
     }
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        mView = inflater.inflate(R.layout.fragment_calendar, container, false);
         initDueDateListener();
-        Log.d("test", "test");
-        return view;
+        return mView;
+
     }
 
 
@@ -88,23 +85,21 @@ public class AlertsFragment extends Fragment {
     private void initDueDateListener(){
         final String masterTable = getResources().getString(R.string.dataTable);
         final String dueDatesTable = getResources().getString(R.string.dueDatesTable);
-        mDatabase = FirebaseDatabase.getInstance().getReference()
+        mDueDateRef = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
                 .child(dueDatesTable);
 
-        mDueDatesListener = new ChildEventListener() {
+        mDueDateListener = new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                final DueDate addedDueDate = dataSnapshot.getValue(DueDate.class);
-                if (addedDueDate != null) {
-                    mPatientDates.put(addedDueDate.getDate(), addedDueDate.getPatientDatabaseKey());
-                    //refresh();
-                }
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                mDueDate = dataSnapshot.getValue(DueDate.class);
+                setDates();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String prevKey) {
-                onChildAdded(dataSnapshot, prevKey);
+                mDueDate = dataSnapshot.getValue(DueDate.class);
+                setDates();
             }
 
             @Override
@@ -124,7 +119,11 @@ public class AlertsFragment extends Fragment {
         };
     }
 
-
+    public void setDates(){
+        final TextView dates = mView.findViewById(R.id.showDates);
+        //testing
+        dates.setText("hello");
+    }
 
 
 
