@@ -50,6 +50,7 @@ public class DueDate extends Date implements Serializable {
      * Unique Firebase database key representing the
      * DueDate's associated Vaccine
      */
+
     private String vaccineDatabaseKey;
 
     public String getVaccineDatabaseKey() {

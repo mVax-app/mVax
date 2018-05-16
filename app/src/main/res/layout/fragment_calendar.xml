@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:padding="20dp"
-android:orientation="vertical" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:orientation="vertical" >
 
     <CalendarView
         android:id="@+id/calendar"
@@ -11,13 +13,40 @@ android:orientation="vertical" >
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/title_selected_day_patients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="24sp"/>
+
+    <ListView
+        android:id="@+id/selected_day_patients_LV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_selected_day_patients">
+    </ListView>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="30dp" />
 
     <TextView
-        android:id="@+id/calendar_selected_text"
+        android:id="@+id/title_overdue_patients"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="50sp"
-        android:layout_gravity="center_horizontal"
-        android:text="Hello World!"/>
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="24sp"/>
+
+    <ListView
+        android:id="@+id/overdue_patients_LV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_overdue_patients">
+    </ListView>
 
 </LinearLayout>

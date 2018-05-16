@@ -67,8 +67,9 @@ public class DataGenerator {
         mDueDateTable = context.getString(R.string.dueDatesTable);
 
         // clear out existing data
-        //mDatabase.child(mDataTable).child(mDueDateTable).setValue(null);
-        //mDatabase.child(mDataTable).child(mVaccinationTable).setValue(null);
+        mDatabase.child(mDataTable).child(mPatientTable).setValue(null);
+        mDatabase.child(mDataTable).child(mDueDateTable).setValue(null);
+        mDatabase.child(mDataTable).child(mVaccinationTable).setValue(null);
         mDatabase.child(mDataTable).child(mVaccineTable).setValue(null);
 
 
@@ -76,28 +77,28 @@ public class DataGenerator {
     }
 
     public void generateData() {
-        //generatePatientData();
+        generatePatientData();
         generateVaccineData();
-        //generateVaccinationData();
+        generateVaccinationData();
     }
 
     private void generatePatientData() {
-//        DatabaseReference patientRef = mDatabase.child(mDataTable).child(mPatientTable).push();
-//
-//        Patient rob = new Patient(patientRef.getKey());
-//        mPatientDatabaseKey = rob.getDatabaseKey();
-//        rob.setMedicalId("64573829174");
-//        rob.setFirstName("Robert Hays");
-//        rob.setLastName("Steilberg II");
-//        rob.setSex(Sex.MALE);
-//        rob.setDOB(823237200000L);
-//        rob.setCommunity("Alspaugh");
-//        rob.setPlaceOfBirth("Harrisonburg");
-//        rob.setResidence("2504 Vesson Ave, Durham, NC");
-//        rob.setPhoneNumber("1234567890");
-//        rob.setGuardianName("Ann Kemp Steilberg");
-//
-//        patientRef.setValue(rob);
+        DatabaseReference patientRef = mDatabase.child(mDataTable).child(mPatientTable).push();
+
+        Patient rob = new Patient(patientRef.getKey());
+        mPatientDatabaseKey = rob.getDatabaseKey();
+        rob.setMedicalId("64573829174");
+        rob.setFirstName("Robert Hays");
+        rob.setLastName("Steilberg II");
+        rob.setSex(Sex.MALE);
+        rob.setDOB(823237200000L);
+        rob.setCommunity("Alspaugh");
+        rob.setPlaceOfBirth("Harrisonburg");
+        rob.setResidence("2504 Vesson Ave, Durham, NC");
+        rob.setPhoneNumber("1234567890");
+        rob.setGuardianName("Ann Kemp Steilberg");
+
+        patientRef.setValue(rob);
     }
 
     private void generateVaccineData() {

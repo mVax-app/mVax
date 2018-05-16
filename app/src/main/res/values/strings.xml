@@ -296,6 +296,12 @@
     <string name="label_phone_number">Phone Number</string>
     <string name="hint_phone_number">phone</string>
 
+    <!-- ALERT FRAGMENT -->
+    <string name="title_selected_day_patients">Patients for </string>
+    <string name="title_overdue_patients">Overdue Patients</string>
+    <string name="title_date">Date: </string>
+    <string name="title_vaccine">Vaccine: </string>
+
     <!-- FORM FRAGMENT-->
     <string name="form_fragment_title">Export Forms</string>
     <string name="sinova_title">SINOVA</string>

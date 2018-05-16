@@ -35,9 +35,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
-import mhealth.mvax.alerts.AlertsFragment;
+import mhealth.mvax.calendar.CalendarFragment;
 import mhealth.mvax.dashboard.DashboardFragment;
-import mhealth.mvax.dashboard.ProgressBarTab;
 import mhealth.mvax.dashboard.FormsFragment;
 import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.settings.*;
@@ -86,7 +85,7 @@ public class MainActivity extends TimeoutActivity {
                                 selectedFragment = SearchFragment.newInstance();
                                 break;
                             case R.id.nav_overdue:
-                                selectedFragment = AlertsFragment.newInstance();
+                                selectedFragment = CalendarFragment.newInstance();
                                 break;
                             case R.id.nav_data:
                                 selectedFragment = DashboardFragment.newInstance();
