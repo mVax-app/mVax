@@ -119,6 +119,7 @@ public class DataGenerator {
         neu1.setMonthsUntilNext(2);
 
         Dose neu2 = new Dose(mDatabase.push().getKey());
+        mDueVaccineDatabaseKey = neu2.getDatabaseKey();
         neu2.setFormCode("Neu2");
         neu2.setLabel1("Label 1");
         neu2.setLabel2("Label 2");
@@ -404,10 +405,6 @@ public class DataGenerator {
 
         DueDate dueDate = new DueDate(dueDateRef.getKey(), mPatientDatabaseKey, mDueVaccineDatabaseKey, 823237200000L);
         dueDateRef.setValue(dueDate);
-
-        dueDateRef = mDatabase.child(mDataTable).child(mDueDateTable).push();
-        DueDate badDueDate = new DueDate("badRef", "badPatient", "badVaccine", 823637200000L);
-        dueDateRef.setValue(badDueDate);
     }
 
 }

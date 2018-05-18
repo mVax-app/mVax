@@ -25,17 +25,18 @@ import mhealth.mvax.records.utilities.NullableDateFormat;
  */
 public class SelectedDateAdapter extends BaseAdapter {
 
-//    private final Context mContext;
-//    private final NullableDateFormat mDateFormat;
+    private final Context mContext;
+    private final NullableDateFormat mDateFormat;
     private HashMap<String, DueDate> mDueDates;
 
 
 
-//    SelectedDateAdapter(Context context, HashMap<String, DueDate> dueDates) {
-//        this.mContext = context;
-//        this.mDueDates = dueDates;
-//        mDateFormat = new NullableDateFormat(context.getString(R.string.date_format));
-//    }
+    SelectedDateAdapter(Context context, HashMap<String, DueDate> dueDates) {
+        this.mContext = context;
+        this.mDueDates = dueDates;
+        mDateFormat = new NullableDateFormat(context.getString(R.string.date_format));
+        System.out.println("PRINT: size of dueDates map: "+dueDates.size());
+    }
 
     @Override
     public int getCount() {
@@ -54,23 +55,25 @@ public class SelectedDateAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View rowView, ViewGroup viewGroup) {
-//        final DueDate dueDate = getItem(position);
-//        LayoutInflater inflater = LayoutInflater.from(mContext);
-//
-//        ViewHolder holder;
-//        if (rowView == null) {
-//            rowView = inflater.inflate(R.layout.list_item_patient, viewGroup, false);
-//            holder = new ViewHolder();
-//            holder.patientName = rowView.findViewById(R.id.calender_LV_patient_name);
-//            holder.dateTitle = rowView.findViewById(R.id.calendar_LV__title_date);
-//            holder.date = rowView.findViewById(R.id.calendar_LV__date);
-//            holder.vaccineTitle = rowView.findViewById(R.id.calendar_LV_title_vaccine);
-//            holder.vaccine = rowView.findViewById(R.id.calendar_LV_vaccine);
-//            rowView.setTag(holder);
-//        } else {
-//            holder = (ViewHolder) rowView.getTag();
-//        }
-//
+        final DueDate dueDate = getItem(position);
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+
+        ViewHolder holder;
+        if (rowView == null) {
+            rowView = inflater.inflate(R.layout.list_item_patient, viewGroup, false);
+            holder = new ViewHolder();
+            holder.patientName = rowView.findViewById(R.id.calender_LV_patient_name);
+            holder.dateTitle = rowView.findViewById(R.id.calendar_LV__title_date);
+            holder.date = rowView.findViewById(R.id.calendar_LV__date);
+            holder.vaccineTitle = rowView.findViewById(R.id.calendar_LV_title_vaccine);
+            holder.vaccine = rowView.findViewById(R.id.calendar_LV_vaccine);
+            rowView.setTag(holder);
+        } else {
+            holder = (ViewHolder) rowView.getTag();
+        }
+
+       
+
 //        holder.patientName.setText(dueDate.getVaccineDatabaseKey());
 //        holder.dateTitle.setText(mContext.getString(R.string.title_date));
 //        holder.date.setText(mDateFormat.getString(dueDate.getDate()));
@@ -94,3 +97,40 @@ public class SelectedDateAdapter extends BaseAdapter {
         TextView vaccine;
     }
 }
+
+//package mhealth.mvax.calendar;
+//
+//import android.view.View;
+//import android.view.ViewGroup;
+//import android.widget.BaseAdapter;
+//
+///**
+// * @author Alison Huang
+// * <p>
+// * DESCRIPTION HERE
+// */
+//public class SelectedDateAdapter extends BaseAdapter {
+//    @Override
+//    public int getCount() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public Object getItem(int i) {
+//        return null;
+//    }
+//
+//    @Override
+//    public long getItemId(int i) {
+//        return 0;
+//    }
+//
+//    @Override
+//    public View getView(int i, View view, ViewGroup viewGroup) {
+//        return null;
+//    }
+//
+//    public void refresh() {
+//
+//    }
+//}

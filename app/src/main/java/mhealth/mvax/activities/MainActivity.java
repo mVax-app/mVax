@@ -57,8 +57,8 @@ public class MainActivity extends TimeoutActivity {
         DatabaseReference database = db.getReference();
         setContentView(R.layout.activity_main);
 
-        //DataGenerator generator = new DataGenerator(getApplicationContext());
-        //generator.generateData();
+//        DataGenerator generator = new DataGenerator(getApplicationContext());
+//        generator.generateData();
 
         initNavBar();
 

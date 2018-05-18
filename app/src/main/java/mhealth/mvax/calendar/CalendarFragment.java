@@ -94,6 +94,7 @@ public class CalendarFragment extends Fragment {
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_calendar, container, false);
         mDateFormat = new NullableDateFormat(getContext().getString(R.string.date_format));
+        mDueDates = new HashMap<>();
         initDueDateListener();
         initCalendar(mView);
         renderLV();
@@ -110,10 +111,11 @@ public class CalendarFragment extends Fragment {
         mDueDateListener = new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                System.out.println("PRINT: added a due date");
                 final DueDate addedDueDate = dataSnapshot.getValue(DueDate.class);
                 if (addedDueDate != null) {
                     mDueDates.put(addedDueDate.getVaccineDatabaseKey(), addedDueDate);
-                    //refresh();
+                    refresh();
                 }
             }
 
@@ -127,7 +129,7 @@ public class CalendarFragment extends Fragment {
                 final DueDate removedDueDate = dataSnapshot.getValue(DueDate.class);
                 if (removedDueDate != null) {
                     mDueDates.remove(removedDueDate.getVaccineDatabaseKey());
-                    //refresh();
+                    refresh();
                 }
             }
 
@@ -141,6 +143,8 @@ public class CalendarFragment extends Fragment {
                 Toast.makeText(getActivity(), R.string.failure_due_dates_download, Toast.LENGTH_SHORT).show();
             }
         };
+
+        mDueDateRef.addChildEventListener(mDueDateListener);
     }
 
     private void initCalendar(View view) {
@@ -196,19 +200,19 @@ public class CalendarFragment extends Fragment {
     }
 
     private void renderLV() {
-        mSelectedDateLV = (ListView) mView.findViewById(R.id.selected_day_patients_LV);
-        mOverdueLV = (ListView) mView.findViewById(R.id.overdue_patients_LV);
+        mSelectedDateLV = mView.findViewById(R.id.selected_day_patients_LV);
+        //mOverdueLV = mView.findViewById(R.id.overdue_patients_LV);
 
-        mSelectedDateAdapter = new SelectedDateAdapter();
-        mOverdueAdapter = new OverdueAdapter();
+        mSelectedDateAdapter = new SelectedDateAdapter(getContext(), mDueDates);
+        //mOverdueAdapter = new OverdueAdapter();
 
         mSelectedDateLV.setAdapter(mSelectedDateAdapter);
-        mOverdueLV.setAdapter(mOverdueAdapter);
+        //mOverdueLV.setAdapter(mOverdueAdapter);
 
     }
 
-//    public void refresh() {
-//        mAdapter.refresh(mVaccines, mDates);
-//    }
+    public void refresh() {
+        mSelectedDateAdapter.refresh(mDueDates);
+    }
 
 }
