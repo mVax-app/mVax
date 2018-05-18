@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.immunization.DueDate;
@@ -27,15 +29,14 @@ public class SelectedDateAdapter extends BaseAdapter {
 
     private final Context mContext;
     private final NullableDateFormat mDateFormat;
-    private HashMap<String, DueDate> mDueDates;
+    private List<DueDate> mDueDates;
 
 
 
-    SelectedDateAdapter(Context context, HashMap<String, DueDate> dueDates) {
+    SelectedDateAdapter(Context context, HashMap<String,DueDate> dueDates) {
         this.mContext = context;
-        this.mDueDates = dueDates;
+        this.mDueDates = new ArrayList<>(dueDates.values());
         mDateFormat = new NullableDateFormat(context.getString(R.string.date_format));
-        System.out.println("PRINT: size of dueDates map: "+dueDates.size());
     }
 
     @Override
@@ -55,8 +56,9 @@ public class SelectedDateAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View rowView, ViewGroup viewGroup) {
-        final DueDate dueDate = getItem(position);
+        final DueDate dueDate = mDueDates.get(position);
         LayoutInflater inflater = LayoutInflater.from(mContext);
+
 
         ViewHolder holder;
         if (rowView == null) {
@@ -72,20 +74,19 @@ public class SelectedDateAdapter extends BaseAdapter {
             holder = (ViewHolder) rowView.getTag();
         }
 
-       
 
-//        holder.patientName.setText(dueDate.getVaccineDatabaseKey());
-//        holder.dateTitle.setText(mContext.getString(R.string.title_date));
-//        holder.date.setText(mDateFormat.getString(dueDate.getDate()));
-//        holder.vaccineTitle.setText(mContext.getString(R.string.title_vaccine));
-//        holder.vaccine.setText(dueDate.getVaccineDatabaseKey());
+        holder.patientName.setText(dueDate.getVaccineDatabaseKey());
+        holder.dateTitle.setText(mContext.getString(R.string.title_date));
+        holder.date.setText(mDateFormat.getString(dueDate.getDate()));
+        holder.vaccineTitle.setText(mContext.getString(R.string.title_vaccine));
+        holder.vaccine.setText(dueDate.getVaccineDatabaseKey());
 
 
         return rowView;
     }
 
     public void refresh(HashMap<String,DueDate> dueDates) {
-        mDueDates = dueDates;
+        mDueDates = new ArrayList<>(dueDates.values());
         notifyDataSetChanged();
     }
 
@@ -98,39 +99,3 @@ public class SelectedDateAdapter extends BaseAdapter {
     }
 }
 
-//package mhealth.mvax.calendar;
-//
-//import android.view.View;
-//import android.view.ViewGroup;
-//import android.widget.BaseAdapter;
-//
-///**
-// * @author Alison Huang
-// * <p>
-// * DESCRIPTION HERE
-// */
-//public class SelectedDateAdapter extends BaseAdapter {
-//    @Override
-//    public int getCount() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public Object getItem(int i) {
-//        return null;
-//    }
-//
-//    @Override
-//    public long getItemId(int i) {
-//        return 0;
-//    }
-//
-//    @Override
-//    public View getView(int i, View view, ViewGroup viewGroup) {
-//        return null;
-//    }
-//
-//    public void refresh() {
-//
-//    }
-//}

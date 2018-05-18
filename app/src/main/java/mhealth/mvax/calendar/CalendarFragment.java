@@ -95,8 +95,8 @@ public class CalendarFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_calendar, container, false);
         mDateFormat = new NullableDateFormat(getContext().getString(R.string.date_format));
         mDueDates = new HashMap<>();
-        initDueDateListener();
         initCalendar(mView);
+        initDueDateListener();
         renderLV();
         return mView;
     }
@@ -114,7 +114,8 @@ public class CalendarFragment extends Fragment {
                 System.out.println("PRINT: added a due date");
                 final DueDate addedDueDate = dataSnapshot.getValue(DueDate.class);
                 if (addedDueDate != null) {
-                    mDueDates.put(addedDueDate.getVaccineDatabaseKey(), addedDueDate);
+                    mDueDates.put(addedDueDate.getDatabaseKey(), addedDueDate);
+                    System.out.println("PRINT: date of dueDate added: "+addedDueDate.getDate());
                     refresh();
                 }
             }
@@ -200,19 +201,20 @@ public class CalendarFragment extends Fragment {
     }
 
     private void renderLV() {
-        mSelectedDateLV = mView.findViewById(R.id.selected_day_patients_LV);
-        //mOverdueLV = mView.findViewById(R.id.overdue_patients_LV);
+        ListView selectedDateLV = mView.findViewById(R.id.selected_day_patients_LV);
+        ListView overdueLV = mView.findViewById(R.id.overdue_patients_LV);
 
         mSelectedDateAdapter = new SelectedDateAdapter(getContext(), mDueDates);
-        //mOverdueAdapter = new OverdueAdapter();
+        mOverdueAdapter = new OverdueAdapter(getContext(), mDueDates);
 
-        mSelectedDateLV.setAdapter(mSelectedDateAdapter);
-        //mOverdueLV.setAdapter(mOverdueAdapter);
+        selectedDateLV.setAdapter(mSelectedDateAdapter);
+        overdueLV.setAdapter(mOverdueAdapter);
 
     }
 
     public void refresh() {
         mSelectedDateAdapter.refresh(mDueDates);
+        mOverdueAdapter.refresh(mDueDates);
     }
 
 }
