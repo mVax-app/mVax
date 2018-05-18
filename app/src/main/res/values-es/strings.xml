@@ -119,6 +119,12 @@
     <string name="label_middlename">Segundo Nombre</string>
     <string name="hint_middlename">segundo nombre</string>
 
+    <string name="label_last_name">Apellido</string>
+    <string name="hint_last_name">apellido</string>
+
+    <string name="label_guardian_name">Nombre del Padre</string>
+    <string name="hint_guardian_name">nombre del padre</string>
+
     <string name="label_dob">Fecha de Nacimiento</string>
     <string name="hint_dob">fecha de nacimiento</string>
 
@@ -273,7 +279,6 @@
 
     <!--Vaccine Dates-->
     <string name="due_date">Fecha de Vencimiento:</string>
-
 
     <!-- PDF CONFIG OPTIONS -->
     <string name="pdf_config_title">PDF Constantes</string>
