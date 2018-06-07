@@ -20,7 +20,6 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.auth.modals;
 
 import android.app.AlertDialog;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,19 +30,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.functions.FirebaseFunctions;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.AuthInputValidator;
-import mhealth.mvax.auth.utilities.EmailUtilities;
 import mhealth.mvax.auth.utilities.FirebaseUtilities;
 import mhealth.mvax.model.user.User;
 
