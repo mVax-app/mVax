@@ -69,16 +69,21 @@ dependencies {
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation 'com.android.support:support-v13:26.1.0' // must use v13 for ViewPager
+    implementation 'com.android.support:support-v13:26.1.0'
+    // must use v13 for ViewPager
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.jjoe64:graphview:4.2.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.google.firebase:firebase-database:12.0.1'
-    implementation 'com.google.firebase:firebase-auth:12.0.1'
-    implementation 'com.google.android.gms:play-services-auth:12.0.1'
-    implementation 'com.google.firebase:firebase-invites:12.0.1'
-    implementation 'com.google.firebase:firebase-functions:12.0.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.1'
+
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+    implementation 'com.google.firebase:firebase-database:16.0.1'
+    implementation 'com.google.firebase:firebase-auth:16.0.1'
+    implementation 'com.google.firebase:firebase-invites:16.0.0'
+    implementation 'com.google.firebase:firebase-functions:16.0.1'
+
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+
     implementation 'com.algolia:algoliasearch-android:3.10.1'
     implementation 'joda-time:joda-time:2.9.9'
     androidTestImplementation 'junit:junit:4.12'
