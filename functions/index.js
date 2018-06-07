@@ -24,9 +24,8 @@ exports.createDisabledAccount = functions.https.onCall((data, context) => {
     displayName: data.displayName,
     disabled: true
   })
-  .then(function(userRecord) {
-    return userRecord.uid;
-  }).catch(function(error) {
+  .then(userRecord => userRecord.uid)
+  .catch((error) => {
     throw new functions.https.HttpsError('error', error);
   })
 });
@@ -35,19 +34,21 @@ exports.activateAccount = functions.https.onCall((data, context) => {
   return admin.auth().updateUser(data.uid, {
     disabled: false
   })
-  .then(function(userRecord) {
+  .then((userRecord) => {
 //    sendAccountActivatedEmail(data.email, data.subject, data.body);
-    console.log("user " + data.uid + " activated")
-  }).catch(function(error) {
+    console.log("user " + data.uid + " activated");
+    return userRecord;
+  }).catch((error) => {
     throw new functions.https.HttpsError('error', error);
   })
 });
 
 exports.deleteAccount = functions.https.onCall((data, context) => {
   return admin.auth().deleteUser(data.uid)
-  .then(function() {
-    console.log("user " + data.uid + " deleted")
-  }).catch(function(error) {
+  .then(() => {
+    console.log("user " + data.uid + " deleted");
+    return data.uid; // is this best?
+  }).catch((error) => {git a
     throw new functions.https.HttpsError('error', error);
   })
 });
