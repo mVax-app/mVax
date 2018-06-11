@@ -45,11 +45,11 @@ import mhealth.mvax.model.user.UserRole;
  * Adapter for rendering user requests, which can be approved or denied by
  * an administrator
  */
-public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.ViewHolder> {
+public class UserRequestsAdapter extends RecyclerView.Adapter<UserRequestsAdapter.ViewHolder> {
 
     final private List<User> mUserRequests;
 
-    UserRequestAdapter() {
+    UserRequestsAdapter() {
         mUserRequests = new ArrayList<>();
     }
 
@@ -130,7 +130,7 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
      *                from the adapter
      */
     public void removeRequest(User request) {
-        mUserRequests.removeIf(ur -> ur.getDatabaseKey().equals(request.getDatabaseKey()));
+        mUserRequests.removeIf(ur -> ur.getUID().equals(request.getUID()));
         notifyDataSetChanged();
     }
 

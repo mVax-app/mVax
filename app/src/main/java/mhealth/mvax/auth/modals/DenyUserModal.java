@@ -94,9 +94,10 @@ public class DenyUserModal extends CustomModal {
     private void deleteUserRequest() {
         final String requestsTable = StringFetcher.fetchString(R.string.userRequestsTable);
         final DatabaseReference requestsRef = FirebaseDatabase.getInstance().getReference()
-                .child(requestsTable);
+                .child(requestsTable)
+                .child(mRequest.getUID());
 
-        requestsRef.child(mRequest.getDatabaseKey()).setValue(null).addOnCompleteListener(userRequestDelete -> {
+        requestsRef.setValue(null).addOnCompleteListener(userRequestDelete -> {
             if (userRequestDelete.isSuccessful()) {
                 // user request denial workflow completed
                 hideSpinner(mSpinner, mViews);

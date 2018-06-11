@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="dataTable">data</string>
-    <string name="configTable">config</string>
     <string name="algoliaTable">algolia</string>
 
     <string name="patientTable">patients</string>
@@ -18,8 +17,18 @@
     <string name="userTable">users</string>
     <string name="role">role</string>
     <string name="approved">approved</string>
-    <string name="email">email</string>
 
-    <string name="userRequestsTable">userRequests</string>
+    <string name="userRequestsTable">requests</string>
+
+
+
+
+
+    <string name="configTable">config</string>
+    <string name="mail_table">mail</string>
+    <string name="email_value">email</string>
+    <string name="password_value">password</string>
+
+
 
 </resources>

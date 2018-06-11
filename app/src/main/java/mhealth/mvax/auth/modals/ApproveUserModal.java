@@ -28,18 +28,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.FirebaseUtilities;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserRole;
+import mhealth.mvax.records.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
@@ -93,8 +97,8 @@ public class ApproveUserModal extends CustomModal {
 
     private void activateUser() {
         showSpinner(mSpinner, mViews);
-        FirebaseUtilities.activateUser(mRequest).addOnCompleteListener(userActivate -> {
-            if (userActivate.isSuccessful()) {
+        FirebaseUtilities.activateUser(mRequest).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
                 updateUserTable();
             } else {
                 Toast.makeText(getActivity(), R.string.approve_user_fail, Toast.LENGTH_LONG).show();
@@ -106,11 +110,13 @@ public class ApproveUserModal extends CustomModal {
     private void updateUserTable() {
         final String userTable = getString(R.string.userTable);
         final DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference()
-                .child(userTable);
+                .child(userTable)
+                .child(mRequest.getUID());
 
-        usersRef.child(mRequest.getDatabaseKey()).setValue(mRequest).addOnCompleteListener(userTableAdd -> {
+        usersRef.setValue(mRequest).addOnCompleteListener(userTableAdd -> {
             if (userTableAdd.isSuccessful()) {
                 updateRequestsTable();
+                sendWelcomeEmail(); // requests table update doesn't depend on email success
             } else {
                 Toast.makeText(getActivity(), R.string.approve_user_incomplete, Toast.LENGTH_LONG).show();
             }
@@ -120,16 +126,56 @@ public class ApproveUserModal extends CustomModal {
     private void updateRequestsTable() {
         final String requestsTable = getString(R.string.userRequestsTable);
         final DatabaseReference requestsRef = FirebaseDatabase.getInstance().getReference()
-                .child(requestsTable);
+                .child(requestsTable)
+                .child(mRequest.getUID());
 
-        requestsRef.child(mRequest.getDatabaseKey()).setValue(null).addOnCompleteListener(userRequestDelete -> {
+        requestsRef.setValue(null).addOnCompleteListener(userRequestDelete -> {
             if (userRequestDelete.isSuccessful()) {
                 // user activation workflow completed
                 hideSpinner(mSpinner, mViews);
                 Toast.makeText(getActivity(), R.string.approve_user_success, Toast.LENGTH_LONG).show();
                 mBuilder.dismiss();
             } else {
+                hideSpinner(mSpinner, mViews);
                 Toast.makeText(getActivity(), R.string.approve_user_incomplete, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void sendWelcomeEmail() {
+        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
+                .child(getString(R.string.configTable))
+                .child(getString(R.string.mail_table));
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            @SuppressWarnings(value = "unchecked")
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final HashMap<String, String> credentials = (HashMap<String, String>) dataSnapshot.getValue();
+                assert credentials != null;
+                final String email = credentials.get(getString(R.string.email_value));
+                final String password = credentials.get(getString(R.string.password_value));
+
+                final String subject = getString(R.string.welcome_email_subject);
+                final String body = String.format(StringFetcher.fetchString(R.string.welcome_email_body),
+                        mRequest.getDisplayName(),
+                        mRequest.getRole().toString());
+
+                BackgroundMail.newBuilder(getContext())
+                        .withUsername(email)
+                        .withPassword(password)
+                        .withMailto(mRequest.getEmail())
+                        .withType(BackgroundMail.TYPE_PLAIN)
+                        .withSubject(subject)
+                        .withBody(body)
+                        .withProcessVisibility(false)
+                        .withOnFailCallback(() -> Toast.makeText(getActivity(), R.string.welcome_email_error, Toast.LENGTH_LONG).show())
+                        .send();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), R.string.welcome_email_error, Toast.LENGTH_LONG).show();
             }
         });
     }

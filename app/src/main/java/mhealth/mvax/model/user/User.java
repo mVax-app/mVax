@@ -33,22 +33,8 @@ public class User implements Serializable {
         // Firebase POJO constructor
     }
 
-    public User(String databaseKey, String UID) {
-        this.databaseKey = databaseKey;
+    public User(String UID) {
         this.UID = UID;
-    }
-
-    /**
-     * Unique Firebase database key
-     */
-    private String databaseKey;
-
-    public String getDatabaseKey() {
-        return this.databaseKey;
-    }
-
-    public void setDatabaseKey(String databaseKey) {
-        this.databaseKey = databaseKey;
     }
 
     /**

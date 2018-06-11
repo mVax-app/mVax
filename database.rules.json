@@ -18,7 +18,7 @@
       ".read": "auth != null",
       ".write": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'"
     },
-    "userRequests": {
+    "requests": {
       ".read": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'",
       ".write": "true"
     }

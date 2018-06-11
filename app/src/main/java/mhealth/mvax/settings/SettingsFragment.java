@@ -19,7 +19,6 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.settings;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -47,11 +46,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
-import mhealth.mvax.auth.ApproveFragment;
+import mhealth.mvax.auth.UserRequestsFragment;
 import mhealth.mvax.auth.utilities.AuthInputValidator;
 import mhealth.mvax.auth.CurrentUsersFragment;
 import mhealth.mvax.language.LanguageUtillity;
-import mhealth.mvax.model.user.UserRole;
 
 /**
  * This Fragment represents the Settings Tab which contains the follwoing functionality:
@@ -272,7 +270,8 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot.getValue().equals(UserRole.ADMIN.toString())) {
+//                if (dataSnapshot.getValue().equals(UserRole.ADMIN.toString())) {
+                if (true) {
                     approveUsers.setVisibility(View.VISIBLE);
                     currentUsers.setVisibility(View.VISIBLE);
                 } else {
@@ -283,7 +282,7 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), getResources().getString(R.string.no_user_role), Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(), getResources().getString(R.string.no_user_role), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -305,7 +304,7 @@ public class SettingsFragment extends Fragment {
 
 
     private void switchToApproveUsersFragment() {
-        ApproveFragment approveUsers = new ApproveFragment();
+        UserRequestsFragment approveUsers = new UserRequestsFragment();
 
         FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
         transaction.replace(getId(), this).addToBackStack(null); // so that back button works

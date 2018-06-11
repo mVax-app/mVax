@@ -21,6 +21,7 @@ package mhealth.mvax.auth;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,16 +46,15 @@ import mhealth.mvax.model.user.User;
  *
  * @author Matthew Tribby, Robert Steilberg
  */
-public class ApproveFragment extends Fragment {
+public class UserRequestsFragment extends Fragment {
 
-    private UserRequestAdapter mAdapter;
+    private UserRequestsAdapter mAdapter;
     private DatabaseReference mRequestsRef;
     private ChildEventListener mListener;
     private TextView mNoRequestTextView;
 
-
-    public static ApproveFragment newInstance() {
-        return new ApproveFragment();
+    public static UserRequestsFragment newInstance() {
+        return new UserRequestsFragment();
     }
 
     @Override
@@ -68,7 +68,7 @@ public class ApproveFragment extends Fragment {
         RecyclerView userRequestList = view.findViewById(R.id.user_request_list);
         userRequestList.setHasFixedSize(true);
         userRequestList.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        mAdapter = new UserRequestAdapter();
+        mAdapter = new UserRequestsAdapter();
         userRequestList.setAdapter(mAdapter);
         userRequestList.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
 
@@ -82,21 +82,20 @@ public class ApproveFragment extends Fragment {
     }
 
     private void initDatabase() {
-
         final String requestTable = getResources().getString(R.string.userRequestsTable);
         mRequestsRef = FirebaseDatabase.getInstance().getReference()
                 .child(requestTable);
 
         mListener = new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
                 User request = dataSnapshot.getValue(User.class);
                 mAdapter.addRequest(request);
                 mNoRequestTextView.setVisibility(View.GONE);
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
                 User request = dataSnapshot.getValue(User.class);
                 mAdapter.removeRequest(request); // remove old request
                 mAdapter.addRequest(request);
@@ -104,20 +103,20 @@ public class ApproveFragment extends Fragment {
             }
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 User request = dataSnapshot.getValue(User.class);
                 mAdapter.removeRequest(request);
                 if (mAdapter.getItemCount() == 0) mNoRequestTextView.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String s) {
                 // this should never happen
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), R.string.fail_user_request_download, Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), R.string.user_request_download_fail, Toast.LENGTH_SHORT).show();
             }
         };
         mRequestsRef.addChildEventListener(mListener);

@@ -7,7 +7,7 @@
     <string name="title_activity_login">Sign in</string>
     <string name="auth_fail_bad_credentials">Incorrect email or password</string>
     <string name="auth_fail_disabled_user">User has not been approved by administrator</string>
-    <string name="firebase_fail_no_connection">No internet connection</string>
+    <string name="firebase_fail_no_connection">Unable to detect internet connection</string>
     <string name="firebase_fail_unknown">An unknown error occurred</string>
     <string name="prompt_email">email</string>
     <string name="prompt_password">password</string>
@@ -82,8 +82,8 @@
     <string name="hint_register_email_confirm">confirm email address</string>
     <string name="hint_register_password">password</string>
     <string name="hint_register_password_confirm">confirm password</string>
-    <string name="request_submit_fail">There is already an existing user or an existing user request with this email</string>
-    <string name="request_submit_unknown_fail">User account request was not successful; try your request again</string>
+    <string name="request_submit_fail">There is already an existing user or an existing user request associated with this email</string>
+    <string name="request_submit_unknown_fail">User account request was not successful; try submitting your request again</string>
 
     <!-- Reset password-->
     <string name="modal_reset_title">Password Reset</string>
@@ -120,14 +120,14 @@
     <string name="select_user_role">Select User Role</string>
     <string name="error_select_role">Must select user role for request</string>
     <string name="user_request_decision">Decision</string>
-    <string name="approve_user_instructions">Select a role for a user and tap Approve to create their mVax account, or tap Deny to deny their request.</string>
+    <string name="approve_user_instructions">Select a role for a user. Then, tap Approve to create their mVax account, or tap Deny to deny their request.</string>
     <string name="no_user_requests">No user requests</string>
     <string name="no_role_selected">Please select a role for the user before approving them</string>
     <string name="acceptance_email_subject">mVax User Registration Approved!</string>
     <string name="acceptance_email_body">Welcome! You have been approved to join mVax. You are now able to sign in with your credentials</string>
     <string name="rejection_email_subject">mVax User Registration Denied</string>
     <string name="rejection_email_body">Hello, your request to join mVax has been denied. Contact an administrator for more details.</string>
-    <string name="fail_user_request_download">Unable to download user requests</string>
+    <string name="user_request_download_fail">Unable to download user requests</string>
     <string name="role_info_title">Roles</string>
     <string name="role_info_desc">mVax supports two different roles: ADMIN and READER.\n\n
                                   An ADMIN can:\n
@@ -146,6 +146,16 @@
     <string name="button_approve_user_confirm">Confirm</string>
     <string name="button_approve_user_cancel">Cancel</string>
 
+    <string name="welcome_email_subject">mVax Account Approved</string>
+    <string name="welcome_email_body">Hello %1$s,\n\nYour request for an mVax account has been approved. An administrator has activated your account with %2$s privileges, and you can now use your email and password to log into mVax.\n\n\nThanks,\n\nThe mVax Team</string>
+    <string name="welcome_email_error">Unable to send welcome email to new user</string>
+
+    <string name="confirm_email_subject">mVax Account Request Received</string>
+    <string name="confirm_email_body">Hello %1$s,\n\nWe have received your request for an mVax account. Please wait for an administrator to approve or deny your request. You will receive a confirmation email when your request has been reviewed.\n\n\nThanks,\n\nThe mVax Team</string>
+    <string name="confirm_email_error">Unable to send confirmation email</string>
+
+
+
     <string name="modal_deny_user_request_title">Deny user request</string>
     <string name="modal_deny_user_request_message">Are you sure you want to deny this user\'s request for an mVax account? They will be able to request another account later if they wish.</string>
     <string name="request_deny_success">User request denied</string>
@@ -157,9 +167,6 @@
 
     <string name="deny_user_success">User request successfully denied</string>
     <string name="deny_user_fail">Unexpected error denying user request</string>
-
-    <string name="welcome_email_subject">mVax Account Approved</string>
-    <string name="welcome_email_body">Hello %1$s,\nYour request for an mVax account has been approved. An administrator has activated your account with %2$s privileges. You can now use your email and password to log into mVax.\nThanks,\nThe mVax Team</string>
 
 
     <!-- User Info Fragment -->

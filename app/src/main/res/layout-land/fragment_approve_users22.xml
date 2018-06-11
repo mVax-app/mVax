@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context="mhealth.mvax.auth.ApproveFragment">
+    tools:context="mhealth.mvax.auth.UserRequestsFragment">
 
     <TextView
         android:id="@+id/title"

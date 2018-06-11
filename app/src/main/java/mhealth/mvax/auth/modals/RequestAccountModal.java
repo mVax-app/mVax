@@ -20,6 +20,7 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.auth.modals;
 
 import android.app.AlertDialog;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -30,16 +31,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.AuthInputValidator;
 import mhealth.mvax.auth.utilities.FirebaseUtilities;
 import mhealth.mvax.model.user.User;
+import mhealth.mvax.records.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
@@ -102,12 +109,12 @@ public class RequestAccountModal extends CustomModal {
                         && event.getAction() == KeyEvent.ACTION_DOWN
                         && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     // enter on hardware keyboard submits request
-                    attemptRegister();
+                    validateFields();
                     return true;
                 }
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     // "Done" button submits request
-                    attemptRegister();
+                    validateFields();
                     return true;
                 }
                 return false;
@@ -115,7 +122,7 @@ public class RequestAccountModal extends CustomModal {
             mViews.add(mConfirmPassword);
 
             final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
-            positiveButton.setOnClickListener(view -> attemptRegister());
+            positiveButton.setOnClickListener(view -> validateFields());
             mViews.add(positiveButton);
 
             mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
@@ -123,14 +130,14 @@ public class RequestAccountModal extends CustomModal {
         return mBuilder;
     }
 
-    private void attemptRegister() {
+    private void validateFields() {
         if (noEmptyFields() && authFieldsValid()) {
             showSpinner(mSpinner, mViews);
             final String displayName = mDisplayName.getText().toString();
             final String email = mEmail.getText().toString();
             final String password = mPassword.getText().toString();
             // validation complete, go for actual register request
-            createDisabledUser(displayName, email, password);
+            registerNewUser(displayName, email, password);
         }
     }
 
@@ -201,7 +208,7 @@ public class RequestAccountModal extends CustomModal {
         return authFieldsValid;
     }
 
-    private void createDisabledUser(String displayName, String email, String password) {
+    private void registerNewUser(String displayName, String email, String password) {
         FirebaseUtilities.createDisabledUser(email, password, displayName)
                 .addOnCompleteListener(createTask -> {
                     if (createTask.isSuccessful()) {
@@ -217,23 +224,61 @@ public class RequestAccountModal extends CustomModal {
     private void addRequest(String email, String displayName, String uid) {
         final String requestsTable = getString(R.string.userRequestsTable);
         final DatabaseReference requestsRef = FirebaseDatabase.getInstance().getReference()
-                .child(requestsTable);
+                .child(requestsTable)
+                .child(uid);
 
-        final User newUser = new User(requestsRef.push().getKey(), uid);
+        final User newUser = new User(uid);
         newUser.setDisplayName(displayName);
         newUser.setEmail(email);
 
-        requestsRef.child(newUser.getDatabaseKey())
-                .setValue(newUser).addOnCompleteListener(addUserRequestTask -> {
+        requestsRef.setValue(newUser).addOnCompleteListener(addUserRequestTask -> {
             hideSpinner(mSpinner, mViews);
             if (addUserRequestTask.isSuccessful()) {
                 mBuilder.dismiss();
+                sendConfirmEmail(newUser);
                 Toast.makeText(getActivity(), R.string.request_submit_success, Toast.LENGTH_LONG).show();
             } else {
                 // unable to push request to UserRequest table, so attempt to delete the disabled
                 // user out of the auth table
                 FirebaseUtilities.deleteUser(uid);
                 Toast.makeText(getActivity(), R.string.request_submit_unknown_fail, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void sendConfirmEmail(User newUser) {
+        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
+                .child(getString(R.string.configTable))
+                .child(getString(R.string.mail_table));
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            @SuppressWarnings(value = "unchecked")
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                final HashMap<String, String> credentials = (HashMap<String, String>) dataSnapshot.getValue();
+                assert credentials != null;
+                final String email = credentials.get(getString(R.string.email_value));
+                final String password = credentials.get(getString(R.string.password_value));
+
+                final String subject = getString(R.string.confirm_email_subject);
+                final String body = String.format(StringFetcher.fetchString(R.string.confirm_email_body),
+                        newUser.getDisplayName());
+
+                BackgroundMail.newBuilder(getContext())
+                        .withUsername(email)
+                        .withPassword(password)
+                        .withMailto(newUser.getEmail())
+                        .withType(BackgroundMail.TYPE_PLAIN)
+                        .withSubject(subject)
+                        .withBody(body)
+                        .withProcessVisibility(false)
+                        .withOnFailCallback(() -> Toast.makeText(getActivity(), R.string.confirm_email_error, Toast.LENGTH_LONG).show())
+                        .send();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), R.string.confirm_email_error, Toast.LENGTH_LONG).show();
             }
         });
     }
