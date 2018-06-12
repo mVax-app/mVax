@@ -25,8 +25,8 @@ import mhealth.mvax.R;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Enum for representing supported sexes
+ * <p>
+ * Enum for representing supported sexes
  */
 public enum Sex implements Serializable {
     MALE(R.string.male_enum),

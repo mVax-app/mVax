@@ -24,7 +24,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +36,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.FirebaseUtilities;
@@ -52,11 +50,7 @@ import mhealth.mvax.records.utilities.StringFetcher;
  */
 public class ApproveUserModal extends CustomModal {
 
-    private AlertDialog mBuilder;
     private User mRequest;
-
-    private ProgressBar mSpinner;
-    private List<View> mViews;
 
     public ApproveUserModal(View view, User request, UserRole role) {
         super(view);
@@ -96,13 +90,13 @@ public class ApproveUserModal extends CustomModal {
     }
 
     private void activateUser() {
-        showSpinner(mSpinner, mViews);
+        showSpinner();
         FirebaseUtilities.activateUser(mRequest).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 updateUserTable();
             } else {
                 Toast.makeText(getActivity(), R.string.approve_user_fail, Toast.LENGTH_LONG).show();
-                hideSpinner(mSpinner, mViews);
+                hideSpinner();
             }
         });
     }
@@ -130,13 +124,12 @@ public class ApproveUserModal extends CustomModal {
                 .child(mRequest.getUID());
 
         requestsRef.setValue(null).addOnCompleteListener(userRequestDelete -> {
+            hideSpinner();
             if (userRequestDelete.isSuccessful()) {
                 // user activation workflow completed
-                hideSpinner(mSpinner, mViews);
                 Toast.makeText(getActivity(), R.string.approve_user_success, Toast.LENGTH_LONG).show();
                 mBuilder.dismiss();
             } else {
-                hideSpinner(mSpinner, mViews);
                 Toast.makeText(getActivity(), R.string.approve_user_incomplete, Toast.LENGTH_LONG).show();
             }
         });

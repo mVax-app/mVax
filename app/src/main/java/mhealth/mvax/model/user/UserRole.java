@@ -20,29 +20,13 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.model.user;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Enum representing user role, which defines access levels to read/write
- * privileges of mVax data
- *
- * @author Matthew Tribby
+ * @author Matthew Tribby, Robert Steilberg
+ * <p>
+ * Enum for representing supported mVax user roles
  */
 public enum UserRole implements Serializable {
     ADMIN,
-    READER;
-
-    // TODO try to get rid of this
-    public static List<String> getRoles() {
-        List<String> roles = new ArrayList<String>();
-        UserRole[] values = UserRole.class.getEnumConstants();
-        for (int i = 0; i < values.length; i++) {
-            roles.add(values[i].name());
-        }
-        return roles;
-
-    }
+    READER
 }
-
-

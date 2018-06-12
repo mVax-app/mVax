@@ -26,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +33,6 @@ import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.AuthInputValidator;
@@ -46,11 +44,6 @@ import mhealth.mvax.auth.utilities.AuthInputValidator;
  */
 public class PasswordResetModal extends CustomModal {
 
-    private AlertDialog mBuilder;
-
-    private ProgressBar mSpinner;
-    private List<View> mViews;
-
     public PasswordResetModal(View view) {
         super(view);
         mViews = new ArrayList<>();
@@ -59,10 +52,10 @@ public class PasswordResetModal extends CustomModal {
     @Override
     AlertDialog createDialog() {
         mBuilder = new AlertDialog.Builder(getActivity())
-                .setTitle(getString(R.string.modal_reset_title))
+                .setTitle(R.string.modal_reset_title)
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_forgot_password, (ViewGroup) getView().getParent(), false))
-                .setPositiveButton(getString(R.string.button_reset_password_submit), null)
-                .setNegativeButton(getString(R.string.button_reset_password_cancel), null)
+                .setPositiveButton(R.string.button_reset_password_submit, null)
+                .setNegativeButton(R.string.button_reset_password_cancel, null)
                 .create();
 
         mBuilder.setOnShowListener(dialogInterface -> {
@@ -105,7 +98,7 @@ public class PasswordResetModal extends CustomModal {
             emailTextView.setError(getString(R.string.error_invalid_email));
             emailTextView.requestFocus();
         } else {
-            showSpinner(mSpinner, mViews);
+            showSpinner();
             sendResetEmail(emailAddress);
         }
     }
@@ -121,7 +114,7 @@ public class PasswordResetModal extends CustomModal {
                 mBuilder.dismiss();
                 Toast.makeText(getActivity(), getString(R.string.reset_email_confirm), Toast.LENGTH_LONG).show();
             }
-            hideSpinner(mSpinner, mViews);
+            hideSpinner();
         });
     }
 

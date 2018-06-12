@@ -19,6 +19,8 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.user;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 /**
@@ -27,7 +29,7 @@ import java.io.Serializable;
  * Object for storing information about mVax users
  */
 
-public class User implements Serializable {
+public class User implements Serializable, Comparable<User> {
 
     private User() {
         // Firebase POJO constructor
@@ -87,6 +89,18 @@ public class User implements Serializable {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    /**
+     * Sorts Users by name
+     *
+     * @param that User to sort against
+     * @return negative integer, zero, or a positive integer if this
+     * User is less than, equal to, or greater than that User, respectively
+     */
+    @Override
+    public int compareTo(@NonNull User that) {
+        return this.displayName.compareTo(that.displayName);
     }
 
 }

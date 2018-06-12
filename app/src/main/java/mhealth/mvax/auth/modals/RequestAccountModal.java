@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +39,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.AuthInputValidator;
@@ -54,11 +52,6 @@ import mhealth.mvax.records.utilities.StringFetcher;
  * Modal and functionality for requesting a new mVax account
  */
 public class RequestAccountModal extends CustomModal {
-
-    private AlertDialog mBuilder;
-
-    private ProgressBar mSpinner;
-    private List<View> mViews;
 
     private TextView mDisplayName;
     private TextView mEmail;
@@ -132,7 +125,7 @@ public class RequestAccountModal extends CustomModal {
 
     private void validateFields() {
         if (noEmptyFields() && authFieldsValid()) {
-            showSpinner(mSpinner, mViews);
+            showSpinner();
             final String displayName = mDisplayName.getText().toString();
             final String email = mEmail.getText().toString();
             final String password = mPassword.getText().toString();
@@ -216,7 +209,7 @@ public class RequestAccountModal extends CustomModal {
                         addRequest(email, displayName, createTask.getResult());
                     } else {
                         Toast.makeText(getActivity(), R.string.request_submit_fail, Toast.LENGTH_LONG).show();
-                        hideSpinner(mSpinner, mViews);
+                        hideSpinner();
                     }
                 });
     }
@@ -232,7 +225,7 @@ public class RequestAccountModal extends CustomModal {
         newUser.setEmail(email);
 
         requestsRef.setValue(newUser).addOnCompleteListener(addUserRequestTask -> {
-            hideSpinner(mSpinner, mViews);
+            hideSpinner();
             if (addUserRequestTask.isSuccessful()) {
                 mBuilder.dismiss();
                 sendConfirmEmail(newUser);

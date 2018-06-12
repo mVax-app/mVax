@@ -28,7 +28,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -43,69 +42,63 @@ import mhealth.mvax.model.user.User;
 /**
  * @author Matthew Tribby, Robert Steilberg
  * <p>
- * Supports a fragment that allows an administrator to approve or deny requests
- * for new mVax accounts
+ * Fragment for managing current mVax users
  */
-public class UserRequestsFragment extends Fragment {
+public class UsersFragment extends Fragment {
 
-    private UserRequestsAdapter mAdapter;
-    private DatabaseReference mRequestsRef;
+    private UsersAdapter mAdapter;
+    private DatabaseReference mUsersRef;
     private ChildEventListener mListener;
-    private TextView mNoRequestTextView;
 
-    public static UserRequestsFragment newInstance() {
-        return new UserRequestsFragment();
+    public static UsersFragment newInstance() {
+        return new UsersFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_approve_users, container, false);
+        final View view = inflater.inflate(R.layout.fragment_current_users, container, false);
 
         initDatabase();
 
-        mNoRequestTextView = view.findViewById(R.id.no_user_requests);
-
-        RecyclerView userRequestList = view.findViewById(R.id.user_request_list);
-        userRequestList.setHasFixedSize(true);
-        userRequestList.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        mAdapter = new UserRequestsAdapter();
-        userRequestList.setAdapter(mAdapter);
-        userRequestList.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
+        RecyclerView usersList = view.findViewById(R.id.user_list);
+        usersList.setHasFixedSize(true);
+        usersList.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        mAdapter = new UsersAdapter();
+        usersList.setAdapter(mAdapter);
+        usersList.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
 
         return view;
     }
 
     @Override
     public void onDestroyView() {
-        mRequestsRef.removeEventListener(mListener);
+        mUsersRef.removeEventListener(mListener);
         super.onDestroyView();
     }
 
+
     private void initDatabase() {
-        final String requestTable = getResources().getString(R.string.userRequestsTable);
-        mRequestsRef = FirebaseDatabase.getInstance().getReference()
-                .child(requestTable);
+        final String userTable = getResources().getString(R.string.userTable);
+        mUsersRef = FirebaseDatabase.getInstance().getReference()
+                .child(userTable);
 
         mListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-                User request = dataSnapshot.getValue(User.class);
-                mAdapter.addRequest(request);
-                mNoRequestTextView.setVisibility(View.GONE);
+                User user = dataSnapshot.getValue(User.class);
+                mAdapter.addUser(user);
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
-                User request = dataSnapshot.getValue(User.class);
-                mAdapter.updateRequest(request);
-                mNoRequestTextView.setVisibility(View.GONE);
+                User user = dataSnapshot.getValue(User.class);
+                mAdapter.updateUser(user);
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                User request = dataSnapshot.getValue(User.class);
-                mAdapter.removeRequest(request);
-                if (mAdapter.getItemCount() == 0) mNoRequestTextView.setVisibility(View.VISIBLE);
+                User user = dataSnapshot.getValue(User.class);
+                mAdapter.removeUser(user);
             }
 
             @Override
@@ -115,9 +108,10 @@ public class UserRequestsFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity(), R.string.user_request_download_fail, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.user_download_fail, Toast.LENGTH_SHORT).show();
             }
         };
-        mRequestsRef.addChildEventListener(mListener);
+        mUsersRef.addChildEventListener(mListener);
     }
+
 }

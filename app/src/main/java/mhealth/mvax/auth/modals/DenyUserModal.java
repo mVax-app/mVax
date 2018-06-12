@@ -23,19 +23,16 @@ import android.app.AlertDialog;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.FirebaseUtilities;
 import mhealth.mvax.model.user.User;
-import mhealth.mvax.records.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
@@ -44,11 +41,7 @@ import mhealth.mvax.records.utilities.StringFetcher;
  */
 public class DenyUserModal extends CustomModal {
 
-    private AlertDialog mBuilder;
     private User mRequest;
-
-    private ProgressBar mSpinner;
-    private List<View> mViews;
 
     public DenyUserModal(View view, User request) {
         super(view);
@@ -79,20 +72,19 @@ public class DenyUserModal extends CustomModal {
     }
 
     private void deleteUser() {
-        showSpinner(mSpinner, mViews);
-
+        showSpinner();
         FirebaseUtilities.deleteUser(mRequest.getUID()).addOnCompleteListener(userDelete -> {
             if (userDelete.isSuccessful()) {
                 deleteUserRequest();
             } else {
-                hideSpinner(mSpinner, mViews);
+                hideSpinner();
                 Toast.makeText(getActivity(), R.string.deny_user_fail, Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void deleteUserRequest() {
-        final String requestsTable = StringFetcher.fetchString(R.string.userRequestsTable);
+        final String requestsTable = getString(R.string.userRequestsTable);
         final DatabaseReference requestsRef = FirebaseDatabase.getInstance().getReference()
                 .child(requestsTable)
                 .child(mRequest.getUID());
@@ -100,11 +92,11 @@ public class DenyUserModal extends CustomModal {
         requestsRef.setValue(null).addOnCompleteListener(userRequestDelete -> {
             if (userRequestDelete.isSuccessful()) {
                 // user request denial workflow completed
-                hideSpinner(mSpinner, mViews);
+                hideSpinner();
                 mBuilder.dismiss();
                 Toast.makeText(getActivity(), R.string.deny_user_success, Toast.LENGTH_LONG).show();
             } else {
-                hideSpinner(mSpinner, mViews);
+                hideSpinner();
                 Toast.makeText(getActivity(), R.string.deny_user_fail, Toast.LENGTH_LONG).show();
             }
         });

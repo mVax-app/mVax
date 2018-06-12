@@ -116,18 +116,20 @@
     <string name="user_settings">User Settings</string>
 
     <!-- Approve Users Fragment -->
-    <string name="approve_users_title">Approve Users</string>
+    <string name="approve_users_title">Approve New mVax Users</string>
     <string name="select_user_role">Select User Role</string>
     <string name="error_select_role">Must select user role for request</string>
     <string name="user_request_decision">Decision</string>
     <string name="approve_user_instructions">Select a role for a user. Then, tap Approve to create their mVax account, or tap Deny to deny their request.</string>
     <string name="no_user_requests">No user requests</string>
-    <string name="no_role_selected">Please select a role for the user before approving them</string>
+    <string name="no_role_selected">A role must be selected before a user can be approved</string>
     <string name="acceptance_email_subject">mVax User Registration Approved!</string>
     <string name="acceptance_email_body">Welcome! You have been approved to join mVax. You are now able to sign in with your credentials</string>
     <string name="rejection_email_subject">mVax User Registration Denied</string>
     <string name="rejection_email_body">Hello, your request to join mVax has been denied. Contact an administrator for more details.</string>
     <string name="user_request_download_fail">Unable to download user requests</string>
+    <string name="user_download_fail">Unable to download current user info</string>
+
     <string name="role_info_title">Roles</string>
     <string name="role_info_desc">mVax supports two different roles: ADMIN and READER.\n\n
                                   An ADMIN can:\n
@@ -176,14 +178,38 @@
     <string name="reader_info">READER: have access to see the data but cannot write any new information. Cannot handle other users.</string>
 
 
-
     <!-- Current Users Fragment -->
-    <string name="current_users_title">Current Users</string>
+    <string name="current_users_title">Current mVax Users</string>
+    <string name="user_management_instructions">This page can be used to manage current mVax users. You can change the role of any user, disable a user, or delete a user.</string>
+
+    <string name="disable_user">Disable User</string>
+    <string name="delete_user">Delete User</string>
+    <string name="change_role">Change Role</string>
+
+    <string name="change_role_modal_title">Change Role</string>
+    <string name="change_role_modal_submit">Submit</string>
+    <string name="change_role_modal_cancel">Cancel</string>
+    <string name="change_role_modal_subtitle">Select which role the user should have and tap Submit.</string>
+    <string name="change_role_success">Role successfully changed</string>
+    <string name="change_role_fail">Unable to change role</string>
+    <string name="change_role_denied">You cannot change your own role</string>
+
+    <string name="delete_user_modal_title">Delete User</string>
+    <string name="delete_user_modal_subtitle">Are you sure you want to delete this user? This action CANNOT be undone, but the user can request a new mVax account later if they wish.</string>
+    <string name="delete_user_submit">Submit</string>
+    <string name="delete_user_cancel">Cancel</string>
+    <string name="delete_user_success">User successfully deleted</string>
+    <string name="delete_user_fail">Unable to delete user</string>
+    <string name="delete_user_incomplete">User deletion incomplete; please try deleting the user again</string>
+    <string name="delete_user_denied">You cannot delete your own mVax account</string>
+
 
     <!-- User Fragments -->
-    <string name="user_name">Name</string>
-    <string name="user_email">Email</string>
-    <string name="user_role">Role</string>
+    <string name="user_name">NAME</string>
+    <string name="user_email">EMAIL</string>
+    <string name="user_role">ROLE</string>
+
+    <string name="role">Role</string>
     <string name="user_role_info">Details about user roles</string>
     <string name="modal_current_user_title">Edit User\'s Access</string>
     <string name="modal_current_role">Role: </string>

@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import mhealth.mvax.R;
@@ -64,9 +65,9 @@ public class UserRequestsAdapter extends RecyclerView.Adapter<UserRequestsAdapte
             name = view.findViewById(R.id.user_name);
             email = view.findViewById(R.id.user_email);
             roles = view.findViewById(R.id.role_radio_group);
-            infoButton = view.findViewById(R.id.info_button);
             approveButton = view.findViewById(R.id.approve_button);
             denyButton = view.findViewById(R.id.deny_button);
+            infoButton = view.findViewById(R.id.info_button);
         }
     }
 
@@ -80,6 +81,7 @@ public class UserRequestsAdapter extends RecyclerView.Adapter<UserRequestsAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final User request = mUserRequests.get(position);
+
         holder.name.setText(request.getDisplayName());
         holder.email.setText(request.getEmail());
 
@@ -119,6 +121,21 @@ public class UserRequestsAdapter extends RecyclerView.Adapter<UserRequestsAdapte
      */
     public void addRequest(User newRequest) {
         mUserRequests.add(newRequest);
+        Collections.sort(mUserRequests);
+        notifyDataSetChanged();
+    }
+
+    /**
+     * Update an existing request; adds the request
+     * to the RecyclerView if no existing request is
+     * found
+     *
+     * @param newRequest updated user request
+     */
+    public void updateRequest(User newRequest) {
+        removeRequest(newRequest);
+        addRequest(newRequest);
+        Collections.sort(mUserRequests);
         notifyDataSetChanged();
     }
 
@@ -131,6 +148,7 @@ public class UserRequestsAdapter extends RecyclerView.Adapter<UserRequestsAdapte
      */
     public void removeRequest(User request) {
         mUserRequests.removeIf(ur -> ur.getUID().equals(request.getUID()));
+        Collections.sort(mUserRequests);
         notifyDataSetChanged();
     }
 

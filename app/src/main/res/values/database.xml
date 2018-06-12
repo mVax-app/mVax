@@ -15,7 +15,7 @@
 
     <string name="databaseId">databaseId</string>
     <string name="userTable">users</string>
-    <string name="role">role</string>
+    <string name="userRole">role</string>
     <string name="approved">approved</string>
 
     <string name="userRequestsTable">requests</string>

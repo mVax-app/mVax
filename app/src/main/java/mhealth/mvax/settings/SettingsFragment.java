@@ -47,8 +47,8 @@ import com.google.firebase.database.ValueEventListener;
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
 import mhealth.mvax.auth.UserRequestsFragment;
+import mhealth.mvax.auth.UsersFragment;
 import mhealth.mvax.auth.utilities.AuthInputValidator;
-import mhealth.mvax.auth.CurrentUsersFragment;
 import mhealth.mvax.language.LanguageUtillity;
 
 /**
@@ -178,6 +178,27 @@ public class SettingsFragment extends Fragment {
 
     public void updateEmail(View v) {
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //builder
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(getResources().getString(R.string.modal_update_title));
@@ -265,7 +286,7 @@ public class SettingsFragment extends Fragment {
 
         //Following code sets the button to only show when user is an ADMIN
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref = ref.child(getResources().getString(R.string.userTable)).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(getResources().getString(R.string.role));
+        ref = ref.child(getResources().getString(R.string.userTable)).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(getResources().getString(R.string.userRole));
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -314,7 +335,7 @@ public class SettingsFragment extends Fragment {
     }
 
     private void switchToCurrentUsersFragment(){
-        Fragment fragment =  new CurrentUsersFragment();
+        Fragment fragment =  new UsersFragment();
         FragmentManager fragmentManager = getActivity().getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
