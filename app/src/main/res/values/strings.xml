@@ -57,7 +57,6 @@
     <string name="userRoles">Account Permission Level</string>
 
 
-
     <string name="modal_user_decision_title">Approve User Request?</string>
     <string name="approve_user">Approve</string>
     <string name="deny_user">Deny</string>
@@ -157,7 +156,6 @@
     <string name="confirm_email_error">Unable to send confirmation email</string>
 
 
-
     <string name="modal_deny_user_request_title">Deny user request</string>
     <string name="modal_deny_user_request_message">Are you sure you want to deny this user\'s request for an mVax account? They will be able to request another account later if they wish.</string>
     <string name="request_deny_success">User request denied</string>
@@ -203,6 +201,25 @@
     <string name="delete_user_incomplete">User deletion incomplete; please try deleting the user again</string>
     <string name="delete_user_denied">You cannot delete your own mVax account</string>
 
+    <string name="change_email_modal_title">Change email</string>
+    <string name="change_email_modal_subtitle">Enter the new email to be associated with your mVax account and tap Submit.</string>
+    <string name="change_email_modal_submit">Submit</string>
+    <string name="change_email_modal_cancel">Cancel</string>
+    <string name="change_email_modal_hint">new email address</string>
+    <string name="change_email_modal_hint_confirm">confirm new email address</string>
+    <string name="change_email_success">Email successfully changed</string>
+    <string name="change_email_fail">Unable to change email</string>
+    <string name="change_email_incomplete">Email change incomplete; please try changing your email again</string>
+
+    <string name="change_password_modal_title">Change password</string>
+    <string name="change_password_modal_subtitle">Enter the new password to be associated with your mVax account and tap Submit.</string>
+    <string name="change_password_modal_submit">Submit</string>
+    <string name="change_password_modal_cancel">Cancel</string>
+    <string name="change_password_modal_hint">new password</string>
+    <string name="change_password_modal_hint_confirm">confirm new password</string>
+    <string name="change_password_success">Password successfully changed</string>
+    <string name="change_password_fail">Unable to change password</string>
+
 
     <!-- User Fragments -->
     <string name="user_name">NAME</string>
@@ -217,7 +234,6 @@
     <string name="reader_role">Reader</string>
     <string name="modal_new_role">Change user\'s role: </string>
     <string name="role_no_change">No Change</string>
-
 
 
     <!-- About Button -->

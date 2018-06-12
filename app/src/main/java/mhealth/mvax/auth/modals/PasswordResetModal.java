@@ -53,7 +53,7 @@ public class PasswordResetModal extends CustomModal {
     AlertDialog createDialog() {
         mBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.modal_reset_title)
-                .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_forgot_password, (ViewGroup) getView().getParent(), false))
+                .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_reset_password, (ViewGroup) getView().getParent(), false))
                 .setPositiveButton(R.string.button_reset_password_submit, null)
                 .setNegativeButton(R.string.button_reset_password_cancel, null)
                 .create();
