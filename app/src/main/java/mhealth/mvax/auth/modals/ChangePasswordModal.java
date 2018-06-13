@@ -31,10 +31,6 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.ArrayList;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.AuthInputValidator;
@@ -58,8 +54,8 @@ public class ChangePasswordModal extends CustomModal {
         mBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.change_password_modal_title)
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_change_password, (ViewGroup) getView().getParent(), false))
-                .setPositiveButton(R.string.change_password_modal_submit, null)
-                .setNegativeButton(R.string.change_password_modal_cancel, null)
+                .setPositiveButton(R.string.submit, null)
+                .setNegativeButton(R.string.cancel, null)
                 .create();
 
         mBuilder.setOnShowListener(dialogInterface -> {
@@ -73,7 +69,7 @@ public class ChangePasswordModal extends CustomModal {
 
             mConfirmPassword.setOnEditorActionListener((v, actionId, event) -> {
                 if (event != null
-                        && event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getAction() == KeyEvent.ACTION_DOWN // debounce
                         && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     // enter on hardware keyboard submits request
                     attemptPasswordChange();
@@ -104,12 +100,12 @@ public class ChangePasswordModal extends CustomModal {
     private boolean noEmptyFields() {
         boolean noEmptyFields = true;
         if (TextUtils.isEmpty(mConfirmPassword.getText().toString())) {
-            mConfirmPassword.setError(getString(R.string.error_empty_field));
+            mConfirmPassword.setError(getString(R.string.empty_field_error));
             mConfirmPassword.requestFocus();
             noEmptyFields = false;
         }
         if (TextUtils.isEmpty(mPassword.getText().toString())) {
-            mPassword.setError(getString(R.string.error_empty_field));
+            mPassword.setError(getString(R.string.empty_field_error));
             mPassword.requestFocus();
             noEmptyFields = false;
         }
@@ -121,7 +117,7 @@ public class ChangePasswordModal extends CustomModal {
         final String password = mPassword.getText().toString();
         final String confirmPassword = mConfirmPassword.getText().toString();
         if (!AuthInputValidator.passwordValid(password)) {
-            mPassword.setError(getString(R.string.error_invalid_password));
+            mPassword.setError(getString(R.string.invalid_password_error));
             mPassword.requestFocus();
             passwordValid = false;
         } else if (!password.equals(confirmPassword)) { // password fields don't match
@@ -135,7 +131,7 @@ public class ChangePasswordModal extends CustomModal {
 
     private void changePasswordInAuthTable(String password) {
         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (currUser == null) {
             FirebaseAuth.getInstance().signOut();
             getActivity().finish();
             return;

@@ -43,15 +43,14 @@ import mhealth.mvax.model.user.User;
 /**
  * @author Matthew Tribby, Robert Steilberg
  * <p>
- * Supports a fragment that allows an administrator to approve or deny requests
- * for new mVax accounts
+ * Fragment for approving or denying requests for new mVax accounts
  */
 public class UserRequestsFragment extends Fragment {
 
     private UserRequestsAdapter mAdapter;
     private DatabaseReference mRequestsRef;
     private ChildEventListener mListener;
-    private TextView mNoRequestTextView;
+    private TextView mNoRequestsTextView;
 
     public static UserRequestsFragment newInstance() {
         return new UserRequestsFragment();
@@ -63,7 +62,7 @@ public class UserRequestsFragment extends Fragment {
 
         initDatabase();
 
-        mNoRequestTextView = view.findViewById(R.id.no_user_requests);
+        mNoRequestsTextView = view.findViewById(R.id.no_user_requests);
 
         RecyclerView userRequestList = view.findViewById(R.id.user_request_list);
         userRequestList.setHasFixedSize(true);
@@ -82,30 +81,29 @@ public class UserRequestsFragment extends Fragment {
     }
 
     private void initDatabase() {
-        final String requestTable = getResources().getString(R.string.userRequestsTable);
         mRequestsRef = FirebaseDatabase.getInstance().getReference()
-                .child(requestTable);
+                .child(getString(R.string.userRequestsTable));
 
         mListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
                 User request = dataSnapshot.getValue(User.class);
                 mAdapter.addRequest(request);
-                mNoRequestTextView.setVisibility(View.GONE);
+                mNoRequestsTextView.setVisibility(View.GONE);
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
                 User request = dataSnapshot.getValue(User.class);
                 mAdapter.updateRequest(request);
-                mNoRequestTextView.setVisibility(View.GONE);
+                mNoRequestsTextView.setVisibility(View.GONE);
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 User request = dataSnapshot.getValue(User.class);
                 mAdapter.removeRequest(request);
-                if (mAdapter.getItemCount() == 0) mNoRequestTextView.setVisibility(View.VISIBLE);
+                if (mAdapter.getItemCount() == 0) mNoRequestsTextView.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -120,4 +118,5 @@ public class UserRequestsFragment extends Fragment {
         };
         mRequestsRef.addChildEventListener(mListener);
     }
+
 }

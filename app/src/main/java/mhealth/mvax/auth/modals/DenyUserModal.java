@@ -28,11 +28,11 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.FirebaseUtilities;
+import mhealth.mvax.auth.utilities.Mailer;
 import mhealth.mvax.model.user.User;
+import mhealth.mvax.records.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
@@ -46,27 +46,26 @@ public class DenyUserModal extends CustomModal {
     public DenyUserModal(View view, User request) {
         super(view);
         mRequest = request;
-        mViews = new ArrayList<>();
     }
 
     @Override
     AlertDialog createDialog() {
         mBuilder = new AlertDialog.Builder(getActivity())
-                .setTitle(getString(R.string.modal_deny_user_request_title))
+                .setTitle(getString(R.string.deny_user_modal_title))
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_deny_user, (ViewGroup) getView().getParent(), false))
-                .setPositiveButton(getString(R.string.ok), null)
-                .setNegativeButton(getString(R.string.button_reset_password_cancel), null)
+                .setPositiveButton(getString(R.string.confirm), null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .create();
 
         mBuilder.setOnShowListener(dialogInterface -> {
             mSpinner = mBuilder.findViewById(R.id.spinner);
 
+            mViews.add(mBuilder.findViewById(R.id.subtitle));
+            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
+
             final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> deleteUser());
             mViews.add(positiveButton);
-
-            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
-            mViews.add(mBuilder.findViewById(R.id.message));
         });
         return mBuilder;
     }
@@ -84,22 +83,35 @@ public class DenyUserModal extends CustomModal {
     }
 
     private void deleteUserRequest() {
-        final String requestsTable = getString(R.string.userRequestsTable);
         final DatabaseReference requestsRef = FirebaseDatabase.getInstance().getReference()
-                .child(requestsTable)
+                .child(getString(R.string.userRequestsTable))
                 .child(mRequest.getUID());
 
         requestsRef.setValue(null).addOnCompleteListener(userRequestDelete -> {
             if (userRequestDelete.isSuccessful()) {
                 // user request denial workflow completed
                 hideSpinner();
+                sendDenialEmail();
                 mBuilder.dismiss();
                 Toast.makeText(getActivity(), R.string.deny_user_success, Toast.LENGTH_LONG).show();
             } else {
                 hideSpinner();
-                Toast.makeText(getActivity(), R.string.deny_user_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.deny_user_incomplete, Toast.LENGTH_LONG).show();
+                // TODO implement better error handling in this case
             }
         });
+    }
+
+    private void sendDenialEmail() {
+        final String subject = getString(R.string.deny_email_subject);
+        final String body = String.format(StringFetcher.fetchString(R.string.deny_email_body),
+                mRequest.getDisplayName());
+        new Mailer(getContext())
+                .withMailTo(mRequest.getEmail())
+                .withSubject(subject)
+                .withBody(body)
+                .withProcessVisibility(false)
+                .send();
     }
 
 }

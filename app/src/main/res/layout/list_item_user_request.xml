@@ -48,7 +48,7 @@
         app:layout_constraintEnd_toStartOf="@+id/buttons"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -66,12 +66,18 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="start|center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:backgroundTint="@color/teal"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/ic_info" />
+                android:src="@drawable/ic_info"
+                app:layout_constraintBottom_toBottomOf="@+id/role"
+                app:layout_constraintStart_toEndOf="@+id/role"
+                app:layout_constraintTop_toTopOf="@+id/role" />
 
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
 
         <RadioGroup
             android:id="@+id/role_radio_group"
@@ -109,7 +115,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <Button
             android:id="@+id/approve_button"

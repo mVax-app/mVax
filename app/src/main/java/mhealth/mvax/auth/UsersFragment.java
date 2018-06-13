@@ -76,11 +76,9 @@ public class UsersFragment extends Fragment {
         super.onDestroyView();
     }
 
-
     private void initDatabase() {
-        final String userTable = getResources().getString(R.string.userTable);
         mUsersRef = FirebaseDatabase.getInstance().getReference()
-                .child(userTable);
+                .child(getString(R.string.userTable));
 
         mListener = new ChildEventListener() {
             @Override

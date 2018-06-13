@@ -9,21 +9,19 @@
     android:paddingRight="10dp"
     android:paddingTop="10dp"
     android:weightSum="1"
-    tools:context="mhealth.mvax.auth.AuthActivity">
+    tools:context="settings.SettingsFragment">
 
     <TextView
-        android:id="@+id/modal_info"
-        android:layout_width="wrap_content"
+        android:id="@+id/subtitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/password_reset_confirm"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginLeft="8dp"
-        android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:text="@string/role_info_desc"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="8dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

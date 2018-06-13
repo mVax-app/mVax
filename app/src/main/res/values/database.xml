@@ -27,6 +27,8 @@
     <string name="configTable">config</string>
     <string name="mail_table">mail</string>
     <string name="email_value">email</string>
+    <string name="role_value">role</string>
+
     <string name="password_value">password</string>
 
 

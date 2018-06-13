@@ -11,101 +11,89 @@
     android:weightSum="1"
     tools:context="mhealth.mvax.auth.AuthActivity">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/request_account_inputs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-        <LinearLayout
-            android:id="@+id/linearlayout_register_fields"
+        <TextView
+            android:id="@+id/request_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_marginEnd="14dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/modal_register_subtitle" />
 
-            <TextView
-                android:id="@+id/textView_register_subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="14dp"
-                android:layout_marginStart="14dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/modal_register_subtitle" />
-
-            <EditText
-                android:id="@+id/display_name"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="2.53"
-                android:ems="10"
-                android:hint="@string/hint_register_display_name"
-                android:inputType="textCapWords"
-                app:layout_constraintHorizontal_bias="0.503" />
-
-            <EditText
-                android:id="@+id/edittext_register_email"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="2.53"
-                android:ems="10"
-                android:hint="@string/hint_register_email"
-                android:inputType="textEmailAddress" />
-
-            <EditText
-                android:id="@+id/edittext_register_email_confirm"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="2.53"
-                android:ems="10"
-                android:hint="@string/hint_register_email_confirm"
-                android:inputType="textEmailAddress" />
-
-            <EditText
-                android:id="@+id/edittext_register_password"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="2.53"
-                android:ems="10"
-                android:hint="@string/hint_register_password"
-                android:inputType="textPassword" />
-
-            <EditText
-                android:id="@+id/edittext_register_password_confirm"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="2.53"
-                android:ems="10"
-                android:hint="@string/hint_register_password_confirm"
-                android:inputType="textPassword" />
-
-        </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/register_spinner"
-            style="@android:style/Widget.DeviceDefault.ProgressBar.Large"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/display_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="@string/hint_register_display_name"
+            android:inputType="textCapWords" />
 
-    </android.support.constraint.ConstraintLayout>
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="@string/email_hint"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/email_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="@string/email_confirm_hint"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="@string/password_hint"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/password_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:hint="@string/password_confirm_hint"
+            android:inputType="textPassword" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/spinner"
+        style="@android:style/Widget.DeviceDefault.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

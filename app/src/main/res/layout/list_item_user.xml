@@ -45,9 +45,8 @@
         android:gravity="end"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/disable_delete_buttons"
+        app:layout_constraintEnd_toStartOf="@id/buttons"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <TextView
             android:id="@+id/role"
@@ -79,7 +78,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/disable_delete_buttons"
+        android:id="@+id/buttons"
         android:layout_width="180dp"
         android:layout_height="match_parent"
         android:layout_marginBottom="16dp"

@@ -34,8 +34,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.AuthInputValidator;
 
@@ -58,8 +56,8 @@ public class ChangeEmailModal extends CustomModal {
         mBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.change_email_modal_title)
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_change_email, (ViewGroup) getView().getParent(), false))
-                .setPositiveButton(R.string.change_email_modal_submit, null)
-                .setNegativeButton(R.string.change_email_modal_cancel, null)
+                .setPositiveButton(R.string.submit, null)
+                .setNegativeButton(R.string.cancel, null)
                 .create();
 
         mBuilder.setOnShowListener(dialogInterface -> {
@@ -73,7 +71,7 @@ public class ChangeEmailModal extends CustomModal {
 
             mConfirmEmail.setOnEditorActionListener((v, actionId, event) -> {
                 if (event != null
-                        && event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getAction() == KeyEvent.ACTION_DOWN // debounce
                         && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     // enter on hardware keyboard submits request
                     attemptEmailChange();
@@ -104,12 +102,12 @@ public class ChangeEmailModal extends CustomModal {
     private boolean noEmptyFields() {
         boolean noEmptyFields = true;
         if (TextUtils.isEmpty(mConfirmEmail.getText().toString())) {
-            mConfirmEmail.setError(getString(R.string.error_empty_field));
+            mConfirmEmail.setError(getString(R.string.empty_field_error));
             mConfirmEmail.requestFocus();
             noEmptyFields = false;
         }
         if (TextUtils.isEmpty(mEmail.getText().toString())) {
-            mEmail.setError(getString(R.string.error_empty_field));
+            mEmail.setError(getString(R.string.empty_field_error));
             mEmail.requestFocus();
             noEmptyFields = false;
         }
@@ -121,7 +119,7 @@ public class ChangeEmailModal extends CustomModal {
         final String email = mEmail.getText().toString();
         final String confirmEmail = mConfirmEmail.getText().toString();
         if (!AuthInputValidator.emailValid(email)) {
-            mEmail.setError(getString(R.string.error_invalid_email));
+            mEmail.setError(getString(R.string.invalid_email_error));
             mEmail.requestFocus();
             emailValid = false;
         } else if (!email.equals(confirmEmail)) { // email fields don't match
@@ -135,11 +133,18 @@ public class ChangeEmailModal extends CustomModal {
 
     private void changeEmailInAuthTable(String email) {
         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (currUser == null) {
             FirebaseAuth.getInstance().signOut();
             getActivity().finish();
             return;
         }
+        if (currUser.getEmail() != null && currUser.getEmail().equals(email)) {
+            // no need to update email
+            hideSpinner();
+            mBuilder.dismiss();
+            Toast.makeText(getActivity(), R.string.change_email_success, Toast.LENGTH_LONG).show();
+        }
+
         currUser.updateEmail(email).addOnCompleteListener(emailChange -> {
             if (emailChange.isSuccessful()) {
                 changeEmailInDatabase(currUser.getUid(), email);

@@ -29,7 +29,8 @@ import mhealth.mvax.model.user.User;
 /**
  * @author Robert Steilberg
  * <p>
- * Static class for encapsulating general Firebase utilities
+ * Static class for encapsulating general Firebase utilities; methods in this class
+ * MUST be cross-checked with functions in index.js
  */
 public class FirebaseUtilities {
 
@@ -66,6 +67,23 @@ public class FirebaseUtilities {
         args.put("uid", user.getUID());
         FirebaseFunctions functions = FirebaseFunctions.getInstance();
         return functions.getHttpsCallable("activateAccount")
+                .call(args)
+                .continueWith(task -> task.getResult().getData().toString());
+    }
+
+    /**
+     * Calls the HTTPS Firebase Cloud Function "disableAccount" which disables
+     * an existing, disabled user; an error will be thrown if the user is not found;
+     * nothing will happen if the user is already disabled
+     *
+     * @param user the Firebase-assigned UID of the existing user
+     * @return Task result from calling the Firebase Cloud Function
+     */
+    public static Task<String> disableUser(User user) {
+        final HashMap<String, Object> args = new HashMap<>();
+        args.put("uid", user.getUID());
+        FirebaseFunctions functions = FirebaseFunctions.getInstance();
+        return functions.getHttpsCallable("disableAccount")
                 .call(args)
                 .continueWith(task -> task.getResult().getData().toString());
     }

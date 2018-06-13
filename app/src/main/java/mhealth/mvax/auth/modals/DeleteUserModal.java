@@ -53,14 +53,14 @@ public class DeleteUserModal extends CustomModal {
         mBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.delete_user_modal_title)
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_delete_user, (ViewGroup) getView().getParent(), false))
-                .setPositiveButton(R.string.delete_user_submit, null)
-                .setNegativeButton(R.string.delete_user_cancel, null)
+                .setPositiveButton(R.string.confirm, null)
+                .setNegativeButton(R.string.cancel, null)
                 .create();
 
         mBuilder.setOnShowListener(dialog -> {
             mSpinner = mBuilder.findViewById(R.id.spinner);
 
-            mViews.add(mBuilder.findViewById(R.id.delete_user_modal_subtitle));
+            mViews.add(mBuilder.findViewById(R.id.subtitle));
             mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
 
             final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
@@ -74,7 +74,7 @@ public class DeleteUserModal extends CustomModal {
         showSpinner();
 
         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (currUser == null) {
             FirebaseAuth.getInstance().signOut();
             getActivity().finish();
             return;
@@ -115,6 +115,7 @@ public class DeleteUserModal extends CustomModal {
             } else {
                 hideSpinner();
                 Toast.makeText(getActivity(), R.string.delete_user_incomplete, Toast.LENGTH_LONG).show();
+                // TODO implement better error handling in this case
             }
         });
     }

@@ -54,45 +54,45 @@ public class ChangeRoleModal extends CustomModal {
         mBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.change_role_modal_title)
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_change_role, (ViewGroup) getView().getParent(), false))
-                .setPositiveButton(R.string.change_role_modal_submit, null)
-                .setNegativeButton(R.string.change_role_modal_cancel, null)
+                .setPositiveButton(R.string.submit, null)
+                .setNegativeButton(R.string.cancel, null)
                 .create();
 
         mBuilder.setOnShowListener(dialog -> {
-            mSpinner = mBuilder.findViewById(R.id.role_spinner);
+            mSpinner = mBuilder.findViewById(R.id.spinner);
 
             mViews.add(mBuilder.findViewById(R.id.change_role_modal_subtitle));
-            mViews.add(mBuilder.findViewById(R.id.role_radio_group));
-            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
 
-            RadioGroup roleRadioGroup = mBuilder.findViewById(R.id.role_radio_group);
-
-            if (mUser.getRole() == UserRole.ADMIN) {
-                roleRadioGroup.check(R.id.admin_radio_button);
-            } else if (mUser.getRole() == UserRole.READER) {
-                roleRadioGroup.check(R.id.reader_radio_button);
+            final RadioGroup roleRadioGroup = mBuilder.findViewById(R.id.role_radio_group);
+            switch (mUser.getRole()) {
+                case ADMIN:
+                    roleRadioGroup.check(R.id.admin_radio_button);
+                    break;
+                case READER:
+                    roleRadioGroup.check(R.id.reader_radio_button);
+                    break;
+                default:
+                    break;
             }
             mViews.add(roleRadioGroup);
 
+            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
+
             final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> {
-
-                final int chosenButtonId = roleRadioGroup.getCheckedRadioButtonId();
-                final int chosenIdx = roleRadioGroup.indexOfChild(roleRadioGroup.findViewById(chosenButtonId));
-                switch (chosenIdx) {
-                    case 0: // admin (first item) chosen
+                switch (roleRadioGroup.getCheckedRadioButtonId()) {
+                    case R.id.admin_radio_button:
                         changeRole(UserRole.ADMIN);
                         break;
-                    case 1: // reader (second item) chosen
+                    case R.id.reader_radio_button:
                         changeRole(UserRole.READER);
                         break;
-                    default: // nothing chosen
+                    default:
                         break;
                 }
             });
             mViews.add(positiveButton);
         });
-
         return mBuilder;
     }
 
@@ -100,7 +100,7 @@ public class ChangeRoleModal extends CustomModal {
         showSpinner();
 
         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+        if (currUser == null) {
             FirebaseAuth.getInstance().signOut();
             getActivity().finish();
             return;
@@ -113,21 +113,20 @@ public class ChangeRoleModal extends CustomModal {
             return;
         }
 
-        if (mUser.getRole() == newRole) {
-            // role was not changed
+        if (newRole == mUser.getRole()) {
+            // role was not changed so nothing needs to be done
             hideSpinner();
             mBuilder.dismiss();
             Toast.makeText(getActivity(), R.string.change_role_success, Toast.LENGTH_LONG).show();
             return;
         }
 
-        mUser.setRole(newRole);
-
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child(getString(R.string.userTable))
-                .child(mUser.getUID());
+                .child(mUser.getUID())
+                .child(getString(R.string.role_value));
 
-        reference.setValue(mUser).addOnCompleteListener(roleChange -> {
+        reference.setValue(newRole).addOnCompleteListener(roleChange -> {
             hideSpinner();
             if (roleChange.isSuccessful()) {
                 Toast.makeText(getActivity(), R.string.change_role_success, Toast.LENGTH_LONG).show();

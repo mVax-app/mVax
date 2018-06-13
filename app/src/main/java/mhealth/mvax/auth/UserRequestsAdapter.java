@@ -19,7 +19,6 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.auth;
 
-import android.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +36,7 @@ import java.util.List;
 import mhealth.mvax.R;
 import mhealth.mvax.auth.modals.ApproveUserModal;
 import mhealth.mvax.auth.modals.DenyUserModal;
+import mhealth.mvax.auth.modals.RoleInfoModal;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserRole;
 
@@ -56,18 +56,18 @@ public class UserRequestsAdapter extends RecyclerView.Adapter<UserRequestsAdapte
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         final TextView name, email;
+        final ImageView infoButton;
         final RadioGroup roles;
         final Button approveButton, denyButton;
-        final ImageView infoButton;
 
         ViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.user_name);
             email = view.findViewById(R.id.user_email);
+            infoButton = view.findViewById(R.id.info_button);
             roles = view.findViewById(R.id.role_radio_group);
             approveButton = view.findViewById(R.id.approve_button);
             denyButton = view.findViewById(R.id.deny_button);
-            infoButton = view.findViewById(R.id.info_button);
         }
     }
 
@@ -84,25 +84,18 @@ public class UserRequestsAdapter extends RecyclerView.Adapter<UserRequestsAdapte
 
         holder.name.setText(request.getDisplayName());
         holder.email.setText(request.getEmail());
-
-        holder.infoButton.setOnClickListener(v ->
-                new AlertDialog.Builder(v.getContext())
-                        .setTitle(R.string.role_info_title)
-                        .setMessage(R.string.role_info_desc)
-                        .setPositiveButton(R.string.ok, null)
-                        .show());
+        holder.infoButton.setOnClickListener(v -> new RoleInfoModal(v).show());
 
         holder.approveButton.setOnClickListener(v -> {
-            int selectedId = holder.roles.getCheckedRadioButtonId();
-            switch (selectedId) {
-                case -1:
-                    Toast.makeText(v.getContext(), R.string.no_role_selected, Toast.LENGTH_SHORT).show();
-                    break;
+            switch (holder.roles.getCheckedRadioButtonId()) {
                 case R.id.admin_radio_button:
                     new ApproveUserModal(v, request, UserRole.ADMIN).show();
                     break;
                 case R.id.reader_radio_button:
                     new ApproveUserModal(v, request, UserRole.READER).show();
+                default:
+                    Toast.makeText(v.getContext(), R.string.no_role_selected, Toast.LENGTH_SHORT).show();
+                    break;
             }
         });
         holder.denyButton.setOnClickListener(v -> new DenyUserModal(v, request).show());

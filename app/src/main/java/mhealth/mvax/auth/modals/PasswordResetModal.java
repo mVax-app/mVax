@@ -32,8 +32,6 @@ import android.widget.Toast;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.ArrayList;
-
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.AuthInputValidator;
 
@@ -46,29 +44,29 @@ public class PasswordResetModal extends CustomModal {
 
     public PasswordResetModal(View view) {
         super(view);
-        mViews = new ArrayList<>();
     }
 
     @Override
     AlertDialog createDialog() {
         mBuilder = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.modal_reset_title)
-                .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_reset_password, (ViewGroup) getView().getParent(), false))
-                .setPositiveButton(R.string.button_reset_password_submit, null)
-                .setNegativeButton(R.string.button_reset_password_cancel, null)
+                .setTitle(R.string.password_reset_modal_title)
+                .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_password_reset, (ViewGroup) getView().getParent(), false))
+                .setPositiveButton(R.string.submit, null)
+                .setNegativeButton(R.string.cancel, null)
                 .create();
 
         mBuilder.setOnShowListener(dialogInterface -> {
 
-            mSpinner = mBuilder.findViewById(R.id.reset_spinner);
+            mSpinner = mBuilder.findViewById(R.id.spinner);
 
-            mViews.add(mBuilder.findViewById(R.id.reset_fields));
+            mViews.add(mBuilder.findViewById(R.id.reset_password_subtitle));
+            mViews.add(mBuilder.findViewById(R.id.email));
             mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
 
-            final TextView emailTextView = mBuilder.findViewById(R.id.textview_email_reset);
+            final TextView emailTextView = mBuilder.findViewById(R.id.email);
             emailTextView.setOnEditorActionListener((v, actionId, event) -> {
                 if (event != null
-                        && event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getAction() == KeyEvent.ACTION_DOWN // debounce
                         && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     // enter on hardware keyboard submits reset request
                     attemptPasswordReset(emailTextView);
@@ -91,11 +89,11 @@ public class PasswordResetModal extends CustomModal {
 
     private void attemptPasswordReset(final TextView emailTextView) {
         final String emailAddress = emailTextView.getText().toString();
-        if (TextUtils.isEmpty(emailAddress)) { // trying to submit with no email
-            emailTextView.setError(getString(R.string.error_empty_field));
+        if (TextUtils.isEmpty(emailAddress)) {
+            emailTextView.setError(getString(R.string.empty_field_error));
             emailTextView.requestFocus();
-        } else if (!AuthInputValidator.emailValid(emailAddress)) { // invalid email
-            emailTextView.setError(getString(R.string.error_invalid_email));
+        } else if (!AuthInputValidator.emailValid(emailAddress)) {
+            emailTextView.setError(getString(R.string.invalid_email_error));
             emailTextView.requestFocus();
         } else {
             showSpinner();
@@ -109,7 +107,7 @@ public class PasswordResetModal extends CustomModal {
             if (task.getException() instanceof FirebaseNetworkException) {
                 // only show error for no internet; don't let user know if email
                 // isn't associated with an account
-                Toast.makeText(getActivity(), R.string.firebase_fail_no_connection, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.auth_fail_no_connection, Toast.LENGTH_LONG).show();
             } else { // success
                 mBuilder.dismiss();
                 Toast.makeText(getActivity(), getString(R.string.reset_email_confirm), Toast.LENGTH_LONG).show();

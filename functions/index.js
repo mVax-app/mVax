@@ -44,6 +44,18 @@ exports.activateAccount = functions.https.onCall((data, context) => {
   })
 });
 
+exports.disableAccount = functions.https.onCall((data, context) => {
+  return admin.auth().updateUser(data.uid, {
+    disabled: true
+  })
+  .then((user) => {
+    console.log("user " + user.uid + " disabled");
+    return user.uid;
+  }).catch((error) => {
+    throw new functions.https.HttpsError("error disabling user ", error);
+  })
+});
+
 exports.deleteAccount = functions.https.onCall((data, context) => {
   return admin.auth().deleteUser(data.uid)
   .then(() => {

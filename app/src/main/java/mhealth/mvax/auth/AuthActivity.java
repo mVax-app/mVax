@@ -21,16 +21,13 @@ package mhealth.mvax.auth;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,9 +41,6 @@ import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-
-import java.util.Objects;
 
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
@@ -73,18 +67,18 @@ public class AuthActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_auth);
 
         mAuth = FirebaseAuth.getInstance();
 
-        mEmailView = findViewById(R.id.edittext_email);
-        mPasswordView = findViewById(R.id.edittext_password);
-        mSpinner = findViewById(R.id.login_progress);
+        mEmailView = findViewById(R.id.email);
+        mPasswordView = findViewById(R.id.password);
+        mSpinner = findViewById(R.id.spinner);
         mScreenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
         initTextFields();
         initButtons();
-        mSpinner.setX(mScreenWidth);
+        mSpinner.setX(mScreenWidth); // spinner rendered off screen
     }
 
     @Override
@@ -133,31 +127,20 @@ public class AuthActivity extends Activity {
     }
 
     private void initButtons() {
-        // tie authenticate action to "Sign In" button
-        final Button signInButton = findViewById(R.id.button_authenticate);
-        signInButton.setOnClickListener(view -> authenticate());
-        // tie register action to "Register" TextView
-        final TextView registerButton = findViewById(R.id.textview_register);
-        registerButton.setOnClickListener(view -> {
-            RequestAccountModal requestAccountModal = new RequestAccountModal(view);
-            requestAccountModal.show();
-        });
-        // tie reset password action to "Reset Password" TextView
-        final TextView forgotButton = findViewById(R.id.textview_reset_password);
-        forgotButton.setOnClickListener(view -> {
-            PasswordResetModal resetModal = new PasswordResetModal(view);
-            resetModal.show();
-        });
+        final Button signInButton = findViewById(R.id.login_button);
+        signInButton.setOnClickListener(v -> authenticate());
+
+        final TextView registerButton = findViewById(R.id.register);
+        registerButton.setOnClickListener(v -> new RequestAccountModal(v).show());
+
+        final TextView forgotButton = findViewById(R.id.forgot_password);
+        forgotButton.setOnClickListener(v -> new PasswordResetModal(v).show());
     }
 
-    /**
-     * Attempt authentication; validate that email and password fields are valid;
-     * if not, no authentication attempt is made
-     */
     private void authenticate() {
         final String email = mEmailView.getText().toString();
         final String password = mPasswordView.getText().toString();
-        if (fieldsValid(email, password)) {
+        if (inputsValid(email, password)) {
             animateTextInputs(ANIMATION_SPEED, true);
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, this::handleAuthCallback);
@@ -165,15 +148,15 @@ public class AuthActivity extends Activity {
         mPasswordView.setText("");
     }
 
-    private boolean fieldsValid(String email, String password) {
+    private boolean inputsValid(String email, String password) {
         boolean fieldsValid = true;
         if (TextUtils.isEmpty(password)) {
-            mPasswordView.setError(getResources().getString(R.string.error_empty_field));
+            mPasswordView.setError(getResources().getString(R.string.empty_field));
             mPasswordView.requestFocus();
             fieldsValid = false;
         }
         if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
+            mEmailView.setError(getString(R.string.empty_field));
             mEmailView.requestFocus();
             fieldsValid = false;
         }
@@ -182,7 +165,6 @@ public class AuthActivity extends Activity {
 
     private void handleAuthCallback(Task<AuthResult> task) {
         if (task.isSuccessful()) {
-            dismissKeyboard();
             // transition to root Activity
             Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(mainIntent);
@@ -192,7 +174,7 @@ public class AuthActivity extends Activity {
             boolean noInternet = task.getException() instanceof FirebaseNetworkException;
             boolean authError = task.getException() instanceof FirebaseAuthException;
             if (noInternet) {
-                Toast.makeText(AuthActivity.this, R.string.firebase_fail_no_connection, Toast.LENGTH_LONG).show();
+                Toast.makeText(AuthActivity.this, R.string.auth_fail_no_connection, Toast.LENGTH_LONG).show();
             } else if (authError) {
                 FirebaseAuthException q = (FirebaseAuthException) task.getException();
                 if (q.getErrorCode().equals("ERROR_USER_DISABLED")) {
@@ -202,14 +184,14 @@ public class AuthActivity extends Activity {
                     Toast.makeText(AuthActivity.this, R.string.auth_fail_bad_credentials, Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(AuthActivity.this, R.string.firebase_fail_unknown, Toast.LENGTH_LONG).show();
+                Toast.makeText(AuthActivity.this, R.string.auth_unknown_fail, Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    private void animateTextInputs(int speed, boolean goingOffScreen) {
-        final int in = goingOffScreen ? 0 : 1;
-        final int out = goingOffScreen ? 1 : 0;
+    private void animateTextInputs(int speed, boolean goOffscreen) {
+        final int in = goOffscreen ? 0 : 1;
+        final int out = goOffscreen ? 1 : 0;
 
         // move email and password fields
         final LinearLayout inputs = findViewById(R.id.auth_inputs);
@@ -221,12 +203,6 @@ public class AuthActivity extends Activity {
         final ObjectAnimator animProgress = ObjectAnimator.ofFloat(mSpinner,
                 View.TRANSLATION_X, mScreenWidth * out, mScreenWidth * in);
         animProgress.setDuration(speed).start();
-    }
-
-    private void dismissKeyboard() {
-        final InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        assert imm != null;
-        imm.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
     }
 
 }

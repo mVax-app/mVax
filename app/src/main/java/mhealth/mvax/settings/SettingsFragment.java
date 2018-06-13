@@ -262,7 +262,7 @@ public class SettingsFragment extends Fragment {
 
 
     private void switchToApproveUsersFragment() {
-        UserRequestsFragment approveUsers = new UserRequestsFragment();
+        UserRequestsFragment approveUsers = UserRequestsFragment.newInstance();
 
         FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
         transaction.replace(getId(), this).addToBackStack(null); // so that back button works
@@ -272,7 +272,7 @@ public class SettingsFragment extends Fragment {
     }
 
     private void switchToCurrentUsersFragment() {
-        Fragment fragment = new UsersFragment();
+        Fragment fragment = UsersFragment.newInstance();
         FragmentManager fragmentManager = getActivity().getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
