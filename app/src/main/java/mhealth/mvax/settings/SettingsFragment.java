@@ -19,7 +19,6 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.settings;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -47,11 +46,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
-import mhealth.mvax.auth.ApproveFragment;
+import mhealth.mvax.auth.UserRequestsFragment;
+import mhealth.mvax.auth.UsersFragment;
+import mhealth.mvax.auth.modals.ChangeEmailModal;
+import mhealth.mvax.auth.modals.ChangePasswordModal;
 import mhealth.mvax.auth.utilities.AuthInputValidator;
-import mhealth.mvax.auth.CurrentUsersFragment;
 import mhealth.mvax.language.LanguageUtillity;
-import mhealth.mvax.model.user.UserRole;
 
 /**
  * This Fragment represents the Settings Tab which contains the follwoing functionality:
@@ -60,7 +60,7 @@ import mhealth.mvax.model.user.UserRole;
  * 3. Administrator Privileges (given that a user is registered as an ADMIN)
  *
  * @author Matthew Tribby, Alison Huang
- *         Last edited December, 2017
+ * Last edited December, 2017
  */
 public class SettingsFragment extends Fragment {
     private Switch languageSwitch;
@@ -174,64 +174,20 @@ public class SettingsFragment extends Fragment {
         LanguageUtillity.changeLangauge(getResources(), lang);
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-       ft.detach(this).attach(this).commit();
+        ft.detach(this).attach(this).commit();
 
     }
 
     public void updateEmail(View v) {
-
-        //builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(getResources().getString(R.string.modal_update_title));
-
-        //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
-
-        final View dialogView = mInflater.inflate(R.layout.modal_update_email, null);
-        builder.setView(dialogView);
-
-        final TextView address = dialogView.findViewById(R.id.textview_email_reset);
-
-        builder.setPositiveButton(getResources().getString(R.string.update_email), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (AuthInputValidator.emailValid(address.getText().toString())) {
-                    FirebaseAuth.getInstance().getCurrentUser().updateEmail(address.getText().toString());
-                    dialog.dismiss();
-                    Toast.makeText(getActivity(), R.string.update_email_success, Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getActivity(), R.string.error_invalid_email, Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-
-        builder.show();
+        new ChangeEmailModal(v).show();
     }
 
     public void resetPassword(View v) {
-
-        //builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(getResources().getString(R.string.modal_reset_title));
-
-        //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
-
-        final View dialogView = mInflater.inflate(R.layout.modal_reset_password_confirm, null);
-        builder.setView(dialogView);
-
-        builder.setPositiveButton(getResources().getString(R.string.button_reset_password_positive), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                FirebaseAuth.getInstance().sendPasswordResetEmail(FirebaseAuth.getInstance().getCurrentUser().getEmail());
-                Toast.makeText(getActivity(), getResources().getString(R.string.reset_email_confirm) + FirebaseAuth.getInstance().getCurrentUser().getEmail(), Toast.LENGTH_LONG).show();
-                dialog.dismiss();
-            }
-        });
-
-        builder.show();
+        new ChangePasswordModal(v).show();
     }
 
     public void changeTimeoutDuration(View v) {
-        final MainActivity activity = (MainActivity)getActivity();
+        final MainActivity activity = (MainActivity) getActivity();
 
         //builder
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -244,12 +200,12 @@ public class SettingsFragment extends Fragment {
 
 
         final EditText timeout = dialogView.findViewById(R.id.edit_timeout);
-        timeout.setText(Long.toString(activity.getTimeoutDuration()/1000));
+        timeout.setText(Long.toString(activity.getTimeoutDuration() / 1000));
 
         builder.setPositiveButton(getResources().getString(R.string.timeout_save_change), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                activity.setTimeoutDuration(Long.parseLong(timeout.getText().toString())*1000);
+                activity.setTimeoutDuration(Long.parseLong(timeout.getText().toString()) * 1000);
             }
         });
 
@@ -267,12 +223,13 @@ public class SettingsFragment extends Fragment {
 
         //Following code sets the button to only show when user is an ADMIN
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref = ref.child(getResources().getString(R.string.userTable)).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(getResources().getString(R.string.role));
+        ref = ref.child(getResources().getString(R.string.userTable)).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(getResources().getString(R.string.userRole));
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if (dataSnapshot.getValue().equals(UserRole.ADMIN.toString())) {
+//                if (dataSnapshot.getValue().equals(UserRole.ADMIN.toString())) {
+                if (true) {
                     approveUsers.setVisibility(View.VISIBLE);
                     currentUsers.setVisibility(View.VISIBLE);
                 } else {
@@ -283,7 +240,7 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), getResources().getString(R.string.no_user_role), Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(), getResources().getString(R.string.no_user_role), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -305,7 +262,7 @@ public class SettingsFragment extends Fragment {
 
 
     private void switchToApproveUsersFragment() {
-        ApproveFragment approveUsers = new ApproveFragment();
+        UserRequestsFragment approveUsers = UserRequestsFragment.newInstance();
 
         FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
         transaction.replace(getId(), this).addToBackStack(null); // so that back button works
@@ -314,8 +271,8 @@ public class SettingsFragment extends Fragment {
         transaction.commit();
     }
 
-    private void switchToCurrentUsersFragment(){
-        Fragment fragment =  new CurrentUsersFragment();
+    private void switchToCurrentUsersFragment() {
+        Fragment fragment = UsersFragment.newInstance();
         FragmentManager fragmentManager = getActivity().getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);

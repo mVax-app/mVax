@@ -103,9 +103,9 @@ public class SexModal extends TypeModal<Sex> {
 
         // if a value is already defined, check the respective Sex in the radio group
         if (mValue == Sex.MALE) {
-            mRadioGroup.check(R.id.radiobutton_male);
+            mRadioGroup.check(R.id.male_radio_button);
         } else if (mValue == Sex.FEMALE) {
-            mRadioGroup.check(R.id.radiobutton_female);
+            mRadioGroup.check(R.id.female_radio_button);
         }
     }
 

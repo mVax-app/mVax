@@ -23,12 +23,12 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/message"
+                android:id="@+id/subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="14dp"
                 android:layout_marginStart="14dp"
-                android:text="@string/modal_approve_user_request_message" />
+                android:text="@string/approve_user_subtitle" />
 
         </LinearLayout>
 

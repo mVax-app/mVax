@@ -26,20 +26,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.AuthInputValidator;
 import mhealth.mvax.auth.utilities.FirebaseUtilities;
+import mhealth.mvax.auth.utilities.Mailer;
 import mhealth.mvax.model.user.User;
+import mhealth.mvax.records.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
@@ -47,11 +45,6 @@ import mhealth.mvax.model.user.User;
  * Modal and functionality for requesting a new mVax account
  */
 public class RequestAccountModal extends CustomModal {
-
-    private AlertDialog mBuilder;
-
-    private ProgressBar mSpinner;
-    private List<View> mViews;
 
     private TextView mDisplayName;
     private TextView mEmail;
@@ -61,109 +54,96 @@ public class RequestAccountModal extends CustomModal {
 
     public RequestAccountModal(View view) {
         super(view);
-        mViews = new ArrayList<>();
     }
 
     @Override
     AlertDialog createDialog() {
         mBuilder = new AlertDialog.Builder(getActivity())
-                .setTitle(getString(R.string.modal_register_title))
+                .setTitle(getString(R.string.register_modal_title))
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_request_account, (ViewGroup) getView().getParent(), false))
-                .setPositiveButton(getString(R.string.button_reset_password_submit), null)
-                .setNegativeButton(getString(R.string.button_reset_password_cancel), null)
+                .setPositiveButton(getString(R.string.submit), null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .create();
 
         mBuilder.setOnShowListener(dialogInterface -> {
-            mSpinner = mBuilder.findViewById(R.id.register_spinner);
+            mSpinner = mBuilder.findViewById(R.id.spinner);
 
-            // subtitle TextView
-            mViews.add(mBuilder.findViewById(R.id.textView_register_subtitle));
+            mViews.add(mBuilder.findViewById(R.id.request_subtitle));
 
-            // display name EditText
             mDisplayName = mBuilder.findViewById(R.id.display_name);
             mViews.add(mDisplayName);
 
-            // email EditText
-            mEmail = mBuilder.findViewById(R.id.edittext_register_email);
+            mEmail = mBuilder.findViewById(R.id.email);
             mViews.add(mEmail);
 
-            // confirm email EditText
-            mConfirmEmail = mBuilder.findViewById(R.id.edittext_register_email_confirm);
+            mConfirmEmail = mBuilder.findViewById(R.id.email_confirm);
             mViews.add(mConfirmEmail);
 
-            // password EditText
-            mPassword = mBuilder.findViewById(R.id.edittext_register_password);
+            mPassword = mBuilder.findViewById(R.id.password);
             mViews.add(mPassword);
 
-            // confirm password EditText
-            mConfirmPassword = mBuilder.findViewById(R.id.edittext_register_password_confirm);
+            mConfirmPassword = mBuilder.findViewById(R.id.password_confirm);
             mConfirmPassword.setOnEditorActionListener((v, actionId, event) -> {
                 if (event != null
-                        && event.getAction() == KeyEvent.ACTION_DOWN
+                        && event.getAction() == KeyEvent.ACTION_DOWN // debounce
                         && event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     // enter on hardware keyboard submits request
-                    attemptRegister();
+                    validateFields();
                     return true;
                 }
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     // "Done" button submits request
-                    attemptRegister();
+                    validateFields();
                     return true;
                 }
                 return false;
             });
             mViews.add(mConfirmPassword);
 
-            final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
-            positiveButton.setOnClickListener(view -> attemptRegister());
-            mViews.add(positiveButton);
-
             mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
+
+            final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(view -> validateFields());
+            mViews.add(positiveButton);
         });
         return mBuilder;
     }
 
-    private void attemptRegister() {
+    private void validateFields() {
         if (noEmptyFields() && authFieldsValid()) {
-            showSpinner(mSpinner, mViews);
+            showSpinner();
             final String displayName = mDisplayName.getText().toString();
             final String email = mEmail.getText().toString();
             final String password = mPassword.getText().toString();
             // validation complete, go for actual register request
-            createDisabledUser(displayName, email, password);
+            registerNewUser(displayName, email, password);
         }
     }
 
     private boolean noEmptyFields() {
         boolean noEmptyFields = true;
-        // order of if cases specifies that topmost field displays error
-        // no confirm password
         if (TextUtils.isEmpty(mConfirmPassword.getText().toString())) {
-            mConfirmPassword.setError(getString(R.string.error_empty_field));
+            mConfirmPassword.setError(getString(R.string.empty_field_error));
             mConfirmPassword.requestFocus();
             noEmptyFields = false;
         }
-        // no password
         if (TextUtils.isEmpty(mPassword.getText().toString())) {
-            mPassword.setError(getString(R.string.error_empty_field));
+            mPassword.setError(getString(R.string.empty_field_error));
             mPassword.requestFocus();
             noEmptyFields = false;
         }
-        // no confirm email
         if (TextUtils.isEmpty(mConfirmEmail.getText().toString())) {
-            mConfirmEmail.setError(getString(R.string.error_empty_field));
+            mConfirmEmail.setError(getString(R.string.empty_field_error));
             mConfirmEmail.requestFocus();
             noEmptyFields = false;
         }
-        // no email
         if (TextUtils.isEmpty(mEmail.getText().toString())) {
-            mEmail.setError(getString(R.string.error_empty_field));
+            mEmail.setError(getString(R.string.empty_field_error));
             mEmail.requestFocus();
             noEmptyFields = false;
         }
-        // no last name
         if (TextUtils.isEmpty(mDisplayName.getText().toString())) {
-            mDisplayName.setError(getString(R.string.error_empty_field));
+            mDisplayName.setError(getString(R.string.empty_field_error));
             mDisplayName.requestFocus();
             noEmptyFields = false;
         }
@@ -172,11 +152,11 @@ public class RequestAccountModal extends CustomModal {
 
     private boolean authFieldsValid() {
         boolean authFieldsValid = true;
-
         final String email = mEmail.getText().toString();
         final String confirmEmail = mConfirmEmail.getText().toString();
+
         if (!AuthInputValidator.emailValid(email)) {
-            mEmail.setError(getString(R.string.error_invalid_email));
+            mEmail.setError(getString(R.string.invalid_email_error));
             mEmail.requestFocus();
             authFieldsValid = false;
         } else if (!TextUtils.equals(email, confirmEmail)) { // email fields don't match
@@ -189,7 +169,7 @@ public class RequestAccountModal extends CustomModal {
         final String password = mPassword.getText().toString();
         final String confirmPassword = mConfirmPassword.getText().toString();
         if (!AuthInputValidator.passwordValid(password)) {
-            mPassword.setError(getString(R.string.error_invalid_password));
+            mPassword.setError(getString(R.string.invalid_password_error));
             mPassword.requestFocus();
             authFieldsValid = false;
         } else if (!TextUtils.equals(password, confirmPassword)) { // password fields don't match
@@ -201,7 +181,7 @@ public class RequestAccountModal extends CustomModal {
         return authFieldsValid;
     }
 
-    private void createDisabledUser(String displayName, String email, String password) {
+    private void registerNewUser(String displayName, String email, String password) {
         FirebaseUtilities.createDisabledUser(email, password, displayName)
                 .addOnCompleteListener(createTask -> {
                     if (createTask.isSuccessful()) {
@@ -209,33 +189,46 @@ public class RequestAccountModal extends CustomModal {
                         addRequest(email, displayName, createTask.getResult());
                     } else {
                         Toast.makeText(getActivity(), R.string.request_submit_fail, Toast.LENGTH_LONG).show();
-                        hideSpinner(mSpinner, mViews);
+                        hideSpinner();
                     }
                 });
     }
 
     private void addRequest(String email, String displayName, String uid) {
-        final String requestsTable = getString(R.string.userRequestsTable);
         final DatabaseReference requestsRef = FirebaseDatabase.getInstance().getReference()
-                .child(requestsTable);
+                .child(getString(R.string.userRequestsTable))
+                .child(uid);
 
-        final User newUser = new User(requestsRef.push().getKey(), uid);
+        final User newUser = new User(uid);
         newUser.setDisplayName(displayName);
         newUser.setEmail(email);
 
-        requestsRef.child(newUser.getDatabaseKey())
-                .setValue(newUser).addOnCompleteListener(addUserRequestTask -> {
-            hideSpinner(mSpinner, mViews);
-            if (addUserRequestTask.isSuccessful()) {
+        requestsRef.setValue(newUser).addOnCompleteListener(addUserRequest -> {
+            if (addUserRequest.isSuccessful()) {
+                hideSpinner();
                 mBuilder.dismiss();
+                sendConfirmationEmail(newUser);
                 Toast.makeText(getActivity(), R.string.request_submit_success, Toast.LENGTH_LONG).show();
             } else {
+                hideSpinner();
                 // unable to push request to UserRequest table, so attempt to delete the disabled
                 // user out of the auth table
                 FirebaseUtilities.deleteUser(uid);
                 Toast.makeText(getActivity(), R.string.request_submit_unknown_fail, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void sendConfirmationEmail(User newUser) {
+        final String subject = getString(R.string.confirm_email_subject);
+        final String body = String.format(StringFetcher.fetchString(R.string.confirm_email_body),
+                newUser.getDisplayName());
+        new Mailer(getContext())
+                .withMailTo(newUser.getEmail())
+                .withSubject(subject)
+                .withBody(body)
+                .withProcessVisibility(false)
+                .send();
     }
 
 }

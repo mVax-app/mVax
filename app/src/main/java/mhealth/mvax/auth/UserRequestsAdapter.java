@@ -19,7 +19,6 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.auth;
 
-import android.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,11 +30,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.modals.ApproveUserModal;
 import mhealth.mvax.auth.modals.DenyUserModal;
+import mhealth.mvax.auth.modals.RoleInfoModal;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserRole;
 
@@ -45,26 +46,26 @@ import mhealth.mvax.model.user.UserRole;
  * Adapter for rendering user requests, which can be approved or denied by
  * an administrator
  */
-public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.ViewHolder> {
+public class UserRequestsAdapter extends RecyclerView.Adapter<UserRequestsAdapter.ViewHolder> {
 
     final private List<User> mUserRequests;
 
-    UserRequestAdapter() {
+    UserRequestsAdapter() {
         mUserRequests = new ArrayList<>();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         final TextView name, email;
+        final ImageView infoButton;
         final RadioGroup roles;
         final Button approveButton, denyButton;
-        final ImageView infoButton;
 
         ViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.user_name);
             email = view.findViewById(R.id.user_email);
-            roles = view.findViewById(R.id.role_radio_group);
             infoButton = view.findViewById(R.id.info_button);
+            roles = view.findViewById(R.id.role_radio_group);
             approveButton = view.findViewById(R.id.approve_button);
             denyButton = view.findViewById(R.id.deny_button);
         }
@@ -80,27 +81,21 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final User request = mUserRequests.get(position);
+
         holder.name.setText(request.getDisplayName());
         holder.email.setText(request.getEmail());
-
-        holder.infoButton.setOnClickListener(v ->
-                new AlertDialog.Builder(v.getContext())
-                        .setTitle(R.string.role_info_title)
-                        .setMessage(R.string.role_info_desc)
-                        .setPositiveButton(R.string.ok, null)
-                        .show());
+        holder.infoButton.setOnClickListener(v -> new RoleInfoModal(v).show());
 
         holder.approveButton.setOnClickListener(v -> {
-            int selectedId = holder.roles.getCheckedRadioButtonId();
-            switch (selectedId) {
-                case -1:
-                    Toast.makeText(v.getContext(), R.string.no_role_selected, Toast.LENGTH_SHORT).show();
-                    break;
+            switch (holder.roles.getCheckedRadioButtonId()) {
                 case R.id.admin_radio_button:
                     new ApproveUserModal(v, request, UserRole.ADMIN).show();
                     break;
                 case R.id.reader_radio_button:
                     new ApproveUserModal(v, request, UserRole.READER).show();
+                default:
+                    Toast.makeText(v.getContext(), R.string.no_role_selected, Toast.LENGTH_SHORT).show();
+                    break;
             }
         });
         holder.denyButton.setOnClickListener(v -> new DenyUserModal(v, request).show());
@@ -119,6 +114,21 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
      */
     public void addRequest(User newRequest) {
         mUserRequests.add(newRequest);
+        Collections.sort(mUserRequests);
+        notifyDataSetChanged();
+    }
+
+    /**
+     * Update an existing request; adds the request
+     * to the RecyclerView if no existing request is
+     * found
+     *
+     * @param newRequest updated user request
+     */
+    public void updateRequest(User newRequest) {
+        removeRequest(newRequest);
+        addRequest(newRequest);
+        Collections.sort(mUserRequests);
         notifyDataSetChanged();
     }
 
@@ -130,7 +140,8 @@ public class UserRequestAdapter extends RecyclerView.Adapter<UserRequestAdapter.
      *                from the adapter
      */
     public void removeRequest(User request) {
-        mUserRequests.removeIf(ur -> ur.getDatabaseKey().equals(request.getDatabaseKey()));
+        mUserRequests.removeIf(ur -> ur.getUID().equals(request.getUID()));
+        Collections.sort(mUserRequests);
         notifyDataSetChanged();
     }
 

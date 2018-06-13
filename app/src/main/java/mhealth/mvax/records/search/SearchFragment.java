@@ -113,6 +113,7 @@ public class SearchFragment extends Fragment {
                         .commit();
             }
         });
+        view.findViewById(R.id.search_bar).requestFocus(); // TODO refactor
     }
 
     private void initSearchIndex() {

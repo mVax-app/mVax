@@ -47,13 +47,13 @@ public class AuthActivityTest {
     @Test
     public void testUINotNull() {
         Activity activity = MVaxActivityTestRule.getActivity();
-        assertNotNull(activity.findViewById(R.id.login_progress));
+        assertNotNull(activity.findViewById(R.id.spinner));
         assertNotNull(activity.findViewById(R.id.email_login_form));
-        assertNotNull(activity.findViewById(R.id.edittext_email));
-        assertNotNull(activity.findViewById(R.id.edittext_password));
-        assertNotNull(activity.findViewById(R.id.button_authenticate));
+        assertNotNull(activity.findViewById(R.id.email));
+        assertNotNull(activity.findViewById(R.id.password));
+        assertNotNull(activity.findViewById(R.id.login_button));
         assertNotNull(activity.findViewById(R.id.Bregister));
-        assertNotNull(activity.findViewById(R.id.textview_reset_password));
+        assertNotNull(activity.findViewById(R.id.forgot_password));
 
 //        TextView helloView = (TextView) activity.findViewById(R.id.text_hello);
 //        assertTrue(helloView.isShown());

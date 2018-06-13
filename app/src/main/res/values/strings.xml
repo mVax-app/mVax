@@ -7,18 +7,22 @@
     <string name="title_activity_login">Sign in</string>
     <string name="auth_fail_bad_credentials">Incorrect email or password</string>
     <string name="auth_fail_disabled_user">User has not been approved by administrator</string>
-    <string name="firebase_fail_no_connection">No internet connection</string>
-    <string name="firebase_fail_unknown">An unknown error occurred</string>
-    <string name="prompt_email">email</string>
-    <string name="prompt_password">password</string>
+    <string name="auth_fail_no_connection">Unable to detect internet connection</string>
+    <string name="auth_unknown_fail">An unknown error occurred</string>
+    <string name="email_hint">email</string>
+    <string name="password">password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="resetPassword">Forgot password?</string>
-    <string name="error_invalid_email">Invalid email address</string>
-    <string name="error_invalid_password">Invalid password</string>
+    <string name="forgot_password">Forgot password?</string>
+
+    <string name="submit">Submit</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="invalid_email_error">Invalid email address</string>
+    <string name="invalid_password_error">Password must have at least one uppercase, one lowercase, one digit, and one special character</string>
     <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="error_empty_field">Required field</string>
+    <string name="empty_field">This field is required</string>
     <string name="email_field_mismatch">Email fields must match</string>
     <string name="password_field_mismatch">Password fields must match</string>
 
@@ -37,9 +41,9 @@
     <string name="title_forms">Forms</string>
     <string name="title_dashboard">Dashboard</string>
 
-    <string name="title_login">Welcome to mVax!</string>
-    <string name="LOGIN_SIGNIN">Sign In</string>
-    <string name="LOGIN_REGISTER">Request an account</string>
+    <string name="auth_login">Welcome to mVax!</string>
+    <string name="login_button">Sign In</string>
+    <string name="register">Request an account</string>
 
     <string name="REG_DESCRIPTION">Please fill out the following form to get started. After completion, an administrator will have to approve you and then a confirmation email will be sent to your account</string>
     <string name="REG_TITLE">New User Registration</string>
@@ -55,7 +59,6 @@
     <string name="REG_ERROR_PASS_CONFIRM">Passwords do not match</string>
     <string name="REG_CONFIRMED">Request submitted, wait to be approved!</string>
     <string name="userRoles">Account Permission Level</string>
-
 
 
     <string name="modal_user_decision_title">Approve User Request?</string>
@@ -75,22 +78,19 @@
     <string name="timeout_unit">seconds</string>
 
     <!-- New user registration-->
-    <string name="modal_register_title">Request New Account</string>
-    <string name="modal_register_subtitle">You can request an mVax account by providing your name and email and tapping Submit. An mVax administrator will then approve or deny your request for an account. Upon approval, you can log into mVax.\n\nYour password must have at least one uppercase letter, one lowercase letter, one digit, and one special character.</string>
+    <string name="register_modal_title">Request New Account</string>
+    <string name="modal_register_subtitle">You can request an mVax account by providing your name and email and tapping Submit. An mVax administrator will then approve or deny your request for an account. Upon approval, you can log into mVax.\n\nYour password must be at least 8 characters long and must have at least one uppercase letter, one lowercase letter, one digit, and one special character (@#$%&amp;+=!).</string>
     <string name="hint_register_display_name">full name</string>
-    <string name="hint_register_email">email address</string>
-    <string name="hint_register_email_confirm">confirm email address</string>
-    <string name="hint_register_password">password</string>
-    <string name="hint_register_password_confirm">confirm password</string>
-    <string name="request_submit_fail">There is already an existing user or an existing user request with this email</string>
-    <string name="request_submit_unknown_fail">User account request was not successful; try your request again</string>
+    <string name="email_confirm_hint">confirm email address</string>
+    <string name="password_hint">password</string>
+    <string name="password_confirm_hint">confirm password</string>
+    <string name="request_submit_fail">There is already an existing user or an existing user request associated with this email</string>
+    <string name="request_submit_unknown_fail">User account request was not successful; try submitting your request again</string>
 
     <!-- Reset password-->
-    <string name="modal_reset_title">Password Reset</string>
+    <string name="password_reset_modal_title">Password Reset</string>
     <string name="modal_reset_password_subtitle">Enter your email address and tap Submit. An email will be sent to you with password reset instructions if the provided email address is associated with an mVax account.</string>
     <string name="hint_reset_email">email address</string>
-    <string name="button_reset_password_submit">Submit</string>
-    <string name="button_reset_password_cancel">Cancel</string>
     <string name="reset_email_confirm">Password reset request submitted</string>
     <string name="password_reset_confirm">Are you sure you want to reset your password?</string>
 
@@ -116,18 +116,20 @@
     <string name="user_settings">User Settings</string>
 
     <!-- Approve Users Fragment -->
-    <string name="approve_users_title">Approve Users</string>
+    <string name="approve_users_title">Approve New mVax Users</string>
     <string name="select_user_role">Select User Role</string>
     <string name="error_select_role">Must select user role for request</string>
     <string name="user_request_decision">Decision</string>
-    <string name="approve_user_instructions">Select a role for a user and tap Approve to create their mVax account, or tap Deny to deny their request.</string>
+    <string name="approve_user_instructions">Select a role for a user. Then, tap Approve to create their mVax account, or tap Deny to deny their request.</string>
     <string name="no_user_requests">No user requests</string>
-    <string name="no_role_selected">Please select a role for the user before approving them</string>
+    <string name="no_role_selected">A role must be selected before a user can be approved</string>
     <string name="acceptance_email_subject">mVax User Registration Approved!</string>
     <string name="acceptance_email_body">Welcome! You have been approved to join mVax. You are now able to sign in with your credentials</string>
     <string name="rejection_email_subject">mVax User Registration Denied</string>
     <string name="rejection_email_body">Hello, your request to join mVax has been denied. Contact an administrator for more details.</string>
-    <string name="fail_user_request_download">Unable to download user requests</string>
+    <string name="user_request_download_fail">Unable to download user requests</string>
+    <string name="user_download_fail">Unable to download current user info</string>
+
     <string name="role_info_title">Roles</string>
     <string name="role_info_desc">mVax supports two different roles: ADMIN and READER.\n\n
                                   An ADMIN can:\n
@@ -139,44 +141,85 @@
                                   \n
                                   A READER can:\n
                                     &#8226; view all users and vaccination records</string>
-    <string name="modal_approve_user_request_title">Approve user request</string>
-    <string name="modal_approve_user_request_message">You\'ve chosen to confirm %1$s\'s request for a %2$s mVax account. Tap Confirm to activate the new account.</string>
+    <string name="approve_user_modal_title">Approve user request</string>
+    <string name="approve_user_subtitle">You\'ve chosen to confirm %1$s\'s request for an mVax account with %2$s privileges. Tap Confirm to activate the new account and notify the user that they can now access mVax.</string>
     <string name="hint_password">password</string>
     <string name="hint_password_confirm">confirm password</string>
-    <string name="button_approve_user_confirm">Confirm</string>
-    <string name="button_approve_user_cancel">Cancel</string>
 
-    <string name="modal_deny_user_request_title">Deny user request</string>
-    <string name="modal_deny_user_request_message">Are you sure you want to deny this user\'s request for an mVax account? They will be able to request another account later if they wish.</string>
+    <string name="welcome_email_subject">mVax Account Approved</string>
+    <string name="welcome_email_body">Hello %1$s,\n\nYour request for an mVax account has been approved. An administrator has activated your account with %2$s privileges, and you can now use your email and password to log into mVax.\n\n\nThanks,\n\nThe mVax Team</string>
+
+    <string name="confirm_email_subject">mVax Account Request Received</string>
+    <string name="confirm_email_body">Hello %1$s,\n\nWe have received your request for an mVax account. Please wait for an administrator to approve or deny your request. You will receive a confirmation email when your request has been reviewed.\n\n\nThanks,\n\nThe mVax Team</string>
+
+    <string name="deny_email_subject">mVax Account Request Denied</string>
+    <string name="deny_email_body">Hello %1$s,\n\nYour request for an mVax account has been denied. Please request another account or contact an administrator.\n\n\nThanks,\n\nThe mVax Team</string>
+
+
+    <string name="deny_user_modal_title">Deny user request</string>
+    <string name="modal_deny_user_request_message">Are you sure you want to deny this user\'s request for an mVax account? They will be notified that their request has been denied, and they will be able to request another account later if they wish.</string>
     <string name="request_deny_success">User request denied</string>
     <string name="request_deny_fail">Unexpected error denying user request</string>
 
-    <string name="approve_user_success">User has been approved and their account activated</string>
+    <string name="approve_user_success">User has been approved and their account has been activated</string>
     <string name="approve_user_fail">Unexpected error approving user request</string>
-    <string name="approve_user_incomplete">User approval did not complete successfully; try approving the user again</string>
+    <string name="approve_user_incomplete">User approval did not complete successfully; try approving the user again later</string>
 
     <string name="deny_user_success">User request successfully denied</string>
     <string name="deny_user_fail">Unexpected error denying user request</string>
-
-    <string name="welcome_email_subject">mVax Account Approved</string>
-    <string name="welcome_email_body">Hello %1$s,\nYour request for an mVax account has been approved. An administrator has activated your account with %2$s privileges. You can now use your email and password to log into mVax.\nThanks,\nThe mVax Team</string>
+    <string name="deny_user_incomplete">User request denial incomplete; please contact someone on the mVax team</string>
 
 
     <!-- User Info Fragment -->
-    <string name="modal_role_info_title">User Roles Types</string>
+    <string name="role_info_modal_title">User Roles</string>
 
     <string name="admin_info">ADMIN: have access to read and write data. Only admin can input new records. Additionally, can approve new user requests and view current users</string>
     <string name="reader_info">READER: have access to see the data but cannot write any new information. Cannot handle other users.</string>
 
 
-
     <!-- Current Users Fragment -->
-    <string name="current_users_title">Current Users</string>
+    <string name="current_users_title">Current mVax Users</string>
+    <string name="user_management_instructions">This page can be used to manage current mVax users. You can change the role of any user, disable a user, or delete a user.</string>
+
+    <string name="disable_user">Disable User</string>
+    <string name="delete_user">Delete User</string>
+    <string name="change_role">Change Role</string>
+
+    <string name="change_role_modal_title">Change Role</string>
+    <string name="change_role_modal_subtitle">Select a new role for the user tap Submit.</string>
+    <string name="change_role_success">Role successfully changed</string>
+    <string name="change_role_fail">Unable to change role</string>
+    <string name="change_role_denied">You cannot change your own role</string>
+
+    <string name="delete_user_modal_title">Delete User</string>
+    <string name="delete_user_modal_subtitle">Are you sure you want to delete this user? This action CANNOT be undone, but the user can request a new mVax account later if they wish.</string>
+    <string name="delete_user_success">User successfully deleted</string>
+    <string name="delete_user_fail">Unable to delete user</string>
+    <string name="delete_user_incomplete">User deletion incomplete; please contact someone on the mVax team</string>
+    <string name="delete_user_denied">You cannot delete your own mVax account</string>
+
+    <string name="change_email_modal_title">Change email</string>
+    <string name="change_email_modal_subtitle">Enter the new email to be associated with your mVax account and tap Submit.</string>
+    <string name="change_email_modal_hint">new email address</string>
+    <string name="change_email_modal_hint_confirm">confirm new email address</string>
+    <string name="change_email_success">Email successfully changed</string>
+    <string name="change_email_fail">Unable to change email</string>
+    <string name="change_email_incomplete">Email change incomplete; please try changing your email again later</string>
+
+    <string name="change_password_modal_title">Change password</string>
+    <string name="change_password_modal_subtitle">Enter the new password to be associated with your mVax account and tap Submit.</string>
+    <string name="change_password_modal_hint">new password</string>
+    <string name="change_password_modal_hint_confirm">confirm new password</string>
+    <string name="change_password_success">Password successfully changed</string>
+    <string name="change_password_fail">Unable to change password</string>
+
 
     <!-- User Fragments -->
-    <string name="user_name">Name</string>
-    <string name="user_email">Email</string>
-    <string name="user_role">Role</string>
+    <string name="user_name">NAME</string>
+    <string name="user_email">EMAIL</string>
+    <string name="user_role">ROLE</string>
+
+    <string name="role">Role</string>
     <string name="user_role_info">Details about user roles</string>
     <string name="modal_current_user_title">Edit User\'s Access</string>
     <string name="modal_current_role">Role: </string>
@@ -184,7 +227,6 @@
     <string name="reader_role">Reader</string>
     <string name="modal_new_role">Change user\'s role: </string>
     <string name="role_no_change">No Change</string>
-
 
 
     <!-- About Button -->

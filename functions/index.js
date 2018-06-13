@@ -24,9 +24,11 @@ exports.createDisabledAccount = functions.https.onCall((data, context) => {
     displayName: data.displayName,
     disabled: true
   })
-  .then(userRecord => userRecord.uid)
-  .catch((error) => {
-    throw new functions.https.HttpsError('error', error);
+  .then((userRecord) => {
+    console.log("user " + data.uid + " created");
+    return userRecord.uid;
+  }).catch((error) => {
+    throw new functions.https.HttpsError("error creating disabled user ", error);
   })
 });
 
@@ -34,12 +36,23 @@ exports.activateAccount = functions.https.onCall((data, context) => {
   return admin.auth().updateUser(data.uid, {
     disabled: false
   })
-  .then((userRecord) => {
-//    sendAccountActivatedEmail(data.email, data.subject, data.body);
-    console.log("user " + data.uid + " activated");
-    return userRecord;
+  .then((user) => {
+    console.log("user " + user.uid + " activated");
+    return user.uid;
   }).catch((error) => {
-    throw new functions.https.HttpsError('error', error);
+    throw new functions.https.HttpsError("error activating user ", error);
+  })
+});
+
+exports.disableAccount = functions.https.onCall((data, context) => {
+  return admin.auth().updateUser(data.uid, {
+    disabled: true
+  })
+  .then((user) => {
+    console.log("user " + user.uid + " disabled");
+    return user.uid;
+  }).catch((error) => {
+    throw new functions.https.HttpsError("error disabling user ", error);
   })
 });
 
@@ -47,36 +60,11 @@ exports.deleteAccount = functions.https.onCall((data, context) => {
   return admin.auth().deleteUser(data.uid)
   .then(() => {
     console.log("user " + data.uid + " deleted");
-    return data.uid; // is this best?
-  }).catch((error) => {git a
-    throw new functions.https.HttpsError('error', error);
+    return data.uid;
+  }).catch((error) => {
+    throw new functions.https.HttpsError("error deleting user ", error);
   })
 });
-
-
-//const nodemailer = require('nodemailer');
-//const gmailEmail = functions.config().gmail.email;
-//const gmailPassword = functions.config().gmail.password;
-//const mailTransport = nodemailer.createTransport({
-//  service: 'gmail',
-//  auth: {
-//    user: gmailEmail,
-//    pass: gmailPassword,
-//  },
-//});
-//
-//function sendAccountActivatedEmail(email, subject, body) {
-//  const mailOptions = {
-//    from: `mVax <mvaxapp@gmail.com>`,
-//    to: email,
-//  };
-//
-//  mailOptions.subject = subject;
-//  mailOptions.text = body;
-//  return mailTransport.sendMail(mailOptions).then(() => {
-//    return console.log('account activated email sent to ', email);
-//  });
-//}
 
 
 // ALGOLIA SEARCH

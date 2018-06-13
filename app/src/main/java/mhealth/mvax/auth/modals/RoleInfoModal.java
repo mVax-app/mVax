@@ -17,32 +17,32 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.model.record;
+package mhealth.mvax.auth.modals;
 
-import java.io.Serializable;
+import android.app.AlertDialog;
+import android.view.View;
+import android.view.ViewGroup;
 
 import mhealth.mvax.R;
 
 /**
  * @author Robert Steilberg
  * <p>
- * Enum for representing supported sexes
+ * Modal for displaying info about the available roles
  */
-public enum Sex implements Serializable {
-    MALE(R.string.male_enum),
-    FEMALE(R.string.female_enum);
+public class RoleInfoModal extends CustomModal {
 
-    private int mResourceId;
-
-    Sex(int resourceId) {
-        this.mResourceId = resourceId;
+    public RoleInfoModal(View view) {
+        super(view);
     }
 
-    /**
-     * @return String id used to find the string value of the Sex
-     */
-    public int getResourceId() {
-        return this.mResourceId;
+    @Override
+    AlertDialog createDialog() {
+        mBuilder = new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.role_info_title)
+                .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_role_info, (ViewGroup) getView().getParent(), false))
+                .setPositiveButton(R.string.ok, null)
+                .show();
+        return mBuilder;
     }
-
 }

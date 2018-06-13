@@ -24,14 +24,13 @@ import com.google.firebase.functions.FirebaseFunctions;
 
 import java.util.HashMap;
 
-import mhealth.mvax.R;
 import mhealth.mvax.model.user.User;
-import mhealth.mvax.records.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
  * <p>
- * Static class for encapsulating general Firebase utilities
+ * Static class for encapsulating general Firebase utilities; methods in this class
+ * MUST be cross-checked with functions in index.js
  */
 public class FirebaseUtilities {
 
@@ -39,8 +38,8 @@ public class FirebaseUtilities {
      * Calls the HTTPS Firebase Cloud Function "createDisabledAccount" which
      * creates a disabled user; an error will be returned if the call is not successful
      *
-     * @param email the new user's email
-     * @param password the new user's password
+     * @param email       the new user's email
+     * @param password    the new user's password
      * @param displayName the new user's display name
      * @return Task result from calling the Firebase Cloud Function
      */
@@ -60,23 +59,33 @@ public class FirebaseUtilities {
      * an existing, disabled user; an error will be thrown if the user is not found;
      * nothing will happen if the user is already enabled
      *
-     * @param uid the Firebase-assigned UID of the existing user
+     * @param user the Firebase-assigned UID of the existing user
      * @return Task result from calling the Firebase Cloud Function
      */
     public static Task<String> activateUser(User user) {
         final HashMap<String, Object> args = new HashMap<>();
         args.put("uid", user.getUID());
-        args.put("email", user.getEmail());
-        args.put("subject", StringFetcher.fetchString(R.string.welcome_email_subject));
-        final String body = String.format(StringFetcher.fetchString(R.string.welcome_email_body),
-                user.getDisplayName(),
-                user.getRole().toString());
-        args.put("body", body);
-
         FirebaseFunctions functions = FirebaseFunctions.getInstance();
         return functions.getHttpsCallable("activateAccount")
                 .call(args)
-                .continueWith(task -> (String) task.getResult().getData());
+                .continueWith(task -> task.getResult().getData().toString());
+    }
+
+    /**
+     * Calls the HTTPS Firebase Cloud Function "disableAccount" which disables
+     * an existing, disabled user; an error will be thrown if the user is not found;
+     * nothing will happen if the user is already disabled
+     *
+     * @param user the Firebase-assigned UID of the existing user
+     * @return Task result from calling the Firebase Cloud Function
+     */
+    public static Task<String> disableUser(User user) {
+        final HashMap<String, Object> args = new HashMap<>();
+        args.put("uid", user.getUID());
+        FirebaseFunctions functions = FirebaseFunctions.getInstance();
+        return functions.getHttpsCallable("disableAccount")
+                .call(args)
+                .continueWith(task -> task.getResult().getData().toString());
     }
 
     /**

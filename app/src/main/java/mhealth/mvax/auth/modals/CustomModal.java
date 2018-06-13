@@ -25,6 +25,7 @@ import android.content.res.Resources;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,11 +39,16 @@ public abstract class CustomModal extends AlertDialog.Builder {
     private View mView;
     private Resources mResources;
 
+    AlertDialog mBuilder;
+    ProgressBar mSpinner;
+    List<View> mViews;
+
     CustomModal(View view) {
         super(view.getContext());
         mActivity = (Activity) view.getContext();
         mView = view;
         mResources = view.getResources();
+        mViews = new ArrayList<>();
     }
 
     /**
@@ -74,22 +80,14 @@ public abstract class CustomModal extends AlertDialog.Builder {
         return mResources.getString(id);
     }
 
-    /**
-     * @param spinner ProgressBar to show
-     * @param views List of Android Views to hide
-     */
-    void showSpinner(ProgressBar spinner, List<View> views) {
-        views.forEach(view -> view.setVisibility(View.INVISIBLE));
-        spinner.setVisibility(View.VISIBLE);
+    void showSpinner() {
+        mViews.forEach(view -> view.setVisibility(View.INVISIBLE));
+        mSpinner.setVisibility(View.VISIBLE);
     }
 
-    /**
-     * @param spinner ProgressBar to hide
-     * @param views List of Android Views to show
-     */
-    void hideSpinner(ProgressBar spinner, List<View> views) {
-        views.forEach(view -> view.setVisibility(View.VISIBLE));
-        spinner.setVisibility(View.INVISIBLE);
+    void hideSpinner() {
+        mViews.forEach(view -> view.setVisibility(View.VISIBLE));
+        mSpinner.setVisibility(View.INVISIBLE);
     }
 
 }

@@ -5,20 +5,20 @@
     <string name="title_activity_login">Registrese</string>
 
     <!-- Strings related to login -->
-    <string name="title_login">Inicio de Sesión</string>
-    <string name="LOGIN_SIGNIN">Entrar</string>
-    <string name="LOGIN_REGISTER">Registre</string>
+    <string name="auth_login">Inicio de Sesión</string>
+    <string name="login_button">Entrar</string>
+    <string name="register">Registre</string>
     <string name="auth_fail_bad_credentials">Error de Autenticación</string>
-    <string name="prompt_email">Correo Electrónico</string>
-    <string name="prompt_password">Contraseña (opcional)</string>
+    <string name="email_hint">Correo Electrónico</string>
+    <string name="password">Contraseña (opcional)</string>
     <string name="action_sign_in">Registrese o Registra</string>
     <string name="action_sign_in_short">Registrese</string>
-    <string name="resetPassword">¿Olvidó su contraseña?</string>
-    <string name="error_invalid_email">Este correo electrónico no es válido</string>
-    <string name="error_invalid_password">Esta contraseña es demasiado corta</string>
+    <string name="forgot_password">¿Olvidó su contraseña?</string>
+    <string name="invalid_email_error">Este correo electrónico no es válido</string>
+    <string name="invalid_password_error">Esta contraseña es demasiado corta</string>
     <string name="error_incorrect_password">Esta contraseña es incorrecta</string>
-    <string name="error_field_required">Este campo es necesario</string>
-    <string name="error_empty_field">Por favor rellene los campos vacíos</string>
+    <string name="empty_field">Este campo es necesario</string>
+    <string name="empty_field_error">Por favor rellene los campos vacíos</string>
     <string name="error_used_email">Usuario ya registrado con este correo electrónico</string>
     <string name="permission_rationale">"Los permisos de contactos son necesarios para proporcionar
         las terminacionesde correo electrónico."</string>
@@ -60,7 +60,7 @@
 
 
     <!-- Reset Password-->
-    <string name="modal_reset_title">Restablecer contraseña</string>
+    <string name="password_reset_modal_title">Restablecer contraseña</string>
     <string name="reset_email">Correo electrónico de la cuenta</string>
     <string name="button_reset_password_positive">Restablecer contraseña</string>
     <string name="reset_email_confirm">Se ha enviado el correo electrónico de restablecimiento de contraseña:</string>
@@ -187,7 +187,7 @@
     <string name="role_no_change">ningún cambio</string>
 
     <!-- User Info Fragment -->
-    <string name="modal_role_info_title">Tipos de Roles de Usuarios</string>
+    <string name="role_info_modal_title">Tipos de Roles de Usuarios</string>
     <string name="admin_info">ADMIN: tener acceso a los datos de lectura y escritura. Sólo el administrador puede introducir nuevos registros. Además, puede aprobar nuevas solicitudes de usuario y ver a los usuarios actuales</string>
     <string name="reader_info">READER: tiene acceso para ver los datos pero no puede escribir ninguna información nueva. No se puede controlar a otros usuarios.</string>
 
@@ -261,7 +261,7 @@
     <string name="config_muncip">muncipio</string>
     <string name="config_establishment">establecimiento</string>
     <string name="modal_reset_password_subtitle">Enter your email. An email will be sent to you with password reset instructions if the entered email is associated with an mVax account.</string>
-    <string name="modal_register_title">Request New Account</string>
+    <string name="register_modal_title">Request New Account</string>
 
 
 </resources>

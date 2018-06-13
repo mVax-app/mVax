@@ -8,7 +8,7 @@
     android:paddingTop="15dp">
 
     <RadioButton
-        android:id="@+id/radiobutton_male"
+        android:id="@+id/male_radio_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -20,7 +20,7 @@
         android:text="@string/male_enum" />
 
     <RadioButton
-        android:id="@+id/radiobutton_female"
+        android:id="@+id/female_radio_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"

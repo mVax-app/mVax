@@ -26,13 +26,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:textSize="18sp" />
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/user_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp" />
+            android:textSize="24sp" />
 
     </LinearLayout>
 
@@ -47,7 +48,7 @@
         app:layout_constraintEnd_toStartOf="@+id/buttons"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
@@ -57,20 +58,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
-                android:text="@string/user_role"
-                android:textSize="18sp" />
+                android:text="@string/role"
+                android:textSize="22sp" />
 
             <ImageView
                 android:id="@+id/info_button"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="start|center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:backgroundTint="@color/teal"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/ic_info" />
+                android:src="@drawable/ic_info"
+                app:layout_constraintBottom_toBottomOf="@+id/role"
+                app:layout_constraintStart_toEndOf="@+id/role"
+                app:layout_constraintTop_toTopOf="@+id/role" />
 
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
 
         <RadioGroup
             android:id="@+id/role_radio_group"
@@ -108,7 +115,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
 
         <Button
             android:id="@+id/approve_button"

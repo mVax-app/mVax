@@ -21,6 +21,7 @@ package mhealth.mvax.auth;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,21 +41,19 @@ import mhealth.mvax.R;
 import mhealth.mvax.model.user.User;
 
 /**
- * Supports a fragment that allows an administrator to approve or deny requests
- * for new mVax accounts
- *
  * @author Matthew Tribby, Robert Steilberg
+ * <p>
+ * Fragment for approving or denying requests for new mVax accounts
  */
-public class ApproveFragment extends Fragment {
+public class UserRequestsFragment extends Fragment {
 
-    private UserRequestAdapter mAdapter;
+    private UserRequestsAdapter mAdapter;
     private DatabaseReference mRequestsRef;
     private ChildEventListener mListener;
-    private TextView mNoRequestTextView;
+    private TextView mNoRequestsTextView;
 
-
-    public static ApproveFragment newInstance() {
-        return new ApproveFragment();
+    public static UserRequestsFragment newInstance() {
+        return new UserRequestsFragment();
     }
 
     @Override
@@ -63,12 +62,12 @@ public class ApproveFragment extends Fragment {
 
         initDatabase();
 
-        mNoRequestTextView = view.findViewById(R.id.no_user_requests);
+        mNoRequestsTextView = view.findViewById(R.id.no_user_requests);
 
         RecyclerView userRequestList = view.findViewById(R.id.user_request_list);
         userRequestList.setHasFixedSize(true);
         userRequestList.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        mAdapter = new UserRequestAdapter();
+        mAdapter = new UserRequestsAdapter();
         userRequestList.setAdapter(mAdapter);
         userRequestList.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
 
@@ -82,44 +81,42 @@ public class ApproveFragment extends Fragment {
     }
 
     private void initDatabase() {
-
-        final String requestTable = getResources().getString(R.string.userRequestsTable);
         mRequestsRef = FirebaseDatabase.getInstance().getReference()
-                .child(requestTable);
+                .child(getString(R.string.userRequestsTable));
 
         mListener = new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
                 User request = dataSnapshot.getValue(User.class);
                 mAdapter.addRequest(request);
-                mNoRequestTextView.setVisibility(View.GONE);
+                mNoRequestsTextView.setVisibility(View.GONE);
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
                 User request = dataSnapshot.getValue(User.class);
-                mAdapter.removeRequest(request); // remove old request
-                mAdapter.addRequest(request);
-                mNoRequestTextView.setVisibility(View.GONE);
+                mAdapter.updateRequest(request);
+                mNoRequestsTextView.setVisibility(View.GONE);
             }
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 User request = dataSnapshot.getValue(User.class);
                 mAdapter.removeRequest(request);
-                if (mAdapter.getItemCount() == 0) mNoRequestTextView.setVisibility(View.VISIBLE);
+                if (mAdapter.getItemCount() == 0) mNoRequestsTextView.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String s) {
                 // this should never happen
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), R.string.fail_user_request_download, Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), R.string.user_request_download_fail, Toast.LENGTH_SHORT).show();
             }
         };
         mRequestsRef.addChildEventListener(mListener);
     }
+
 }

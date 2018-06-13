@@ -20,26 +20,21 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.auth.modals;
 
 import android.app.AlertDialog;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.FirebaseUtilities;
+import mhealth.mvax.auth.utilities.Mailer;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserRole;
+import mhealth.mvax.records.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
@@ -48,67 +43,60 @@ import mhealth.mvax.model.user.UserRole;
  */
 public class ApproveUserModal extends CustomModal {
 
-    private AlertDialog mBuilder;
     private User mRequest;
-
-    private ProgressBar mSpinner;
-    private List<View> mViews;
 
     public ApproveUserModal(View view, User request, UserRole role) {
         super(view);
         mRequest = request;
         mRequest.setRole(role); // do this here so modal can't be called without a role
-        mViews = new ArrayList<>();
     }
 
     @Override
     AlertDialog createDialog() {
         mBuilder = new AlertDialog.Builder(getActivity())
-                .setTitle(getString(R.string.modal_approve_user_request_title))
+                .setTitle(getString(R.string.approve_user_modal_title))
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_approve_user, (ViewGroup) getView().getParent(), false))
-                .setPositiveButton(getString(R.string.button_approve_user_confirm), null)
-                .setNegativeButton(getString(R.string.button_approve_user_cancel), null)
+                .setPositiveButton(getString(R.string.confirm), null)
+                .setNegativeButton(getString(R.string.cancel), null)
                 .create();
 
         mBuilder.setOnShowListener(dialogInterface -> {
             mSpinner = mBuilder.findViewById(R.id.spinner);
 
-            final TextView confirmMessage = mBuilder.findViewById(R.id.message);
-            final String userName = mRequest.getDisplayName();
-            // interpolate user's name and role in display string
-            final String text = String.format(getString(R.string.modal_approve_user_request_message),
-                    userName,
+            final TextView subtitle = mBuilder.findViewById(R.id.subtitle);
+            final String text = String.format(getString(R.string.approve_user_subtitle),
+                    mRequest.getDisplayName(),
                     mRequest.getRole().toString());
-            confirmMessage.setText(text);
-            mViews.add(confirmMessage);
+            subtitle.setText(text);
+            mViews.add(subtitle);
+
+            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
 
             final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> activateUser());
             mViews.add(positiveButton);
-
-            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
         });
         return mBuilder;
     }
 
     private void activateUser() {
-        showSpinner(mSpinner, mViews);
-        FirebaseUtilities.activateUser(mRequest).addOnCompleteListener(userActivate -> {
-            if (userActivate.isSuccessful()) {
+        showSpinner();
+        FirebaseUtilities.activateUser(mRequest).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
                 updateUserTable();
             } else {
                 Toast.makeText(getActivity(), R.string.approve_user_fail, Toast.LENGTH_LONG).show();
-                hideSpinner(mSpinner, mViews);
+                hideSpinner();
             }
         });
     }
 
     private void updateUserTable() {
-        final String userTable = getString(R.string.userTable);
         final DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference()
-                .child(userTable);
+                .child(getString(R.string.userTable))
+                .child(mRequest.getUID());
 
-        usersRef.child(mRequest.getDatabaseKey()).setValue(mRequest).addOnCompleteListener(userTableAdd -> {
+        usersRef.setValue(mRequest).addOnCompleteListener(userTableAdd -> {
             if (userTableAdd.isSuccessful()) {
                 updateRequestsTable();
             } else {
@@ -118,20 +106,36 @@ public class ApproveUserModal extends CustomModal {
     }
 
     private void updateRequestsTable() {
-        final String requestsTable = getString(R.string.userRequestsTable);
         final DatabaseReference requestsRef = FirebaseDatabase.getInstance().getReference()
-                .child(requestsTable);
+                .child(getString(R.string.userRequestsTable))
+                .child(mRequest.getUID());
 
-        requestsRef.child(mRequest.getDatabaseKey()).setValue(null).addOnCompleteListener(userRequestDelete -> {
+        requestsRef.setValue(null).addOnCompleteListener(userRequestDelete -> {
             if (userRequestDelete.isSuccessful()) {
                 // user activation workflow completed
-                hideSpinner(mSpinner, mViews);
-                Toast.makeText(getActivity(), R.string.approve_user_success, Toast.LENGTH_LONG).show();
+                hideSpinner();
+                sendWelcomeEmail();
                 mBuilder.dismiss();
+                Toast.makeText(getActivity(), R.string.approve_user_success, Toast.LENGTH_LONG).show();
             } else {
+                hideSpinner();
+                FirebaseUtilities.disableUser(mRequest); // try to undo activation
                 Toast.makeText(getActivity(), R.string.approve_user_incomplete, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void sendWelcomeEmail() {
+        final String subject = getString(R.string.welcome_email_subject);
+        final String body = String.format(StringFetcher.fetchString(R.string.welcome_email_body),
+                mRequest.getDisplayName(),
+                mRequest.getRole().toString());
+        new Mailer(getContext())
+                .withMailTo(mRequest.getEmail())
+                .withSubject(subject)
+                .withBody(body)
+                .withProcessVisibility(false)
+                .send();
     }
 
 }
