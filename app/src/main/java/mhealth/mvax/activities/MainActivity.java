@@ -54,11 +54,6 @@ public class MainActivity extends Activity {
         }
     }
 
-//    @Override
-//    public void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//    }
-
     private void initNavBar() {
         BottomNavigationView navBar = findViewById(R.id.navigation_bar);
         navBar.setOnNavigationItemSelectedListener
