@@ -60,7 +60,7 @@ public class DenyUserModal extends CustomModal {
         mBuilder.setOnShowListener(dialogInterface -> {
             mSpinner = mBuilder.findViewById(R.id.spinner);
 
-            mViews.add(mBuilder.findViewById(R.id.subtitle));
+            mViews.add(mBuilder.findViewById(R.id.dob));
             mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
 
             final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);

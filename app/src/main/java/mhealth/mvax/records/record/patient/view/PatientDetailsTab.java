@@ -34,6 +34,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Patient;
@@ -44,8 +45,8 @@ import mhealth.mvax.records.record.patient.modify.edit.EditPatientFragment;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Fragment for viewing a record's patient and guardian details
+ * <p>
+ * Fragment for viewing a record's patient and guardian details
  */
 public class PatientDetailsTab extends Fragment implements RecordTab {
 
@@ -57,7 +58,7 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
     private PatientDetailsAdapter mAdapter;
 
     private Patient mPatient;
-    private DatabaseReference mPatientRef;
+    private Query mPatientRef;
     private ChildEventListener mPatientListener;
 
     //================================================================================
@@ -85,7 +86,7 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
 
     @Override
     public void onDestroyView() {
-        mPatientRef.orderByKey().equalTo(mPatient.getDatabaseKey()).removeEventListener(mPatientListener);
+        mPatientRef.removeEventListener(mPatientListener);
         super.onDestroyView();
     }
 
@@ -118,7 +119,9 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
         final String patientTable = getResources().getString(R.string.patientTable);
         mPatientRef = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
-                .child(patientTable);
+                .child(patientTable)
+                .orderByKey()
+                .equalTo(databaseKey);
 
         // define listener
         mPatientListener = new ChildEventListener() {
@@ -154,8 +157,6 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
 
         // set listener to ref
         mPatientRef
-                .orderByKey()
-                .equalTo(databaseKey)
                 .addChildEventListener(mPatientListener);
     }
 
@@ -176,14 +177,14 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
                 // commit "Search -> Record, adding "Record -> Search to back stack
                 final RecordFragment onBackFrag = RecordFragment.newInstance(mPatient.getDatabaseKey());
                 getActivity().getFragmentManager().beginTransaction()
-                        .replace(R.id.frame_layout, onBackFrag)
+                        .replace(R.id.frame, onBackFrag)
                         .addToBackStack(null)
                         .commit();
 
                 // commit "Record -> Edit", adding "Edit -> Record to back stack
                 final EditPatientFragment editDataFrag = EditPatientFragment.newInstance(mPatient);
                 getActivity().getFragmentManager().beginTransaction()
-                        .replace(R.id.frame_layout, editDataFrag)
+                        .replace(R.id.frame, editDataFrag)
                         .addToBackStack(null)
                         .commit();
             }

@@ -4,17 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main_activity"
     tools:context="mhealth.mvax.activities.MainActivity">
 
-
     <FrameLayout
-        android:id="@+id/frame_layout"
+        android:id="@+id/frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/navigation_bar"
-        android:animateLayoutChanges="true">
-    </FrameLayout>
+        android:animateLayoutChanges="true" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation_bar"

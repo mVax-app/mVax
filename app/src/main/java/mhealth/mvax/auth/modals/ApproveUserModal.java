@@ -63,7 +63,7 @@ public class ApproveUserModal extends CustomModal {
         mBuilder.setOnShowListener(dialogInterface -> {
             mSpinner = mBuilder.findViewById(R.id.spinner);
 
-            final TextView subtitle = mBuilder.findViewById(R.id.subtitle);
+            final TextView subtitle = mBuilder.findViewById(R.id.dob);
             final String text = String.format(getString(R.string.approve_user_subtitle),
                     mRequest.getDisplayName(),
                     mRequest.getRole().toString());

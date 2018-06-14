@@ -32,9 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,12 +43,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import mhealth.mvax.R;
-import mhealth.mvax.activities.MainActivity;
 import mhealth.mvax.auth.UserRequestsFragment;
 import mhealth.mvax.auth.UsersFragment;
 import mhealth.mvax.auth.modals.ChangeEmailModal;
 import mhealth.mvax.auth.modals.ChangePasswordModal;
-import mhealth.mvax.auth.utilities.AuthInputValidator;
 import mhealth.mvax.language.LanguageUtillity;
 
 /**
@@ -187,29 +183,29 @@ public class SettingsFragment extends Fragment {
     }
 
     public void changeTimeoutDuration(View v) {
-        final MainActivity activity = (MainActivity) getActivity();
-
-        //builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(getResources().getString(R.string.modal_timeout_title));
-
-        //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
-
-        final View dialogView = mInflater.inflate(R.layout.modal_change_timeout, null);
-        builder.setView(dialogView);
-
-
-        final EditText timeout = dialogView.findViewById(R.id.edit_timeout);
-        timeout.setText(Long.toString(activity.getTimeoutDuration() / 1000));
-
-        builder.setPositiveButton(getResources().getString(R.string.timeout_save_change), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                activity.setTimeoutDuration(Long.parseLong(timeout.getText().toString()) * 1000);
-            }
-        });
-
-        builder.show();
+//        final MainActivity activity = (MainActivity) getActivity();
+//
+//        //builder
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//        builder.setTitle(getResources().getString(R.string.modal_timeout_title));
+//
+//        //https://stackoverflow.com/questions/18371883/how-to-create-modal-dialog-box-in-android
+//
+//        final View dialogView = mInflater.inflate(R.layout.modal_change_timeout, null);
+//        builder.setView(dialogView);
+//
+//
+//        final EditText timeout = dialogView.findViewById(R.id.edit_timeout);
+//        timeout.setText(Long.toString(activity.getTimeoutDuration() / 1000));
+//
+//        builder.setPositiveButton(getResources().getString(R.string.timeout_save_change), new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                activity.setTimeoutDuration(Long.parseLong(timeout.getText().toString()) * 1000);
+//            }
+//        });
+//
+//        builder.show();
     }
 
     public void signOut() {
@@ -266,7 +262,7 @@ public class SettingsFragment extends Fragment {
 
         FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
         transaction.replace(getId(), this).addToBackStack(null); // so that back button works
-        transaction.replace(R.id.frame_layout, approveUsers);
+        transaction.replace(R.id.frame, approveUsers);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -275,7 +271,7 @@ public class SettingsFragment extends Fragment {
         Fragment fragment = UsersFragment.newInstance();
         FragmentManager fragmentManager = getActivity().getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_layout, fragment);
+        fragmentTransaction.replace(R.id.frame, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
@@ -315,7 +311,7 @@ public class SettingsFragment extends Fragment {
     }
 
     private void changeTimeoutDuration(long newTimeout) {
-        MainActivity currentActivity = (MainActivity) getActivity();
-        currentActivity.setTimeoutDuration(newTimeout);
+//        MainActivity currentActivity = (MainActivity) getActivity();
+//        currentActivity.setTimeoutDuration(newTimeout);
     }
 }

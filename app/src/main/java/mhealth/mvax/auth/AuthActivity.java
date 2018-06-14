@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -36,6 +37,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
@@ -64,6 +66,8 @@ public class AuthActivity extends Activity {
     private ProgressBar mSpinner;
     private int mScreenWidth;
 
+    private static boolean BYPASS_LOGIN = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +83,14 @@ public class AuthActivity extends Activity {
         initTextFields();
         initButtons();
         mSpinner.setX(mScreenWidth); // spinner rendered off screen
+
+        if (BYPASS_LOGIN) {
+            mAuth.signInWithEmailAndPassword("devadmin@mvax.com", "devadmin1")
+                    .addOnCompleteListener(task -> {
+                        Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(mainIntent);
+                    });
+        }
     }
 
     @Override

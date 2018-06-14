@@ -22,20 +22,8 @@ package mhealth.mvax.activities;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.Window;
-import android.view.WindowManager;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.functions.FirebaseFunctions;
 
 import mhealth.mvax.R;
 import mhealth.mvax.alerts.AlertsFragment;
@@ -44,94 +32,63 @@ import mhealth.mvax.dashboard.FormsFragment;
 import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.settings.SettingsFragment;
 
-public class MainActivity extends TimeoutActivity {
+/**
+ * @author Robert Steilberg, Matthew Tribby
+ * <p>
+ * Main activity that initializes the bottom navigation bar, which is used to
+ * navigate throughout the app. Handles all of the main fragments
+ */
+public class MainActivity extends Activity {
 
-
-
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // kill action bar
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser mFirebaseUser = auth.getCurrentUser();
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference database = db.getReference();
         setContentView(R.layout.activity_main);
-
         initNavBar();
 
-
-
-        //Manually displaying the first fragment - one time only
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, SearchFragment.newInstance());
-        transaction.commit();
-
-        Log.d("Language", "Main Activity: " + getResources().getConfiguration().locale.toString());
-
+        if (savedInstanceState == null) {
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame, SearchFragment.newInstance());
+            transaction.commit();
+        }
     }
+
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//    }
 
     private void initNavBar() {
-        BottomNavigationView bottomNavigationView = findViewById(R.id.navigation_bar);
-        bottomNavigationView.setOnNavigationItemSelectedListener
-                (new BottomNavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        Fragment selectedFragment = null;
-                        switch (item.getItemId()) {
-                            case R.id.nav_patients:
-                                selectedFragment = SearchFragment.newInstance();
-                                break;
-                            case R.id.nav_overdue:
-                                selectedFragment = AlertsFragment.newInstance();
-                                break;
-                            case R.id.nav_data:
-                                selectedFragment = DashboardFragment.newInstance();
-                                break;
-                            case R.id.nav_forms:
-                                selectedFragment = FormsFragment.newInstance();
-                                break;
-                            case R.id.nav_settings:
-                                selectedFragment = SettingsFragment.newInstance();
-                                break;
-
-                        }
-
-                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                        transaction.replace(R.id.frame_layout, selectedFragment);
-                        transaction.commit();
-                        return true;
+        BottomNavigationView navBar = findViewById(R.id.navigation_bar);
+        navBar.setOnNavigationItemSelectedListener
+                (icon -> {
+                    Fragment selectedFragment;
+                    switch (icon.getItemId()) {
+                        case R.id.nav_patients:
+                            selectedFragment = SearchFragment.newInstance();
+                            break;
+                        case R.id.nav_overdue:
+                            selectedFragment = AlertsFragment.newInstance();
+                            break;
+                        case R.id.nav_data:
+                            selectedFragment = DashboardFragment.newInstance();
+                            break;
+                        case R.id.nav_forms:
+                            selectedFragment = FormsFragment.newInstance();
+                            break;
+                        case R.id.nav_settings:
+                            selectedFragment = SettingsFragment.newInstance();
+                            break;
+                        default:
+                            selectedFragment = null; // this should never happen
+                            break;
                     }
+                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                    transaction.replace(R.id.frame, selectedFragment);
+                    transaction.commit();
+                    return true;
                 });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    /**
-     * Handler updating a patient record; calls super to pass this handler to fragments
-     * at handling result
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onUserLeaveHint() {
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        FirebaseAuth.getInstance().signOut();
-        this.finish();
     }
 
 }

@@ -22,8 +22,7 @@
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
 
         <activity
-            android:name=".activities.SplashActivity"
-            android:theme="@style/SplashTheme"
+            android:name=".auth.AuthActivity"
             android:configChanges="keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,18 +31,7 @@
         </activity>
 
         <activity
-            android:name=".auth.AuthActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>
-
-        <activity
-            android:name=".activities.MainActivity"
-            android:launchMode="singleTop"
-            android:configChanges="keyboardHidden|orientation|screenSize">
-            <!--TODO it's bad that we have configChanges-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            android:name=".activities.MainActivity">
         </activity>
 
         <!-- File provider, most of code from: https://stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed/38858040#38858040 -->

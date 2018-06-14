@@ -137,7 +137,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
 
         // commit "Search -> Record", adding "Record -> Search" to back stack
         getActivity().getFragmentManager().beginTransaction()
-                .replace(R.id.frame_layout, RecordFragment.newInstance(mPatient.getDatabaseKey()))
+                .replace(R.id.frame, RecordFragment.newInstance(mPatient.getDatabaseKey()))
                 .addToBackStack(null)
                 .commit();
     }

@@ -33,7 +33,7 @@
     </string>
     <string name="emptystring" />
     <string name="title_activity_search">SearchActivity</string>
-    <string name="title_patients">Patients</string>
+    <string name="patients_fragment_title">Patients</string>
     <string name="title_settings">Settings</string>
     <string name="title_overdue">Overdue Patients</string>
     <string name="title_summary">Summary</string>
@@ -299,7 +299,7 @@
 
     <!-- Search -->
     <string name="hint_search">Search…</string>
-    <string name="new_record_button">Add New Patient</string>
+    <string name="new_record_button">Create New Record</string>
     <string name="new_record_title">New Record</string>
     <string name="no_patient_name">Unnamed Patient</string>
 
@@ -483,8 +483,8 @@
     <string name="VPH_11A_2A">VPH_11A_2A_Row</string>
     <string name="VITA_PU_DU">VITA_PU_DU_Row</string>
     <string name="failure_patient_download">Unable to Download Patient Data</string>
-    <string name="failure_search_init">Unable to Initialize Search Service</string>
-    <string name="failure_search">Search Failed</string>
+    <string name="search_init_fail">Unable to Initialize Search Service</string>
+    <string name="search_fail">Search Failed</string>
     <string name="failure_guardian_download">Unable to Download Guardian Data</string>
     <string name="guardian_update">Guardian Updated</string>
     <string name="failure_vaccines_download">Unable to Download Vaccine Data</string>

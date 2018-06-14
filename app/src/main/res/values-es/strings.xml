@@ -28,7 +28,7 @@
     <string name="title_settings">Configuración</string>
     <string name="title_overdue">Pacientes atrasados</string>
     <string name="patients">Pacientes</string>
-    <string name="title_patients">Pacientes</string>
+    <string name="patients_fragment_title">Pacientes</string>
     <string name="title_forms">Formas</string>
     <string name="title_dashboard">El Tablero de Mandos</string>
 
