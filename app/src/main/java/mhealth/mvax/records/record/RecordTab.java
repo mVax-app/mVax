@@ -21,8 +21,8 @@ package mhealth.mvax.records.record;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Interface for defining the API of a RecordFragment tab
+ * <p>
+ * Defines the API of a RecordFragment tab
  */
 public interface RecordTab {
 

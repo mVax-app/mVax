@@ -17,29 +17,22 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.records.search;
+package mhealth.mvax.model.record;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.utilities.StringFetcher;
+import mhealth.mvax.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Class for storing information
+ * <p>
+ * Object for storing information corresponding to search results
+ * returne by the search engine index
  */
 public class SearchResult {
 
-    //================================================================================
-    // Constructors
-    //================================================================================
-
-    SearchResult(String databaseKey) {
+    public SearchResult(String databaseKey) {
         this.databaseKey = databaseKey;
     }
-
-    //================================================================================
-    // Properties
-    //================================================================================
 
     /**
      * Unique Firebase database key
@@ -106,11 +99,6 @@ public class SearchResult {
     public void setCommunity(String community) {
         this.community = community;
     }
-
-
-    //================================================================================
-    // Public methods
-    //================================================================================
 
     /**
      * Computes a String to display the Person's name, in format

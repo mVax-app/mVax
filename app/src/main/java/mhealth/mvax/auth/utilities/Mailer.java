@@ -30,11 +30,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.utilities.StringFetcher;
+import mhealth.mvax.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg

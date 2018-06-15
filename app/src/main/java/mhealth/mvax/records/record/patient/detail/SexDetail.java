@@ -23,7 +23,7 @@ import android.content.DialogInterface;
 import android.widget.EditText;
 
 import mhealth.mvax.model.record.Sex;
-import mhealth.mvax.records.utilities.StringFetcher;
+import mhealth.mvax.utilities.StringFetcher;
 import mhealth.mvax.records.views.SexModal;
 import mhealth.mvax.records.utilities.TypeRunnable;
 

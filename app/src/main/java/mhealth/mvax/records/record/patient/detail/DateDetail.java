@@ -19,14 +19,12 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.detail;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.widget.EditText;
 
 import mhealth.mvax.R;
 import mhealth.mvax.records.utilities.NullableDateFormat;
-import mhealth.mvax.records.utilities.StringFetcher;
+import mhealth.mvax.utilities.StringFetcher;
 import mhealth.mvax.records.views.DateModal;
 import mhealth.mvax.records.utilities.TypeRunnable;
 

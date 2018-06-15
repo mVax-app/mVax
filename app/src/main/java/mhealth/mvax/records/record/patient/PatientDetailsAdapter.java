@@ -20,54 +20,32 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.records.record.patient;
 
 import android.content.Context;
-import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import mhealth.mvax.R;
 import mhealth.mvax.records.record.patient.detail.Detail;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Abstract adapter for displaying Person details,
- *         getView() left up to implementation
+ * <p>
+ * Abstract adapter for displaying patient details about a record
  */
 public abstract class PatientDetailsAdapter extends BaseAdapter {
 
-    //================================================================================
-    // Properties
-    //================================================================================
-
     protected final LayoutInflater mInflater;
-    protected List<Detail> mDataSource; // holds Patient and Guardian details
-
-    //================================================================================
-    // Constructors
-    //================================================================================
+    protected List<Detail> mDataSource;
 
     protected PatientDetailsAdapter(Context context, List<Detail> details) {
         mDataSource = details;
         mInflater = LayoutInflater.from(context);
     }
 
-    //================================================================================
-    // Abstract methods
-    //================================================================================
-
     @Override
     abstract public View getView(int position, View rowView, ViewGroup viewGroup);
-
-    //================================================================================
-    // Override methods
-    //================================================================================
 
     @Override
     public int getCount() {
@@ -83,10 +61,6 @@ public abstract class PatientDetailsAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-
-    //================================================================================
-    // Public methods
-    //================================================================================
 
     /**
      * Refresh the data source with new data and re-render the ListView

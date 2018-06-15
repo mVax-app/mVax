@@ -30,9 +30,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.record.SearchResult;
 import mhealth.mvax.records.record.RecordFragment;
 import mhealth.mvax.records.utilities.NullableDateFormat;
-import mhealth.mvax.records.utilities.StringFetcher;
+import mhealth.mvax.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg

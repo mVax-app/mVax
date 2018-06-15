@@ -32,7 +32,6 @@ import android.widget.Toast;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
@@ -167,27 +166,22 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
 
     private void addEditButton(ListView listView) {
         final LayoutInflater inflater = LayoutInflater.from(getContext());
-        final Button editButton = (Button) inflater.inflate(R.layout.button_edit_record, listView, false);
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // pop "Record -> Search" from back stack and commit it
-                getActivity().getFragmentManager().popBackStack();
-
-                // commit "Search -> Record, adding "Record -> Search to back stack
-                final RecordFragment onBackFrag = RecordFragment.newInstance(mPatient.getDatabaseKey());
-                getActivity().getFragmentManager().beginTransaction()
-                        .replace(R.id.frame, onBackFrag)
-                        .addToBackStack(null)
-                        .commit();
-
-                // commit "Record -> Edit", adding "Edit -> Record to back stack
-                final EditPatientFragment editDataFrag = EditPatientFragment.newInstance(mPatient);
-                getActivity().getFragmentManager().beginTransaction()
-                        .replace(R.id.frame, editDataFrag)
-                        .addToBackStack(null)
-                        .commit();
-            }
+        final Button editButton = (Button) inflater.inflate(R.layout.edit_record_button, listView, false);
+        editButton.setOnClickListener(view -> {
+//            // pop "Record -> Search" from back stack and commit it
+//            getActivity().getFragmentManager().popBackStack();
+//            // commit "Search -> Record, adding "Record -> Search to back stack
+//            final RecordFragment onBackFrag = RecordFragment.newInstance(mPatient.getDatabaseKey());
+//            getActivity().getFragmentManager().beginTransaction()
+//                    .replace(R.id.frame, onBackFrag)
+//                    .addToBackStack(null)
+//                    .commit();
+            // commit "Record -> Edit", adding "Edit -> Record to back stack
+            final EditPatientFragment editDataFrag = EditPatientFragment.newInstance(mPatient);
+            getActivity().getFragmentManager().beginTransaction()
+                    .replace(R.id.frame, editDataFrag)
+                    .addToBackStack(null)
+                    .commit();
         });
         listView.addHeaderView(editButton);
     }

@@ -34,7 +34,7 @@ import mhealth.mvax.auth.utilities.FirebaseUtilities;
 import mhealth.mvax.auth.utilities.Mailer;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserRole;
-import mhealth.mvax.records.utilities.StringFetcher;
+import mhealth.mvax.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg

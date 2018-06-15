@@ -51,6 +51,7 @@ import org.json.JSONObject;
 import java.util.Map;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.record.SearchResult;
 import mhealth.mvax.records.record.patient.modify.create.CreateRecordFragment;
 
 /**

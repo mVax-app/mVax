@@ -21,9 +21,9 @@ package mhealth.mvax.records.utilities;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Defines a runnable through which an
- *         object of type T may be passed
+ * <p>
+ * Defines a runnable through which an
+ * object of type T may be passed
  */
 public interface TypeRunnable<T> {
 
