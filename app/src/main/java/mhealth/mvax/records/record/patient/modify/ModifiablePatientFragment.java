@@ -77,7 +77,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
      * mGuardian with a button to save any changes
      */
     protected void renderListView(View view) {
-        mListView = view.findViewById(R.id.details_list_view);
+        mListView = view.findViewById(R.id.details_list);
         mAdapter = new ModifyPatientAdapter(getContext(), mPatient.getDetails());
         mListView.setAdapter(mAdapter);
         addSaveButton();

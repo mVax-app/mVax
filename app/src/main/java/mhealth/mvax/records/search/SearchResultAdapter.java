@@ -40,7 +40,7 @@ import mhealth.mvax.utilities.StringFetcher;
  * <p>
  * Adapter for listing record search results
  */
-public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> implements Serializable {
+public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
 
     private ArrayList<SearchResult> mSearchResults;
     private Activity mActivity;

@@ -19,14 +19,14 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient;
 
-import android.support.v7.widget.RecyclerView;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 
 import java.util.List;
 
-import mhealth.mvax.R;
 import mhealth.mvax.records.record.patient.detail.Detail;
 
 /**
@@ -34,30 +34,32 @@ import mhealth.mvax.records.record.patient.detail.Detail;
  * <p>
  * Abstract adapter for displaying patient details about a record
  */
-public abstract class PatientDetailsAdapter extends RecyclerView.Adapter<PatientDetailsAdapter.ViewHolder> {
+public abstract class PatientDetailsAdapterOld extends BaseAdapter {
 
-    protected List<Detail> mDetails;
+    protected final LayoutInflater mInflater;
+    protected List<Detail> mDataSource;
 
-    protected PatientDetailsAdapter(List<Detail> details) {
-        mDetails = details;
-    }
-
-    protected static class ViewHolder extends RecyclerView.ViewHolder {
-        View row;
-        public TextView field;
-        public TextView value;
-
-        public ViewHolder(View view) {
-            super(view);
-            row = view;
-            field = view.findViewById(R.id.field);
-            value = view.findViewById(R.id.value);
-        }
+    protected PatientDetailsAdapterOld(Context context, List<Detail> details) {
+        mDataSource = details;
+        mInflater = LayoutInflater.from(context);
     }
 
     @Override
-    public int getItemCount() {
-        return mDetails.size();
+    abstract public View getView(int position, View rowView, ViewGroup viewGroup);
+
+    @Override
+    public int getCount() {
+        return mDataSource.size();
+    }
+
+    @Override
+    public Detail getItem(int position) {
+        return mDataSource.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     /**
@@ -66,9 +68,8 @@ public abstract class PatientDetailsAdapter extends RecyclerView.Adapter<Patient
      * @param newData is the sectioned, new data with which to populate the data source
      */
     public void refresh(List<Detail> newData) {
-        mDetails = newData;
+        mDataSource = newData;
         notifyDataSetChanged();
     }
-
 
 }

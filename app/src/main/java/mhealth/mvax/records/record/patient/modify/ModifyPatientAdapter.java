@@ -26,19 +26,18 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.records.record.patient.detail.Detail;
-import mhealth.mvax.records.record.patient.PatientDetailsAdapter;
+import mhealth.mvax.records.record.patient.PatientDetailsAdapterOld;
 
 /**
  * @author Robert Steilberg
  *         <p>
  *         Adapter that allows users to edit record details
  */
-public class ModifyPatientAdapter extends PatientDetailsAdapter {
+public class ModifyPatientAdapter extends PatientDetailsAdapterOld {
 
     //================================================================================
     // Constructors
@@ -56,8 +55,8 @@ public class ModifyPatientAdapter extends PatientDetailsAdapter {
     public View getView(final int position, View rowView, ViewGroup viewGroup) {
         rowView = mInflater.inflate(R.layout.list_item_record_detail, viewGroup, false);
 
-        final TextView fieldView = rowView.findViewById(R.id.textview_field);
-        final EditText valueView = rowView.findViewById(R.id.textview_value);
+        final TextView fieldView = rowView.findViewById(R.id.field);
+        final EditText valueView = rowView.findViewById(R.id.value);
 
         // perform any setup operations defined by the Detail type
         mDataSource.get(position).configureValueView(valueView);
