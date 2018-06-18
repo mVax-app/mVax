@@ -90,7 +90,7 @@ public class PasswordResetModal extends CustomModal {
     private void attemptPasswordReset(final TextView emailTextView) {
         final String emailAddress = emailTextView.getText().toString();
         if (TextUtils.isEmpty(emailAddress)) {
-            emailTextView.setError(getString(R.string.empty_field_error));
+            emailTextView.setError(getString(R.string.empty_field));
             emailTextView.requestFocus();
         } else if (!AuthInputValidator.emailValid(emailAddress)) {
             emailTextView.setError(getString(R.string.invalid_email_error));

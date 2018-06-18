@@ -18,7 +18,6 @@
     <string name="invalid_password_error">Esta contraseña es demasiado corta</string>
     <string name="error_incorrect_password">Esta contraseña es incorrecta</string>
     <string name="empty_field">Este campo es necesario</string>
-    <string name="empty_field_error">Por favor rellene los campos vacíos</string>
     <string name="error_used_email">Usuario ya registrado con este correo electrónico</string>
     <string name="permission_rationale">"Los permisos de contactos son necesarios para proporcionar
         las terminacionesde correo electrónico."</string>
@@ -28,7 +27,7 @@
     <string name="title_settings">Configuración</string>
     <string name="title_overdue">Pacientes atrasados</string>
     <string name="patients">Pacientes</string>
-    <string name="title_patients">Pacientes</string>
+    <string name="patients_fragment_title">Pacientes</string>
     <string name="title_forms">Formas</string>
     <string name="title_dashboard">El Tablero de Mandos</string>
 
@@ -102,7 +101,7 @@
 
     <string name="modal_record_delete_title">Confirmar La Eliminacion De Registros</string>
     <string name="modal_record_delete_message">¿Seguro que quieres borrar este registro? Se eliminarán todos los datos de pacientes, tutores y vacunas. Esta acción no se puede deshacer.</string>
-    <string name="patient_update">Paciente actualizado</string>
+    <string name="patient_update_notification">Paciente actualizado</string>
     <string name="unsuccessful_record_update">Actualizacion fallida</string>
 
     <string name="modal_title_choose_sex">Elegir Sexo</string>
@@ -206,7 +205,7 @@
     <string name="modal_sex_neutral">Eliminar Sexo</string>
     <string name="modal_sex_cancel">Cancelar</string>
     <string name="modal_cancel">Cancelar</string>
-    <string name="patient_delete">Paciente Eliminado</string>
+    <string name="patient_delete_notification">Paciente Eliminado</string>
     <string name="guardian_delete">Tutor/a Elimindao</string>
     <string name="modal_confirm">Confirmar</string>
 

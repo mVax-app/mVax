@@ -102,12 +102,12 @@ public class ChangeEmailModal extends CustomModal {
     private boolean noEmptyFields() {
         boolean noEmptyFields = true;
         if (TextUtils.isEmpty(mConfirmEmail.getText().toString())) {
-            mConfirmEmail.setError(getString(R.string.empty_field_error));
+            mConfirmEmail.setError(getString(R.string.empty_field));
             mConfirmEmail.requestFocus();
             noEmptyFields = false;
         }
         if (TextUtils.isEmpty(mEmail.getText().toString())) {
-            mEmail.setError(getString(R.string.empty_field_error));
+            mEmail.setError(getString(R.string.empty_field));
             mEmail.requestFocus();
             noEmptyFields = false;
         }
@@ -139,7 +139,7 @@ public class ChangeEmailModal extends CustomModal {
             return;
         }
         if (currUser.getEmail() != null && currUser.getEmail().equals(email)) {
-            // no need to update email
+            // no need to refreshDetails email
             hideSpinner();
             mBuilder.dismiss();
             Toast.makeText(getActivity(), R.string.change_email_success, Toast.LENGTH_LONG).show();

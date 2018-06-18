@@ -30,19 +30,15 @@ import mhealth.mvax.records.record.patient.detail.DateDetail;
 import mhealth.mvax.records.record.patient.detail.Detail;
 import mhealth.mvax.records.record.patient.detail.SexDetail;
 import mhealth.mvax.records.record.patient.detail.StringDetail;
-import mhealth.mvax.records.utilities.StringFetcher;
+import mhealth.mvax.utilities.StringFetcher;
 import mhealth.mvax.records.record.patient.detail.StringNumberDetail;
 
 /**
  * @author Robert Steilberg
  * <p>
- * Data structure that represents a Patient
+ * Data structure for representing an mVax Patient
  */
 public class Patient implements Serializable {
-
-    //================================================================================
-    // Constructors
-    //================================================================================
 
     private Patient() {
         // Firebase POJO constructor
@@ -51,10 +47,6 @@ public class Patient implements Serializable {
     public Patient(String databaseKey) {
         this.databaseKey = databaseKey;
     }
-
-    //================================================================================
-    // Properties
-    //================================================================================
 
     /**
      * Unique Firebase database key
@@ -200,18 +192,6 @@ public class Patient implements Serializable {
         this.guardianName = guardianName;
     }
 
-    public String getFullName() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(firstName);
-        sb.append(" ");
-        sb.append(lastName);
-        return sb.toString().trim();
-    }
-
-    //================================================================================
-    // Public methods
-    //================================================================================
-
     /**
      * Computes a String to display the Person's name, in format
      * lastName, firstName
@@ -245,130 +225,90 @@ public class Patient implements Serializable {
         final StringNumberDetail medicalIdDetail = new StringNumberDetail(
                 this.medicalId,
                 R.string.label_medicalID,
-                R.string.hint_medicalID);
-        medicalIdDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setMedicalId(medicalIdDetail.getValue());
-            }
-        });
+                R.string.hint_medicalID,
+                false);
+        medicalIdDetail.setSetter(() -> setMedicalId(medicalIdDetail.getValue()));
         details.add(medicalIdDetail);
 
         // first name
         final StringDetail firstNameDetail = new StringDetail(
                 this.firstName,
                 R.string.label_firstname,
-                R.string.hint_firstname);
-        firstNameDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setFirstName(firstNameDetail.getValue());
-            }
-        });
+                R.string.hint_firstname,
+                true);
+        firstNameDetail.setSetter(() -> setFirstName(firstNameDetail.getValue()));
         details.add(firstNameDetail);
 
         // last name
         final StringDetail lastNameDetail = new StringDetail(
                 this.lastName,
                 R.string.label_last_name,
-                R.string.hint_last_name);
-        lastNameDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setLastName(lastNameDetail.getValue());
-            }
-        });
+                R.string.hint_last_name,
+                true);
+        lastNameDetail.setSetter(() -> setLastName(lastNameDetail.getValue()));
         details.add(lastNameDetail);
 
         // patient sex
         final SexDetail sexDetail = new SexDetail(
                 this.sex,
                 R.string.label_sex,
-                R.string.hint_sex);
-        sexDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setSex(sexDetail.getValue());
-            }
-        });
+                R.string.hint_sex,
+                true);
+        sexDetail.setSetter(() -> setSex(sexDetail.getValue()));
         details.add(sexDetail);
 
         // date of birth
         final DateDetail dobDetail = new DateDetail(
                 this.DOB,
                 R.string.label_dob,
-                R.string.hint_dob);
-        dobDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setDOB(dobDetail.getValue());
-            }
-        });
+                R.string.hint_dob,
+                true);
+        dobDetail.setSetter(() -> setDOB(dobDetail.getValue()));
         details.add(dobDetail);
 
         // community
         final StringDetail communityDetail = new StringDetail(
                 this.community,
                 R.string.label_community,
-                R.string.hint_community);
-        communityDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setCommunity(communityDetail.getValue());
-            }
-        });
+                R.string.hint_community,
+                false);
+        communityDetail.setSetter(() -> setCommunity(communityDetail.getValue()));
         details.add(communityDetail);
 
         // place of birth
         final StringDetail placeOfBirthDetail = new StringDetail(
                 this.placeOfBirth,
                 R.string.label_pob,
-                R.string.hint_pob);
-        placeOfBirthDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setPlaceOfBirth(placeOfBirthDetail.getValue());
-            }
-        });
+                R.string.hint_pob,
+                false);
+        placeOfBirthDetail.setSetter(() -> setPlaceOfBirth(placeOfBirthDetail.getValue()));
         details.add(placeOfBirthDetail);
 
         // address
         final StringDetail residenceDetail = new StringDetail(
                 this.residence,
                 R.string.label_residence,
-                R.string.hint_residence);
-        residenceDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setResidence(residenceDetail.getValue());
-            }
-        });
+                R.string.hint_residence,
+                false);
+        residenceDetail.setSetter(() -> setResidence(residenceDetail.getValue()));
         details.add(residenceDetail);
 
         // phone number
         final StringNumberDetail phoneNumberDetail = new StringNumberDetail(
                 this.phoneNumber,
                 R.string.label_phone_number,
-                R.string.hint_phone_number);
-        phoneNumberDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setPhoneNumber(phoneNumberDetail.getValue());
-            }
-        });
+                R.string.hint_phone_number,
+                false);
+        phoneNumberDetail.setSetter(() -> setPhoneNumber(phoneNumberDetail.getValue()));
         details.add(phoneNumberDetail);
 
         // guardian name
         final StringDetail guardianNameDetail = new StringDetail(
                 this.guardianName,
                 R.string.label_guardian_name,
-                R.string.hint_guardian_name);
-        guardianNameDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setGuardianName(guardianNameDetail.getValue());
-            }
-        });
+                R.string.hint_guardian_name,
+                true);
+        guardianNameDetail.setSetter(() -> setGuardianName(guardianNameDetail.getValue()));
         details.add(guardianNameDetail);
 
         return details;

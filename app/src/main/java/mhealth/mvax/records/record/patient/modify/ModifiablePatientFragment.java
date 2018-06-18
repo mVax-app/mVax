@@ -21,15 +21,19 @@ package mhealth.mvax.records.record.patient.modify;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Patient;
@@ -38,24 +42,14 @@ import mhealth.mvax.records.record.RecordFragment;
 /**
  * @author Robert Steilberg
  * <p>
- * Abstract class for modifying Patient or Guardian details,
- * either newly created or already existing
+ * Abstract class for modifying Patient details, either newly created or
+ * already existing
  */
 public abstract class ModifiablePatientFragment extends Fragment {
 
-    //================================================================================
-    // Properties
-    //================================================================================
-
-    protected ModifyPatientAdapter mAdapter;
-    protected ListView mListView;
-
     protected Patient mPatient;
     protected DatabaseReference mPatientRef;
-
-    //================================================================================
-    // Override methods
-    //================================================================================
+    protected ModifyPatientAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,39 +57,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
         initDatabaseRefs();
     }
 
-    //================================================================================
-    // Protected methods
-    //================================================================================
-
-    protected void setFragmentTitle(View view, int stringId) {
-        final TextView fragmentTitle = view.findViewById(R.id.record_details_tab_title);
-        fragmentTitle.setText(stringId);
-    }
-
-    /**
-     * Render an editable ListView containing details from mPatient and
-     * mGuardian with a button to save any changes
-     */
-    protected void renderListView(View view) {
-        mListView = view.findViewById(R.id.details_list_view);
-        mAdapter = new ModifyPatientAdapter(getContext(), mPatient.getDetails());
-        mListView.setAdapter(mAdapter);
-        addSaveButton();
-    }
-
-    /**
-     * Update the UI when either mPatient or mGuardian has changed
-     */
-    protected void update() {
-        mAdapter.refresh(mPatient.getDetails());
-    }
-
-    //================================================================================
-    // Private methods
-    //================================================================================
-
     private void initDatabaseRefs() {
-        // initialize database references
         final String masterTable = getResources().getString(R.string.dataTable);
         final String patientTable = getResources().getString(R.string.patientTable);
         mPatientRef = FirebaseDatabase.getInstance().getReference()
@@ -103,27 +65,54 @@ public abstract class ModifiablePatientFragment extends Fragment {
                 .child(patientTable);
     }
 
-    private void addSaveButton() {
-        final LayoutInflater inflater = LayoutInflater.from(getContext());
-        final Button saveButton = (Button) inflater.inflate(R.layout.button_save_record, mListView, false);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveRecord();
-            }
-        });
-        mListView.addHeaderView(saveButton);
+    protected void setTitle(View view, int stringId) {
+        final TextView title = view.findViewById(R.id.record_details_tab_title);
+        title.setText(stringId);
+    }
+
+    protected void renderListView(RecyclerView detailsList) {
+        mAdapter = new ModifyPatientAdapter(mPatient.getDetails());
+        detailsList.setAdapter(mAdapter);
+        detailsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        detailsList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+    }
+
+    protected void initSaveButton(final Button button) {
+        button.setBackgroundResource(R.drawable.button_save);
+        button.setText(R.string.save_record_button);
+        button.setOnClickListener(v -> saveRecord());
+    }
+
+    protected void refreshDetails() {
+        mAdapter.refresh(mPatient.getDetails());
     }
 
     private void saveRecord() {
-        // save Patient object to database
-        mPatientRef.child(mPatient.getDatabaseKey()).setValue(mPatient, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                // on Patient save completion, transition to view record mode (RecordFragment)
-                viewRecord();
+        if (noEmptyRequiredFields()) {
+            mPatientRef
+                    .child(mPatient.getDatabaseKey())
+                    .setValue(mPatient, (databaseError, databaseReference) -> {
+                        if (databaseError == null) {
+                            viewRecord();
+                            Toast.makeText(getActivity(), R.string.patient_save_notification, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), R.string.patient_save_fail, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
+    private boolean noEmptyRequiredFields() {
+        boolean noEmptyRequiredFields = true;
+        final ArrayList<EditText> requiredFields = new ArrayList<>(mAdapter.getRequiredFields());
+        for (EditText field : requiredFields) {
+            if (field.getText().toString().isEmpty()) {
+                field.setError(getString(R.string.empty_field));
+                field.requestFocus();
+                noEmptyRequiredFields = false;
             }
-        });
+        }
+        return noEmptyRequiredFields;
     }
 
     private void viewRecord() {
@@ -137,7 +126,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
 
         // commit "Search -> Record", adding "Record -> Search" to back stack
         getActivity().getFragmentManager().beginTransaction()
-                .replace(R.id.frame_layout, RecordFragment.newInstance(mPatient.getDatabaseKey()))
+                .replace(R.id.frame, RecordFragment.newInstance(mPatient.getDatabaseKey()))
                 .addToBackStack(null)
                 .commit();
     }

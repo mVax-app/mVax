@@ -19,48 +19,28 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.view;
 
-import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
-
-import java.util.LinkedHashMap;
 import java.util.List;
 
-import mhealth.mvax.R;
-import mhealth.mvax.records.record.patient.detail.Detail;
 import mhealth.mvax.records.record.patient.PatientDetailsAdapter;
+import mhealth.mvax.records.record.patient.detail.Detail;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Adapter for rendering the ListView for viewing Patient and Guardian details
+ * <p>
+ * Adapter that allows users to view, but not edit, record details
  */
 public class ViewPatientAdapter extends PatientDetailsAdapter {
 
-    //================================================================================
-    // Constructors
-    //================================================================================
-
-    ViewPatientAdapter(Context context, List<Detail> details) {
-        super(context, details);
+    ViewPatientAdapter(List<Detail> details) {
+        super(details);
     }
-
-    //================================================================================
-    // Override methods
-    //================================================================================
 
     @Override
-    public View getView(int position, View rowView, ViewGroup viewGroup) {
-        rowView = mInflater.inflate(R.layout.list_item_record_detail, viewGroup, false);
-
-        final TextView fieldView = rowView.findViewById(R.id.textview_field);
-        fieldView.setText(getItem(position).getLabelStringId()); // set field label
-
-        final EditText valueView = rowView.findViewById(R.id.textview_value);
-        valueView.setText(getItem(position).getStringValue()); // set field value
-        valueView.setFocusable(false); // EditText not editable in view record mode
-        return rowView;
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final Detail detail = mDetails.get(position);
+        holder.field.setText(detail.getLabelStringId());
+        holder.value.setText(detail.getStringValue());
+        holder.value.setFocusable(false); // not editable in view mode
     }
+
 }

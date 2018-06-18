@@ -27,23 +27,15 @@ import android.widget.EditText;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Detail for storing String values
+ * <p>
+ * Detail for storing String values
  */
 
 public class StringDetail extends Detail<String> {
 
-    //================================================================================
-    // Constructors
-    //================================================================================
-
-    public StringDetail(String value, int labelStringId, int hintStringId) {
-        super(value, labelStringId, hintStringId);
+    public StringDetail(String value, int labelStringId, int hintStringId, boolean required) {
+        super(value, labelStringId, hintStringId, required);
     }
-
-    //================================================================================
-    // Override methods
-    //================================================================================
 
     @Override
     public void getValueViewListener(EditText valueView) {

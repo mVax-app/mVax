@@ -27,12 +27,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.utilities.StringFetcher;
+import mhealth.mvax.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
@@ -85,21 +86,23 @@ public class Mailer {
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            @SuppressWarnings(value = "unchecked")
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final HashMap<String, String> credentials = (HashMap<String, String>) dataSnapshot.getValue();
-                assert credentials != null;
-                final String email = credentials.get(StringFetcher.fetchString(R.string.email_value));
-                final String password = credentials.get(StringFetcher.fetchString(R.string.password_value));
-                BackgroundMail.newBuilder(mContext)
-                        .withUsername(email)
-                        .withPassword(password)
-                        .withMailto(mRecipient)
-                        .withType(BackgroundMail.TYPE_PLAIN)
-                        .withSubject(mSubject)
-                        .withBody(mBody)
-                        .withProcessVisibility(mProcessVisibility)
-                        .send();
+                GenericTypeIndicator<Map<String, String>> t = new GenericTypeIndicator<Map<String, String>>() {
+                };
+                Map<String, String> credentials = dataSnapshot.getValue(t);
+                if (credentials != null) {
+                    final String email = credentials.get(StringFetcher.fetchString(R.string.email_value));
+                    final String password = credentials.get(StringFetcher.fetchString(R.string.password_value));
+                    BackgroundMail.newBuilder(mContext)
+                            .withUsername(email)
+                            .withPassword(password)
+                            .withMailto(mRecipient)
+                            .withType(BackgroundMail.TYPE_PLAIN)
+                            .withSubject(mSubject)
+                            .withBody(mBody)
+                            .withProcessVisibility(mProcessVisibility)
+                            .send();
+                }
             }
 
             @Override

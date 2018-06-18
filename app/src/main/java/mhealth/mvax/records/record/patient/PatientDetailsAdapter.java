@@ -19,16 +19,13 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient;
 
-import android.content.Context;
-import android.util.SparseIntArray;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import mhealth.mvax.R;
@@ -36,57 +33,41 @@ import mhealth.mvax.records.record.patient.detail.Detail;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Abstract adapter for displaying Person details,
- *         getView() left up to implementation
+ * <p>
+ * Abstract adapter for displaying patient details about a record
  */
-public abstract class PatientDetailsAdapter extends BaseAdapter {
+public abstract class PatientDetailsAdapter extends RecyclerView.Adapter<PatientDetailsAdapter.ViewHolder> {
 
-    //================================================================================
-    // Properties
-    //================================================================================
+    protected List<Detail> mDetails;
 
-    protected final LayoutInflater mInflater;
-    protected List<Detail> mDataSource; // holds Patient and Guardian details
-
-    //================================================================================
-    // Constructors
-    //================================================================================
-
-    protected PatientDetailsAdapter(Context context, List<Detail> details) {
-        mDataSource = details;
-        mInflater = LayoutInflater.from(context);
+    protected PatientDetailsAdapter(List<Detail> details) {
+        mDetails = details;
     }
 
-    //================================================================================
-    // Abstract methods
-    //================================================================================
+    protected static class ViewHolder extends RecyclerView.ViewHolder {
+        public View row;
+        public TextView field;
+        public EditText value;
 
-    @Override
-    abstract public View getView(int position, View rowView, ViewGroup viewGroup);
-
-    //================================================================================
-    // Override methods
-    //================================================================================
-
-    @Override
-    public int getCount() {
-        return mDataSource.size();
+        ViewHolder(View itemView) {
+            super(itemView);
+            row = itemView;
+            field = itemView.findViewById(R.id.field);
+            value = itemView.findViewById(R.id.value);
+        }
     }
 
     @Override
-    public Detail getItem(int position) {
-        return mDataSource.get(position);
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final View row = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_record_detail, parent, false);
+        return new ViewHolder(row);
     }
 
     @Override
-    public long getItemId(int position) {
-        return position;
+    public int getItemCount() {
+        return mDetails.size();
     }
-
-    //================================================================================
-    // Public methods
-    //================================================================================
 
     /**
      * Refresh the data source with new data and re-render the ListView
@@ -94,7 +75,7 @@ public abstract class PatientDetailsAdapter extends BaseAdapter {
      * @param newData is the sectioned, new data with which to populate the data source
      */
     public void refresh(List<Detail> newData) {
-        mDataSource = newData;
+        mDetails = newData;
         notifyDataSetChanged();
     }
 

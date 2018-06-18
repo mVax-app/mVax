@@ -37,7 +37,7 @@ import mhealth.mvax.auth.utilities.AuthInputValidator;
 import mhealth.mvax.auth.utilities.FirebaseUtilities;
 import mhealth.mvax.auth.utilities.Mailer;
 import mhealth.mvax.model.user.User;
-import mhealth.mvax.records.utilities.StringFetcher;
+import mhealth.mvax.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
@@ -123,27 +123,27 @@ public class RequestAccountModal extends CustomModal {
     private boolean noEmptyFields() {
         boolean noEmptyFields = true;
         if (TextUtils.isEmpty(mConfirmPassword.getText().toString())) {
-            mConfirmPassword.setError(getString(R.string.empty_field_error));
+            mConfirmPassword.setError(getString(R.string.empty_field));
             mConfirmPassword.requestFocus();
             noEmptyFields = false;
         }
         if (TextUtils.isEmpty(mPassword.getText().toString())) {
-            mPassword.setError(getString(R.string.empty_field_error));
+            mPassword.setError(getString(R.string.empty_field));
             mPassword.requestFocus();
             noEmptyFields = false;
         }
         if (TextUtils.isEmpty(mConfirmEmail.getText().toString())) {
-            mConfirmEmail.setError(getString(R.string.empty_field_error));
+            mConfirmEmail.setError(getString(R.string.empty_field));
             mConfirmEmail.requestFocus();
             noEmptyFields = false;
         }
         if (TextUtils.isEmpty(mEmail.getText().toString())) {
-            mEmail.setError(getString(R.string.empty_field_error));
+            mEmail.setError(getString(R.string.empty_field));
             mEmail.requestFocus();
             noEmptyFields = false;
         }
         if (TextUtils.isEmpty(mDisplayName.getText().toString())) {
-            mDisplayName.setError(getString(R.string.empty_field_error));
+            mDisplayName.setError(getString(R.string.empty_field));
             mDisplayName.requestFocus();
             noEmptyFields = false;
         }

@@ -20,8 +20,8 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.records.record.patient.modify.edit;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,20 +38,13 @@ import mhealth.mvax.records.record.patient.modify.ModifiablePatientFragment;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Fragment for editing existing record patient data
+ * <p>
+ * Fragment for editing existing record patient data
  */
 public class EditPatientFragment extends ModifiablePatientFragment {
 
-    //================================================================================
-    // Properties
-    //================================================================================
-
+    private View mView;
     private ChildEventListener mPatientListener;
-
-    //================================================================================
-    // Static methods
-    //================================================================================
 
     public static EditPatientFragment newInstance(Patient patient) {
         final EditPatientFragment newInstance = new EditPatientFragment();
@@ -61,50 +54,46 @@ public class EditPatientFragment extends ModifiablePatientFragment {
         return newInstance;
     }
 
-    //================================================================================
-    // Override methods
-    //================================================================================
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.tab_record_details, container, false);
-        setFragmentTitle(view, R.string.edit_record_title);
+        mView = inflater.inflate(R.layout.tab_record_details, container, false);
+        setTitle(mView, R.string.edit_record_title);
 
         mPatient = (Patient) getArguments().getSerializable("patient");
         initPatientListener();
 
-        renderListView(view);
-        addDeleteButton();
-        return view;
+        initSaveButton(mView.findViewById(R.id.header_button));
+        renderListView(mView.findViewById(R.id.details_list));
+        initDeleteButton();
+        return mView;
     }
 
     @Override
     public void onDestroyView() {
-        mPatientRef.orderByKey().equalTo(mPatient.getDatabaseKey()).removeEventListener(mPatientListener);
+        mPatientRef
+                .orderByKey()
+                .equalTo(mPatient.getDatabaseKey())
+                .removeEventListener(mPatientListener);
         super.onDestroyView();
     }
 
-    //================================================================================
-    // Private methods
-    //================================================================================
-
     private void initPatientListener() {
-        // define listener
         mPatientListener = new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
+                // this should never happen
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
                 mPatient = dataSnapshot.getValue(Patient.class);
-                update();
-                Toast.makeText(getActivity(), R.string.patient_update, Toast.LENGTH_SHORT).show();
+                refreshDetails();
+                Toast.makeText(getActivity(), R.string.patient_update_notification, Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Toast.makeText(getActivity(), R.string.patient_delete, Toast.LENGTH_SHORT).show();
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                Toast.makeText(getActivity(), R.string.patient_delete_notification, Toast.LENGTH_SHORT).show();
                 // pop "Edit -> Record" from back stack and commit it
                 getActivity().getFragmentManager().popBackStack();
                 // pop "Record -> Search" from back stack and commit it
@@ -112,55 +101,47 @@ public class EditPatientFragment extends ModifiablePatientFragment {
             }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String s) {
+                // this should never happen
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), R.string.failure_patient_download, Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), R.string.patient_download_fail, Toast.LENGTH_SHORT).show();
             }
         };
 
-        // set listener to ref
         mPatientRef
                 .orderByKey()
                 .equalTo(mPatient.getDatabaseKey())
                 .addChildEventListener(mPatientListener);
     }
 
-    private void addDeleteButton() {
-        final LayoutInflater inflater = LayoutInflater.from(getContext());
-        final Button deleteButton = (Button) inflater.inflate(R.layout.button_delete_record, mListView, false);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                promptForRecordDelete();
-            }
-        });
-        mListView.addFooterView(deleteButton);
+    private void initDeleteButton() {
+        final Button deleteButton = mView.findViewById(R.id.footer_button);
+        deleteButton.setVisibility(View.VISIBLE);
+        deleteButton.setBackgroundResource(R.drawable.button_delete);
+        deleteButton.setText(R.string.delete_record_button);
+        deleteButton.setOnClickListener(view -> promptForRecordDelete());
     }
 
     private void promptForRecordDelete() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(R.string.modal_record_delete_title);
         builder.setMessage(R.string.modal_record_delete_message);
-        builder.setPositiveButton(getResources().getString(R.string.modal_confirm), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                deleteCurrentRecord();
-            }
-        });
-        builder.setNegativeButton(getResources().getString(R.string.modal_cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setPositiveButton(getResources().getString(R.string.modal_confirm), (dialog, which) -> deleteCurrentRecord());
+        builder.setNegativeButton(getResources().getString(R.string.modal_cancel), (dialog, which) -> dialog.cancel());
         builder.show();
     }
 
     private void deleteCurrentRecord() {
-        mPatientRef.child(mPatient.getDatabaseKey()).setValue(null);
+        mPatientRef.child(mPatient.getDatabaseKey()).setValue(null).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(getActivity(), R.string.patient_delete_notification, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), R.string.patient_delete_fail, Toast.LENGTH_SHORT).show();
+            }
+        });
         // segue out of patient detail handled by mPatientListener
     }
 

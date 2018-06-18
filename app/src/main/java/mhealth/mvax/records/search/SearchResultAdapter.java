@@ -19,118 +19,115 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.search;
 
-import android.content.Context;
+import android.app.Activity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.record.SearchResult;
+import mhealth.mvax.records.record.RecordFragment;
 import mhealth.mvax.records.utilities.NullableDateFormat;
+import mhealth.mvax.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Adapter for listing record search results
+ * <p>
+ * Adapter for listing record search results
  */
-public class SearchResultAdapter extends BaseAdapter {
+public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
 
-    //================================================================================
-    // Properties
-    //================================================================================
+    private ArrayList<SearchResult> mSearchResults;
+    private Activity mActivity;
+    private int mHashCode;
 
-    private Context mContext;
-    private LayoutInflater mInflater;
-    private List<SearchResult> mSearchResults;
-
-    private static class ViewHolder {
-        TextView titleTextView;
-        TextView subtitleTextView;
-        TextView rightTextView;
+    SearchResultAdapter(Activity activity) {
+        mSearchResults = new ArrayList<>();
+        mActivity = activity;
     }
 
-    //================================================================================
-    // Constructors
-    //================================================================================
+    static class ViewHolder extends RecyclerView.ViewHolder {
+        View row;
+        TextView name, dob, community;
 
-    SearchResultAdapter(Context context, Collection<SearchResult> searchResults) {
-        mContext = context;
-        mInflater = LayoutInflater.from(context);
-        mSearchResults = new ArrayList<>(searchResults);
+        ViewHolder(View view) {
+            super(view);
+            row = view;
+            name = view.findViewById(R.id.name);
+            dob = view.findViewById(R.id.dob);
+            community = view.findViewById(R.id.community);
+        }
+
     }
-
-    //================================================================================
-    // Public methods
-    //================================================================================
 
     @Override
-    public int getCount() {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final View row = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_search_result, parent, false);
+        return new ViewHolder(row);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final SearchResult result = mSearchResults.get(position);
+        holder.name.setText(result.getName());
+
+        final String DOBprompt = StringFetcher.fetchString(R.string.DOB_prompt);
+        NullableDateFormat dateFormat = new NullableDateFormat(StringFetcher.fetchString(R.string.date_format));
+        final String DOBstr = DOBprompt + " " + dateFormat.getString(result.getDOB());
+        holder.dob.setText(DOBstr);
+
+        holder.community.setText(result.getCommunity());
+
+        holder.row.setOnClickListener(v -> {
+            SearchResult chosenResult = mSearchResults.get(position);
+            final RecordFragment detailFrag = RecordFragment.newInstance(chosenResult.getDatabaseKey());
+            mActivity.getFragmentManager().beginTransaction()
+                    .replace(R.id.frame, detailFrag)
+                    .addToBackStack(null) // back button brings us back to SearchFragment
+                    .commit();
+        });
+    }
+
+    @Override
+    public int getItemCount() {
         return mSearchResults.size();
     }
 
-    @Override
-    public SearchResult getItem(int position) {
-        return mSearchResults.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View rowView, ViewGroup parent) {
-        ViewHolder holder;
-        if (rowView == null) {
-            rowView = mInflater.inflate(R.layout.list_item_search_result, parent, false);
-            holder = new ViewHolder();
-            holder.titleTextView = rowView.findViewById(R.id.search_result_title);
-            holder.subtitleTextView = rowView.findViewById(R.id.search_result_subtitle);
-            holder.rightTextView = rowView.findViewById(R.id.search_result_right);
-            rowView.setTag(holder);
-        } else {
-            holder = (ViewHolder) rowView.getTag();
+    /**
+     * Adds a newly received SearchResult to the adapter, pushing changes to the
+     * UI; search result is only added if it corresponds to the most recent query (debounce)
+     *
+     * @param result   SearchResult to add
+     * @param hashCode hashCode of the current query
+     */
+    public void addSearchResult(SearchResult result, int hashCode) {
+        if (hashCode == mHashCode) {
+            mSearchResults.add(result);
         }
-
-        final SearchResult result = getItem(position);
-        setTitle(holder.titleTextView, result);
-        setSubTitle(holder.subtitleTextView, result);
-        setRightTitle(holder.rightTextView, result);
-
-        return rowView;
-    }
-
-    public void refresh(Collection<SearchResult> values) {
-        mSearchResults = new ArrayList<>(values);
         notifyDataSetChanged();
     }
 
-    String getSelectedDatabaseKey(int position) {
-        return mSearchResults.get(position).getDatabaseKey();
+    /**
+     * Clear out all search results from the UI
+     */
+    public void clearSearchResults() {
+        mSearchResults.clear();
+        notifyDataSetChanged();
     }
 
-    //================================================================================
-    // Private methods
-    //================================================================================
-
-    private void setTitle(TextView titleTextView, SearchResult patient) {
-        titleTextView.setText(patient.getName());
-    }
-
-    private void setSubTitle(TextView subtitleTextView, SearchResult patient) {
-        final String DOBprompt = mContext.getResources().getString(R.string.DOB_prompt);
-        NullableDateFormat dateFormat = new NullableDateFormat(mContext.getResources().getString(R.string.date_format));
-        final String DOBstr = DOBprompt + " " + dateFormat.getString(patient.getDOB());
-        subtitleTextView.setText(DOBstr);
-    }
-
-    private void setRightTitle(TextView rightTextView, SearchResult patient) {
-        rightTextView.setText(patient.getCommunity());
+    /**
+     * Sets the hash code of the most recent query; used for debouncing
+     *
+     * @param hashCode the hash code of the most recent query
+     */
+    public void setHashCode(int hashCode) {
+        mHashCode = hashCode;
     }
 
 }

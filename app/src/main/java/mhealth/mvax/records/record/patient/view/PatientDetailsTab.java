@@ -21,48 +21,41 @@ package mhealth.mvax.records.record.patient.view;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Patient;
-import mhealth.mvax.records.record.RecordFragment;
 import mhealth.mvax.records.record.RecordTab;
-import mhealth.mvax.records.record.patient.PatientDetailsAdapter;
 import mhealth.mvax.records.record.patient.modify.edit.EditPatientFragment;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Fragment for viewing a record's patient and guardian details
+ * <p>
+ * Fragment for viewing a record's patient details
  */
 public class PatientDetailsTab extends Fragment implements RecordTab {
 
-    //================================================================================
-    // Properties
-    //================================================================================
-
     private View mView;
-    private PatientDetailsAdapter mAdapter;
+    private ViewPatientAdapter mAdapter;
 
     private Patient mPatient;
-    private DatabaseReference mPatientRef;
+    private Query mPatientRef;
     private ChildEventListener mPatientListener;
-
-    //================================================================================
-    // Static methods
-    //================================================================================
 
     public static PatientDetailsTab newInstance(String databaseKey) {
         final PatientDetailsTab newInstance = new PatientDetailsTab();
@@ -72,34 +65,32 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
         return newInstance;
     }
 
-    //================================================================================
-    // Override methods
-    //================================================================================
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_record_details, container, false);
+        mView.findViewById(R.id.spinner).setVisibility(View.VISIBLE);
         initPatientListener(getArguments().getString("databaseKey"));
         return mView;
     }
 
     @Override
     public void onDestroyView() {
-        mPatientRef.orderByKey().equalTo(mPatient.getDatabaseKey()).removeEventListener(mPatientListener);
+        mPatientRef.removeEventListener(mPatientListener);
         super.onDestroyView();
     }
 
-    //================================================================================
-    // Public methods
-    //================================================================================
-
     @Override
     public void render() {
+        mView.findViewById(R.id.spinner).setVisibility(View.GONE);
         setRecordName();
-        mAdapter = new ViewPatientAdapter(getContext(), mPatient.getDetails());
-        final ListView detailsListView = mView.findViewById(R.id.details_list_view);
-        detailsListView.setAdapter(mAdapter);
-        addEditButton(detailsListView);
+        initButtons();
+
+        mAdapter = new ViewPatientAdapter(mPatient.getDetails());
+        final RecyclerView detailsList = mView.findViewById(R.id.details_list);
+        detailsList.setAdapter(mAdapter);
+        detailsList.setHasFixedSize(true);
+        detailsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        detailsList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
     }
 
     @Override
@@ -108,55 +99,50 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
         mAdapter.refresh(mPatient.getDetails());
     }
 
-    //================================================================================
-    // Private methods
-    //================================================================================
-
     private void initPatientListener(final String databaseKey) {
         // define database ref
         final String masterTable = getResources().getString(R.string.dataTable);
         final String patientTable = getResources().getString(R.string.patientTable);
         mPatientRef = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
-                .child(patientTable);
+                .child(patientTable)
+                .orderByKey()
+                .equalTo(databaseKey);
 
         // define listener
         mPatientListener = new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
                 mPatient = dataSnapshot.getValue(Patient.class);
                 render();
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
                 mPatient = dataSnapshot.getValue(Patient.class);
-                Toast.makeText(getActivity(), R.string.patient_update, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.patient_update_notification, Toast.LENGTH_SHORT).show();
                 refresh();
             }
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Toast.makeText(getActivity(), R.string.patient_delete, Toast.LENGTH_SHORT).show();
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                Toast.makeText(getActivity(), R.string.patient_delete_notification, Toast.LENGTH_SHORT).show();
                 // pop "Record -> Search" from back stack and commit it
                 getActivity().getFragmentManager().popBackStack();
             }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String s) {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), R.string.failure_patient_download, Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), R.string.patient_download_fail, Toast.LENGTH_SHORT).show();
             }
         };
 
         // set listener to ref
-        mPatientRef
-                .orderByKey()
-                .equalTo(databaseKey)
-                .addChildEventListener(mPatientListener);
+        mPatientRef.addChildEventListener(mPatientListener);
     }
 
     private void setRecordName() {
@@ -164,31 +150,26 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
         recordNameTextView.setText(mPatient.getName());
     }
 
-    private void addEditButton(ListView listView) {
-        final LayoutInflater inflater = LayoutInflater.from(getContext());
-        final Button editButton = (Button) inflater.inflate(R.layout.button_edit_record, listView, false);
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // pop "Record -> Search" from back stack and commit it
-                getActivity().getFragmentManager().popBackStack();
-
-                // commit "Search -> Record, adding "Record -> Search to back stack
-                final RecordFragment onBackFrag = RecordFragment.newInstance(mPatient.getDatabaseKey());
-                getActivity().getFragmentManager().beginTransaction()
-                        .replace(R.id.frame_layout, onBackFrag)
-                        .addToBackStack(null)
-                        .commit();
-
-                // commit "Record -> Edit", adding "Edit -> Record to back stack
-                final EditPatientFragment editDataFrag = EditPatientFragment.newInstance(mPatient);
-                getActivity().getFragmentManager().beginTransaction()
-                        .replace(R.id.frame_layout, editDataFrag)
-                        .addToBackStack(null)
-                        .commit();
-            }
+    private void initButtons() {
+        final Button editButton = mView.findViewById(R.id.header_button);
+        editButton.setBackgroundResource(R.drawable.button_edit);
+        editButton.setText(R.string.edit_record_button);
+        editButton.setOnClickListener(view -> {
+//            // pop "Record -> Search" from back stack and commit it
+//            getActivity().getFragmentManager().popBackStack();
+//            // commit "Search -> Record, adding "Record -> Search to back stack
+//            final RecordFragment onBackFrag = RecordFragment.newInstance(mPatient.getDatabaseKey());
+//            getActivity().getFragmentManager().beginTransaction()
+//                    .replace(R.id.frame, onBackFrag)
+//                    .addToBackStack(null)
+//                    .commit();
+//            // commit "Record -> Edit", adding "Edit -> Record to back stack
+            final EditPatientFragment editDataFrag = EditPatientFragment.newInstance(mPatient);
+            getActivity().getFragmentManager().beginTransaction()
+                    .replace(R.id.frame, editDataFrag)
+                    .addToBackStack(null)
+                    .commit();
         });
-        listView.addHeaderView(editButton);
     }
 
 }

@@ -19,53 +19,35 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.detail;
 
-import android.content.DialogInterface;
 import android.widget.EditText;
 
 import mhealth.mvax.model.record.Sex;
-import mhealth.mvax.records.utilities.StringFetcher;
+import mhealth.mvax.utilities.StringFetcher;
 import mhealth.mvax.records.views.SexModal;
-import mhealth.mvax.records.utilities.TypeRunnable;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Detail for storing Sex fields
+ * <p>
+ * Detail for storing Sex fields
  */
 
 public class SexDetail extends Detail<Sex> {
 
-    //================================================================================
-    // Constructors
-    //================================================================================
-
-    public SexDetail(Sex sex, int labelStringId, int hintStringId) {
-        super(sex, labelStringId, hintStringId);
+    public SexDetail(Sex sex, int labelStringId, int hintStringId, boolean required) {
+        super(sex, labelStringId, hintStringId, required);
     }
-
-
-    //================================================================================
-    // Override methods
-    //================================================================================
 
     @Override
     public void getValueViewListener(final EditText valueView) {
         final SexModal sexModal = new SexModal(getValue(), valueView.getContext());
 
-        sexModal.setPositiveButtonAction(new TypeRunnable<Sex>() {
-            @Override
-            public void run(Sex sex) {
-                setValue(sex);
-                valueView.setText(mStringValue);
-            }
+        sexModal.setPositiveButtonAction(sex -> {
+            setValue(sex);
+            valueView.setText(mStringValue);
         });
-
-        sexModal.setNeutralButtonAction(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                setValue(null);
-                valueView.setText(mStringValue);
-            }
+        sexModal.setNeutralButtonAction((dialogInterface, which) -> {
+            setValue(null);
+            valueView.setText(mStringValue);
         });
 
         sexModal.show();
@@ -73,7 +55,7 @@ public class SexDetail extends Detail<Sex> {
 
     @Override
     public void configureValueView(EditText valueView) {
-        valueView.setFocusable(false); // disable interaction because dialog
+        valueView.setFocusable(false); // disable interaction because of the dialog
     }
 
     @Override

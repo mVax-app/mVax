@@ -33,21 +33,13 @@ import mhealth.mvax.records.record.vaccine.VaccineScheduleTab;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Fragment for managing record data via a dual tab layout
+ * <p>
+ * Fragment for managing record data via a dual tab layout
  */
 public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedListener {
 
-    //================================================================================
-    // Properties
-    //================================================================================
-
     private View mView;
     private ViewPager mViewPager;
-
-    //================================================================================
-    // Static methods
-    //================================================================================
 
     public static RecordFragment newInstance(String databaseKey) {
         final RecordFragment newInstance = new RecordFragment();
@@ -57,20 +49,12 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
         return newInstance;
     }
 
-    //================================================================================
-    // Override methods
-    //================================================================================
-
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_record_detail, container, false);
         initTabs(getArguments().getString("databaseKey"));
         return mView;
     }
-
-    //================================================================================
-    // TabLayout override methods
-    //================================================================================
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
@@ -84,11 +68,6 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
     }
-
-
-    //================================================================================
-    // Private methods
-    //================================================================================
 
     private void initTabs(String recordDatabaseKey) {
         // set up tab layout

@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.records.utilities;
+package mhealth.mvax.utilities;
 
 import android.app.Application;
 import android.content.Context;
@@ -26,10 +26,10 @@ import java.lang.ref.WeakReference;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Fetches Strings via their resource IDs; should be
- *         used when an Android Context object is not available
- *         in the current scope
+ * <p>
+ * Fetches Strings via their resource IDs; should be
+ * used when an Android Context object is not available
+ * in the current scope
  */
 public class StringFetcher extends Application {
 
@@ -39,7 +39,7 @@ public class StringFetcher extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = new WeakReference<Context>(this);
+        mContext = new WeakReference<>(this);
     }
 
     /**

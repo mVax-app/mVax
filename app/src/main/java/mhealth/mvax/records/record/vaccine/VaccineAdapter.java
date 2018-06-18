@@ -235,13 +235,13 @@ public class VaccineAdapter extends BaseAdapter {
     }
 
     /**
-     * Initialize and push a new Date object to the database, or update the existing
+     * Initialize and push a new Date object to the database, or refreshDetails the existing
      * Date object in the database, depending on whether or not the Date object
      * already exists
      *
      * @param associatedDatabaseKey unique Firebase database key associated with the Date object
      *                              (i.e. vaccine database key for a DueDate)
-     * @param date                  date with which to update, provided by the DatePicker
+     * @param date                  date with which to refreshDetails, provided by the DatePicker
      *                              modal and represented by milliseconds since Unix epoch
      * @param databaseId            database string ID from resource file identifying the table
      *                              on which the Date object should be set

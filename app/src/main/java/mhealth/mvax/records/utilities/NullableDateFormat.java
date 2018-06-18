@@ -24,9 +24,9 @@ import java.util.Locale;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Extension of SimpleDateFormat that handles formatting
- *         null dates and initializes with default locale
+ * <p>
+ * Extension of SimpleDateFormat that handles formatting
+ * null dates and initializes with default locale
  */
 
 public class NullableDateFormat extends SimpleDateFormat {

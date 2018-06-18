@@ -5,6 +5,6 @@
     android:text="@string/delete_record_button"
     android:textColor="@color/white"
     android:textSize="20sp"
-    android:background="@drawable/delete_button"
+    android:background="@drawable/button_delete"
     xmlns:android="http://schemas.android.com/apk/res/android"
     />

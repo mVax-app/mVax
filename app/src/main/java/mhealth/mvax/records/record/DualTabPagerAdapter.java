@@ -25,32 +25,20 @@ import android.support.v13.app.FragmentStatePagerAdapter;
 
 /**
  * @author Robert Steilberg
+ * <p>
+ * Adapter for managing swipeable tabs
  */
 class DualTabPagerAdapter extends FragmentStatePagerAdapter {
-
-    //================================================================================
-    // Properties
-    //================================================================================
 
     private static final int TAB_COUNT = 2;
     private Fragment mFirstTab;
     private Fragment mSecondTab;
-
-
-    //================================================================================
-    // Constructors
-    //================================================================================
 
     DualTabPagerAdapter(FragmentManager fm, Fragment firstTab, Fragment secondTab) {
         super(fm);
         mFirstTab = firstTab;
         mSecondTab = secondTab;
     }
-
-
-    //================================================================================
-    // Override methods
-    //================================================================================
 
     /**
      * Return the tab at the specified position

@@ -48,7 +48,7 @@ public class MainActivityTest {
     @Test
     public void testUINotNull() {
         Activity activity = mainActivityMVaxActivityTestRule.getActivity();
-        assertNotNull(activity.findViewById(R.id.frame_layout));
+        assertNotNull(activity.findViewById(R.id.frame));
         assertNotNull(activity.findViewById(R.id.navigation_bar));
 //        TextView helloView = (TextView) activity.findViewById(R.id.text_hello);
 //        assertTrue(helloView.isShown());

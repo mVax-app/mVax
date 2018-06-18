@@ -15,29 +15,24 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/search_result_title"
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="First Last"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/search_result_subtitle"
+            android:id="@+id/dob"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Subtitle" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/search_result_right"
+        android:id="@+id/community"
         android:layout_width="wrap_content"
         android:layout_height="38dp"
         android:layout_weight="0.01"
-        android:gravity="center"
-        android:text="Community"
-        android:textAlignment="textEnd"
+        android:gravity="center|end"
         android:textSize="13sp" />
-
 
 </LinearLayout>

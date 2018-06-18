@@ -32,7 +32,7 @@ import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.FirebaseUtilities;
 import mhealth.mvax.auth.utilities.Mailer;
 import mhealth.mvax.model.user.User;
-import mhealth.mvax.records.utilities.StringFetcher;
+import mhealth.mvax.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
@@ -60,7 +60,7 @@ public class DenyUserModal extends CustomModal {
         mBuilder.setOnShowListener(dialogInterface -> {
             mSpinner = mBuilder.findViewById(R.id.spinner);
 
-            mViews.add(mBuilder.findViewById(R.id.subtitle));
+            mViews.add(mBuilder.findViewById(R.id.dob));
             mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
 
             final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);

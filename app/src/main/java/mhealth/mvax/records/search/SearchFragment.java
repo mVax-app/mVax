@@ -21,20 +21,21 @@ package mhealth.mvax.records.search;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
-import com.algolia.search.saas.CompletionHandler;
 import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
 import com.google.firebase.database.DataSnapshot;
@@ -47,104 +48,73 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.record.RecordFragment;
+import mhealth.mvax.model.record.SearchResult;
 import mhealth.mvax.records.record.patient.modify.create.CreateRecordFragment;
 
 /**
  * @author Robert Steilberg, Alison Huang
- *         <p>
- *         Fragment for searching for patients and seguing to
- *         detail and immunization views
+ * <p>
+ * Fragment for searching for patients and seguing to detail
+ * and immunization views
  */
 public class SearchFragment extends Fragment {
-
-    //================================================================================
-    // Properties
-    //================================================================================
 
     private static final String ALGOLIA_INDEX = "patients";
 
     private Index mSearchIndex;
-    private Map<String, SearchResult> mSearchResults;
-    private SearchResultAdapter mSearchResultAdapter;
-    private Timer searchTimer = new Timer();
+    private SearchResultAdapter mAdapter;
     private View mView;
-
-    //================================================================================
-    // Static methods
-    //================================================================================
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
     }
 
-    //================================================================================
-    // Override methods
-    //================================================================================
-
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_search, container, false);
-        mSearchResults = new HashMap<>();
-        mSearchResultAdapter = new SearchResultAdapter(mView.getContext(), mSearchResults.values());
-        renderNewRecordButton(mView);
+        initNewRecordButton();
         initSearchIndex();
+        mView.findViewById(R.id.search_bar).requestFocus();
         return mView;
     }
 
-    //================================================================================
-    // Private methods
-    //================================================================================
-
-    private void renderNewRecordButton(View view) {
-        final Button newRecordButton = view.findViewById((R.id.new_record_button));
-        newRecordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().getFragmentManager().beginTransaction()
-                        .replace(R.id.frame_layout, CreateRecordFragment.newInstance())
-                        .addToBackStack(null) // back button brings us back to SearchFragment
-                        .commit();
-            }
-        });
-        view.findViewById(R.id.search_bar).requestFocus(); // TODO refactor
+    private void initNewRecordButton() {
+        final Button newRecordButton = mView.findViewById((R.id.new_record_button));
+        newRecordButton.setOnClickListener(v -> getActivity().getFragmentManager().beginTransaction()
+                .replace(R.id.frame, CreateRecordFragment.newInstance())
+                .addToBackStack(null) // back button brings us back to SearchFragment
+                .commit());
     }
 
     private void initSearchIndex() {
-        final String configTable = getResources().getString(R.string.configTable);
-        final String algoliaTable = getResources().getString(R.string.algoliaTable);
         FirebaseDatabase.getInstance().getReference()
-                .child(configTable)
-                .child(algoliaTable)
+                .child(getString(R.string.configTable))
+                .child(getString(R.string.algoliaTable))
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         GenericTypeIndicator<Map<String, String>> t = new GenericTypeIndicator<Map<String, String>>() {
                         };
                         Map<String, String> configVars = dataSnapshot.getValue(t);
                         if (configVars != null) {
-                            // get Algolia application ID and API key from server
                             String applicationId = configVars.get("application_id");
                             String searchAPIKey = configVars.get("api_key_search");
                             Client algoliaClient = new Client(applicationId, searchAPIKey);
                             mSearchIndex = algoliaClient.getIndex(ALGOLIA_INDEX);
-                            // searching is now possible, render the views
+                            // searching now possible, render the views
                             initSearchBar();
-                            renderListView(mView);
+                            renderListView();
                         } else {
-                            Toast.makeText(getActivity(), R.string.failure_search_init, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), R.string.search_init_fail, Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Toast.makeText(getActivity(), R.string.failure_search_init, Toast.LENGTH_SHORT).show();
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(getActivity(), R.string.search_init_fail, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -158,81 +128,73 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onTextChanged(final CharSequence charSequence, int i, int i1, int i2) {
-                try {
-                    searchTimer.cancel();
-                } catch (IllegalStateException ignored) {
-                }
-                searchTimer = new Timer();
-                searchTimer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        // perform the query if nothing typed for `delay` milliseconds
-                        search(charSequence.toString());
-                    }
-                }, 1000);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
+                search(editable.toString());
             }
         });
     }
 
     private void search(String rawQuery) {
-        String query = rawQuery.trim();
-        mSearchResults.clear(); // clear out results from previous search
+        showSpinner();
 
+        String query = rawQuery.trim();
+        mAdapter.clearSearchResults(); // clear out results from previous search
+        mAdapter.setHashCode(query.hashCode()); // debouce
         if (query.isEmpty()) {
-            // no query, don't return anything
-            refreshSearchResults();
+            hideSpinner();
             return;
         }
 
-        mSearchIndex.searchAsync(new Query(query), new CompletionHandler() {
-            @Override
-            public void requestCompleted(JSONObject result, AlgoliaException e) {
-                try {
-                    JSONArray hits = (JSONArray) result.get("hits");
-                    for (int i = 0; i < hits.length(); i++) {
-                        JSONObject patient = (JSONObject) hits.get(i);
-                        SearchResult s = new SearchResult((String) patient.get("databaseKey"));
-                        s.setFirstName((String) patient.get("firstName"));
-                        s.setLastName((String) patient.get("lastName"));
+        mSearchIndex.searchAsync(new Query(query), (result, e) -> {
+            try {
+                JSONArray hits = (JSONArray) result.get("hits");
+                for (int i = 0; i < hits.length(); i++) {
+                    // TODO handle not having a field
+                    JSONObject patient = (JSONObject) hits.get(i);
+                    SearchResult s = new SearchResult((String) patient.get("databaseKey"));
+                    s.setFirstName((String) patient.get("firstName"));
+                    s.setLastName((String) patient.get("lastName"));
+                    if (patient.has("dob")) {
                         s.setDOB((Long) patient.get("dob"));
-                        s.setCommunity((String) patient.get("community"));
-                        mSearchResults.put(s.getDatabaseKey(), s);
-                        refreshSearchResults();
                     }
-                } catch (JSONException e1) {
-                    Toast.makeText(getActivity(), R.string.failure_search, Toast.LENGTH_SHORT).show();
+                    s.setCommunity((String) patient.get("community"));
+                    mAdapter.addSearchResult(s, query.hashCode());
                 }
+                hideSpinner();
+            } catch (JSONException e1) {
+                Toast.makeText(getActivity(), R.string.search_fail, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void refreshSearchResults() {
-        // force UI updates to the main thread
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mSearchResultAdapter.refresh(mSearchResults.values());
-            }
-        });
+    private void renderListView() {
+        RecyclerView usersList = mView.findViewById(R.id.search_results);
+        mAdapter = new SearchResultAdapter(getActivity());
+        usersList.setAdapter(mAdapter);
+        usersList.setHasFixedSize(true);
+        usersList.setLayoutManager(new LinearLayoutManager(getContext()));
+        usersList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        checkForLeftoverQuery();
     }
 
-    private void renderListView(View view) {
-        final ListView patientListView = view.findViewById(R.id.record_list_view);
-        patientListView.setAdapter(mSearchResultAdapter);
-        patientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final String selectedDatabaseKey = mSearchResultAdapter.getSelectedDatabaseKey(position);
-                final RecordFragment detailFrag = RecordFragment.newInstance(selectedDatabaseKey);
-                getActivity().getFragmentManager().beginTransaction()
-                        .replace(R.id.frame_layout, detailFrag)
-                        .addToBackStack(null) // back button brings us back to SearchFragment
-                        .commit();
-            }
-        });
+    private void checkForLeftoverQuery() {
+        final EditText searchBar = mView.findViewById(R.id.search_bar);
+        final String leftoverQuery = searchBar.getText().toString();
+        if (!leftoverQuery.isEmpty()) {
+            search(leftoverQuery);
+        }
+    }
+
+    private void showSpinner() {
+        final ProgressBar spinner = mView.findViewById(R.id.spinner);
+        spinner.setVisibility(View.VISIBLE);
+    }
+
+    private void hideSpinner() {
+        final ProgressBar spinner = mView.findViewById(R.id.spinner);
+        spinner.setVisibility(View.INVISIBLE);
     }
 }

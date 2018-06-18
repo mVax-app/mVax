@@ -34,7 +34,7 @@ import mhealth.mvax.auth.utilities.FirebaseUtilities;
 import mhealth.mvax.auth.utilities.Mailer;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserRole;
-import mhealth.mvax.records.utilities.StringFetcher;
+import mhealth.mvax.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
@@ -63,7 +63,7 @@ public class ApproveUserModal extends CustomModal {
         mBuilder.setOnShowListener(dialogInterface -> {
             mSpinner = mBuilder.findViewById(R.id.spinner);
 
-            final TextView subtitle = mBuilder.findViewById(R.id.subtitle);
+            final TextView subtitle = mBuilder.findViewById(R.id.dob);
             final String text = String.format(getString(R.string.approve_user_subtitle),
                     mRequest.getDisplayName(),
                     mRequest.getRole().toString());
