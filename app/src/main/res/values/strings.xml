@@ -1,306 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <string name="app_name">mVax</string>
     <string name="version">Version: 1.0</string>
 
-    <!-- Strings related to login -->
+    <!-- Login-->
+    <string name="auth_login">Welcome to mVax!</string>
+
+    <string name="email_hint">email</string>
+    <string name="password">password</string>
+
+    <string name="login_button">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+
     <string name="auth_fail_bad_credentials">Incorrect email or password</string>
     <string name="auth_fail_disabled_user">User has not been approved by administrator</string>
     <string name="auth_fail_no_connection">Unable to detect internet connection</string>
     <string name="auth_unknown_fail">An unknown error occurred</string>
-    <string name="email_hint">email</string>
-    <string name="password">password</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="forgot_password">Forgot password?</string>
 
     <string name="submit">Submit</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
 
-    <string name="invalid_email_error">Invalid email address</string>
-    <string name="invalid_password_error">Password must have at least one uppercase, one lowercase, one digit, and one special character</string>
-    <string name="empty_field">This field is required</string>
-    <string name="email_field_mismatch">Email fields must match</string>
-    <string name="password_field_mismatch">Password fields must match</string>
-
-    <string name="request_submit_success">Account request successfully submitted</string>
-    <string name="patients_fragment_title">Patients</string>
-    <string name="title_settings">Settings</string>
-    <string name="title_overdue">Overdue Patients</string>
-    <string name="patients">Patients</string>
-    <string name="title_forms">Forms</string>
-    <string name="title_dashboard">Dashboard</string>
-
-    <string name="auth_login">Welcome to mVax!</string>
-    <string name="login_button">Sign In</string>
+    <string name="forgot_password">Forgot password?</string>
     <string name="register">Request an account</string>
 
-
-    <string name="approve_user">Approve</string>
-    <string name="deny_user">Deny</string>
-    <string name="no_user_role">Unable to determine user role</string>
-
-    <!-- Timeout -->
-    <string name="timeout_title">Session Timeout</string>
-    <string name="timeout_msg">You have been inactive for too long. You will now be logged out.</string>
-    <string name="change_timeout">Change Timeout Duration</string>
-
-    <!-- New user registration-->
-    <string name="register_modal_title">Request New Account</string>
+    <!-- Login/request for new account-->
+    <string name="register_modal_title">Request new account</string>
     <string name="modal_register_subtitle">You can request an mVax account by providing your name and email and tapping Submit. An mVax administrator will then approve or deny your request for an account. Upon approval, you can log into mVax.\n\nYour password must be at least 8 characters long and must have at least one uppercase letter, one lowercase letter, one digit, and one special character (@#$%&amp;+=!).</string>
     <string name="hint_register_display_name">full name</string>
-    <string name="email_confirm_hint">confirm email address</string>
+    <string name="empty_field">This field is required</string>
+    <string name="invalid_email_error">Invalid email address</string>
+    <string name="email_field_mismatch">Email fields do not match</string>
+    <string name="email_confirm_hint">confirm email</string>
+    <string name="invalid_password_error">Password must have at least one uppercase, one lowercase, one digit, and one special character</string>
     <string name="password_hint">password</string>
     <string name="password_confirm_hint">confirm password</string>
-    <string name="request_submit_fail">There is already an existing user or an existing user request associated with this email</string>
+    <string name="password_field_mismatch">Password fields do not match</string>
+    <string name="request_submit_fail">There is already an existing user or user request associated with this email</string>
     <string name="request_submit_unknown_fail">User account request was not successful; try submitting your request again</string>
+    <string name="request_submit_success">Account request successfully submitted</string>
 
-    <!-- Reset password-->
-    <string name="password_reset_modal_title">Password Reset</string>
-    <string name="modal_reset_password_subtitle">Enter your email address and tap Submit. An email will be sent to you with password reset instructions if the provided email address is associated with an mVax account.</string>
-    <string name="hint_reset_email">email address</string>
-    <string name="reset_email_confirm">Password reset request submitted</string>
+    <!-- Tabs-->
+    <string name="patients_icon_title">Patients</string>
+    <string name="patients_tab_title">Patients</string>
+    <string name="alerts_icon_title">Alerts</string>
+    <string name="dashboard_icon_title">Dashboard</string>
+    <string name="forms_icon_title">Forms</string>
+    <string name="settings_icon_title">Settings</string>
 
-    <!-- Update Email -->
+    <!-- Search-->
+    <string name="hint_search">search</string>
+    <string name="new_record_button">Create new record</string>
+    <string name="new_record_title">New record</string>
+    <string name="no_patient_name">Unnamed patient</string>
 
-    <!-- Setting page -->
-    <string name="language">Language</string>
-    <string name="spanish">Change to Spanish</string>
-    <string name="spanishCode">es</string>
-    <string name="englishCode">en</string>
-    <string name="spanishLocaleCode">[es]</string>
-    <string name="usLocaleCode">[en_US]</string>
-    <string name="update_email">Update Email</string>
-    <string name="change_password">Change Password</string>
-    <string name="sign_out">Sign Out</string>
-    <string name="approve_users">Approve Users</string>
-    <string name="current_users">Current Users</string>
-    <string name="admin_priv">Administrator Privileges</string>
-    <string name="user_settings">User Settings</string>
+    <string name="patient_download_fail">Unable to download patient data</string>
+    <string name="search_init_fail">Unable to initialize search service</string>
+    <string name="search_fail">Search failed</string>
 
-    <!-- Approve Users Fragment -->
-    <string name="approve_users_title">Approve New mVax Users</string>
-    <string name="approve_user_instructions">Select a role for a user. Then, tap Approve to create their mVax account, or tap Deny to deny their request.</string>
-    <string name="no_user_requests">No user requests</string>
-    <string name="no_role_selected">A role must be selected before a user can be approved</string>
-    <string name="user_request_download_fail">Unable to download user requests</string>
-    <string name="user_download_fail">Unable to download current user info</string>
-
-    <string name="role_info_title">Roles</string>
-    <string name="role_info_desc">mVax supports two different roles: ADMIN and READER.\n\n
-                                  An ADMIN can:\n
-                                    &#8226; view all users and vaccine records\n
-                                    &#8226; create new users and vaccine records\n
-                                    &#8226; edit or delete existing data\n
-                                    &#8226; approve new users\n
-                                    &#8226; change the role of or deactivate existing users\n
-                                  \n
-                                  A READER can:\n
-                                    &#8226; view all users and vaccination records</string>
-    <string name="approve_user_modal_title">Approve user request</string>
-    <string name="approve_user_subtitle">You\'ve chosen to confirm %1$s\'s request for an mVax account with %2$s privileges. Tap Confirm to activate the new account and notify the user that they can now access mVax.</string>
-
-    <string name="welcome_email_subject">mVax Account Approved</string>
-    <string name="welcome_email_body">Hello %1$s,\n\nYour request for an mVax account has been approved. An administrator has activated your account with %2$s privileges, and you can now use your email and password to log into mVax.\n\n\nThanks,\n\nThe mVax Team</string>
-
-    <string name="confirm_email_subject">mVax Account Request Received</string>
-    <string name="confirm_email_body">Hello %1$s,\n\nWe have received your request for an mVax account. Please wait for an administrator to approve or deny your request. You will receive a confirmation email when your request has been reviewed.\n\n\nThanks,\n\nThe mVax Team</string>
-
-    <string name="deny_email_subject">mVax Account Request Denied</string>
-    <string name="deny_email_body">Hello %1$s,\n\nYour request for an mVax account has been denied. Please request another account or contact an administrator.\n\n\nThanks,\n\nThe mVax Team</string>
-
-
-    <string name="deny_user_modal_title">Deny user request</string>
-    <string name="modal_deny_user_request_message">Are you sure you want to deny this user\'s request for an mVax account? They will be notified that their request has been denied, and they will be able to request another account later if they wish.</string>
-    <string name="request_deny_fail" tools:keep="@string/request_deny_fail">Unexpected error denying user request</string>
-
-    <string name="approve_user_success">User has been approved and their account has been activated</string>
-    <string name="approve_user_fail">Unexpected error approving user request</string>
-    <string name="approve_user_incomplete">User approval did not complete successfully; try approving the user again later</string>
-
-    <string name="deny_user_success">User request successfully denied</string>
-    <string name="deny_user_fail">Unexpected error denying user request</string>
-    <string name="deny_user_incomplete">User request denial incomplete; please contact someone on the mVax team</string>
-
-
-    <!-- User Info Fragment -->
-
-
-    <!-- Current Users Fragment -->
-    <string name="current_users_title">Current mVax Users</string>
-    <string name="user_management_instructions">This page can be used to manage current mVax users. You can change the role of any user, disable a user, or delete a user.</string>
-
-    <string name="delete_user">Delete User</string>
-    <string name="change_role">Change Role</string>
-
-    <string name="change_role_modal_title">Change Role</string>
-    <string name="change_role_modal_subtitle">Select a new role for the user tap Submit.</string>
-    <string name="change_role_success">Role successfully changed</string>
-    <string name="change_role_fail">Unable to change role</string>
-    <string name="change_role_denied">You cannot change your own role</string>
-
-    <string name="delete_user_modal_title">Delete User</string>
-    <string name="delete_user_modal_subtitle">Are you sure you want to delete this user? This action CANNOT be undone, but the user can request a new mVax account later if they wish.</string>
-    <string name="delete_user_success">User successfully deleted</string>
-    <string name="delete_user_fail">Unable to delete user</string>
-    <string name="delete_user_incomplete">User deletion incomplete; please contact someone on the mVax team</string>
-    <string name="delete_user_denied">You cannot delete your own mVax account</string>
-
-    <string name="change_email_modal_title">Change email</string>
-    <string name="change_email_modal_subtitle">Enter the new email to be associated with your mVax account and tap Submit.</string>
-    <string name="change_email_modal_hint">new email address</string>
-    <string name="change_email_modal_hint_confirm">confirm new email address</string>
-    <string name="change_email_success">Email successfully changed</string>
-    <string name="change_email_fail">Unable to change email</string>
-    <string name="change_email_incomplete">Email change incomplete; please try changing your email again later</string>
-
-    <string name="change_password_modal_title">Change password</string>
-    <string name="change_password_modal_subtitle">Enter the new password to be associated with your mVax account and tap Submit.</string>
-    <string name="change_password_modal_hint">new password</string>
-    <string name="change_password_modal_hint_confirm">confirm new password</string>
-    <string name="change_password_success">Password successfully changed</string>
-    <string name="change_password_fail">Unable to change password</string>
-
-
-    <!-- User Fragments -->
-    <string name="user_role">ROLE</string>
-
-    <string name="role">Role</string>
-    <string name="admin_role">Admin</string>
-    <string name="reader_role">Reader</string>
-
-
-    <!-- About Button -->
-    <string name="about">About</string>
-    <string name="bass_contributor">Created by Duke Bass Connections in cooperation with the Duke Global Health Institute</string>
-    <string name="bass_project_leader_title">Faculty Leaders:</string>
-    <string name="bass_project_leader">Lavanya Vasudevan, Ph.D.\nDennis Clements, M.D.\nRobert Duvall\nRichard Lucic</string>
-    <string name="bass_development_title">Development Team:</string>
-    <string name="bass_development">Alison Huang\nRobert Steilberg\nMatthew Tribby\nSteven Yang</string>
-    <string name="bass_global_health_title">Global Health Team:</string>
-    <string name="bass_global_health">Thuy-Linh Bui\nKathryn Watkins</string>
-
-    <!-- Record details -->
-    <string name="tab_title_record_details">Record Details</string>
-    <string name="tab_title_vaccine_schedule">Vaccine Schedule</string>
-    <string name="date_format">MM/dd/yyyy</string>
-
-    <!-- New record -->
-
-    <!-- Record detail activity -->
-    <string name="vaccine_title">Vaccine History</string>
+    <!-- Patients/record details-->
+    <string name="tab_title_record_details">Record details</string>
+    <string name="tab_title_vaccine_schedule">Vaccine history</string>
+    <string name="vaccine_title">Vaccine history</string>
+    <string name="date_format">mm/dd/yyyy</string>
     <string name="DOB_prompt">DOB:</string>
     <string name="modal_date_confirm">Confirm</string>
     <string name="modal_date_neutral">No date</string>
-    <string name="delete_record_button">Delete Record</string>
-    <string name="save_record_button">Save Record</string>
+    <string name="modal_cancel">Cancel</string>
+    <string name="patient_delete_notification">Patient deleted</string>
+    <string name="patient_delete_fail">Unable to delete patient</string>
 
-    <string name="modal_record_delete_title">Confirm Record Deletion</string>
-    <string name="modal_record_delete_message">Are you sure you want to delete this record? All patient, guardian, and vaccine data will be deleted. This action cannot be undone.</string>
-    <string name="patient_update_notification">Patient updated</string>
+    <!-- Patients/vaccine history-->
+    <string name="failure_vaccines_download">Unable to download list of vaccines</string>
+    <string name="failure_vaccination_history_download">Unable to download vaccination history</string>
+    <string name="failure_due_dates_download">Unable to download vaccine due dates</string>
+
+    <!-- Patients/vaccine history/due date-->
+    <string name="modal_date_title">Choose date</string>
+    <string name="due_date_label">Due date:</string>
+
+    <!-- Patients/record details activity-->
+    <string name="save_record_button">Save record</string>
     <string name="patient_save_notification">Patient saved</string>
+    <string name="patient_update_notification">Patient updated</string>
     <string name="patient_save_fail">Patient could not be saved</string>
 
+    <string name="delete_record_button">Delete record</string>
+    <string name="modal_record_delete_title">Confirm record deletion</string>
+    <string name="modal_record_delete_message">Are you sure you want to delete this record? All patient, guardian, and vaccine data will be deleted. This action cannot be undone.</string>
+
+    <string name="edit_record_button">Edit record</string>
+    <string name="edit_record_title">Edit record</string>
+
     <string name="label_medicalID">ID</string>
-    <string name="hint_medicalID">13-digit id number</string>
+    <string name="hint_medicalID">13 digit id number</string>
 
     <string name="label_firstname">First name</string>
     <string name="hint_firstname">first name</string>
 
-    <string name="label_dob">Date of Birth</string>
-    <string name="hint_dob">date of birth</string>
+    <string name="label_last_name">Last name</string>
+    <string name="hint_last_name">last name</string>
 
     <string name="label_sex">Sex</string>
-    <string name="hint_sex">sex</string>
-
-
-    <!--Vaccine Dates-->
-
-
-    <!--Overdue-->
-
-
-    <!-- Search -->
-    <string name="hint_search">Search…</string>
-    <string name="new_record_button">Create New Record</string>
-    <string name="new_record_title">New Record</string>
-    <string name="no_patient_name">Unnamed Patient</string>
-
-
-    <!-- Dashboard -->
-    <string name="vaccine_card_given_text">GIVEN:</string>
-    <string name="vaccine_card_goal_text">GOAL:</string>
-
-    <!-- Patient Record Details -->
+    <string name="hint_sex">M or F</string>
+    <string name="modal_sex_title">Choose sex</string>
+    <string name="modal_sex_neutral">Remove sex</string>
+    <string name="modal_sex_confirm">Confirm</string>
 
     <string name="male_enum">Male</string>
     <string name="female_enum">Female</string>
-    <string name="edit_record_button">Edit Record</string>
-    <string name="edit_record_title">Edit Record</string>
-    <string name="label_last_name">Last Name</string>
-    <string name="hint_last_name">last name</string>
-    <string name="label_pob">Place of Birth</string>
+
+    <string name="label_dob">Date of birth</string>
+    <string name="hint_dob">mm/dd/yyyy</string>
+
+    <string name="label_pob">Place of birth</string>
     <string name="hint_pob">place of birth</string>
+
     <string name="label_community">Community</string>
     <string name="hint_community">community</string>
-    <string name="label_guardian_name">Guardian Name</string>
-    <string name="hint_guardian_name">guardian name</string>
+
     <string name="label_residence">Residence</string>
     <string name="hint_residence">residence</string>
-    <string name="label_phone_number">Phone Number</string>
+
+    <string name="label_guardian_name">Guardian name</string>
+    <string name="hint_guardian_name">guardian name</string>
+
+    <string name="label_phone_number">Phone number</string>
     <string name="hint_phone_number">phone</string>
 
-    <!-- FORM FRAGMENT-->
-    <string name="form_fragment_title">Export Forms</string>
-    <string name="sinova_title">SINOVA</string>
+    <!-- Alerts for upcoming vaccinations-->
+
+
+
+    <!-- Dashboard-->
+    <string name="vaccine_card_given_text">Administered</string>
+    <string name="vaccine_card_goal_text">Goal</string>
+
+    <!-- Forms-->
+    <string name="form_fragment_title">Export forms</string>
+    <string name="sinova_title">SINOVA 1</string>
     <string name="sinova2_title">SINOVA 2</string>
-    <string name="sinovaAdolescent">SINOVA for Adolescents</string>
-    <string name="sinovaAdult">SINOVA for Adults</string>
-    <string name="sinova2Adolescent">SINOVA 2 for Adolescents</string>
-    <string name="sinova2Adult">SINOVA 2 for Adults</string>
-    <string name="linv">LINV</string>
-    <string name="modal_choose_date">Choose Date for Form</string>
+    <string name="sinovaAdolescent">Children</string>
+    <string name="sinovaAdult">Adults</string>
+    <string name="sinova2Adolescent">Children</string>
+    <string name="sinova2Adult">Adults</string>
+    <string name="linv">LINVI</string>
+    <string name="modal_choose_date">Choose date for form</string>
     <string name="export">Export</string>
-    <string name="send_email">Send Email...</string>
+    <string name="send_email">Send email...</string>
     <string name="email_header_insert"> for the date of </string>
 
-    <!-- PDF CONFIG OPTIONS -->
-    <string name="pdf_config_title">Form Constants</string>
-    <string name="config_address">Address/Location</string>
+    <string name="form_info_title">Exporting form information</string>
+    <string name="form_info_body1">The form page is used to autofill data from the database into a PDF copy of the forms listed.</string>
+    <string name="form_info_body2">
+        To start, simply click on the form you want to export. A screen will then pop up, asking for the . For the SINOVA, this is the date you want the data from. For
+            SINOVA 2 it is the month you want the data from. And for the LINV, it is which patients you want contained. </string>
+    <string name="ok">OK</string>
+
+    <!-- Forms/file paths-->
+    <string name="sinova">SINOVA</string>
+    <string name="sinova2">SINOVA 2</string>
+    <string name="sinova_1_file_name">SINOVA1.pdf</string>
+    <string name="sinova_2_file_name">SINOVA2.pdf</string>
+    <string name="destination_file_extension">.pdf</string>
+    <string name="sinova_extension">SINOVA1_</string>
+    <string name="sinova2_extension">SINOVA2_</string>
+
+    <!-- Forms/PDF config options-->
+    <string name="pdf_config_title">Form constants</string>
+    <string name="config_address">Address/location</string>
     <string name="config_department">Department</string>
     <string name="config_vaccinator">Vaccinator</string>
     <string name="config_code">Code</string>
     <string name="config_muncip">Municipality</string>
     <string name="config_establishment">Establishment</string>
 
-    <!-- FORM INFO MODAL -->
-    <string name="form_info_title">Exporting Form Information</string>
-    <string name="form_info_body1">The form page is used to autofill data from the database into a PDF copy of the forms listed.</string>
-    <string name="form_info_body2">
-        To start, simply click on which form you would like to export. Then a screen will pop up where you will have to provide
-            additional information to narrow down what you want on the form. For the SINOVA this is the date you want the data from. For
-            SINOVA 2 it is the month you want the data from. And for the LINV, it is which patients you want contained. </string>
-    <string name="ok">OK</string>
-
-    <!-- FORM CONSTANTS-->
+    <!-- Forms/PDF config options/form constants-->
     <string name="form_clinic_name">Clinica Esperanza</string>
-    <string name="form_vaccinator_name">The Vaccinator</string>
+    <string name="form_vaccinator_name">Vaccinator</string>
     <string name="form_department_name">Vaccinations</string>
     <string name="form_city_name">Roatan</string>
     <string name="form_address">KM 10 Sandy Bay, Roatan</string>
     <string name="unknown">DESCONOCIDO</string>
     <string name="na">N/A</string>
 
-    <!-- FORMS FILE PATHS -->
-    <string name="sinova">SINOVA</string>
-    <string name="sinova2">SINOVA 2</string>
-    <string name="sinova_1_file_name">SINOVA1.pdf</string>
-    <string name="sinova_2_file_name">SINOVA2.pdf</string>
-    <string name="destination_file_extension">.pdf</string>
-    <string name="sinova_extension">sinova1_</string>
-    <string name="sinova2_extension">sinova2_</string>
-
-    <!-- SINOVA GENERAL FORM PDF FIELDS -->
+    <!-- Forms/SINOVA general form PDF fields-->
     <string name="establishment">ESTABLECIMIENTO</string>
     <string name="name_of_responsible_person">NOMBRE DEL RESPONSABLE</string>
     <string name="department">DEPARTAMENTO</string>
@@ -311,8 +196,7 @@
     <string name="date_year">AÑO</string>
     <string name="location_place">LOCALIDAD</string>
 
-    <!-- SINOVA (1) SPECIFIC FORM FIELDS -->
-    <!-- fields in the rows -->
+    <!-- Forms/SINOVA 1 specific form PDF fields (fields in the rows)-->
     <string name="child_national_reg_number">Número oficial del niño RNPRow</string>
     <string name="child_name">NOMBRES Y APELLIDOS DEL NIÑO</string>
     <string name="date_of_birth">FECHA DE NACIMIENTO ddmmaa</string>
@@ -327,28 +211,141 @@
     <string name="cell_number">No TELEFONO FIJO O CELULARRow</string>
     <string name="population_group">GRUPO POBLACIONAL AL QUE PERTENECERow</string>
     <string name="full_name_guardian">NOMBRE COMPLETO DE LA MADRERESPONSABLERow</string>
-    <!-- vaccinations -->
 
-    <string name="patient_download_fail">Unable to Download Patient Data</string>
-    <string name="search_init_fail">Unable to Initialize Search Service</string>
-    <string name="search_fail">Search Failed</string>
-    <string name="failure_vaccines_download">Unable to Download Vaccine Data</string>
-    <string name="failure_vaccinations_download">Unable to Download Vaccination Data</string>
-    <string name="failure_due_dates_download">Unable to Download Due Dates</string>
-    <string name="dummy_data">Generate Test Data</string>
-    <string name="generate_dummy_data_warning">WARNING: Generating dummy data will clear out the entire mVax-data table and replace it with dummy data defined in the DummyDataGenerator. If you are okay with all existing data being overwritten, click \"Confirm\".</string>
-    <string name="modal_date_title">Choose Date</string>
-    <string name="due_date_label">Due Date:</string>
-    <string name="modal_sex_confirm">Confirm</string>
-    <string name="modal_sex_title">Choose Sex</string>
-    <string name="modal_sex_neutral">Remove Sex</string>
-    <string name="modal_cancel">Cancel</string>
-    <string name="patient_delete_notification">Patient deleted</string>
-    <string name="patient_delete_fail">Unable to delete patient</string>
+    <!-- Settings/about-->
+    <string name="about">About</string>
+    <string name="bass_contributor">Created by Duke Bass Connections in cooperation with the Duke Global Health Institute</string>
+    <string name="bass_project_leader_title">Faculty leaders:</string>
+    <string name="bass_project_leader">Lavanya Vasudevan, Ph.D.\nDennis Clements, M.D.\nRobert Duvall\nRichard Lucic</string>
+    <string name="bass_development_title">Development team:</string>
+    <string name="bass_development">Alison Huang\nRobert Steilberg\nMatthew Tribby\nSteven Yang</string>
+    <string name="bass_global_health_title">Global health team:</string>
+    <string name="bass_global_health">Thuy-Linh Bui\nKathryn Watkins</string>
+
+    <!-- Settings/languages-->
+    <string name="language">Language</string>
+    <string name="spanish">Change to Spanish</string>
+    <string name="spanishCode">es</string>
+    <string name="englishCode">en</string>
+    <string name="spanishLocaleCode">[es]</string>
+    <string name="usLocaleCode">[en_US]</string>
+
+    <!-- Settings/user settings-->
+    <string name="user_settings">User settings</string>
+
+    <!-- Settings/user settings/update email-->
+    <string name="update_email">Update email</string>
+    <string name="change_email_modal_title">Change email</string>
+    <string name="change_email_modal_subtitle">Enter the new email to be associated with your mVax account and tap Submit.</string>
+    <string name="change_email_modal_hint">new email</string>
+    <string name="change_email_modal_hint_confirm">confirm new email</string>
+    <string name="change_email_success">Email successfully changed</string>
+    <string name="change_email_fail">Unable to change email</string>
+    <string name="change_email_incomplete">Email change incomplete; please try changing your email again later</string>
+
+    <!-- Settings/user settings/password reset-->
+    <string name="change_password">Change password</string>
+    <string name="password_reset_modal_title">Password reset</string>
+    <string name="modal_reset_password_subtitle">Enter your email address and tap Submit. An email will be sent to you with password reset instructions if the provided email address is associated with an mVax account.</string>
+    <string name="hint_reset_email">email</string>
+    <string name="change_password_modal_title">Change password</string>
+    <string name="change_password_modal_subtitle">Enter the new password to be associated with your mVax account and tap Submit.</string>
+    <string name="change_password_modal_hint">new password</string>
+    <string name="change_password_modal_hint_confirm">confirm new password</string>
+    <string name="reset_email_confirm">Password reset request submitted</string>
+    <string name="change_password_success">Password successfully changed</string>
+    <string name="change_password_fail">Unable to change password</string>
+
+    <!-- Settings/user settings/timeout duration-->
+    <string name="timeout_title">Session timeout</string>
+    <string name="timeout_msg">You have been inactive for too long. You will now be logged out.</string>
+    <string name="change_timeout">Change timeout duration</string>
+
+    <!-- Settings/user settings/sign out-->
+    <string name="sign_out">Sign out</string>
+
+    <!-- Settings/admin privileges-->
+    <string name="admin_priv">Administrator privileges</string>
+
+    <!-- Settings/admin privileges/approve users-->
+    <string name="approve_users">Approve users</string>
+    <string name="approve_users_title">New mVax users</string>
+    <string name="approve_user_instructions">Select a role for a user. Then, tap Approve to create their mVax account or Deny to deny their request.</string>
+    <string name="no_user_requests">No user requests</string>
+    <string name="no_role_selected">A role must be selected before a user can be approved</string>
+    <string name="user_request_download_fail">Unable to download user requests</string>
+
+    <string name="approve_user">Approve</string>
+    <string name="deny_user">Deny</string>
+    <string name="no_user_role">Unable to determine user role</string>
+
+    <string name="role_info_title">Roles</string>
+    <string name="role_info_desc">mVax supports two different roles: admin and reader.\n\n
+                                  An admin can:\n
+                                    &#8226; view all users and vaccine records\n
+                                    &#8226; create new users and vaccine records\n
+                                    &#8226; edit or delete existing data\n
+                                    &#8226; approve new users\n
+                                    &#8226; change the role of or deactivate existing users\n
+                                  \n
+                                  A reader can:\n
+                                    &#8226; view all users and vaccination records</string>
+    <string name="approve_user_modal_title">Approve user request</string>
+
+    <string name="approve_user_subtitle">You\'ve chosen to confirm %1$s\'s request for an mVax account with %2$s privileges. Tap Confirm to activate the new account and notify the user that they can now access mVax.</string>
+
+    <string name="welcome_email_subject">mVax account approved</string>
+    <string name="welcome_email_body">Hello %1$s,\n\nYour request for an mVax account has been approved. An administrator has activated your account with %2$s privileges, and you can now use your email and password to log into mVax.\n\n\nThanks,\n\nThe mVax team</string>
+
+    <string name="confirm_email_subject">mVax account request received</string>
+    <string name="confirm_email_body">Hello %1$s,\n\nWe have received your request for an mVax account. Please wait for an administrator to approve or deny your request. You will receive a confirmation email when your request has been reviewed.\n\n\nThanks,\n\nThe mVax team</string>
+
+    <string name="deny_email_subject">mVax account request denied</string>
+    <string name="deny_email_body">Hello %1$s,\n\nYour request for an mVax account has been denied. Please request another account or contact an administrator.\n\n\nThanks,\n\nThe mVax team</string>
+
+    <string name="deny_user_modal_title">Deny user request</string>
+    <string name="modal_deny_user_request_message">Are you sure you want to deny this user\'s request for an mVax account? They will be notified that their request has been denied, and they will be able to request another account later if they wish.</string>
+    <string name="request_deny_fail">Unexpected error denying user request</string>
+
+    <string name="approve_user_success">User has been approved and their account has been activated</string>
+    <string name="approve_user_fail">Unexpected error approving user request</string>
+    <string name="approve_user_incomplete">User approval did not complete successfully; try approving the user again later</string>
+
+    <string name="deny_user_success">User request successfully denied</string>
+    <string name="deny_user_fail">Unexpected error denying user request</string>
+    <string name="deny_user_incomplete">User request denial incomplete; please contact someone on the mVax team</string>
+
+    <!-- Settings/admin privileges/view current users-->
+    <string name="current_users">View current users</string>
+    <string name="user_download_fail">Unable to download current user info</string>
+
+    <string name="current_users_title">Current mVax users</string>
+    <string name="user_management_instructions">This page can be used to manage current mVax users. You can change the role of any user, disable a user, or delete a user.</string>
+
+    <string name="change_role">Change role</string>
+    <string name="change_role_modal_title">Change role</string>
+    <string name="change_role_modal_subtitle">Select a new role for the user tap Submit.</string>
+    <string name="change_role_success">Role successfully changed</string>
+    <string name="change_role_fail">Unable to change role</string>
+    <string name="change_role_denied">You cannot change your own role</string>
+
+    <string name="delete_user">Delete user</string>
+    <string name="delete_user_modal_title">Delete user</string>
+    <string name="delete_user_modal_subtitle">Are you sure you want to delete this user? This action CANNOT be undone, but the user can request a new mVax account later if they wish.</string>
+    <string name="delete_user_success">User successfully deleted</string>
+    <string name="delete_user_fail">Unable to delete user</string>
+    <string name="delete_user_incomplete">User deletion incomplete; please contact someone on the mVax team</string>
+    <string name="delete_user_denied">You cannot delete your own mVax account</string>
+
+    <string name="role">Role</string>
+    <string name="admin_role">Admin</string>
+    <string name="reader_role">Reader</string>
+
+    <!-- Settings/generate dummy data-->
+    <string name="dummy_data">Generate test data</string>
+    <string name="generate_dummy_data_warning">WARNING: Generating dummy data will clear out the entire mVax data table and replace it with dummy data defined in the DummyDataGenerator. If you are okay with all existing data being overwritten, click \"Confirm\".</string>
+
 
     <string name="modal_confirm">Confirm</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-
 
 </resources>
