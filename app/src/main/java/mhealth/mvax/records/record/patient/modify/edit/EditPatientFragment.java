@@ -70,10 +70,7 @@ public class EditPatientFragment extends ModifiablePatientFragment {
 
     @Override
     public void onDestroyView() {
-        mPatientRef
-                .orderByKey()
-                .equalTo(mPatient.getDatabaseKey())
-                .removeEventListener(mPatientListener);
+        destroyListener();
         super.onDestroyView();
     }
 
@@ -94,10 +91,7 @@ public class EditPatientFragment extends ModifiablePatientFragment {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 Toast.makeText(getActivity(), R.string.patient_delete_notification, Toast.LENGTH_SHORT).show();
-                // pop "Edit -> Record" from back stack and commit it
-                getActivity().getFragmentManager().popBackStack();
-                // pop "Record -> Search" from back stack and commit it
-                getActivity().getFragmentManager().popBackStack();
+                exit();
             }
 
             @Override
@@ -135,14 +129,29 @@ public class EditPatientFragment extends ModifiablePatientFragment {
     }
 
     private void deleteCurrentRecord() {
+        destroyListener(); // prevent onChildRemoved action from firing before listener
         mPatientRef.child(mPatient.getDatabaseKey()).setValue(null).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(getActivity(), R.string.patient_delete_notification, Toast.LENGTH_SHORT).show();
+                exit();
             } else {
                 Toast.makeText(getActivity(), R.string.patient_delete_fail, Toast.LENGTH_SHORT).show();
             }
         });
-        // segue out of patient detail handled by mPatientListener
+    }
+
+    private void destroyListener() {
+        mPatientRef
+                .orderByKey()
+                .equalTo(mPatient.getDatabaseKey())
+                .removeEventListener(mPatientListener);
+    }
+
+    private void exit() {
+        // pop "Edit -> Record" from back stack and commit it
+        getActivity().getFragmentManager().popBackStack();
+        // pop "Record -> Search" from back stack and commit it
+        getActivity().getFragmentManager().popBackStack();
     }
 
 }
