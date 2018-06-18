@@ -278,7 +278,7 @@
     <string name="hint_medicalID">13-digit id number</string>
 
     <string name="label_firstname">First name</string>
-    <string name="hint_firstname">first</string>
+    <string name="hint_firstname">first name</string>
 
     <string name="label_middlename">Middle name</string>
     <string name="hint_middlename">middle</string>

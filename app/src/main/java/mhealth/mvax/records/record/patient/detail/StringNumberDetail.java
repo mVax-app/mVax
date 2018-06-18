@@ -31,8 +31,8 @@ import android.widget.EditText;
 
 public class StringNumberDetail extends StringDetail {
 
-    public StringNumberDetail(String value, int labelStringId, int hintStringId) {
-        super(value, labelStringId, hintStringId);
+    public StringNumberDetail(String value, int labelStringId, int hintStringId, boolean required) {
+        super(value, labelStringId, hintStringId, required);
     }
 
     @Override

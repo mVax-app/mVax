@@ -18,7 +18,6 @@
     <string name="invalid_password_error">Esta contraseña es demasiado corta</string>
     <string name="error_incorrect_password">Esta contraseña es incorrecta</string>
     <string name="empty_field">Este campo es necesario</string>
-    <string name="empty_field_error">Por favor rellene los campos vacíos</string>
     <string name="error_used_email">Usuario ya registrado con este correo electrónico</string>
     <string name="permission_rationale">"Los permisos de contactos son necesarios para proporcionar
         las terminacionesde correo electrónico."</string>

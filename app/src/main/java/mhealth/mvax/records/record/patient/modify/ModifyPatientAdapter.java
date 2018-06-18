@@ -20,7 +20,9 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.records.record.patient.modify;
 
 import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mhealth.mvax.records.record.patient.PatientDetailsAdapter;
@@ -33,8 +35,11 @@ import mhealth.mvax.records.record.patient.detail.Detail;
  */
 public class ModifyPatientAdapter extends PatientDetailsAdapter {
 
+    private List<EditText> mRequiredFields;
+
     ModifyPatientAdapter(List<Detail> details) {
         super(details);
+        mRequiredFields = new ArrayList<>();
     }
 
     @Override
@@ -57,6 +62,12 @@ public class ModifyPatientAdapter extends PatientDetailsAdapter {
         }
         // place cursor at end of text
         holder.value.setSelection(detail.getStringValue().length());
+
+        if (detail.isRequired()) mRequiredFields.add(holder.value);
+    }
+
+    public List<EditText> getRequiredFields() {
+        return mRequiredFields;
     }
 
 }

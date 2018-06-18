@@ -33,8 +33,8 @@ import mhealth.mvax.records.views.SexModal;
 
 public class SexDetail extends Detail<Sex> {
 
-    public SexDetail(Sex sex, int labelStringId, int hintStringId) {
-        super(sex, labelStringId, hintStringId);
+    public SexDetail(Sex sex, int labelStringId, int hintStringId, boolean required) {
+        super(sex, labelStringId, hintStringId, required);
     }
 
     @Override

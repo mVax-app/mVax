@@ -102,12 +102,12 @@ public class ChangeEmailModal extends CustomModal {
     private boolean noEmptyFields() {
         boolean noEmptyFields = true;
         if (TextUtils.isEmpty(mConfirmEmail.getText().toString())) {
-            mConfirmEmail.setError(getString(R.string.empty_field_error));
+            mConfirmEmail.setError(getString(R.string.empty_field));
             mConfirmEmail.requestFocus();
             noEmptyFields = false;
         }
         if (TextUtils.isEmpty(mEmail.getText().toString())) {
-            mEmail.setError(getString(R.string.empty_field_error));
+            mEmail.setError(getString(R.string.empty_field));
             mEmail.requestFocus();
             noEmptyFields = false;
         }

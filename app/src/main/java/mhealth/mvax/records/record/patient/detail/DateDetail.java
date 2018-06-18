@@ -34,8 +34,8 @@ import mhealth.mvax.records.views.DateModal;
 
 public class DateDetail extends Detail<Long> {
 
-    public DateDetail(Long value, int labelStringId, int hintStringId) {
-        super(value, labelStringId, hintStringId);
+    public DateDetail(Long value, int labelStringId, int hintStringId, boolean required) {
+        super(value, labelStringId, hintStringId, required);
     }
 
     @Override

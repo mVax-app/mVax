@@ -26,11 +26,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Patient;
@@ -85,16 +88,31 @@ public abstract class ModifiablePatientFragment extends Fragment {
     }
 
     private void saveRecord() {
-        mPatientRef
-                .child(mPatient.getDatabaseKey())
-                .setValue(mPatient, (databaseError, databaseReference) -> {
-                    if (databaseError == null) {
-                        viewRecord();
-                        Toast.makeText(getActivity(), R.string.patient_save_notification, Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), R.string.patient_save_fail, Toast.LENGTH_SHORT).show();
-                    }
-                });
+        if (noEmptyRequiredFields()) {
+            mPatientRef
+                    .child(mPatient.getDatabaseKey())
+                    .setValue(mPatient, (databaseError, databaseReference) -> {
+                        if (databaseError == null) {
+                            viewRecord();
+                            Toast.makeText(getActivity(), R.string.patient_save_notification, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), R.string.patient_save_fail, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
+    private boolean noEmptyRequiredFields() {
+        boolean noEmptyRequiredFields = true;
+        final ArrayList<EditText> requiredFields = new ArrayList<>(mAdapter.getRequiredFields());
+        for (EditText field : requiredFields) {
+            if (field.getText().toString().isEmpty()) {
+                field.setError(getString(R.string.empty_field));
+                field.requestFocus();
+                noEmptyRequiredFields = false;
+            }
+        }
+        return noEmptyRequiredFields;
     }
 
     private void viewRecord() {

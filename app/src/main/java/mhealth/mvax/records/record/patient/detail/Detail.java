@@ -33,14 +33,15 @@ public abstract class Detail<T> {
     private T mValue; // raw value of the detail
     String mStringValue; // String representation of the value to be displayed
     private Runnable mSetter; // defines code that will set the value in the Person object
-
     private final int mLabelStringId; // label displayed next to value
     private final int mHintStringId; // hint displayed in the value field when there is no set value
+    private final boolean mRequired;
 
-    Detail(T value, int labelStringId, int hintStringId) {
+    Detail(T value, int labelStringId, int hintStringId, boolean required) {
         this.mValue = value;
         this.mLabelStringId = labelStringId;
         this.mHintStringId = hintStringId;
+        this.mRequired = required;
         updateStringValue(value);
     }
 
@@ -82,6 +83,10 @@ public abstract class Detail<T> {
 
     public int getHintStringId() {
         return this.mHintStringId;
+    }
+
+    public boolean isRequired() {
+        return this.mRequired;
     }
 
     /**

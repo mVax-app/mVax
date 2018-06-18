@@ -225,7 +225,8 @@ public class Patient implements Serializable {
         final StringNumberDetail medicalIdDetail = new StringNumberDetail(
                 this.medicalId,
                 R.string.label_medicalID,
-                R.string.hint_medicalID);
+                R.string.hint_medicalID,
+                false);
         medicalIdDetail.setSetter(() -> setMedicalId(medicalIdDetail.getValue()));
         details.add(medicalIdDetail);
 
@@ -233,7 +234,8 @@ public class Patient implements Serializable {
         final StringDetail firstNameDetail = new StringDetail(
                 this.firstName,
                 R.string.label_firstname,
-                R.string.hint_firstname);
+                R.string.hint_firstname,
+                true);
         firstNameDetail.setSetter(() -> setFirstName(firstNameDetail.getValue()));
         details.add(firstNameDetail);
 
@@ -241,7 +243,8 @@ public class Patient implements Serializable {
         final StringDetail lastNameDetail = new StringDetail(
                 this.lastName,
                 R.string.label_last_name,
-                R.string.hint_last_name);
+                R.string.hint_last_name,
+                true);
         lastNameDetail.setSetter(() -> setLastName(lastNameDetail.getValue()));
         details.add(lastNameDetail);
 
@@ -249,7 +252,8 @@ public class Patient implements Serializable {
         final SexDetail sexDetail = new SexDetail(
                 this.sex,
                 R.string.label_sex,
-                R.string.hint_sex);
+                R.string.hint_sex,
+                true);
         sexDetail.setSetter(() -> setSex(sexDetail.getValue()));
         details.add(sexDetail);
 
@@ -257,7 +261,8 @@ public class Patient implements Serializable {
         final DateDetail dobDetail = new DateDetail(
                 this.DOB,
                 R.string.label_dob,
-                R.string.hint_dob);
+                R.string.hint_dob,
+                true);
         dobDetail.setSetter(() -> setDOB(dobDetail.getValue()));
         details.add(dobDetail);
 
@@ -265,7 +270,8 @@ public class Patient implements Serializable {
         final StringDetail communityDetail = new StringDetail(
                 this.community,
                 R.string.label_community,
-                R.string.hint_community);
+                R.string.hint_community,
+                false);
         communityDetail.setSetter(() -> setCommunity(communityDetail.getValue()));
         details.add(communityDetail);
 
@@ -273,7 +279,8 @@ public class Patient implements Serializable {
         final StringDetail placeOfBirthDetail = new StringDetail(
                 this.placeOfBirth,
                 R.string.label_pob,
-                R.string.hint_pob);
+                R.string.hint_pob,
+                false);
         placeOfBirthDetail.setSetter(() -> setPlaceOfBirth(placeOfBirthDetail.getValue()));
         details.add(placeOfBirthDetail);
 
@@ -281,7 +288,8 @@ public class Patient implements Serializable {
         final StringDetail residenceDetail = new StringDetail(
                 this.residence,
                 R.string.label_residence,
-                R.string.hint_residence);
+                R.string.hint_residence,
+                false);
         residenceDetail.setSetter(() -> setResidence(residenceDetail.getValue()));
         details.add(residenceDetail);
 
@@ -289,7 +297,8 @@ public class Patient implements Serializable {
         final StringNumberDetail phoneNumberDetail = new StringNumberDetail(
                 this.phoneNumber,
                 R.string.label_phone_number,
-                R.string.hint_phone_number);
+                R.string.hint_phone_number,
+                false);
         phoneNumberDetail.setSetter(() -> setPhoneNumber(phoneNumberDetail.getValue()));
         details.add(phoneNumberDetail);
 
@@ -297,7 +306,8 @@ public class Patient implements Serializable {
         final StringDetail guardianNameDetail = new StringDetail(
                 this.guardianName,
                 R.string.label_guardian_name,
-                R.string.hint_guardian_name);
+                R.string.hint_guardian_name,
+                true);
         guardianNameDetail.setSetter(() -> setGuardianName(guardianNameDetail.getValue()));
         details.add(guardianNameDetail);
 

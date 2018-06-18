@@ -100,12 +100,12 @@ public class ChangePasswordModal extends CustomModal {
     private boolean noEmptyFields() {
         boolean noEmptyFields = true;
         if (TextUtils.isEmpty(mConfirmPassword.getText().toString())) {
-            mConfirmPassword.setError(getString(R.string.empty_field_error));
+            mConfirmPassword.setError(getString(R.string.empty_field));
             mConfirmPassword.requestFocus();
             noEmptyFields = false;
         }
         if (TextUtils.isEmpty(mPassword.getText().toString())) {
-            mPassword.setError(getString(R.string.empty_field_error));
+            mPassword.setError(getString(R.string.empty_field));
             mPassword.requestFocus();
             noEmptyFields = false;
         }

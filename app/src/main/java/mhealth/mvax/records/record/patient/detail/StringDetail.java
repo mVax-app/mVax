@@ -33,8 +33,8 @@ import android.widget.EditText;
 
 public class StringDetail extends Detail<String> {
 
-    public StringDetail(String value, int labelStringId, int hintStringId) {
-        super(value, labelStringId, hintStringId);
+    public StringDetail(String value, int labelStringId, int hintStringId, boolean required) {
+        super(value, labelStringId, hintStringId, required);
     }
 
     @Override
