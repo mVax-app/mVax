@@ -27,7 +27,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="30dp"
-                android:text="@string/title_settings"
+                android:text="@string/settings_icon_title"
                 android:textAlignment="center"
                 android:textColor="@color/teal"
                 android:textSize="50sp"

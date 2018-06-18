@@ -217,7 +217,7 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), R.string.failure_vaccinations_download, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.failure_vaccination_history_download, Toast.LENGTH_SHORT).show();
             }
         };
 
