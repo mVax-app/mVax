@@ -77,23 +77,23 @@ const ALGOLIA_SEARCH_KEY = functions.config().algolia.search_key;
 const ALGOLIA_INDEX_NAME = 'patients';
 const client = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY);
 
-//exports.addPatientIndex = functions.database.ref('data/patients/{databaseKey}').onCreate((snap, context) => {
-//  return indexPatient(snap.val());
-//});
-//
-//exports.updatePatientIndex = functions.database.ref('data/patients/{databaseKey}').onUpdate((change, context) => {
-//  return indexPatient(change.after.data());
-//});
-//
-//exports.deletePatientIndex = functions.database.ref('data/patients/{databaseKey}').onDelete((snap, context) => {
-//  const objectID = snap.val().databaseKey;
-//  const index = client.initIndex(ALGOLIA_INDEX_NAME);
-//  return index.deleteObject(objectID);
-//});
-//
-//function indexPatient(patient) {
-//  // objectID required for Algolia to parse object
-//  patient.objectID = patient.databaseKey;
-//  const index = client.initIndex(ALGOLIA_INDEX_NAME);
-//  return index.saveObject(patient);
-//}
+exports.addPatientIndex = functions.database.ref('data/patients/{databaseKey}').onCreate((snap, context) => {
+  return indexPatient(snap.val());
+});
+
+exports.updatePatientIndex = functions.database.ref('data/patients/{databaseKey}').onUpdate((change, context) => {
+  return indexPatient(change.after.data());
+});
+
+exports.deletePatientIndex = functions.database.ref('data/patients/{databaseKey}').onDelete((snap, context) => {
+  const objectID = snap.val().databaseKey;
+  const index = client.initIndex(ALGOLIA_INDEX_NAME);
+  return index.deleteObject(objectID);
+});
+
+function indexPatient(patient) {
+  // objectID required for Algolia to parse object
+  patient.objectID = patient.databaseKey;
+  const index = client.initIndex(ALGOLIA_INDEX_NAME);
+  return index.saveObject(patient);
+}

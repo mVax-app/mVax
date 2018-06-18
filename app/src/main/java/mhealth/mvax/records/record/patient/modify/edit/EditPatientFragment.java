@@ -28,9 +28,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.algolia.search.saas.AlgoliaException;
+import com.algolia.search.saas.Client;
+import com.algolia.search.saas.CompletionHandler;
+import com.algolia.search.saas.Index;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Map;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Patient;
@@ -42,6 +55,8 @@ import mhealth.mvax.records.record.patient.modify.ModifiablePatientFragment;
  * Fragment for editing existing record patient data
  */
 public class EditPatientFragment extends ModifiablePatientFragment {
+
+    private static final String ALGOLIA_INDEX = "patients";
 
     private View mView;
     private ChildEventListener mPatientListener;
@@ -130,6 +145,45 @@ public class EditPatientFragment extends ModifiablePatientFragment {
 
     private void deleteCurrentRecord() {
         destroyListener(); // prevent onChildRemoved action from firing before listener
+
+        FirebaseDatabase.getInstance().getReference()
+                .child(getString(R.string.configTable))
+                .child(getString(R.string.algoliaTable))
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        GenericTypeIndicator<Map<String, String>> t = new GenericTypeIndicator<Map<String, String>>() {
+                        };
+                        Map<String, String> configVars = dataSnapshot.getValue(t);
+                        if (configVars != null) {
+                            String applicationId = configVars.get("application_id");
+                            String apiKey = configVars.get("api_key");
+                            Client algoliaClient = new Client(applicationId, apiKey);
+                            Index index = algoliaClient.getIndex(ALGOLIA_INDEX);
+                            // searching now possible, render the views
+
+
+
+
+                            index.deleteObjectAsync(mPatient.getDatabaseKey(), (jsonObject, e) -> {
+                                String f = "";
+                            });
+
+
+                        } else {
+                            Toast.makeText(getActivity(), "Unable to init search index", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(getActivity(), R.string.search_init_fail, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+
+
         mPatientRef.child(mPatient.getDatabaseKey()).setValue(null).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(getActivity(), R.string.patient_delete_notification, Toast.LENGTH_SHORT).show();

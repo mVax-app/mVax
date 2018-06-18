@@ -154,13 +154,12 @@ public class SearchFragment extends Fragment {
                 for (int i = 0; i < hits.length(); i++) {
                     // TODO handle not having a field
                     JSONObject patient = (JSONObject) hits.get(i);
-                    SearchResult s = new SearchResult((String) patient.get("databaseKey"));
+                    SearchResult s = new SearchResult((String) patient.get("objectID"));
                     s.setFirstName((String) patient.get("firstName"));
                     s.setLastName((String) patient.get("lastName"));
                     if (patient.has("dob")) {
                         s.setDOB((Long) patient.get("dob"));
                     }
-                    s.setCommunity((String) patient.get("community"));
                     mAdapter.addSearchResult(s, query.hashCode());
                 }
                 hideSpinner();
