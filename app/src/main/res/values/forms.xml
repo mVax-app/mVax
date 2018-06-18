@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="HepB_DU">HepBDURow</string>
+    <string name="BCG_RN_DU">BCG_RN_DURow</string>
+    <string name="BCG_1A_DU">BCG_1A_DURow</string>
+    <string name="BCG_14A_DU">BCG_14A_DURow</string>
+    <string name="POLIO_2M_1A">POLIO_2M_1ARow</string>
+    <string name="POLIO_1ANO_2A">POLIO_1ANO_2ARow</string>
+    <string name="POLIO_1ANO_3A">POLIO_1ANO_3ARow</string>
+    <string name="POLIO_14ANO_1A">POLIO_14ANO_1ARow</string>
+    <string name="POLIO_14ANO_2A">POLIO_14ANO_2ARow</string>
+    <string name="POLIO_14ANO_3A">POLIO_14ANO_3ARow</string>
+    <string name="POLIO_R">POLIO_RRow</string>
+    <string name="PENTA_1ANO_1A">PENTA_1ANO_1ARow</string>
+    <string name="PENTA_1ANO_2A">PENTA_1ANO_2ARow</string>
+    <string name="PENTA_1ANO_3A">PENTA_1ANO_3ARow</string>
+    <string name="PENTA_14ANO_1A">PENTA_14ANO_1ARow</string>
+    <string name="PENTA_14ANO_2A">PENTA_14ANO_2ARow</string>
+    <string name="PENTA_14ANO_3A">PENTA_14ANO_3ARow</string>
+    <string name="NEUM_1ANO_1A">NEUM_1ANO_1ARow</string>
+    <string name="NEUM_1ANO_2A">NEUM_1ANO_2ARow</string>
+    <string name="NEUM_1ANO_3A">NEUM_1ANO_3ARow</string>
+    <string name="NEUM_14ANO_DU">NEUM_14ANO_DURow</string>
+    <string name="ROTA_2M1A_1A">ROTA_2M1A_1ARow</string>
+    <string name="ROTA_2M1A_2A">ROTA_2M1A_2ARow</string>
+    <string name="SRP_1223M_DU">SRP_1223M_DURow</string>
+    <string name="SRP_24ANO_DU">SRP_24ANO_DURow</string>
+    <string name="DPT_18M_1R">DPT_18M_1RRow</string>
+    <string name="DPT_4A_2R">DPT_4A_2RRow</string>
+    <string name="VPI_1A">VPI_1ARow</string>
+    <string name="VPI_2A">VPI_2ARow</string>
+    <string name="VPI_3A">VPI_3ARow</string>
+    <string name="DT_PED_2A">DT_PED_2ARow</string>
+    <string name="DT_PED_3A">DT_PED_3ARow</string>
+    <string name="DT_PED_1R">DT_PED_1RRow</string>
+    <string name="DT_PED_2R">DT_PED_2RRow</string>
+    <string name="VITA_611M_1A">VITA_611M_1ARow</string>
+    <string name="VITA_14A_1A">VITA_14A_1ARow</string>
+    <string name="VITA_14A_2A">VITA_14A_2ARow</string>
+
+    <!-- SINOVA 2 SPECIFIC FORM PDF FIELDS -->
+    <string name="sinova2_complete_name">NOMBRE_COMPLETO_Row</string>
+    <string name="sinova2_origin">PROCEDENCIA_Row</string>
+    <string name="HEPB_GER_1A">HEPB_GER_1A_Row</string>
+    <string name="HEPB_GER_2A">HEPB_GER_2A_Row</string>
+    <string name="HEPB_GER_3A">HEPB_GER_3A_Row</string>
+    <string name="FA_1A_DU">FA_1A_DU_Row</string>
+    <string name="SR_5A_DA">SR_5A_DA_Row</string>
+    <string name="TD_11A_R">TD_11A_R_Row</string>
+    <string name="TD_EM_1A">TD_EM_1A_Row</string>
+    <string name="TD_EM_2A">TD_EM_2A_Row</string>
+    <string name="TD_EM_3A">TD_EM_3A_Row</string>
+    <string name="TD_EM_4A">TD_EM_4A_Row</string>
+    <string name="TD_EM_5A">TD_EM_5A_Row</string>
+    <string name="OG_1A">OG_1A_Row</string>
+    <string name="OG_2A">OG_2A_Row</string>
+    <string name="OG_3A">OG_3A_Row</string>
+    <string name="OG_R">OG_R_Row</string>
+    <string name="VPH_11A_1A">VPH_11A_1A_Row</string>
+    <string name="VPH_11A_2A">VPH_11A_2A_Row</string>
+    <string name="VITA_PU_DU">VITA_PU_DU_Row</string>
+
+</resources>
