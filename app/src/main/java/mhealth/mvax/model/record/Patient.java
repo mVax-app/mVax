@@ -36,13 +36,9 @@ import mhealth.mvax.records.record.patient.detail.StringNumberDetail;
 /**
  * @author Robert Steilberg
  * <p>
- * Data structure that represents a Patient
+ * Data structure for representing an mVax Patient
  */
 public class Patient implements Serializable {
-
-    //================================================================================
-    // Constructors
-    //================================================================================
 
     private Patient() {
         // Firebase POJO constructor
@@ -51,10 +47,6 @@ public class Patient implements Serializable {
     public Patient(String databaseKey) {
         this.databaseKey = databaseKey;
     }
-
-    //================================================================================
-    // Properties
-    //================================================================================
 
     /**
      * Unique Firebase database key
@@ -200,18 +192,6 @@ public class Patient implements Serializable {
         this.guardianName = guardianName;
     }
 
-    public String getFullName() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(firstName);
-        sb.append(" ");
-        sb.append(lastName);
-        return sb.toString().trim();
-    }
-
-    //================================================================================
-    // Public methods
-    //================================================================================
-
     /**
      * Computes a String to display the Person's name, in format
      * lastName, firstName
@@ -246,12 +226,7 @@ public class Patient implements Serializable {
                 this.medicalId,
                 R.string.label_medicalID,
                 R.string.hint_medicalID);
-        medicalIdDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setMedicalId(medicalIdDetail.getValue());
-            }
-        });
+        medicalIdDetail.setSetter(() -> setMedicalId(medicalIdDetail.getValue()));
         details.add(medicalIdDetail);
 
         // first name
@@ -259,12 +234,7 @@ public class Patient implements Serializable {
                 this.firstName,
                 R.string.label_firstname,
                 R.string.hint_firstname);
-        firstNameDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setFirstName(firstNameDetail.getValue());
-            }
-        });
+        firstNameDetail.setSetter(() -> setFirstName(firstNameDetail.getValue()));
         details.add(firstNameDetail);
 
         // last name
@@ -272,12 +242,7 @@ public class Patient implements Serializable {
                 this.lastName,
                 R.string.label_last_name,
                 R.string.hint_last_name);
-        lastNameDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setLastName(lastNameDetail.getValue());
-            }
-        });
+        lastNameDetail.setSetter(() -> setLastName(lastNameDetail.getValue()));
         details.add(lastNameDetail);
 
         // patient sex
@@ -285,12 +250,7 @@ public class Patient implements Serializable {
                 this.sex,
                 R.string.label_sex,
                 R.string.hint_sex);
-        sexDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setSex(sexDetail.getValue());
-            }
-        });
+        sexDetail.setSetter(() -> setSex(sexDetail.getValue()));
         details.add(sexDetail);
 
         // date of birth
@@ -298,12 +258,7 @@ public class Patient implements Serializable {
                 this.DOB,
                 R.string.label_dob,
                 R.string.hint_dob);
-        dobDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setDOB(dobDetail.getValue());
-            }
-        });
+        dobDetail.setSetter(() -> setDOB(dobDetail.getValue()));
         details.add(dobDetail);
 
         // community
@@ -311,12 +266,7 @@ public class Patient implements Serializable {
                 this.community,
                 R.string.label_community,
                 R.string.hint_community);
-        communityDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setCommunity(communityDetail.getValue());
-            }
-        });
+        communityDetail.setSetter(() -> setCommunity(communityDetail.getValue()));
         details.add(communityDetail);
 
         // place of birth
@@ -324,12 +274,7 @@ public class Patient implements Serializable {
                 this.placeOfBirth,
                 R.string.label_pob,
                 R.string.hint_pob);
-        placeOfBirthDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setPlaceOfBirth(placeOfBirthDetail.getValue());
-            }
-        });
+        placeOfBirthDetail.setSetter(() -> setPlaceOfBirth(placeOfBirthDetail.getValue()));
         details.add(placeOfBirthDetail);
 
         // address
@@ -337,12 +282,7 @@ public class Patient implements Serializable {
                 this.residence,
                 R.string.label_residence,
                 R.string.hint_residence);
-        residenceDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setResidence(residenceDetail.getValue());
-            }
-        });
+        residenceDetail.setSetter(() -> setResidence(residenceDetail.getValue()));
         details.add(residenceDetail);
 
         // phone number
@@ -350,12 +290,7 @@ public class Patient implements Serializable {
                 this.phoneNumber,
                 R.string.label_phone_number,
                 R.string.hint_phone_number);
-        phoneNumberDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setPhoneNumber(phoneNumberDetail.getValue());
-            }
-        });
+        phoneNumberDetail.setSetter(() -> setPhoneNumber(phoneNumberDetail.getValue()));
         details.add(phoneNumberDetail);
 
         // guardian name
@@ -363,12 +298,7 @@ public class Patient implements Serializable {
                 this.guardianName,
                 R.string.label_guardian_name,
                 R.string.hint_guardian_name);
-        guardianNameDetail.setSetter(new Runnable() {
-            @Override
-            public void run() {
-                setGuardianName(guardianNameDetail.getValue());
-            }
-        });
+        guardianNameDetail.setSetter(() -> setGuardianName(guardianNameDetail.getValue()));
         details.add(guardianNameDetail);
 
         return details;

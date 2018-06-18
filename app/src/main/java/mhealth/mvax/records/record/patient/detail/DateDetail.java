@@ -19,53 +19,36 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.detail;
 
-import android.content.DialogInterface;
 import android.widget.EditText;
 
 import mhealth.mvax.R;
 import mhealth.mvax.records.utilities.NullableDateFormat;
 import mhealth.mvax.utilities.StringFetcher;
 import mhealth.mvax.records.views.DateModal;
-import mhealth.mvax.records.utilities.TypeRunnable;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Detail for storing Date fields
+ * <p>
+ * Detail for storing Date fields
  */
 
 public class DateDetail extends Detail<Long> {
-
-    //================================================================================
-    // Constructors
-    //================================================================================
 
     public DateDetail(Long value, int labelStringId, int hintStringId) {
         super(value, labelStringId, hintStringId);
     }
 
-    //================================================================================
-    // Override methods
-    //================================================================================
-
     @Override
     public void getValueViewListener(final EditText valueView) {
         final DateModal dateModal = new DateModal(getValue(), valueView.getContext());
 
-        dateModal.setPositiveButtonAction(new TypeRunnable<Long>() {
-            @Override
-            public void run(Long date) {
-                setValue(date);
-                valueView.setText(mStringValue);
-            }
+        dateModal.setPositiveButtonAction(date -> {
+            setValue(date);
+            valueView.setText(mStringValue);
         });
-
-        dateModal.setNeutralButtonAction(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                setValue(null);
-                valueView.setText(mStringValue);
-            }
+        dateModal.setNeutralButtonAction((dialogInterface, i) -> {
+            setValue(null);
+            valueView.setText(mStringValue);
         });
 
         dateModal.show();
@@ -73,7 +56,7 @@ public class DateDetail extends Detail<Long> {
 
     @Override
     public void configureValueView(EditText valueView) {
-        valueView.setFocusable(false); // disable interaction because dialog
+        valueView.setFocusable(false); // disable interaction because of the dialog
     }
 
     @Override

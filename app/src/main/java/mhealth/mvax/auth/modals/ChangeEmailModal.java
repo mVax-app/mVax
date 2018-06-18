@@ -139,7 +139,7 @@ public class ChangeEmailModal extends CustomModal {
             return;
         }
         if (currUser.getEmail() != null && currUser.getEmail().equals(email)) {
-            // no need to update email
+            // no need to refreshDetails email
             hideSpinner();
             mBuilder.dismiss();
             Toast.makeText(getActivity(), R.string.change_email_success, Toast.LENGTH_LONG).show();

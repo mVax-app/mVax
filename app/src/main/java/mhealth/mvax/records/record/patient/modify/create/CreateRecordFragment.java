@@ -30,32 +30,23 @@ import mhealth.mvax.records.record.patient.modify.ModifiablePatientFragment;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Fragment for creating a record; creates a Patient and Guardian object,
- *         creates an association between them, and allows the user to add details
- *         for each object
+ * <p>
+ * Fragment for creating a new record
  */
 public class CreateRecordFragment extends ModifiablePatientFragment {
-
-    //================================================================================
-    // Static methods
-    //================================================================================
 
     public static CreateRecordFragment newInstance() {
         return new CreateRecordFragment();
     }
 
-    //================================================================================
-    // Override methods
-    //================================================================================
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.tab_record_details, container, false);
-        setFragmentTitle(view, R.string.new_record_title);
+        setTitle(view, R.string.new_record_title);
         // create Patient object for new record
         mPatient = new Patient(mPatientRef.push().getKey());
-        renderListView(view);
+        initSaveButton(view.findViewById(R.id.header_button));
+        renderListView(view.findViewById(R.id.details_list));
         return view;
     }
 

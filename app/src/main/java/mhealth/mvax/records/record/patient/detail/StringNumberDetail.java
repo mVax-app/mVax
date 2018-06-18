@@ -24,24 +24,16 @@ import android.widget.EditText;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Detail for storing String fields represented by numbers
- *         only
+ * <p>
+ * Detail for storing String fields which will ONLY be represented by
+ * numbers
  */
 
 public class StringNumberDetail extends StringDetail {
 
-    //================================================================================
-    // Constructors
-    //================================================================================
-
     public StringNumberDetail(String value, int labelStringId, int hintStringId) {
         super(value, labelStringId, hintStringId);
     }
-
-    //================================================================================
-    // Override methods
-    //================================================================================
 
     @Override
     public void configureValueView(EditText valueView) {

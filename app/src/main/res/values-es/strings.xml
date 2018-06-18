@@ -102,7 +102,7 @@
 
     <string name="modal_record_delete_title">Confirmar La Eliminacion De Registros</string>
     <string name="modal_record_delete_message">¿Seguro que quieres borrar este registro? Se eliminarán todos los datos de pacientes, tutores y vacunas. Esta acción no se puede deshacer.</string>
-    <string name="patient_update">Paciente actualizado</string>
+    <string name="patient_update_notification">Paciente actualizado</string>
     <string name="unsuccessful_record_update">Actualizacion fallida</string>
 
     <string name="modal_title_choose_sex">Elegir Sexo</string>
@@ -206,7 +206,7 @@
     <string name="modal_sex_neutral">Eliminar Sexo</string>
     <string name="modal_sex_cancel">Cancelar</string>
     <string name="modal_cancel">Cancelar</string>
-    <string name="patient_delete">Paciente Eliminado</string>
+    <string name="patient_delete_notification">Paciente Eliminado</string>
     <string name="guardian_delete">Tutor/a Elimindao</string>
     <string name="modal_confirm">Confirmar</string>
 

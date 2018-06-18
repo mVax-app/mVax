@@ -19,45 +19,28 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.view;
 
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import java.util.List;
 
-import mhealth.mvax.R;
 import mhealth.mvax.records.record.patient.PatientDetailsAdapter;
 import mhealth.mvax.records.record.patient.detail.Detail;
 
 /**
  * @author Robert Steilberg
  * <p>
- * Adapter for rendering RecyclerView row items for viewing patient details
+ * Adapter that allows users to view, but not edit, record details
  */
 public class ViewPatientAdapter extends PatientDetailsAdapter {
 
-    ViewPatientAdapter(Context context, List<Detail> details) {
+    ViewPatientAdapter(List<Detail> details) {
         super(details);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View row = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_record_detail, parent, false);
-        return new ViewHolder(row);
-    }
-
-    @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.field.setText(mDetails.get(position).getLabelStringId()); // label
-        holder.value.setText(mDetails.get(position).getStringValue()); // value
+        final Detail detail = mDetails.get(position);
+        holder.field.setText(detail.getLabelStringId());
+        holder.value.setText(detail.getStringValue());
         holder.value.setFocusable(false); // not editable in view mode
-    }
-
-    @Override
-    public int getItemCount() {
-        return mDetails.size();
     }
 
 }

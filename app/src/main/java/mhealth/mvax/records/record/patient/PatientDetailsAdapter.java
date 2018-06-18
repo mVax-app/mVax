@@ -22,6 +22,8 @@ package mhealth.mvax.records.record.patient;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -43,16 +45,23 @@ public abstract class PatientDetailsAdapter extends RecyclerView.Adapter<Patient
     }
 
     protected static class ViewHolder extends RecyclerView.ViewHolder {
-        View row;
+        public View row;
         public TextView field;
-        public TextView value;
+        public EditText value;
 
-        public ViewHolder(View view) {
-            super(view);
-            row = view;
-            field = view.findViewById(R.id.field);
-            value = view.findViewById(R.id.value);
+        ViewHolder(View itemView) {
+            super(itemView);
+            row = itemView;
+            field = itemView.findViewById(R.id.field);
+            value = itemView.findViewById(R.id.value);
         }
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final View row = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_record_detail, parent, false);
+        return new ViewHolder(row);
     }
 
     @Override
@@ -69,6 +78,5 @@ public abstract class PatientDetailsAdapter extends RecyclerView.Adapter<Patient
         mDetails = newData;
         notifyDataSetChanged();
     }
-
 
 }

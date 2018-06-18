@@ -263,7 +263,10 @@
 
     <string name="modal_record_delete_title">Confirm Record Deletion</string>
     <string name="modal_record_delete_message">Are you sure you want to delete this record? All patient, guardian, and vaccine data will be deleted. This action cannot be undone.</string>
-    <string name="patient_update">Patient Updated</string>
+    <string name="patient_update_notification">Patient updated</string>
+    <string name="patient_save_notification">Patient saved</string>
+    <string name="patient_save_fail">Patient could not be saved</string>
+
     <string name="unsuccessful_record_update">Update failed</string>
 
     <string name="modal_title_choose_sex">Choose Sex</string>
@@ -482,7 +485,7 @@
     <string name="VPH_11A_1A">VPH_11A_1A_Row</string>
     <string name="VPH_11A_2A">VPH_11A_2A_Row</string>
     <string name="VITA_PU_DU">VITA_PU_DU_Row</string>
-    <string name="failure_patient_download">Unable to Download Patient Data</string>
+    <string name="patient_download_fail">Unable to Download Patient Data</string>
     <string name="search_init_fail">Unable to Initialize Search Service</string>
     <string name="search_fail">Search Failed</string>
     <string name="failure_guardian_download">Unable to Download Guardian Data</string>
@@ -500,7 +503,9 @@
     <string name="modal_sex_neutral">Remove Sex</string>
     <string name="modal_sex_cancel">Cancel</string>
     <string name="modal_cancel">Cancel</string>
-    <string name="patient_delete">Patient Deleted</string>
+    <string name="patient_delete_notification">Patient deleted</string>
+    <string name="patient_delete_fail">Unable to delete patient</string>
+
     <string name="guardian_delete">Guardian Deleted</string>
     <string name="modal_confirm">Confirm</string>
 

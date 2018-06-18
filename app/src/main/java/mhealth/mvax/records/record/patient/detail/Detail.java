@@ -23,28 +23,19 @@ import android.widget.EditText;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Abstract class for storing information about a generic Detail,
- *         which is used to popuate a ListView when creating, editing, or
- *         viewing Person data
+ * <p>
+ * Abstract class for storing information about a generic Detail,
+ * which is used to popuate a list when creating, editing, or
+ * viewing Person data
  */
-
 public abstract class Detail<T> {
-
-    //================================================================================
-    // Properties
-    //================================================================================
 
     private T mValue; // raw value of the detail
     String mStringValue; // String representation of the value to be displayed
-    private Runnable mSetter; // defines code that sets the value in the Person object
+    private Runnable mSetter; // defines code that will set the value in the Person object
 
     private final int mLabelStringId; // label displayed next to value
     private final int mHintStringId; // hint displayed in the value field when there is no set value
-
-    //================================================================================
-    // Constructors
-    //================================================================================
 
     Detail(T value, int labelStringId, int hintStringId) {
         this.mValue = value;
@@ -53,20 +44,17 @@ public abstract class Detail<T> {
         updateStringValue(value);
     }
 
-    //================================================================================
-    // Abstract methods
-    //================================================================================
-
     /**
-     * Perform setup operations on the EditText displaying the mValue
+     * Perform setup operations on the EditText displaying the value
+     * of the detail
      *
      * @param valueView the EditText on which setup is performed
      */
     public abstract void configureValueView(EditText valueView);
 
-
     /**
-     * Listener to attach to the EditText displaying the mValue
+     * Listener to attach to the EditText displaying the value of the
+     * detail
      *
      * @param valueView the EditText on which the listener is attached
      */
@@ -79,10 +67,6 @@ public abstract class Detail<T> {
      * @param value the raw value of the detail
      */
     public abstract void updateStringValue(T value);
-
-    //================================================================================
-    // Getter methods
-    //================================================================================
 
     public T getValue() {
         return mValue;
@@ -100,16 +84,12 @@ public abstract class Detail<T> {
         return this.mHintStringId;
     }
 
-    //================================================================================
-    // Setter methods
-    //================================================================================
-
     /**
-     * Updates the mValue with a new mValue, updates the UI representation,
-     * and runs the mSetter so that the Person object is updated with the
-     * new mValue
+     * Updates the value of the Detail with a new value, updates the UI,
+     * and runs the setter so that the Person object is updated with the
+     * new value
      *
-     * @param value the new mValue
+     * @param value the new value
      */
     protected void setValue(T value) {
         this.mValue = value;
@@ -118,10 +98,10 @@ public abstract class Detail<T> {
     }
 
     /**
-     * Defines the setter that is run when mValue updates;
+     * Defines the setter that is run when the Detail's value updates;
      * should be set immediately after Detail initialization
      *
-     * @param setter setter that updates mValue in the
+     * @param setter setter that updates the value in the
      *               Person object
      */
     public void setSetter(Runnable setter) {

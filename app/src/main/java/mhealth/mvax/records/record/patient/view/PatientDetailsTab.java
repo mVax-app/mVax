@@ -29,7 +29,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,20 +50,12 @@ import mhealth.mvax.records.record.patient.modify.edit.EditPatientFragment;
  */
 public class PatientDetailsTab extends Fragment implements RecordTab {
 
-    //================================================================================
-    // Properties
-    //================================================================================
-
     private View mView;
     private ViewPatientAdapter mAdapter;
 
     private Patient mPatient;
     private Query mPatientRef;
     private ChildEventListener mPatientListener;
-
-    //================================================================================
-    // Static methods
-    //================================================================================
 
     public static PatientDetailsTab newInstance(String databaseKey) {
         final PatientDetailsTab newInstance = new PatientDetailsTab();
@@ -74,13 +65,10 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
         return newInstance;
     }
 
-    //================================================================================
-    // Override methods
-    //================================================================================
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_record_details, container, false);
+        mView.findViewById(R.id.spinner).setVisibility(View.VISIBLE);
         initPatientListener(getArguments().getString("databaseKey"));
         return mView;
     }
@@ -91,17 +79,13 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
         super.onDestroyView();
     }
 
-    //================================================================================
-    // Public methods
-    //================================================================================
-
     @Override
     public void render() {
-        mView.findViewById(R.id.spinner).setVisibility(View.INVISIBLE);
+        mView.findViewById(R.id.spinner).setVisibility(View.GONE);
         setRecordName();
         initButtons();
 
-        mAdapter = new ViewPatientAdapter(getContext(), mPatient.getDetails());
+        mAdapter = new ViewPatientAdapter(mPatient.getDetails());
         final RecyclerView detailsList = mView.findViewById(R.id.details_list);
         detailsList.setAdapter(mAdapter);
         detailsList.setHasFixedSize(true);
@@ -114,10 +98,6 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
         setRecordName();
         mAdapter.refresh(mPatient.getDetails());
     }
-
-    //================================================================================
-    // Private methods
-    //================================================================================
 
     private void initPatientListener(final String databaseKey) {
         // define database ref
@@ -140,13 +120,13 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
                 mPatient = dataSnapshot.getValue(Patient.class);
-                Toast.makeText(getActivity(), R.string.patient_update, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.patient_update_notification, Toast.LENGTH_SHORT).show();
                 refresh();
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                Toast.makeText(getActivity(), R.string.patient_delete, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.patient_delete_notification, Toast.LENGTH_SHORT).show();
                 // pop "Record -> Search" from back stack and commit it
                 getActivity().getFragmentManager().popBackStack();
             }
@@ -157,7 +137,7 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity(), R.string.failure_patient_download, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.patient_download_fail, Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -171,7 +151,9 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
     }
 
     private void initButtons() {
-        final Button editButton = mView.findViewById(R.id.edit_button);
+        final Button editButton = mView.findViewById(R.id.header_button);
+        editButton.setBackgroundResource(R.drawable.button_edit);
+        editButton.setText(R.string.edit_record_button);
         editButton.setOnClickListener(view -> {
 //            // pop "Record -> Search" from back stack and commit it
 //            getActivity().getFragmentManager().popBackStack();
@@ -181,7 +163,7 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
 //                    .replace(R.id.frame, onBackFrag)
 //                    .addToBackStack(null)
 //                    .commit();
-            // commit "Record -> Edit", adding "Edit -> Record to back stack
+//            // commit "Record -> Edit", adding "Edit -> Record to back stack
             final EditPatientFragment editDataFrag = EditPatientFragment.newInstance(mPatient);
             getActivity().getFragmentManager().beginTransaction()
                     .replace(R.id.frame, editDataFrag)
@@ -189,6 +171,5 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
                     .commit();
         });
     }
-
 
 }

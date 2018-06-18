@@ -11,23 +11,23 @@
         android:id="@+id/male_radio_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:scaleY="1.7"
-        android:scaleX="1.7"
+        android:layout_marginBottom="10dp"
         android:layout_marginStart="120dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:scaleX="1.7"
+        android:scaleY="1.7"
         android:text="@string/male_enum" />
 
     <RadioButton
         android:id="@+id/female_radio_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:scaleY="1.7"
-        android:scaleX="1.7"
+        android:layout_marginBottom="10dp"
         android:layout_marginStart="120dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_weight="1"
+        android:scaleX="1.7"
+        android:scaleY="1.7"
         android:text="@string/female_enum" />
 </RadioGroup>
