@@ -70,7 +70,7 @@ exports.deleteAccount = functions.https.onCall((data, context) => {
 // ALGOLIA SEARCH
 
 const algoliasearch = require('algoliasearch');
-
+DELETE FROM FIREBASE ENV VARS
 const ALGOLIA_ID = functions.config().algolia.app_id;
 const ALGOLIA_ADMIN_KEY = functions.config().algolia.admin_key;
 const ALGOLIA_SEARCH_KEY = functions.config().algolia.search_key;

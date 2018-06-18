@@ -30,5 +30,13 @@
     <string name="password_value">password</string>
 
 
+    <string name="algoliaObjectID">objectID</string>
+    <string name="patientFirstName">firstName</string>
+    <string name="patientLastName">lastName</string>
+    <string name="patientMedicalId">medicalId</string>
+    <string name="patientdob">dob</string>
+    <string name="patientGuardianName">guardianName</string>
+
+
 
 </resources>

@@ -53,6 +53,8 @@ import java.util.Map;
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.SearchResult;
 import mhealth.mvax.records.record.patient.modify.create.CreateRecordFragment;
+import mhealth.mvax.records.utilities.AlgoliaUtilities;
+import mhealth.mvax.records.utilities.TypeRunnable;
 
 /**
  * @author Robert Steilberg, Alison Huang
@@ -62,11 +64,10 @@ import mhealth.mvax.records.record.patient.modify.create.CreateRecordFragment;
  */
 public class SearchFragment extends Fragment {
 
-    private static final String ALGOLIA_INDEX = "patients";
-
-    private Index mSearchIndex;
-    private SearchResultAdapter mAdapter;
     private View mView;
+    private SearchResultAdapter mAdapter;
+    private AlgoliaUtilities mSearchEngine;
+
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -89,34 +90,12 @@ public class SearchFragment extends Fragment {
                 .commit());
     }
 
-    private void initSearchIndex() {
-        FirebaseDatabase.getInstance().getReference()
-                .child(getString(R.string.configTable))
-                .child(getString(R.string.algoliaTable))
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        GenericTypeIndicator<Map<String, String>> t = new GenericTypeIndicator<Map<String, String>>() {
-                        };
-                        Map<String, String> configVars = dataSnapshot.getValue(t);
-                        if (configVars != null) {
-                            String applicationId = configVars.get("application_id");
-                            String searchAPIKey = configVars.get("api_key_search");
-                            Client algoliaClient = new Client(applicationId, searchAPIKey);
-                            mSearchIndex = algoliaClient.getIndex(ALGOLIA_INDEX);
-                            // searching now possible, render the views
-                            initSearchBar();
-                            renderListView();
-                        } else {
-                            Toast.makeText(getActivity(), R.string.search_init_fail, Toast.LENGTH_SHORT).show();
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(getActivity(), R.string.search_init_fail, Toast.LENGTH_SHORT).show();
-                    }
-                });
+    private void initSearchIndex() {
+        mSearchEngine = new AlgoliaUtilities(getActivity(), () -> {
+            initSearchBar();
+            renderListView();
+        });
     }
 
     private void initSearchBar() {
@@ -139,7 +118,6 @@ public class SearchFragment extends Fragment {
 
     private void search(String rawQuery) {
         showSpinner();
-
         String query = rawQuery.trim();
         mAdapter.clearSearchResults(); // clear out results from previous search
         mAdapter.setHashCode(query.hashCode()); // debouce
@@ -147,25 +125,9 @@ public class SearchFragment extends Fragment {
             hideSpinner();
             return;
         }
-
-        mSearchIndex.searchAsync(new Query(query), (result, e) -> {
-            try {
-                JSONArray hits = (JSONArray) result.get("hits");
-                for (int i = 0; i < hits.length(); i++) {
-                    // TODO handle not having a field
-                    JSONObject patient = (JSONObject) hits.get(i);
-                    SearchResult s = new SearchResult((String) patient.get("objectID"));
-                    s.setFirstName((String) patient.get("firstName"));
-                    s.setLastName((String) patient.get("lastName"));
-                    if (patient.has("dob")) {
-                        s.setDOB((Long) patient.get("dob"));
-                    }
-                    mAdapter.addSearchResult(s, query.hashCode());
-                }
-                hideSpinner();
-            } catch (JSONException e1) {
-                Toast.makeText(getActivity(), R.string.search_fail, Toast.LENGTH_SHORT).show();
-            }
+        mSearchEngine.search(query, result -> {
+            hideSpinner();
+            mAdapter.addSearchResult(result, query.hashCode());
         });
     }
 

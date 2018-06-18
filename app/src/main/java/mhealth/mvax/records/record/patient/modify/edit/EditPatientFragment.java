@@ -32,6 +32,8 @@ import com.algolia.search.saas.AlgoliaException;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.CompletionHandler;
 import com.algolia.search.saas.Index;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,6 +50,7 @@ import java.util.Map;
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.record.patient.modify.ModifiablePatientFragment;
+import mhealth.mvax.records.utilities.AlgoliaUtilities;
 
 /**
  * @author Robert Steilberg
@@ -56,7 +59,6 @@ import mhealth.mvax.records.record.patient.modify.ModifiablePatientFragment;
  */
 public class EditPatientFragment extends ModifiablePatientFragment {
 
-    private static final String ALGOLIA_INDEX = "patients";
 
     private View mView;
     private ChildEventListener mPatientListener;
@@ -145,53 +147,7 @@ public class EditPatientFragment extends ModifiablePatientFragment {
 
     private void deleteCurrentRecord() {
         destroyListener(); // prevent onChildRemoved action from firing before listener
-
-        FirebaseDatabase.getInstance().getReference()
-                .child(getString(R.string.configTable))
-                .child(getString(R.string.algoliaTable))
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        GenericTypeIndicator<Map<String, String>> t = new GenericTypeIndicator<Map<String, String>>() {
-                        };
-                        Map<String, String> configVars = dataSnapshot.getValue(t);
-                        if (configVars != null) {
-                            String applicationId = configVars.get("application_id");
-                            String apiKey = configVars.get("api_key");
-                            Client algoliaClient = new Client(applicationId, apiKey);
-                            Index index = algoliaClient.getIndex(ALGOLIA_INDEX);
-                            // searching now possible, render the views
-
-
-
-
-                            index.deleteObjectAsync(mPatient.getDatabaseKey(), (jsonObject, e) -> {
-                                String f = "";
-                            });
-
-
-                        } else {
-                            Toast.makeText(getActivity(), "Unable to init search index", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(getActivity(), R.string.search_init_fail, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-
-
-        mPatientRef.child(mPatient.getDatabaseKey()).setValue(null).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(getActivity(), R.string.patient_delete_notification, Toast.LENGTH_SHORT).show();
-                exit();
-            } else {
-                Toast.makeText(getActivity(), R.string.patient_delete_fail, Toast.LENGTH_SHORT).show();
-            }
-        });
+        AlgoliaUtilities.deleteObject(getActivity(), mPatient.getDatabaseKey(), this::deleteFromDatabase);
     }
 
     private void destroyListener() {
@@ -199,6 +155,18 @@ public class EditPatientFragment extends ModifiablePatientFragment {
                 .orderByKey()
                 .equalTo(mPatient.getDatabaseKey())
                 .removeEventListener(mPatientListener);
+    }
+
+    private void deleteFromDatabase() {
+        mPatientRef.child(mPatient.getDatabaseKey()).setValue(null).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // TODO change to patient_delete_success
+                Toast.makeText(getActivity(), R.string.patient_delete_notification, Toast.LENGTH_SHORT).show();
+                exit();
+            } else {
+                Toast.makeText(getActivity(), R.string.patient_delete_fail, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void exit() {

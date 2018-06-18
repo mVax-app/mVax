@@ -19,6 +19,7 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.modify;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -52,6 +53,8 @@ import java.util.Map;
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.record.RecordFragment;
+import mhealth.mvax.records.utilities.AlgoliaUtilities;
+import mhealth.mvax.records.utilities.TypeRunnable;
 
 /**
  * @author Robert Steilberg
@@ -105,72 +108,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
 
     private void saveRecord() {
         if (noEmptyRequiredFields()) {
-
-
-                FirebaseDatabase.getInstance().getReference()
-                        .child(getString(R.string.configTable))
-                        .child(getString(R.string.algoliaTable))
-                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                GenericTypeIndicator<Map<String, String>> t = new GenericTypeIndicator<Map<String, String>>() {
-                                };
-                                Map<String, String> configVars = dataSnapshot.getValue(t);
-                                if (configVars != null) {
-                                    String applicationId = configVars.get("application_id");
-                                    String apiKey = configVars.get("api_key");
-                                    Client algoliaClient = new Client(applicationId, apiKey);
-                                    Index index = algoliaClient.getIndex(ALGOLIA_INDEX);
-                                    // searching now possible, render the views
-
-                                    JSONObject object = new JSONObject();
-                                    try {
-                                        object.put("objectID", mPatient.getDatabaseKey());
-                                        object.put("firstName", mPatient.getFirstName());
-                                        object.put("lastName", mPatient.getLastName());
-                                        object.put("medicalId", mPatient.getMedicalId());
-                                        object.put("dob", mPatient.getDOB());
-                                        object.put("guardianName", mPatient.getGuardianName());
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    JSONArray array = new JSONArray();
-                                    array.put(object);
-
-
-                                    index.partialUpdateObjectsAsync(array, true, new CompletionHandler() {
-                                        @Override
-                                        public void requestCompleted(JSONObject jsonObject, AlgoliaException e) {
-                                            String f = "";
-                                        }
-                                    });
-
-
-                                } else {
-                                    Toast.makeText(getActivity(), "Unable to init search index", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                Toast.makeText(getActivity(), R.string.search_init_fail, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-
-
-            mPatientRef
-                    .child(mPatient.getDatabaseKey())
-                    .setValue(mPatient, (databaseError, databaseReference) -> {
-                        if (databaseError == null) {
-                            viewRecord();
-                            Toast.makeText(getActivity(), R.string.patient_save_notification, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getActivity(), R.string.patient_save_fail, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            AlgoliaUtilities.saveObject(getActivity(), mPatient, this::saveToDatabase);
         }
     }
 
@@ -185,6 +123,19 @@ public abstract class ModifiablePatientFragment extends Fragment {
             }
         }
         return noEmptyRequiredFields;
+    }
+
+    private void saveToDatabase() {
+        mPatientRef
+                .child(mPatient.getDatabaseKey())
+                .setValue(mPatient, (databaseError, databaseReference) -> {
+                    if (databaseError == null) {
+                        viewRecord();
+                        Toast.makeText(getActivity(), R.string.patient_save_notification, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), R.string.patient_save_fail, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void viewRecord() {

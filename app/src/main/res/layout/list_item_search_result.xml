@@ -28,7 +28,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/community"
+        android:id="@+id/medicalId"
         android:layout_width="wrap_content"
         android:layout_height="38dp"
         android:layout_weight="0.01"
