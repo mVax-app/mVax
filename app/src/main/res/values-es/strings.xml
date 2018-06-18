@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">mVax</string>
     <string name="version">Versión: 1.0</string>
-    <string name="title_activity_login">Registrese</string>
 
     <!-- Strings related to login -->
     <string name="auth_login">Inicio de Sesión</string>
@@ -11,18 +10,11 @@
     <string name="auth_fail_bad_credentials">Error de Autenticación</string>
     <string name="email_hint">Correo Electrónico</string>
     <string name="password">Contraseña (opcional)</string>
-    <string name="action_sign_in">Registrese o Registra</string>
     <string name="action_sign_in_short">Registrese</string>
     <string name="forgot_password">¿Olvidó su contraseña?</string>
     <string name="invalid_email_error">Este correo electrónico no es válido</string>
     <string name="invalid_password_error">Esta contraseña es demasiado corta</string>
-    <string name="error_incorrect_password">Esta contraseña es incorrecta</string>
     <string name="empty_field">Este campo es necesario</string>
-    <string name="error_used_email">Usuario ya registrado con este correo electrónico</string>
-    <string name="permission_rationale">"Los permisos de contactos son necesarios para proporcionar
-        las terminacionesde correo electrónico."</string>
-    <string name="emptystring" />
-    <string name="title_activity_search">BuscarActividad</string>
     <string name="title_home">Página Principal</string>
     <string name="title_settings">Configuración</string>
     <string name="title_overdue">Pacientes atrasados</string>
@@ -31,31 +23,11 @@
     <string name="title_forms">Formas</string>
     <string name="title_dashboard">El Tablero de Mandos</string>
 
-    <string name="REG_DESCRIPTION">Por favor complete el siguiente formulario para empezar.</string>
-    <string name="REG_TITLE">Registro de nuevo usuario</string>
-    <string name="REG_ButtonReg">Registrar</string>
-    <string name="REG_NAME">Nombre</string>
-    <string name="REG_EMAIL">Correo Electrónico</string>
-    <string name="REG_PASS_REQUIRE">La contraseña debe tener al menos 6 caracteres.</string>
-    <string name="REG_PASSWORD">Contraseña</string>
-    <string name="REG_PASSWORD_CONFIRM">Confirme contraseña</string>
-    <string name="REG_ERROR_EMAIL">Correo electrónico es invalido</string>
-    <string name="REG_ERROR_PASS_REQUIRE">La contraseña no cumple con los requisitos</string>
-    <string name="REG_ERROR_PASS_CONFIRM">Las contraseñas no coinciden</string>
-    <string name="REG_CONFIRMED">Solicitud enviada, ¡aguarde para ser aprobada!</string>
-    <string name="userRoles">Nivel de Permiso</string>
-
-    <string name="modal_user_decision_title">¿Aprobar la solicitud de usuario?</string>
     <string name="approve_user">Aprobar</string>
     <string name="deny_user">Negar</string>
-    <string name="user_not_approved">Usuario no aprobado todavía</string>
     <string name="no_user_role">No se puede determinar el rol del usuario</string>
 
     <!-- Update Email -->
-    <string name="modal_update_title">Actualizar correo electrónico</string>
-    <string name="new_email">Nuevo correo electrónico</string>
-    <string name="confirm_email">Confirmar correo electrónico</string>
-    <string name="update_email_success">Solicitud de actualización enviada</string>
 
 
     <!-- Reset Password-->
@@ -63,16 +35,12 @@
     <string name="reset_email">Correo electrónico de la cuenta</string>
     <string name="button_reset_password_positive">Restablecer contraseña</string>
     <string name="reset_email_confirm">Se ha enviado el correo electrónico de restablecimiento de contraseña:</string>
-    <string name="password_reset_confirm">¿Seguro que quieres restablecer tu contraseña?</string>
 
     <!-- Vaccine card -->
     <string name="vaccine_card_given_text">AHORA:</string>
     <string name="vaccine_card_goal_text">META:</string>
 
     <!--Overdue-->
-    <string name="high_priority">Alta Prioridad (2+ Semanas Vencidas)</string>
-    <string name="medium_priority">Medio Prioridad (1 - 2 Semanas Vencidas)</string>
-    <string name="low_priority">Bajo Prioridad (1 Semanas Vencidas)</string>
 
 
     <!-- Record details -->
@@ -83,18 +51,13 @@
 
 
     <!-- New record -->
-    <string name="pick_dob">Fecha de Nacimiento</string>
-    <string name="modal_new_record_add">Crear</string>
-    <string name="modal_new_record_cancel">Cancelar</string>
 
     <!-- Record detail activity -->
     <string name="vaccine_title">Historia de Vacunas</string>
     <string name="DOB_prompt">FDN:</string>
     <string name="gender_prompt">Sexo:</string>
     <string name="community_prompt">Comunidad:</string>
-    <string name="modal_new_dosage_title">Agregar Dosis:</string>
     <string name="modal_date_confirm">Confirmar</string>
-    <string name="modal_date_cancel">Cancelar</string>
     <string name="modal_date_neutral">Sin Fecha</string>
     <string name="delete_record_button">Eliminar Registro</string>
     <string name="save_record_button">Guardar Registro</string>
@@ -102,21 +65,12 @@
     <string name="modal_record_delete_title">Confirmar La Eliminacion De Registros</string>
     <string name="modal_record_delete_message">¿Seguro que quieres borrar este registro? Se eliminarán todos los datos de pacientes, tutores y vacunas. Esta acción no se puede deshacer.</string>
     <string name="patient_update_notification">Paciente actualizado</string>
-    <string name="unsuccessful_record_update">Actualizacion fallida</string>
-
-    <string name="modal_title_choose_sex">Elegir Sexo</string>
-
-    <string name="modal_positive_choose_sex">OK</string>
-    <string name="modal_negative_choose_sex">Cancelar</string>
 
     <string name="label_medicalID">ID</string>
     <string name="hint_medicalID">Numero de identificacion de 13 digitos</string>
 
     <string name="label_firstname">Primer Nombre</string>
     <string name="hint_firstname">primer nombre</string>
-
-    <string name="label_middlename">Segundo Nombre</string>
-    <string name="hint_middlename">segundo nombre</string>
 
     <string name="label_dob">Fecha de Nacimiento</string>
     <string name="hint_dob">fecha de nacimiento</string>
@@ -163,66 +117,36 @@
 
     <!-- Approve Users Fragment -->
     <string name="approve_users_title">Aprobar Usuarios</string>
-    <string name="select_user_role">Seleccionar Rol de Usuario</string>
-    <string name="error_select_role">Debe seleccionar rol de usuario para la solicitud</string>
-    <string name="user_request_decision">Decisión</string>
     <string name="approve_user_instructions">Para aprobar una solicitud de usuario para unirse, debe seleccionar un nivel de acceso para ellos (consulte el botón info en la parte superior derecha para obtener más información). También puede denegar una solicitud de usuario.</string>
     <string name="empty_approve_list_view">No solicitud de usuario</string>
-    <string name="acceptance_email_subject">mVax: el registro de usuario aprobado!</string>
-    <string name="acceptance_email_body">Bienvenido! Usted ha sido aprobado para unirse a mVax. Ahora puede iniciar sesión con su nombre de usuario y contraseña.</string>
-    <string name="rejection_email_subject">Se ha negado el registro de usuario de mVax</string>
-    <string name="rejection_email_body">Hola, su solicitud para unirse a mVax ha sido denegada. Póngase en contacto con un administrador para obtener más detalles.</string>
 
     <!-- Current Users Fragment -->
     <string name="current_users_title">Usuarios Actuales</string>
 
     <!-- User Fragments -->
-    <string name="user_name">Nombre</string>
-    <string name="user_email">Correo Electrónico</string>
     <string name="user_role">Nivel de Acceso</string>
-    <string name="modal_current_user_title">Editar el Acceso del Usuario</string>
-    <string name="modal_current_role">Nivel de Acceso: </string>
-    <string name="modal_new_role">Cambiar el rol del usuario: </string>
-    <string name="role_no_change">ningún cambio</string>
 
     <!-- User Info Fragment -->
-    <string name="role_info_modal_title">Tipos de Roles de Usuarios</string>
-    <string name="admin_info">ADMIN: tener acceso a los datos de lectura y escritura. Sólo el administrador puede introducir nuevos registros. Además, puede aprobar nuevas solicitudes de usuario y ver a los usuarios actuales</string>
-    <string name="reader_info">READER: tiene acceso para ver los datos pero no puede escribir ninguna información nueva. No se puede controlar a otros usuarios.</string>
 
 
     <!-- About Button -->
     <string name="about">Acerca de la Aplicación</string>
-    <string name="contributors">Colaboradores:</string>
     <string name="bass_contributor">Creado por Duke Bass Connections en cooperación con el Instituto Mundial de salud de Duke</string>
     <string name="bass_project_leader_title">Facultad:</string>
     <string name="bass_development_title">Equipo de Desarrollo:</string>
     <string name="bass_global_health_title">Equipo de Salud Global:</string>
     <string name="dummy_data">Generate Test Data</string>
-    <string name="failure_records_download">Unable to Download Record Data</string>
     <string name="due_date_label">Fecha de Vencimiento:</string>
     <string name="modal_sex_confirm">Confirmar</string>
     <string name="modal_sex_neutral">Eliminar Sexo</string>
-    <string name="modal_sex_cancel">Cancelar</string>
     <string name="modal_cancel">Cancelar</string>
     <string name="patient_delete_notification">Paciente Eliminado</string>
-    <string name="guardian_delete">Tutor/a Elimindao</string>
     <string name="modal_confirm">Confirmar</string>
 
     <!-- Patient Record Details -->
 
     <string name="male_enum">Masculino</string>
     <string name="female_enum">Hembra</string>
-    <string name="empty_string" />
-    <string name="modal_neutral_choose_sex">Eliminar el genero</string>
-    <string name="modal_title_choose_date">Elegir la fecha</string>
-    <string name="modal_positive_choose_date">Guardar cambios</string>
-    <string name="modal_negative_choose_date">Cancelar</string>
-    <string name="modal_neutral_choose_date">Eliminar fecha</string>
-    <string name="label_numDependents">Dependientes</string>
-    <string name="hint_numDependents">Dependientes Totales</string>
-    <string name="patient_detail_section_title">Informacion del paciente</string>
-    <string name="guardian_detail_section_title">Detalles de tutor/a</string>
     <string name="edit_record_button">Editar el registro</string>
     <string name="edit_record_title">Editar el registro</string>
     <string name="label_first_surname">Primer Apellido</string>
@@ -235,12 +159,9 @@
     <string name="hint_pob">lugar de nacimiento</string>
     <string name="label_community">Comunidad</string>
     <string name="hint_community">comunidad</string>
-    <string name="label_guardian_id">ID de tutor/a</string>
     <string name="label_guardian_firstname">Nombre de tutor/a</string>
     <string name="label_guardian_middlname">Segundo nombre de tutor/a</string>
     <string name="label_guardian_lastname">Apellido de tutor/a</string>
-    <string name="label_guardian_suffix">Sufijo de tutor/a</string>
-    <string name="label_guardian_sex">Sexo de tutor/a</string>
     <string name="label_address">Direccion de tutor/a</string>
     <string name="hint_address">direccion de tutor/a</string>
     <string name="label_phone_number">Numero de telefono</string>
@@ -248,7 +169,6 @@
 
 
     <!--Vaccine Dates-->
-    <string name="due_date">Fecha de Vencimiento:</string>
 
 
     <!-- PDF CONFIG OPTIONS -->
