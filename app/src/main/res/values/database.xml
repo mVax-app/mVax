@@ -13,10 +13,8 @@
     <string name="vaccinationsTable">vaccinations</string>
     <string name="dueDatesTable">dueDates</string>
 
-    <string name="databaseId">databaseId</string>
     <string name="userTable">users</string>
     <string name="userRole">role</string>
-    <string name="approved">approved</string>
 
     <string name="userRequestsTable">requests</string>
 
