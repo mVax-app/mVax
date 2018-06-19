@@ -51,7 +51,7 @@ public class ChangeRoleModal extends CustomModal {
     }
 
     @Override
-    AlertDialog createDialog() {
+    public AlertDialog create() {
         mBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.change_role_modal_title)
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_change_role, (ViewGroup) getView().getParent(), false))

@@ -50,7 +50,7 @@ public class DenyUserModal extends CustomModal {
     }
 
     @Override
-    AlertDialog createDialog() {
+    public AlertDialog create() {
         mBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.deny_user_modal_title))
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_deny_user, (ViewGroup) getView().getParent(), false))

@@ -84,21 +84,21 @@ public class UserRequestsAdapter extends RecyclerView.Adapter<UserRequestsAdapte
 
         holder.name.setText(request.getDisplayName());
         holder.email.setText(request.getEmail());
-        holder.infoButton.setOnClickListener(v -> new RoleInfoModal(v).show());
+        holder.infoButton.setOnClickListener(v -> new RoleInfoModal(v).create().show());
 
         holder.approveButton.setOnClickListener(v -> {
             switch (holder.roles.getCheckedRadioButtonId()) {
                 case R.id.admin_radio_button:
-                    new ApproveUserModal(v, request, UserRole.ADMIN).show();
+                    new ApproveUserModal(v, request, UserRole.ADMIN).create().show();
                     break;
                 case R.id.reader_radio_button:
-                    new ApproveUserModal(v, request, UserRole.READER).show();
+                    new ApproveUserModal(v, request, UserRole.READER).create().show();
                 default:
                     Toast.makeText(v.getContext(), R.string.no_role_selected, Toast.LENGTH_SHORT).show();
                     break;
             }
         });
-        holder.denyButton.setOnClickListener(v -> new DenyUserModal(v, request).show());
+        holder.denyButton.setOnClickListener(v -> new DenyUserModal(v, request).create().show());
     }
 
     @Override

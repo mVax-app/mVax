@@ -175,11 +175,11 @@ public class SettingsFragment extends Fragment {
     }
 
     public void updateEmail(View v) {
-        new ChangeEmailModal(v).show();
+        new ChangeEmailModal(v).create().show();
     }
 
     public void resetPassword(View v) {
-        new ChangePasswordModal(v).show();
+        new ChangePasswordModal(v).create().show();
     }
 
     public void changeTimeoutDuration(View v) {

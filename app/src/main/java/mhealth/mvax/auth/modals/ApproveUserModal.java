@@ -53,7 +53,7 @@ public class ApproveUserModal extends CustomModal {
     }
 
     @Override
-    AlertDialog createDialog() {
+    public AlertDialog create() {
         mBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.approve_user_modal_title))
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_approve_user, (ViewGroup) getView().getParent(), false))

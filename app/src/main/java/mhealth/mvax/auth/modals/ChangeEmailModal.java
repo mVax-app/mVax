@@ -53,7 +53,7 @@ public class ChangeEmailModal extends CustomModal {
     }
 
     @Override
-    AlertDialog createDialog() {
+    public AlertDialog create() {
         mBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.change_email_modal_title)
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_change_email, (ViewGroup) getView().getParent(), false))

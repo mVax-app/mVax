@@ -51,7 +51,7 @@ public class ChangePasswordModal extends CustomModal {
     }
 
     @Override
-    AlertDialog createDialog() {
+    public AlertDialog create() {
         mBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.change_password_modal_title)
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_change_password, (ViewGroup) getView().getParent(), false))

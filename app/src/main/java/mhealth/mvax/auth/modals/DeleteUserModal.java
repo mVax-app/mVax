@@ -50,7 +50,7 @@ public class DeleteUserModal extends CustomModal {
     }
 
     @Override
-    AlertDialog createDialog() {
+    public AlertDialog create() {
         mBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.delete_user_modal_title)
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_delete_user, (ViewGroup) getView().getParent(), false))

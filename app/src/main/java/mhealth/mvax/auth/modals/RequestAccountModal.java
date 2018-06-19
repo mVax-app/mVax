@@ -58,7 +58,7 @@ public class RequestAccountModal extends CustomModal {
     }
 
     @Override
-    AlertDialog createDialog() {
+    public AlertDialog create() {
         mBuilder = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.register_modal_title))
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_request_account, (ViewGroup) getView().getParent(), false))

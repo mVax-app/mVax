@@ -38,7 +38,7 @@ public class LoadingModal extends CustomModal {
 
     @Override
     public AlertDialog show() {
-        AlertDialog dialog = createDialog();
+        AlertDialog dialog = create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         if (dialog.getWindow() != null) dialog.getWindow().setLayout(236, 236);
@@ -46,7 +46,7 @@ public class LoadingModal extends CustomModal {
     }
 
     @Override
-    public AlertDialog createDialog() {
+    public AlertDialog create() {
         mBuilder = new AlertDialog.Builder(getContext())
                 .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_loading, (ViewGroup) getView().getParent(), false))
                 .create();

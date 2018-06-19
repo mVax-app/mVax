@@ -39,11 +39,11 @@ public abstract class CustomModal extends AlertDialog.Builder {
     private View mView;
     private Resources mResources;
 
-    AlertDialog mBuilder;
-    ProgressBar mSpinner;
-    List<View> mViews;
+    protected AlertDialog mBuilder;
+    protected ProgressBar mSpinner;
+    protected List<View> mViews;
 
-    CustomModal(View view) {
+    public CustomModal(View view) {
         super(view.getContext());
         mActivity = (Activity) view.getContext();
         mView = view;
@@ -56,16 +56,15 @@ public abstract class CustomModal extends AlertDialog.Builder {
      *
      * @return the newly created AlertDialog
      */
-    abstract AlertDialog createDialog();
+    public abstract AlertDialog create();
 
     /**
      * Build and display the modal
      */
     @Override
     public AlertDialog show() {
-        AlertDialog dialog = createDialog();
-        dialog.show();
-        return dialog;
+        mBuilder.show();
+        return mBuilder;
     }
 
     public void dismiss() {
