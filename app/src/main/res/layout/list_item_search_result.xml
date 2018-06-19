@@ -21,18 +21,18 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/dob"
+            android:id="@+id/medicalId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/medicalId"
+        android:id="@+id/dob"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="0.01"
         android:gravity="center|end"
-        android:textSize="13sp" />
+        android:textSize="18sp" />
 
 </LinearLayout>

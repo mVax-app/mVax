@@ -61,8 +61,7 @@ public class DateDetail extends Detail<Long> {
 
     @Override
     public void updateStringValue(Long date) {
-        String dateFormat = StringFetcher.fetchString(R.string.date_format);
-        final NullableDateFormat formatter = new NullableDateFormat(dateFormat);
-        mStringValue = formatter.getString(date);
+        final String dateFormat = StringFetcher.fetchString(R.string.date_format);
+        mStringValue = NullableDateFormat.getString(dateFormat, date);
     }
 }

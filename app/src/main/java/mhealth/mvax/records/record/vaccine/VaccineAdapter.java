@@ -183,10 +183,8 @@ public class VaccineAdapter extends BaseAdapter {
         doseLinearLayout.setLabel(label);
 
         if (mDates.containsKey(associatedDatabaseKey)) { // check if existing Date object exists
-            final NullableDateFormat dateFormat =
-                    new NullableDateFormat(mContext.getString(R.string.date_format));
-            final String dateString =
-                    dateFormat.getString(mDates.get(associatedDatabaseKey).getDate());
+            final String datePattern = mContext.getString(R.string.date_format);
+            final String dateString = NullableDateFormat.getString(datePattern, mDates.get(associatedDatabaseKey).getDate());
             doseLinearLayout.setDate(dateString);
         }
 

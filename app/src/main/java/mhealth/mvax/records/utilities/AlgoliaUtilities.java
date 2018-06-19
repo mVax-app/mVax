@@ -102,7 +102,7 @@ public class AlgoliaUtilities {
                         String firstNameField = mActivity.getString(R.string.patientFirstName);
                         String lastNameField = mActivity.getString(R.string.patientLastName);
                         String medicalIdField = mActivity.getString(R.string.patientMedicalId);
-                        String dobField = mActivity.getString(R.string.patientdob);
+                        String dobField = mActivity.getString(R.string.patientDob);
 
                         JSONObject patient = (JSONObject) hits.get(i);
                         SearchResult result = new SearchResult((String) patient.get(objectIdField));
@@ -149,7 +149,9 @@ public class AlgoliaUtilities {
         String firstNameField = mActivity.getString(R.string.patientFirstName);
         String lastNameField = mActivity.getString(R.string.patientLastName);
         String medicalIdField = mActivity.getString(R.string.patientMedicalId);
-        String dobField = mActivity.getString(R.string.patientdob);
+        String dobField = mActivity.getString(R.string.patientDob);
+        String dobSearchField = mActivity.getString(R.string.patientDobSearch);
+
         String guardianField = mActivity.getString(R.string.patientGuardianName);
 
         try {
@@ -157,6 +159,11 @@ public class AlgoliaUtilities {
             searchObject.put(firstNameField, patient.getFirstName());
             searchObject.put(lastNameField, patient.getLastName());
             searchObject.put(medicalIdField, patient.getMedicalId());
+
+            // save DOB as a string, formatted dd/mm/yyyy for searching
+            String dobSearch = NullableDateFormat.getString("dd/mm/yyyy", patient.getDOB());
+            searchObject.put(dobSearchField, dobSearch);
+
             searchObject.put(dobField, patient.getDOB());
             searchObject.put(guardianField, patient.getGuardianName());
             array.put(searchObject);

@@ -77,8 +77,10 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         holder.name.setText(result.getName());
 
         final String DOBprompt = StringFetcher.fetchString(R.string.DOB_prompt);
-        NullableDateFormat dateFormat = new NullableDateFormat(StringFetcher.fetchString(R.string.date_format));
-        final String DOBstr = DOBprompt + " " + dateFormat.getString(result.getDOB());
+        final String datePattern = mActivity.getString(R.string.date_format);
+        final String DOBstr = DOBprompt
+                + " " +
+                NullableDateFormat.getString(datePattern, result.getDOB());
         holder.dob.setText(DOBstr);
 
         holder.medicalId.setText(result.getMedicalId());
