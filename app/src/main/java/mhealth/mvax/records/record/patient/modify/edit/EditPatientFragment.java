@@ -28,24 +28,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.algolia.search.saas.AlgoliaException;
-import com.algolia.search.saas.Client;
-import com.algolia.search.saas.CompletionHandler;
-import com.algolia.search.saas.Index;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.ValueEventListener;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Map;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Patient;
@@ -58,7 +43,6 @@ import mhealth.mvax.records.utilities.AlgoliaUtilities;
  * Fragment for editing existing record patient data
  */
 public class EditPatientFragment extends ModifiablePatientFragment {
-
 
     private View mView;
     private ChildEventListener mPatientListener;
@@ -73,21 +57,24 @@ public class EditPatientFragment extends ModifiablePatientFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.tab_record_details, container, false);
+        mView = super.onCreateView(inflater, container, savedInstanceState);
         setTitle(mView, R.string.edit_record_title);
+        mLoadingModal.show();
 
         mPatient = (Patient) getArguments().getSerializable("patient");
         initPatientListener();
 
-        initSaveButton(mView.findViewById(R.id.header_button));
+        mSearchEngine = new AlgoliaUtilities(getActivity(), () -> {
+            mLoadingModal.dismiss();
+            initButtons();
+        });
         renderListView(mView.findViewById(R.id.details_list));
-        initDeleteButton();
         return mView;
     }
 
     @Override
     public void onDestroyView() {
-        destroyListener();
+        destroyChildListener();
         super.onDestroyView();
     }
 
@@ -101,13 +88,15 @@ public class EditPatientFragment extends ModifiablePatientFragment {
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
                 mPatient = dataSnapshot.getValue(Patient.class);
-                refreshDetails();
-                Toast.makeText(getActivity(), R.string.patient_update_notification, Toast.LENGTH_SHORT).show();
+                if (mPatient != null) {
+                    mAdapter.refresh(mPatient.getDetails());
+                    Toast.makeText(getActivity(), R.string.patient_update_notification, Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                Toast.makeText(getActivity(), R.string.patient_delete_notification, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.patient_delete_success, Toast.LENGTH_SHORT).show();
                 exit();
             }
 
@@ -121,15 +110,18 @@ public class EditPatientFragment extends ModifiablePatientFragment {
                 Toast.makeText(getActivity(), R.string.patient_download_fail, Toast.LENGTH_SHORT).show();
             }
         };
-
         mPatientRef
                 .orderByKey()
                 .equalTo(mPatient.getDatabaseKey())
                 .addChildEventListener(mPatientListener);
     }
 
-    private void initDeleteButton() {
-        final Button deleteButton = mView.findViewById(R.id.footer_button);
+    private void initButtons() {
+        initSaveButton(mView.findViewById(R.id.header_button));
+        initDeleteButton(mView.findViewById(R.id.footer_button));
+    }
+
+    private void initDeleteButton(Button deleteButton) {
         deleteButton.setVisibility(View.VISIBLE);
         deleteButton.setBackgroundResource(R.drawable.button_delete);
         deleteButton.setText(R.string.delete_record_button);
@@ -146,22 +138,23 @@ public class EditPatientFragment extends ModifiablePatientFragment {
     }
 
     private void deleteCurrentRecord() {
-        destroyListener(); // prevent onChildRemoved action from firing before listener
-        AlgoliaUtilities.deleteObject(getActivity(), mPatient.getDatabaseKey(), this::deleteFromDatabase);
+        mLoadingModal.show();
+        destroyChildListener(); // prevent onChildRemoved action from firing before listener
+        mSearchEngine.deleteObject(mPatient.getDatabaseKey(), this::deleteRecordFromDatabase);
     }
 
-    private void destroyListener() {
+    private void destroyChildListener() {
         mPatientRef
                 .orderByKey()
                 .equalTo(mPatient.getDatabaseKey())
                 .removeEventListener(mPatientListener);
     }
 
-    private void deleteFromDatabase() {
+    private void deleteRecordFromDatabase() {
         mPatientRef.child(mPatient.getDatabaseKey()).setValue(null).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                // TODO change to patient_delete_success
-                Toast.makeText(getActivity(), R.string.patient_delete_notification, Toast.LENGTH_SHORT).show();
+                mLoadingModal.dismiss();
+                Toast.makeText(getActivity(), R.string.patient_delete_success, Toast.LENGTH_SHORT).show();
                 exit();
             } else {
                 Toast.makeText(getActivity(), R.string.patient_delete_fail, Toast.LENGTH_SHORT).show();

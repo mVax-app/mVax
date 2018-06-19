@@ -24,9 +24,9 @@ package mhealth.mvax.records.utilities;
  * <p>
  * Exception thrown when an error occurs with searching
  */
-public class SearchException extends RuntimeException {
+class SearchException extends RuntimeException {
 
-    public SearchException(String message) {
+    SearchException(String message) {
         super(message);
     }
 

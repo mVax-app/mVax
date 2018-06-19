@@ -34,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import mhealth.mvax.R;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserRole;
+import mhealth.mvax.utilities.modals.CustomModal;
 
 /**
  * @author Robert Steilberg, Juliana Costa

@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.record.patient.modify.ModifiablePatientFragment;
+import mhealth.mvax.records.utilities.AlgoliaUtilities;
 
 /**
  * @author Robert Steilberg
@@ -41,13 +42,26 @@ public class CreateRecordFragment extends ModifiablePatientFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.tab_record_details, container, false);
+        final View view = super.onCreateView(inflater, container, savedInstanceState);
         setTitle(view, R.string.new_record_title);
-        // create Patient object for new record
-        mPatient = new Patient(mPatientRef.push().getKey());
-        initSaveButton(view.findViewById(R.id.header_button));
+
+        if (savedInstanceState == null) {
+            // create new Patient
+            mPatient = new Patient(mPatientRef.push().getKey());
+        } else {
+            // resuming from environment change
+            mPatient = (Patient) savedInstanceState.getSerializable("patient");
+        }
+
+        mSearchEngine = new AlgoliaUtilities(getActivity(), () -> initSaveButton(view.findViewById(R.id.header_button)));
         renderListView(view.findViewById(R.id.details_list));
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("patient", mPatient);
     }
 
 }

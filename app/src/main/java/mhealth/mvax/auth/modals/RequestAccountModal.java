@@ -38,6 +38,7 @@ import mhealth.mvax.auth.utilities.FirebaseUtilities;
 import mhealth.mvax.auth.utilities.Mailer;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.utilities.StringFetcher;
+import mhealth.mvax.utilities.modals.CustomModal;
 
 /**
  * @author Robert Steilberg

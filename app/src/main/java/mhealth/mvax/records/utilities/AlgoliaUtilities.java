@@ -45,7 +45,8 @@ import mhealth.mvax.model.record.SearchResult;
 /**
  * @author Robert Steilberg
  * <p>
- * DESCRIPTION
+ * Encapsulates functionality for initializing and using an Algolia
+ * search index
  */
 public class AlgoliaUtilities {
 
@@ -57,11 +58,7 @@ public class AlgoliaUtilities {
         initSearchIndex(onIndexInitListener);
     }
 
-    public Index getIndex() {
-        return mIndex;
-    }
-
-    private void initSearchIndex(Runnable listener) {
+    private void initSearchIndex(Runnable onInitListener) {
         FirebaseDatabase.getInstance().getReference()
                 .child(mActivity.getString(R.string.configTable))
                 .child(mActivity.getString(R.string.algoliaTable))
@@ -72,34 +69,33 @@ public class AlgoliaUtilities {
                         };
                         Map<String, String> configVars = dataSnapshot.getValue(t);
                         if (configVars != null) {
+                            String applicationId = configVars.get(mActivity.getString(R.string.algoliaApplicationIdKey));
+                            String apiKey = configVars.get(mActivity.getString(R.string.algoliaApiKey));
+                            String indexName = configVars.get(mActivity.getString(R.string.algoliaPatientIndex));
 
-                            // TODO move to db file
-                            String applicationId = configVars.get("application_id");
-                            String apiKey = configVars.get("api_key");
-                            String indexName = configVars.get("patient_index");
                             Client algoliaClient = new Client(applicationId, apiKey);
                             mIndex = algoliaClient.getIndex(indexName);
-                            listener.run();
+                            onInitListener.run();
                         } else {
-                            Toast.makeText(mActivity, "Unable to init search index", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mActivity, R.string.search_init_fail, Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(mActivity, "Unable to init search index", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, R.string.search_init_fail, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    public void search(String query, TypeRunnable<SearchResult> onHitListener) {
+    public void search(String query, TypeRunnable<SearchResult> onHitListener, Runnable onCompleteListener) {
         if (mIndex == null) {
             throw new SearchException("search not possible with uninitialized index");
         }
-
         mIndex.searchAsync(new Query(query), (results, error) -> {
             try {
-                JSONArray hits = (JSONArray) results.get("hits");
+                String algoliaHitsKey = mActivity.getString(R.string.algoliaHitsKey);
+                JSONArray hits = (JSONArray) results.get(algoliaHitsKey);
                 for (int i = 0; i < hits.length(); i++) {
                     try {
                         String objectIdField = mActivity.getString(R.string.algoliaObjectID);
@@ -118,53 +114,63 @@ public class AlgoliaUtilities {
 
                         onHitListener.run(result);
                     } catch (JSONException e) {
-                        // TODO change search_incomplete string
                         Toast.makeText(mActivity, R.string.search_incomplete, Toast.LENGTH_SHORT).show();
                     }
                 }
+                onCompleteListener.run();
             } catch (JSONException e) {
-                // TODO fix
-                Toast.makeText(mActivity, "search failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mActivity, R.string.search_fail, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-
-    public static void deleteObject(Activity activity, String objectID, Runnable onCompleteListener) {
-//        AlgoliaUtilities.initSearchIndex(activity, index -> index.deleteObjectAsync(objectID, (jsonObject, error) -> {
-//            if (error == null) {
-//                onCompleteListener.run();
-//            } else {
-//                Toast.makeText(activity, R.string.patient_delete_fail, Toast.LENGTH_SHORT).show();
-//            }
-//        }));
+    public void deleteObject(String objectID, Runnable onCompleteListener) {
+        if (mIndex == null) {
+            throw new SearchException("index deletion not possible with uninitialized index");
+        }
+        mIndex.deleteObjectAsync(objectID, (jsonObject, error) -> {
+            if (error == null) {
+                onCompleteListener.run();
+            } else {
+                Toast.makeText(mActivity, R.string.patient_delete_fail, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    public static void saveObject(Activity activity, Patient patient, Runnable onCompleteListener) {
-//        initSearchIndex(activity, index -> {
-//            JSONObject searchObject = new JSONObject();
-//            JSONArray array = new JSONArray();
-//            try {
-//                // TODO get from db file
-//                searchObject.put("firstName", patient.getFirstName());
-//                searchObject.put("lastName", patient.getLastName());
-//                searchObject.put("medicalId", patient.getMedicalId());
-//                searchObject.put("dob", patient.getDOB());
-//                searchObject.put("guardianName", patient.getGuardianName());
-//                array.put(array);
-//            } catch (JSONException e) {
-//                Toast.makeText(activity, R.string.patient_save_fail, Toast.LENGTH_SHORT).show();
-//            }
-//
-//            index.partialUpdateObjectsAsync(array, true, (jsonObject, error) -> {
-//                if (error == null) {
-//                    onCompleteListener.run();
-//                } else {
-//                    Toast.makeText(activity, R.string.patient_save_fail, Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        });
-    }
+    public void saveObject(Patient patient, Runnable onCompleteListener) {
+        if (mIndex == null) {
+            throw new SearchException("index save not possible with uninitialized index");
+        }
 
+        JSONObject searchObject = new JSONObject();
+        JSONArray array = new JSONArray();
+
+        String objectIdField = mActivity.getString(R.string.algoliaObjectID);
+        String firstNameField = mActivity.getString(R.string.patientFirstName);
+        String lastNameField = mActivity.getString(R.string.patientLastName);
+        String medicalIdField = mActivity.getString(R.string.patientMedicalId);
+        String dobField = mActivity.getString(R.string.patientdob);
+        String guardianField = mActivity.getString(R.string.patientGuardianName);
+
+        try {
+            searchObject.put(objectIdField, patient.getDatabaseKey());
+            searchObject.put(firstNameField, patient.getFirstName());
+            searchObject.put(lastNameField, patient.getLastName());
+            searchObject.put(medicalIdField, patient.getMedicalId());
+            searchObject.put(dobField, patient.getDOB());
+            searchObject.put(guardianField, patient.getGuardianName());
+            array.put(searchObject);
+        } catch (JSONException e) {
+            Toast.makeText(mActivity, R.string.patient_save_fail, Toast.LENGTH_SHORT).show();
+        }
+
+        mIndex.partialUpdateObjectsAsync(array, true, (jsonObject, error) -> {
+            if (error == null) {
+                onCompleteListener.run();
+            } else {
+                Toast.makeText(mActivity, R.string.patient_save_fail, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 }

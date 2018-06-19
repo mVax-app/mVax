@@ -344,7 +344,7 @@
     <string name="modal_sex_title">Choose Sex</string>
     <string name="modal_sex_neutral">Remove Sex</string>
     <string name="modal_cancel">Cancel</string>
-    <string name="patient_delete_notification">Patient deleted</string>
+    <string name="patient_delete_success">Patient deleted</string>
     <string name="patient_delete_fail">Unable to delete patient</string>
 
     <string name="modal_confirm">Confirm</string>

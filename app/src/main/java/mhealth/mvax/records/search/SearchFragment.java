@@ -19,9 +19,9 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.search;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,28 +33,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
-
-import com.algolia.search.saas.Client;
-import com.algolia.search.saas.Index;
-import com.algolia.search.saas.Query;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.ValueEventListener;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Map;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.record.SearchResult;
 import mhealth.mvax.records.record.patient.modify.create.CreateRecordFragment;
 import mhealth.mvax.records.utilities.AlgoliaUtilities;
-import mhealth.mvax.records.utilities.TypeRunnable;
 
 /**
  * @author Robert Steilberg, Alison Huang
@@ -68,7 +50,6 @@ public class SearchFragment extends Fragment {
     private SearchResultAdapter mAdapter;
     private AlgoliaUtilities mSearchEngine;
 
-
     public static SearchFragment newInstance() {
         return new SearchFragment();
     }
@@ -78,7 +59,6 @@ public class SearchFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_search, container, false);
         initNewRecordButton();
         initSearchIndex();
-        mView.findViewById(R.id.search_bar).requestFocus();
         return mView;
     }
 
@@ -90,16 +70,17 @@ public class SearchFragment extends Fragment {
                 .commit());
     }
 
-
     private void initSearchIndex() {
         mSearchEngine = new AlgoliaUtilities(getActivity(), () -> {
+            renderListView(); // render ListView first so we have somewhere to put results
             initSearchBar();
-            renderListView();
         });
     }
 
     private void initSearchBar() {
         final EditText searchBar = mView.findViewById(R.id.search_bar);
+        checkForLeftoverQuery(searchBar);
+        searchBar.requestFocus();
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -117,32 +98,37 @@ public class SearchFragment extends Fragment {
     }
 
     private void search(String rawQuery) {
+        hideNoResultsMessage();
         showSpinner();
-        String query = rawQuery.trim();
+
+        final String query = rawQuery.trim();
         mAdapter.clearSearchResults(); // clear out results from previous search
-        mAdapter.setHashCode(query.hashCode()); // debouce
+        mAdapter.setHashCode(query.hashCode()); // debounce
         if (query.isEmpty()) {
             hideSpinner();
+            showNoResultsMessage();
             return;
         }
+
         mSearchEngine.search(query, result -> {
-            hideSpinner();
+            hideNoResultsMessage();
             mAdapter.addSearchResult(result, query.hashCode());
+        }, () -> {
+            hideSpinner();
+            if (mAdapter.getItemCount() == 0) showNoResultsMessage();
         });
     }
 
     private void renderListView() {
-        RecyclerView usersList = mView.findViewById(R.id.search_results);
+        final RecyclerView usersList = mView.findViewById(R.id.search_results);
         mAdapter = new SearchResultAdapter(getActivity());
         usersList.setAdapter(mAdapter);
         usersList.setHasFixedSize(true);
         usersList.setLayoutManager(new LinearLayoutManager(getContext()));
         usersList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
-        checkForLeftoverQuery();
     }
 
-    private void checkForLeftoverQuery() {
-        final EditText searchBar = mView.findViewById(R.id.search_bar);
+    private void checkForLeftoverQuery(EditText searchBar) {
         final String leftoverQuery = searchBar.getText().toString();
         if (!leftoverQuery.isEmpty()) {
             search(leftoverQuery);
@@ -157,5 +143,13 @@ public class SearchFragment extends Fragment {
     private void hideSpinner() {
         final ProgressBar spinner = mView.findViewById(R.id.spinner);
         spinner.setVisibility(View.INVISIBLE);
+    }
+
+    private void showNoResultsMessage() {
+        mView.findViewById(R.id.no_search_results).setVisibility(View.VISIBLE);
+    }
+
+    private void hideNoResultsMessage() {
+        mView.findViewById(R.id.no_search_results).setVisibility(View.INVISIBLE);
     }
 }

@@ -28,6 +28,7 @@
     <string name="role_value">role</string>
 
     <string name="password_value">password</string>
+    <string name="algoliaHitsKey">hits</string>
 
 
     <string name="algoliaObjectID">objectID</string>
@@ -36,6 +37,11 @@
     <string name="patientMedicalId">medicalId</string>
     <string name="patientdob">dob</string>
     <string name="patientGuardianName">guardianName</string>
+
+    <string name="algoliaApplicationIdKey">application_id</string>
+    <string name="algoliaApiKey">api_key</string>
+    <string name="algoliaPatientIndex">patient_index</string>
+
 
 
 

@@ -33,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.FirebaseUtilities;
+import mhealth.mvax.utilities.modals.CustomModal;
 
 /**
  * @author Robert Steilberg

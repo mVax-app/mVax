@@ -34,6 +34,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.AuthInputValidator;
+import mhealth.mvax.utilities.modals.CustomModal;
 
 /**
  * @author Robert Steilberg

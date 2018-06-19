@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.auth.modals;
+package mhealth.mvax.utilities.modals;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -52,6 +52,13 @@ public abstract class CustomModal extends AlertDialog.Builder {
     }
 
     /**
+     * Perform any operations necessary to create the custom modal dialog
+     *
+     * @return the newly created AlertDialog
+     */
+    abstract AlertDialog createDialog();
+
+    /**
      * Build and display the modal
      */
     @Override
@@ -61,31 +68,28 @@ public abstract class CustomModal extends AlertDialog.Builder {
         return dialog;
     }
 
-    /**
-     * Perform any operations necessary to create the custom modal dialog
-     *
-     * @return the newly created AlertDialog
-     */
-    abstract AlertDialog createDialog();
+    public void dismiss() {
+        mBuilder.dismiss();
+    }
 
-    Activity getActivity() {
+    public Activity getActivity() {
         return mActivity;
     }
 
-    View getView() {
+    public View getView() {
         return mView;
     }
 
-    String getString(int id) {
+    public String getString(int id) {
         return mResources.getString(id);
     }
 
-    void showSpinner() {
+    public void showSpinner() {
         mViews.forEach(view -> view.setVisibility(View.INVISIBLE));
         mSpinner.setVisibility(View.VISIBLE);
     }
 
-    void hideSpinner() {
+    public void hideSpinner() {
         mViews.forEach(view -> view.setVisibility(View.VISIBLE));
         mSpinner.setVisibility(View.INVISIBLE);
     }
