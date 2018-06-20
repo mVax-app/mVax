@@ -27,7 +27,7 @@
 
     <!-- Login/request for new account-->
     <string name="register_modal_title">Request new account</string>
-    <string name="modal_register_subtitle">You can request an mVax account by providing your name and email and tapping Submit. An mVax administrator will then approve or deny your request for an account. Upon approval, you can log into mVax.\n\nYour password must be at least 8 characters long and must have at least one uppercase letter, one lowercase letter, one digit, and one special character (@#$%&amp;+=!).</string>
+    <string name="modal_register_subtitle">You can request an mVax account by providing your name and email and tapping Submit. An mVax administrator will then approve or deny your request for an account. Upon approval, you can log into mVax.\n\nYour password must be at least 8 characters long and have at least one uppercase letter, one lowercase letter, one digit, and one special character (@#$%&amp;+=!).</string>
     <string name="hint_register_display_name">full name</string>
     <string name="empty_field">This field is required</string>
     <string name="invalid_email_error">Invalid email address</string>
@@ -154,8 +154,7 @@
     <string name="form_info_title">Exporting form information</string>
     <string name="form_info_body1">The form page is used to autofill data from the database into a PDF copy of the forms listed.</string>
     <string name="form_info_body2">
-        To start, simply click on the form you want to export. A screen will then pop up, asking for the . For the SINOVA, this is the date you want the data from. For
-            SINOVA 2 it is the month you want the data from. And for the LINV, it is which patients you want contained. </string>
+        To start, simply click on the form you want to export. A screen will then pop up, asking for additional information. For the SINOVA, it is the date you want the data from. ForSINOVA 2, it is the month you want the data from. And for LINVI, it is the patient you want displayed.</string>
     <string name="ok">OK</string>
 
     <!-- Forms/file paths-->
@@ -189,7 +188,7 @@
     <string name="establishment">ESTABLECIMIENTO</string>
     <string name="name_of_responsible_person">NOMBRE DEL RESPONSABLE</string>
     <string name="department">DEPARTAMENTO</string>
-    <string name="code">CODIGO</string>
+    <string name="code">CÓDIGO</string>
     <string name="municipality">MUNICIPIO</string>
     <string name="date_day">DÍA</string>
     <string name="date_month">MES</string>
@@ -207,10 +206,10 @@
     <string name="residence_department">DEPARTAMENTO RESIDENCIA Row</string>
     <string name="residence_municipal">MUNICIPIO RESIDENCIA Row</string>
     <string name="residence_town">LOCALIDAD RESIDENCIA Row</string>
-    <string name="residence_address">DIRECCION O REFERENCIARow</string>
-    <string name="cell_number">No TELEFONO FIJO O CELULARRow</string>
+    <string name="residence_address">DIRECCIÓN O REFERENCIARow</string>
+    <string name="cell_number">No TELÉFONO FIJO O CELULARRow</string>
     <string name="population_group">GRUPO POBLACIONAL AL QUE PERTENECERow</string>
-    <string name="full_name_guardian">NOMBRE COMPLETO DE LA MADRERESPONSABLERow</string>
+    <string name="full_name_guardian">NOMBRE COMPLETO DE LA MADRE RESPONSABLERow</string>
 
     <!-- Settings/about-->
     <string name="about">About</string>
@@ -324,7 +323,7 @@
 
     <string name="change_role">Change role</string>
     <string name="change_role_modal_title">Change role</string>
-    <string name="change_role_modal_subtitle">Select a new role for the user tap Submit.</string>
+    <string name="change_role_modal_subtitle">Select a new role for the user and tap Submit.</string>
     <string name="change_role_success">Role successfully changed</string>
     <string name="change_role_fail">Unable to change role</string>
     <string name="change_role_denied">You cannot change your own role</string>
