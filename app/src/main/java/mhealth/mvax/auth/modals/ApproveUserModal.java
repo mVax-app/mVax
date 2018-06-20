@@ -21,7 +21,6 @@ package mhealth.mvax.auth.modals;
 
 import android.app.AlertDialog;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +33,6 @@ import mhealth.mvax.auth.utilities.FirebaseUtilities;
 import mhealth.mvax.auth.utilities.Mailer;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserRole;
-import mhealth.mvax.utilities.StringFetcher;
 import mhealth.mvax.utilities.modals.CustomModal;
 
 /**
@@ -53,10 +51,10 @@ public class ApproveUserModal extends CustomModal {
     }
 
     @Override
-    public AlertDialog create() {
-        mBuilder = new AlertDialog.Builder(getActivity())
+    public AlertDialog initBuilder() {
+        mBuilder = new AlertDialog.Builder(mActivity)
                 .setTitle(getString(R.string.approve_user_modal_title))
-                .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_approve_user, (ViewGroup) getView().getParent(), false))
+                .setView(mInflater.inflate(R.layout.modal_approve_user, mParent, false))
                 .setPositiveButton(getString(R.string.confirm), null)
                 .setNegativeButton(getString(R.string.cancel), null)
                 .create();
@@ -86,7 +84,7 @@ public class ApproveUserModal extends CustomModal {
             if (task.isSuccessful()) {
                 updateUserTable();
             } else {
-                Toast.makeText(getActivity(), R.string.approve_user_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.approve_user_fail, Toast.LENGTH_LONG).show();
                 hideSpinner();
             }
         });
@@ -101,7 +99,7 @@ public class ApproveUserModal extends CustomModal {
             if (userTableAdd.isSuccessful()) {
                 updateRequestsTable();
             } else {
-                Toast.makeText(getActivity(), R.string.approve_user_incomplete, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.approve_user_incomplete, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -117,18 +115,18 @@ public class ApproveUserModal extends CustomModal {
                 hideSpinner();
                 sendWelcomeEmail();
                 mBuilder.dismiss();
-                Toast.makeText(getActivity(), R.string.approve_user_success, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.approve_user_success, Toast.LENGTH_LONG).show();
             } else {
                 hideSpinner();
                 FirebaseUtilities.disableUser(mRequest); // try to undo activation
-                Toast.makeText(getActivity(), R.string.approve_user_incomplete, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.approve_user_incomplete, Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void sendWelcomeEmail() {
         final String subject = getString(R.string.welcome_email_subject);
-        final String body = String.format(StringFetcher.fetchString(R.string.welcome_email_body),
+        final String body = String.format(getString(R.string.welcome_email_body),
                 mRequest.getDisplayName(),
                 mRequest.getRole().toString());
         new Mailer(getContext())

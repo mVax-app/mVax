@@ -76,14 +76,15 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         final SearchResult result = mSearchResults.get(position);
         holder.name.setText(result.getName());
 
-        final String DOBprompt = StringFetcher.fetchString(R.string.DOB_prompt);
+        final String DOBprompt = mActivity.getString(R.string.DOB_prompt);
         final String datePattern = mActivity.getString(R.string.date_format);
         final String DOBstr = DOBprompt
-                + " " +
-                NullableDateFormat.getString(datePattern, result.getDOB());
+                + " " + NullableDateFormat.getString(datePattern, result.getDOB());
         holder.dob.setText(DOBstr);
 
-        holder.medicalId.setText(result.getMedicalId());
+        final String medicalIdPrompt = mActivity.getString(R.string.medical_id_prompt)
+                + " " + result.getMedicalId();
+        holder.medicalId.setText(medicalIdPrompt);
 
         holder.row.setOnClickListener(v -> {
             SearchResult chosenResult = mSearchResults.get(position);

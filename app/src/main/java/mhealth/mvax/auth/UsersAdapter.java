@@ -81,8 +81,8 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         holder.email.setText(user.getEmail());
         holder.role.setText(user.getRole().toString());
         holder.infoButton.setOnClickListener(v -> new RoleInfoModal(v).show());
-        holder.changeRoleButton.setOnClickListener(v -> new ChangeRoleModal(v, user).create().show());
-        holder.deleteButton.setOnClickListener(v -> new DeleteUserModal(v, user.getUID()).create().show());
+        holder.changeRoleButton.setOnClickListener(v -> new ChangeRoleModal(v, user).show());
+        holder.deleteButton.setOnClickListener(v -> new DeleteUserModal(v, user.getUID()).show());
     }
 
     @Override

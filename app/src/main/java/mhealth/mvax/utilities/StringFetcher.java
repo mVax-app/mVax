@@ -27,9 +27,8 @@ import java.lang.ref.WeakReference;
 /**
  * @author Robert Steilberg
  * <p>
- * Fetches Strings via their resource IDs; should be
- * used when an Android Context object is not available
- * in the current scope
+ * Fetches Strings via their resource IDs; should be used when an
+ * Android Context object is not available in the current scope
  */
 public class StringFetcher extends Application {
 

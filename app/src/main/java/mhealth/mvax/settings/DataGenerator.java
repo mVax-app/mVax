@@ -74,9 +74,9 @@ class DataGenerator {
     }
 
     void generateData() {
-        generatePatientData();
-        generateVaccineData();
-        generateVaccinationData();
+//        generatePatientData();
+//        generateVaccineData();
+//        generateVaccinationData();
     }
 
     private void generatePatientData() {

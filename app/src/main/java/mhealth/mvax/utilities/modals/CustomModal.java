@@ -21,8 +21,11 @@ package mhealth.mvax.utilities.modals;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.res.Resources;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
@@ -35,9 +38,9 @@ import java.util.List;
  */
 public abstract class CustomModal extends AlertDialog.Builder {
 
-    private Activity mActivity;
-    private View mView;
-    private Resources mResources;
+    protected Activity mActivity;
+    protected ViewGroup mParent;
+    protected LayoutInflater mInflater;
 
     protected AlertDialog mBuilder;
     protected ProgressBar mSpinner;
@@ -46,8 +49,8 @@ public abstract class CustomModal extends AlertDialog.Builder {
     public CustomModal(View view) {
         super(view.getContext());
         mActivity = (Activity) view.getContext();
-        mView = view;
-        mResources = view.getResources();
+        mParent = (ViewGroup) view.getParent();
+        mInflater = LayoutInflater.from(mActivity);
         mViews = new ArrayList<>();
     }
 
@@ -56,13 +59,14 @@ public abstract class CustomModal extends AlertDialog.Builder {
      *
      * @return the newly created AlertDialog
      */
-    public abstract AlertDialog create();
+    public abstract AlertDialog initBuilder();
 
     /**
      * Build and display the modal
      */
     @Override
     public AlertDialog show() {
+        mBuilder = initBuilder();
         mBuilder.show();
         return mBuilder;
     }
@@ -71,16 +75,8 @@ public abstract class CustomModal extends AlertDialog.Builder {
         mBuilder.dismiss();
     }
 
-    public Activity getActivity() {
-        return mActivity;
-    }
-
-    public View getView() {
-        return mView;
-    }
-
     public String getString(int id) {
-        return mResources.getString(id);
+        return mActivity.getResources().getString(id);
     }
 
     public void showSpinner() {

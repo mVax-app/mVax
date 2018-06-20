@@ -23,7 +23,6 @@ import android.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
@@ -53,10 +52,10 @@ public class ChangeEmailModal extends CustomModal {
     }
 
     @Override
-    public AlertDialog create() {
-        mBuilder = new AlertDialog.Builder(getActivity())
+    public AlertDialog initBuilder() {
+        mBuilder = new AlertDialog.Builder(mActivity)
                 .setTitle(R.string.change_email_modal_title)
-                .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_change_email, (ViewGroup) getView().getParent(), false))
+                .setView(mInflater.inflate(R.layout.modal_change_email, mParent, false))
                 .setPositiveButton(R.string.submit, null)
                 .setNegativeButton(R.string.cancel, null)
                 .create();
@@ -136,22 +135,21 @@ public class ChangeEmailModal extends CustomModal {
         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currUser == null) {
             FirebaseAuth.getInstance().signOut();
-            getActivity().finish();
+            mActivity.finish();
             return;
         }
         if (currUser.getEmail() != null && currUser.getEmail().equals(email)) {
-            // no need to refreshDetails email
+            // no need to actually change email
             hideSpinner();
             mBuilder.dismiss();
-            Toast.makeText(getActivity(), R.string.change_email_success, Toast.LENGTH_LONG).show();
+            Toast.makeText(mActivity, R.string.change_email_success, Toast.LENGTH_LONG).show();
         }
-
         currUser.updateEmail(email).addOnCompleteListener(emailChange -> {
             if (emailChange.isSuccessful()) {
                 changeEmailInDatabase(currUser.getUid(), email);
             } else {
                 hideSpinner();
-                Toast.makeText(getActivity(), R.string.change_email_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.change_email_fail, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -167,10 +165,10 @@ public class ChangeEmailModal extends CustomModal {
                 // email change workflow completed
                 hideSpinner();
                 mBuilder.dismiss();
-                Toast.makeText(getActivity(), R.string.change_email_success, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.change_email_success, Toast.LENGTH_LONG).show();
             } else {
                 hideSpinner();
-                Toast.makeText(getActivity(), R.string.change_email_incomplete, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.change_email_incomplete, Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -43,7 +43,7 @@ import mhealth.mvax.model.immunization.Dose;
 import mhealth.mvax.model.immunization.Vaccination;
 import mhealth.mvax.model.immunization.Vaccine;
 import mhealth.mvax.records.utilities.NullableDateFormat;
-import mhealth.mvax.records.views.DateModal;
+import mhealth.mvax.records.modals.DateModal;
 import mhealth.mvax.records.utilities.TypeRunnable;
 
 /**
@@ -58,7 +58,7 @@ public class VaccineAdapter extends BaseAdapter {
     // Properties
     //================================================================================
 
-    private final Context mContext;
+    private final View mView;
     private final String mPatientDatabaseKey;
     private List<Vaccine> mVaccines;
     private HashMap<String, Date> mDates; // contains both Vaccinations and DueDates
@@ -67,8 +67,8 @@ public class VaccineAdapter extends BaseAdapter {
     // Constructors
     //================================================================================
 
-    VaccineAdapter(Context context, String patientKey, HashMap<String, Vaccine> vaccines, HashMap<String, Date> dates) {
-        mContext = context;
+    VaccineAdapter(View view, String patientKey, HashMap<String, Vaccine> vaccines, HashMap<String, Date> dates) {
+        mView = view;
         mPatientDatabaseKey = patientKey;
         mVaccines = new ArrayList<>(vaccines.values());
         Collections.sort(mVaccines);
@@ -101,7 +101,7 @@ public class VaccineAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View rowView, ViewGroup viewGroup) {
         final Vaccine vaccine = getItem(position);
-        LayoutInflater inflater = LayoutInflater.from(mContext);
+        LayoutInflater inflater = LayoutInflater.from(mView.getContext());
 
         ViewHolder holder;
         if (rowView == null) {
@@ -124,7 +124,7 @@ public class VaccineAdapter extends BaseAdapter {
         holder.vaccineLinearLayout.addView(linearLayoutForDate(
                 vaccine,
                 vaccine.getDatabaseKey(),
-                mContext.getString(R.string.due_date_label),
+                mView.getResources().getString(R.string.due_date_label),
                 R.string.dueDatesTable));
 
         // clear out old views from reused LinearLayout
@@ -178,12 +178,12 @@ public class VaccineAdapter extends BaseAdapter {
                                                  final String associatedDatabaseKey,
                                                  String label,
                                                  final int databaseId) {
-        final DateLinearLayout doseLinearLayout = new DateLinearLayout(mContext);
+        final DateLinearLayout doseLinearLayout = new DateLinearLayout(mView.getContext());
 
         doseLinearLayout.setLabel(label);
 
         if (mDates.containsKey(associatedDatabaseKey)) { // check if existing Date object exists
-            final String datePattern = mContext.getString(R.string.date_format);
+            final String datePattern = mView.getResources().getString(R.string.date_format);
             final String dateString = NullableDateFormat.getString(datePattern, mDates.get(associatedDatabaseKey).getDate());
             doseLinearLayout.setDate(dateString);
         }
@@ -213,7 +213,7 @@ public class VaccineAdapter extends BaseAdapter {
             existingDate = mDates.get(associatedDatabaseKey).getDate();
         }
 
-        final DateModal dateModal = new DateModal(existingDate, mContext);
+        final DateModal dateModal = new DateModal(existingDate, mView);
         dateModal.setPositiveButtonAction(new TypeRunnable<Long>() {
             @Override
             public void run(Long date) {
@@ -245,8 +245,8 @@ public class VaccineAdapter extends BaseAdapter {
      *                              on which the Date object should be set
      */
     private void setDate(Vaccine vaccine, String associatedDatabaseKey, Long date, int databaseId) {
-        final String masterTable = mContext.getString(R.string.dataTable);
-        final String dataTable = mContext.getString(databaseId); // corresponding data table
+        final String masterTable = mView.getResources().getString(R.string.dataTable);
+        final String dataTable = mView.getResources().getString(databaseId); // corresponding data table
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
                 .child(dataTable);
@@ -273,7 +273,7 @@ public class VaccineAdapter extends BaseAdapter {
                     }
                 }
 
-                final String vaccineTable = mContext.getString(R.string.vaccineTable); // corresponding data table
+                final String vaccineTable = mView.getResources().getString(R.string.vaccineTable); // corresponding data table
                 DatabaseReference vaccineRef = FirebaseDatabase.getInstance().getReference()
                         .child(masterTable)
                         .child(vaccineTable)
@@ -297,8 +297,8 @@ public class VaccineAdapter extends BaseAdapter {
      *                    Date obejct to delete is located
      */
     private void deleteDate(Vaccine vaccine, String associatedDatabaseKey, String databaseKey, int databaseId) {
-        final String masterTable = mContext.getString(R.string.dataTable);
-        final String dataTable = mContext.getString(databaseId);
+        final String masterTable = mView.getResources().getString(R.string.dataTable);
+        final String dataTable = mView.getResources().getString(databaseId);
         FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
                 .child(dataTable)
@@ -315,7 +315,7 @@ public class VaccineAdapter extends BaseAdapter {
                     vaccine.decrementGivenCount();
                 }
             }
-            final String vaccineTable = mContext.getString(R.string.vaccineTable); // corresponding data table
+            final String vaccineTable = mView.getResources().getString(R.string.vaccineTable); // corresponding data table
             DatabaseReference vaccineRef = FirebaseDatabase.getInstance().getReference()
                     .child(masterTable)
                     .child(vaccineTable)

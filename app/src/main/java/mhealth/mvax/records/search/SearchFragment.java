@@ -37,6 +37,7 @@ import android.widget.ProgressBar;
 import mhealth.mvax.R;
 import mhealth.mvax.records.record.patient.modify.create.CreateRecordFragment;
 import mhealth.mvax.records.utilities.AlgoliaUtilities;
+import mhealth.mvax.utilities.modals.LoadingModal;
 
 /**
  * @author Robert Steilberg, Alison Huang
@@ -49,6 +50,7 @@ public class SearchFragment extends Fragment {
     private View mView;
     private SearchResultAdapter mAdapter;
     private AlgoliaUtilities mSearchEngine;
+    private LoadingModal mLoadingModal;
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -57,6 +59,8 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_search, container, false);
+        mLoadingModal = new LoadingModal(mView);
+        mLoadingModal.show();
         initNewRecordButton();
         initSearchIndex();
         return mView;
@@ -74,6 +78,7 @@ public class SearchFragment extends Fragment {
         mSearchEngine = new AlgoliaUtilities(getActivity(), () -> {
             renderListView(); // render ListView first so we have somewhere to put results
             initSearchBar();
+            mLoadingModal.dismiss();
         });
     }
 

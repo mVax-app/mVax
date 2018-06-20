@@ -21,7 +21,6 @@ package mhealth.mvax.auth.modals;
 
 import android.app.AlertDialog;
 import android.view.View;
-import android.view.ViewGroup;
 
 import mhealth.mvax.R;
 import mhealth.mvax.utilities.modals.CustomModal;
@@ -38,10 +37,10 @@ public class RoleInfoModal extends CustomModal {
     }
 
     @Override
-    public AlertDialog create() {
-        mBuilder = new AlertDialog.Builder(getActivity())
+    public AlertDialog initBuilder() {
+        mBuilder = new AlertDialog.Builder(mActivity)
                 .setTitle(R.string.role_info_title)
-                .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_role_info, (ViewGroup) getView().getParent(), false))
+                .setView(mInflater.inflate(R.layout.modal_role_info, mParent, false))
                 .setPositiveButton(R.string.ok, null)
                 .show();
         return mBuilder;

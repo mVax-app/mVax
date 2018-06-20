@@ -23,7 +23,6 @@ import android.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
@@ -51,10 +50,10 @@ public class ChangePasswordModal extends CustomModal {
     }
 
     @Override
-    public AlertDialog create() {
-        mBuilder = new AlertDialog.Builder(getActivity())
+    public AlertDialog initBuilder() {
+        mBuilder = new AlertDialog.Builder(mActivity)
                 .setTitle(R.string.change_password_modal_title)
-                .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_change_password, (ViewGroup) getView().getParent(), false))
+                .setView(mInflater.inflate(R.layout.modal_change_password, mParent, false))
                 .setPositiveButton(R.string.submit, null)
                 .setNegativeButton(R.string.cancel, null)
                 .create();
@@ -134,17 +133,17 @@ public class ChangePasswordModal extends CustomModal {
         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currUser == null) {
             FirebaseAuth.getInstance().signOut();
-            getActivity().finish();
+            mActivity.finish();
             return;
         }
         currUser.updatePassword(password).addOnCompleteListener(passwordChange -> {
             if (passwordChange.isSuccessful()) {
                 hideSpinner();
                 mBuilder.dismiss();
-                Toast.makeText(getActivity(), R.string.change_password_success, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.change_password_success, Toast.LENGTH_LONG).show();
             } else {
                 hideSpinner();
-                Toast.makeText(getActivity(), R.string.change_password_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.change_password_fail, Toast.LENGTH_LONG).show();
             }
         });
     }

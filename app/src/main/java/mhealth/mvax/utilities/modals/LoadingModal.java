@@ -20,6 +20,7 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.utilities.modals;
 
 import android.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -28,7 +29,7 @@ import mhealth.mvax.R;
 /**
  * @author Robert Steilberg
  * <p>
- * Simple loading modal that disables all backgroudn views
+ * Modal with a loading spinner that disables all backgroudn views
  */
 public class LoadingModal extends CustomModal {
 
@@ -37,20 +38,20 @@ public class LoadingModal extends CustomModal {
     }
 
     @Override
+    public AlertDialog initBuilder() {
+        mBuilder = new AlertDialog.Builder(getContext())
+                .setView(LayoutInflater.from(getContext()).inflate(R.layout.modal_loading, mParent, false))
+                .create();
+        return mBuilder;
+    }
+
+    @Override
     public AlertDialog show() {
-        AlertDialog dialog = create();
+        AlertDialog dialog = initBuilder();
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         if (dialog.getWindow() != null) dialog.getWindow().setLayout(236, 236);
         return dialog;
-    }
-
-    @Override
-    public AlertDialog create() {
-        mBuilder = new AlertDialog.Builder(getContext())
-                .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_loading, (ViewGroup) getView().getParent(), false))
-                .create();
-        return mBuilder;
     }
 
 }

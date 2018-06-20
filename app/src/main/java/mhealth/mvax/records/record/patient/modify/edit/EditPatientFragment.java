@@ -59,7 +59,6 @@ public class EditPatientFragment extends ModifiablePatientFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = super.onCreateView(inflater, container, savedInstanceState);
         setTitle(mView, R.string.edit_record_title);
-        mLoadingModal.show();
 
         mPatient = (Patient) getArguments().getSerializable("patient");
         initPatientListener();

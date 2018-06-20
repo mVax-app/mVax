@@ -65,8 +65,9 @@
     <string name="tab_title_record_details">Record details</string>
     <string name="tab_title_vaccine_schedule">Vaccine history</string>
     <string name="vaccine_title">Vaccine history</string>
-    <string name="date_format">mm/dd/yyyy</string>
+    <string name="date_format">MM/dd/yyyy</string>
     <string name="DOB_prompt">DOB:</string>
+    <string name="medical_id_prompt">ID:</string>
     <string name="modal_date_confirm">Confirm</string>
     <string name="modal_date_neutral">No date</string>
     <string name="modal_cancel">Cancel</string>

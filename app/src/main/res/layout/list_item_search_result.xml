@@ -18,12 +18,13 @@
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp" />
+            android:textSize="28sp" />
 
         <TextView
             android:id="@+id/medicalId"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textSize="20sp"/>
 
     </LinearLayout>
 
@@ -33,6 +34,6 @@
         android:layout_height="match_parent"
         android:layout_weight="0.01"
         android:gravity="center|end"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
 </LinearLayout>
