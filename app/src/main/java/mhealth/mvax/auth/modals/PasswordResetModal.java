@@ -23,7 +23,6 @@ import android.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
@@ -34,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.AuthInputValidator;
+import mhealth.mvax.utilities.modals.CustomModal;
 
 /**
  * @author Robert Steilberg
@@ -47,10 +47,10 @@ public class PasswordResetModal extends CustomModal {
     }
 
     @Override
-    AlertDialog createDialog() {
-        mBuilder = new AlertDialog.Builder(getActivity())
+    public AlertDialog initBuilder() {
+        mBuilder = new AlertDialog.Builder(mActivity)
                 .setTitle(R.string.password_reset_modal_title)
-                .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_password_reset, (ViewGroup) getView().getParent(), false))
+                .setView(mInflater.inflate(R.layout.modal_password_reset, mParent, false))
                 .setPositiveButton(R.string.submit, null)
                 .setNegativeButton(R.string.cancel, null)
                 .create();
@@ -107,10 +107,10 @@ public class PasswordResetModal extends CustomModal {
             if (task.getException() instanceof FirebaseNetworkException) {
                 // only show error for no internet; don't let user know if email
                 // isn't associated with an account
-                Toast.makeText(getActivity(), R.string.auth_fail_no_connection, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.auth_fail_no_connection, Toast.LENGTH_LONG).show();
             } else { // success
                 mBuilder.dismiss();
-                Toast.makeText(getActivity(), getString(R.string.reset_email_confirm), Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, getString(R.string.reset_email_confirm), Toast.LENGTH_LONG).show();
             }
             hideSpinner();
         });

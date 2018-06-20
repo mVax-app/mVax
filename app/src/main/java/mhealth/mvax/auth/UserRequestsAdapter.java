@@ -84,7 +84,7 @@ public class UserRequestsAdapter extends RecyclerView.Adapter<UserRequestsAdapte
 
         holder.name.setText(request.getDisplayName());
         holder.email.setText(request.getEmail());
-        holder.infoButton.setOnClickListener(v -> new RoleInfoModal(v).show());
+        holder.infoButton.setOnClickListener(v -> new RoleInfoModal(v).create().show());
 
         holder.approveButton.setOnClickListener(v -> {
             switch (holder.roles.getCheckedRadioButtonId()) {

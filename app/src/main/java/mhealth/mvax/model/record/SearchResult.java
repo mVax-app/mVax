@@ -88,16 +88,16 @@ public class SearchResult {
     }
 
     /**
-     * Patient residential community
+     * Medical ID assigned to the person
      */
-    private String community = "";
+    private String medicalId = "";
 
-    public String getCommunity() {
-        return this.community;
+    public String getMedicalId() {
+        return this.medicalId;
     }
 
-    public void setCommunity(String community) {
-        this.community = community;
+    public void setMedicalId(String medicalId) {
+        this.medicalId = medicalId;
     }
 
     /**

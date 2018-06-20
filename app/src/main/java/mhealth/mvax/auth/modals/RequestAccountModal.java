@@ -23,7 +23,6 @@ import android.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,7 +36,7 @@ import mhealth.mvax.auth.utilities.AuthInputValidator;
 import mhealth.mvax.auth.utilities.FirebaseUtilities;
 import mhealth.mvax.auth.utilities.Mailer;
 import mhealth.mvax.model.user.User;
-import mhealth.mvax.utilities.StringFetcher;
+import mhealth.mvax.utilities.modals.CustomModal;
 
 /**
  * @author Robert Steilberg
@@ -57,10 +56,10 @@ public class RequestAccountModal extends CustomModal {
     }
 
     @Override
-    AlertDialog createDialog() {
-        mBuilder = new AlertDialog.Builder(getActivity())
+    public AlertDialog initBuilder() {
+        mBuilder = new AlertDialog.Builder(mActivity)
                 .setTitle(getString(R.string.register_modal_title))
-                .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_request_account, (ViewGroup) getView().getParent(), false))
+                .setView(mInflater.inflate(R.layout.modal_request_account, mParent, false))
                 .setPositiveButton(getString(R.string.submit), null)
                 .setNegativeButton(getString(R.string.cancel), null)
                 .create();
@@ -188,7 +187,7 @@ public class RequestAccountModal extends CustomModal {
                         // get UID from result
                         addRequest(email, displayName, createTask.getResult());
                     } else {
-                        Toast.makeText(getActivity(), R.string.request_submit_fail, Toast.LENGTH_LONG).show();
+                        Toast.makeText(mActivity, R.string.request_submit_fail, Toast.LENGTH_LONG).show();
                         hideSpinner();
                     }
                 });
@@ -208,20 +207,20 @@ public class RequestAccountModal extends CustomModal {
                 hideSpinner();
                 mBuilder.dismiss();
                 sendConfirmationEmail(newUser);
-                Toast.makeText(getActivity(), R.string.request_submit_success, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.request_submit_success, Toast.LENGTH_LONG).show();
             } else {
                 hideSpinner();
                 // unable to push request to UserRequest table, so attempt to delete the disabled
                 // user out of the auth table
                 FirebaseUtilities.deleteUser(uid);
-                Toast.makeText(getActivity(), R.string.request_submit_unknown_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.request_submit_unknown_fail, Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void sendConfirmationEmail(User newUser) {
         final String subject = getString(R.string.confirm_email_subject);
-        final String body = String.format(StringFetcher.fetchString(R.string.confirm_email_body),
+        final String body = String.format(getString(R.string.confirm_email_body),
                 newUser.getDisplayName());
         new Mailer(getContext())
                 .withMailTo(newUser.getEmail())

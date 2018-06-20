@@ -17,55 +17,37 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.records.views;
+package mhealth.mvax.records.modals;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.view.View;
 import android.widget.TextView;
 
 import mhealth.mvax.R;
 import mhealth.mvax.records.utilities.TypeRunnable;
+import mhealth.mvax.utilities.modals.CustomModal;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Abstract generic class for displaying a modal to choose
- *         a value of type T
+ * <p>
+ * Abstract generic class for displaying a modal to choose
+ * a value of type T
  */
-abstract class TypeModal<T> extends AlertDialog.Builder {
-
-    //================================================================================
-    // Properties
-    //================================================================================
+abstract class TypeModal<T> extends CustomModal {
 
     T mValue;
+    AlertDialog mDialog;
 
-    //================================================================================
-    // Constructors
-    //================================================================================
-
-    TypeModal(T value, Context context) {
-        super(context);
-        this.mValue = value;
-
-        initBuilder();
-
+    TypeModal(T value, View view) {
+        super(view);
+        mValue = value;
         // set negative button to cancel action and close modal
-        setNegativeButton(getContext().getString(R.string.modal_cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        setNegativeButton(getContext().getString(R.string.modal_cancel), (dialog, which) -> dialog.cancel());
     }
-
-    /**
-     * Initialize builder view and perform any setup operations
-     */
-    abstract void initBuilder();
 
     /**
      * Set an action to be called when the modal's positive button is clicked
@@ -82,17 +64,14 @@ abstract class TypeModal<T> extends AlertDialog.Builder {
      */
     abstract void setNeutralButtonAction(DialogInterface.OnClickListener listener);
 
-    //================================================================================
-    // Override methods
-    //================================================================================
-
     @Override
     public AlertDialog show() {
-        AlertDialog dialog = super.show();
+        mDialog = initBuilder();
+        mDialog.show();
         int textSize = 22;
-        dialog.getButton(Dialog.BUTTON_POSITIVE).setTextSize(textSize);
-        dialog.getButton(Dialog.BUTTON_NEUTRAL).setTextSize(textSize);
-        dialog.getButton(Dialog.BUTTON_NEGATIVE).setTextSize(textSize);
+        mDialog.getButton(Dialog.BUTTON_POSITIVE).setTextSize(textSize);
+        mDialog.getButton(Dialog.BUTTON_NEUTRAL).setTextSize(textSize);
+        mDialog.getButton(Dialog.BUTTON_NEGATIVE).setTextSize(textSize);
         return null;
     }
 
@@ -112,14 +91,10 @@ abstract class TypeModal<T> extends AlertDialog.Builder {
         return null;
     }
 
-    //================================================================================
-    // Private methods
-    //================================================================================
-
     private TextView getTitleTextView() {
         TextView titleView = new TextView(getContext());
         titleView.setTextSize(30);
-        titleView.setPaddingRelative(50,50,50,0);
+        titleView.setPaddingRelative(50, 50, 50, 0);
         titleView.setTextColor(Color.BLACK);
         return titleView;
     }

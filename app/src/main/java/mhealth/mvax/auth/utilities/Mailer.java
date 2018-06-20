@@ -81,8 +81,8 @@ public class Mailer {
      */
     public void send() {
         final DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
-                .child(StringFetcher.fetchString(R.string.configTable))
-                .child(StringFetcher.fetchString(R.string.mail_table));
+                .child(mContext.getString(R.string.configTable))
+                .child(mContext.getString(R.string.mail_table));
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -91,8 +91,8 @@ public class Mailer {
                 };
                 Map<String, String> credentials = dataSnapshot.getValue(t);
                 if (credentials != null) {
-                    final String email = credentials.get(StringFetcher.fetchString(R.string.email_value));
-                    final String password = credentials.get(StringFetcher.fetchString(R.string.password_value));
+                    final String email = credentials.get(mContext.getString(R.string.email_value));
+                    final String password = credentials.get(mContext.getString(R.string.password_value));
                     BackgroundMail.newBuilder(mContext)
                             .withUsername(email)
                             .withPassword(password)

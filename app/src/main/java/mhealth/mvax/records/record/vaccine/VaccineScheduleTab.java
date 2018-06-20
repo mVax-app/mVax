@@ -115,7 +115,7 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
     @Override
     public void render() {
         ListView vaccineListView = mView.findViewById(R.id.vaccines_list_view);
-        mAdapter = new VaccineAdapter(getContext(), mPatientDatabaseKey, mVaccines, mDates);
+        mAdapter = new VaccineAdapter(mView, mPatientDatabaseKey, mVaccines, mDates);
         vaccineListView.setAdapter(mAdapter);
     }
 

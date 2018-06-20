@@ -25,19 +25,16 @@ import java.util.Locale;
 /**
  * @author Robert Steilberg
  * <p>
- * Extension of SimpleDateFormat that handles formatting
- * null dates and initializes with default locale
+ * Extension of SimpleDateFormat that handles formattingn null dates and
+ * initializes with default locale
  */
 
-public class NullableDateFormat extends SimpleDateFormat {
+public class NullableDateFormat {
 
-    public NullableDateFormat(String pattern) {
-        super(pattern, Locale.getDefault());
-    }
-
-    public String getString(Long date) {
+    public static String getString(String pattern, Long date) {
         if (date != null) {
-            return format(date);
+            final SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.getDefault());
+            return formatter.format(date);
         } else {
             return "";
         }

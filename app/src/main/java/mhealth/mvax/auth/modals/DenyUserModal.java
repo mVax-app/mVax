@@ -21,7 +21,6 @@ package mhealth.mvax.auth.modals;
 
 import android.app.AlertDialog;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -32,7 +31,7 @@ import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.FirebaseUtilities;
 import mhealth.mvax.auth.utilities.Mailer;
 import mhealth.mvax.model.user.User;
-import mhealth.mvax.utilities.StringFetcher;
+import mhealth.mvax.utilities.modals.CustomModal;
 
 /**
  * @author Robert Steilberg
@@ -49,10 +48,10 @@ public class DenyUserModal extends CustomModal {
     }
 
     @Override
-    AlertDialog createDialog() {
-        mBuilder = new AlertDialog.Builder(getActivity())
+    public AlertDialog initBuilder() {
+        mBuilder = new AlertDialog.Builder(mActivity)
                 .setTitle(getString(R.string.deny_user_modal_title))
-                .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_deny_user, (ViewGroup) getView().getParent(), false))
+                .setView(mInflater.inflate(R.layout.modal_deny_user, mParent, false))
                 .setPositiveButton(getString(R.string.confirm), null)
                 .setNegativeButton(getString(R.string.cancel), null)
                 .create();
@@ -77,7 +76,7 @@ public class DenyUserModal extends CustomModal {
                 deleteUserRequest();
             } else {
                 hideSpinner();
-                Toast.makeText(getActivity(), R.string.deny_user_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.deny_user_fail, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -93,10 +92,10 @@ public class DenyUserModal extends CustomModal {
                 hideSpinner();
                 sendDenialEmail();
                 mBuilder.dismiss();
-                Toast.makeText(getActivity(), R.string.deny_user_success, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.deny_user_success, Toast.LENGTH_LONG).show();
             } else {
                 hideSpinner();
-                Toast.makeText(getActivity(), R.string.deny_user_incomplete, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.deny_user_incomplete, Toast.LENGTH_LONG).show();
                 // TODO implement better error handling in this case
             }
         });
@@ -104,7 +103,7 @@ public class DenyUserModal extends CustomModal {
 
     private void sendDenialEmail() {
         final String subject = getString(R.string.deny_email_subject);
-        final String body = String.format(StringFetcher.fetchString(R.string.deny_email_body),
+        final String body = String.format(getString(R.string.deny_email_body),
                 mRequest.getDisplayName());
         new Mailer(getContext())
                 .withMailTo(mRequest.getEmail())

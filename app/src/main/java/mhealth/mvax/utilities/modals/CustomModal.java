@@ -17,12 +17,15 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.auth.modals;
+package mhealth.mvax.utilities.modals;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.res.Resources;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
@@ -35,30 +38,20 @@ import java.util.List;
  */
 public abstract class CustomModal extends AlertDialog.Builder {
 
-    private Activity mActivity;
-    private View mView;
-    private Resources mResources;
+    protected Activity mActivity;
+    protected ViewGroup mParent;
+    protected LayoutInflater mInflater;
 
-    AlertDialog mBuilder;
-    ProgressBar mSpinner;
-    List<View> mViews;
+    protected AlertDialog mBuilder;
+    protected ProgressBar mSpinner;
+    protected List<View> mViews;
 
-    CustomModal(View view) {
+    public CustomModal(View view) {
         super(view.getContext());
         mActivity = (Activity) view.getContext();
-        mView = view;
-        mResources = view.getResources();
+        mParent = (ViewGroup) view.getParent();
+        mInflater = LayoutInflater.from(mActivity);
         mViews = new ArrayList<>();
-    }
-
-    /**
-     * Build and display the modal
-     */
-    @Override
-    public AlertDialog show() {
-        AlertDialog dialog = createDialog();
-        dialog.show();
-        return dialog;
     }
 
     /**
@@ -66,26 +59,32 @@ public abstract class CustomModal extends AlertDialog.Builder {
      *
      * @return the newly created AlertDialog
      */
-    abstract AlertDialog createDialog();
+    public abstract AlertDialog initBuilder();
 
-    Activity getActivity() {
-        return mActivity;
+    /**
+     * Build and display the modal
+     */
+    @Override
+    public AlertDialog show() {
+        mBuilder = initBuilder();
+        mBuilder.show();
+        return mBuilder;
     }
 
-    View getView() {
-        return mView;
+    public void dismiss() {
+        mBuilder.dismiss();
     }
 
-    String getString(int id) {
-        return mResources.getString(id);
+    public String getString(int id) {
+        return mActivity.getResources().getString(id);
     }
 
-    void showSpinner() {
+    public void showSpinner() {
         mViews.forEach(view -> view.setVisibility(View.INVISIBLE));
         mSpinner.setVisibility(View.VISIBLE);
     }
 
-    void hideSpinner() {
+    public void hideSpinner() {
         mViews.forEach(view -> view.setVisibility(View.VISIBLE));
         mSpinner.setVisibility(View.INVISIBLE);
     }

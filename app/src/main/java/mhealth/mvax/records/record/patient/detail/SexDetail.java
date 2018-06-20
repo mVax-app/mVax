@@ -23,7 +23,7 @@ import android.widget.EditText;
 
 import mhealth.mvax.model.record.Sex;
 import mhealth.mvax.utilities.StringFetcher;
-import mhealth.mvax.records.views.SexModal;
+import mhealth.mvax.records.modals.SexModal;
 
 /**
  * @author Robert Steilberg
@@ -39,8 +39,7 @@ public class SexDetail extends Detail<Sex> {
 
     @Override
     public void getValueViewListener(final EditText valueView) {
-        final SexModal sexModal = new SexModal(getValue(), valueView.getContext());
-
+        final SexModal sexModal = new SexModal(getValue(), valueView);
         sexModal.setPositiveButtonAction(sex -> {
             setValue(sex);
             valueView.setText(mStringValue);
@@ -49,7 +48,6 @@ public class SexDetail extends Detail<Sex> {
             setValue(null);
             valueView.setText(mStringValue);
         });
-
         sexModal.show();
     }
 

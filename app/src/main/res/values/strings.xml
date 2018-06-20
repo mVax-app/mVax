@@ -58,17 +58,20 @@
     <string name="patient_download_fail">Unable to download patient data</string>
     <string name="search_init_fail">Unable to initialize search service</string>
     <string name="search_fail">Search failed</string>
+    <string name="search_incomplete">Unable to download all search results</string>
+    <string name="no_search_results">No search results</string>
 
     <!-- Patients/record details-->
     <string name="tab_title_record_details">Record details</string>
     <string name="tab_title_vaccine_schedule">Vaccine history</string>
     <string name="vaccine_title">Vaccine history</string>
-    <string name="date_format">mm/dd/yyyy</string>
+    <string name="date_format">MM/dd/yyyy</string>
     <string name="DOB_prompt">DOB:</string>
+    <string name="medical_id_prompt">ID:</string>
     <string name="modal_date_confirm">Confirm</string>
     <string name="modal_date_neutral">No date</string>
     <string name="modal_cancel">Cancel</string>
-    <string name="patient_delete_notification">Patient deleted</string>
+    <string name="patient_delete_success">Patient deleted</string>
     <string name="patient_delete_fail">Unable to delete patient</string>
 
     <!-- Patients/vaccine history-->

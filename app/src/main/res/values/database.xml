@@ -21,13 +21,28 @@
 
 
 
-
     <string name="configTable">config</string>
     <string name="mail_table">mail</string>
     <string name="email_value">email</string>
     <string name="role_value">role</string>
 
     <string name="password_value">password</string>
+    <string name="algoliaHitsKey">hits</string>
+
+
+    <string name="algoliaObjectID">objectID</string>
+    <string name="patientFirstName">firstName</string>
+    <string name="patientLastName">lastName</string>
+    <string name="patientMedicalId">medicalId</string>
+    <string name="patientDob">dob</string>
+    <string name="patientDobSearch">dobSearch</string>
+
+    <string name="patientGuardianName">guardianName</string>
+
+    <string name="algoliaApplicationIdKey">application_id</string>
+    <string name="algoliaApiKey">api_key</string>
+    <string name="algoliaPatientIndex">patient_index</string>
+
 
 
 

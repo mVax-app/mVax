@@ -21,7 +21,6 @@ package mhealth.mvax.auth.modals;
 
 import android.app.AlertDialog;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -33,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.utilities.FirebaseUtilities;
+import mhealth.mvax.utilities.modals.CustomModal;
 
 /**
  * @author Robert Steilberg
@@ -49,10 +49,10 @@ public class DeleteUserModal extends CustomModal {
     }
 
     @Override
-    AlertDialog createDialog() {
-        mBuilder = new AlertDialog.Builder(getActivity())
+    public AlertDialog initBuilder() {
+        mBuilder = new AlertDialog.Builder(mActivity)
                 .setTitle(R.string.delete_user_modal_title)
-                .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_delete_user, (ViewGroup) getView().getParent(), false))
+                .setView(mInflater.inflate(R.layout.modal_delete_user, mParent, false))
                 .setPositiveButton(R.string.confirm, null)
                 .setNegativeButton(R.string.cancel, null)
                 .create();
@@ -72,18 +72,17 @@ public class DeleteUserModal extends CustomModal {
 
     private void attemptUserDelete() {
         showSpinner();
-
         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currUser == null) {
             FirebaseAuth.getInstance().signOut();
-            getActivity().finish();
+            mActivity.finish();
             return;
         }
         if (currUser.getUid().equals(mUID)) {
             // user is trying to delete itself
             hideSpinner();
             mBuilder.dismiss();
-            Toast.makeText(getActivity(), R.string.delete_user_denied, Toast.LENGTH_LONG).show();
+            Toast.makeText(mActivity, R.string.delete_user_denied, Toast.LENGTH_LONG).show();
             return;
         }
         // this user can be deleted, begin user deletion workflow
@@ -96,7 +95,7 @@ public class DeleteUserModal extends CustomModal {
                 deleteUserFromDatabase();
             } else {
                 hideSpinner();
-                Toast.makeText(getActivity(), R.string.delete_user_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.delete_user_fail, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -111,10 +110,10 @@ public class DeleteUserModal extends CustomModal {
                 // user deletion workflow completed
                 hideSpinner();
                 mBuilder.dismiss();
-                Toast.makeText(getActivity(), R.string.delete_user_success, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.delete_user_success, Toast.LENGTH_LONG).show();
             } else {
                 hideSpinner();
-                Toast.makeText(getActivity(), R.string.delete_user_incomplete, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.delete_user_incomplete, Toast.LENGTH_LONG).show();
                 // TODO implement better error handling in this case
             }
         });

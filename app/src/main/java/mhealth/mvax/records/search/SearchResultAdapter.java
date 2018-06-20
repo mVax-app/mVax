@@ -26,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import mhealth.mvax.R;
@@ -53,14 +52,14 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         View row;
-        TextView name, dob, community;
+        TextView name, dob, medicalId;
 
         ViewHolder(View view) {
             super(view);
             row = view;
             name = view.findViewById(R.id.name);
             dob = view.findViewById(R.id.dob);
-            community = view.findViewById(R.id.community);
+            medicalId = view.findViewById(R.id.medicalId);
         }
 
     }
@@ -77,12 +76,15 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         final SearchResult result = mSearchResults.get(position);
         holder.name.setText(result.getName());
 
-        final String DOBprompt = StringFetcher.fetchString(R.string.DOB_prompt);
-        NullableDateFormat dateFormat = new NullableDateFormat(StringFetcher.fetchString(R.string.date_format));
-        final String DOBstr = DOBprompt + " " + dateFormat.getString(result.getDOB());
+        final String DOBprompt = mActivity.getString(R.string.DOB_prompt);
+        final String datePattern = mActivity.getString(R.string.date_format);
+        final String DOBstr = DOBprompt
+                + " " + NullableDateFormat.getString(datePattern, result.getDOB());
         holder.dob.setText(DOBstr);
 
-        holder.community.setText(result.getCommunity());
+        final String medicalIdPrompt = mActivity.getString(R.string.medical_id_prompt)
+                + " " + result.getMedicalId();
+        holder.medicalId.setText(medicalIdPrompt);
 
         holder.row.setOnClickListener(v -> {
             SearchResult chosenResult = mSearchResults.get(position);

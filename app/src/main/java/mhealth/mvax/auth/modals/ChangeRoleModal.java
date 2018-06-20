@@ -21,7 +21,6 @@ package mhealth.mvax.auth.modals;
 
 import android.app.AlertDialog;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -34,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import mhealth.mvax.R;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserRole;
+import mhealth.mvax.utilities.modals.CustomModal;
 
 /**
  * @author Robert Steilberg, Juliana Costa
@@ -50,10 +50,10 @@ public class ChangeRoleModal extends CustomModal {
     }
 
     @Override
-    AlertDialog createDialog() {
-        mBuilder = new AlertDialog.Builder(getActivity())
+    public AlertDialog initBuilder() {
+        mBuilder = new AlertDialog.Builder(mActivity)
                 .setTitle(R.string.change_role_modal_title)
-                .setView(getActivity().getLayoutInflater().inflate(R.layout.modal_change_role, (ViewGroup) getView().getParent(), false))
+                .setView(mInflater.inflate(R.layout.modal_change_role, mParent, false))
                 .setPositiveButton(R.string.submit, null)
                 .setNegativeButton(R.string.cancel, null)
                 .create();
@@ -102,14 +102,14 @@ public class ChangeRoleModal extends CustomModal {
         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currUser == null) {
             FirebaseAuth.getInstance().signOut();
-            getActivity().finish();
+            mActivity.finish();
             return;
         }
         if (currUser.getUid().equals(mUser.getUID())) {
             // trying to demote yourself
             hideSpinner();
             mBuilder.dismiss();
-            Toast.makeText(getActivity(), R.string.change_role_denied, Toast.LENGTH_LONG).show();
+            Toast.makeText(mActivity, R.string.change_role_denied, Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -117,7 +117,7 @@ public class ChangeRoleModal extends CustomModal {
             // role was not changed so nothing needs to be done
             hideSpinner();
             mBuilder.dismiss();
-            Toast.makeText(getActivity(), R.string.change_role_success, Toast.LENGTH_LONG).show();
+            Toast.makeText(mActivity, R.string.change_role_success, Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -129,10 +129,10 @@ public class ChangeRoleModal extends CustomModal {
         reference.setValue(newRole).addOnCompleteListener(roleChange -> {
             hideSpinner();
             if (roleChange.isSuccessful()) {
-                Toast.makeText(getActivity(), R.string.change_role_success, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.change_role_success, Toast.LENGTH_LONG).show();
                 mBuilder.dismiss();
             } else {
-                Toast.makeText(getActivity(), R.string.change_role_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(mActivity, R.string.change_role_fail, Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -266,15 +266,6 @@ public class Patient implements Serializable {
         dobDetail.setSetter(() -> setDOB(dobDetail.getValue()));
         details.add(dobDetail);
 
-        // community
-        final StringDetail communityDetail = new StringDetail(
-                this.community,
-                R.string.label_community,
-                R.string.hint_community,
-                false);
-        communityDetail.setSetter(() -> setCommunity(communityDetail.getValue()));
-        details.add(communityDetail);
-
         // place of birth
         final StringDetail placeOfBirthDetail = new StringDetail(
                 this.placeOfBirth,
@@ -283,6 +274,15 @@ public class Patient implements Serializable {
                 false);
         placeOfBirthDetail.setSetter(() -> setPlaceOfBirth(placeOfBirthDetail.getValue()));
         details.add(placeOfBirthDetail);
+
+        // community
+        final StringDetail communityDetail = new StringDetail(
+                this.community,
+                R.string.label_community,
+                R.string.hint_community,
+                false);
+        communityDetail.setSetter(() -> setCommunity(communityDetail.getValue()));
+        details.add(communityDetail);
 
         // address
         final StringDetail residenceDetail = new StringDetail(
@@ -293,15 +293,6 @@ public class Patient implements Serializable {
         residenceDetail.setSetter(() -> setResidence(residenceDetail.getValue()));
         details.add(residenceDetail);
 
-        // phone number
-        final StringNumberDetail phoneNumberDetail = new StringNumberDetail(
-                this.phoneNumber,
-                R.string.label_phone_number,
-                R.string.hint_phone_number,
-                false);
-        phoneNumberDetail.setSetter(() -> setPhoneNumber(phoneNumberDetail.getValue()));
-        details.add(phoneNumberDetail);
-
         // guardian name
         final StringDetail guardianNameDetail = new StringDetail(
                 this.guardianName,
@@ -310,6 +301,15 @@ public class Patient implements Serializable {
                 true);
         guardianNameDetail.setSetter(() -> setGuardianName(guardianNameDetail.getValue()));
         details.add(guardianNameDetail);
+
+        // phone number
+        final StringNumberDetail phoneNumberDetail = new StringNumberDetail(
+                this.phoneNumber,
+                R.string.label_phone_number,
+                R.string.hint_phone_number,
+                false);
+        phoneNumberDetail.setSetter(() -> setPhoneNumber(phoneNumberDetail.getValue()));
+        details.add(phoneNumberDetail);
 
         return details;
     }

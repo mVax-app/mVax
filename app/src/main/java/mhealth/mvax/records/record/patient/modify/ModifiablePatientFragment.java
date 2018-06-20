@@ -21,10 +21,13 @@ package mhealth.mvax.records.record.patient.modify;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,8 +39,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 import mhealth.mvax.R;
+import mhealth.mvax.utilities.modals.LoadingModal;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.record.RecordFragment;
+import mhealth.mvax.records.utilities.AlgoliaUtilities;
 
 /**
  * @author Robert Steilberg
@@ -50,11 +55,22 @@ public abstract class ModifiablePatientFragment extends Fragment {
     protected Patient mPatient;
     protected DatabaseReference mPatientRef;
     protected ModifyPatientAdapter mAdapter;
+    protected AlgoliaUtilities mSearchEngine;
+    protected LoadingModal mLoadingModal;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initDatabaseRefs();
+    }
+
+    @Override
+    @CallSuper
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.tab_record_details, container, false);
+        mLoadingModal = new LoadingModal(view);
+        mLoadingModal.show();
+        return view;
     }
 
     private void initDatabaseRefs() {
@@ -77,28 +93,17 @@ public abstract class ModifiablePatientFragment extends Fragment {
         detailsList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
     }
 
-    protected void initSaveButton(final Button button) {
+    protected void initSaveButton(Button button) {
+        button.setVisibility(View.VISIBLE);
         button.setBackgroundResource(R.drawable.button_save);
         button.setText(R.string.save_record_button);
         button.setOnClickListener(v -> saveRecord());
     }
 
-    protected void refreshDetails() {
-        mAdapter.refresh(mPatient.getDetails());
-    }
-
     private void saveRecord() {
         if (noEmptyRequiredFields()) {
-            mPatientRef
-                    .child(mPatient.getDatabaseKey())
-                    .setValue(mPatient, (databaseError, databaseReference) -> {
-                        if (databaseError == null) {
-                            viewRecord();
-                            Toast.makeText(getActivity(), R.string.patient_save_notification, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getActivity(), R.string.patient_save_fail, Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            mLoadingModal.show();
+            saveRecordToDatabase();
         }
     }
 
@@ -115,7 +120,22 @@ public abstract class ModifiablePatientFragment extends Fragment {
         return noEmptyRequiredFields;
     }
 
+    private void saveRecordToDatabase() {
+        mPatientRef
+                .child(mPatient.getDatabaseKey())
+                .setValue(mPatient, (databaseError, databaseReference) -> {
+                    if (databaseError == null) {
+                        mSearchEngine.saveObject(mPatient, this::viewRecord);
+                    } else {
+                        Toast.makeText(getActivity(), R.string.patient_save_fail, Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     private void viewRecord() {
+        mLoadingModal.dismiss();
+        Toast.makeText(getActivity(), R.string.patient_save_notification, Toast.LENGTH_SHORT).show();
+
         // in case of create, pop "Edit -> Search" from back stack and commit it
         // in case of edit, pop "Edit -> Record" from back stack and commit it
         getActivity().getFragmentManager().popBackStack();

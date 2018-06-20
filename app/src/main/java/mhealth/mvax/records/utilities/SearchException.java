@@ -17,24 +17,17 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.records.views.detail;
-
-import org.junit.Test;
-
-import mhealth.mvax.model.record.Sex;
-
-import static org.junit.Assert.*;
+package mhealth.mvax.records.utilities;
 
 /**
- * Created by AlisonHuang on 11/28/17.
+ * @author Robert Steilberg
+ * <p>
+ * Exception thrown when an error occurs with searching
  */
-public class SexDetailTest {
+class SearchException extends RuntimeException {
 
-    @Test
-    public void stringValueUpdater() {
-
-        // SexDetail sd = new SexDetail("", "", Sex.FEMALE, );
-
+    SearchException(String message) {
+        super(message);
     }
 
 }

@@ -126,7 +126,7 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                Toast.makeText(getActivity(), R.string.patient_delete_notification, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.patient_delete_success, Toast.LENGTH_SHORT).show();
                 // pop "Record -> Search" from back stack and commit it
                 getActivity().getFragmentManager().popBackStack();
             }
@@ -152,6 +152,7 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
 
     private void initButtons() {
         final Button editButton = mView.findViewById(R.id.header_button);
+        editButton.setVisibility(View.VISIBLE);
         editButton.setBackgroundResource(R.drawable.button_edit);
         editButton.setText(R.string.edit_record_button);
         editButton.setOnClickListener(view -> {

@@ -17,32 +17,41 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.auth.modals;
+package mhealth.mvax.utilities.modals;
 
 import android.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import mhealth.mvax.R;
-import mhealth.mvax.utilities.modals.CustomModal;
 
 /**
  * @author Robert Steilberg
  * <p>
- * Modal for displaying info about the available roles
+ * Modal with a loading spinner that disables all backgroudn views
  */
-public class RoleInfoModal extends CustomModal {
+public class LoadingModal extends CustomModal {
 
-    public RoleInfoModal(View view) {
+    public LoadingModal(View view) {
         super(view);
     }
 
     @Override
     public AlertDialog initBuilder() {
-        mBuilder = new AlertDialog.Builder(mActivity)
-                .setTitle(R.string.role_info_title)
-                .setView(mInflater.inflate(R.layout.modal_role_info, mParent, false))
-                .setPositiveButton(R.string.ok, null)
-                .show();
+        mBuilder = new AlertDialog.Builder(getContext())
+                .setView(LayoutInflater.from(getContext()).inflate(R.layout.modal_loading, mParent, false))
+                .create();
         return mBuilder;
     }
+
+    @Override
+    public AlertDialog show() {
+        AlertDialog dialog = initBuilder();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        if (dialog.getWindow() != null) dialog.getWindow().setLayout(236, 236);
+        return dialog;
+    }
+
 }

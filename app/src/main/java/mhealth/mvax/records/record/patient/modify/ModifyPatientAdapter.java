@@ -46,9 +46,12 @@ public class ModifyPatientAdapter extends PatientDetailsAdapter {
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Detail detail = mDetails.get(position);
         detail.configureValueView(holder.value);
+
         holder.field.setText(detail.getLabelStringId());
-        holder.value.setHint(detail.getHintStringId());
+        String hint = holder.value.getResources().getString(detail.getHintStringId());
+        holder.value.setHint(hint + " ");
         holder.value.setText(detail.getStringValue());
+
         // trigger onclick listener no matter where the row is tapped
         holder.row.setOnClickListener(v ->
                 detail.getValueViewListener(holder.value));
