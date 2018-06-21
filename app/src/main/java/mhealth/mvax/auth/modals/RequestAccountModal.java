@@ -56,32 +56,32 @@ public class RequestAccountModal extends CustomModal {
     }
 
     @Override
-    public AlertDialog initBuilder() {
-        mBuilder = new AlertDialog.Builder(mActivity)
+    public void createAndShow() {
+        mDialog = new AlertDialog.Builder(mContext)
                 .setTitle(getString(R.string.register_modal_title))
                 .setView(mInflater.inflate(R.layout.modal_request_account, mParent, false))
                 .setPositiveButton(getString(R.string.submit), null)
                 .setNegativeButton(getString(R.string.cancel), null)
                 .create();
 
-        mBuilder.setOnShowListener(dialogInterface -> {
-            mSpinner = mBuilder.findViewById(R.id.spinner);
+        mDialog.setOnShowListener(dialogInterface -> {
+            mSpinner = mDialog.findViewById(R.id.spinner);
 
-            mViews.add(mBuilder.findViewById(R.id.request_subtitle));
+            mViews.add(mDialog.findViewById(R.id.request_subtitle));
 
-            mDisplayName = mBuilder.findViewById(R.id.display_name);
+            mDisplayName = mDialog.findViewById(R.id.display_name);
             mViews.add(mDisplayName);
 
-            mEmail = mBuilder.findViewById(R.id.email);
+            mEmail = mDialog.findViewById(R.id.email);
             mViews.add(mEmail);
 
-            mConfirmEmail = mBuilder.findViewById(R.id.email_confirm);
+            mConfirmEmail = mDialog.findViewById(R.id.email_confirm);
             mViews.add(mConfirmEmail);
 
-            mPassword = mBuilder.findViewById(R.id.password);
+            mPassword = mDialog.findViewById(R.id.password);
             mViews.add(mPassword);
 
-            mConfirmPassword = mBuilder.findViewById(R.id.password_confirm);
+            mConfirmPassword = mDialog.findViewById(R.id.password_confirm);
             mConfirmPassword.setOnEditorActionListener((v, actionId, event) -> {
                 if (event != null
                         && event.getAction() == KeyEvent.ACTION_DOWN // debounce
@@ -99,13 +99,13 @@ public class RequestAccountModal extends CustomModal {
             });
             mViews.add(mConfirmPassword);
 
-            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
+            mViews.add(mDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
 
-            final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
+            final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> validateFields());
             mViews.add(positiveButton);
         });
-        return mBuilder;
+        mDialog.show();
     }
 
     private void validateFields() {
@@ -187,7 +187,7 @@ public class RequestAccountModal extends CustomModal {
                         // get UID from result
                         addRequest(email, displayName, createTask.getResult());
                     } else {
-                        Toast.makeText(mActivity, R.string.request_submit_fail, Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, R.string.request_submit_fail, Toast.LENGTH_LONG).show();
                         hideSpinner();
                     }
                 });
@@ -205,15 +205,15 @@ public class RequestAccountModal extends CustomModal {
         requestsRef.setValue(newUser).addOnCompleteListener(addUserRequest -> {
             if (addUserRequest.isSuccessful()) {
                 hideSpinner();
-                mBuilder.dismiss();
+                dismiss();
                 sendConfirmationEmail(newUser);
-                Toast.makeText(mActivity, R.string.request_submit_success, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.request_submit_success, Toast.LENGTH_LONG).show();
             } else {
                 hideSpinner();
                 // unable to push request to UserRequest table, so attempt to delete the disabled
                 // user out of the auth table
                 FirebaseUtilities.deleteUser(uid);
-                Toast.makeText(mActivity, R.string.request_submit_unknown_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.request_submit_unknown_fail, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -222,7 +222,7 @@ public class RequestAccountModal extends CustomModal {
         final String subject = getString(R.string.confirm_email_subject);
         final String body = String.format(getString(R.string.confirm_email_body),
                 newUser.getDisplayName());
-        new Mailer(getContext())
+        new Mailer(mContext)
                 .withMailTo(newUser.getEmail())
                 .withSubject(subject)
                 .withBody(body)

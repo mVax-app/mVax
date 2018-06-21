@@ -19,9 +19,11 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.detail;
 
+import android.content.DialogInterface;
 import android.widget.EditText;
 
 import mhealth.mvax.model.record.Sex;
+import mhealth.mvax.records.utilities.TypeRunnable;
 import mhealth.mvax.utilities.StringFetcher;
 import mhealth.mvax.records.modals.SexModal;
 
@@ -38,17 +40,17 @@ public class SexDetail extends Detail<Sex> {
     }
 
     @Override
-    public void getValueViewListener(final EditText valueView) {
-        final SexModal sexModal = new SexModal(getValue(), valueView);
-        sexModal.setPositiveButtonAction(sex -> {
+    public void getValueViewListener(EditText valueView) {
+        final TypeRunnable<Sex> positiveAction = sex -> {
             setValue(sex);
             valueView.setText(mStringValue);
-        });
-        sexModal.setNeutralButtonAction((dialogInterface, which) -> {
+        };
+        final DialogInterface.OnClickListener neutralAction = (dialog, which) -> {
             setValue(null);
             valueView.setText(mStringValue);
-        });
-        sexModal.show();
+        };
+        final SexModal sexModal = new SexModal(getValue(), positiveAction, neutralAction, valueView);
+        sexModal.createAndShow();
     }
 
     @Override

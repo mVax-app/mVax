@@ -60,7 +60,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_search, container, false);
         mLoadingModal = new LoadingModal(mView);
-        mLoadingModal.show();
+        mLoadingModal.createAndShow();
         initNewRecordButton();
         initSearchIndex();
         return mView;

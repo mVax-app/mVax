@@ -213,23 +213,20 @@ public class VaccineAdapter extends BaseAdapter {
             existingDate = mDates.get(associatedDatabaseKey).getDate();
         }
 
-        final DateModal dateModal = new DateModal(existingDate, mView);
-        dateModal.setPositiveButtonAction(new TypeRunnable<Long>() {
-            @Override
-            public void run(Long date) {
-                setDate(vaccine, associatedDatabaseKey, date, databaseId);
+
+        final TypeRunnable<Long> positiveAction = date -> {
+            setDate(vaccine, associatedDatabaseKey, date, databaseId);
+        };
+        final DialogInterface.OnClickListener neutralAction = (dialog, which) -> {
+            if (mDates.containsKey(associatedDatabaseKey)) {
+                final Date dateToDelete = mDates.get(associatedDatabaseKey);
+                deleteDate(vaccine, associatedDatabaseKey, dateToDelete.getDatabaseKey(), databaseId);
             }
-        });
-        dateModal.setNeutralButtonAction(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                if (mDates.containsKey(associatedDatabaseKey)) {
-                    final Date dateToDelete = mDates.get(associatedDatabaseKey);
-                    deleteDate(vaccine, associatedDatabaseKey, dateToDelete.getDatabaseKey(), databaseId);
-                }
-            }
-        });
-        dateModal.show();
+        };
+        final DateModal dateModal = new DateModal(existingDate, positiveAction, neutralAction, mView);
+        dateModal.createAndShow();
+
+
     }
 
     /**

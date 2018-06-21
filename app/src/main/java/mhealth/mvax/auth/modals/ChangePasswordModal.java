@@ -50,22 +50,21 @@ public class ChangePasswordModal extends CustomModal {
     }
 
     @Override
-    public AlertDialog initBuilder() {
-        mBuilder = new AlertDialog.Builder(mActivity)
+    public void createAndShow() {
+        mDialog = new AlertDialog.Builder(mContext)
                 .setTitle(R.string.change_password_modal_title)
                 .setView(mInflater.inflate(R.layout.modal_change_password, mParent, false))
                 .setPositiveButton(R.string.submit, null)
                 .setNegativeButton(R.string.cancel, null)
                 .create();
 
-        mBuilder.setOnShowListener(dialogInterface -> {
-            mSpinner = mBuilder.findViewById(R.id.spinner);
+        mDialog.setOnShowListener(dialogInterface -> {
+            mSpinner = mDialog.findViewById(R.id.spinner);
 
-            mViews.add(mBuilder.findViewById(R.id.password_fields));
-            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
+            mViews.add(mDialog.findViewById(R.id.password_fields));
 
-            mPassword = mBuilder.findViewById(R.id.password);
-            mConfirmPassword = mBuilder.findViewById(R.id.password_confirm);
+            mPassword = mDialog.findViewById(R.id.password);
+            mConfirmPassword = mDialog.findViewById(R.id.password_confirm);
 
             mConfirmPassword.setOnEditorActionListener((v, actionId, event) -> {
                 if (event != null
@@ -83,11 +82,12 @@ public class ChangePasswordModal extends CustomModal {
                 return false;
             });
 
-            final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
+            mViews.add(mDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
+            final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> attemptPasswordChange());
             mViews.add(positiveButton);
         });
-        return mBuilder;
+        mDialog.show();
     }
 
     private void attemptPasswordChange() {
@@ -131,21 +131,18 @@ public class ChangePasswordModal extends CustomModal {
 
     private void changePasswordInAuthTable(String password) {
         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currUser == null) {
-            FirebaseAuth.getInstance().signOut();
-            mActivity.finish();
-            return;
+        if (currUser != null) {
+            currUser.updatePassword(password).addOnCompleteListener(passwordChange -> {
+                if (passwordChange.isSuccessful()) {
+                    hideSpinner();
+                    dismiss();
+                    Toast.makeText(mContext, R.string.change_password_success, Toast.LENGTH_LONG).show();
+                } else {
+                    hideSpinner();
+                    Toast.makeText(mContext, R.string.change_password_fail, Toast.LENGTH_LONG).show();
+                }
+            });
         }
-        currUser.updatePassword(password).addOnCompleteListener(passwordChange -> {
-            if (passwordChange.isSuccessful()) {
-                hideSpinner();
-                mBuilder.dismiss();
-                Toast.makeText(mActivity, R.string.change_password_success, Toast.LENGTH_LONG).show();
-            } else {
-                hideSpinner();
-                Toast.makeText(mActivity, R.string.change_password_fail, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
 }

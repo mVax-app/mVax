@@ -69,7 +69,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.tab_record_details, container, false);
         mLoadingModal = new LoadingModal(view);
-        mLoadingModal.show();
+        mLoadingModal.createAndShow();
         return view;
     }
 
@@ -102,7 +102,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
 
     private void saveRecord() {
         if (noEmptyRequiredFields()) {
-            mLoadingModal.show();
+            mLoadingModal.createAndShow();
             saveRecordToDatabase();
         }
     }

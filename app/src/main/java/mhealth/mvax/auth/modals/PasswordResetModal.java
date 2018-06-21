@@ -47,23 +47,21 @@ public class PasswordResetModal extends CustomModal {
     }
 
     @Override
-    public AlertDialog initBuilder() {
-        mBuilder = new AlertDialog.Builder(mActivity)
+    public void createAndShow() {
+        mDialog = new AlertDialog.Builder(mContext)
                 .setTitle(R.string.password_reset_modal_title)
                 .setView(mInflater.inflate(R.layout.modal_password_reset, mParent, false))
                 .setPositiveButton(R.string.submit, null)
                 .setNegativeButton(R.string.cancel, null)
                 .create();
 
-        mBuilder.setOnShowListener(dialogInterface -> {
+        mDialog.setOnShowListener(dialogInterface -> {
+            mSpinner = mDialog.findViewById(R.id.spinner);
 
-            mSpinner = mBuilder.findViewById(R.id.spinner);
+            mViews.add(mDialog.findViewById(R.id.reset_password_subtitle));
+            mViews.add(mDialog.findViewById(R.id.email));
 
-            mViews.add(mBuilder.findViewById(R.id.reset_password_subtitle));
-            mViews.add(mBuilder.findViewById(R.id.email));
-            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
-
-            final TextView emailTextView = mBuilder.findViewById(R.id.email);
+            final TextView emailTextView = mDialog.findViewById(R.id.email);
             emailTextView.setOnEditorActionListener((v, actionId, event) -> {
                 if (event != null
                         && event.getAction() == KeyEvent.ACTION_DOWN // debounce
@@ -80,11 +78,12 @@ public class PasswordResetModal extends CustomModal {
                 return false;
             });
 
-            final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
+            mViews.add(mDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
+            final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> attemptPasswordReset(emailTextView));
             mViews.add(positiveButton);
         });
-        return mBuilder;
+        mDialog.show();
     }
 
     private void attemptPasswordReset(final TextView emailTextView) {
@@ -107,10 +106,10 @@ public class PasswordResetModal extends CustomModal {
             if (task.getException() instanceof FirebaseNetworkException) {
                 // only show error for no internet; don't let user know if email
                 // isn't associated with an account
-                Toast.makeText(mActivity, R.string.auth_fail_no_connection, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.auth_fail_no_connection, Toast.LENGTH_LONG).show();
             } else { // success
-                mBuilder.dismiss();
-                Toast.makeText(mActivity, getString(R.string.reset_email_confirm), Toast.LENGTH_LONG).show();
+                dismiss();
+                Toast.makeText(mContext, getString(R.string.reset_email_confirm), Toast.LENGTH_LONG).show();
             }
             hideSpinner();
         });

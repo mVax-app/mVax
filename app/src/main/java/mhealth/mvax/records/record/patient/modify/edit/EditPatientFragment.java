@@ -137,7 +137,7 @@ public class EditPatientFragment extends ModifiablePatientFragment {
     }
 
     private void deleteCurrentRecord() {
-        mLoadingModal.show();
+        mLoadingModal.createAndShow();
         destroyChildListener(); // prevent onChildRemoved action from firing before listener
         mSearchEngine.deleteObject(mPatient.getDatabaseKey(), this::deleteRecordFromDatabase);
     }

@@ -24,6 +24,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.support.annotation.CallSuper;
 import android.view.View;
 import android.widget.TextView;
 
@@ -40,62 +41,71 @@ import mhealth.mvax.utilities.modals.CustomModal;
 abstract class TypeModal<T> extends CustomModal {
 
     T mValue;
-    AlertDialog mDialog;
+    TypeRunnable<T> mPositiveAction;
+    DialogInterface.OnClickListener mNeutralAction;
 
-    TypeModal(T value, View view) {
+    TypeModal(T value, TypeRunnable<T> positiveAction, DialogInterface.OnClickListener neutralAction, View view) {
         super(view);
         mValue = value;
-        // set negative button to cancel action and close modal
-        setNegativeButton(getContext().getString(R.string.modal_cancel), (dialog, which) -> dialog.cancel());
+        mPositiveAction = positiveAction;
+        mNeutralAction = neutralAction;
     }
 
-    /**
-     * Set an action to be called when the modal's positive button is clicked
-     *
-     * @param runnable contains code to be called taking in a param of type T
-     */
-    abstract void setPositiveButtonAction(TypeRunnable<T> runnable);
+//    /**
+//     * Set an action to be called when the modal's positive button is clicked
+//     *
+//     * @param runnable contains code to be called taking in a param of type T
+//     */
+//    abstract void setPositiveButtonAction(TypeRunnable<T> runnable);
+//
+//    /**
+//     * Set an action to be called when the modal's neutral button is clicked
+//     *
+//     * @param listener DialogInterface.OnClickListener that contains the code
+//     *                 to be called
+//     */
+//    abstract void setNeutralButtonAction(DialogInterface.OnClickListener listener);
+//
+//    @Override
+//    @CallSuper
+//    public AlertDialog.Builder initBuilder() {
+//        return new AlertDialog.Builder(getContext())
+//                .setNegativeButton(getContext().getString(R.string.modal_cancel), (dialog, which) -> dialog.cancel());
+//    }
 
-    /**
-     * Set an action to be called when the modal's neutral button is clicked
-     *
-     * @param listener DialogInterface.OnClickListener that contains the code
-     *                 to be called
-     */
-    abstract void setNeutralButtonAction(DialogInterface.OnClickListener listener);
+//    @Override
+//    @CallSuper
+//    public AlertDialog show() {
+//        createBuilder();
+//        mDialog.show();
+//        int textSize = 22;
+//        mDialog.getButton(Dialog.BUTTON_POSITIVE).setTextSize(textSize);
+//        mDialog.getButton(Dialog.BUTTON_NEUTRAL).setTextSize(textSize);
+//        mDialog.getButton(Dialog.BUTTON_NEGATIVE).setTextSize(textSize);
+//        return null;
+//    }
 
-    @Override
-    public AlertDialog show() {
-        mDialog = initBuilder();
-        mDialog.show();
-        int textSize = 22;
-        mDialog.getButton(Dialog.BUTTON_POSITIVE).setTextSize(textSize);
-        mDialog.getButton(Dialog.BUTTON_NEUTRAL).setTextSize(textSize);
-        mDialog.getButton(Dialog.BUTTON_NEGATIVE).setTextSize(textSize);
-        return null;
-    }
-
-    @Override
-    public AlertDialog.Builder setTitle(CharSequence title) {
-        TextView titleView = getTitleTextView();
-        titleView.setText(title);
-        setCustomTitle(titleView);
-        return null;
-    }
-
-    @Override
-    public AlertDialog.Builder setTitle(int titleStringId) {
-        TextView titleView = getTitleTextView();
-        titleView.setText(titleStringId);
-        setCustomTitle(titleView);
-        return null;
-    }
-
-    private TextView getTitleTextView() {
-        TextView titleView = new TextView(getContext());
-        titleView.setTextSize(30);
-        titleView.setPaddingRelative(50, 50, 50, 0);
-        titleView.setTextColor(Color.BLACK);
-        return titleView;
-    }
+//    @Override
+//    public AlertDialog.Builder setTitle(CharSequence title) {
+//        TextView titleView = getTitleTextView();
+//        titleView.setText(title);
+//        setCustomTitle(titleView);
+//        return null;
+//    }
+//
+//    @Override
+//    public AlertDialog.Builder setTitle(int titleStringId) {
+//        TextView titleView = getTitleTextView();
+//        titleView.setText(titleStringId);
+//        setCustomTitle(titleView);
+//        return null;
+//    }
+//
+//    private TextView getTitleTextView() {
+//        TextView titleView = new TextView(getContext());
+//        titleView.setTextSize(30);
+//        titleView.setPaddingRelative(50, 50, 50, 0);
+//        titleView.setTextColor(Color.BLACK);
+//        return titleView;
+//    }
 }

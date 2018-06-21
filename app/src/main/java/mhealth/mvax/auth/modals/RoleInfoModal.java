@@ -37,12 +37,13 @@ public class RoleInfoModal extends CustomModal {
     }
 
     @Override
-    public AlertDialog initBuilder() {
-        mBuilder = new AlertDialog.Builder(mActivity)
+    public void createAndShow() {
+        mDialog = new AlertDialog.Builder(mContext)
                 .setTitle(R.string.role_info_title)
                 .setView(mInflater.inflate(R.layout.modal_role_info, mParent, false))
                 .setPositiveButton(R.string.ok, null)
-                .show();
-        return mBuilder;
+                .create();
+        mDialog.show();
     }
+
 }

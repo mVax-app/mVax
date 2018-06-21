@@ -21,66 +21,58 @@ package mhealth.mvax.records.modals;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.DatePicker;
 
 import org.joda.time.LocalDate;
 
 import mhealth.mvax.R;
 import mhealth.mvax.records.utilities.TypeRunnable;
+import mhealth.mvax.utilities.modals.CustomModal;
 
 /**
  * @author Robert Steilberg
  * <p>
  * Modal for selecting a date via a DatePicker
  */
-public class DateModal extends TypeModal<Long> {
+public class DateModal extends CustomModal {
 
-    private DatePicker mDatePicker;
+    private Long mValue;
+    private TypeRunnable<Long> mPositiveAction;
+    private DialogInterface.OnClickListener mNeutralAction;
 
-    public DateModal(Long value, View view) {
-        super(value, view);
+    public DateModal(Long value, TypeRunnable<Long> positiveAction, DialogInterface.OnClickListener neutralAction, View view) {
+        super(view);
+        mValue = value;
+        mPositiveAction = positiveAction;
+        mNeutralAction = neutralAction;
     }
 
     @Override
-    public AlertDialog initBuilder() {
-        mDialog = new AlertDialog.Builder(getContext())
-                .setView(LayoutInflater.from(getContext()).inflate(R.layout.modal_date_picker, mParent, false))
+    public void createAndShow() {
+        final View view = mInflater.inflate(R.layout.modal_date_picker, mParent, false);
+        final DatePicker datePicker = view.findViewById(R.id.date_picker);
+
+        mDialog = new AlertDialog.Builder(mContext)
+                .setView(view)
                 .setTitle(R.string.modal_date_title)
+                .setPositiveButton(R.string.modal_date_confirm, (dialog, which) -> {
+                    final int day = datePicker.getDayOfMonth();
+                    final int month = datePicker.getMonth() + 1;
+                    final int year = datePicker.getYear();
+                    final long millis = new LocalDate(year, month, day).toDate().getTime();
+                    mPositiveAction.run(millis);
+                })
+                .setNegativeButton(R.string.modal_cancel, (dialog, which) -> dialog.cancel())
+                .setNeutralButton(R.string.modal_date_neutral, mNeutralAction)
                 .create();
 
-        mDatePicker = mDialog.findViewById(R.id.date_picker);
         // if value is already defined, select the respective date in the calendar
         if (mValue != null) {
             final LocalDate date = new LocalDate(mValue);
-            mDatePicker.updateDate(date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth());
+            datePicker.updateDate(date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth());
         }
-        return mDialog;
-    }
-
-    /**
-     * Set an action to be called when the modal's positive button is clicked;
-     * provides chosen date to action, represented by milliseconds since Unix
-     * epoch
-     *
-     * @param dateRunnable DateRunnable that contains the code to be called
-     */
-    @Override
-    public void setPositiveButtonAction(final TypeRunnable<Long> dateRunnable) {
-        this.setPositiveButton(R.string.modal_date_confirm, (dialogInterface, which) -> {
-            final int day = mDatePicker.getDayOfMonth();
-            final int month = mDatePicker.getMonth() + 1;
-            final int year = mDatePicker.getYear();
-            final long millis = new LocalDate(year, month, day).toDate().getTime();
-            dateRunnable.run(millis);
-        });
-    }
-
-    @Override
-    public void setNeutralButtonAction(DialogInterface.OnClickListener listener) {
-        this.setNeutralButton(R.string.modal_date_neutral, listener);
+        mDialog.show();
     }
 
 }

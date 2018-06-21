@@ -50,20 +50,20 @@ public class ChangeRoleModal extends CustomModal {
     }
 
     @Override
-    public AlertDialog initBuilder() {
-        mBuilder = new AlertDialog.Builder(mActivity)
+    public void createAndShow() {
+        mDialog = new AlertDialog.Builder(mContext)
                 .setTitle(R.string.change_role_modal_title)
                 .setView(mInflater.inflate(R.layout.modal_change_role, mParent, false))
                 .setPositiveButton(R.string.submit, null)
                 .setNegativeButton(R.string.cancel, null)
                 .create();
 
-        mBuilder.setOnShowListener(dialog -> {
-            mSpinner = mBuilder.findViewById(R.id.spinner);
+        mDialog.setOnShowListener(dialog -> {
+            mSpinner = mDialog.findViewById(R.id.spinner);
 
-            mViews.add(mBuilder.findViewById(R.id.change_role_modal_subtitle));
+            mViews.add(mDialog.findViewById(R.id.change_role_modal_subtitle));
 
-            final RadioGroup roleRadioGroup = mBuilder.findViewById(R.id.role_radio_group);
+            final RadioGroup roleRadioGroup = mDialog.findViewById(R.id.role_radio_group);
             switch (mUser.getRole()) {
                 case ADMIN:
                     roleRadioGroup.check(R.id.admin_radio_button);
@@ -76,9 +76,9 @@ public class ChangeRoleModal extends CustomModal {
             }
             mViews.add(roleRadioGroup);
 
-            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
+            mViews.add(mDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
 
-            final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
+            final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> {
                 switch (roleRadioGroup.getCheckedRadioButtonId()) {
                     case R.id.admin_radio_button:
@@ -93,31 +93,26 @@ public class ChangeRoleModal extends CustomModal {
             });
             mViews.add(positiveButton);
         });
-        return mBuilder;
+        mDialog.show();
     }
 
     private void changeRole(UserRole newRole) {
         showSpinner();
 
         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currUser == null) {
-            FirebaseAuth.getInstance().signOut();
-            mActivity.finish();
-            return;
-        }
-        if (currUser.getUid().equals(mUser.getUID())) {
+
+        if (currUser != null && currUser.getUid().equals(mUser.getUID())) {
             // trying to demote yourself
             hideSpinner();
-            mBuilder.dismiss();
-            Toast.makeText(mActivity, R.string.change_role_denied, Toast.LENGTH_LONG).show();
+            dismiss();
+            Toast.makeText(mContext, R.string.change_role_denied, Toast.LENGTH_LONG).show();
             return;
         }
-
         if (newRole == mUser.getRole()) {
             // role was not changed so nothing needs to be done
             hideSpinner();
-            mBuilder.dismiss();
-            Toast.makeText(mActivity, R.string.change_role_success, Toast.LENGTH_LONG).show();
+            dismiss();
+            Toast.makeText(mContext, R.string.change_role_success, Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -129,10 +124,10 @@ public class ChangeRoleModal extends CustomModal {
         reference.setValue(newRole).addOnCompleteListener(roleChange -> {
             hideSpinner();
             if (roleChange.isSuccessful()) {
-                Toast.makeText(mActivity, R.string.change_role_success, Toast.LENGTH_LONG).show();
-                mBuilder.dismiss();
+                Toast.makeText(mContext, R.string.change_role_success, Toast.LENGTH_LONG).show();
+                dismiss();
             } else {
-                Toast.makeText(mActivity, R.string.change_role_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.change_role_fail, Toast.LENGTH_LONG).show();
             }
         });
     }

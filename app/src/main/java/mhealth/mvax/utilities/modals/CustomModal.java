@@ -19,10 +19,8 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.utilities.modals;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,55 +34,39 @@ import java.util.List;
  * <p>
  * Abstract class the standardizes auth-related AlertDialogs
  */
-public abstract class CustomModal extends AlertDialog.Builder {
+public abstract class CustomModal {
 
-    protected Activity mActivity;
+    protected Context mContext;
     protected ViewGroup mParent;
     protected LayoutInflater mInflater;
 
-    protected AlertDialog mBuilder;
+    protected AlertDialog mDialog;
     protected ProgressBar mSpinner;
     protected List<View> mViews;
 
     public CustomModal(View view) {
-        super(view.getContext());
-        mActivity = (Activity) view.getContext();
+        mContext = view.getContext();
         mParent = (ViewGroup) view.getParent();
-        mInflater = LayoutInflater.from(mActivity);
+        mInflater = LayoutInflater.from(mContext);
         mViews = new ArrayList<>();
     }
 
-    /**
-     * Perform any operations necessary to create the custom modal dialog
-     *
-     * @return the newly created AlertDialog
-     */
-    public abstract AlertDialog initBuilder();
-
-    /**
-     * Build and display the modal
-     */
-    @Override
-    public AlertDialog show() {
-        mBuilder = initBuilder();
-        mBuilder.show();
-        return mBuilder;
-    }
+    public abstract void createAndShow();
 
     public void dismiss() {
-        mBuilder.dismiss();
+        mDialog.dismiss();
     }
 
-    public String getString(int id) {
-        return mActivity.getResources().getString(id);
+    protected String getString(int id) {
+        return mContext.getResources().getString(id);
     }
 
-    public void showSpinner() {
+    protected void showSpinner() {
         mViews.forEach(view -> view.setVisibility(View.INVISIBLE));
         mSpinner.setVisibility(View.VISIBLE);
     }
 
-    public void hideSpinner() {
+    protected void hideSpinner() {
         mViews.forEach(view -> view.setVisibility(View.VISIBLE));
         mSpinner.setVisibility(View.INVISIBLE);
     }

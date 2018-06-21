@@ -19,10 +19,12 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.detail;
 
+import android.content.DialogInterface;
 import android.widget.EditText;
 
 import mhealth.mvax.R;
 import mhealth.mvax.records.utilities.NullableDateFormat;
+import mhealth.mvax.records.utilities.TypeRunnable;
 import mhealth.mvax.utilities.StringFetcher;
 import mhealth.mvax.records.modals.DateModal;
 
@@ -39,17 +41,17 @@ public class DateDetail extends Detail<Long> {
     }
 
     @Override
-    public void getValueViewListener(final EditText valueView) {
-        final DateModal dateModal = new DateModal(getValue(), valueView);
-        dateModal.setPositiveButtonAction(date -> {
+    public void getValueViewListener(EditText valueView) {
+        final TypeRunnable<Long> positiveAction = date -> {
             setValue(date);
             valueView.setText(mStringValue);
-        });
-        dateModal.setNeutralButtonAction((dialogInterface, i) -> {
+        };
+        final DialogInterface.OnClickListener neutralAction = (dialog, which) -> {
             setValue(null);
             valueView.setText(mStringValue);
-        });
-        dateModal.show();
+        };
+        final DateModal dateModal = new DateModal(getValue(), positiveAction, neutralAction, valueView);
+        dateModal.createAndShow();
     }
 
     @Override

@@ -49,40 +49,35 @@ public class DeleteUserModal extends CustomModal {
     }
 
     @Override
-    public AlertDialog initBuilder() {
-        mBuilder = new AlertDialog.Builder(mActivity)
+    public void createAndShow() {
+        mDialog = new AlertDialog.Builder(mContext)
                 .setTitle(R.string.delete_user_modal_title)
                 .setView(mInflater.inflate(R.layout.modal_delete_user, mParent, false))
                 .setPositiveButton(R.string.confirm, null)
                 .setNegativeButton(R.string.cancel, null)
                 .create();
 
-        mBuilder.setOnShowListener(dialog -> {
-            mSpinner = mBuilder.findViewById(R.id.spinner);
+        mDialog.setOnShowListener(dialog -> {
+            mSpinner = mDialog.findViewById(R.id.spinner);
 
-            mViews.add(mBuilder.findViewById(R.id.dob));
-            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
+            mViews.add(mDialog.findViewById(R.id.dob));
+            mViews.add(mDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
 
-            final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
+            final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(v -> attemptUserDelete());
-            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_POSITIVE));
+            mViews.add(mDialog.getButton(AlertDialog.BUTTON_POSITIVE));
         });
-        return mBuilder;
+        mDialog.show();
     }
 
     private void attemptUserDelete() {
         showSpinner();
         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currUser == null) {
-            FirebaseAuth.getInstance().signOut();
-            mActivity.finish();
-            return;
-        }
-        if (currUser.getUid().equals(mUID)) {
+        if (currUser != null && currUser.getUid().equals(mUID)) {
             // user is trying to delete itself
             hideSpinner();
-            mBuilder.dismiss();
-            Toast.makeText(mActivity, R.string.delete_user_denied, Toast.LENGTH_LONG).show();
+            dismiss();
+            Toast.makeText(mContext, R.string.delete_user_denied, Toast.LENGTH_LONG).show();
             return;
         }
         // this user can be deleted, begin user deletion workflow
@@ -95,7 +90,7 @@ public class DeleteUserModal extends CustomModal {
                 deleteUserFromDatabase();
             } else {
                 hideSpinner();
-                Toast.makeText(mActivity, R.string.delete_user_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.delete_user_fail, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -109,11 +104,11 @@ public class DeleteUserModal extends CustomModal {
             if (userTableDelete.isSuccessful()) {
                 // user deletion workflow completed
                 hideSpinner();
-                mBuilder.dismiss();
-                Toast.makeText(mActivity, R.string.delete_user_success, Toast.LENGTH_LONG).show();
+                dismiss();
+                Toast.makeText(mContext, R.string.delete_user_success, Toast.LENGTH_LONG).show();
             } else {
                 hideSpinner();
-                Toast.makeText(mActivity, R.string.delete_user_incomplete, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.delete_user_incomplete, Toast.LENGTH_LONG).show();
                 // TODO implement better error handling in this case
             }
         });

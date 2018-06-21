@@ -21,73 +21,64 @@ package mhealth.mvax.records.modals;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.record.Sex;
 import mhealth.mvax.records.utilities.TypeRunnable;
+import mhealth.mvax.utilities.modals.CustomModal;
 
 /**
  * @author Robert Steilberg
  * <p>
  * Modal for selecting a Sex via a radio group
  */
-public class SexModal extends TypeModal<Sex> {
+public class SexModal extends CustomModal {
 
-    private RadioGroup mRadioGroup;
+    private Sex mValue;
+    private TypeRunnable<Sex> mPositiveAction;
+    private DialogInterface.OnClickListener mNeutralAction;
 
-    public SexModal(Sex value, View view) {
-        super(value, view);
+    public SexModal(Sex value, TypeRunnable<Sex> positiveAction, DialogInterface.OnClickListener neutralAction, View view) {
+        super(view);
+        mValue = value;
+        mPositiveAction = positiveAction;
+        mNeutralAction = neutralAction;
     }
 
     @Override
-    public AlertDialog initBuilder() {
-        mDialog = new AlertDialog.Builder(getContext())
-                .setView(LayoutInflater.from(getContext()).inflate(R.layout.modal_sex_picker, mParent, false))
+    public void createAndShow() {
+        final View view = mInflater.inflate(R.layout.modal_sex_picker, mParent, false);
+        final RadioGroup radioGroup = view.findViewById(R.id.choose_sex_radio_group);
+
+        mDialog = new AlertDialog.Builder(mContext)
+                .setView(view)
                 .setTitle(R.string.modal_sex_title)
+                .setPositiveButton(R.string.modal_sex_confirm, (dialog, which) -> {
+                    switch (radioGroup.getCheckedRadioButtonId()) {
+                        case R.id.male_radio_button:
+                            mValue = Sex.MALE;
+                            break;
+                        case R.id.female_radio_button:
+                            mValue = Sex.FEMALE;
+                            break;
+                        default:
+                            break;
+                    }
+                    mPositiveAction.run(mValue);
+                })
+                .setNegativeButton(R.string.modal_cancel, (dialog, which) -> dialog.cancel())
+                .setNeutralButton(R.string.modal_sex_neutral, mNeutralAction)
                 .create();
 
-        mRadioGroup = mDialog.findViewById(R.id.choose_sex_radio_group);
         // if a value is already defined, check the respective Sex in the radio group
         if (mValue == Sex.MALE) {
-            mRadioGroup.check(R.id.male_radio_button);
+            radioGroup.check(R.id.male_radio_button);
         } else if (mValue == Sex.FEMALE) {
-            mRadioGroup.check(R.id.female_radio_button);
+            radioGroup.check(R.id.female_radio_button);
         }
-        return mDialog;
-    }
-
-    /**
-     * Set an action to be called when the modal's positive button is clicked;
-     * provides chosen sex to action, represented by Sex enum
-     *
-     * @param sexRunnable SexRunnable that contains the code to be called
-     */
-    @Override
-    public void setPositiveButtonAction(final TypeRunnable<Sex> sexRunnable) {
-        this.setPositiveButton(R.string.modal_sex_confirm, (dialogInterface, which) -> {
-            final int chosenButtonId = mRadioGroup.getCheckedRadioButtonId();
-            final int chosenIdx = mRadioGroup.indexOfChild(mRadioGroup.findViewById(chosenButtonId));
-            switch (chosenIdx) {
-                case 0: // male (first item) chosen
-                    mValue = Sex.MALE;
-                    break;
-                case 1: // female (second item) chosen
-                    mValue = Sex.FEMALE;
-                    break;
-                default: // nothing chosen
-                    break;
-            }
-            sexRunnable.run(mValue);
-        });
-    }
-
-    @Override
-    public void setNeutralButtonAction(DialogInterface.OnClickListener listener) {
-        setNeutralButton(R.string.modal_sex_neutral, listener);
+        mDialog.show();
     }
 
 }

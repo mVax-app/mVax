@@ -143,10 +143,10 @@ public class AuthActivity extends Activity {
         signInButton.setOnClickListener(v -> authenticate());
 
         final TextView registerButton = findViewById(R.id.register);
-        registerButton.setOnClickListener(v -> new RequestAccountModal(v).show());
+        registerButton.setOnClickListener(v -> new RequestAccountModal(v).createAndShow());
 
         final TextView forgotButton = findViewById(R.id.forgot_password);
-        forgotButton.setOnClickListener(v -> new PasswordResetModal(v).show());
+        forgotButton.setOnClickListener(v -> new PasswordResetModal(v).createAndShow());
     }
 
     private void authenticate() {

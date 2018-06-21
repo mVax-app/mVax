@@ -20,9 +20,7 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.utilities.modals;
 
 import android.app.AlertDialog;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import mhealth.mvax.R;
 
@@ -38,20 +36,13 @@ public class LoadingModal extends CustomModal {
     }
 
     @Override
-    public AlertDialog initBuilder() {
-        mBuilder = new AlertDialog.Builder(getContext())
-                .setView(LayoutInflater.from(getContext()).inflate(R.layout.modal_loading, mParent, false))
+    public void createAndShow() {
+        mDialog = new AlertDialog.Builder(mContext)
+                .setView(mInflater.inflate(R.layout.modal_loading, mParent, false))
                 .create();
-        return mBuilder;
-    }
-
-    @Override
-    public AlertDialog show() {
-        AlertDialog dialog = initBuilder();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
-        if (dialog.getWindow() != null) dialog.getWindow().setLayout(236, 236);
-        return dialog;
+        mDialog.setCanceledOnTouchOutside(false);
+        mDialog.show();
+        if (mDialog.getWindow() != null) mDialog.getWindow().setLayout(236, 236);
     }
 
 }

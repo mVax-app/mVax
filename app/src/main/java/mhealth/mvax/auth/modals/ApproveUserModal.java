@@ -51,31 +51,31 @@ public class ApproveUserModal extends CustomModal {
     }
 
     @Override
-    public AlertDialog initBuilder() {
-        mBuilder = new AlertDialog.Builder(mActivity)
-                .setTitle(getString(R.string.approve_user_modal_title))
+    public void createAndShow() {
+        mDialog = new AlertDialog.Builder(mContext)
+                .setTitle(R.string.approve_user_modal_title)
                 .setView(mInflater.inflate(R.layout.modal_approve_user, mParent, false))
-                .setPositiveButton(getString(R.string.confirm), null)
-                .setNegativeButton(getString(R.string.cancel), null)
+                .setPositiveButton(R.string.confirm, null)
+                .setNegativeButton(R.string.cancel, null)
                 .create();
 
-        mBuilder.setOnShowListener(dialogInterface -> {
-            mSpinner = mBuilder.findViewById(R.id.spinner);
+        mDialog.setOnShowListener(dialogInterface -> {
+            mSpinner = mDialog.findViewById(R.id.spinner);
 
-            final TextView subtitle = mBuilder.findViewById(R.id.dob);
+            final TextView subtitle = mDialog.findViewById(R.id.dob);
             final String text = String.format(getString(R.string.approve_user_subtitle),
                     mRequest.getDisplayName(),
                     mRequest.getRole().toString());
             subtitle.setText(text);
             mViews.add(subtitle);
 
-            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
+            mViews.add(mDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
 
-            final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
+            final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> activateUser());
             mViews.add(positiveButton);
         });
-        return mBuilder;
+        mDialog.show();
     }
 
     private void activateUser() {
@@ -84,7 +84,7 @@ public class ApproveUserModal extends CustomModal {
             if (task.isSuccessful()) {
                 updateUserTable();
             } else {
-                Toast.makeText(mActivity, R.string.approve_user_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.approve_user_fail, Toast.LENGTH_LONG).show();
                 hideSpinner();
             }
         });
@@ -99,7 +99,7 @@ public class ApproveUserModal extends CustomModal {
             if (userTableAdd.isSuccessful()) {
                 updateRequestsTable();
             } else {
-                Toast.makeText(mActivity, R.string.approve_user_incomplete, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.approve_user_incomplete, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -114,12 +114,12 @@ public class ApproveUserModal extends CustomModal {
                 // user activation workflow completed
                 hideSpinner();
                 sendWelcomeEmail();
-                mBuilder.dismiss();
-                Toast.makeText(mActivity, R.string.approve_user_success, Toast.LENGTH_LONG).show();
+                dismiss();
+                Toast.makeText(mContext, R.string.approve_user_success, Toast.LENGTH_LONG).show();
             } else {
                 hideSpinner();
                 FirebaseUtilities.disableUser(mRequest); // try to undo activation
-                Toast.makeText(mActivity, R.string.approve_user_incomplete, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.approve_user_incomplete, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -129,7 +129,7 @@ public class ApproveUserModal extends CustomModal {
         final String body = String.format(getString(R.string.welcome_email_body),
                 mRequest.getDisplayName(),
                 mRequest.getRole().toString());
-        new Mailer(getContext())
+        new Mailer(mContext)
                 .withMailTo(mRequest.getEmail())
                 .withSubject(subject)
                 .withBody(body)

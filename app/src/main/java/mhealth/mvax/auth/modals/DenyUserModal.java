@@ -48,25 +48,25 @@ public class DenyUserModal extends CustomModal {
     }
 
     @Override
-    public AlertDialog initBuilder() {
-        mBuilder = new AlertDialog.Builder(mActivity)
+    public void createAndShow() {
+        mDialog = new AlertDialog.Builder(mContext)
                 .setTitle(getString(R.string.deny_user_modal_title))
                 .setView(mInflater.inflate(R.layout.modal_deny_user, mParent, false))
                 .setPositiveButton(getString(R.string.confirm), null)
                 .setNegativeButton(getString(R.string.cancel), null)
                 .create();
 
-        mBuilder.setOnShowListener(dialogInterface -> {
-            mSpinner = mBuilder.findViewById(R.id.spinner);
+        mDialog.setOnShowListener(dialogInterface -> {
+            mSpinner = mDialog.findViewById(R.id.spinner);
 
-            mViews.add(mBuilder.findViewById(R.id.dob));
-            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
+            mViews.add(mDialog.findViewById(R.id.dob));
+            mViews.add(mDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
 
-            final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
+            final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> deleteUser());
             mViews.add(positiveButton);
         });
-        return mBuilder;
+        mDialog.show();
     }
 
     private void deleteUser() {
@@ -76,7 +76,7 @@ public class DenyUserModal extends CustomModal {
                 deleteUserRequest();
             } else {
                 hideSpinner();
-                Toast.makeText(mActivity, R.string.deny_user_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.deny_user_fail, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -91,11 +91,11 @@ public class DenyUserModal extends CustomModal {
                 // user request denial workflow completed
                 hideSpinner();
                 sendDenialEmail();
-                mBuilder.dismiss();
-                Toast.makeText(mActivity, R.string.deny_user_success, Toast.LENGTH_LONG).show();
+                dismiss();
+                Toast.makeText(mContext, R.string.deny_user_success, Toast.LENGTH_LONG).show();
             } else {
                 hideSpinner();
-                Toast.makeText(mActivity, R.string.deny_user_incomplete, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.deny_user_incomplete, Toast.LENGTH_LONG).show();
                 // TODO implement better error handling in this case
             }
         });
@@ -105,7 +105,7 @@ public class DenyUserModal extends CustomModal {
         final String subject = getString(R.string.deny_email_subject);
         final String body = String.format(getString(R.string.deny_email_body),
                 mRequest.getDisplayName());
-        new Mailer(getContext())
+        new Mailer(mContext)
                 .withMailTo(mRequest.getEmail())
                 .withSubject(subject)
                 .withBody(body)

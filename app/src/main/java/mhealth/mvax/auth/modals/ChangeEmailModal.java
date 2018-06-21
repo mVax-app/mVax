@@ -52,23 +52,20 @@ public class ChangeEmailModal extends CustomModal {
     }
 
     @Override
-    public AlertDialog initBuilder() {
-        mBuilder = new AlertDialog.Builder(mActivity)
+    public void createAndShow() {
+        mDialog = new AlertDialog.Builder(mContext)
                 .setTitle(R.string.change_email_modal_title)
                 .setView(mInflater.inflate(R.layout.modal_change_email, mParent, false))
                 .setPositiveButton(R.string.submit, null)
                 .setNegativeButton(R.string.cancel, null)
                 .create();
 
-        mBuilder.setOnShowListener(dialogInterface -> {
-            mSpinner = mBuilder.findViewById(R.id.spinner);
+        mDialog.setOnShowListener(dialogInterface -> {
+            mSpinner = mDialog.findViewById(R.id.spinner);
+            mViews.add(mDialog.findViewById(R.id.email_fields));
 
-            mViews.add(mBuilder.findViewById(R.id.email_fields));
-            mViews.add(mBuilder.getButton(AlertDialog.BUTTON_NEGATIVE));
-
-            mEmail = mBuilder.findViewById(R.id.email);
-            mConfirmEmail = mBuilder.findViewById(R.id.email_confirm);
-
+            mEmail = mDialog.findViewById(R.id.email);
+            mConfirmEmail = mDialog.findViewById(R.id.email_confirm);
             mConfirmEmail.setOnEditorActionListener((v, actionId, event) -> {
                 if (event != null
                         && event.getAction() == KeyEvent.ACTION_DOWN // debounce
@@ -85,11 +82,12 @@ public class ChangeEmailModal extends CustomModal {
                 return false;
             });
 
-            final Button positiveButton = mBuilder.getButton(AlertDialog.BUTTON_POSITIVE);
+            mViews.add(mDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
+            final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> attemptEmailChange());
             mViews.add(positiveButton);
         });
-        return mBuilder;
+        mDialog.show();
     }
 
     private void attemptEmailChange() {
@@ -133,25 +131,22 @@ public class ChangeEmailModal extends CustomModal {
 
     private void changeEmailInAuthTable(String email) {
         FirebaseUser currUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currUser == null) {
-            FirebaseAuth.getInstance().signOut();
-            mActivity.finish();
-            return;
-        }
-        if (currUser.getEmail() != null && currUser.getEmail().equals(email)) {
-            // no need to actually change email
-            hideSpinner();
-            mBuilder.dismiss();
-            Toast.makeText(mActivity, R.string.change_email_success, Toast.LENGTH_LONG).show();
-        }
-        currUser.updateEmail(email).addOnCompleteListener(emailChange -> {
-            if (emailChange.isSuccessful()) {
-                changeEmailInDatabase(currUser.getUid(), email);
-            } else {
+        if (currUser != null) {
+            if (currUser.getEmail() != null && currUser.getEmail().equals(email)) {
+                // no need to actually change email
                 hideSpinner();
-                Toast.makeText(mActivity, R.string.change_email_fail, Toast.LENGTH_LONG).show();
+                dismiss();
+                Toast.makeText(mContext, R.string.change_email_success, Toast.LENGTH_LONG).show();
             }
-        });
+            currUser.updateEmail(email).addOnCompleteListener(emailChange -> {
+                if (emailChange.isSuccessful()) {
+                    changeEmailInDatabase(currUser.getUid(), email);
+                } else {
+                    hideSpinner();
+                    Toast.makeText(mContext, R.string.change_email_fail, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 
     private void changeEmailInDatabase(String UID, String email) {
@@ -164,11 +159,11 @@ public class ChangeEmailModal extends CustomModal {
             if (emailChange.isSuccessful()) {
                 // email change workflow completed
                 hideSpinner();
-                mBuilder.dismiss();
-                Toast.makeText(mActivity, R.string.change_email_success, Toast.LENGTH_LONG).show();
+                dismiss();
+                Toast.makeText(mContext, R.string.change_email_success, Toast.LENGTH_LONG).show();
             } else {
                 hideSpinner();
-                Toast.makeText(mActivity, R.string.change_email_incomplete, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, R.string.change_email_incomplete, Toast.LENGTH_LONG).show();
             }
         });
     }
