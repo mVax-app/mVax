@@ -63,9 +63,9 @@ public class EditPatientFragment extends ModifiablePatientFragment {
         mPatient = (Patient) getArguments().getSerializable("patient");
         initPatientListener();
 
-        mSearchEngine = new AlgoliaUtilities(getActivity(), () -> {
+        mSearchEngine = new AlgoliaUtilities(getActivity(), initSuccessful -> {
             mLoadingModal.dismiss();
-            initButtons();
+            if (initSuccessful) initButtons();
         });
         renderListView(mView.findViewById(R.id.details_list));
         return mView;

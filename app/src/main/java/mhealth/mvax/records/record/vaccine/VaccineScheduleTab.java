@@ -56,7 +56,7 @@ import mhealth.mvax.utilities.modals.LoadingModal;
  */
 public class VaccineScheduleTab extends Fragment implements RecordTab {
 
-    private LoadingModal mLoadingModal;
+//    private LoadingModal mLoadingModal;
 
     private View mView;
     private VaccineAdapter mAdapter;
@@ -90,8 +90,8 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_vaccine_schedule, container, false);
-        mLoadingModal = new LoadingModal(mView);
-        mLoadingModal.createAndShow();
+//        mLoadingModal = new LoadingModal(mView);
+//        mLoadingModal.createAndShow();
 
         mPatientDatabaseKey = getArguments().getString("patientDatabaseKey");
 
@@ -134,7 +134,7 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
         mVaccineListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String prevKey) {
-                mLoadingModal.dismiss();
+//                mLoadingModal.dismiss();
                 final Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
                 if (vaccine != null) {
                     mVaccines.add(vaccine);
