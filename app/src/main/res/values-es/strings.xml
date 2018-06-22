@@ -8,7 +8,7 @@
     <string name="auth_login">Bienvenido a mVax!</string>
 
     <string name="email_hint">correo electrónico</string>
-    <string name="password">contraseña</string>
+    <string name="password_hint">contraseña</string>
 
     <string name="login_button">Iniciar sesión</string>
     <string name="action_sign_in_short">Iniciar sesión</string>
@@ -34,7 +34,6 @@
     <string name="email_field_mismatch">Campos de correo electrónico no coinciden</string>
     <string name="email_confirm_hint">confirmar correo electrónico</string>
     <string name="invalid_password_error">Contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número, y un símobolo</string>
-    <string name="password_hint">contraseña</string>
     <string name="password_confirm_hint">confirmar contraseña</string>
     <string name="password_field_mismatch">Campos de contraseña no coinciden</string>
     <string name="request_submit_fail">Ya hay una solicitud de usario o usario existente asociada a este correo electrónico</string>
@@ -62,7 +61,7 @@
     <!-- Patients/record details-->
     <string name="tab_title_record_details">Detalles del registro</string>
     <string name="tab_title_vaccine_schedule">Vacunas</string>
-    <string name="vaccine_title">Historia de vacunas</string>
+    <string name="vaccine_tab_title">Historia de vacunas</string>
     <string name="date_format">dd/MM/yyyy</string>
     <string name="DOB_prompt">Fecha de nacimiento:</string>
     <string name="modal_date_confirm">Confirmar</string>
@@ -72,8 +71,8 @@
     <string name="patient_delete_fail">No se puede eliminar el paciente</string>
 
     <!-- Patients/vaccine history-->
-    <string name="failure_vaccines_download">No se puede descargar la lista de vacunas</string>
-    <string name="failure_vaccination_history_download">No se puede descargar la historia de vacunación</string>
+    <string name="vaccines_download_fail">No se puede descargar la lista de vacunas</string>
+    <string name="vaccinations_download_fail">No se puede descargar la historia de vacunación</string>
     <string name="failure_due_dates_download">No se puede descargar los vencimientos de las vacunas</string>
 
     <!-- Patients/vaccine history/due date-->
@@ -110,6 +109,9 @@
 
     <string name="male_enum">Hombre</string>
     <string name="female_enum">Mujer</string>
+
+    <string name="admin_enum">Administrador</string>
+    <string name="user_enum">Usario</string>
 
     <string name="label_dob">Fecha de nacimiento</string>
     <string name="hint_dob">dd/MM/yyyy</string>
@@ -336,8 +338,6 @@
     <string name="delete_user_denied">No puede eliminar su propia cuenta de mVax</string>
 
     <string name="role">Papel</string>
-    <string name="admin_role">Administrador</string>
-    <string name="reader_role">Lector</string>
 
     <!-- Settings/generate dummy data-->
     <string name="dummy_data">Generar datos experimentales</string>

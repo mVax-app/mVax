@@ -21,10 +21,13 @@ package mhealth.mvax.records.record.vaccine;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -34,48 +37,47 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.immunization.Date;
 import mhealth.mvax.model.immunization.DueDate;
 import mhealth.mvax.model.immunization.Vaccination;
 import mhealth.mvax.model.immunization.Vaccine;
 import mhealth.mvax.records.record.RecordTab;
+import mhealth.mvax.utilities.modals.LoadingModal;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Fragment for managing a patient's vaccine schedule through
- *         a ListView
+ * <p>
+ * Fragment for managing a patient's vaccine schedule
  */
 public class VaccineScheduleTab extends Fragment implements RecordTab {
 
-    //================================================================================
-    // Properties
-    //================================================================================
+    private LoadingModal mLoadingModal;
 
     private View mView;
     private VaccineAdapter mAdapter;
 
-    private String mPatientDatabaseKey;
+    private List<Vaccine> mVaccines;
+    private Map<String, Vaccination> mVaccinations;
+    private Map<String, DueDate> mDueDates;
 
+    private String mPatientDatabaseKey;
     private DatabaseReference mVaccineRef;
     private ChildEventListener mVaccineListener;
-    private HashMap<String, Vaccine> mVaccines = new HashMap<>();
-
     private Query mVaccinationsQuery;
     private ChildEventListener mVaccinationsListener;
-
     private Query mDueDatesQuery;
     private ChildEventListener mDueDatesListener;
 
-    // maps Dose to Vaccination and Vaccine to DueDate
-    private HashMap<String, Date> mDates = new HashMap<>();
-
-    //================================================================================
-    // Static methods
-    //================================================================================
+    public VaccineScheduleTab() {
+        mVaccines = new ArrayList<>();
+        mVaccinations = new HashMap<>();
+        mDueDates = new HashMap<>();
+    }
 
     public static VaccineScheduleTab newInstance(String patientDatabaseKey) {
         final VaccineScheduleTab newInstance = new VaccineScheduleTab();
@@ -85,14 +87,14 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
         return newInstance;
     }
 
-    //================================================================================
-    // Override methods
-    //================================================================================
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_vaccine_schedule, container, false);
+        mLoadingModal = new LoadingModal(mView);
+        mLoadingModal.createAndShow();
+
         mPatientDatabaseKey = getArguments().getString("patientDatabaseKey");
+
         initVaccineListener();
         initVaccinationsListener();
         initDueDatesListener();
@@ -108,170 +110,148 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
         super.onDestroyView();
     }
 
-    //================================================================================
-    // Public methods
-    //================================================================================
-
     @Override
     public void render() {
-        ListView vaccineListView = mView.findViewById(R.id.vaccines_list_view);
-        mAdapter = new VaccineAdapter(mView, mPatientDatabaseKey, mVaccines, mDates);
-        vaccineListView.setAdapter(mAdapter);
+        mAdapter = new VaccineAdapter(mPatientDatabaseKey);
+        RecyclerView vaccineList = mView.findViewById(R.id.vaccine_list);
+        vaccineList.setHasFixedSize(true);
+        vaccineList.setLayoutManager(new LinearLayoutManager(getContext()));
+        vaccineList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        vaccineList.setAdapter(mAdapter);
+
     }
 
     @Override
     public void refresh() {
-        mAdapter.refresh(mVaccines, mDates);
+        mAdapter.refresh(mVaccines, mVaccinations, mDueDates);
     }
 
-    //================================================================================
-    // Private methods
-    //================================================================================
-
     private void initVaccineListener() {
-        // define database ref
-        final String masterTable = getResources().getString(R.string.dataTable);
-        final String vaccineTable = getResources().getString(R.string.vaccineTable);
         mVaccineRef = FirebaseDatabase.getInstance().getReference()
-                .child(masterTable)
-                .child(vaccineTable);
+                .child(getString(R.string.data_table))
+                .child(getString(R.string.vaccine_table));
 
-        // define listener
         mVaccineListener = new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                final Vaccine addedVaccine = dataSnapshot.getValue(Vaccine.class);
-                if (addedVaccine != null) {
-                    mVaccines.put(addedVaccine.getDatabaseKey(), addedVaccine);
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String prevKey) {
+                mLoadingModal.dismiss();
+                final Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
+                if (vaccine != null) {
+                    mVaccines.add(vaccine);
                     refresh();
                 }
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevKey) {
-                onChildAdded(dataSnapshot, prevKey);
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                final Vaccine removedVaccine = dataSnapshot.getValue(Vaccine.class);
-                if (removedVaccine != null) {
-                    mVaccines.remove(removedVaccine.getDatabaseKey());
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String prevKey) {
+                final Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
+                if (vaccine != null) {
+                    mVaccines.removeIf(v -> v.getDatabaseKey().equals(vaccine.getDatabaseKey()));
+                    mVaccines.add(vaccine);
                     refresh();
                 }
             }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                // deleting vaccines is not allowed
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), R.string.failure_vaccines_download, Toast.LENGTH_SHORT).show();
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), R.string.vaccines_download_fail, Toast.LENGTH_SHORT).show();
             }
         };
-
-        // set listener to ref
         mVaccineRef.addChildEventListener(mVaccineListener);
     }
 
     private void initVaccinationsListener() {
-        // define database query
-        final String masterTable = getResources().getString(R.string.dataTable);
-        final String vaccinationsTable = getResources().getString(R.string.vaccinationsTable);
-        final String patientDatabaseKeyField = getResources().getString(R.string.patientDatabaseKeyField);
         mVaccinationsQuery = FirebaseDatabase.getInstance().getReference()
-                .child(masterTable)
-                .child(vaccinationsTable)
-                .orderByChild(patientDatabaseKeyField)
+                .child(getString(R.string.data_table))
+                .child(getString(R.string.vaccination_table))
+                .orderByChild(getString(R.string.patient_database_key))
                 .equalTo(mPatientDatabaseKey);
 
-        // define listener
         mVaccinationsListener = new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                final Vaccination addedVaccination = dataSnapshot.getValue(Vaccination.class);
-                if (addedVaccination != null) {
-                    mDates.put(addedVaccination.getDoseDatabaseKey(), addedVaccination);
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String prevKey) {
+                final Vaccination vaccination = dataSnapshot.getValue(Vaccination.class);
+                if (vaccination != null) {
+                    mVaccinations.put(vaccination.getDoseDatabaseKey(), vaccination);
                     refresh();
                 }
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevKey) {
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String prevKey) {
                 onChildAdded(dataSnapshot, prevKey);
             }
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                final Vaccination removedVaccination = dataSnapshot.getValue(Vaccination.class);
-                if (removedVaccination != null) {
-                    mDates.remove(removedVaccination.getDoseDatabaseKey());
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                final Vaccination vaccination = dataSnapshot.getValue(Vaccination.class);
+                if (vaccination != null) {
+                    mVaccinations.remove(vaccination.getDoseDatabaseKey());
                     refresh();
                 }
             }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String prevKey) {
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String prevKey) {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(getActivity(), R.string.failure_vaccination_history_download, Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getActivity(), R.string.vaccinations_download_fail, Toast.LENGTH_SHORT).show();
             }
         };
-
-        // set listener to query
         mVaccinationsQuery.addChildEventListener(mVaccinationsListener);
     }
 
     private void initDueDatesListener() {
-        // define database query
-        final String masterTable = getResources().getString(R.string.dataTable);
-        final String dueDatesTable = getResources().getString(R.string.dueDatesTable);
-        final String patientDatabaseKeyField = getContext().getString(R.string.patientDatabaseKeyField);
         mDueDatesQuery = FirebaseDatabase.getInstance().getReference()
-                .child(masterTable)
-                .child(dueDatesTable)
-                .orderByChild(patientDatabaseKeyField)
+                .child(getString(R.string.data_table))
+                .child(getString(R.string.due_date_table))
+                .orderByChild(getString(R.string.patient_database_key))
                 .equalTo(mPatientDatabaseKey);
 
-        // define listener
         mDueDatesListener = new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String prevKey) {
-                final DueDate addedDueDate = dataSnapshot.getValue(DueDate.class);
-                if (addedDueDate != null) {
-                    mDates.put(addedDueDate.getVaccineDatabaseKey(), addedDueDate);
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String prevKey) {
+                final DueDate dueDate = dataSnapshot.getValue(DueDate.class);
+                if (dueDate != null) {
+                    mDueDates.put(dueDate.getVaccineDatabaseKey(), dueDate);
                     refresh();
                 }
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String prevKey) {
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String prevKey) {
                 onChildAdded(dataSnapshot, prevKey);
             }
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                final DueDate removedDueDate = dataSnapshot.getValue(DueDate.class);
-                if (removedDueDate != null) {
-                    mDates.remove(removedDueDate.getVaccineDatabaseKey());
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                final DueDate dueDate = dataSnapshot.getValue(DueDate.class);
+                if (dueDate != null) {
+                    mDueDates.remove(dueDate.getVaccineDatabaseKey());
                     refresh();
                 }
             }
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String prevKey) {
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String prevKey) {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(getActivity(), R.string.failure_due_dates_download, Toast.LENGTH_SHORT).show();
             }
         };
-
-        // set listener to query
         mDueDatesQuery.addChildEventListener(mDueDatesListener);
     }
 

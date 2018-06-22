@@ -30,15 +30,10 @@ import java.util.List;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Stores information about vaccines; sorts by vaccine name
+ * <p>
+ * Stores information about vaccines; sorts by vaccine name
  */
-
 public class Vaccine implements Serializable, Comparable<Vaccine> {
-
-    //================================================================================
-    // Constructors
-    //================================================================================
 
     private Vaccine() {
         // Firebase POJO constructor
@@ -47,10 +42,6 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     public Vaccine(String databaseKey) {
         this.databaseKey = databaseKey;
     }
-
-    //================================================================================
-    // Properties
-    //================================================================================
 
     /**
      * Unique Firebase database key of the Vaccine object
@@ -119,10 +110,6 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
         this.doses = doses;
     }
 
-    //================================================================================
-    // Public methods
-    //================================================================================
-
     /**
      * Adds new doses to the vaccine's associated doses
      *
@@ -134,7 +121,6 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
 
     /**
      * Sorts Vaccines by name
-     * // TODO implement compareTo for multiple properties
      *
      * @param that Vaccine to sort against
      * @return negative integer, zero, or a positive integer if this

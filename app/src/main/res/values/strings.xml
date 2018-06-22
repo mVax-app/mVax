@@ -8,7 +8,7 @@
     <string name="auth_login">Welcome to mVax!</string>
 
     <string name="email_hint">email</string>
-    <string name="password">password</string>
+    <string name="password_hint">password</string>
 
     <string name="login_button">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -34,7 +34,6 @@
     <string name="email_field_mismatch">Email fields do not match</string>
     <string name="email_confirm_hint">confirm email</string>
     <string name="invalid_password_error">Password must have at least one uppercase, one lowercase, one digit, and one special character</string>
-    <string name="password_hint">password</string>
     <string name="password_confirm_hint">confirm password</string>
     <string name="password_field_mismatch">Password fields do not match</string>
     <string name="request_submit_fail">There is already an existing user or user request associated with this email</string>
@@ -64,7 +63,7 @@
     <!-- Patients/record details-->
     <string name="tab_title_record_details">Record details</string>
     <string name="tab_title_vaccine_schedule">Vaccine history</string>
-    <string name="vaccine_title">Vaccine history</string>
+    <string name="vaccine_tab_title">Vaccine history</string>
     <string name="date_format">MM/dd/yyyy</string>
     <string name="DOB_prompt">DOB:</string>
     <string name="medical_id_prompt">ID:</string>
@@ -75,10 +74,14 @@
     <string name="patient_delete_fail">Unable to delete patient</string>
 
     <!-- Patients/vaccine history-->
-    <string name="failure_vaccines_download">Unable to download list of vaccines</string>
-    <string name="failure_vaccination_history_download">Unable to download vaccination history</string>
+    <string name="vaccines_download_fail">Unable to download list of vaccines</string>
+    <string name="vaccinations_download_fail">Unable to download vaccination history</string>
     <string name="failure_due_dates_download">Unable to download vaccine due dates</string>
-
+    <string name="date_save_success">Date saved</string>
+    <string name="date_save_fail">Unable to save date</string>
+    <string name="date_delete_success">Date deleted</string>
+    <string name="date_delete_fail">Unable to date</string>
+    
     <!-- Patients/vaccine history/due date-->
     <string name="modal_date_title">Choose date</string>
     <string name="due_date_label">Due date:</string>
@@ -113,6 +116,10 @@
 
     <string name="male_enum">Male</string>
     <string name="female_enum">Female</string>
+
+    <string name="admin_enum">ADMIN</string>
+    <string name="user_enum">USER</string>
+
 
     <string name="label_dob">Date of birth</string>
     <string name="hint_dob">mm/dd/yyyy</string>
@@ -284,14 +291,16 @@
     <string name="role_info_title">Roles</string>
     <string name="role_info_desc">mVax supports two different roles: admin and reader.\n\n
                                   An admin can:\n
-                                    &#8226; view all users and vaccine records\n
-                                    &#8226; create new users and vaccine records\n
+                                    &#8226; view all patients and vaccine records\n
+                                    &#8226; create new patients and vaccine records\n
                                     &#8226; edit or delete existing data\n
                                     &#8226; approve new users\n
-                                    &#8226; change the role of or deactivate existing users\n
+                                    &#8226; change the role of or delete existing users\n
                                   \n
-                                  A reader can:\n
-                                    &#8226; view all users and vaccination records</string>
+                                  A user can:\n
+                                    &#8226; view all patients and vaccine records\n
+                                    &#8226; create new users and vaccine records\n
+                                    &#8226; edit or delete existing data</string>
     <string name="approve_user_modal_title">Approve user request</string>
 
     <string name="approve_user_subtitle">You\'ve chosen to confirm %1$s\'s request for an mVax account with %2$s privileges. Tap Confirm to activate the new account and notify the user that they can now access mVax.</string>
@@ -340,8 +349,6 @@
     <string name="delete_user_denied">You cannot delete your own mVax account</string>
 
     <string name="role">Role</string>
-    <string name="admin_role">Admin</string>
-    <string name="reader_role">Reader</string>
 
     <!-- Settings/generate dummy data-->
     <string name="dummy_data">Generate test data</string>

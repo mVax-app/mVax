@@ -68,7 +68,7 @@ public class ChangeRoleModal extends CustomModal {
                 case ADMIN:
                     roleRadioGroup.check(R.id.admin_radio_button);
                     break;
-                case READER:
+                case USER:
                     roleRadioGroup.check(R.id.reader_radio_button);
                     break;
                 default:
@@ -85,7 +85,7 @@ public class ChangeRoleModal extends CustomModal {
                         changeRole(UserRole.ADMIN);
                         break;
                     case R.id.reader_radio_button:
-                        changeRole(UserRole.READER);
+                        changeRole(UserRole.USER);
                         break;
                     default:
                         break;
@@ -117,9 +117,9 @@ public class ChangeRoleModal extends CustomModal {
         }
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child(getString(R.string.userTable))
+                .child(getString(R.string.user_table))
                 .child(mUser.getUID())
-                .child(getString(R.string.role_value));
+                .child(getString(R.string.user_role));
 
         reference.setValue(newRole).addOnCompleteListener(roleChange -> {
             hideSpinner();

@@ -39,7 +39,7 @@ public class FirebaseVaccinationFetcher implements VaccinationFetcher {
 
     public FirebaseVaccinationFetcher(Activity context){
         this.mContext = context;
-        vaxRef = FirebaseDatabase.getInstance().getReference().child(mContext.getResources().getString(R.string.dataTable)).child(mContext.getResources().getString(R.string.vaccinationsTable));
+        vaxRef = FirebaseDatabase.getInstance().getReference().child(mContext.getResources().getString(R.string.data_table)).child(mContext.getResources().getString(R.string.vaccination_table));
 
     }
 
@@ -110,8 +110,8 @@ public class FirebaseVaccinationFetcher implements VaccinationFetcher {
 
         final Vaccination vaccination = record;
 
-        DatabaseReference patientRef = FirebaseDatabase.getInstance().getReference().child(mContext.getResources().getString(R.string.dataTable))
-                .child(mContext.getResources().getString(R.string.patientTable));
+        DatabaseReference patientRef = FirebaseDatabase.getInstance().getReference().child(mContext.getResources().getString(R.string.data_table))
+                .child(mContext.getResources().getString(R.string.patient_table));
 
 
         patientRef.child(vaccination.getPatientDatabaseKey()).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -142,8 +142,8 @@ public class FirebaseVaccinationFetcher implements VaccinationFetcher {
     private void findPossibleFormCodes(final List<String> possibleDoses){
         this.possibleFormCodes = new HashMap<>();
 
-        DatabaseReference vaccineRef = FirebaseDatabase.getInstance().getReference().child(mContext.getResources().getString(R.string.dataTable))
-                .child(mContext.getResources().getString(R.string.vaccineTable));
+        DatabaseReference vaccineRef = FirebaseDatabase.getInstance().getReference().child(mContext.getResources().getString(R.string.data_table))
+                .child(mContext.getResources().getString(R.string.vaccine_table));
         vaccineRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

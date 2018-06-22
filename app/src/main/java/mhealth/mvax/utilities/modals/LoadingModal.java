@@ -27,7 +27,7 @@ import mhealth.mvax.R;
 /**
  * @author Robert Steilberg
  * <p>
- * Modal with a loading spinner that disables all backgroudn views
+ * Modal with a loading spinner that disables all background views
  */
 public class LoadingModal extends CustomModal {
 

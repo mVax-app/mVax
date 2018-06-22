@@ -87,10 +87,10 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
 
         mAdapter = new ViewPatientAdapter(mPatient.getDetails());
         final RecyclerView detailsList = mView.findViewById(R.id.details_list);
-        detailsList.setAdapter(mAdapter);
         detailsList.setHasFixedSize(true);
         detailsList.setLayoutManager(new LinearLayoutManager(getContext()));
         detailsList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        detailsList.setAdapter(mAdapter);
     }
 
     @Override
@@ -101,8 +101,8 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
 
     private void initPatientListener(final String databaseKey) {
         // define database ref
-        final String masterTable = getResources().getString(R.string.dataTable);
-        final String patientTable = getResources().getString(R.string.patientTable);
+        final String masterTable = getResources().getString(R.string.data_table);
+        final String patientTable = getResources().getString(R.string.patient_table);
         mPatientRef = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
                 .child(patientTable)

@@ -1,49 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="dataTable">data</string>
-    <string name="algoliaTable">algolia</string>
 
-    <string name="patientTable">patients</string>
-    <string name="patientDatabaseKeyField">patientDatabaseKey</string>
+    <!--database-->
 
+    <string name="config_table">config</string>
+    <string name="mail">mail</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
 
+    <string name="data_table">data</string>
+    <string name="vaccine_table">vaccines</string>
+    <string name="vaccination_table">vaccinations</string>
+    <string name="due_date_table">dueDates</string>
 
+    <string name="patient_table">patients</string>
+    <string name="patient_database_key">patientDatabaseKey</string>
 
-    <string name="vaccineTable">vaccines</string>
-    <string name="vaccinationsTable">vaccinations</string>
-    <string name="dueDatesTable">dueDates</string>
+    <string name="user_table">users</string>
+    <string name="user_role">role</string>
+    <string name="user_requests_table">requests</string>
 
-    <string name="userTable">users</string>
-    <string name="userRole">role</string>
+    <!--search-->
 
-    <string name="userRequestsTable">requests</string>
+    <string name="algolia_table">algolia</string>
+    <string name="algolia_application_id">application_id</string>
+    <string name="algolia_api_key">api_key</string>
+    <string name="algolia_patient_index">patient_index</string>
 
-
-
-
-    <string name="configTable">config</string>
-    <string name="mail_table">mail</string>
-    <string name="email_value">email</string>
-    <string name="role_value">role</string>
-
-    <string name="password_value">password</string>
-    <string name="algoliaHitsKey">hits</string>
-
-
-    <string name="algoliaObjectID">objectID</string>
-    <string name="patientFirstName">firstName</string>
-    <string name="patientLastName">lastName</string>
-    <string name="patientMedicalId">medicalId</string>
-    <string name="patientDob">dob</string>
-    <string name="patientDobSearch">dobSearch</string>
-
-    <string name="patientGuardianName">guardianName</string>
-
-    <string name="algoliaApplicationIdKey">application_id</string>
-    <string name="algoliaApiKey">api_key</string>
-    <string name="algoliaPatientIndex">patient_index</string>
-
-
-
+    <string name="algolia_hits_key">hits</string>
+    <string name="algolia_object_id">objectID</string>
+    <string name="patient_first_name">firstName</string>
+    <string name="patient_last_name">lastName</string>
+    <string name="patient_medical_id">medicalId</string>
+    <string name="patient_dob">dob</string>
+    <string name="patient_dob_search">dobSearch</string>
+    <string name="patient_guardian_name">guardianName</string>
 
 </resources>

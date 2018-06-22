@@ -74,8 +74,8 @@ public abstract class ModifiablePatientFragment extends Fragment {
     }
 
     private void initDatabaseRefs() {
-        final String masterTable = getResources().getString(R.string.dataTable);
-        final String patientTable = getResources().getString(R.string.patientTable);
+        final String masterTable = getResources().getString(R.string.data_table);
+        final String patientTable = getResources().getString(R.string.patient_table);
         mPatientRef = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
                 .child(patientTable);

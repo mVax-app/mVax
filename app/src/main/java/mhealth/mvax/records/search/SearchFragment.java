@@ -35,8 +35,10 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import mhealth.mvax.R;
+import mhealth.mvax.records.record.RecordFragment;
 import mhealth.mvax.records.record.patient.modify.create.CreateRecordFragment;
 import mhealth.mvax.records.utilities.AlgoliaUtilities;
+import mhealth.mvax.records.utilities.TypeRunnable;
 import mhealth.mvax.utilities.modals.LoadingModal;
 
 /**
@@ -63,6 +65,14 @@ public class SearchFragment extends Fragment {
         mLoadingModal.createAndShow();
         initNewRecordButton();
         initSearchIndex();
+
+        // TODO get rid of this
+        final RecordFragment detailFrag = RecordFragment.newInstance("-LFOtFjaBOslLuj2ZtiH");
+        getFragmentManager().beginTransaction()
+                .replace(R.id.frame, detailFrag)
+                .addToBackStack(null) // back button brings us back to SearchFragment
+                .commit();
+
         return mView;
     }
 
@@ -75,10 +85,12 @@ public class SearchFragment extends Fragment {
     }
 
     private void initSearchIndex() {
-        mSearchEngine = new AlgoliaUtilities(getActivity(), () -> {
-            renderListView(); // render ListView first so we have somewhere to put results
-            initSearchBar();
+        mSearchEngine = new AlgoliaUtilities(getActivity(), initSuccessful -> {
             mLoadingModal.dismiss();
+            if (initSuccessful) {
+                renderListView(); // render ListView first so we have somewhere to put results
+                initSearchBar();
+            }
         });
     }
 

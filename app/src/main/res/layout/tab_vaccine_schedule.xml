@@ -1,40 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="mhealth.mvax.records.record.RecordFragment">
+    android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/vaccines_title"
-        android:text="@string/vaccine_title"
+        android:id="@+id/vaccine_tab_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:textSize="30sp"
+        android:layout_marginTop="10dp"
+        android:text="@string/vaccine_tab_title"
+        android:textColor="#000000"
+        android:textSize="38sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintHorizontal_bias="0.502" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
-        android:id="@+id/vaccines_list_view"
-        android:layout_width="0dp"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:background="@color/teal"
+        app:layout_constraintBottom_toTopOf="@+id/vaccine_list" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/vaccine_list"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_weight="1"
-        android:listSelector="@android:color/transparent"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vaccines_title"
-        app:layout_constraintVertical_bias="0.491" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vaccine_tab_title" />
 
 </android.support.constraint.ConstraintLayout>

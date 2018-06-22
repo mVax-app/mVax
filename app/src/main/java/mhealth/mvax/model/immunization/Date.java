@@ -23,9 +23,9 @@ import java.io.Serializable;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Generic data structure for associating a patient
- *         with a date
+ * <p>
+ * Generic data structure for associating a patient
+ * with a date
  */
 public class Date implements Serializable {
 
@@ -38,10 +38,6 @@ public class Date implements Serializable {
         this.patientDatabaseKey = patientDatabaseKey;
         this.date = date;
     }
-
-    //================================================================================
-    // Properties
-    //================================================================================
 
     /**
      * Unique Firebase database key representing the Date object

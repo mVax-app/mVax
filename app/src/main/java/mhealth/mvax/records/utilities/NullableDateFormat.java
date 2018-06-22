@@ -22,15 +22,25 @@ package mhealth.mvax.records.utilities;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import mhealth.mvax.R;
+import mhealth.mvax.utilities.StringFetcher;
+
 /**
  * @author Robert Steilberg
  * <p>
- * Extension of SimpleDateFormat that handles formattingn null dates and
+ * Extension of SimpleDateFormat that handles formatting null dates and
  * initializes with default locale
  */
 
 public class NullableDateFormat {
 
+    /**
+     * Converts a date into a string using a specified date pattern
+     * @param pattern string representing the desired date pattern according
+     *                to SimpleDateFormat conventions
+     * @param date long representing the date (millis since Unix epoch)
+     * @return string representation of the date
+     */
     public static String getString(String pattern, Long date) {
         if (date != null) {
             final SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.getDefault());
@@ -38,6 +48,17 @@ public class NullableDateFormat {
         } else {
             return "";
         }
+    }
+
+    /**
+     * Converts a date into a string using the date pattern according to the
+     * current language
+     * @param date long representing the date (millis since Unix epoch)
+     * @return string representation of the date
+     */
+    public static String getString(Long date) {
+        final String pattern = StringFetcher.fetchString(R.string.date_format);
+        return getString(pattern, date);
     }
 
 }

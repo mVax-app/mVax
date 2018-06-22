@@ -82,7 +82,7 @@ public class UserRequestsFragment extends Fragment {
 
     private void initDatabase() {
         mRequestsRef = FirebaseDatabase.getInstance().getReference()
-                .child(getString(R.string.userRequestsTable));
+                .child(getString(R.string.user_requests_table));
 
         mListener = new ChildEventListener() {
             @Override

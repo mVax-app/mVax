@@ -195,7 +195,7 @@ public class RequestAccountModal extends CustomModal {
 
     private void addRequest(String email, String displayName, String uid) {
         final DatabaseReference requestsRef = FirebaseDatabase.getInstance().getReference()
-                .child(getString(R.string.userRequestsTable))
+                .child(getString(R.string.user_requests_table))
                 .child(uid);
 
         final User newUser = new User(uid);

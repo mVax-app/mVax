@@ -92,7 +92,7 @@ public class ApproveUserModal extends CustomModal {
 
     private void updateUserTable() {
         final DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference()
-                .child(getString(R.string.userTable))
+                .child(getString(R.string.user_table))
                 .child(mRequest.getUID());
 
         usersRef.setValue(mRequest).addOnCompleteListener(userTableAdd -> {
@@ -106,7 +106,7 @@ public class ApproveUserModal extends CustomModal {
 
     private void updateRequestsTable() {
         final DatabaseReference requestsRef = FirebaseDatabase.getInstance().getReference()
-                .child(getString(R.string.userRequestsTable))
+                .child(getString(R.string.user_requests_table))
                 .child(mRequest.getUID());
 
         requestsRef.setValue(null).addOnCompleteListener(userRequestDelete -> {

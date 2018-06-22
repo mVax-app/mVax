@@ -83,7 +83,7 @@ public class DenyUserModal extends CustomModal {
 
     private void deleteUserRequest() {
         final DatabaseReference requestsRef = FirebaseDatabase.getInstance().getReference()
-                .child(getString(R.string.userRequestsTable))
+                .child(getString(R.string.user_requests_table))
                 .child(mRequest.getUID());
 
         requestsRef.setValue(null).addOnCompleteListener(userRequestDelete -> {

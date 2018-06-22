@@ -92,7 +92,7 @@ public class UserRequestsAdapter extends RecyclerView.Adapter<UserRequestsAdapte
                     new ApproveUserModal(v, request, UserRole.ADMIN).createAndShow();
                     break;
                 case R.id.reader_radio_button:
-                    new ApproveUserModal(v, request, UserRole.READER).createAndShow();
+                    new ApproveUserModal(v, request, UserRole.USER).createAndShow();
                     break;
                 default:
                     Toast.makeText(v.getContext(), R.string.no_role_selected, Toast.LENGTH_SHORT).show();

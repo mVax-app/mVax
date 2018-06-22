@@ -23,15 +23,11 @@ import java.io.Serializable;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Stores data representing a due date associated
- *         with a particular patient and vaccine
+ * <p>
+ * Stores data representing a due date associated
+ * with a particular patient and vaccine
  */
 public class DueDate extends Date implements Serializable {
-
-    //================================================================================
-    // Constructors
-    //================================================================================
 
     private DueDate() {
         // Firebase POJO constructor
@@ -41,10 +37,6 @@ public class DueDate extends Date implements Serializable {
         super(databaseKey, patientDatabaseKey, date);
         this.vaccineDatabaseKey = vaccineDatabaseKey;
     }
-
-    //================================================================================
-    // Extended properties
-    //================================================================================
 
     /**
      * Unique Firebase database key representing the

@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/admin_role"
+                android:text="@string/admin_enum"
                 android:textSize="18sp" />
 
             <RadioButton
@@ -97,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/reader_role"
+                android:text="@string/user_enum"
                 android:textSize="18sp" />
         </RadioGroup>
 

@@ -24,13 +24,8 @@ import android.content.Context;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import mhealth.mvax.R;
 import mhealth.mvax.model.immunization.DueDate;
-import mhealth.mvax.model.record.Patient;
-import mhealth.mvax.model.record.Sex;
 import mhealth.mvax.model.immunization.Dose;
 import mhealth.mvax.model.immunization.Vaccination;
 import mhealth.mvax.model.immunization.Vaccine;
@@ -60,11 +55,11 @@ class DataGenerator {
 
     DataGenerator(Context context) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDataTable = context.getString(R.string.dataTable);
-        mPatientTable = context.getString(R.string.patientTable);
-        mVaccineTable = context.getString(R.string.vaccineTable);
-        mVaccinationTable = context.getString(R.string.vaccinationsTable);
-        mDueDateTable = context.getString(R.string.dueDatesTable);
+        mDataTable = context.getString(R.string.data_table);
+        mPatientTable = context.getString(R.string.patient_table);
+        mVaccineTable = context.getString(R.string.vaccine_table);
+        mVaccinationTable = context.getString(R.string.vaccination_table);
+        mDueDateTable = context.getString(R.string.due_date_table);
 
         // clear out existing data
         mDatabase.child(mDataTable).child(mDueDateTable).setValue(null);

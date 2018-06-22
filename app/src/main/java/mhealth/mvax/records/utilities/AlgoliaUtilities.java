@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -36,6 +37,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 
 import mhealth.mvax.R;
@@ -50,18 +52,20 @@ import mhealth.mvax.model.record.SearchResult;
  */
 public class AlgoliaUtilities {
 
+    private static final String DATE_FORMAT = "dd/mm/yyyy";
+
     private Activity mActivity;
     private Index mIndex;
 
-    public AlgoliaUtilities(Activity activity, Runnable onIndexInitListener) {
+    public AlgoliaUtilities(Activity activity, TypeRunnable<Boolean> onIndexInitListener) {
         mActivity = activity;
         initSearchIndex(onIndexInitListener);
     }
 
-    private void initSearchIndex(Runnable onInitListener) {
+    private void initSearchIndex(TypeRunnable<Boolean> onCompleteListener) {
         FirebaseDatabase.getInstance().getReference()
-                .child(mActivity.getString(R.string.configTable))
-                .child(mActivity.getString(R.string.algoliaTable))
+                .child(mActivity.getString(R.string.config_table))
+                .child(mActivity.getString(R.string.algolia_table))
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -69,15 +73,16 @@ public class AlgoliaUtilities {
                         };
                         Map<String, String> configVars = dataSnapshot.getValue(t);
                         if (configVars != null) {
-                            String applicationId = configVars.get(mActivity.getString(R.string.algoliaApplicationIdKey));
-                            String apiKey = configVars.get(mActivity.getString(R.string.algoliaApiKey));
-                            String indexName = configVars.get(mActivity.getString(R.string.algoliaPatientIndex));
+                            String applicationId = configVars.get(mActivity.getString(R.string.algolia_application_id));
+                            String apiKey = configVars.get(mActivity.getString(R.string.algolia_api_key));
+                            String indexName = configVars.get(mActivity.getString(R.string.algolia_patient_index));
 
                             Client algoliaClient = new Client(applicationId, apiKey);
                             mIndex = algoliaClient.getIndex(indexName);
-                            onInitListener.run();
+                            onCompleteListener.run(true);
                         } else {
                             Toast.makeText(mActivity, R.string.search_init_fail, Toast.LENGTH_SHORT).show();
+                            onCompleteListener.run(false);
                         }
                     }
 
@@ -94,15 +99,15 @@ public class AlgoliaUtilities {
         }
         mIndex.searchAsync(new Query(query), (results, error) -> {
             try {
-                String algoliaHitsKey = mActivity.getString(R.string.algoliaHitsKey);
+                String algoliaHitsKey = mActivity.getString(R.string.algolia_hits_key);
                 JSONArray hits = (JSONArray) results.get(algoliaHitsKey);
                 for (int i = 0; i < hits.length(); i++) {
                     try {
-                        String objectIdField = mActivity.getString(R.string.algoliaObjectID);
-                        String firstNameField = mActivity.getString(R.string.patientFirstName);
-                        String lastNameField = mActivity.getString(R.string.patientLastName);
-                        String medicalIdField = mActivity.getString(R.string.patientMedicalId);
-                        String dobField = mActivity.getString(R.string.patientDob);
+                        String objectIdField = mActivity.getString(R.string.algolia_object_id);
+                        String firstNameField = mActivity.getString(R.string.patient_first_name);
+                        String lastNameField = mActivity.getString(R.string.patient_last_name);
+                        String medicalIdField = mActivity.getString(R.string.patient_medical_id);
+                        String dobField = mActivity.getString(R.string.patient_dob);
 
                         JSONObject patient = (JSONObject) hits.get(i);
                         SearchResult result = new SearchResult((String) patient.get(objectIdField));
@@ -117,10 +122,10 @@ public class AlgoliaUtilities {
                         Toast.makeText(mActivity, R.string.search_incomplete, Toast.LENGTH_SHORT).show();
                     }
                 }
-                onCompleteListener.run();
             } catch (JSONException e) {
                 Toast.makeText(mActivity, R.string.search_fail, Toast.LENGTH_SHORT).show();
             }
+            onCompleteListener.run();
         });
     }
 
@@ -145,14 +150,14 @@ public class AlgoliaUtilities {
         JSONObject searchObject = new JSONObject();
         JSONArray array = new JSONArray();
 
-        String objectIdField = mActivity.getString(R.string.algoliaObjectID);
-        String firstNameField = mActivity.getString(R.string.patientFirstName);
-        String lastNameField = mActivity.getString(R.string.patientLastName);
-        String medicalIdField = mActivity.getString(R.string.patientMedicalId);
-        String dobField = mActivity.getString(R.string.patientDob);
-        String dobSearchField = mActivity.getString(R.string.patientDobSearch);
+        String objectIdField = mActivity.getString(R.string.algolia_object_id);
+        String firstNameField = mActivity.getString(R.string.patient_first_name);
+        String lastNameField = mActivity.getString(R.string.patient_last_name);
+        String medicalIdField = mActivity.getString(R.string.patient_medical_id);
+        String dobField = mActivity.getString(R.string.patient_dob);
+        String dobSearchField = mActivity.getString(R.string.patient_dob_search);
 
-        String guardianField = mActivity.getString(R.string.patientGuardianName);
+        String guardianField = mActivity.getString(R.string.patient_guardian_name);
 
         try {
             searchObject.put(objectIdField, patient.getDatabaseKey());
@@ -161,7 +166,7 @@ public class AlgoliaUtilities {
             searchObject.put(medicalIdField, patient.getMedicalId());
 
             // save DOB as a string, formatted dd/mm/yyyy for searching
-            String dobSearch = NullableDateFormat.getString("dd/mm/yyyy", patient.getDOB());
+            String dobSearch = NullableDateFormat.getString(DATE_FORMAT, patient.getDOB());
             searchObject.put(dobSearchField, dobSearch);
 
             searchObject.put(dobField, patient.getDOB());

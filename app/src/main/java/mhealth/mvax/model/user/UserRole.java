@@ -21,12 +21,28 @@ package mhealth.mvax.model.user;
 
 import java.io.Serializable;
 
+import mhealth.mvax.R;
+
 /**
  * @author Matthew Tribby, Robert Steilberg
  * <p>
  * Enum for representing supported mVax user roles
  */
 public enum UserRole implements Serializable {
-    ADMIN,
-    READER
+    ADMIN(R.string.admin_enum),
+    USER(R.string.user_enum);
+
+    private int mResourceId;
+
+    UserRole(int resourceId) {
+        this.mResourceId = resourceId;
+    }
+
+    /**
+     * @return String id used to find the string value of the role
+     */
+    public int getResourceId() {
+        return this.mResourceId;
+    }
+
 }

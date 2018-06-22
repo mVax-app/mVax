@@ -97,7 +97,7 @@ public class DeleteUserModal extends CustomModal {
 
     private void deleteUserFromDatabase() {
         final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference()
-                .child(getString(R.string.userTable))
+                .child(getString(R.string.user_table))
                 .child(mUID);
 
         userRef.setValue(null).addOnCompleteListener(userTableDelete -> {

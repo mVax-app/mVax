@@ -33,7 +33,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Map;
 
 import mhealth.mvax.R;
-import mhealth.mvax.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
@@ -81,8 +80,8 @@ public class Mailer {
      */
     public void send() {
         final DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
-                .child(mContext.getString(R.string.configTable))
-                .child(mContext.getString(R.string.mail_table));
+                .child(mContext.getString(R.string.config_table))
+                .child(mContext.getString(R.string.mail));
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -91,8 +90,8 @@ public class Mailer {
                 };
                 Map<String, String> credentials = dataSnapshot.getValue(t);
                 if (credentials != null) {
-                    final String email = credentials.get(mContext.getString(R.string.email_value));
-                    final String password = credentials.get(mContext.getString(R.string.password_value));
+                    final String email = credentials.get(mContext.getString(R.string.email));
+                    final String password = credentials.get(mContext.getString(R.string.password));
                     BackgroundMail.newBuilder(mContext)
                             .withUsername(email)
                             .withPassword(password)

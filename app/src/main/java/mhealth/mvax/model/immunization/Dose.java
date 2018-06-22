@@ -25,15 +25,10 @@ import java.io.Serializable;
 
 /**
  * @author Robert Steilberg
- *         <p>
- *         Stores information about doses
+ * <p>
+ * Stores information about doses
  */
-
 public class Dose implements Serializable {
-
-    //================================================================================
-    // Constructors
-    //================================================================================
 
     private Dose() {
         // Firebase POJO constructor
@@ -42,10 +37,6 @@ public class Dose implements Serializable {
     public Dose(String databaseKey) {
         this.databaseKey = databaseKey;
     }
-
-    //================================================================================
-    // Properties
-    //================================================================================
 
     /**
      * Unique Firebase database key of the Dose object
@@ -63,6 +54,7 @@ public class Dose implements Serializable {
     /**
      * Form code used by iText to populate PDF forms
      */
+    // TODO get rid of this
     private String formCode = "";
 
     public String getFormCode() {
@@ -111,10 +103,6 @@ public class Dose implements Serializable {
     public void setGivenCount(Integer givenCount) {
         this.givenCount = givenCount;
     }
-
-    //================================================================================
-    // Computed methods
-    //================================================================================
 
     @Exclude
     public void setLabels(String label1, String label2) {

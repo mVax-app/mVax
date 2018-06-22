@@ -102,8 +102,8 @@ public class DashboardFragment extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        String masterTable = getResources().getString(R.string.dataTable);
-        String vaccineTable = getResources().getString(R.string.vaccineTable);
+        String masterTable = getResources().getString(R.string.data_table);
+        String vaccineTable = getResources().getString(R.string.vaccine_table);
 
         mDatabase.child(masterTable).child(vaccineTable).addChildEventListener(new ChildEventListener() {
             @Override

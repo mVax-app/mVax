@@ -52,10 +52,10 @@ public class UserTest {
     @Test
     public void userRoleGetter() throws Exception {
         User person = new User();
-        person.setRole("READER");
+        person.setRole("USER");
 
         assertEquals("User's role not set",
-                "READER",
+                "USER",
                 person.getRole());
     }
 

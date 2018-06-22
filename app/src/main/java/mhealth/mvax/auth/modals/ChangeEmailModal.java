@@ -151,9 +151,9 @@ public class ChangeEmailModal extends CustomModal {
 
     private void changeEmailInDatabase(String UID, String email) {
         final DatabaseReference userRef = FirebaseDatabase.getInstance().getReference()
-                .child(getString(R.string.userTable))
+                .child(getString(R.string.user_table))
                 .child(UID)
-                .child(getString(R.string.email_value));
+                .child(getString(R.string.email));
 
         userRef.setValue(email).addOnCompleteListener(emailChange -> {
             if (emailChange.isSuccessful()) {

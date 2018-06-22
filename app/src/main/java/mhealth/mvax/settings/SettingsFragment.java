@@ -219,7 +219,7 @@ public class SettingsFragment extends Fragment {
 
         //Following code sets the button to only show when user is an ADMIN
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ref = ref.child(getResources().getString(R.string.userTable)).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(getResources().getString(R.string.userRole));
+        ref = ref.child(getResources().getString(R.string.user_table)).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(getResources().getString(R.string.user_role));
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
