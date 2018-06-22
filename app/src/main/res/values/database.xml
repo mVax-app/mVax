@@ -15,6 +15,7 @@
 
     <string name="patient_table">patients</string>
     <string name="patient_database_key">patientDatabaseKey</string>
+    <string name="date">date</string>
 
     <string name="user_table">users</string>
     <string name="user_role">role</string>

@@ -139,7 +139,7 @@
     <string name="vaccine_card_goal_text">Meta</string>
 
     <!-- Forms-->
-    <string name="form_fragment_title">Exportar formularios</string>
+    <string name="query_title">Exportar formularios</string>
     <string name="sinova_title">SINOVA 1</string>
     <string name="sinova2_title">SINOVA 2</string>
     <string name="sinovaAdolescent">Niños</string>

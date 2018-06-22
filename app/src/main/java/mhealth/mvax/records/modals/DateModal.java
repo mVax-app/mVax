@@ -48,12 +48,18 @@ public class DateModal extends CustomModal {
         mNeutralAction = neutralAction;
     }
 
+    public DateModal(Long value, TypeRunnable<Long> positiveAction, View view) {
+        super(view);
+        mValue = value;
+        mPositiveAction = positiveAction;
+    }
+
     @Override
     public void createAndShow() {
         final View view = mInflater.inflate(R.layout.modal_date_picker, mParent, false);
         final DatePicker datePicker = view.findViewById(R.id.date_picker);
 
-        mDialog = new AlertDialog.Builder(mContext)
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
                 .setView(view)
                 .setTitle(R.string.modal_date_title)
                 .setPositiveButton(R.string.modal_date_confirm, (dialog, which) -> {
@@ -63,9 +69,9 @@ public class DateModal extends CustomModal {
                     final long millis = new LocalDate(year, month, day).toDate().getTime();
                     mPositiveAction.run(millis);
                 })
-                .setNegativeButton(R.string.modal_cancel, (dialog, which) -> dialog.cancel())
-                .setNeutralButton(R.string.modal_date_neutral, mNeutralAction)
-                .create();
+                .setNegativeButton(R.string.modal_cancel, (dialog, which) -> dialog.cancel());
+        if (mNeutralAction != null) builder.setNeutralButton(R.string.modal_date_neutral, mNeutralAction);
+        mDialog = builder.create();
 
         // if value is already defined, select the respective date in the calendar
         if (mValue != null) {
