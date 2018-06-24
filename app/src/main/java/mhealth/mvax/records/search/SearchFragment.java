@@ -19,7 +19,6 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.search;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -38,7 +37,6 @@ import mhealth.mvax.R;
 import mhealth.mvax.records.record.RecordFragment;
 import mhealth.mvax.records.record.patient.modify.create.CreateRecordFragment;
 import mhealth.mvax.records.utilities.AlgoliaUtilities;
-import mhealth.mvax.records.utilities.TypeRunnable;
 import mhealth.mvax.utilities.modals.LoadingModal;
 
 /**
@@ -67,11 +65,11 @@ public class SearchFragment extends Fragment {
         initSearchIndex();
 
         // TODO get rid of this
-        final RecordFragment detailFrag = RecordFragment.newInstance("-LFOtFjaBOslLuj2ZtiH");
-        getFragmentManager().beginTransaction()
-                .replace(R.id.frame, detailFrag)
-                .addToBackStack(null) // back button brings us back to SearchFragment
-                .commit();
+//        final RecordFragment detailFrag = RecordFragment.newInstance("-LFOtFjaBOslLuj2ZtiH");
+//        getFragmentManager().beginTransaction()
+//                .replace(R.id.frame, detailFrag)
+//                .addToBackStack(null) // back button brings us back to SearchFragment
+//                .commit();
 
         return mView;
     }
@@ -138,11 +136,11 @@ public class SearchFragment extends Fragment {
 
     private void renderListView() {
         final RecyclerView usersList = mView.findViewById(R.id.search_results);
-        mAdapter = new SearchResultAdapter(getActivity());
-        usersList.setAdapter(mAdapter);
         usersList.setHasFixedSize(true);
         usersList.setLayoutManager(new LinearLayoutManager(getContext()));
         usersList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+        mAdapter = new SearchResultAdapter(getActivity());
+        usersList.setAdapter(mAdapter);
     }
 
     private void checkForLeftoverQuery(EditText searchBar) {

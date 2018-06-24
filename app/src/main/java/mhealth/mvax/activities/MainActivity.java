@@ -28,7 +28,7 @@ import android.support.design.widget.BottomNavigationView;
 import mhealth.mvax.R;
 import mhealth.mvax.alerts.AlertsFragment;
 import mhealth.mvax.dashboard.DashboardFragment;
-import mhealth.mvax.dashboard.FormsFragment;
+import mhealth.mvax.queries.QueryFragment;
 import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.settings.SettingsFragment;
 
@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
                             selectedFragment = DashboardFragment.newInstance();
                             break;
                         case R.id.nav_forms:
-                            selectedFragment = FormsFragment.newInstance();
+                            selectedFragment = QueryFragment.newInstance();
                             break;
                         case R.id.nav_settings:
                             selectedFragment = SettingsFragment.newInstance();

@@ -148,7 +148,9 @@
     <string name="vaccine_card_goal_text">Goal</string>
 
     <!-- Forms-->
-    <string name="form_fragment_title">Export forms</string>
+    <string name="query_title">Queries</string>
+    <string name="sinova_1">SINOVA 1</string>
+    <string name="sinova_2">SINOVA 2</string>
     <string name="sinova_title">SINOVA 1</string>
     <string name="sinova2_title">SINOVA 2</string>
     <string name="sinovaAdolescent">Children</string>
@@ -166,6 +168,8 @@
     <string name="form_info_body2">
         To start, simply click on the form you want to export. A screen will then pop up, asking for additional information. For the SINOVA, it is the date you want the data from. ForSINOVA 2, it is the month you want the data from. And for LINVI, it is the patient you want displayed.</string>
     <string name="ok">OK</string>
+    <string name="vaccinations_updated">Vaccinations updated</string>
+
 
     <!-- Forms/file paths-->
     <string name="sinova">SINOVA</string>

@@ -100,7 +100,6 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
     }
 
     private void initPatientListener(final String databaseKey) {
-        // define database ref
         final String masterTable = getResources().getString(R.string.data_table);
         final String patientTable = getResources().getString(R.string.patient_table);
         mPatientRef = FirebaseDatabase.getInstance().getReference()
