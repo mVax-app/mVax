@@ -314,4 +314,8 @@ public class Patient implements Serializable {
         return details;
     }
 
+    public static int getNumDetails() {
+        return 10;
+    }
+
 }

@@ -120,7 +120,20 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
     }
 
     /**
-     * Sorts Vaccines by name
+     * Determines how the vaccine is sorted
+     */
+    private Integer sortOrder;
+
+    public Integer getSortOrder() {
+        return this.sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    /**
+     * Sorts Vaccines by sortOrder
      *
      * @param that Vaccine to sort against
      * @return negative integer, zero, or a positive integer if this
@@ -128,7 +141,7 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
      */
     @Override
     public int compareTo(@NonNull Vaccine that) {
-        return this.name.compareTo(that.name);
+        return this.sortOrder.compareTo(that.sortOrder);
     }
 
     /**

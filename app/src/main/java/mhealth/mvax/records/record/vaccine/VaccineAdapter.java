@@ -20,6 +20,7 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.records.record.vaccine;
 
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,12 +39,12 @@ import java.util.List;
 import java.util.Map;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.immunization.Date;
 import mhealth.mvax.model.immunization.Dose;
 import mhealth.mvax.model.immunization.DueDate;
 import mhealth.mvax.model.immunization.Vaccination;
 import mhealth.mvax.model.immunization.Vaccine;
 import mhealth.mvax.records.modals.DateModal;
+import mhealth.mvax.records.modals.VaccinationModal;
 import mhealth.mvax.records.utilities.NullableDateFormat;
 import mhealth.mvax.records.utilities.TypeRunnable;
 
@@ -95,23 +96,24 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
 
         // add doses
         holder.vaccineDoses.removeAllViews(); // clear out previous views
-        for (Dose d : vaccine.getDoses()) {
+        for (Dose dose : vaccine.getDoses()) {
             View doseView = mInflater.inflate(R.layout.list_item_dose, mParent, false);
             TextView label = doseView.findViewById(R.id.dose_label);
-            label.setText(d.getLabel());
+            label.setText(dose.getLabel());
 
             TextView date = doseView.findViewById(R.id.dose_date);
-            if (mVaccinations.containsKey(d.getDatabaseKey())) {
-                Vaccination vaccination = mVaccinations.get(d.getDatabaseKey());
+            if (mVaccinations.containsKey(dose.getDatabaseKey())) {
+                Vaccination vaccination = mVaccinations.get(dose.getDatabaseKey());
                 final String dateString = NullableDateFormat.getString(vaccination.getDate());
                 date.setText(dateString);
             }
-            date.setOnClickListener(v -> promptForVaccinationDate(d.getDatabaseKey()));
+            date.setOnClickListener(v -> promptForVaccinationDate(dose.getDatabaseKey(), vaccine.getDatabaseKey()));
 
             holder.vaccineDoses.addView(doseView);
         }
 
         // add due date
+        holder.dueDate.setText(""); // clear out old due dates
         TextView dateView = holder.dueDate.findViewById(R.id.due_date);
         if (mDueDates.containsKey(vaccine.getDatabaseKey())) {
             DueDate dueDate = mDueDates.get(vaccine.getDatabaseKey());
@@ -130,35 +132,52 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
         mVaccines = vaccines;
         mVaccinations = vaccinations;
         mDueDates = dueDates;
-        Collections.sort(mVaccines); // TODO determine vaccine sort
+        Collections.sort(mVaccines);
         notifyDataSetChanged();
     }
 
-    private void promptForVaccinationDate(String key) {
+    private void promptForVaccinationDate(String doseKey, String vaccineKey) {
         Long existingDate = null;
-        if (mVaccinations.containsKey(key)) {
-            existingDate = mVaccinations.get(key).getDate();
+        String existingMonths = null;
+        String existingYears = null;
+        if (mVaccinations.containsKey(doseKey)) {
+            Vaccination v = mVaccinations.get(doseKey);
+            existingDate = v.getDate();
+            existingMonths = v.getMonths();
+            existingYears = v.getYears();
         }
-        final TypeRunnable<Long> positiveAction = date -> saveDate(key, date, R.string.vaccination_table);
+
+        final TypeRunnable<Bundle> positiveAction = args -> {
+            Long date = args.getLong("date");
+            String months = args.getString("months");
+            String years = args.getString("years");
+            saveVaccination(doseKey, vaccineKey, date, months, years);
+        };
         final DialogInterface.OnClickListener neutralAction = (dialog, which) -> {
-            if (mVaccinations.containsKey(key)) {
-                final Vaccination dateToDelete = mVaccinations.get(key);
+            if (mVaccinations.containsKey(doseKey)) {
+                final Vaccination dateToDelete = mVaccinations.get(doseKey);
                 deleteDate(dateToDelete.getDatabaseKey(), R.string.vaccination_table);
             }
         };
-        final DateModal dateModal = new DateModal(existingDate, positiveAction, neutralAction, mParent);
-        dateModal.createAndShow();
+        final VaccinationModal vaccinationModal = new VaccinationModal(
+                existingDate,
+                existingMonths,
+                existingYears,
+                positiveAction,
+                neutralAction,
+                mParent);
+        vaccinationModal.createAndShow();
     }
 
-    private void promptForDueDate(String key) {
+    private void promptForDueDate(String vaccineKey) {
         Long existingDate = null;
-        if (mDueDates.containsKey(key)) {
-            existingDate = mDueDates.get(key).getDate();
+        if (mDueDates.containsKey(vaccineKey)) {
+            existingDate = mDueDates.get(vaccineKey).getDate();
         }
-        final TypeRunnable<Long> positiveAction = date -> saveDate(key, date, R.string.due_date_table);
+        final TypeRunnable<Long> positiveAction = date -> saveDueDate(vaccineKey, date);
         final DialogInterface.OnClickListener neutralAction = (dialog, which) -> {
-            if (mDueDates.containsKey(key)) {
-                final DueDate dateToDelete = mDueDates.get(key);
+            if (mDueDates.containsKey(vaccineKey)) {
+                final DueDate dateToDelete = mDueDates.get(vaccineKey);
                 deleteDate(dateToDelete.getDatabaseKey(), R.string.due_date_table);
             }
         };
@@ -166,35 +185,52 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
         dateModal.createAndShow();
     }
 
-    private void saveDate(String key, Long date, int database) {
+    private void saveVaccination(String doseKey, String vaccineKey, Long date, String months, String years) {
         final String masterTable = getString(R.string.data_table);
-        final String dataTable = getString(database);
+        final String dataTable = getString(R.string.vaccination_table);
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
                 .child(dataTable);
 
-        Date d;
-        if (mVaccinations.containsKey(key)) { // changing existing date
-            d = mVaccinations.get(key);
-            d.setDate(date);
+        Vaccination vaccination;
+        if (mVaccinations.containsKey(doseKey)) { // changing existing date
+            vaccination = mVaccinations.get(doseKey);
+            vaccination.setDate(date);
         } else { // creating a new date
-            switch (database) {
-                case R.string.vaccination_table:
-                    d = new Vaccination(databaseRef.push().getKey(), mPatientKey, key, date);
-                    break;
-                case R.string.due_date_table:
-                    d = new DueDate(databaseRef.push().getKey(), mPatientKey, key, date);
-                    break;
-                default:
-                    return;
+            vaccination = new Vaccination(databaseRef.push().getKey(), mPatientKey, vaccineKey, doseKey, date);
+        }
+        vaccination.setMonths(months);
+        vaccination.setYears(years);
+
+        databaseRef.child(vaccination.getDatabaseKey()).setValue(vaccination).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(mParent.getContext(), R.string.vaccination_save_success, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(mParent.getContext(), R.string.vaccination_save_fail, Toast.LENGTH_LONG).show();
             }
+        });
+    }
+
+    private void saveDueDate(String vaccineKey, Long date) {
+        final String masterTable = getString(R.string.data_table);
+        final String dataTable = getString(R.string.due_date_table);
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference()
+                .child(masterTable)
+                .child(dataTable);
+
+        DueDate dueDate;
+        if (mDueDates.containsKey(vaccineKey)) { // changing existing due date
+            dueDate = mDueDates.get(vaccineKey);
+            dueDate.setDate(date);
+        } else { // creating a new due date
+            dueDate = new DueDate(databaseRef.push().getKey(), mPatientKey, vaccineKey, date);
         }
 
-        databaseRef.child(d.getDatabaseKey()).setValue(d).addOnCompleteListener(task -> {
+        databaseRef.child(dueDate.getDatabaseKey()).setValue(dueDate).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Toast.makeText(mParent.getContext(), R.string.date_save_success, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mParent.getContext(), R.string.due_date_save_success, Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(mParent.getContext(), R.string.date_save_fail, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mParent.getContext(), R.string.due_date_save_fail, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -208,13 +244,13 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
                 .child(key)
                 .setValue(null).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Toast.makeText(mParent.getContext(), R.string.date_delete_success, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mParent.getContext(), R.string.date_delete_success, Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(mParent.getContext(), R.string.date_delete_fail, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mParent.getContext(), R.string.date_delete_fail, Toast.LENGTH_LONG).show();
             }
         });
     }
-    
+
     private String getString(int id) {
         return mParent.getContext().getString(id);
     }

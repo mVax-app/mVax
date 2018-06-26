@@ -98,9 +98,9 @@ public class FirebaseVaccinationFetcher implements VaccinationFetcher {
 
             for (DataSnapshot data : child.getChildren()) {
                 Vaccination vacc = data.getValue(Vaccination.class);
-                if (possibleFormCodes.containsKey(vacc.getDoseDatabaseKey())) {
+                if (possibleFormCodes.containsKey(vacc.getDoseKey())) {
                     matchAssociatedPatient(vacc);
-                    formCodes.put(vacc, possibleFormCodes.get(vacc.getDoseDatabaseKey()));
+                    formCodes.put(vacc, possibleFormCodes.get(vacc.getDoseKey()));
                 }
             }
         }
