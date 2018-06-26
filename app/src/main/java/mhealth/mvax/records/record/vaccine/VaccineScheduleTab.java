@@ -47,7 +47,6 @@ import mhealth.mvax.model.immunization.DueDate;
 import mhealth.mvax.model.immunization.Vaccination;
 import mhealth.mvax.model.immunization.Vaccine;
 import mhealth.mvax.records.record.RecordTab;
-import mhealth.mvax.utilities.modals.LoadingModal;
 
 /**
  * @author Robert Steilberg
@@ -181,7 +180,7 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String prevKey) {
                 final Vaccination vaccination = dataSnapshot.getValue(Vaccination.class);
                 if (vaccination != null) {
-                    mVaccinations.put(vaccination.getDoseDatabaseKey(), vaccination);
+                    mVaccinations.put(vaccination.getDoseKey(), vaccination);
                     refresh();
                 }
             }
@@ -195,7 +194,7 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 final Vaccination vaccination = dataSnapshot.getValue(Vaccination.class);
                 if (vaccination != null) {
-                    mVaccinations.remove(vaccination.getDoseDatabaseKey());
+                    mVaccinations.remove(vaccination.getDoseKey());
                     refresh();
                 }
             }

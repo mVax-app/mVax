@@ -21,8 +21,10 @@ package mhealth.mvax.records.modals;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.TextView;
 
 import org.joda.time.LocalDate;
 
@@ -35,49 +37,62 @@ import mhealth.mvax.utilities.modals.CustomModal;
  * <p>
  * Modal for selecting a date via a DatePicker
  */
-public class DateModal extends CustomModal {
+public class VaccinationModal extends CustomModal {
 
     private Long mDate;
-    private TypeRunnable<Long> mPositiveAction;
+    private String mMonths;
+    private String mYears;
+    private TypeRunnable<Bundle> mPositiveAction;
     private DialogInterface.OnClickListener mNeutralAction;
 
-    public DateModal(Long date, TypeRunnable<Long> positiveAction, DialogInterface.OnClickListener neutralAction, View view) {
+    public VaccinationModal(Long date, String months, String years,
+                            TypeRunnable<Bundle> positiveAction,
+                            DialogInterface.OnClickListener neutralAction,
+                            View view) {
         super(view);
         mDate = date;
+        mMonths = months;
+        mYears = years;
         mPositiveAction = positiveAction;
         mNeutralAction = neutralAction;
     }
 
-    public DateModal(Long value, TypeRunnable<Long> positiveAction, View view) {
-        super(view);
-        mDate = value;
-        mPositiveAction = positiveAction;
-    }
-
     @Override
     public void createAndShow() {
-        final View view = mInflater.inflate(R.layout.modal_date_picker, mParent, false);
+        final View view = mInflater.inflate(R.layout.modal_vaccination_date_picker, mParent, false);
         final DatePicker datePicker = view.findViewById(R.id.date_picker);
+        final TextView monthView = view.findViewById(R.id.month);
+        final TextView yearView = view.findViewById(R.id.year);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
+        mDialog = new AlertDialog.Builder(mContext)
                 .setView(view)
-                .setTitle(R.string.modal_date_title)
+                .setTitle(R.string.modal_vaccination_date_title)
                 .setPositiveButton(R.string.modal_date_confirm, (dialog, which) -> {
                     final int day = datePicker.getDayOfMonth();
                     final int month = datePicker.getMonth() + 1;
                     final int year = datePicker.getYear();
                     final long millis = new LocalDate(year, month, day).toDate().getTime();
-                    mPositiveAction.run(millis);
-                })
-                .setNegativeButton(R.string.modal_cancel, (dialog, which) -> dialog.cancel());
-        if (mNeutralAction != null) builder.setNeutralButton(R.string.modal_date_neutral, mNeutralAction);
-        mDialog = builder.create();
 
-        // if value is already defined, select the respective date in the calendar
+                    String months = monthView.getText().toString().trim();
+                    String years = yearView.getText().toString().trim();
+
+                    Bundle args = new Bundle();
+                    args.putLong("date", millis);
+                    args.putString("months", months);
+                    args.putString("years", years);
+                    mPositiveAction.run(args);
+                })
+                .setNegativeButton(R.string.modal_cancel, (dialog, which) -> dialog.cancel())
+                .setNeutralButton(R.string.modal_date_neutral, mNeutralAction)
+                .create();
+
         if (mDate != null) {
             final LocalDate date = new LocalDate(mDate);
             datePicker.updateDate(date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth());
         }
+        if (mMonths != null) monthView.setText(mMonths);
+        if (mYears != null) yearView.setText(mYears);
+
         mDialog.show();
     }
 

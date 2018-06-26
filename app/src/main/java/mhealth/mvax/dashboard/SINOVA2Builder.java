@@ -154,7 +154,7 @@ public class SINOVA2Builder {
             //VACCINE SPECIFIC
             for(String code : patientFormCodes.get(record)){
                 form.setField(code + rowNumber, "X");
-                //form.setField(mContext.getResources().getString(mContext.getResources().getIdentifier(possibleDoses.get(records.get(rowNumber-1).getDoseDatabaseKey()), "string", mContext.getPackageName())) + rowNumber, "X");
+                //form.setField(mContext.getResources().getString(mContext.getResources().getIdentifier(possibleDoses.get(records.get(rowNumber-1).getDoseKey()), "string", mContext.getPackageName())) + rowNumber, "X");
             }
 
             if(rowNumber + 1 > patientFormCodes.size() || rowNumber == maxRows){

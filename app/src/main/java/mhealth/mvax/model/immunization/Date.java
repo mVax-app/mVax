@@ -42,7 +42,7 @@ public class Date implements Serializable {
     /**
      * Unique Firebase database key representing the Date object
      */
-    private String databaseKey;
+    protected String databaseKey;
 
     public String getDatabaseKey() {
         return this.databaseKey;
@@ -56,7 +56,7 @@ public class Date implements Serializable {
      * Unique Firebase database key representing the
      * Date's associated Patient
      */
-    private String patientDatabaseKey;
+    protected String patientDatabaseKey;
 
     public String getPatientDatabaseKey() {
         return this.patientDatabaseKey;
@@ -70,7 +70,7 @@ public class Date implements Serializable {
      * Date's date value, represented as milliseconds since
      * Unix epoch
      */
-    private Long date;
+    protected Long date;
 
     public Long getDate() {
         return this.date;
