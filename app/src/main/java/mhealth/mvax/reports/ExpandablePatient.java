@@ -60,6 +60,10 @@ public class ExpandablePatient implements Comparable<ExpandablePatient> {
         return mRows.get(index);
     }
 
+    public void addRow(Pair<String, String> row) {
+        mRows.add(row);
+    }
+
     public int getNumPatientDetails() {
         return mPatient.getDetails().size();
     }

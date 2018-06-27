@@ -21,8 +21,8 @@ package mhealth.mvax.reports;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,21 +39,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.immunization.Dose;
 import mhealth.mvax.model.immunization.Vaccination;
 import mhealth.mvax.model.immunization.Vaccine;
 import mhealth.mvax.model.record.Patient;
-import mhealth.mvax.records.modals.DateModal;
-import mhealth.mvax.records.record.patient.detail.StringDetail;
 import mhealth.mvax.records.utilities.NullableDateFormat;
 import mhealth.mvax.records.utilities.TypeRunnable;
 import mhealth.mvax.utilities.modals.LoadingModal;
@@ -68,24 +64,16 @@ public class FormFragment extends Fragment {
     private View mView;
     private ProgressBar mSpinner;
     private LoadingModal mLoadingModal;
-
     private Button mSinova1Button;
     private Button mSinova2Button;
 
+    private ArrayList<Vaccine> mVaccines;
     private String mReportDate;
-
-    private HashMap<String, Vaccine> mVaccines;
-    private List<ExpandablePatient> mPatients;
-
-
-
-
-    private FormAdapter mAdapter;
-
+    private ArrayList<ExpandablePatient> mPatients;
 
 
     public FormFragment() {
-        mVaccines = new HashMap<>();
+        mVaccines = new ArrayList<>();
         mPatients = new ArrayList<>();
     }
 
@@ -100,17 +88,19 @@ public class FormFragment extends Fragment {
         mSpinner = mView.findViewById(R.id.spinner);
         mSinova1Button = mView.findViewById(R.id.sinova_1);
         mSinova2Button = mView.findViewById(R.id.sinova_2);
+        mSinova2Button.setOnClickListener(v -> promptForDate());
         mLoadingModal = new LoadingModal(mView);
 
-        downloadVaccines();
-
         if (savedInstanceState != null) {
-            mVaccines = (HashMap<String, Vaccine>) savedInstanceState.getSerializable("vaccines");
+            mVaccines = (ArrayList<Vaccine>) savedInstanceState.getSerializable("vaccines");
+            mPatients = (ArrayList<ExpandablePatient>) savedInstanceState.getSerializable("patients");
             setReportDate(savedInstanceState.getString("reportDate"));
-
+            render();
+        } else {
+            disableButtons();
+            downloadVaccines();
         }
 
-        render();
         return mView;
     }
 
@@ -118,8 +108,7 @@ public class FormFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         outState.putSerializable("vaccines", mVaccines);
         outState.putSerializable("reportDate", mReportDate);
-
-
+        outState.putSerializable("patients", mPatients);
         super.onSaveInstanceState(outState);
     }
 
@@ -136,15 +125,16 @@ public class FormFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot vaccineSnap : dataSnapshot.getChildren()) {
                     Vaccine vaccine = vaccineSnap.getValue(Vaccine.class);
-                    if (vaccine != null) mVaccines.put(vaccine.getDatabaseKey(), vaccine);
+                    if (vaccine != null) mVaccines.add(vaccine);
                 }
+                Collections.sort(mVaccines);
                 mLoadingModal.dismiss();
                 enableButtons();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(mView.getContext(), R.string.report_init_fail, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mView.getContext(), R.string.report_init_fail, Toast.LENGTH_LONG).show();
                 mLoadingModal.dismiss();
             }
         });
@@ -155,17 +145,19 @@ public class FormFragment extends Fragment {
         mSinova1Button.setBackgroundResource(R.drawable.button);
         mSinova2Button.setEnabled(true);
         mSinova2Button.setBackgroundResource(R.drawable.button);
-        mSinova2Button.setOnClickListener(v -> promptForDate());
+    }
+
+    private void disableButtons() {
+        mSinova1Button.setEnabled(false);
+        mSinova1Button.setBackgroundResource(R.drawable.button_disabled);
+        mSinova2Button.setEnabled(false);
+        mSinova2Button.setBackgroundResource(R.drawable.button_disabled);
     }
 
     private void promptForDate() {
         final TypeRunnable<Long> positiveAction = date -> {
-//            if (!mPatients.isEmpty()) {
-//                mPatientKeys.clear();
-//                mPatients.clear();
-//                mAdapter.refresh(new ArrayList<>(mPatients.values()));
-//            }
-            // TODO
+            mPatients.clear(); // clear out old results
+            mView.findViewById(R.id.no_vaccinations).setVisibility(View.INVISIBLE);
             setReportDate(NullableDateFormat.getString(date));
             mSpinner.setVisibility(View.VISIBLE);
             downloadVaccinations(date);
@@ -217,7 +209,7 @@ public class FormFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(mView.getContext(), R.string.vaccinations_download_fail, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mView.getContext(), R.string.report_download_fail, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -245,23 +237,42 @@ public class FormFragment extends Fragment {
         patientQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot patientSnap : dataSnapshot.getChildren()){
+                for (DataSnapshot patientSnap : dataSnapshot.getChildren()) {
                     Patient patient = patientSnap.getValue(Patient.class);
 
                     ExpandablePatient ep = new ExpandablePatient(patient);
 
-                    for (Vaccination vaccination : vaccinations) {
-                        Vaccine vaccine = mVaccines.get(vaccination.getVaccineKey());
+                    // TODO clean this up
+                    for (Vaccine vaccine : mVaccines) {
+                        for (Vaccination vaccination : vaccinations) {
+                            if (vaccine.getDatabaseKey().equals(vaccination.getVaccineKey())) {
+                                for (Dose dose : vaccine.getDoses()) {
+                                    if (dose.getDatabaseKey().equals(vaccination.getDoseKey())) {
 
+                                        StringBuilder sb = new StringBuilder();
+                                        sb.append(dose.getLabel());
+                                        if (!vaccination.getYears().isEmpty()) {
+                                            sb.append(" ");
+                                            sb.append(vaccination.getYears());
+                                            sb.append("a");
+                                        }
+                                        if (!vaccination.getMonths().isEmpty()) {
+                                            sb.append(" ");
+                                            sb.append(vaccination.getMonths());
+                                            sb.append("m");
+                                        }
+                                        ep.addRow(new Pair<>(vaccine.getName(), sb.toString()));
+
+                                    }
+                                }
+                            }
+                        }
                     }
+                    mPatients.add(ep);
 
                 }
 
-
-
-
-
-                if (++mDownloadedPatients == mNumPatients) {
+                if (++mDownloadedPatients == mNumPatients) { // all patients downloaded
                     mSpinner.setVisibility(View.INVISIBLE);
                     render();
                 }
@@ -269,58 +280,14 @@ public class FormFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // TODO standardize error message
+                Toast.makeText(mView.getContext(), R.string.report_download_fail, Toast.LENGTH_LONG).show();
             }
         });
     }
 
-
-
-
-
-
-
-        private void render () {
-//            final ExpandableListView queryResults = mView.findViewById(R.id.report_results);
-//            mAdapter = new FormAdapter();
-//            queryResults.setAdapter(mAdapter);
-        }
-
-        private void refresh () {
-//            for (ExpandablePatient p : mPatients.values()) {
-//
-//                if (!p.isDone) {
-//                    List<Vaccination> vaccinations = mVax.get(p.getPatient().getDatabaseKey());
-//
-//                    for (Vaccination vaccination : vaccinations) { // TODO implement sort
-//                        Vaccine vaccine = mVaccines.get(vaccination.getVaccineKey());
-//                        for (Dose dose : vaccine.getDoses()) {
-//                            if (dose.getDatabaseKey().equals(vaccination.getDoseKey())) {
-//                                StringBuilder sb = new StringBuilder();
-//                                sb.append(dose.getLabel());
-//                                if (!vaccination.getYears().isEmpty()) {
-//                                    sb.append(" ");
-//                                    sb.append(vaccination.getYears());
-//                                    sb.append("a");
-//                                }
-//                                if (!vaccination.getMonths().isEmpty()) {
-//                                    sb.append(" ");
-//                                    sb.append(vaccination.getMonths());
-//                                    sb.append("m");
-//                                }
-//                                p.addRow(vaccine.getName(), sb.toString());
-//                            }
-//
-//
-//                        }
-//
-//                    }
-//                    p.isDone = true;
-//                }
-//            }
-//
-//
-//            mAdapter.refresh(new ArrayList<>(mPatients.values()));
-        }
-
+    private void render() {
+        final ExpandableListView queryResults = mView.findViewById(R.id.report_results);
+        queryResults.setAdapter(new FormAdapter(mPatients));
     }
+
+}

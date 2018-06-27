@@ -30,14 +30,9 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.immunization.Vaccine;
-import mhealth.mvax.model.record.Patient;
-import mhealth.mvax.records.record.patient.detail.Detail;
 
 /**
  * @author Robert Steilberg
