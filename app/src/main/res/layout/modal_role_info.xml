@@ -9,7 +9,7 @@
     android:paddingRight="10dp"
     android:paddingTop="10dp"
     android:weightSum="1"
-    tools:context="settings.SettingsFragment">
+    tools:context=".settings.SettingsFragmentOld">
 
     <TextView
         android:id="@+id/dob"

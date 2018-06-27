@@ -9,7 +9,7 @@
     android:paddingRight="10dp"
     android:paddingTop="10dp"
     android:weightSum="1"
-    tools:context="mhealth.mvax.settings.SettingsFragment">
+    tools:context="mhealth.mvax.settings.SettingsFragmentOld">
 
     <LinearLayout
         android:id="@+id/email_fields"

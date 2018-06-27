@@ -231,8 +231,19 @@
     <string name="population_group">GRUPO POBLACIONAL AL QUE PERTENECERow</string>
     <string name="full_name_guardian">NOMBRE COMPLETO DE LA MADRE RESPONSABLERow</string>
 
+
+
+
+
+
+
+
+
+    <!-- Settings-->
+    <string name="settings_title">Settings</string>
+
     <!-- Settings/about-->
-    <string name="about">About</string>
+    <string name="about_button">About</string>
     <string name="bass_contributor">Created by Duke Bass Connections in cooperation with the Duke Global Health Institute</string>
     <string name="bass_project_leader_title">Faculty leaders:</string>
     <string name="bass_project_leader">Lavanya Vasudevan, Ph.D.\nDennis Clements, M.D.\nRobert Duvall\nRichard Lucic</string>
@@ -241,7 +252,10 @@
     <string name="bass_global_health_title">Global health team:</string>
     <string name="bass_global_health">Thuy-Linh Bui\nKathryn Watkins</string>
 
-    <!-- Settings/languages-->
+
+    <!-- Settings/app preferences-->
+    <string name="app_preferences">App preferences</string>
+
     <string name="language">Language</string>
     <string name="spanish">Change to Spanish</string>
     <string name="spanishCode">es</string>

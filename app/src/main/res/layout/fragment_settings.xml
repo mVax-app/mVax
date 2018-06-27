@@ -1,243 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="mhealth.mvax.settings.SettingsFragment"
-    android:layout_gravity="center">
+    android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        >
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/settings_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:layout_marginTop="@dimen/margin_top"
+            android:fontFamily="@font/avenir_heavy"
+            android:text="@string/settings_title"
+            android:textAlignment="center"
+            android:textColor="@color/dukeBlue"
+            android:textSize="@dimen/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/Settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="30dp"
-                android:text="@string/settings_icon_title"
-                android:textAlignment="center"
-                android:textColor="@color/teal"
-                android:textSize="50sp"
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/about_button"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/title_margin_bottom"
+            android:background="@drawable/button"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/about_button"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/settings_title" />
 
-
-            <Button
-                android:id="@+id/aboutButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textAllCaps="false"
-                android:layout_marginBottom="5dp"
-                android:textSize="20sp"
-                android:text="@string/about" />
-
-            <TextView
-                android:id="@+id/language_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="5dp"
-                android:text="@string/language"
-                android:textAlignment="viewStart"
-                android:textColor="@color/teal"
-                android:textSize="40sp" />
-
-            <Switch
-                android:id="@+id/spanish"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="95dp"
-                android:layout_marginTop="8dp"
-                android:switchMinWidth="200dp"
-                android:switchPadding="20dp"
-                android:text="@string/spanish"
-                android:textSize="30sp" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="5dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
-                android:background="@android:color/black"/>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
-
-            <TextView
-                android:id="@+id/user_settings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/user_settings"
-                android:textColor="@color/teal"
-                android:layout_marginStart="30dp"
-                android:textSize="40sp"
-                tools:text="User Settings" />
-
-            <Button
-                android:id="@+id/changeEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="90dp"
-                android:textAllCaps="false"
-                android:gravity="start|center_vertical"
-                android:layout_marginStart="90dp"
-                android:alpha="1"
-                android:layout_marginTop="8dp"
-                android:text="@string/update_email"
-                android:textSize="25sp" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
+        <TextView
+            android:id="@+id/app_preferences"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_start"
+            android:layout_marginTop="50dp"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/app_preferences"
+            android:textAlignment="center"
+            android:textColor="@color/dukeBlue"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/about_button" />
 
 
-            <Button
-                android:id="@+id/changePassword"
-                style="@android:style/Widget.Material.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:textAllCaps="false"
-                android:layout_marginEnd="90dp"
-                android:layout_marginStart="90dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/change_password"
-                android:textSize="25sp" />
+    </android.support.constraint.ConstraintLayout>
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="20dp" />
-
-            <Button
-                android:id="@+id/changeTimeout"
-                style="@android:style/Widget.Material.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:textAllCaps="false"
-                android:layout_marginEnd="90dp"
-                android:layout_marginStart="90dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/change_timeout"
-                android:textSize="25sp" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
-
-            <Button
-                android:id="@+id/signOut"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:textAllCaps="false"
-                android:layout_marginEnd="90dp"
-                android:layout_marginStart="90dp"
-                android:layout_marginTop="28dp"
-                android:text="@string/sign_out"
-                android:textSize="25sp" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="5dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
-                android:background="@android:color/black"/>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
-
-
-            <TextView
-                android:id="@+id/admin_priv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/admin_priv"
-                android:textAlignment="viewStart"
-                android:textColor="@color/teal"
-                android:layout_marginStart="30dp"
-                android:textSize="40sp"
-                tools:text="Admin Privileges" />
-
-            <Button
-                android:id="@+id/approveUsers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="90dp"
-                android:layout_marginStart="90dp"
-                android:textAllCaps="false"
-                android:layout_marginTop="8dp"
-                android:gravity="start|center_vertical"
-                android:text="@string/approve_users"
-                android:textSize="25sp" />
-
-            <Button
-                android:id="@+id/currentUsers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="90dp"
-                android:layout_marginStart="90dp"
-                android:textAllCaps="false"
-                android:layout_marginTop="8dp"
-                android:gravity="start|center_vertical"
-                android:text="@string/current_users"
-                android:textSize="25sp" />
-
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="5dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
-                android:background="@android:color/black"/>
-
-            <Button
-                android:id="@+id/dummyData"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="90dp"
-                android:layout_marginStart="90dp"
-                android:textAllCaps="false"
-                android:layout_marginTop="8dp"
-                android:gravity="start|center_vertical"
-                android:text="@string/dummy_data"
-                android:textSize="25sp" />
-
-        </LinearLayout>
-    </ScrollView>
-
-
-</LinearLayout>
+</ScrollView>
