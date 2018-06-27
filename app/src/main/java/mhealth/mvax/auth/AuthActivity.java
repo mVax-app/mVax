@@ -66,7 +66,7 @@ public class AuthActivity extends Activity {
     private ProgressBar mSpinner;
     private int mScreenWidth;
 
-    private static boolean BYPASS_LOGIN = true;
+    private static boolean BYPASS_LOGIN = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,14 +75,14 @@ public class AuthActivity extends Activity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        mEmailView = findViewById(R.id.email);
-        mPasswordView = findViewById(R.id.password);
-        mSpinner = findViewById(R.id.spinner);
-        mScreenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+//        mEmailView = findViewById(R.id.email);
+//        mPasswordView = findViewById(R.id.password);
+//        mSpinner = findViewById(R.id.spinner);
+//        mScreenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-        initTextFields();
-        initButtons();
-        mSpinner.setX(mScreenWidth); // spinner rendered off screen
+//        initTextFields();
+//        initButtons();
+//        mSpinner.setX(mScreenWidth); // spinner rendered off screen
 
         if (BYPASS_LOGIN) {
             mAuth.signInWithEmailAndPassword("devadmin@mvax.com", "devadmin1")
@@ -97,9 +97,9 @@ public class AuthActivity extends Activity {
     public void onResume() {
         super.onResume();
         // clear out any existing auth infoButton
-        FirebaseAuth.getInstance().signOut();
+//        FirebaseAuth.getInstance().signOut();
         // ensure auth text fields are visible
-        animateTextInputs(ANIMATION_SPEED_INSTANT, false);
+//        animateTextInputs(ANIMATION_SPEED_INSTANT, false);
     }
 
     private void initTextFields() {
@@ -139,14 +139,14 @@ public class AuthActivity extends Activity {
     }
 
     private void initButtons() {
-        final Button signInButton = findViewById(R.id.login_button);
-        signInButton.setOnClickListener(v -> authenticate());
-
-        final TextView registerButton = findViewById(R.id.register);
-        registerButton.setOnClickListener(v -> new RequestAccountModal(v).createAndShow());
-
-        final TextView forgotButton = findViewById(R.id.forgot_password);
-        forgotButton.setOnClickListener(v -> new PasswordResetModal(v).createAndShow());
+//        final Button signInButton = findViewById(R.id.login_button);
+//        signInButton.setOnClickListener(v -> authenticate());
+//
+//        final TextView registerButton = findViewById(R.id.register);
+//        registerButton.setOnClickListener(v -> new RequestAccountModal(v).createAndShow());
+//
+//        final TextView forgotButton = findViewById(R.id.forgot_password);
+//        forgotButton.setOnClickListener(v -> new PasswordResetModal(v).createAndShow());
     }
 
     private void authenticate() {
