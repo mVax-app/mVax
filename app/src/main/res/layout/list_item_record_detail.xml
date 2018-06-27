@@ -22,7 +22,7 @@
         android:textColor="#727372"
         android:textSize="30sp" />
 
-    <EditText
+    <mhealth.mvax.utilities.WatcherEditText
         android:id="@+id/value"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

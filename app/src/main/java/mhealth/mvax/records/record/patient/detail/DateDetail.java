@@ -27,6 +27,7 @@ import mhealth.mvax.records.utilities.NullableDateFormat;
 import mhealth.mvax.records.utilities.TypeRunnable;
 import mhealth.mvax.utilities.StringFetcher;
 import mhealth.mvax.records.modals.DateModal;
+import mhealth.mvax.utilities.WatcherEditText;
 
 /**
  * @author Robert Steilberg
@@ -41,7 +42,7 @@ public class DateDetail extends Detail<Long> {
     }
 
     @Override
-    public void getValueViewListener(EditText valueView) {
+    public void getValueViewListener(WatcherEditText valueView) {
         final TypeRunnable<Long> positiveAction = date -> {
             setValue(date);
             valueView.setText(mStringValue);
@@ -55,8 +56,8 @@ public class DateDetail extends Detail<Long> {
     }
 
     @Override
-    public void configureValueView(EditText valueView) {
-        valueView.setFocusable(false); // disable interaction because of the dialog
+    public void configureValueView(WatcherEditText valueView) {
+//        valueView.setFocusable(false); // disable interaction because of the dialog
     }
 
     @Override

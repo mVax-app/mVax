@@ -24,6 +24,8 @@ import android.text.InputType;
 import android.text.Spanned;
 import android.widget.EditText;
 
+import mhealth.mvax.utilities.WatcherEditText;
+
 /**
  * @author Robert Steilberg
  * <p>
@@ -38,9 +40,9 @@ public class StringNumberDetail extends StringDetail {
     }
 
     @Override
-    public void configureValueView(EditText valueView) {
-        valueView.setInputType(InputType.TYPE_CLASS_NUMBER); // number keypad for input
+    public void configureValueView(WatcherEditText valueView) {
         super.configureValueView(valueView);
+        valueView.setInputType(InputType.TYPE_CLASS_NUMBER); // number keypad for input
     }
 
 }

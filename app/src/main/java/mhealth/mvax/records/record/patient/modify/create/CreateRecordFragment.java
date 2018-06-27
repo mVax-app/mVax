@@ -48,6 +48,7 @@ public class CreateRecordFragment extends ModifiablePatientFragment {
         if (savedInstanceState == null) {
             // create new Patient
             mPatient = new Patient(mPatientRef.push().getKey());
+            // TODO put search engine in here
         } else {
             // resuming from environment change
             mPatient = (Patient) savedInstanceState.getSerializable("patient");

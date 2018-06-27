@@ -171,6 +171,11 @@ public class SettingsFragmentOld extends Fragment {
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this).attach(this).commit();
+        BottomNavigationView navbar = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bar);
+        setLocale(getResources().getString(R.string.spanishCode));
+        navbar.getMenu().clear();
+        navbar.inflateMenu(R.menu.navigation_es);
+        navbar.setSelectedItemId(R.id.nav_settings);
 
     }
 

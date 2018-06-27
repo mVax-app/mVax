@@ -30,6 +30,7 @@ import java.util.List;
 
 import mhealth.mvax.R;
 import mhealth.mvax.records.record.patient.detail.Detail;
+import mhealth.mvax.utilities.WatcherEditText;
 
 /**
  * @author Robert Steilberg
@@ -47,7 +48,7 @@ public abstract class PatientDetailsAdapter extends RecyclerView.Adapter<Patient
     protected static class ViewHolder extends RecyclerView.ViewHolder {
         public View row;
         public TextView field;
-        public EditText value;
+        public WatcherEditText value;
 
         ViewHolder(View itemView) {
             super(itemView);
