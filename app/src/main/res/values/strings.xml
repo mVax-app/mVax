@@ -105,17 +105,45 @@
     <string name="edit_record_button">Edit record</string>
     <string name="edit_record_title">Edit record</string>
 
-    <string name="label_medicalID">ID</string>
-    <string name="hint_medicalID">13 digit id number</string>
+    <string name="label_mother_id">Mother ID</string>
+    <string name="hint_mother_id">13 digit id number</string>
 
-    <string name="label_firstname">First name</string>
-    <string name="hint_firstname">first name</string>
+    <string name="label_child_number">Child number</string>
+    <string name="hint_child_number">child number</string>
+
+
+    <string name="label_medical_id">Patient ID</string>
+    <string name="hint_medical_id">13 digit id number</string>
+
+    <string name="label_first_name">First name</string>
+    <string name="hint_first_name">first name</string>
 
     <string name="label_last_name">Last name</string>
     <string name="hint_last_name">last name</string>
 
+    <string name="label_dob">Date of birth</string>
+    <string name="hint_dob">mm/dd/yyyy</string>
+
     <string name="label_sex">Sex</string>
     <string name="hint_sex">M or F</string>
+
+    <string name="label_pob">Place of birth</string>
+    <string name="hint_pob">dept, mun</string>
+
+    <string name="label_residence">Place of residence</string>
+    <string name="hint_residence">dept, mun</string>
+
+    <string name="label_locality">Locality</string>
+    <string name="hint_locality">locality</string>
+
+    <string name="label_address">Address</string>
+    <string name="hint_address">address</string>
+
+    <string name="label_phone_number">Phone number</string>
+    <string name="hint_phone_number">phone</string>
+
+
+
     <string name="modal_sex_title">Choose sex</string>
     <string name="modal_sex_neutral">Remove sex</string>
     <string name="modal_sex_confirm">Confirm</string>
@@ -127,23 +155,9 @@
     <string name="user_enum">USER</string>
 
 
-    <string name="label_dob">Date of birth</string>
-    <string name="hint_dob">mm/dd/yyyy</string>
-
-    <string name="label_pob">Place of birth</string>
-    <string name="hint_pob">place of birth</string>
-
-    <string name="label_community">Community</string>
-    <string name="hint_community">community</string>
-
-    <string name="label_residence">Residence</string>
-    <string name="hint_residence">residence</string>
 
     <string name="label_guardian_name">Guardian name</string>
     <string name="hint_guardian_name">guardian name</string>
-
-    <string name="label_phone_number">Phone number</string>
-    <string name="hint_phone_number">phone</string>
 
     <!-- Alerts for upcoming vaccinations-->
 

@@ -62,7 +62,33 @@ public class Patient implements Serializable {
     }
 
     /**
-     * Medical ID assigned to the person
+     * Medical ID assigned to the mother
+     */
+    private String motherId = "";
+
+    public String getMotherId() {
+        return this.motherId;
+    }
+
+    public void setMotherId(String motherId) {
+        this.motherId = motherId;
+    }
+
+    /**
+     * Child number
+     */
+    private String childNumber = "";
+
+    public String getChildNumber() {
+        return this.childNumber;
+    }
+
+    public void setChildNumber(String childNumber) {
+        this.childNumber = childNumber;
+    }
+
+    /**
+     * Medical ID assigned to the patient
      */
     private String medicalId = "";
 
@@ -101,19 +127,6 @@ public class Patient implements Serializable {
     }
 
     /**
-     * Sex (Male or Female)
-     */
-    private Sex sex;
-
-    public Sex getSex() {
-        return this.sex;
-    }
-
-    public void setSex(Sex sex) {
-        this.sex = sex;
-    }
-
-    /**
      * Patient date of birth, represented as milliseconds
      * since Unix epoch
      */
@@ -128,16 +141,16 @@ public class Patient implements Serializable {
     }
 
     /**
-     * Patient residential community
+     * Sex (Male or Female)
      */
-    private String community = "";
+    private Sex sex;
 
-    public String getCommunity() {
-        return this.community;
+    public Sex getSex() {
+        return this.sex;
     }
 
-    public void setCommunity(String community) {
-        this.community = community;
+    public void setSex(Sex sex) {
+        this.sex = sex;
     }
 
     /**
@@ -154,7 +167,8 @@ public class Patient implements Serializable {
     }
 
     /**
-     * Patient residence
+     * Patient residence formatted as
+     * municipality, department
      */
     private String residence = "";
 
@@ -164,6 +178,32 @@ public class Patient implements Serializable {
 
     public void setResidence(String residence) {
         this.residence = residence;
+    }
+    
+    /**
+     * Patient residential locality
+     */
+    private String locality = "";
+
+    public String getLocality() {
+        return this.locality;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
+    /**
+     * Patient residential address
+     */
+    private String address = "";
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     /**
@@ -221,11 +261,29 @@ public class Patient implements Serializable {
     public List<Detail> getDetails() {
         ArrayList<Detail> details = new ArrayList<>();
 
+        // mother ID
+        final StringNumberDetail motherIdDetail = new StringNumberDetail(
+                this.motherId,
+                R.string.label_mother_id,
+                R.string.hint_mother_id,
+                false);
+        motherIdDetail.setSetter(() -> setMotherId(motherIdDetail.getValue()));
+        details.add(motherIdDetail);
+
+        // child number
+        final StringNumberDetail childNumberDetail = new StringNumberDetail(
+                this.childNumber,
+                R.string.label_child_number,
+                R.string.hint_child_number,
+                false);
+        childNumberDetail.setSetter(() -> setChildNumber(childNumberDetail.getValue()));
+        details.add(childNumberDetail);
+
         // medical ID
         final StringNumberDetail medicalIdDetail = new StringNumberDetail(
                 this.medicalId,
-                R.string.label_medicalID,
-                R.string.hint_medicalID,
+                R.string.label_medical_id,
+                R.string.hint_medical_id,
                 false);
         medicalIdDetail.setSetter(() -> setMedicalId(medicalIdDetail.getValue()));
         details.add(medicalIdDetail);
@@ -233,8 +291,8 @@ public class Patient implements Serializable {
         // first name
         final StringDetail firstNameDetail = new StringDetail(
                 this.firstName,
-                R.string.label_firstname,
-                R.string.hint_firstname,
+                R.string.label_first_name,
+                R.string.hint_first_name,
                 true);
         firstNameDetail.setSetter(() -> setFirstName(firstNameDetail.getValue()));
         details.add(firstNameDetail);
@@ -248,15 +306,6 @@ public class Patient implements Serializable {
         lastNameDetail.setSetter(() -> setLastName(lastNameDetail.getValue()));
         details.add(lastNameDetail);
 
-        // patient sex
-        final SexDetail sexDetail = new SexDetail(
-                this.sex,
-                R.string.label_sex,
-                R.string.hint_sex,
-                true);
-        sexDetail.setSetter(() -> setSex(sexDetail.getValue()));
-        details.add(sexDetail);
-
         // date of birth
         final DateDetail dobDetail = new DateDetail(
                 this.DOB,
@@ -265,6 +314,15 @@ public class Patient implements Serializable {
                 true);
         dobDetail.setSetter(() -> setDOB(dobDetail.getValue()));
         details.add(dobDetail);
+
+        // patient sex
+        final SexDetail sexDetail = new SexDetail(
+                this.sex,
+                R.string.label_sex,
+                R.string.hint_sex,
+                true);
+        sexDetail.setSetter(() -> setSex(sexDetail.getValue()));
+        details.add(sexDetail);
 
         // place of birth
         final StringDetail placeOfBirthDetail = new StringDetail(
@@ -275,16 +333,7 @@ public class Patient implements Serializable {
         placeOfBirthDetail.setSetter(() -> setPlaceOfBirth(placeOfBirthDetail.getValue()));
         details.add(placeOfBirthDetail);
 
-        // community
-        final StringDetail communityDetail = new StringDetail(
-                this.community,
-                R.string.label_community,
-                R.string.hint_community,
-                false);
-        communityDetail.setSetter(() -> setCommunity(communityDetail.getValue()));
-        details.add(communityDetail);
-
-        // address
+        // place of residence (dept, mun)
         final StringDetail residenceDetail = new StringDetail(
                 this.residence,
                 R.string.label_residence,
@@ -293,14 +342,23 @@ public class Patient implements Serializable {
         residenceDetail.setSetter(() -> setResidence(residenceDetail.getValue()));
         details.add(residenceDetail);
 
-        // guardian name
-        final StringDetail guardianNameDetail = new StringDetail(
-                this.guardianName,
-                R.string.label_guardian_name,
-                R.string.hint_guardian_name,
-                true);
-        guardianNameDetail.setSetter(() -> setGuardianName(guardianNameDetail.getValue()));
-        details.add(guardianNameDetail);
+        // locality
+        final StringDetail localityDetail = new StringDetail(
+                this.locality,
+                R.string.label_locality,
+                R.string.hint_locality,
+                false);
+        localityDetail.setSetter(() -> setLocality(localityDetail.getValue()));
+        details.add(localityDetail);
+
+        // address
+        final StringDetail addressDetail = new StringDetail(
+                this.address,
+                R.string.label_address,
+                R.string.hint_address,
+                false);
+        addressDetail.setSetter(() -> setAddress(addressDetail.getValue()));
+        details.add(addressDetail);
 
         // phone number
         final StringNumberDetail phoneNumberDetail = new StringNumberDetail(
@@ -311,11 +369,16 @@ public class Patient implements Serializable {
         phoneNumberDetail.setSetter(() -> setPhoneNumber(phoneNumberDetail.getValue()));
         details.add(phoneNumberDetail);
 
-        return details;
-    }
+        // guardian name
+        final StringDetail guardianNameDetail = new StringDetail(
+                this.guardianName,
+                R.string.label_guardian_name,
+                R.string.hint_guardian_name,
+                true);
+        guardianNameDetail.setSetter(() -> setGuardianName(guardianNameDetail.getValue()));
+        details.add(guardianNameDetail);
 
-    public static int getNumDetails() {
-        return 10;
+        return details;
     }
 
 }
