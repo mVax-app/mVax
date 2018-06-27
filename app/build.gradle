@@ -1,5 +1,8 @@
 apply plugin: 'com.android.application'
 
+def versionMajor = 2
+def versionMinor = 1
+
 android {
     signingConfigs {
         development {
@@ -14,8 +17,8 @@ android {
         applicationId "mhealth.mvax"
         minSdkVersion 24
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode versionMajor * 1000 + versionMinor * 100
+        versionName "${versionMajor}.${versionMinor}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     flavorDimensions "default"
@@ -43,10 +46,15 @@ android {
     }
     buildTypes {
         debug {
+            versionNameSuffix ".debug"
+            resValue "string", "app_version",
+                    "${defaultConfig.versionName}${versionNameSuffix}"
             debuggable true
             minifyEnabled false
         }
         release {
+            resValue "string", "app_version",
+                "${defaultConfig.versionName}"
             debuggable false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

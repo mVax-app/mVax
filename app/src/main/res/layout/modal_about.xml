@@ -1,111 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    >
-
-    <TextView
-        android:id="@+id/title"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="40sp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:layout_marginBottom="5dp"
-        android:textColor="@color/teal"/>
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/version"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:layout_marginBottom="25dp"
-        android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/title_margin_top"
+            android:fontFamily="@font/avenir_heavy"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textColor="@color/dukeBlue"
+            android:textSize="@dimen/text_size_modal_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/app_name">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/bass_contributor"
-        android:layout_marginStart="30sp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginEnd="30sp"
-        android:layout_marginBottom="25dp"
-        android:textSize="25sp"
-        />
+            <TextView
+                android:id="@+id/app_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/avenir_medium"
+                android:text="@string/version"
+                android:textAlignment="center"
+                android:textColor="@color/darkGray"
+                android:textSize="@dimen/text_size_modal_subtitle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/bass_project_leader_title"
-        android:layout_marginStart="30sp"
-        android:layout_marginEnd="30sp"
-        android:layout_marginBottom="2dp"
-        android:textSize="25sp"
-        android:textColor="@color/teal"
-        android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/app_version_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/avenir_medium"
+                android:text="@string/app_version"
+                android:textAlignment="center"
+                android:textColor="@color/darkGray"
+                android:textSize="@dimen/text_size_modal_subtitle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/app_version"
+                app:layout_constraintTop_toTopOf="parent" />
 
+        </android.support.constraint.ConstraintLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/bass_project_leader"
-        android:layout_marginStart="90sp"
-        android:layout_marginEnd="30sp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="25dp"
-        android:textSize="25sp"/>
+        <TextView
+            android:id="@+id/bass_contributor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="70dp"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/bass_contributor"
+            android:textAlignment="center"
+            android:textColor="@color/darkGray"
+            android:textSize="@dimen/text_size_modal_body"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/bass_development_title"
-        android:layout_marginStart="30sp"
-        android:layout_marginEnd="30sp"
-        android:layout_marginBottom="2dp"
-        android:textSize="25sp"
-        android:textColor="@color/teal"
-        android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/faculty_leaders"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/bass_faculty_leader_title"
+            android:textColor="@color/dukeBlue"
+            android:textSize="@dimen/text_size_modal_body"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bass_contributor" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/bass_development"
-        android:layout_marginStart="90sp"
-        android:layout_marginEnd="30sp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="25dp"
-        android:textSize="25sp"/>
+        <TextView
+            android:id="@+id/faculty_leaders_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/bass_faculty_leader"
+            android:textColor="@color/darkGray"
+            android:textSize="@dimen/text_size_modal_body"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/faculty_leaders" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/bass_global_health_title"
-        android:layout_marginStart="30sp"
-        android:layout_marginEnd="30sp"
-        android:layout_marginBottom="2dp"
-        android:textSize="25sp"
-        android:textColor="@color/teal"
-        android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/dev_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/bass_development_title"
+            android:textColor="@color/dukeBlue"
+            android:textSize="@dimen/text_size_modal_body"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/faculty_leaders_list" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/bass_global_health"
-        android:layout_marginStart="90sp"
-        android:layout_marginEnd="30sp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="35dp"
-        android:textSize="25sp"/>
+        <TextView
+            android:id="@+id/dev_team_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/bass_development"
+            android:textColor="@color/darkGray"
+            android:textSize="@dimen/text_size_modal_body"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dev_team" />
 
+        <TextView
+            android:id="@+id/global_health_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/bass_global_health_title"
+            android:textColor="@color/dukeBlue"
+            android:textSize="@dimen/text_size_modal_body"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dev_team_list" />
 
+        <TextView
+            android:id="@+id/global_health_team_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/bass_global_health"
+            android:textColor="@color/darkGray"
+            android:textSize="@dimen/text_size_modal_body"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/global_health_team" />
 
+    </android.support.constraint.ConstraintLayout>
 
-
-</LinearLayout>
+</ScrollView>

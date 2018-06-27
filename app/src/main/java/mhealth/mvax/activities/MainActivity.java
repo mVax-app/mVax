@@ -31,6 +31,7 @@ import mhealth.mvax.dashboard.DashboardFragment;
 import mhealth.mvax.reports.FormFragment;
 import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.settings.SettingsFragment;
+import mhealth.mvax.settings.SettingsFragmentOld;
 
 /**
  * @author Robert Steilberg, Matthew Tribby
