@@ -154,9 +154,12 @@
     <string name="vaccine_card_goal_text">Goal</string>
 
     <!-- Reports-->
-    <string name="repots_title">Reports</string>
+    <string name="reports_title">Reports</string>
     <string name="sinova_1">SINOVA 1</string>
     <string name="sinova_2">SINOVA 2</string>
+    <string name="report_init_fail">Unable to initialize reports</string>
+
+
     <string name="sinova_title">SINOVA 1</string>
     <string name="sinova2_title">SINOVA 2</string>
     <string name="sinovaAdolescent">Children</string>

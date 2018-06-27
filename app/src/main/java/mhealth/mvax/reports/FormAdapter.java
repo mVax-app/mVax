@@ -19,6 +19,10 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.reports;
 
+import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,14 +48,9 @@ public class FormAdapter extends BaseExpandableListAdapter {
 
     private List<ExpandablePatient> mPatients;
 
-    FormAdapter() {
-        mPatients = new ArrayList<>();
-        notifyDataSetChanged(); // clean out anything old
-    }
-
-    public void refresh(List<ExpandablePatient> patients) {
+    FormAdapter(List<ExpandablePatient> patients) {
         mPatients = patients;
-        notifyDataSetChanged();
+        notifyDataSetChanged(); // clean out anything old
     }
 
     @Override
@@ -71,14 +70,14 @@ public class FormAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        ExpandablePatient patient = getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             convertView = inflater.inflate(R.layout.list_item_report, parent, false);
         }
 
+        ExpandablePatient patient = getGroup(groupPosition);
         TextView patientName = convertView.findViewById(R.id.patient_name);
-        patientName.setText(patient.getPatient().getName());
+        patientName.setText(patient.getPatientName());
 
         ImageView arrow = convertView.findViewById(R.id.indicator_arrow);
         if (isExpanded) {
@@ -90,7 +89,7 @@ public class FormAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public Row getChild(int groupPosition, int childPosition) {
+    public Pair<String, String> getChild(int groupPosition, int childPosition) {
         return getGroup(groupPosition).getRow(childPosition);
     }
 
@@ -106,21 +105,41 @@ public class FormAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        int numPatientDetails = getGroup(groupPosition).getNumDetails();
-        Row row = getChild(groupPosition, childPosition);
 
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        if (childPosition < numPatientDetails) { // patient info
-            convertView = inflater.inflate(R.layout.list_item_report_patient_detail, parent, false);
-        } else { // vaccination
-            convertView = inflater.inflate(R.layout.list_item_report_vaccination_detail, parent, false);
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            convertView = inflater.inflate(R.layout.list_item_report_detail, parent, false);
         }
 
         TextView label = convertView.findViewById(R.id.label);
         TextView value = convertView.findViewById(R.id.value);
 
-        label.setText(row.getLabel());
-        value.setText(row.getValue());
+        Typeface avenirMedium = ResourcesCompat.getFont(convertView.getContext(), R.font.avenir_heavy);
+
+        int numPatientDetails = getGroup(groupPosition).getNumPatientDetails();
+        if (childPosition < numPatientDetails) { // patient info
+            int dukeBlue = ContextCompat.getColor(convertView.getContext(), R.color.dukeBlue);
+            int gray = ContextCompat.getColor(convertView.getContext(), R.color.gray);
+
+            label.setTextColor(dukeBlue);
+            label.setTypeface(avenirMedium);
+            value.setTypeface(avenirMedium);
+            value.setTextColor(gray);
+        } else { // vaccination
+            Typeface avenirHeavy = ResourcesCompat.getFont(convertView.getContext(), R.font.avenir_heavy);
+            int lightBlue = ContextCompat.getColor(convertView.getContext(), R.color.lightBlue);
+            int darkGray = ContextCompat.getColor(convertView.getContext(), R.color.darkGray);
+
+            label.setTextColor(lightBlue);
+            label.setTypeface(avenirMedium);
+            value.setTextColor(darkGray);
+            value.setTypeface(avenirHeavy);
+
+        }
+
+        Pair<String, String> row = getChild(groupPosition, childPosition);
+        label.setText(row.first);
+        value.setText(row.second);
 
         return convertView;
     }
