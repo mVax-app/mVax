@@ -14,7 +14,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/avenir_medium"
-        android:text="@string/repots_title"
+        android:text="@string/reports_title"
         android:textColor="@color/dukeBlue"
         android:textSize="55sp"
         android:textStyle="bold"

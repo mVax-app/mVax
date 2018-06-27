@@ -20,6 +20,7 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.reports;
 
 import android.support.annotation.NonNull;
+import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,44 +39,41 @@ import mhealth.mvax.utilities.StringFetcher;
 public class ExpandablePatient implements Comparable<ExpandablePatient> {
 
     private Patient mPatient;
-    private List<Row> mRows;
+    private List<Pair<String, String>> mRows;
 
     ExpandablePatient(Patient patient) {
         mPatient = patient;
         mRows = new ArrayList<>();
-
         for (Detail d : mPatient.getDetails()) {
             String label = StringFetcher.fetchString(d.getLabelStringId());
             String value = d.getStringValue();
-            Row r = new Row(label, value);
-            mRows.add(r);
+            Pair<String, String> row = new Pair<>(label, value);
+            mRows.add(row);
         }
     }
 
-    public Patient getPatient() {
-        return mPatient;
+    public String getPatientName() {
+        return mPatient.getName();
     }
 
-    public Row getRow(int index) {
+    public Pair<String, String> getRow(int index) {
         return mRows.get(index);
     }
 
-    public int getNumDetails() {
-        return mPatient.getDetails().size();
+    public void addRow(Pair<String, String> row) {
+        mRows.add(row);
     }
 
-    public void addRow(String label, String value) {
-        mRows.add(new Row(label, value));
+    public int getNumPatientDetails() {
+        return mPatient.getDetails().size();
     }
 
     public int getNumRows() {
         return mRows.size();
     }
 
-    public boolean isDone = false;
-
     @Override
     public int compareTo(@NonNull ExpandablePatient that) {
-        return this.mPatient.getName().compareTo(that.mPatient.getName());
+        return this.mPatient.getLastName().compareTo(that.mPatient.getLastName());
     }
 }
