@@ -28,6 +28,7 @@ import android.support.design.widget.BottomNavigationView;
 import mhealth.mvax.R;
 import mhealth.mvax.alerts.AlertsFragment;
 import mhealth.mvax.dashboard.DashboardFragment;
+import mhealth.mvax.language.LanguageUtillity;
 import mhealth.mvax.reports.FormFragment;
 import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.settings.SettingsFragment;
@@ -53,6 +54,9 @@ public class MainActivity extends Activity {
             transaction.replace(R.id.frame, SearchFragment.newInstance());
             transaction.commit();
         }
+
+        // TODO fix
+        LanguageUtillity.changeLangauge(getResources(), getResources().getString(R.string.spanishCode));
     }
 
     private void initNavBar() {

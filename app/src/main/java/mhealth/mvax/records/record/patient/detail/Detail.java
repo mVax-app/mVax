@@ -21,6 +21,8 @@ package mhealth.mvax.records.record.patient.detail;
 
 import android.widget.EditText;
 
+import mhealth.mvax.utilities.WatcherEditText;
+
 /**
  * @author Robert Steilberg
  * <p>
@@ -51,7 +53,7 @@ public abstract class Detail<T> {
      *
      * @param valueView the EditText on which setup is performed
      */
-    public abstract void configureValueView(EditText valueView);
+    public abstract void configureValueView(WatcherEditText valueView);
 
     /**
      * Listener to attach to the EditText displaying the value of the
@@ -59,7 +61,7 @@ public abstract class Detail<T> {
      *
      * @param valueView the EditText on which the listener is attached
      */
-    public abstract void getValueViewListener(EditText valueView);
+    public abstract void getValueViewListener(WatcherEditText valueView);
 
     /**
      * Performs operations to create the String representation of the Detail's

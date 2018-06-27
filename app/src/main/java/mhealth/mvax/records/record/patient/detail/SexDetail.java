@@ -26,6 +26,7 @@ import mhealth.mvax.model.record.Sex;
 import mhealth.mvax.records.utilities.TypeRunnable;
 import mhealth.mvax.utilities.StringFetcher;
 import mhealth.mvax.records.modals.SexModal;
+import mhealth.mvax.utilities.WatcherEditText;
 
 /**
  * @author Robert Steilberg
@@ -40,7 +41,7 @@ public class SexDetail extends Detail<Sex> {
     }
 
     @Override
-    public void getValueViewListener(EditText valueView) {
+    public void getValueViewListener(WatcherEditText valueView) {
         final TypeRunnable<Sex> positiveAction = sex -> {
             setValue(sex);
             valueView.setText(mStringValue);
@@ -54,8 +55,8 @@ public class SexDetail extends Detail<Sex> {
     }
 
     @Override
-    public void configureValueView(EditText valueView) {
-        valueView.setFocusable(false); // disable interaction because of the dialog
+    public void configureValueView(WatcherEditText valueView) {
+//        valueView.setFocusable(false); // disable interaction because of the dialog
     }
 
     @Override

@@ -21,9 +21,12 @@ package mhealth.mvax.records.record.patient.detail;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
+import mhealth.mvax.utilities.WatcherEditText;
 
 /**
  * @author Robert Steilberg
@@ -38,7 +41,7 @@ public class StringDetail extends Detail<String> {
     }
 
     @Override
-    public void getValueViewListener(EditText valueView) {
+    public void getValueViewListener(WatcherEditText valueView) {
         valueView.requestFocus();
         // force keyboard to appear
         final InputMethodManager imm = (InputMethodManager) valueView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -48,9 +51,11 @@ public class StringDetail extends Detail<String> {
     }
 
     @Override
-    public void configureValueView(final EditText valueView) {
-        // set new value every time text is changed
-        valueView.addTextChangedListener(new TextWatcher() {
+    public void configureValueView(WatcherEditText valueView) {
+        valueView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+        valueView.setFocusable(true);
+        valueView.clearTextChangedListeners();
+        valueView.addTextChangedListener(new TextWatcher() { // set new value every time text is changed
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) {
             }
