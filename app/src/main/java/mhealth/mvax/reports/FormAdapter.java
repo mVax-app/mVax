@@ -109,7 +109,7 @@ public class FormAdapter extends BaseExpandableListAdapter {
         TextView label = convertView.findViewById(R.id.label);
         TextView value = convertView.findViewById(R.id.value);
 
-        Typeface avenirMedium = ResourcesCompat.getFont(convertView.getContext(), R.font.avenir_heavy);
+        Typeface avenirMedium = ResourcesCompat.getFont(convertView.getContext(), R.font.avenir_medium);
 
         int numPatientDetails = getGroup(groupPosition).getNumPatientDetails();
         if (childPosition < numPatientDetails) { // patient info
