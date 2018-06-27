@@ -2,10 +2,10 @@
 <resources>
 
     <string name="app_name">mVax</string>
-    <string name="version">Version: 1.0</string>
+    <string name="version">version</string>
 
     <!-- Login-->
-    <string name="auth_login">Welcome to mVax!</string>
+    <string name="auth_login">mVax</string>
 
     <string name="email_hint">email</string>
     <string name="password_hint">password</string>
@@ -16,7 +16,7 @@
     <string name="auth_fail_bad_credentials">Incorrect email or password</string>
     <string name="auth_fail_disabled_user">User has not been approved by administrator</string>
     <string name="auth_fail_no_connection">Unable to detect internet connection</string>
-    <string name="auth_unknown_fail">An unknown error occurred</string>
+    <string name="auth_fail_unknown">An unknown error occurred</string>
 
     <string name="submit">Submit</string>
     <string name="confirm">Confirm</string>
@@ -44,8 +44,8 @@
     <string name="patients_icon_title">Patients</string>
     <string name="patients_tab_title">Patients</string>
     <string name="alerts_icon_title">Alerts</string>
-    <string name="dashboard_icon_title">Dashboard</string>
-    <string name="forms_icon_title">Forms</string>
+    <string name="dashboard_icon_title">Statistics</string>
+    <string name="reports_icon_title">Reports</string>
     <string name="settings_icon_title">Settings</string>
 
     <!-- Search-->
@@ -64,7 +64,7 @@
     <string name="tab_title_record_details">Record details</string>
     <string name="tab_title_vaccine_schedule">Vaccine history</string>
     <string name="vaccine_tab_title">Vaccine history</string>
-    <string name="date_format">MM/dd/yyyy</string>
+    <string name="date_format">mm/dd/yyyy</string>
     <string name="DOB_prompt">DOB:</string>
     <string name="medical_id_prompt">ID:</string>
     <string name="modal_date_confirm">Confirm</string>
@@ -245,11 +245,11 @@
     <!-- Settings/about-->
     <string name="about_button">About</string>
     <string name="bass_contributor">Created by Duke Bass Connections in cooperation with the Duke Global Health Institute</string>
-    <string name="bass_project_leader_title">Faculty leaders:</string>
-    <string name="bass_project_leader">Lavanya Vasudevan, Ph.D.\nDennis Clements, M.D.\nRobert Duvall\nRichard Lucic</string>
-    <string name="bass_development_title">Development team:</string>
-    <string name="bass_development">Alison Huang\nRobert Steilberg\nMatthew Tribby\nSteven Yang</string>
-    <string name="bass_global_health_title">Global health team:</string>
+    <string name="bass_faculty_leader_title">Faculty leaders</string>
+    <string name="bass_faculty_leader">Lavanya Vasudevan, Ph.D.\nDennis Clements, M.D.\nRobert Duvall\nRichard Lucic</string>
+    <string name="bass_development_title">Development team</string>
+    <string name="bass_development">ARobert Steilberg\nAlison Huang\nMatthew Tribby\nSteven Yang</string>
+    <string name="bass_global_health_title">Global health team</string>
     <string name="bass_global_health">Thuy-Linh Bui\nKathryn Watkins</string>
 
 
@@ -258,6 +258,7 @@
 
     <string name="language">Language</string>
     <string name="spanish">Change to Spanish</string>
+    <string name="english">English</string>
     <string name="spanishCode">es</string>
     <string name="englishCode">en</string>
     <string name="spanishLocaleCode">[es]</string>

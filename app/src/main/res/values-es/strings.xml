@@ -16,7 +16,7 @@
     <string name="auth_fail_bad_credentials">Correo electrónico o contraseña incorrectos </string>
     <string name="auth_fail_disabled_user">Usario no ha sido aprobado por el administrador</string>
     <string name="auth_fail_no_connection">No se puede detectar la conexión a internet</string>
-    <string name="auth_unknown_fail">Un error desconocido ocurrió</string>
+    <string name="auth_fail_unknown">Un error desconocido ocurrió</string>
 
     <string name="submit">Enviar</string>
     <string name="confirm">Confirmar</string>
@@ -45,7 +45,7 @@
     <string name="patients_tab_title">Pacientes</string>
     <string name="alerts_icon_title">Notificaciones</string>
     <string name="dashboard_icon_title">Estadísticas</string>
-    <string name="forms_icon_title">Formularios</string>
+    <string name="reports_icon_title">Formularios</string>
     <string name="settings_icon_title">Configuración</string>
 
     <!-- Search-->
@@ -215,8 +215,8 @@
     <!-- Settings/about-->
     <string name="about">Información</string>
     <string name="bass_contributor">Creado por Duke Bass Connections en cooperación con el instituto de Duke Global Health</string>
-    <string name="bass_project_leader_title">Líderes de facultad:</string>
-    <string name="bass_project_leader">Lavanya Vasudevan, Ph.D.\nDennis Clements, M.D.\nRobert Duvall\nRichard Lucic</string>
+    <string name="bass_faculty_leader_title">Líderes de facultad:</string>
+    <string name="bass_faculty_leader">Lavanya Vasudevan, Ph.D.\nDennis Clements, M.D.\nRobert Duvall\nRichard Lucic</string>
     <string name="bass_development_title">Equipo de desarrollo:</string>
     <string name="bass_development">Alison Huang\nRobert Steilberg\nMatthew Tribby\nSteven Yang</string>
     <string name="bass_global_health_title">Equipo de salud global:</string>

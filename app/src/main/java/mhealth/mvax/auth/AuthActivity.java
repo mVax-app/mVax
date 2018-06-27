@@ -24,7 +24,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,7 +36,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
@@ -196,7 +194,7 @@ public class AuthActivity extends Activity {
                     Toast.makeText(AuthActivity.this, R.string.auth_fail_bad_credentials, Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(AuthActivity.this, R.string.auth_unknown_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(AuthActivity.this, R.string.auth_fail_unknown, Toast.LENGTH_LONG).show();
             }
         }
     }

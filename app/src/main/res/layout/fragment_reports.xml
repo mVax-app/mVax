@@ -14,7 +14,7 @@
         android:fontFamily="@font/avenir_medium"
         android:text="@string/repots_title"
         android:textColor="@color/dukeBlue"
-        android:textSize="@dimen/title"
+        android:textSize="@dimen/text_size_title"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

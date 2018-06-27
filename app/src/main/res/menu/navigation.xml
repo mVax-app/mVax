@@ -24,7 +24,7 @@
         <item
             android:id="@+id/nav_forms"
             android:icon="@drawable/ic_clipboard"
-            android:title="@string/forms_icon_title"
+            android:title="@string/reports_icon_title"
             android:visible="true"/>
 
         <item

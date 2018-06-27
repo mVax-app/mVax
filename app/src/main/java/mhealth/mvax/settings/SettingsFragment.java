@@ -60,6 +60,18 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        View aboutModal = inflater.inflate(R.layout.modal_about, container, false);
+        Button aboutButton = v.findViewById(R.id.about_button);
+        AlertDialog ab = new AlertDialog.Builder(v.getContext())
+                .setView(aboutModal)
+                .create();
+        aboutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ab.show();
+            }
+        });
         return v;
     }
 }
