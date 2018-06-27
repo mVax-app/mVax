@@ -19,7 +19,9 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.detail;
 
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.Spanned;
 import android.widget.EditText;
 
 /**

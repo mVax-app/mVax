@@ -168,7 +168,7 @@ public class SINOVABuilder{
             form.setField(mContext.getResources().getString(R.string.birth_municipal)+ rowNumber, record.getPlaceOfBirth());
             form.setField(mContext.getResources().getString(R.string.residence_department) + rowNumber,  mContext.getResources().getString(R.string.unknown));
             form.setField(mContext.getResources().getString(R.string.residence_municipal) + rowNumber, mContext.getResources().getString(R.string.na));
-            form.setField(mContext.getResources().getString(R.string.residence_town) + rowNumber, record.getCommunity());
+//            form.setField(mContext.getResources().getString(R.string.residence_town) + rowNumber, record.getCommunity());
             form.setField(mContext.getResources().getString(R.string.residence_address) + rowNumber, record.getResidence());
             form.setField(mContext.getResources().getString(R.string.cell_number) + rowNumber, record.getPhoneNumber());
             form.setField(mContext.getResources().getString(R.string.population_group) + rowNumber, mContext.getResources().getString(R.string.unknown));
