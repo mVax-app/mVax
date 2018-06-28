@@ -2,10 +2,10 @@
 <resources>
 
     <string name="app_name">mVax</string>
-    <string name="version">Versión: 1.0</string>
+    <string name="version">versión</string>
 
     <!-- Login-->
-    <string name="auth_login">Bienvenido a mVax!</string>
+    <string name="auth_login">mVax</string>
 
     <string name="email_hint">correo electrónico</string>
     <string name="password_hint">contraseña</string>
@@ -22,7 +22,7 @@
     <string name="confirm">Confirmar</string>
     <string name="cancel">Cancelar</string>
 
-    <string name="forgot_password">¿Olvidó su contraseña?</string>
+    <string name="forgot_password">¿Olvidaste su contraseña?</string>
     <string name="register">Registrarse</string>
 
     <!-- Login/request for new account-->
@@ -45,7 +45,7 @@
     <string name="patients_tab_title">Pacientes</string>
     <string name="alerts_icon_title">Notificaciones</string>
     <string name="dashboard_icon_title">Estadísticas</string>
-    <string name="reports_icon_title">Formularios</string>
+    <string name="reports_icon_title">Informes</string>
     <string name="settings_icon_title">Configuración</string>
 
     <!-- Search-->
@@ -57,6 +57,8 @@
     <string name="patient_download_fail">No se puede descargar la información del paciente</string>
     <string name="search_init_fail">No se puede inicializar el servicio de búsqueda</string>
     <string name="search_fail">Error de búsqueda</string>
+    <string name="search_incomplete">No se puede descargar todos los resultados de búsqueda</string>
+    <string name="no_search_results">No resultados de búsqueda</string>
 
     <!-- Patients/record details-->
     <string name="tab_title_record_details">Detalles del registro</string>
@@ -64,6 +66,7 @@
     <string name="vaccine_tab_title">Historia de vacunas</string>
     <string name="date_format">dd/MM/yyyy</string>
     <string name="DOB_prompt">Fecha de nacimiento:</string>
+    <string name="medical_id_prompt">ID:</string>
     <string name="modal_date_confirm">Confirmar</string>
     <string name="modal_date_neutral">Sin fecha</string>
     <string name="modal_cancel">Cancelar</string>
@@ -73,16 +76,25 @@
     <!-- Patients/vaccine history-->
     <string name="vaccines_download_fail">No se puede descargar la lista de vacunas</string>
     <string name="vaccinations_download_fail">No se puede descargar la historia de vacunación</string>
-    <string name="failure_due_dates_download">No se puede descargar los vencimientos de las vacunas</string>
+    <string name="failure_due_dates_download">No se puede descargar las fechas de vencimientos de las vacunas</string>
+    <string name="due_date_save_success">Las fechas de vencimiento se guardan</string>
+    <string name="due_date_save_fail">No se puede guardar la fecha de vencimiento</string>
+    <string name="vaccination_save_success">La vacunación se guarda</string>
+    <string name="vaccination_save_fail">No se puede guardar la vacunación</string>
+    <string name="date_delete_success">Fecha fue eliminado</string>
+    <string name="date_delete_fail">No se puede dar fecha</string>
 
     <!-- Patients/vaccine history/due date-->
     <string name="modal_date_title">Elegir fecha</string>
+    <string name="modal_vaccination_date_title">Eligir fecha de vacunación y edad actual de paciente</string>
     <string name="due_date_label">Fecha de vencimiento:</string>
+    <string name="vaccination_month">Meses</string>
+    <string name="vaccination_year">Años</string>
 
     <!-- Patients/record details activity-->
     <string name="save_record_button">Guardar registro</string>
-    <string name="patient_save_notification">Registro guardados</string>
-    <string name="patient_update_notification">Registro actualizado</string>
+    <string name="patient_save_notification">Registro fue guardado</string>
+    <string name="patient_update_notification">Registro fue actualizado</string>
     <string name="patient_save_fail">Registro no se pudo guardar</string>
 
     <string name="delete_record_button">Eliminar registro</string>
@@ -92,14 +104,23 @@
     <string name="edit_record_button">Editar registro</string>
     <string name="edit_record_title">Editar registro</string>
 
-    <string name="label_medicalID">Identificación</string>
-    <string name="hint_medicalID">número de 13 dígitos</string>
+    <string name="label_mother_id">ID de madre</string>
+    <string name="hint_mother_id">número de 13 dígitos</string>
+
+    <string name="label_child_number">Número de hijo</string>
+    <string name="hint_child_number">número de hijo</string>
+
+    <string name="label_medical_id">ID de paciente</string>
+    <string name="hint_medical_id">número de 13 dígitos</string>
 
     <string name="label_firstname">Nombre</string>
     <string name="hint_firstname">nombre</string>
 
     <string name="label_last_name">Apellidos</string>
     <string name="hint_last_name">apellidos</string>
+
+    <string name="label_dob">Fecha de nacimiento</string>
+    <string name="hint_dob">dd/MM/yyyy</string>
 
     <string name="label_sex">Sexo</string>
     <string name="hint_sex">H o M</string>
@@ -110,26 +131,23 @@
     <string name="male_enum">Hombre</string>
     <string name="female_enum">Mujer</string>
 
-    <string name="admin_enum">Administrador</string>
-    <string name="user_enum">Usario</string>
-
-    <string name="label_dob">Fecha de nacimiento</string>
-    <string name="hint_dob">dd/MM/yyyy</string>
-
     <string name="label_pob">Lugar de nacimiento</string>
-    <string name="hint_pob">lugar de nacimiento</string>
+    <string name="hint_pob">dept, mun</string>
 
-    <string name="label_community">Comunidad</string>
-    <string name="hint_community">comunidad</string>
+    <string name="label_residence">Lugar of residencia</string>
+    <string name="hint_residence">dept, mun</string>
 
-    <string name="label_residence">Dirección</string>
-    <string name="hint_residence">dirección</string>
+    <string name="label_locality">Localidad</string>
+    <string name="hint_locality">localidad</string>
 
-    <string name="label_guardian_name">Nombre de tutor(a)</string>
-    <string name="hint_guardian_name">nombre de tutor(a)</string>
+    <string name="label_address">Direccíon</string>
+    <string name="hint_address">direccíon</string>
 
     <string name="label_phone_number">Número de teléfono</string>
-    <string name="hint_phone_number">teléfono</string>
+    <string name="hint_phone_number">número de teléfono</string>
+
+    <string name="label_guardian_name">Nombre de madre/responsable</string>
+    <string name="hint_guardian_name">madre/responsable</string>
 
     <!-- Alerts for upcoming vaccinations-->
 
@@ -138,45 +156,26 @@
     <string name="vaccine_card_given_text">Administrada</string>
     <string name="vaccine_card_goal_text">Meta</string>
 
-    <!-- Forms-->
-    <string name="reports_title">Exportar formularios</string>
-    <string name="sinova_title">SINOVA 1</string>
-    <string name="sinova2_title">SINOVA 2</string>
-    <string name="sinovaAdolescent">Niños</string>
-    <string name="sinovaAdult">Adultos</string>
-    <string name="sinova2Adolescent">Niños</string>
-    <string name="sinova2Adult">Adultos</string>
-    <string name="linv">LINVI</string>
-    <string name="modal_choose_date">Elegir fecha para el formulario</string>
-    <string name="export">Exportar</string>
-    <string name="send_email">Enviar correo electrónico...</string>
-    <string name="email_header_insert"> para la fecha de </string>
+    <!-- Reports-->
+    <string name="reports_title">Informes</string>
+    <string name="sinova_1">SINOVA 1</string>
+    <string name="sinova_2">SINOVA 2</string>
+    <string name="report_init_fail">No se puede to inicializar informes</string>
+    <string name="report_download_fail">No se puede to generar informe</string>
 
-    <string name="form_info_title">Exportar información de formulario</string>
-    <string name="form_info_body1">La página de formulario se utiliza para completar automáticamente los datos de la base de datos en un documento de los formularios enumerados.</string>
-    <string name="form_info_body2">
-        Para comenzar, simplemente haga clic en el formulario que desea exportar. Aparecerá una pantalla emergente solicitando información adicional. Para SINOVA, es la fecha desde la que desea los datos. Para SINOVA 2, es el mes del que desea los datos. Y para LINVI, es el paciente que desea que se muestre.</string>
     <string name="ok">OK</string>
+    <string name="no_vaccinations">No vaccinations found</string>
 
-    <!-- Forms/file paths-->
-    <string name="sinova">SINOVA</string>
-    <string name="sinova2">SINOVA 2</string>
+    <!-- Reports/file paths-->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>
     <string name="sinova_2_file_name">SINOVA2.pdf</string>
     <string name="destination_file_extension">.pdf</string>
     <string name="sinova_extension">SINOVA1_</string>
     <string name="sinova2_extension">SINOVA2_</string>
 
-    <!-- Forms/PDF config options-->
-    <string name="pdf_config_title">Constantes de formulario</string>
-    <string name="config_address">Dirección/localidad</string>
-    <string name="config_department">Departamento</string>
-    <string name="config_vaccinator">Vacunador</string>
-    <string name="config_code">Código</string>
-    <string name="config_muncip">Municipio</string>
-    <string name="config_establishment">Establecimiento</string>
+    <!-- Reports/PDF config options-->
 
-    <!-- Forms/PDF config options/form constants-->
+    <!-- Reports/PDF config options/form constants-->
     <string name="form_clinic_name">Clínica Esperanza</string>
     <string name="form_vaccinator_name">Vacunador</string>
     <string name="form_department_name">Vacunación</string>
@@ -185,7 +184,7 @@
     <string name="unknown">DESCONOCIDO</string>
     <string name="na">N/A</string>
 
-    <!-- Forms/SINOVA general form PDF fields-->
+    <!-- Reports/SINOVA general form PDF fields-->
     <string name="establishment">ESTABLECIMIENTO</string>
     <string name="name_of_responsible_person">NOMBRE DEL RESPONSABLE</string>
     <string name="department">DEPARTAMENTO</string>
@@ -196,7 +195,7 @@
     <string name="date_year">AÑO</string>
     <string name="location_place">LOCALIDAD</string>
 
-    <!-- Forms/SINOVA 1 specific form PDF fields (fields in the rows)-->
+    <!-- Reports/SINOVA 1 specific form PDF fields (fields in the rows)-->
     <string name="child_national_reg_number">Número oficial del niño RNPRow</string>
     <string name="child_name">NOMBRES Y APELLIDOS DEL NIÑO</string>
     <string name="date_of_birth">FECHA DE NACIMIENTO ddmmaa</string>
@@ -206,29 +205,39 @@
     <string name="birth_municipal">MUNICIPIO NACIMIENTO Row</string>
     <string name="residence_department">DEPARTAMENTO RESIDENCIA Row</string>
     <string name="residence_municipal">MUNICIPIO RESIDENCIA Row</string>
-    <string name="residence_town">LOCALIDAD RESIDENCIA Row</string>
     <string name="residence_address">DIRECCIÓN O REFERENCIARow</string>
     <string name="cell_number">No TELÉFONO FIJO O CELULARRow</string>
     <string name="population_group">GRUPO POBLACIONAL AL QUE PERTENECERow</string>
     <string name="full_name_guardian">NOMBRE COMPLETO DE LA MADRE RESPONSABLERow</string>
 
+    <!-- Settings-->
+    <string name="settings_title">Configuración</string>
+
     <!-- Settings/about-->
     <string name="about">Información</string>
     <string name="bass_contributor">Creado por Duke Bass Connections en cooperación con el instituto de Duke Global Health</string>
-    <string name="bass_faculty_leader_title">Líderes de facultad:</string>
+    <string name="bass_faculty_leader_title">Líderes de facultad</string>
     <string name="bass_faculty_leader">Lavanya Vasudevan, Ph.D.\nDennis Clements, M.D.\nRobert Duvall\nRichard Lucic</string>
-    <string name="bass_development_title">Equipo de desarrollo:</string>
-    <string name="bass_development">Alison Huang\nRobert Steilberg\nMatthew Tribby\nSteven Yang</string>
-    <string name="bass_global_health_title">Equipo de salud global:</string>
+    <string name="bass_development_title">Equipo de desarrollo</string>
+    <string name="bass_development">Robert Steilberg\nAlison Huang\nMatthew Tribby\nSteven Yang</string>
+    <string name="bass_global_health_title">Equipo de salud global</string>
     <string name="bass_global_health">Thuy-Linh Bui\nKathryn Watkins</string>
 
-    <!-- Settings/languages-->
+    <!-- Settings/app preferences-->
+    <string name="app_preferences">Preferencias de aplicación</string>
+
     <string name="language">Idioma</string>
     <string name="spanish">Cambiar a inglés</string>
+    <string name="english">español</string>
     <string name="spanishCode">es</string>
     <string name="englishCode">en</string>
     <string name="spanishLocaleCode">[es]</string>
     <string name="usLocaleCode">[en_US]</string>
+
+    <!-- Settings/app preferences/timeout duration-->
+    <string name="timeout_title">Hora de término de la sesión</string>
+    <string name="timeout_msg">Ha estado inactivo por mucho tiempo. Ahora se cerrará la sesión.</string>
+    <string name="change_timeout">Cambiar la duración del tiempo de espera</string>
 
     <!-- Settings/user settings-->
     <string name="user_settings">Configuración de usario</string>
@@ -239,7 +248,7 @@
     <string name="change_email_modal_subtitle">Indique el nuevo correo electrónico para asociarlo con su cuenta de mVax y toque Enviar.</string>
     <string name="change_email_modal_hint">nuevo correo electrónico</string>
     <string name="change_email_modal_hint_confirm">confirmar nuevo correo electrónico</string>
-    <string name="change_email_success">Correo electrónico ha sido cambiado correctamente</string>
+    <string name="change_email_success">Correo electrónico fue cambiado correctamente</string>
     <string name="change_email_fail">No se puede cambiar correo electrónico</string>
     <string name="change_email_incomplete">Cambio de correo electrónico fue incompleto; intente cambiar su correo electrónico nuevamente más tarde</string>
 
@@ -256,14 +265,6 @@
     <string name="change_password_success">Contraseña fue cambiada con éxito</string>
     <string name="change_password_fail">No se puede cambiar contraseña</string>
 
-    <!-- Settings/user settings/timeout duration-->
-    <string name="timeout_title">Hora de término de la sesión</string>
-    <string name="timeout_msg">Ha estado inactivo por mucho tiempo. Ahora se cerrará la sesión.</string>
-    <string name="change_timeout">Cambiar la duración del tiempo de espera</string>
-
-    <!-- Settings/user settings/sign out-->
-    <string name="sign_out">Salir</string>
-
     <!-- Settings/admin privileges-->
     <string name="admin_priv">Privilegios de administrador</string>
 
@@ -279,8 +280,11 @@
     <string name="deny_user">Rechazar</string>
     <string name="no_user_role">No se puede determinar los papeles del usario</string>
 
+    <string name="admin_enum">ADMIN</string>
+    <string name="user_enum">USARIO</string>
+
     <string name="role_info_title">Papeles</string>
-    <string name="role_info_desc">mVax admite dos funciones diferentes: administrador y lector.\n\n
+    <string name="role_info_desc">mVax admite dos funciones diferentes: administrador y usario.\n\n
                                   Un administrador puede:\n
                                     &#8226; ver todos los usarios y registros de vacunas\n
                                     &#8226; crear nuevos usarios y registros de vacunas\n
@@ -288,8 +292,11 @@
                                     &#8226; aprobar nuevos usarios\n
                                     &#8226; cambiar el papel de o desactivar usarios existentes\n
                                   \n
-                                  Un lector puede:\n
-                                    &#8226; ver todos los usarios y registros de vacunas</string>
+                                  Un usario puede:\n
+                                    &#8226; ver todos los usarios y registros de vacunas\n
+                                    &#8226; crear nuevos usarios y registros de vacunas\n
+                                    &#8226; editar o eliminar datos existentes\n</string>
+
     <string name="approve_user_modal_title">Aprobar solicitud de usario</string>
 
     <string name="approve_user_subtitle">Ha elegido confirmar la solicitud de cuenta de mVax de %1$s con los privilegios de %2$s. Toque Confirmar para activar la nueva cuenta y notificar al usario que ahora puede acceder a mVax.</string>
@@ -305,7 +312,6 @@
 
     <string name="deny_user_modal_title">Rechazar solicitud de usario</string>
     <string name="modal_deny_user_request_message">¿Está seguro de que desea rechazar la solicitud de cuenta de este usario? Se le notificará que su solicitud ha sido denegada, y podrá solicitar otra cuenta más adelante si así lo desea.</string>
-    <string name="request_deny_fail">Error inesperado al rechazar la solicitud de usuario</string>
 
     <string name="approve_user_success">Usario ha sido aprobado y su cuenta ha sido activada</string>
     <string name="approve_user_fail">Error inesperado al aprobar la solicitud de usuario</string>
@@ -339,11 +345,13 @@
 
     <string name="role">Papel</string>
 
-    <!-- Settings/generate dummy data-->
+    <!-- Settings/admin privileges/generate dummy data-->
     <string name="dummy_data">Generar datos experimentales</string>
     <string name="generate_dummy_data_warning">ADVERTENCIA: Generar datos ficticios borrarán toda la tabla de datos de mVax y la sustituirán con datos ficticios definidos en DummyDataGenerator. Si está de acuerdo con que se sobrescriban todos los datos existentes, haga clic en \"Confirmar\".</string>
 
-
     <string name="modal_confirm">Confirmar</string>
+
+    <!-- Sign out-->
+    <string name="sign_out">Salir</string>
 
 </resources>

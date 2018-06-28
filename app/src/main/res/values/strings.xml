@@ -85,12 +85,11 @@
     <string name="date_delete_fail">Unable to date</string>
     
     <!-- Patients/vaccine history/due date-->
-    <string name="modal_date_title">Choose date</string>
-    <string name="modal_vaccination_date_title">Choose vaccination date and age</string>
+    <string name="modal_date_title">Choose a date</string>
+    <string name="modal_vaccination_date_title">Choose vaccination date and patients current age</string>
     <string name="due_date_label">Due date:</string>
-    <string name="vaccination_month">Age (months):</string>
-    <string name="vaccination_year">Age (years):</string>
-
+    <string name="vaccination_month">Months</string>
+    <string name="vaccination_year">Years</string>
 
     <!-- Patients/record details activity-->
     <string name="save_record_button">Save record</string>
@@ -111,7 +110,6 @@
     <string name="label_child_number">Child number</string>
     <string name="hint_child_number">child number</string>
 
-
     <string name="label_medical_id">Patient ID</string>
     <string name="hint_medical_id">13 digit id number</string>
 
@@ -126,6 +124,12 @@
 
     <string name="label_sex">Sex</string>
     <string name="hint_sex">M or F</string>
+    <string name="modal_sex_title">Choose sex</string>
+    <string name="modal_sex_neutral">Remove sex</string>
+    <string name="modal_sex_confirm">Confirm</string>
+
+    <string name="male_enum">Male</string>
+    <string name="female_enum">Female</string>
 
     <string name="label_pob">Place of birth</string>
     <string name="hint_pob">dept, mun</string>
@@ -140,27 +144,12 @@
     <string name="hint_address">address</string>
 
     <string name="label_phone_number">Phone number</string>
-    <string name="hint_phone_number">phone</string>
-
-
-
-    <string name="modal_sex_title">Choose sex</string>
-    <string name="modal_sex_neutral">Remove sex</string>
-    <string name="modal_sex_confirm">Confirm</string>
-
-    <string name="male_enum">Male</string>
-    <string name="female_enum">Female</string>
-
-    <string name="admin_enum">ADMIN</string>
-    <string name="user_enum">USER</string>
-
-
+    <string name="hint_phone_number">phone number</string>
 
     <string name="label_guardian_name">Guardian name</string>
     <string name="hint_guardian_name">guardian name</string>
 
     <!-- Alerts for upcoming vaccinations-->
-
 
 
     <!-- Dashboard-->
@@ -174,47 +163,19 @@
     <string name="report_init_fail">Unable to initialize reports</string>
     <string name="report_download_fail">Unable to generate report</string>
 
-
-
-    <string name="sinova_title">SINOVA 1</string>
-    <string name="sinova2_title">SINOVA 2</string>
-    <string name="sinovaAdolescent">Children</string>
-    <string name="sinovaAdult">Adults</string>
-    <string name="sinova2Adolescent">Children</string>
-    <string name="sinova2Adult">Adults</string>
-    <string name="linv">LINVI</string>
-    <string name="modal_choose_date">Choose date for form</string>
-    <string name="export">Export</string>
-    <string name="send_email">Send email...</string>
-    <string name="email_header_insert"> for the date of </string>
-
-    <string name="form_info_title">Exporting form information</string>
-    <string name="form_info_body1">The form page is used to autofill data from the database into a PDF copy of the forms listed.</string>
-    <string name="form_info_body2">
-        To start, simply click on the form you want to export. A screen will then pop up, asking for additional information. For the SINOVA, it is the date you want the data from. ForSINOVA 2, it is the month you want the data from. And for LINVI, it is the patient you want displayed.</string>
     <string name="ok">OK</string>
-    <string name="vaccinations_updated">Vaccinations updated</string>
     <string name="no_vaccinations">No vaccinations found</string>
 
-    <!-- Forms/file paths-->
-    <string name="sinova">SINOVA</string>
-    <string name="sinova2">SINOVA 2</string>
+    <!-- Reports/file paths-->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>
     <string name="sinova_2_file_name">SINOVA2.pdf</string>
     <string name="destination_file_extension">.pdf</string>
     <string name="sinova_extension">SINOVA1_</string>
     <string name="sinova2_extension">SINOVA2_</string>
 
-    <!-- Forms/PDF config options-->
-    <string name="pdf_config_title">Form constants</string>
-    <string name="config_address">Address/location</string>
-    <string name="config_department">Department</string>
-    <string name="config_vaccinator">Vaccinator</string>
-    <string name="config_code">Code</string>
-    <string name="config_muncip">Municipality</string>
-    <string name="config_establishment">Establishment</string>
+    <!-- Reports/PDF config options-->
 
-    <!-- Forms/PDF config options/form constants-->
+    <!-- Reports/PDF config options/form constants-->
     <string name="form_clinic_name">Clinica Esperanza</string>
     <string name="form_vaccinator_name">Vaccinator</string>
     <string name="form_department_name">Vaccinations</string>
@@ -223,7 +184,7 @@
     <string name="unknown">DESCONOCIDO</string>
     <string name="na">N/A</string>
 
-    <!-- Forms/SINOVA general form PDF fields-->
+    <!-- Reports/SINOVA general form PDF fields-->
     <string name="establishment">ESTABLECIMIENTO</string>
     <string name="name_of_responsible_person">NOMBRE DEL RESPONSABLE</string>
     <string name="department">DEPARTAMENTO</string>
@@ -234,7 +195,7 @@
     <string name="date_year">AÑO</string>
     <string name="location_place">LOCALIDAD</string>
 
-    <!-- Forms/SINOVA 1 specific form PDF fields (fields in the rows)-->
+    <!-- Reports/SINOVA 1 specific form PDF fields (fields in the rows)-->
     <string name="child_national_reg_number">Número oficial del niño RNPRow</string>
     <string name="child_name">NOMBRES Y APELLIDOS DEL NIÑO</string>
     <string name="date_of_birth">FECHA DE NACIMIENTO ddmmaa</string>
@@ -244,19 +205,10 @@
     <string name="birth_municipal">MUNICIPIO NACIMIENTO Row</string>
     <string name="residence_department">DEPARTAMENTO RESIDENCIA Row</string>
     <string name="residence_municipal">MUNICIPIO RESIDENCIA Row</string>
-    <string name="residence_town">LOCALIDAD RESIDENCIA Row</string>
     <string name="residence_address">DIRECCIÓN O REFERENCIARow</string>
     <string name="cell_number">No TELÉFONO FIJO O CELULARRow</string>
     <string name="population_group">GRUPO POBLACIONAL AL QUE PERTENECERow</string>
     <string name="full_name_guardian">NOMBRE COMPLETO DE LA MADRE RESPONSABLERow</string>
-
-
-
-
-
-
-
-
 
     <!-- Settings-->
     <string name="settings_title">Settings</string>
@@ -271,7 +223,6 @@
     <string name="bass_global_health_title">Global health team</string>
     <string name="bass_global_health">Thuy-Linh Bui\nKathryn Watkins</string>
 
-
     <!-- Settings/app preferences-->
     <string name="app_preferences">App preferences</string>
 
@@ -282,6 +233,11 @@
     <string name="englishCode">en</string>
     <string name="spanishLocaleCode">[es]</string>
     <string name="usLocaleCode">[en_US]</string>
+
+    <!-- Settings/app preferences/timeout duration-->
+    <string name="timeout_title">Session timeout</string>
+    <string name="timeout_msg">You have been inactive for too long. You will now be logged out.</string>
+    <string name="change_timeout">Change timeout duration</string>
 
     <!-- Settings/user settings-->
     <string name="user_settings">User settings</string>
@@ -309,14 +265,6 @@
     <string name="change_password_success">Password successfully changed</string>
     <string name="change_password_fail">Unable to change password</string>
 
-    <!-- Settings/user settings/timeout duration-->
-    <string name="timeout_title">Session timeout</string>
-    <string name="timeout_msg">You have been inactive for too long. You will now be logged out.</string>
-    <string name="change_timeout">Change timeout duration</string>
-
-    <!-- Settings/user settings/sign out-->
-    <string name="sign_out">Sign out</string>
-
     <!-- Settings/admin privileges-->
     <string name="admin_priv">Administrator privileges</string>
 
@@ -332,6 +280,9 @@
     <string name="deny_user">Deny</string>
     <string name="no_user_role">Unable to determine user role</string>
 
+    <string name="admin_enum">ADMIN</string>
+    <string name="user_enum">USER</string>
+
     <string name="role_info_title">Roles</string>
     <string name="role_info_desc">mVax supports two different roles: admin and reader.\n\n
                                   An admin can:\n
@@ -345,6 +296,7 @@
                                     &#8226; view all patients and vaccine records\n
                                     &#8226; create new users and vaccine records\n
                                     &#8226; edit or delete existing data</string>
+
     <string name="approve_user_modal_title">Approve user request</string>
 
     <string name="approve_user_subtitle">You\'ve chosen to confirm %1$s\'s request for an mVax account with %2$s privileges. Tap Confirm to activate the new account and notify the user that they can now access mVax.</string>
@@ -360,7 +312,6 @@
 
     <string name="deny_user_modal_title">Deny user request</string>
     <string name="modal_deny_user_request_message">Are you sure you want to deny this user\'s request for an mVax account? They will be notified that their request has been denied, and they will be able to request another account later if they wish.</string>
-    <string name="request_deny_fail">Unexpected error denying user request</string>
 
     <string name="approve_user_success">User has been approved and their account has been activated</string>
     <string name="approve_user_fail">Unexpected error approving user request</string>
@@ -394,11 +345,13 @@
 
     <string name="role">Role</string>
 
-    <!-- Settings/generate dummy data-->
+    <!-- Settings/admin privileges/generate dummy data-->
     <string name="dummy_data">Generate test data</string>
     <string name="generate_dummy_data_warning">WARNING: Generating dummy data will clear out the entire mVax data table and replace it with dummy data defined in the DummyDataGenerator. If you are okay with all existing data being overwritten, click \"Confirm\".</string>
 
-
     <string name="modal_confirm">Confirm</string>
+
+    <!-- Sign out-->
+    <string name="sign_out">Sign out</string>
 
 </resources>
