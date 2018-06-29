@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context="mhealth.mvax.auth.UsersFragment">
+    tools:context="mhealth.mvax.auth.ManageUsersFragment">
 
     <TextView
         android:id="@+id/title"

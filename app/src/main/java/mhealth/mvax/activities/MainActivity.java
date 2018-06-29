@@ -56,7 +56,7 @@ public class MainActivity extends Activity {
         }
 
         // TODO fix
-        LanguageUtillity.changeLangauge(getResources(), getResources().getString(R.string.spanishCode));
+//        LanguageUtillity.changeLangauge(getResources(), getResources().getString(R.string.spanishCode));
     }
 
     private void initNavBar() {

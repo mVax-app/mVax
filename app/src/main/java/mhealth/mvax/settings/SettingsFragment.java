@@ -21,40 +21,29 @@ package mhealth.mvax.settings;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.UserRequestsFragment;
-import mhealth.mvax.auth.UsersFragment;
+import mhealth.mvax.auth.ManageUsersFragment;
 import mhealth.mvax.auth.modals.ChangeEmailModal;
 import mhealth.mvax.auth.modals.ChangePasswordModal;
-import mhealth.mvax.language.LanguageUtillity;
 
 /**
  */
 public class SettingsFragment extends Fragment {
 
+    private View mView;
     private LayoutInflater mInflater;
+    private ViewGroup mParent;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
@@ -63,58 +52,85 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mInflater = inflater;
-        View v = inflater.inflate(R.layout.fragment_settings, container, false);
+        mParent = container;
+        mView = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        View aboutModal = inflater.inflate(R.layout.modal_about, container, false);
-        Button aboutButton = v.findViewById(R.id.about_button);
-        AlertDialog ab = new AlertDialog.Builder(v.getContext())
-                .setView(aboutModal)
-                .create();
-        aboutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ab.show();
-            }
-        });
+        downloadCurrentUser();
+        initButtons();
 
-        TextView dummyData = v.findViewById(R.id.admin_priv_dummy_data);
-        dummyData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                generateDummyData();
-            }
-        });
-
-        TextView signOut = v.findViewById(R.id.sign_out_button);
-        signOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                getActivity().finish();
-
-            }
-        });
-
-        return v;
+        return mView;
     }
 
-    private void generateDummyData() {
-        //builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Generate Dummy Data");
+    private void downloadCurrentUser() {
 
-
-        final View dialogView = mInflater.inflate(R.layout.modal_generate_dummy_data, null);
-        builder.setView(dialogView);
-
-        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                DataGenerator generator = new DataGenerator(getContext());
-                generator.generateData();
-            }
-        });
-
-        builder.show();
     }
+
+    private void initButtons() {
+        initAboutButton(false);
+        initUpdateEmailButton();
+        initUpdatePasswordButton();
+        initApproveUsersButton();
+        initManageUsersButton();
+        initSignOutButton();
+    }
+
+    private void initAboutButton(boolean generate) {
+        if (generate) {
+            new DataGenerator(getContext()).generateData();
+        } else {
+            Button aboutButton = mView.findViewById(R.id.about);
+            View aboutModalView = mInflater.inflate(R.layout.modal_about, mParent, false);
+            AlertDialog aboutModal = new AlertDialog.Builder(mView.getContext())
+                    .setView(aboutModalView)
+                    .create();
+            aboutButton.setOnClickListener(view -> aboutModal.show());
+        }
+    }
+
+    private void initUpdateEmailButton() {
+        TextView updateEmail = mView.findViewById(R.id.user_settings_email);
+        updateEmail.setOnClickListener(v -> new ChangeEmailModal(v).createAndShow());
+    }
+
+    private void initUpdatePasswordButton() {
+        TextView updatePassword = mView.findViewById(R.id.user_settings_password);
+        updatePassword.setOnClickListener(v -> new ChangePasswordModal(v).createAndShow());
+    }
+
+    private void initApproveUsersButton() {
+        TextView approveUsers = mView.findViewById(R.id.admin_priv_approve_users);
+        approveUsers.setOnClickListener(v -> {
+            UserRequestsFragment userRequestsFragment = UserRequestsFragment.newInstance();
+            FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame, userRequestsFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
+    }
+
+    private void initManageUsersButton() {
+        TextView approveUsers = mView.findViewById(R.id.admin_priv_manage_users);
+        approveUsers.setOnClickListener(v -> {
+
+
+            ManageUsersFragment manageUsersFragment = ManageUsersFragment.newInstance();
+            FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame, manageUsersFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        });
+    }
+
+    private void initSignOutButton() {
+        Button signOutButton = mView.findViewById(R.id.sign_out);
+        signOutButton.setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            getActivity().finish();
+        });
+    }
+
+
+
+
+    // TODO only admin sees admin privileges
 }

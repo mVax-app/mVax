@@ -83,7 +83,7 @@ public class AuthActivity extends Activity {
         mSpinner.setX(mScreenWidth); // spinner rendered off screen
 
         if (BYPASS_LOGIN) {
-            mAuth.signInWithEmailAndPassword("prodadmin@mvax.com", "prodadmin1")
+            mAuth.signInWithEmailAndPassword("devadmin@mvax.com", "devadmin1")
                     .addOnCompleteListener(task -> {
                         Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(mainIntent);

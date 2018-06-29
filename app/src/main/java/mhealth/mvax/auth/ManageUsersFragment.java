@@ -44,14 +44,14 @@ import mhealth.mvax.model.user.User;
  * <p>
  * Fragment for managing current mVax users
  */
-public class UsersFragment extends Fragment {
+public class ManageUsersFragment extends Fragment {
 
-    private UsersAdapter mAdapter;
+    private ManageUsersAdapter mAdapter;
     private DatabaseReference mUsersRef;
     private ChildEventListener mListener;
 
-    public static UsersFragment newInstance() {
-        return new UsersFragment();
+    public static ManageUsersFragment newInstance() {
+        return new ManageUsersFragment();
     }
 
     @Override
@@ -63,7 +63,7 @@ public class UsersFragment extends Fragment {
         RecyclerView usersList = view.findViewById(R.id.user_list);
         usersList.setHasFixedSize(true);
         usersList.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        mAdapter = new UsersAdapter();
+        mAdapter = new ManageUsersAdapter();
         usersList.setAdapter(mAdapter);
         usersList.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
 
