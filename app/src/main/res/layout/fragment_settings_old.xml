@@ -68,7 +68,7 @@
                 android:layout_marginTop="8dp"
                 android:switchMinWidth="200dp"
                 android:switchPadding="20dp"
-                android:text="@string/spanish"
+                android:text="@string/change_language"
                 android:textSize="30sp" />
 
             <Space
@@ -177,7 +177,7 @@
 
 
             <TextView
-                android:id="@+id/admin_priv"
+                android:id="@+id/admin_priv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/admin_priv"

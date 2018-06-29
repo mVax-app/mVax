@@ -59,25 +59,11 @@
             android:layout_marginStart="@dimen/page_margin_start_body"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/avenir_medium"
-            android:text="@string/spanish"
+            android:text="@string/change_language"
             android:textAlignment="center"
             android:textColor="@color/darkGray"
             android:textSize="@dimen/text_size_body"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/app_preferences" />
-
-        <TextView
-            android:id="@+id/app_preferences_language_en"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/avenir_medium"
-            android:text="@string/english"
-            android:textAlignment="center"
-            android:textColor="@color/darkGray"
-            android:textSize="@dimen/text_size_body"
-            app:layout_constraintStart_toEndOf="@+id/app_preferences_language_switch"
             app:layout_constraintTop_toBottomOf="@+id/app_preferences" />
 
         <Switch
@@ -88,6 +74,20 @@
             android:layout_marginTop="17dp"
             android:theme="@style/SwitchTheme"
             app:layout_constraintStart_toEndOf="@+id/app_preferences_language_es"
+            app:layout_constraintTop_toBottomOf="@+id/app_preferences" />
+
+        <TextView
+            android:id="@+id/app_preferences_language_en"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/current_language"
+            android:textAlignment="center"
+            android:textColor="@color/darkGray"
+            android:textSize="@dimen/text_size_body"
+            app:layout_constraintStart_toEndOf="@+id/app_preferences_language_switch"
             app:layout_constraintTop_toBottomOf="@+id/app_preferences" />
 
         <TextView
@@ -132,47 +132,58 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_settings_email" />
 
-        <TextView
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/admin_priv"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/page_margin_start"
+            android:layout_marginStart="0dp"
             android:layout_marginTop="20dp"
-            android:fontFamily="@font/avenir_medium"
-            android:text="@string/admin_priv"
-            android:textAlignment="center"
-            android:textColor="@color/dukeBlue"
-            android:textSize="@dimen/text_size_header"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_settings_password" />
+            app:layout_constraintTop_toBottomOf="@+id/user_settings_password">
 
-        <TextView
-            android:id="@+id/admin_priv_approve_users"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/page_margin_start_body"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/avenir_medium"
-            android:text="@string/approve_users"
-            android:textAlignment="center"
-            android:textColor="@color/darkGray"
-            android:textSize="@dimen/text_size_body"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/admin_priv" />
+            <TextView
+                android:id="@+id/admin_priv_title"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="@dimen/page_margin_start"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avenir_medium"
+                android:text="@string/admin_priv"
+                android:textAlignment="center"
+                android:textColor="@color/dukeBlue"
+                android:textSize="@dimen/text_size_header"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/admin_priv_manage_users"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/page_margin_start_body"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/avenir_medium"
-            android:text="@string/current_users"
-            android:textAlignment="center"
-            android:textColor="@color/darkGray"
-            android:textSize="@dimen/text_size_body"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/admin_priv_approve_users" />
+            <TextView
+                android:id="@+id/admin_priv_approve_users"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/page_margin_start_body"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/avenir_medium"
+                android:text="@string/approve_users"
+                android:textAlignment="center"
+                android:textColor="@color/darkGray"
+                android:textSize="@dimen/text_size_body"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/admin_priv_title" />
+
+            <TextView
+                android:id="@+id/admin_priv_manage_users"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/page_margin_start_body"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/avenir_medium"
+                android:text="@string/current_users"
+                android:textAlignment="center"
+                android:textColor="@color/darkGray"
+                android:textSize="@dimen/text_size_body"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/admin_priv_approve_users" />
+
+        </android.support.constraint.ConstraintLayout>
 
         <Button
             android:id="@+id/sign_out"
@@ -189,7 +200,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/admin_priv_approve_users" />
+            app:layout_constraintTop_toBottomOf="@id/admin_priv" />
 
     </android.support.constraint.ConstraintLayout>
 

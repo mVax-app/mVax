@@ -103,4 +103,8 @@ public class User implements Serializable, Comparable<User> {
         return this.displayName.compareTo(that.displayName);
     }
 
+    public boolean isAdmin() {
+        return this.role == UserRole.ADMIN;
+    }
+
 }

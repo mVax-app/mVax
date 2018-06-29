@@ -100,10 +100,10 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
     }
 
     private void initPatientListener(final String databaseKey) {
-        final String masterTable = getResources().getString(R.string.data_table);
+        final String dataTable = getResources().getString(R.string.data_table);
         final String patientTable = getResources().getString(R.string.patient_table);
         mPatientRef = FirebaseDatabase.getInstance().getReference()
-                .child(masterTable)
+                .child(dataTable)
                 .child(patientTable)
                 .orderByKey()
                 .equalTo(databaseKey);
