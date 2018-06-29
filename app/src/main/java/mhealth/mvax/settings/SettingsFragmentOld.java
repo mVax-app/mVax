@@ -47,7 +47,6 @@ import mhealth.mvax.auth.UserRequestsFragment;
 import mhealth.mvax.auth.ManageUsersFragment;
 import mhealth.mvax.auth.modals.ChangeEmailModal;
 import mhealth.mvax.auth.modals.ChangePasswordModal;
-import mhealth.mvax.language.LanguageUtillity;
 
 /**
  * This Fragment represents the Settings Tab which contains the follwoing functionality:
@@ -82,49 +81,6 @@ public class SettingsFragmentOld extends Fragment {
             }
         });
 
-        Button resetPassword = (Button) v.findViewById(R.id.changePassword);
-        resetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                resetPassword(view);
-            }
-        });
-
-        Button about = (Button) v.findViewById(R.id.aboutButton);
-        about.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createAboutModal();
-            }
-        });
-
-        Button signOut = (Button) v.findViewById(R.id.signOut);
-        signOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                signOut();
-            }
-        });
-
-        Button changeTimeout = (Button) v.findViewById(R.id.changeTimeout);
-        changeTimeout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeTimeoutDuration(view);
-            }
-        });
-
-
-        createUsersButtons(v);
-
-
-        Button dummyData = v.findViewById(R.id.dummyData);
-        dummyData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                generateDummyData();
-            }
-        });
 
         return v;
     }
@@ -143,7 +99,7 @@ public class SettingsFragmentOld extends Fragment {
                 if (b && !getResources().getConfiguration().getLocales().toString().equals(getResources().getString(R.string.spanishLocaleCode))) {
                     setLocale(getResources().getString(R.string.spanishCode));
                     navbar.getMenu().clear();
-                    navbar.inflateMenu(R.menu.navigation_es);
+//                    navbar.inflateMenu(R.menu.navigation_es);
                     navbar.setSelectedItemId(R.id.nav_settings);
                 } else if (!b && !getResources().getConfiguration().getLocales().toString().equals(getResources().getString(R.string.usLocaleCode))) {
                     setLocale(getResources().getString(R.string.englishCode));
@@ -167,14 +123,14 @@ public class SettingsFragmentOld extends Fragment {
 
     //Stack overflow: https://stackoverflow.com/questions/45584865/change-default-locale-language-android
     private void setLocale(String lang) {
-        LanguageUtillity.changeLangauge(getResources(), lang);
+//        LanguageUtillity.changeLangauge(getResources(), lang);
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(this).attach(this).commit();
         BottomNavigationView navbar = (BottomNavigationView) getActivity().findViewById(R.id.navigation_bar);
-        setLocale(getResources().getString(R.string.spanishCode));
+//        setLocale(getResources().getString(R.string.spanishCode));
         navbar.getMenu().clear();
-        navbar.inflateMenu(R.menu.navigation_es);
+//        navbar.inflateMenu(R.menu.navigation_es);
         navbar.setSelectedItemId(R.id.nav_settings);
 
     }

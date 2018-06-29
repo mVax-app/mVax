@@ -21,7 +21,7 @@
           ".write": "$uid === auth.uid"
         },
       },
-      ".read": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'"
+      ".read": "auth != null"
     },
     "requests": {
       ".read": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'",

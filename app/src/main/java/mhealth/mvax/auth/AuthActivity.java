@@ -42,6 +42,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 
+import java.util.Locale;
+
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
 import mhealth.mvax.auth.modals.PasswordResetModal;

@@ -227,8 +227,8 @@
     <string name="app_preferences">App preferences</string>
 
     <string name="language">Language</string>
-    <string name="spanish">Change to Spanish</string>
-    <string name="english">English</string>
+    <string name="change_language">Change to Spanish</string>
+    <string name="current_language">English</string>
     <string name="spanishCode">es</string>
     <string name="englishCode">en</string>
     <string name="spanishLocaleCode">[es]</string>

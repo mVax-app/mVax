@@ -25,14 +25,15 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 
+import java.util.Locale;
+
 import mhealth.mvax.R;
 import mhealth.mvax.alerts.AlertsFragment;
 import mhealth.mvax.dashboard.DashboardFragment;
-import mhealth.mvax.language.LanguageUtillity;
 import mhealth.mvax.reports.FormFragment;
 import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.settings.SettingsFragment;
-import mhealth.mvax.settings.SettingsFragmentOld;
+import mhealth.mvax.utilities.LanguageChanger;
 
 /**
  * @author Robert Steilberg, Matthew Tribby
@@ -42,53 +43,81 @@ import mhealth.mvax.settings.SettingsFragmentOld;
  */
 public class MainActivity extends Activity {
 
+    private int mCurrentTab;
+    private String mCurrentLanguage;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_main);
-        initNavBar();
-
         if (savedInstanceState == null) {
+            mCurrentLanguage = Locale.getDefault().getLanguage();
+
+            setContentView(R.layout.activity_main);
+            initNavBar();
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.frame, SearchFragment.newInstance());
             transaction.commit();
-        }
+        } else {
+            mCurrentLanguage = savedInstanceState.getString("langCode");
+            mCurrentTab = savedInstanceState.getInt("mCurrentTab");
+            LanguageChanger.changeLanguage(mCurrentLanguage, getResources());
 
-        // TODO fix
-//        LanguageUtillity.changeLangauge(getResources(), getResources().getString(R.string.spanishCode));
+            setContentView(R.layout.activity_main);
+            initNavBar();
+            Fragment chosenTab = chooseTab(mCurrentTab);
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame, chosenTab);
+            transaction.commit();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString("langCode", mCurrentLanguage);
+        outState.putInt("mCurrentTab", mCurrentTab);
+    }
+
+    public void setLanguage(String langCode) {
+        mCurrentLanguage = langCode;
     }
 
     private void initNavBar() {
         BottomNavigationView navBar = findViewById(R.id.navigation_bar);
-        navBar.setOnNavigationItemSelectedListener
-                (icon -> {
-                    Fragment selectedFragment;
-                    switch (icon.getItemId()) {
-                        case R.id.nav_patients:
-                            selectedFragment = SearchFragment.newInstance();
-                            break;
-                        case R.id.nav_overdue:
-                            selectedFragment = AlertsFragment.newInstance();
-                            break;
-                        case R.id.nav_data:
-                            selectedFragment = DashboardFragment.newInstance();
-                            break;
-                        case R.id.nav_forms:
-                            selectedFragment = FormFragment.newInstance();
-                            break;
-                        case R.id.nav_settings:
-                            selectedFragment = SettingsFragment.newInstance();
-                            break;
-                        default:
-                            selectedFragment = null; // this should never happen
-                            break;
-                    }
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.replace(R.id.frame, selectedFragment);
-                    transaction.commit();
-                    return true;
-                });
+        navBar.setSelectedItemId(mCurrentTab);
+
+        navBar.setOnNavigationItemSelectedListener(icon -> {
+            Fragment chosenFragment = chooseTab(icon.getItemId());
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame, chosenFragment);
+            transaction.commit();
+            return true;
+        });
+    }
+
+    private Fragment chooseTab(int tabId) {
+        mCurrentTab = tabId;
+        Fragment selectedFragment;
+        switch (tabId) {
+            case R.id.nav_patients:
+                selectedFragment = SearchFragment.newInstance();
+                break;
+            case R.id.nav_overdue:
+                selectedFragment = AlertsFragment.newInstance();
+                break;
+            case R.id.nav_data:
+                selectedFragment = DashboardFragment.newInstance();
+                break;
+            case R.id.nav_forms:
+                selectedFragment = FormFragment.newInstance();
+                break;
+            case R.id.nav_settings:
+                selectedFragment = SettingsFragment.newInstance();
+                break;
+            default:
+                selectedFragment = null; // should never happen
+                break;
+        }
+        return selectedFragment;
     }
 
 }
