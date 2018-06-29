@@ -321,11 +321,11 @@
     <string name="deny_user_fail">Unexpected error denying user request</string>
     <string name="deny_user_incomplete">User request denial incomplete; please contact someone on the mVax team</string>
 
-    <!-- Settings/admin privileges/view current users-->
-    <string name="current_users">Manage users</string>
+    <!-- Settings/admin privileges/manage users-->
+    <string name="manage_users">Manage users</string>
     <string name="user_download_fail">Unable to download current user info</string>
 
-    <string name="current_users_title">Current mVax users</string>
+    <string name="manage_users_title">Current mVax users</string>
     <string name="user_management_instructions">This page can be used to manage current mVax users. You can change the role of any user, disable a user, or delete a user.</string>
 
     <string name="change_role">Change role</string>

@@ -321,11 +321,11 @@
     <string name="deny_user_fail">Error inesperado al rechazar la solicitud de usuario</string>
     <string name="deny_user_incomplete">Denegación de la solicitud de usuario fue incompleta; por favor, póngase en contacto con alguien en el equipo de mVax</string>
 
-    <!-- Settings/admin privileges/view current users-->
-    <string name="current_users">Ver usuarios actuales</string>
+    <!-- Settings/admin privileges/manage users-->
+    <string name="manage_users">Dirigir usuarios</string>
     <string name="user_download_fail">No se puede descargar información de usarios actuales</string>
 
-    <string name="current_users_title">Usarios actuales de mVax </string>
+    <string name="manage_users_title">Usarios actuales de mVax </string>
     <string name="user_management_instructions">Esta página se puede usar para administrar usuarios actuales de mVax. Puede cambiar la función de cualquier usuario, desactivar a un usuario, o eliminar un usuario.</string>
 
     <string name="change_role">Cambiar papel</string>
