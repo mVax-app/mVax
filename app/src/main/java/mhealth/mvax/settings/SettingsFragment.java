@@ -33,6 +33,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,12 +54,15 @@ import mhealth.mvax.language.LanguageUtillity;
  */
 public class SettingsFragment extends Fragment {
 
+    private LayoutInflater mInflater;
+
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mInflater = inflater;
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
 
         View aboutModal = inflater.inflate(R.layout.modal_about, container, false);
@@ -72,6 +76,45 @@ public class SettingsFragment extends Fragment {
                 ab.show();
             }
         });
+
+        TextView dummyData = v.findViewById(R.id.admin_priv_dummy_data);
+        dummyData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                generateDummyData();
+            }
+        });
+
+        TextView signOut = v.findViewById(R.id.sign_out_button);
+        signOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                getActivity().finish();
+
+            }
+        });
+
         return v;
+    }
+
+    private void generateDummyData() {
+        //builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Generate Dummy Data");
+
+
+        final View dialogView = mInflater.inflate(R.layout.modal_generate_dummy_data, null);
+        builder.setView(dialogView);
+
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                DataGenerator generator = new DataGenerator(getContext());
+                generator.generateData();
+            }
+        });
+
+        builder.show();
     }
 }

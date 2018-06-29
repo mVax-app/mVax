@@ -86,7 +86,7 @@
 
     <!-- Patients/vaccine history/due date-->
     <string name="modal_date_title">Elegir fecha</string>
-    <string name="modal_vaccination_date_title">Eligir fecha de vacunación y edad actual de paciente</string>
+    <string name="modal_vaccination_date_title">Elegir fecha de vacunación y edad actual de paciente</string>
     <string name="due_date_label">Fecha de vencimiento:</string>
     <string name="vaccination_month">Meses</string>
     <string name="vaccination_year">Años</string>
