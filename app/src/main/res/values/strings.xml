@@ -322,7 +322,7 @@
     <string name="deny_user_incomplete">User request denial incomplete; please contact someone on the mVax team</string>
 
     <!-- Settings/admin privileges/view current users-->
-    <string name="current_users">View current users</string>
+    <string name="current_users">Manage users</string>
     <string name="user_download_fail">Unable to download current user info</string>
 
     <string name="current_users_title">Current mVax users</string>

@@ -43,11 +43,11 @@ import mhealth.mvax.model.user.User;
  * Adapter for rendering current users for administrator management
  */
 
-public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> {
+public class ManageUsersAdapter extends RecyclerView.Adapter<ManageUsersAdapter.ViewHolder> {
 
     final private List<User> mUsers;
 
-    UsersAdapter() {
+    ManageUsersAdapter() {
         mUsers = new ArrayList<>();
     }
 

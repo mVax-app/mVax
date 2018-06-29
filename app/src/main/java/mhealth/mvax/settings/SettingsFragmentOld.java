@@ -44,7 +44,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import mhealth.mvax.R;
 import mhealth.mvax.auth.UserRequestsFragment;
-import mhealth.mvax.auth.UsersFragment;
+import mhealth.mvax.auth.ManageUsersFragment;
 import mhealth.mvax.auth.modals.ChangeEmailModal;
 import mhealth.mvax.auth.modals.ChangePasswordModal;
 import mhealth.mvax.language.LanguageUtillity;
@@ -273,7 +273,7 @@ public class SettingsFragmentOld extends Fragment {
     }
 
     private void switchToCurrentUsersFragment() {
-        Fragment fragment = UsersFragment.newInstance();
+        Fragment fragment = ManageUsersFragment.newInstance();
         FragmentManager fragmentManager = getActivity().getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment);
