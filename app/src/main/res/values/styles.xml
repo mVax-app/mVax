@@ -1,6 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- Base application theme -->
     <style name="AppTheme">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -11,6 +11,21 @@
     <!--To customize language changing switch to a light blue color-->
     <style name="SwitchTheme" parent="Theme.AppCompat.Light">
         <item name="android:colorControlActivated">@color/lightBlue</item>
+    </style>
+
+    <!--To customize color of auth page email/password fields-->
+    <style name="AuthInput" parent="TextAppearance.AppCompat">
+        <!-- Hint color and label color in FALSE state -->
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:textSize">50sp</item>
+
+        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        <!-- Text input color e.g. email/password -->
+        <item name="colorAccent">@color/dukeBlue</item>
+        <!-- ??? -->
+        <item name="colorControlNormal">@color/dukeBlue</item>
+        <!-- Color of hint when activated/raised and line color -->
+        <item name="colorControlActivated">@color/dukeBlue</item>
     </style>
 
 </resources>
