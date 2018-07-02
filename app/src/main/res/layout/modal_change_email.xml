@@ -14,37 +14,50 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/dob"
+            android:id="@+id/instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="14dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="4dp"
-            android:text="@string/change_email_modal_subtitle" />
+            android:layout_marginEnd="@dimen/modal_margin_end"
+            android:layout_marginStart="@dimen/modal_margin_start"
+            android:layout_marginTop="@dimen/modal_margin_top"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/change_email_modal_subtitle"
+            android:textColor="@color/dukeBlue"
+            android:textSize="@dimen/text_size_modal_body" />
 
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="2.53"
-            android:ems="10"
+            android:layout_marginStart="@dimen/modal_margin_start"
+            android:layout_marginEnd="@dimen/modal_margin_end"
+            android:layout_marginTop="5dp"
+            android:layout_weight="2.5"
+            android:ems="30"
+            android:fontFamily="@font/avenir_medium"
             android:hint="@string/change_email_modal_hint"
-            android:inputType="textEmailAddress" />
+            android:textSize="@dimen/text_size_modal_body"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:singleLine="true" />
 
         <EditText
             android:id="@+id/email_confirm"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="2.53"
-            android:ems="10"
+            android:layout_marginStart="@dimen/modal_margin_start"
+            android:layout_marginEnd="@dimen/modal_margin_end"
+            android:layout_marginTop="1dp"
+            android:layout_weight="2.5"
+            android:ems="30"
+            android:fontFamily="@font/avenir_medium"
             android:hint="@string/change_email_modal_hint_confirm"
-            android:inputType="textEmailAddress" />
+            android:textSize="@dimen/text_size_modal_body"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:singleLine="true" />
 
     </LinearLayout>
 
