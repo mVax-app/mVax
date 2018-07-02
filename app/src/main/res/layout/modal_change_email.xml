@@ -9,8 +9,6 @@
         android:id="@+id/email_fields"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd=""
-        android:layout_marginStart=""
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
