@@ -224,11 +224,11 @@
     <string name="bass_global_health">Thuy-Linh Bui\nKathryn Watkins</string>
 
     <!-- Settings/app preferences-->
-    <string name="app_preferences">App preferences</string>
+    <string name="lang_preference">Language preferences</string>
 
     <string name="language">Language</string>
-    <string name="change_language">Change to Spanish</string>
-    <string name="current_language">English</string>
+    <string name="english">English</string>
+    <string name="spanish">Spanish</string>
     <string name="spanishCode">es</string>
     <string name="englishCode">en</string>
     <string name="spanishLocaleCode">[es]</string>

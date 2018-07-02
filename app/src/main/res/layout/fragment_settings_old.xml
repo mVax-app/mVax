@@ -68,7 +68,7 @@
                 android:layout_marginTop="8dp"
                 android:switchMinWidth="200dp"
                 android:switchPadding="20dp"
-                android:text="@string/change_language"
+                android:text="@string/english"
                 android:textSize="30sp" />
 
             <Space
