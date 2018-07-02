@@ -83,7 +83,7 @@ public class PasswordResetModal extends CustomModal {
             positiveButton.setOnClickListener(view -> attemptPasswordReset(emailTextView));
             mViews.add(positiveButton);
         });
-        mDialog.show();
+        show();
     }
 
     private void attemptPasswordReset(final TextView emailTextView) {

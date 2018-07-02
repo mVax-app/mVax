@@ -66,7 +66,7 @@ public class DenyUserModal extends CustomModal {
             positiveButton.setOnClickListener(view -> deleteUser());
             mViews.add(positiveButton);
         });
-        mDialog.show();
+        show();
     }
 
     private void deleteUser() {

@@ -52,7 +52,6 @@ public class ChangePasswordModal extends CustomModal {
     @Override
     public void createAndShow() {
         mDialog = new AlertDialog.Builder(mContext)
-                .setTitle(R.string.change_password_modal_title)
                 .setView(mInflater.inflate(R.layout.modal_change_password, mParent, false))
                 .setPositiveButton(R.string.submit, null)
                 .setNegativeButton(R.string.cancel, null)
@@ -87,7 +86,7 @@ public class ChangePasswordModal extends CustomModal {
             positiveButton.setOnClickListener(view -> attemptPasswordChange());
             mViews.add(positiveButton);
         });
-        mDialog.show();
+        show();
     }
 
     private void attemptPasswordChange() {

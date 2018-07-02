@@ -105,7 +105,7 @@ public class RequestAccountModal extends CustomModal {
             positiveButton.setOnClickListener(view -> validateFields());
             mViews.add(positiveButton);
         });
-        mDialog.show();
+        show();
     }
 
     private void validateFields() {

@@ -43,7 +43,7 @@ public class RoleInfoModal extends CustomModal {
                 .setView(mInflater.inflate(R.layout.modal_role_info, mParent, false))
                 .setPositiveButton(R.string.ok, null)
                 .create();
-        mDialog.show();
+        show();
     }
 
 }

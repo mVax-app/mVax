@@ -54,7 +54,6 @@ public class ChangeEmailModal extends CustomModal {
     @Override
     public void createAndShow() {
         mDialog = new AlertDialog.Builder(mContext)
-                .setTitle(R.string.change_email_modal_title)
                 .setView(mInflater.inflate(R.layout.modal_change_email, mParent, false))
                 .setPositiveButton(R.string.submit, null)
                 .setNegativeButton(R.string.cancel, null)
@@ -87,7 +86,7 @@ public class ChangeEmailModal extends CustomModal {
             positiveButton.setOnClickListener(view -> attemptEmailChange());
             mViews.add(positiveButton);
         });
-        mDialog.show();
+        show();
     }
 
     private void attemptEmailChange() {

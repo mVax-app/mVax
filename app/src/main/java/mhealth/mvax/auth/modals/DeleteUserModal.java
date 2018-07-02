@@ -67,7 +67,7 @@ public class DeleteUserModal extends CustomModal {
             positiveButton.setOnClickListener(v -> attemptUserDelete());
             mViews.add(mDialog.getButton(AlertDialog.BUTTON_POSITIVE));
         });
-        mDialog.show();
+        show();
     }
 
     private void attemptUserDelete() {

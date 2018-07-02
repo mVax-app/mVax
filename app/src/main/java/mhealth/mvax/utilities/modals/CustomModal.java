@@ -21,13 +21,18 @@ package mhealth.mvax.utilities.modals;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Typeface;
+import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import mhealth.mvax.R;
 
 /**
  * @author Robert Steilberg
@@ -52,6 +57,23 @@ public abstract class CustomModal {
     }
 
     public abstract void createAndShow();
+
+    public void show() {
+        mDialog.show();
+
+        Typeface avenirHeavy = ResourcesCompat.getFont(mContext, R.font.avenir_heavy);
+
+        mDialog.getWindow().setBackgroundDrawableResource(R.color.base);
+        final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        positiveButton.setTextColor(mContext.getColor(R.color.dukeBlue));
+        positiveButton.setTypeface(avenirHeavy);
+        final Button neutralButton = mDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
+        neutralButton.setTextColor(mContext.getColor(R.color.dukeBlue));
+        neutralButton.setTypeface(avenirHeavy);
+        final Button negativeButton = mDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+        negativeButton.setTextColor(mContext.getColor(R.color.dukeBlue));
+        negativeButton.setTypeface(avenirHeavy);
+    }
 
     public void dismiss() {
         mDialog.dismiss();

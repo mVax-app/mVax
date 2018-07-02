@@ -93,7 +93,7 @@ public class ChangeRoleModal extends CustomModal {
             });
             mViews.add(positiveButton);
         });
-        mDialog.show();
+        show();
     }
 
     private void changeRole(UserRole newRole) {

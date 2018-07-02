@@ -75,7 +75,7 @@ public class ApproveUserModal extends CustomModal {
             positiveButton.setOnClickListener(view -> activateUser());
             mViews.add(positiveButton);
         });
-        mDialog.show();
+        show();
     }
 
     private void activateUser() {
