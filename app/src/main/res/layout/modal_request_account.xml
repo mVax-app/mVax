@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp"
-    android:weightSum="1"
-    tools:context="mhealth.mvax.auth.AuthActivity">
+    android:background="@color/base">
 
     <LinearLayout
         android:id="@+id/request_account_inputs"
@@ -23,65 +17,73 @@
             android:id="@+id/request_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="14dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="4dp"
-            android:text="@string/modal_register_subtitle" />
+            android:layout_marginEnd="@dimen/modal_margin_end"
+            android:layout_marginStart="@dimen/modal_margin_start"
+            android:layout_marginTop="@dimen/modal_margin_top"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/modal_register_subtitle"
+            android:textColor="@color/dukeBlue"
+            android:textSize="@dimen/text_size_modal_subtitle" />
 
         <EditText
             android:id="@+id/display_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
+            android:layout_marginEnd="@dimen/modal_margin_end"
+            android:layout_marginStart="@dimen/modal_margin_start"
+            android:layout_marginTop="5dp"
             android:hint="@string/hint_register_display_name"
-            android:inputType="textCapWords" />
+            android:inputType="textCapWords"
+            android:textSize="@dimen/text_size_modal_body"
+            android:theme="@style/Input" />
 
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
+            android:layout_marginEnd="@dimen/modal_margin_end"
+            android:layout_marginStart="@dimen/modal_margin_start"
+            android:layout_marginTop="1dp"
             android:hint="@string/email_hint"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textSize="@dimen/text_size_modal_body"
+            android:theme="@style/Input" />
 
         <EditText
             android:id="@+id/email_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
+            android:layout_marginEnd="@dimen/modal_margin_end"
+            android:layout_marginStart="@dimen/modal_margin_start"
+            android:layout_marginTop="1dp"
             android:hint="@string/email_confirm_hint"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:textSize="@dimen/text_size_modal_body"
+            android:theme="@style/Input" />
 
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
+            android:layout_marginEnd="@dimen/modal_margin_end"
+            android:layout_marginStart="@dimen/modal_margin_start"
+            android:layout_marginTop="1dp"
             android:hint="@string/password_hint"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textSize="@dimen/text_size_modal_body"
+            android:theme="@style/Input" />
 
         <EditText
             android:id="@+id/password_confirm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:ems="10"
+            android:layout_marginEnd="@dimen/modal_margin_end"
+            android:layout_marginStart="@dimen/modal_margin_start"
+            android:layout_marginTop="1dp"
             android:hint="@string/password_confirm_hint"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textSize="@dimen/text_size_modal_body"
+            android:theme="@style/Input" />
 
     </LinearLayout>
 
