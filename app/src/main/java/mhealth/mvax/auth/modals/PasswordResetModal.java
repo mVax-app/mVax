@@ -49,7 +49,6 @@ public class PasswordResetModal extends CustomModal {
     @Override
     public void createAndShow() {
         mDialog = new AlertDialog.Builder(mContext)
-                .setTitle(R.string.password_reset_modal_title)
                 .setView(mInflater.inflate(R.layout.modal_password_reset, mParent, false))
                 .setPositiveButton(R.string.submit, null)
                 .setNegativeButton(R.string.cancel, null)

@@ -58,7 +58,6 @@ public class RequestAccountModal extends CustomModal {
     @Override
     public void createAndShow() {
         mDialog = new AlertDialog.Builder(mContext)
-                .setTitle(getString(R.string.register_modal_title))
                 .setView(mInflater.inflate(R.layout.modal_request_account, mParent, false))
                 .setPositiveButton(getString(R.string.submit), null)
                 .setNegativeButton(getString(R.string.cancel), null)

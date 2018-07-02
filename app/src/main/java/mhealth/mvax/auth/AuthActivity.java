@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,7 +32,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,8 +41,6 @@ import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-
-import java.util.Locale;
 
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
@@ -66,7 +64,7 @@ public class AuthActivity extends Activity {
     private ProgressBar mSpinner;
     private int mScreenWidth;
 
-    private static boolean BYPASS_LOGIN = true;
+    private static boolean BYPASS_LOGIN = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,7 +204,7 @@ public class AuthActivity extends Activity {
         final int out = goOffscreen ? 1 : 0;
 
         // move email and password fields
-        final LinearLayout inputs = findViewById(R.id.auth_inputs);
+        final ConstraintLayout inputs = findViewById(R.id.auth_inputs);
         final ObjectAnimator animInputs = ObjectAnimator.ofFloat(inputs,
                 View.TRANSLATION_X, -1 * mScreenWidth * in, -1 * mScreenWidth * out);
         animInputs.setDuration(speed).start();
