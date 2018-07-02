@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp"
-    android:weightSum="1"
-    tools:context=".settings.SettingsFragmentOld">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/dob"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="@dimen/modal_margin_end"
+        android:layout_marginStart="@dimen/modal_margin_start"
+        android:layout_marginTop="@dimen/modal_margin_top"
+        android:fontFamily="@font/avenir_medium"
         android:text="@string/role_info_desc"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_size_modal_body"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -43,7 +43,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Locale;
 
 import mhealth.mvax.R;
-import mhealth.mvax.activities.MainActivity;
+import mhealth.mvax.main.MainActivity;
 import mhealth.mvax.auth.UserRequestsFragment;
 import mhealth.mvax.auth.ManageUsersFragment;
 import mhealth.mvax.auth.modals.ChangeEmailModal;
@@ -52,6 +52,9 @@ import mhealth.mvax.model.user.User;
 import mhealth.mvax.utilities.modals.LoadingModal;
 
 /**
+ * @author Robert Steilberg
+ * <p>
+ * Fragment for application settings
  */
 public class SettingsFragment extends Fragment {
 
@@ -59,6 +62,8 @@ public class SettingsFragment extends Fragment {
     private LayoutInflater mInflater;
     private ViewGroup mParent;
     private LoadingModal mLoadingModal;
+
+    private static boolean GENERATE_DATA = false;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
@@ -72,7 +77,7 @@ public class SettingsFragment extends Fragment {
 
         mLoadingModal = new LoadingModal(mView);
         mLoadingModal.createAndShow();
-        initAboutButton(false);
+        initAboutButton(GENERATE_DATA);
         initLanguageSwitch();
         downloadCurrentUser();
 
@@ -183,8 +188,6 @@ public class SettingsFragment extends Fragment {
     private void initManageUsersButton() {
         TextView approveUsers = mView.findViewById(R.id.admin_priv_manage_users);
         approveUsers.setOnClickListener(v -> {
-
-
             ManageUsersFragment manageUsersFragment = ManageUsersFragment.newInstance();
             FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
             transaction.replace(R.id.frame, manageUsersFragment);

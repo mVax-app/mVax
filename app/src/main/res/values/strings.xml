@@ -243,7 +243,7 @@
     <string name="user_settings">User settings</string>
 
     <!-- Settings/user settings/update email-->
-    <string name="update_email">Update email</string>
+    <string name="update_email">Change email</string>
     <string name="change_email_modal_title">Change email</string>
     <string name="change_email_modal_subtitle">Enter the new email to be associated with your mVax account and tap Submit.</string>
     <string name="change_email_modal_hint">new email</string>

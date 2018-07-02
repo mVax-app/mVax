@@ -28,6 +28,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import mhealth.mvax.R;
 import mhealth.mvax.model.user.User;
@@ -51,6 +53,7 @@ public class UserRequestsFragment extends Fragment {
     private DatabaseReference mRequestsRef;
     private ChildEventListener mListener;
     private TextView mNoRequestsTextView;
+    private ProgressBar mSpinner;
 
     public static UserRequestsFragment newInstance() {
         return new UserRequestsFragment();
@@ -58,7 +61,8 @@ public class UserRequestsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_approve_users, container, false);
+        final View view = inflater.inflate(R.layout.fragment_user_requests, container, false);
+        mSpinner = view.findViewById(R.id.spinner);
 
         initDatabase();
 
@@ -87,16 +91,16 @@ public class UserRequestsFragment extends Fragment {
         mListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
+                mSpinner.setVisibility(View.GONE);
+                mNoRequestsTextView.setVisibility(View.INVISIBLE);
                 User request = dataSnapshot.getValue(User.class);
                 mAdapter.addRequest(request);
-                mNoRequestsTextView.setVisibility(View.GONE);
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
                 User request = dataSnapshot.getValue(User.class);
                 mAdapter.updateRequest(request);
-                mNoRequestsTextView.setVisibility(View.GONE);
             }
 
             @Override
@@ -108,7 +112,7 @@ public class UserRequestsFragment extends Fragment {
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, String s) {
-                // this should never happen
+                // should never happen
             }
 
             @Override
@@ -116,6 +120,22 @@ public class UserRequestsFragment extends Fragment {
                 Toast.makeText(getActivity(), R.string.user_request_download_fail, Toast.LENGTH_SHORT).show();
             }
         };
+
+        mRequestsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() == 0) {
+                    mSpinner.setVisibility(View.GONE);
+                    mNoRequestsTextView.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         mRequestsRef.addChildEventListener(mListener);
     }
 

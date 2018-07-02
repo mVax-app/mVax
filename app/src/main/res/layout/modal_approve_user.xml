@@ -9,7 +9,7 @@
     android:paddingRight="10dp"
     android:paddingTop="10dp"
     android:weightSum="1"
-    tools:context=".activities.MainActivity">
+    tools:context=".main.MainActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

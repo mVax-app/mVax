@@ -51,7 +51,6 @@ public class DeleteUserModal extends CustomModal {
     @Override
     public void createAndShow() {
         mDialog = new AlertDialog.Builder(mContext)
-                .setTitle(R.string.delete_user_modal_title)
                 .setView(mInflater.inflate(R.layout.modal_delete_user, mParent, false))
                 .setPositiveButton(R.string.confirm, null)
                 .setNegativeButton(R.string.cancel, null)

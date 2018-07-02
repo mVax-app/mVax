@@ -28,36 +28,32 @@
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/modal_margin_start"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/modal_margin_end"
+            android:layout_marginStart="@dimen/modal_margin_start"
             android:layout_marginTop="5dp"
-            android:layout_weight="2.5"
-            android:ems="30"
-            android:fontFamily="@font/avenir_medium"
             android:hint="@string/change_email_modal_hint"
-            android:textSize="@dimen/text_size_modal_body"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textSize="@dimen/text_size_modal_body"
+            android:theme="@style/Input" />
 
         <EditText
             android:id="@+id/email_confirm"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/modal_margin_start"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/modal_margin_end"
+            android:layout_marginStart="@dimen/modal_margin_start"
             android:layout_marginTop="1dp"
-            android:layout_weight="2.5"
-            android:ems="30"
-            android:fontFamily="@font/avenir_medium"
             android:hint="@string/change_email_modal_hint_confirm"
-            android:textSize="@dimen/text_size_modal_body"
-            android:imeOptions="actionNext"
+            android:imeOptions="actionDone"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textSize="@dimen/text_size_modal_body"
+            android:theme="@style/Input" />
 
     </LinearLayout>
 

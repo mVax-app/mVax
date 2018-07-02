@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="10dp"
     android:orientation="vertical"
-    tools:context="mhealth.mvax.activities.MainActivity">
+    tools:context="mhealth.mvax.main.MainActivity">
 
     <TextView
         android:id="@+id/title"

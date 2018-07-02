@@ -52,7 +52,6 @@ public class ChangeRoleModal extends CustomModal {
     @Override
     public void createAndShow() {
         mDialog = new AlertDialog.Builder(mContext)
-                .setTitle(R.string.change_role_modal_title)
                 .setView(mInflater.inflate(R.layout.modal_change_role, mParent, false))
                 .setPositiveButton(R.string.submit, null)
                 .setNegativeButton(R.string.cancel, null)

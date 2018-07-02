@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp"
-    android:weightSum="1"
-    tools:context="mhealth.mvax.auth.AuthActivity">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/change_role_modal_subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="14dp"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginEnd="@dimen/modal_margin_end"
+        android:layout_marginStart="@dimen/modal_margin_start"
+        android:layout_marginTop="@dimen/modal_margin_top"
+        android:fontFamily="@font/avenir_medium"
         android:text="@string/change_role_modal_subtitle"
+        android:textColor="@color/dukeBlue"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -30,8 +25,8 @@
         android:id="@+id/role_radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginEnd="@dimen/modal_margin_end"
+        android:layout_marginStart="@dimen/modal_margin_start"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,6 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:buttonTint="@color/dukeBlue"
+            android:fontFamily="@font/avenir_medium"
             android:text="@string/admin_enum"
             android:textSize="18sp" />
 
@@ -50,6 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:buttonTint="@color/dukeBlue"
+            android:fontFamily="@font/avenir_medium"
             android:text="@string/user_enum"
             android:textSize="18sp" />
 

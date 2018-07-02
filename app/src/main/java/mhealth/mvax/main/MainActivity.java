@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.activities;
+package mhealth.mvax.main;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -75,6 +75,7 @@ public class MainActivity extends Activity {
     public void onSaveInstanceState(Bundle outState) {
         outState.putString("langCode", mCurrentLanguage);
         outState.putInt("mCurrentTab", mCurrentTab);
+        super.onSaveInstanceState(outState);
     }
 
     public void setLanguage(String langCode) {

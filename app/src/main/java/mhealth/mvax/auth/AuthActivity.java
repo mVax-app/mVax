@@ -43,7 +43,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 
 import mhealth.mvax.R;
-import mhealth.mvax.activities.MainActivity;
+import mhealth.mvax.main.MainActivity;
 import mhealth.mvax.auth.modals.PasswordResetModal;
 import mhealth.mvax.auth.modals.RequestAccountModal;
 
@@ -64,7 +64,7 @@ public class AuthActivity extends Activity {
     private ProgressBar mSpinner;
     private int mScreenWidth;
 
-    private static boolean BYPASS_LOGIN = false;
+    private static boolean BYPASS_LOGIN = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

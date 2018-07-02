@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_medium"
             android:textColor="@color/dukeBlue"
-            android:textSize="@dimen/text_size_body" />
+            android:textSize="@dimen/text_size_body"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/user_email"
@@ -105,7 +106,7 @@
         <Button
             android:id="@+id/change_role_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:background="@drawable/button"
             android:fontFamily="@font/avenir_medium"
             android:minHeight="0dp"
@@ -118,7 +119,7 @@
         <Button
             android:id="@+id/delete_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/button"
             android:fontFamily="@font/avenir_medium"
