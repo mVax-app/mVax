@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:layout_marginEnd="5dp"
-    android:layout_marginStart="5dp"
-    android:layout_marginTop="5dp"
+    android:background="@color/base"
     android:orientation="horizontal">
 
     <LinearLayout
         android:id="@+id/info"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="@dimen/page_margin_start"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,66 +21,81 @@
 
         <TextView
             android:id="@+id/user_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/avenir_medium"
+            android:textColor="@color/dukeBlue"
+            android:textSize="@dimen/text_size_body" />
 
         <TextView
             android:id="@+id/user_email"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp" />
+            android:layout_marginTop="1dp"
+            android:fontFamily="@font/avenir_medium"
+            android:textColor="@color/darkGray"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/role_management"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="32dp"
-        android:gravity="end"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/buttons"
+        app:layout_constraintEnd_toStartOf="@+id/buttons"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/role"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
+            android:fontFamily="@font/avenir_medium"
             android:text="@string/role"
-            android:textSize="22sp" />
+            android:textColor="@color/darkGray"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/info_button"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
-            android:backgroundTint="@color/teal"
+            android:layout_marginBottom="3dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="@color/lightBlue"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/ic_info" />
+            android:src="@drawable/ic_info"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/user_role"
+            app:layout_constraintStart_toEndOf="@+id/role"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/user_role"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/avenir_heavy"
+            android:textColor="@color/darkGray"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/buttons"
-        android:layout_width="180dp"
+        android:layout_width="@dimen/approve_manage_users_button_width"
         android:layout_height="match_parent"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="@dimen/page_margin_end"
+        android:layout_marginTop="5dp"
         android:gravity="end"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -93,20 +106,29 @@
             android:id="@+id/change_role_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:background="@drawable/button"
+            android:fontFamily="@font/avenir_medium"
             android:minHeight="0dp"
             android:minWidth="0dp"
             android:text="@string/change_role"
-            android:textSize="20sp" />
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_button" />
 
         <Button
             android:id="@+id/delete_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button"
+            android:fontFamily="@font/avenir_medium"
             android:minHeight="0dp"
             android:minWidth="0dp"
             android:text="@string/delete_user"
-            android:textSize="20sp" />
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_button"
+            app:layout_constraintTop_toBottomOf="@+id/change_role_button" />
 
     </LinearLayout>
 

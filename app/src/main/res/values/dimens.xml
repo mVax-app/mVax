@@ -19,6 +19,11 @@
     <dimen name="page_margin_start_body">70dp</dimen>
     <dimen name="page_margin_end">35dp</dimen>
 
+    <dimen name="modal_margin_start">30dp</dimen>
+    <dimen name="modal_margin_end">30dp</dimen>
+    <dimen name="modal_margin_top">30dp</dimen>
+
     <dimen name="button_width">220dp</dimen>
+    <dimen name="approve_manage_users_button_width">150dp</dimen>
 
 </resources>

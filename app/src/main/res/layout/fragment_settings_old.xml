@@ -208,7 +208,7 @@
                 android:textAllCaps="false"
                 android:layout_marginTop="8dp"
                 android:gravity="start|center_vertical"
-                android:text="@string/current_users"
+                android:text="@string/manage_users"
                 android:textSize="25sp" />
 
 

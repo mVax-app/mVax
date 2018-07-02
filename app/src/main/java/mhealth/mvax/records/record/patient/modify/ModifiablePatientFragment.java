@@ -95,7 +95,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
 
     protected void initSaveButton(Button button) {
         button.setVisibility(View.VISIBLE);
-        button.setBackgroundResource(R.drawable.button_save);
+        button.setBackgroundResource(R.drawable.button_save_old);
         button.setText(R.string.save_record_button);
         button.setOnClickListener(v -> saveRecord());
     }
