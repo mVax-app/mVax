@@ -122,7 +122,7 @@ public class EditPatientFragment extends ModifiablePatientFragment {
 
     private void initDeleteButton(Button deleteButton) {
         deleteButton.setVisibility(View.VISIBLE);
-        deleteButton.setBackgroundResource(R.drawable.button_delete);
+        deleteButton.setBackgroundResource(R.drawable.button_delete_old);
         deleteButton.setText(R.string.delete_record_button);
         deleteButton.setOnClickListener(view -> promptForRecordDelete());
     }

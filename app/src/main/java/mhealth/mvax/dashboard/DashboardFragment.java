@@ -69,7 +69,7 @@ public class DashboardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        View view = inflater.inflate(R.layout.fragment_stats, container, false);
 
         // uncomment the below line to populate database with dummy data
         // NOTE: recommend you clear out the database beforehand
