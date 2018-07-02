@@ -1,153 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/base">
 
-    <TextView
-        android:id="@+id/auth_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="180dp"
-        android:focusable="true"
-        android:textStyle="bold"
-        android:fontFamily="@font/avenir_heavy"
-        android:text="@string/auth_login"
-        android:textAlignment="center"
-        android:textColor="@color/dukeBlue"
-        android:textSize="@dimen/text_size_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/auth_inputs"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="70dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/auth_title">
+        android:background="@color/base">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/email_input"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/auth_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:theme="@style/AuthInput"
+            android:layout_marginTop="180dp"
+            android:focusable="true"
+            android:fontFamily="@font/avenir_heavy"
+            android:text="@string/auth_login"
+            android:textAlignment="center"
+            android:textColor="@color/dukeBlue"
+            android:textSize="@dimen/text_size_title"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <AutoCompleteTextView
-                android:id="@+id/email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/avenir_medium"
-                android:hint="@string/email_hint"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textSize="@dimen/text_size_body" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/password_input"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/auth_inputs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:theme="@style/AuthInput"
+            android:layout_marginEnd="70dp"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="50dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email_input">
+            app:layout_constraintTop_toBottomOf="@+id/auth_title">
 
-            <EditText
-                android:id="@+id/password"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/avenir_medium"
-                android:hint="@string/password_hint"
-                android:imeActionLabel="@string/action_sign_in_short"
-                android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textSize="@dimen/text_size_body" />
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:theme="@style/AuthInput"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        </android.support.design.widget.TextInputLayout>
+                <AutoCompleteTextView
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenir_medium"
+                    android:hint="@string/email_hint"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_body" />
 
-        <!-- @Rob, see if you can change textPassword font without inhibiting password security, tenks <3 Linh -->
-        <!--https://stackoverflow.com/questions/3406534/password-hint-font-in-android-->
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/password_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:theme="@style/AuthInput"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email_input">
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenir_medium"
+                    android:hint="@string/password_hint"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textSize="@dimen/text_size_body" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!-- @Rob, see if you can change textPassword font without inhibiting password security, tenks <3 Linh -->
+            <!--https://stackoverflow.com/questions/3406534/password-hint-font-in-android-->
+
+        </android.support.constraint.ConstraintLayout>
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="70dp"
+            android:background="@drawable/button"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/login_button"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/auth_inputs" />
+
+        <TextView
+            android:id="@+id/forgot_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/forgot_password"
+            android:textAlignment="center"
+            android:textColor="@color/dukeBlue"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/login_button" />
+
+        <TextView
+            android:id="@+id/register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/register"
+            android:textAlignment="center"
+            android:textColor="@color/dukeBlue"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/forgot_password" />
+
+        <ProgressBar
+            android:id="@+id/spinner"
+            style="@android:style/Widget.DeviceDefault.ProgressBar.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="@dimen/button_width"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="70dp"
-        android:background="@drawable/button"
-        android:fontFamily="@font/avenir_medium"
-        android:text="@string/login_button"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/auth_inputs" />
-
-    <TextView
-        android:id="@+id/forgot_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:fontFamily="@font/avenir_medium"
-        android:text="@string/forgot_password"
-        android:textAlignment="center"
-        android:textColor="@color/dukeBlue"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_button" />
-
-    <TextView
-        android:id="@+id/register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:fontFamily="@font/avenir_medium"
-        android:text="@string/register"
-        android:textAlignment="center"
-        android:textColor="@color/dukeBlue"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/forgot_password" />
-
-    <ProgressBar
-        android:id="@+id/spinner"
-        style="@android:style/Widget.DeviceDefault.ProgressBar.Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</android.support.constraint.ConstraintLayout>
+</ScrollView>

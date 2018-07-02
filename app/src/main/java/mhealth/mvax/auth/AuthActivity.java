@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,7 +32,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,8 +41,6 @@ import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-
-import java.util.Locale;
 
 import mhealth.mvax.R;
 import mhealth.mvax.activities.MainActivity;
@@ -75,14 +73,14 @@ public class AuthActivity extends Activity {
 
         mAuth = FirebaseAuth.getInstance();
 
-//        mEmailView = findViewById(R.id.email);
-//        mPasswordView = findViewById(R.id.password);
-//        mSpinner = findViewById(R.id.spinner);
-//        mScreenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+        mEmailView = findViewById(R.id.email);
+        mPasswordView = findViewById(R.id.password);
+        mSpinner = findViewById(R.id.spinner);
+        mScreenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-//        initTextFields();
-//        initButtons();
-//        mSpinner.setX(mScreenWidth); // spinner rendered off screen
+        initTextFields();
+        initButtons();
+        mSpinner.setX(mScreenWidth); // spinner rendered off screen
 
         if (BYPASS_LOGIN) {
             mAuth.signInWithEmailAndPassword("devadmin@mvax.com", "devadmin1")
@@ -97,9 +95,9 @@ public class AuthActivity extends Activity {
     public void onResume() {
         super.onResume();
         // clear out any existing auth infoButton
-//        FirebaseAuth.getInstance().signOut();
+        FirebaseAuth.getInstance().signOut();
         // ensure auth text fields are visible
-//        animateTextInputs(ANIMATION_SPEED_INSTANT, false);
+        animateTextInputs(ANIMATION_SPEED_INSTANT, false);
     }
 
     private void initTextFields() {
@@ -139,14 +137,14 @@ public class AuthActivity extends Activity {
     }
 
     private void initButtons() {
-//        final Button signInButton = findViewById(R.id.login_button);
-//        signInButton.setOnClickListener(v -> authenticate());
-//
-//        final TextView registerButton = findViewById(R.id.register);
-//        registerButton.setOnClickListener(v -> new RequestAccountModal(v).createAndShow());
-//
-//        final TextView forgotButton = findViewById(R.id.forgot_password);
-//        forgotButton.setOnClickListener(v -> new PasswordResetModal(v).createAndShow());
+        final Button signInButton = findViewById(R.id.login_button);
+        signInButton.setOnClickListener(v -> authenticate());
+
+        final TextView registerButton = findViewById(R.id.register);
+        registerButton.setOnClickListener(v -> new RequestAccountModal(v).createAndShow());
+
+        final TextView forgotButton = findViewById(R.id.forgot_password);
+        forgotButton.setOnClickListener(v -> new PasswordResetModal(v).createAndShow());
     }
 
     private void authenticate() {
@@ -206,7 +204,7 @@ public class AuthActivity extends Activity {
         final int out = goOffscreen ? 1 : 0;
 
         // move email and password fields
-        final LinearLayout inputs = findViewById(R.id.auth_inputs);
+        final ConstraintLayout inputs = findViewById(R.id.auth_inputs);
         final ObjectAnimator animInputs = ObjectAnimator.ofFloat(inputs,
                 View.TRANSLATION_X, -1 * mScreenWidth * in, -1 * mScreenWidth * out);
         animInputs.setDuration(speed).start();
