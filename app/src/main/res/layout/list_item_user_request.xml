@@ -3,19 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:layout_marginEnd="5dp"
-    android:layout_marginStart="5dp"
-    android:layout_marginTop="5dp"
+    android:background="@color/base"
     android:orientation="horizontal">
 
     <LinearLayout
         android:id="@+id/info"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="@dimen/page_margin_start"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,93 +20,97 @@
 
         <TextView
             android:id="@+id/user_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:fontFamily="@font/avenir_medium"
+            android:textColor="@color/dukeBlue"
+            android:textSize="@dimen/text_size_body" />
 
         <TextView
             android:id="@+id/user_email"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="24sp" />
+            android:layout_marginTop="1dp"
+            android:fontFamily="@font/avenir_medium"
+            android:textColor="@color/darkGray"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/role_management"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
+        android:layout_marginEnd="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttons"
         app:layout_constraintTop_toTopOf="parent">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/role"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
+                android:fontFamily="@font/avenir_medium"
                 android:text="@string/role"
-                android:textSize="22sp" />
+                android:textColor="@color/darkGray"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/info_button"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="start|center"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/teal"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_info"
-                app:layout_constraintBottom_toBottomOf="@+id/role"
-                app:layout_constraintStart_toEndOf="@+id/role"
-                app:layout_constraintTop_toTopOf="@+id/role" />
+        <ImageView
+            android:id="@+id/info_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="3dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="@color/lightBlue"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_info"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/role_radio_group"
+            app:layout_constraintStart_toEndOf="@+id/role"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        </android.support.constraint.ConstraintLayout>
+            <RadioGroup
+                android:id="@+id/role_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <RadioGroup
-            android:id="@+id/role_radio_group"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                <RadioButton
+                    android:id="@+id/admin_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenir_medium"
+                    android:text="@string/admin_enum"
+                    android:textColor="@color/darkGray"
+                    android:textSize="16sp" />
 
-            <RadioButton
-                android:id="@+id/admin_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/admin_enum"
-                android:textSize="18sp" />
+                <RadioButton
+                    android:id="@+id/reader_radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/avenir_medium"
+                    android:text="@string/user_enum"
+                    android:textColor="@color/darkGray"
+                    android:textSize="16sp" />
+            </RadioGroup>
 
-            <RadioButton
-                android:id="@+id/reader_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/user_enum"
-                android:textSize="18sp" />
-        </RadioGroup>
+    </android.support.constraint.ConstraintLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/buttons"
-        android:layout_width="180dp"
+        android:layout_width="@dimen/approve_manage_users_button_width"
         android:layout_height="match_parent"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="@dimen/page_margin_end"
+        android:layout_marginTop="5dp"
         android:gravity="end"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -120,22 +121,30 @@
             android:id="@+id/approve_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_approve"
+            android:background="@drawable/button_save"
+            android:fontFamily="@font/avenir_medium"
             android:minHeight="0dp"
             android:minWidth="0dp"
             android:text="@string/approve_user"
-            android:textSize="20sp" />
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_button" />
 
         <Button
             android:id="@+id/deny_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_deny"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_delete"
+            android:fontFamily="@font/avenir_medium"
             android:minHeight="0dp"
             android:minWidth="0dp"
             android:text="@string/deny_user"
-            android:textSize="20sp" />
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_button"
+            app:layout_constraintTop_toBottomOf="@+id/approve_button" />
 
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

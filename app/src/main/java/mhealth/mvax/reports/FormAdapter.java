@@ -114,7 +114,7 @@ public class FormAdapter extends BaseExpandableListAdapter {
         int numPatientDetails = getGroup(groupPosition).getNumPatientDetails();
         if (childPosition < numPatientDetails) { // patient info
             int dukeBlue = ContextCompat.getColor(convertView.getContext(), R.color.dukeBlue);
-            int gray = ContextCompat.getColor(convertView.getContext(), R.color.gray);
+            int gray = ContextCompat.getColor(convertView.getContext(), R.color.lightGray);
 
             label.setTextColor(dukeBlue);
             label.setTypeface(avenirMedium);
