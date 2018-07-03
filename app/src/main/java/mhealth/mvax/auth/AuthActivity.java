@@ -42,10 +42,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 
+import java.util.Locale;
+
 import mhealth.mvax.R;
 import mhealth.mvax.main.MainActivity;
 import mhealth.mvax.auth.modals.PasswordResetModal;
 import mhealth.mvax.auth.modals.RequestAccountModal;
+import mhealth.mvax.utilities.LanguageChanger;
 
 /**
  * @author Matthew Tribby, Steven Yang, Robert Steilberg
@@ -69,6 +72,17 @@ public class AuthActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initViews();
+        if (BYPASS_LOGIN) {
+            mAuth.signInWithEmailAndPassword("devadmin@mvax.com", "devadmin1")
+                    .addOnCompleteListener(task -> {
+                        Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(mainIntent);
+                    });
+        }
+    }
+
+    private void initViews() {
         setContentView(R.layout.activity_auth);
 
         mAuth = FirebaseAuth.getInstance();
@@ -81,23 +95,18 @@ public class AuthActivity extends Activity {
         initTextFields();
         initButtons();
         mSpinner.setX(mScreenWidth); // spinner rendered off screen
-
-        if (BYPASS_LOGIN) {
-            mAuth.signInWithEmailAndPassword("devadmin@mvax.com", "devadmin1")
-                    .addOnCompleteListener(task -> {
-                        Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(mainIntent);
-                    });
-        }
     }
 
     @Override
     public void onResume() {
-        super.onResume();
+        LanguageChanger.changeLanguage(Locale.getDefault().getLanguage(), getResources());
+        initViews();
+
         // clear out any existing auth infoButton
         FirebaseAuth.getInstance().signOut();
         // ensure auth text fields are visible
         animateTextInputs(ANIMATION_SPEED_INSTANT, false);
+        super.onResume();
     }
 
     private void initTextFields() {

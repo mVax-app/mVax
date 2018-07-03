@@ -22,6 +22,7 @@ package mhealth.mvax.main;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 
@@ -69,6 +70,12 @@ public class MainActivity extends Activity {
             transaction.replace(R.id.frame, chosenTab);
             transaction.commit();
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        LanguageChanger.changeLanguage(mCurrentLanguage, getResources());
+        super.onConfigurationChanged(newConfig);
     }
 
     @Override
