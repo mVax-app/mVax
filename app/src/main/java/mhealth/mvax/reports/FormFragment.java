@@ -20,8 +20,10 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.reports;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +40,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import org.joda.time.LocalDate;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +65,7 @@ import mhealth.mvax.utilities.modals.LoadingModal;
  * <p>
  * Fragment for exporting and visualizing data
  */
-public class FormFragment extends Fragment {
+public class FormFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
     private View mView;
     private ProgressBar mSpinner;
@@ -112,6 +118,14 @@ public class FormFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    public void onResume() {
+        DatePickerDialog datePicker = (DatePickerDialog) getFragmentManager().findFragmentByTag("reportDatePicker");
+        if (datePicker != null) datePicker.setOnDateSetListener(this);
+
+        super.onResume();
+    }
+
     private void downloadVaccines() {
         mLoadingModal.createAndShow();
         final String masterTable = getResources().getString(R.string.data_table);
@@ -151,15 +165,25 @@ public class FormFragment extends Fragment {
     }
 
     private void promptForDate() {
-        final TypeRunnable<Long> positiveAction = date -> {
-            mPatients.clear(); // clear out old results
-            mView.findViewById(R.id.no_vaccinations).setVisibility(View.INVISIBLE);
-            setReportDate(NullableDateFormat.getString(date));
-            mSpinner.setVisibility(View.VISIBLE);
-            downloadVaccinations(date);
-        };
-        final ReportDateModal dateModal = new ReportDateModal(positiveAction, mView);
-        dateModal.createAndShow();
+        Calendar cal = Calendar.getInstance();
+        DatePickerDialog datePicker = DatePickerDialog.newInstance(
+                FormFragment.this,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH));
+        int dukeBlue = ContextCompat.getColor(getContext(), R.color.dukeBlue);
+        datePicker.setAccentColor(dukeBlue);
+        datePicker.show(getFragmentManager(), "reportDatePicker");
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int month, int day) {
+        mPatients.clear(); // clear out old results
+        mView.findViewById(R.id.no_vaccinations).setVisibility(View.INVISIBLE);
+        final long date = new LocalDate(year, month + 1, day).toDate().getTime();
+        setReportDate(NullableDateFormat.getString(date));
+        mSpinner.setVisibility(View.VISIBLE);
+        downloadVaccinations(date);
     }
 
     private void setReportDate(String date) {
@@ -285,5 +309,4 @@ public class FormFragment extends Fragment {
         final ExpandableListView queryResults = mView.findViewById(R.id.report_results);
         queryResults.setAdapter(new FormAdapter(mPatients));
     }
-
 }

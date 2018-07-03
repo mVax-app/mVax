@@ -166,7 +166,7 @@
     <string name="ok">OK</string>
     <string name="no_vaccinations">No vaccinations found</string>
 
-    <string name="sinova_1_modal_title">Choose a date to generate SINOVA 1 report</string>
+    <string name="reports_subtitle">Choose a date to generate SINOVA report</string>
     <string name="sinova_2_modal_title">Choose a date to generate SINOVA 2 report</string>
 
     <!-- Reports/file paths-->
