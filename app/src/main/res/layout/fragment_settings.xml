@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/base">
+    android:background="@color/base"
+    android:overScrollMode="never">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -140,13 +141,13 @@
             android:layout_marginTop="20dp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_settings_password" >
+            app:layout_constraintTop_toBottomOf="@+id/user_settings_password">
 
             <TextView
                 android:id="@+id/admin_priv_title"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="@dimen/page_margin_start"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/page_margin_start"
                 android:fontFamily="@font/avenir_medium"
                 android:text="@string/admin_priv"
                 android:textAlignment="center"

@@ -10,7 +10,7 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/alerts_icon_title"
         android:textSize="48sp"
-        android:textColor="@color/teal"
+        android:textColor="@color/dukeBlue"
         android:textStyle="bold"
         android:layout_marginBottom="10dp"/>
 

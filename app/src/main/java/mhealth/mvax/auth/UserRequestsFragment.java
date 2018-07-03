@@ -73,7 +73,6 @@ public class UserRequestsFragment extends Fragment {
         userRequestList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mAdapter = new UserRequestsAdapter();
         userRequestList.setAdapter(mAdapter);
-        userRequestList.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
 
         return view;
     }

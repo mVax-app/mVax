@@ -115,7 +115,6 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
         RecyclerView vaccineList = mView.findViewById(R.id.vaccine_list);
         vaccineList.setHasFixedSize(true);
         vaccineList.setLayoutManager(new LinearLayoutManager(getContext()));
-        vaccineList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         vaccineList.setAdapter(mAdapter);
 
     }

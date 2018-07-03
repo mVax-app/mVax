@@ -138,7 +138,6 @@ public class SearchFragment extends Fragment {
         final RecyclerView usersList = mView.findViewById(R.id.search_results);
         usersList.setHasFixedSize(true);
         usersList.setLayoutManager(new LinearLayoutManager(getContext()));
-        usersList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         mAdapter = new SearchResultAdapter(getActivity());
         usersList.setAdapter(mAdapter);
     }
