@@ -87,8 +87,8 @@ public class FormFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_reports, container, false);
         mSpinner = mView.findViewById(R.id.spinner);
         mSinova1Button = mView.findViewById(R.id.sinova_1);
+        mSinova1Button.setOnClickListener(v -> promptForDate());
         mSinova2Button = mView.findViewById(R.id.sinova_2);
-        mSinova2Button.setOnClickListener(v -> promptForDate());
         mLoadingModal = new LoadingModal(mView);
 
         if (savedInstanceState != null) {
@@ -142,16 +142,12 @@ public class FormFragment extends Fragment {
 
     private void enableButtons() {
         mSinova1Button.setEnabled(true);
-        mSinova1Button.setBackgroundResource(R.drawable.button);
         mSinova2Button.setEnabled(true);
-        mSinova2Button.setBackgroundResource(R.drawable.button);
     }
 
     private void disableButtons() {
         mSinova1Button.setEnabled(false);
-        mSinova1Button.setBackgroundResource(R.drawable.button_disabled);
         mSinova2Button.setEnabled(false);
-        mSinova2Button.setBackgroundResource(R.drawable.button_disabled);
     }
 
     private void promptForDate() {
@@ -162,7 +158,7 @@ public class FormFragment extends Fragment {
             mSpinner.setVisibility(View.VISIBLE);
             downloadVaccinations(date);
         };
-        final VaccinationDateModal dateModal = new VaccinationDateModal(positiveAction, mView);
+        final ReportDateModal dateModal = new ReportDateModal(positiveAction, mView);
         dateModal.createAndShow();
     }
 

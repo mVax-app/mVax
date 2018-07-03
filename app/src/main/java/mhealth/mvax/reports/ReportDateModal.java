@@ -20,7 +20,6 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.reports;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.View;
 import android.widget.DatePicker;
 
@@ -35,23 +34,22 @@ import mhealth.mvax.utilities.modals.CustomModal;
  * <p>
  * Modal for selecting a date via a DatePicker
  */
-public class VaccinationDateModal extends CustomModal {
+public class ReportDateModal extends CustomModal {
 
     private TypeRunnable<Long> mPositiveAction;
 
-    public VaccinationDateModal(TypeRunnable<Long> positiveAction, View view) {
+    public ReportDateModal(TypeRunnable<Long> positiveAction, View view) {
         super(view);
         mPositiveAction = positiveAction;
     }
 
     @Override
     public void createAndShow() {
-        final View view = mInflater.inflate(R.layout.modal_date_picker, mParent, false);
+        final View view = mInflater.inflate(R.layout.modal_report_date_picker, mParent, false);
         final DatePicker datePicker = view.findViewById(R.id.date_picker);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
                 .setView(view)
-                .setTitle(R.string.modal_vaccination_date_title)
                 .setPositiveButton(R.string.modal_date_confirm, (dialog, which) -> {
                     final int day = datePicker.getDayOfMonth();
                     final int month = datePicker.getMonth() + 1;
@@ -61,7 +59,7 @@ public class VaccinationDateModal extends CustomModal {
                 })
                 .setNegativeButton(R.string.modal_cancel, (dialog, which) -> dialog.cancel());
         mDialog = builder.create();
-        mDialog.show();
+        show();
     }
 
 }

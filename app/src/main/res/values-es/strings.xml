@@ -166,6 +166,9 @@
     <string name="ok">OK</string>
     <string name="no_vaccinations">No vaccinations found</string>
 
+    <string name="sinova_1_modal_title">Elegir fecha para generar el informe de SINOVA 1</string>
+    <string name="sinova_2_modal_title">Elegir fecha para generar el informe de SINOVA 2</string>
+
     <!-- Reports/file paths-->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>
     <string name="sinova_2_file_name">SINOVA2.pdf</string>
@@ -227,8 +230,8 @@
     <string name="lang_preference">Preferencias de idioma</string>
 
     <string name="language">Idioma</string>
-    <string name="english">inglés</string>
-    <string name="spanish">español</string>
+    <string name="english">Inglés</string>
+    <string name="spanish">Español</string>
     <string name="spanishCode">es</string>
     <string name="englishCode">en</string>
     <string name="spanishLocaleCode">[es]</string>
