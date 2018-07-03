@@ -98,7 +98,6 @@ public class SettingsFragment extends Fragment {
             } else {
                 langCode = getString(R.string.english_code);
             }
-            Locale.setDefault(new Locale(langCode));
             main.setLanguage(langCode);
             getActivity().recreate();
         });
