@@ -89,7 +89,6 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
         final RecyclerView detailsList = mView.findViewById(R.id.details_list);
         detailsList.setHasFixedSize(true);
         detailsList.setLayoutManager(new LinearLayoutManager(getContext()));
-        detailsList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         detailsList.setAdapter(mAdapter);
     }
 
