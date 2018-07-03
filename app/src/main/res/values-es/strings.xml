@@ -113,8 +113,8 @@
     <string name="label_medical_id">ID de paciente</string>
     <string name="hint_medical_id">número de 13 dígitos</string>
 
-    <string name="label_firstname">Nombre</string>
-    <string name="hint_firstname">nombre</string>
+    <string name="label_first_name">Nombre</string>
+    <string name="hint_first_name">nombre</string>
 
     <string name="label_last_name">Apellidos</string>
     <string name="hint_last_name">apellidos</string>

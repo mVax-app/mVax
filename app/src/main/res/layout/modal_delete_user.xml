@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp"
-    android:weightSum="1"
-    tools:context=".settings.SettingsFragmentOld">
+    android:background="@color/base">
 
     <TextView
-        android:id="@+id/dob"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="14dp"
-        android:layout_marginStart="14dp"
-        android:text="@string/delete_user_modal_subtitle" />
+        android:layout_marginEnd="@dimen/modal_margin_end"
+        android:layout_marginStart="@dimen/modal_margin_start"
+        android:layout_marginTop="@dimen/modal_margin_top"
+        android:fontFamily="@font/avenir_medium"
+        android:text="@string/delete_user_modal_subtitle"
+        android:textColor="@color/dukeBlue"
+        android:textSize="@dimen/text_size_modal_body"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/spinner"

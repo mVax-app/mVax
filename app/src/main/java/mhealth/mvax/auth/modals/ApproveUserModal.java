@@ -53,7 +53,6 @@ public class ApproveUserModal extends CustomModal {
     @Override
     public void createAndShow() {
         mDialog = new AlertDialog.Builder(mContext)
-                .setTitle(R.string.approve_user_modal_title)
                 .setView(mInflater.inflate(R.layout.modal_approve_user, mParent, false))
                 .setPositiveButton(R.string.confirm, null)
                 .setNegativeButton(R.string.cancel, null)
@@ -62,12 +61,12 @@ public class ApproveUserModal extends CustomModal {
         mDialog.setOnShowListener(dialogInterface -> {
             mSpinner = mDialog.findViewById(R.id.spinner);
 
-            final TextView subtitle = mDialog.findViewById(R.id.dob);
+            final TextView title = mDialog.findViewById(R.id.title);
             final String text = String.format(getString(R.string.approve_user_subtitle),
                     mRequest.getDisplayName(),
                     mRequest.getRole().toString());
-            subtitle.setText(text);
-            mViews.add(subtitle);
+            title.setText(text);
+            mViews.add(title);
 
             mViews.add(mDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
 
