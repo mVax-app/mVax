@@ -41,9 +41,10 @@
     <string name="request_submit_success">Solicitud de cuenta ha sido enviada con éxito</string>
 
     <!-- Tabs-->
-    <string name="patients_icon_title">Pacientes</string>
     <string name="patients_tab_title">Pacientes</string>
-    <string name="alerts_icon_title">Notificaciones</string>
+
+    <string name="patients_icon_title">Pacientes</string>
+    <string name="alerts_icon_title">Alertas</string>
     <string name="dashboard_icon_title">Estadísticas</string>
     <string name="reports_icon_title">Informes</string>
     <string name="settings_icon_title">Configuración</string>
