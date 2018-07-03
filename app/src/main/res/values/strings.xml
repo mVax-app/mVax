@@ -83,7 +83,7 @@
     <string name="vaccination_save_fail">Unable to save vaccination</string>
     <string name="date_delete_success">Date deleted</string>
     <string name="date_delete_fail">Unable to date</string>
-    
+
     <!-- Patients/vaccine history/due date-->
     <string name="modal_date_title">Choose a date</string>
     <string name="modal_vaccination_date_title">Choose vaccination date and patients current age</string>
@@ -167,7 +167,6 @@
     <string name="no_vaccinations">No vaccinations found</string>
 
     <string name="reports_subtitle">Choose a date to generate SINOVA report</string>
-    <string name="sinova_2_modal_title">Choose a date to generate SINOVA 2 report</string>
 
     <!-- Reports/file paths-->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>

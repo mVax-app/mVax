@@ -65,7 +65,7 @@
     <string name="tab_title_vaccine_schedule">Vacunas</string>
     <string name="vaccine_tab_title">Historia de vacunas</string>
     <string name="date_format">dd/MM/yyyy</string>
-    <string name="DOB_prompt">Fecha de nacimiento:</string>
+    <string name="DOB_prompt">Fec nac:</string>
     <string name="medical_id_prompt">ID:</string>
     <string name="modal_date_confirm">Confirmar</string>
     <string name="modal_date_neutral">Sin fecha</string>
@@ -166,8 +166,7 @@
     <string name="ok">OK</string>
     <string name="no_vaccinations">No vaccinations found</string>
 
-    <string name="sinova_1_modal_title">Elegir fecha para generar el informe de SINOVA 1</string>
-    <string name="sinova_2_modal_title">Elegir fecha para generar el informe de SINOVA 2</string>
+    <string name="reports_subtitle">Elegir fecha para generar el informe de SINOVA</string>
 
     <!-- Reports/file paths-->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>
