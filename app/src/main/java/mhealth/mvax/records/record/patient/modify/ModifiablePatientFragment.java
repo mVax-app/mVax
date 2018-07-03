@@ -90,7 +90,6 @@ public abstract class ModifiablePatientFragment extends Fragment {
         mAdapter = new ModifyPatientAdapter(mPatient.getDetails());
         detailsList.setAdapter(mAdapter);
         detailsList.setLayoutManager(new LinearLayoutManager(getContext()));
-        detailsList.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
     }
 
     protected void initSaveButton(Button button) {

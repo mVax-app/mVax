@@ -28,6 +28,8 @@
         android:layout_marginStart="@dimen/page_margin_start"
         android:layout_marginTop="5dp"
         android:fontFamily="@font/avenir_medium"
+        android:paddingEnd="35dp"
+        android:paddingStart="35dp"
         android:text="@string/approve_user_instructions"
         android:textAlignment="center"
         android:textColor="@color/darkGray"
@@ -36,24 +38,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="30dp"
-        android:background="@color/darkGray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/instructions" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/user_request_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        app:layout_constraintTop_toBottomOf="@+id/instructions" />
 
     <TextView
         android:id="@+id/no_user_requests"
@@ -67,7 +61,7 @@
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/divider" />
+        app:layout_constraintTop_toTopOf="@+id/user_request_list" />
 
     <ProgressBar
         android:id="@+id/spinner"

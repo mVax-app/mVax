@@ -21,7 +21,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dip"
-        android:background="@color/teal"
+        android:background="@color/dukeBlue"
         app:layout_constraintBottom_toTopOf="@+id/vaccine_list" />
 
     <android.support.v7.widget.RecyclerView
@@ -29,6 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

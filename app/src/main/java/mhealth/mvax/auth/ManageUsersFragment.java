@@ -69,7 +69,6 @@ public class ManageUsersFragment extends Fragment {
         usersList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         mAdapter = new ManageUsersAdapter();
         usersList.setAdapter(mAdapter);
-        usersList.addItemDecoration(new DividerItemDecoration(view.getContext(), LinearLayoutManager.VERTICAL));
 
         return view;
     }
