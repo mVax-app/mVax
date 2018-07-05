@@ -26,4 +26,9 @@
         <item name="colorControlActivated">@color/dukeBlue</item>
     </style>
 
+    <style name="TabLayout" parent="android:Widget">
+        <item name="tabIndicatorColor">@color/dukeBlue</item>
+        <item name="android:fontFamily">@font/avenir_medium</item>
+    </style>
+
 </resources>
