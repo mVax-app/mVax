@@ -34,8 +34,8 @@ import java.util.Collections;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.auth.modals.ApproveUserModal;
-import mhealth.mvax.auth.modals.DenyUserModal;
+import mhealth.mvax.auth.modals.ApproveRequestModal;
+import mhealth.mvax.auth.modals.DenyRequestModal;
 import mhealth.mvax.auth.modals.RoleInfoModal;
 import mhealth.mvax.model.user.User;
 import mhealth.mvax.model.user.UserRole;
@@ -89,17 +89,17 @@ public class UserRequestsAdapter extends RecyclerView.Adapter<UserRequestsAdapte
         holder.approveButton.setOnClickListener(v -> {
             switch (holder.roles.getCheckedRadioButtonId()) {
                 case R.id.admin_radio_button:
-                    new ApproveUserModal(v, request, UserRole.ADMIN).createAndShow();
+                    new ApproveRequestModal(v, request, UserRole.ADMIN).createAndShow();
                     break;
                 case R.id.reader_radio_button:
-                    new ApproveUserModal(v, request, UserRole.USER).createAndShow();
+                    new ApproveRequestModal(v, request, UserRole.USER).createAndShow();
                     break;
                 default:
                     Toast.makeText(v.getContext(), R.string.no_role_selected, Toast.LENGTH_SHORT).show();
                     break;
             }
         });
-        holder.denyButton.setOnClickListener(v -> new DenyUserModal(v, request).createAndShow());
+        holder.denyButton.setOnClickListener(v -> new DenyRequestModal(v, request).createAndShow());
     }
 
     @Override
