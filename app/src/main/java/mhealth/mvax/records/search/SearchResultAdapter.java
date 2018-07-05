@@ -32,7 +32,6 @@ import mhealth.mvax.R;
 import mhealth.mvax.model.record.SearchResult;
 import mhealth.mvax.records.record.RecordFragment;
 import mhealth.mvax.records.utilities.NullableDateFormat;
-import mhealth.mvax.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
@@ -52,14 +51,14 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         View row;
-        TextView name, dob, medicalId;
+        TextView name, medicalId, dob;
 
         ViewHolder(View view) {
             super(view);
             row = view;
             name = view.findViewById(R.id.name);
-            dob = view.findViewById(R.id.dob);
             medicalId = view.findViewById(R.id.medicalId);
+            dob = view.findViewById(R.id.dob);
         }
 
     }
