@@ -58,7 +58,7 @@
     <string name="search_init_fail">Unable to initialize search service</string>
     <string name="search_fail">Search failed</string>
     <string name="search_incomplete">Unable to download all search results</string>
-    <string name="no_search_results">No search results</string>
+    <string name="no_search_results">No search results found</string>
 
     <!-- Patients/record details-->
     <string name="tab_title_record_details">Record details</string>
@@ -166,7 +166,7 @@
     <string name="ok">OK</string>
     <string name="no_vaccinations">No vaccinations found</string>
 
-    <string name="reports_subtitle">Choose a date to generate SINOVA report</string>
+    <string name="reports_subtitle">Choose a date to generate SINOVA report.</string>
 
     <!-- Reports/file paths-->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>
@@ -274,7 +274,7 @@
     <string name="approve_users">Approve users</string>
     <string name="approve_users_title">New mVax users</string>
     <string name="approve_user_instructions">Select a role for a user. Then, tap Approve to create their mVax account or Deny to deny their request.</string>
-    <string name="no_user_requests">No user requests</string>
+    <string name="no_user_requests">No user requests found</string>
     <string name="no_role_selected">A role must be selected before a user can be approved</string>
     <string name="user_request_download_fail">Unable to download user requests</string>
 
