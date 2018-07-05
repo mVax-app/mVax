@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
+    android:layout_marginBottom="16dp"
     android:background="@color/base"
     android:orientation="horizontal">
 
@@ -23,8 +23,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_medium"
             android:textColor="@color/dukeBlue"
-            android:textSize="@dimen/text_size_body"
-            android:textStyle="bold" />
+            android:textSize="@dimen/text_size_body" />
 
         <TextView
             android:id="@+id/user_email"
@@ -33,7 +32,7 @@
             android:layout_marginTop="1dp"
             android:fontFamily="@font/avenir_medium"
             android:textColor="@color/darkGray"
-            android:textSize="16sp" />
+            android:textSize="@dimen/text_size_subtitle" />
 
     </LinearLayout>
 
@@ -53,7 +52,7 @@
             android:fontFamily="@font/avenir_medium"
             android:text="@string/role"
             android:textColor="@color/darkGray"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_size_subtitle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -81,7 +80,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/avenir_heavy"
             android:textColor="@color/darkGray"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_size_subtitle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -119,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/button"
+            android:background="@drawable/button_delete_record"
             android:fontFamily="@font/avenir_medium"
             android:minHeight="0dp"
             android:minWidth="0dp"

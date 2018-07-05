@@ -22,7 +22,7 @@
             android:layout_marginTop="@dimen/modal_margin_top"
             android:fontFamily="@font/avenir_medium"
             android:text="@string/change_email_modal_subtitle"
-            android:textColor="@color/dukeBlue"
+            android:textColor="@color/darkGray"
             android:textSize="@dimen/text_size_modal_body" />
 
         <EditText

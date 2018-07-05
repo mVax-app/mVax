@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/dob"
+        android:id="@+id/role_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/modal_margin_end"
@@ -13,6 +13,7 @@
         android:layout_marginTop="@dimen/modal_margin_top"
         android:fontFamily="@font/avenir_medium"
         android:text="@string/role_info_desc"
+        android:textColor="@color/darkGray"
         android:textSize="@dimen/text_size_modal_body"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -58,7 +58,7 @@
     <string name="search_init_fail">Unable to initialize search service</string>
     <string name="search_fail">Search failed</string>
     <string name="search_incomplete">Unable to download all search results</string>
-    <string name="no_search_results">No search results</string>
+    <string name="no_search_results">No search results found</string>
 
     <!-- Patients/record details-->
     <string name="tab_title_record_details">Record details</string>
@@ -166,7 +166,7 @@
     <string name="ok">OK</string>
     <string name="no_vaccinations">No vaccinations found</string>
 
-    <string name="reports_subtitle">Choose a date to generate SINOVA report</string>
+    <string name="reports_subtitle">Choose a date to generate SINOVA report.</string>
 
     <!-- Reports/file paths-->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>
@@ -274,7 +274,7 @@
     <string name="approve_users">Approve users</string>
     <string name="approve_users_title">New mVax users</string>
     <string name="approve_user_instructions">Select a role for a user. Then, tap Approve to create their mVax account or Deny to deny their request.</string>
-    <string name="no_user_requests">No user requests</string>
+    <string name="no_user_requests">No user requests found</string>
     <string name="no_role_selected">A role must be selected before a user can be approved</string>
     <string name="user_request_download_fail">Unable to download user requests</string>
 
@@ -286,7 +286,7 @@
     <string name="user_enum">USER</string>
 
     <string name="role_info_title">Roles</string>
-    <string name="role_info_desc">mVax supports two different roles: admin and reader.\n\n
+    <string name="role_info_desc">mVax supports two different roles: admin and user.\n\n
                                   An admin can:\n
                                     &#8226; view all patients and vaccine records\n
                                     &#8226; create new patients and vaccine records\n
@@ -328,7 +328,7 @@
     <string name="user_download_fail">Unable to download current user info</string>
 
     <string name="manage_users_title">Current mVax users</string>
-    <string name="user_management_instructions">This page can be used to manage current mVax users. You can change the role of any user, disable a user, or delete a user.</string>
+    <string name="user_management_instructions">This page can be used to manage current mVax users. You can change the role of any user or delete a user.</string>
 
     <string name="change_role">Change role</string>
     <string name="change_role_modal_title">Change role</string>

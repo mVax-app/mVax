@@ -67,16 +67,18 @@
             app:layout_constraintTop_toBottomOf="@+id/search_bar" />
 
         <TextView
-            android:id="@+id/no_search_results"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@string/no_search_results"
-            android:textSize="20sp"
-            android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/search_results" />
+          android:id="@+id/no_search_results"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="30dp"
+          android:fontFamily="@font/avenir_medium"
+          android:text="@string/no_search_results"
+          android:textColor="@color/lightGray"
+          android:textSize="20sp"
+          android:visibility="invisible"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="@+id/search_results" />
 
         <ProgressBar
             android:id="@+id/spinner"

@@ -5,7 +5,6 @@
 
     <dimen name="text_size_title">40sp</dimen>
     <dimen name="text_size_subtitle">15sp</dimen>
-    <dimen name="text_size_header">28sp</dimen>
     <dimen name="text_size_body">20sp</dimen>
     <dimen name="text_size_button">15sp</dimen>
     <dimen name="text_size_modal_title">30sp</dimen>
