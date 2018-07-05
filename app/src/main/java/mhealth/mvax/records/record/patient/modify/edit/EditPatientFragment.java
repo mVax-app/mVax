@@ -56,7 +56,7 @@ public class EditPatientFragment extends ModifiablePatientFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = super.onCreateView(inflater, container, savedInstanceState);
         mPatient = (Patient) getArguments().getSerializable("patient");
 

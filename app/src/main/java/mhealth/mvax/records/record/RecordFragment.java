@@ -19,10 +19,11 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record;
 
-import android.app.Fragment;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -54,7 +55,7 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_record, container, false);
         initTabs(getArguments().getString("databaseKey"), inflater, container);
         return mView;
