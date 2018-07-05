@@ -31,7 +31,7 @@ import java.util.Locale;
 import mhealth.mvax.R;
 import mhealth.mvax.alerts.AlertsFragment;
 import mhealth.mvax.dashboard.DashboardFragment;
-import mhealth.mvax.reports.FormFragment;
+import mhealth.mvax.reports.ReportsFragment;
 import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.settings.SettingsFragment;
 import mhealth.mvax.utilities.LanguageChanger;
@@ -109,14 +109,14 @@ public class MainActivity extends Activity {
             case R.id.nav_patients:
                 selectedFragment = SearchFragment.newInstance();
                 break;
-            case R.id.nav_overdue:
+            case R.id.nav_alerts:
                 selectedFragment = AlertsFragment.newInstance();
                 break;
-            case R.id.nav_data:
+            case R.id.nav_stats:
                 selectedFragment = DashboardFragment.newInstance();
                 break;
-            case R.id.nav_forms:
-                selectedFragment = FormFragment.newInstance();
+            case R.id.nav_reports:
+                selectedFragment = ReportsFragment.newInstance();
                 break;
             case R.id.nav_settings:
                 selectedFragment = SettingsFragment.newInstance();
