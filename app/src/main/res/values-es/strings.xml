@@ -329,7 +329,7 @@
     <string name="user_download_fail">No se puede descargar información de usarios actuales</string>
 
     <string name="manage_users_title">Usarios actuales de mVax </string>
-    <string name="user_management_instructions">Esta página se puede usar para administrar usuarios actuales de mVax. Puede cambiar la función de cualquier usuario, desactivar a un usuario, o eliminar un usuario.</string>
+    <string name="user_management_instructions">Esta página se puede usar para administrar usuarios actuales de mVax. Puede cambiar la función de cualquier usuario o eliminar un usuario.</string>
 
     <string name="change_role">Cambiar papel</string>
     <string name="change_role_modal_title">Cambiar papel</string>
