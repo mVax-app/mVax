@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!--language-->
-
-    <string name="english_code">en</string>
-    <string name="spanish_code">es</string>
-
-</resources>
