@@ -44,7 +44,6 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
 
     private View mView;
     private ViewPager mViewPager;
-    private TabLayout tabLayout;
 
     public static RecordFragment newInstance(String databaseKey) {
         final RecordFragment newInstance = new RecordFragment();
@@ -76,7 +75,7 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
 
     private void initTabs(String recordDatabaseKey, LayoutInflater inflater, ViewGroup parent) {
         // set up tab layout
-        tabLayout = mView.findViewById(R.id.record_tabs);
+        TabLayout tabLayout = mView.findViewById(R.id.record_tabs);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_title_record_details)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_title_vaccine_schedule)));
 

@@ -304,6 +304,6 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
 
     private void render() {
         final ExpandableListView queryResults = mView.findViewById(R.id.report_results);
-        queryResults.setAdapter(new ReportsAdapter(mPatients));
+        queryResults.setAdapter(new ReportAdapter(mPatients));
     }
 }

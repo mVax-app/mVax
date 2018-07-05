@@ -39,11 +39,11 @@ import mhealth.mvax.R;
  * <p>
  * Adapted for rendering a report
  */
-public class ReportsAdapter extends BaseExpandableListAdapter {
+public class ReportAdapter extends BaseExpandableListAdapter {
 
     private List<ExpandablePatient> mPatients;
 
-    ReportsAdapter(List<ExpandablePatient> patients) {
+    ReportAdapter(List<ExpandablePatient> patients) {
         mPatients = patients;
         notifyDataSetChanged(); // clean out anything old
     }
