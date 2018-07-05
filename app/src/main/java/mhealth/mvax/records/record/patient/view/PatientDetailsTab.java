@@ -163,7 +163,7 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
 //                    .commit();
 //            // commit "Record -> Edit", adding "Edit -> Record to back stack
             final EditPatientFragment editDataFrag = EditPatientFragment.newInstance(mPatient);
-            getActivity().getFragmentManager().beginTransaction()
+            getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frame, editDataFrag)
                     .addToBackStack(null)
                     .commit();

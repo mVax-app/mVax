@@ -19,9 +19,9 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.reports;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -118,7 +118,7 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
 
     @Override
     public void onResume() {
-        DatePickerDialog datePicker = (DatePickerDialog) getFragmentManager().findFragmentByTag("reportDatePicker");
+        DatePickerDialog datePicker = (DatePickerDialog) getActivity().getFragmentManager().findFragmentByTag("reportDatePicker");
         if (datePicker != null) datePicker.setOnDateSetListener(this);
         super.onResume();
     }
@@ -170,7 +170,7 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
                 cal.get(Calendar.DAY_OF_MONTH));
         int dukeBlue = ContextCompat.getColor(getContext(), R.color.dukeBlue);
         datePicker.setAccentColor(dukeBlue);
-        datePicker.show(getFragmentManager(), "reportDatePicker");
+        datePicker.show(getActivity().getFragmentManager(), "reportDatePicker");
     }
 
     @Override
