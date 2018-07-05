@@ -286,7 +286,7 @@
     <string name="user_enum">USER</string>
 
     <string name="role_info_title">Roles</string>
-    <string name="role_info_desc">mVax supports two different roles: admin and reader.\n\n
+    <string name="role_info_desc">mVax supports two different roles: admin and user.\n\n
                                   An admin can:\n
                                     &#8226; view all patients and vaccine records\n
                                     &#8226; create new patients and vaccine records\n
@@ -328,7 +328,7 @@
     <string name="user_download_fail">Unable to download current user info</string>
 
     <string name="manage_users_title">Current mVax users</string>
-    <string name="user_management_instructions">This page can be used to manage current mVax users. You can change the role of any user, disable a user, or delete a user.</string>
+    <string name="user_management_instructions">This page can be used to manage current mVax users. You can change the role of any user or delete a user.</string>
 
     <string name="change_role">Change role</string>
     <string name="change_role_modal_title">Change role</string>
