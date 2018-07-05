@@ -40,11 +40,11 @@ import mhealth.mvax.utilities.modals.CustomModal;
  * <p>
  * Modal and functionality for approving a new mVax user account
  */
-public class ApproveUserModal extends CustomModal {
+public class ApproveRequestModal extends CustomModal {
 
     private User mRequest;
 
-    public ApproveUserModal(View view, User request, UserRole role) {
+    public ApproveRequestModal(View view, User request, UserRole role) {
         super(view);
         mRequest = request;
         mRequest.setRole(role); // do this here so modal can't be called without a role

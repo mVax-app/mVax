@@ -30,7 +30,7 @@ import java.util.Locale;
 
 import mhealth.mvax.R;
 import mhealth.mvax.alerts.AlertsFragment;
-import mhealth.mvax.dashboard.DashboardFragment;
+import mhealth.mvax.stats.StatsFragment;
 import mhealth.mvax.reports.ReportsFragment;
 import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.settings.SettingsFragment;
@@ -114,7 +114,7 @@ public class MainActivity extends FragmentActivity {
                 selectedFragment = AlertsFragment.newInstance();
                 break;
             case R.id.nav_stats:
-                selectedFragment = DashboardFragment.newInstance();
+                selectedFragment = StatsFragment.newInstance();
                 break;
             case R.id.nav_reports:
                 selectedFragment = ReportsFragment.newInstance();

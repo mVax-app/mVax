@@ -17,16 +17,25 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.model.record;
+package mhealth.mvax.stats;
 
-import org.junit.Test;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import static org.junit.Assert.assertEquals;
+import mhealth.mvax.R;
 
-/**
- * @author Robert Steilberg
- *         <p>
- *         DESCRIPTION HERE
- */
-public class PersonTest {
+public class StatsFragment extends Fragment {
+
+    public static StatsFragment newInstance() {
+        return new StatsFragment();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+    }
+
 }

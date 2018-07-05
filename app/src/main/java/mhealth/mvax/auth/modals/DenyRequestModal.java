@@ -38,11 +38,11 @@ import mhealth.mvax.utilities.modals.CustomModal;
  * <p>
  * Modal and functionality for denying an mVax user account request
  */
-public class DenyUserModal extends CustomModal {
+public class DenyRequestModal extends CustomModal {
 
     private User mRequest;
 
-    public DenyUserModal(View view, User request) {
+    public DenyRequestModal(View view, User request) {
         super(view);
         mRequest = request;
     }

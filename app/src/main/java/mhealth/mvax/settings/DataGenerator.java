@@ -102,7 +102,7 @@ class DataGenerator {
         Vaccine b = new Vaccine(vaccineRef.getKey());
         b.addDoses(a);
         b.setSortOrder(0);
-        b.setName("Hepatitis B");
+        b.setName("Hepatitis Pediátrica");
         vaccineRef.setValue(b);
 
         Dose c = new Dose(vaccineRef.push().getKey());
