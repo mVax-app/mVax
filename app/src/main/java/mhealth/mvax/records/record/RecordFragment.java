@@ -20,12 +20,15 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.records.record;
 
 import android.app.Fragment;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import mhealth.mvax.R;
 import mhealth.mvax.records.record.patient.view.PatientDetailsTab;
@@ -40,6 +43,7 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
 
     private View mView;
     private ViewPager mViewPager;
+    private TabLayout tabLayout;
 
     public static RecordFragment newInstance(String databaseKey) {
         final RecordFragment newInstance = new RecordFragment();
@@ -51,8 +55,8 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_record_detail, container, false);
-        initTabs(getArguments().getString("databaseKey"));
+        mView = inflater.inflate(R.layout.fragment_record, container, false);
+        initTabs(getArguments().getString("databaseKey"), inflater, container);
         return mView;
     }
 
@@ -69,11 +73,24 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
     public void onTabReselected(TabLayout.Tab tab) {
     }
 
-    private void initTabs(String recordDatabaseKey) {
+    private void initTabs(String recordDatabaseKey, LayoutInflater inflater, ViewGroup parent) {
         // set up tab layout
-        final TabLayout tabLayout = mView.findViewById(R.id.tabLayout);
+        tabLayout = mView.findViewById(R.id.record_tabs);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_title_record_details)));
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_title_vaccine_schedule)));
+
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TextView tabView = (TextView) inflater.inflate(R.layout.tab, parent, false);
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            if (tab != null) {
+                tab.setCustomView(tabView);
+                ColorStateList textColor = tabLayout.getTabTextColors();
+                tabView.setTextColor(textColor);
+            }
+        }
+
+        tabLayout.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.base));
+
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.addOnTabSelectedListener(this); // enable swipe views
 

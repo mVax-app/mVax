@@ -22,7 +22,6 @@ package mhealth.mvax.records.record.patient.modify;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -52,6 +51,8 @@ import mhealth.mvax.records.utilities.AlgoliaUtilities;
  */
 public abstract class ModifiablePatientFragment extends Fragment {
 
+    private View mView;
+
     protected Patient mPatient;
     protected DatabaseReference mPatientRef;
     protected ModifyPatientAdapter mAdapter;
@@ -67,10 +68,10 @@ public abstract class ModifiablePatientFragment extends Fragment {
     @Override
     @CallSuper
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.tab_record_details, container, false);
-        mLoadingModal = new LoadingModal(view);
+        mView = inflater.inflate(R.layout.tab_record_details, container, false);
+        mLoadingModal = new LoadingModal(mView);
         mLoadingModal.createAndShow();
-        return view;
+        return mView;
     }
 
     private void initDatabaseRefs() {
@@ -81,9 +82,14 @@ public abstract class ModifiablePatientFragment extends Fragment {
                 .child(patientTable);
     }
 
-    protected void setTitle(View view, int stringId) {
-        final TextView title = view.findViewById(R.id.record_details_tab_title);
+    protected void setTitle(int stringId) {
+        final TextView title = mView.findViewById(R.id.record_details_tab_title);
         title.setText(stringId);
+    }
+
+    protected void setTitle(String string) {
+        final TextView title = mView.findViewById(R.id.record_details_tab_title);
+        title.setText(string);
     }
 
     protected void renderListView(RecyclerView detailsList) {
@@ -94,7 +100,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
 
     protected void initSaveButton(Button button) {
         button.setVisibility(View.VISIBLE);
-        button.setBackgroundResource(R.drawable.button_save_old);
+        button.setBackgroundResource(R.drawable.button_save_record);
         button.setText(R.string.save_record_button);
         button.setOnClickListener(v -> saveRecord());
     }
