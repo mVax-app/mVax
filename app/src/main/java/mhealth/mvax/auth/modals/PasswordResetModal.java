@@ -77,10 +77,8 @@ public class PasswordResetModal extends CustomModal {
                 return false;
             });
 
-            mViews.add(mDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
             final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> attemptPasswordReset(emailTextView));
-            mViews.add(positiveButton);
         });
         show();
     }

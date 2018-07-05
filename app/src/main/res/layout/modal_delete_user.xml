@@ -6,6 +6,7 @@
     android:background="@color/base">
 
     <TextView
+        android:id="@id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/modal_margin_end"

@@ -58,9 +58,9 @@ public class EditPatientFragment extends ModifiablePatientFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = super.onCreateView(inflater, container, savedInstanceState);
-        setTitle(mView, R.string.edit_record_title);
-
         mPatient = (Patient) getArguments().getSerializable("patient");
+
+        setTitle(mPatient.getName());
         initPatientListener();
 
         mSearchEngine = new AlgoliaUtilities(getActivity(), initSuccessful -> {
@@ -122,7 +122,7 @@ public class EditPatientFragment extends ModifiablePatientFragment {
 
     private void initDeleteButton(Button deleteButton) {
         deleteButton.setVisibility(View.VISIBLE);
-        deleteButton.setBackgroundResource(R.drawable.button_delete_old);
+        deleteButton.setBackgroundResource(R.drawable.button_delete_record);
         deleteButton.setText(R.string.delete_record_button);
         deleteButton.setOnClickListener(view -> promptForRecordDelete());
     }

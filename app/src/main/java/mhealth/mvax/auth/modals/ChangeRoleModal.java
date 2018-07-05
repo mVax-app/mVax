@@ -75,8 +75,6 @@ public class ChangeRoleModal extends CustomModal {
             }
             mViews.add(roleRadioGroup);
 
-            mViews.add(mDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
-
             final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> {
                 switch (roleRadioGroup.getCheckedRadioButtonId()) {
@@ -90,7 +88,6 @@ public class ChangeRoleModal extends CustomModal {
                         break;
                 }
             });
-            mViews.add(positiveButton);
         });
         show();
     }

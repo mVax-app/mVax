@@ -81,10 +81,8 @@ public class ChangePasswordModal extends CustomModal {
                 return false;
             });
 
-            mViews.add(mDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
             final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> attemptPasswordChange());
-            mViews.add(positiveButton);
         });
         show();
     }

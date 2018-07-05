@@ -43,7 +43,7 @@ public class CreateRecordFragment extends ModifiablePatientFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
-        setTitle(view, R.string.new_record_title);
+        setTitle(R.string.new_record_title);
 
         if (savedInstanceState == null) {
             // create new Patient
