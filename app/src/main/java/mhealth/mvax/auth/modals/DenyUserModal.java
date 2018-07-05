@@ -50,7 +50,7 @@ public class DenyUserModal extends CustomModal {
     @Override
     public void createAndShow() {
         mDialog = new AlertDialog.Builder(mContext)
-                .setView(mInflater.inflate(R.layout.modal_deny_user, mParent, false))
+                .setView(mInflater.inflate(R.layout.modal_deny_request, mParent, false))
                 .setPositiveButton(getString(R.string.confirm), null)
                 .setNegativeButton(getString(R.string.cancel), null)
                 .create();
@@ -58,12 +58,10 @@ public class DenyUserModal extends CustomModal {
         mDialog.setOnShowListener(dialogInterface -> {
             mSpinner = mDialog.findViewById(R.id.spinner);
 
-            mViews.add(mDialog.findViewById(R.id.dob));
-            mViews.add(mDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
+            mViews.add(mDialog.findViewById(R.id.title));
 
             final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> deleteUser());
-            mViews.add(positiveButton);
         });
         show();
     }

@@ -67,12 +67,17 @@ public abstract class CustomModal {
         final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
         positiveButton.setTextColor(mContext.getColor(R.color.dukeBlue));
         positiveButton.setTypeface(avenirHeavy);
+        mViews.add(positiveButton);
+
         final Button neutralButton = mDialog.getButton(AlertDialog.BUTTON_NEUTRAL);
         neutralButton.setTextColor(mContext.getColor(R.color.dukeBlue));
         neutralButton.setTypeface(avenirHeavy);
+        mViews.add(neutralButton);
+
         final Button negativeButton = mDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
         negativeButton.setTextColor(mContext.getColor(R.color.dukeBlue));
         negativeButton.setTypeface(avenirHeavy);
+        mViews.add(negativeButton);
     }
 
     public void dismiss() {

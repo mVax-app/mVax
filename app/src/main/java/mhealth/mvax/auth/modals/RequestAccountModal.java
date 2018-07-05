@@ -98,11 +98,8 @@ public class RequestAccountModal extends CustomModal {
             });
             mViews.add(mConfirmPassword);
 
-            mViews.add(mDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
-
             final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> validateFields());
-            mViews.add(positiveButton);
         });
         show();
     }

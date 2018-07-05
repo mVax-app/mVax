@@ -1,24 +1,26 @@
 <resources>
 
-    <!-- Base application theme -->
     <style name="AppTheme">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!--customize language changing switch to a light blue color-->
-    <style name="SwitchTheme" parent="Theme.AppCompat.Light">
+    <!--bottom navigation view-->
+    <style name="Widget.BottomNavigationView" parent="Widget.Design.BottomNavigationView">
+        <item name="android:fontFamily">@font/avenir_medium</item>
+    </style>
+
+    <!--language switch-->
+    <style name="Switch" parent="Theme.AppCompat.Light">
         <item name="android:colorControlActivated">@color/lightBlue</item>
     </style>
 
-    <!--customize color of auth page email/password fields-->
+    <!--input EditTexts-->
     <style name="Input">
         <!-- Hint color and label color in FALSE state -->
         <item name="android:textColorHint">@color/darkGray</item>
         <item name="android:fontFamily">@font/avenir_medium</item>
-
         <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
         <!-- text input color e.g. email/password -->
         <item name="colorAccent">@color/dukeBlue</item>

@@ -16,6 +16,7 @@
     <color name="darkGray">#666566</color>
     <color name="lightGray">#9B9B9B</color>
     <color name="lighterGray">#D8D8D8</color>
+    <color name="lightestGray">#F2F2F2</color>
 
     <color name="white">#FFFFFF</color>
     <color name="base">#ECECEC</color>

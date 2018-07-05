@@ -84,7 +84,6 @@ public class ChangeEmailModal extends CustomModal {
             mViews.add(mDialog.getButton(AlertDialog.BUTTON_NEGATIVE));
             final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveButton.setOnClickListener(view -> attemptEmailChange());
-            mViews.add(positiveButton);
         });
         show();
     }

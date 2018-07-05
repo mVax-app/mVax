@@ -70,7 +70,7 @@ public class ModifyPatientAdapter extends PatientDetailsAdapter {
         } else {
             holder.value.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         }
-        // place cursor at end of text
+        // place edittext_cursor at end of text
         holder.value.setSelection(detail.getStringValue().length());
 
         if (detail.isRequired()) mRequiredFields.add(holder.value);

@@ -28,7 +28,9 @@
         android:inputType="textCapWords|textNoSuggestions"
         android:singleLine="true"
         android:textAlignment="viewEnd"
-        android:textColor="@color/lightGray"
+        android:textColor="@color/darkGray"
+        android:textColorHint="@color/lightGray"
+        android:textCursorDrawable="@drawable/edittext_cursor"
         android:textSize="@dimen/text_size_body" />
 
 </LinearLayout>
