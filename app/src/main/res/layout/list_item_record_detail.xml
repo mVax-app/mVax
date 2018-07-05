@@ -14,7 +14,6 @@
         android:layout_height="match_parent"
         android:layout_weight="0.9"
         android:fontFamily="@font/avenir_medium"
-        android:gravity="center_vertical"
         android:labelFor="@+id/value"
         android:padding="5dp"
         android:textColor="@color/dukeBlue"
