@@ -87,7 +87,7 @@
         android:layout_marginTop="@dimen/button_margin_bottom"
         android:fontFamily="@font/avenir_medium"
         android:textColor="@color/dukeBlue"
-        android:textSize="32sp"
+        android:textSize="@dimen/text_size_header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/report_buttons" />
 
@@ -112,7 +112,7 @@
         android:layout_marginTop="30dp"
         android:fontFamily="@font/avenir_medium"
         android:text="@string/no_vaccinations"
-        android:textColor="@color/dukeBlue"
+        android:textColor="@color/lightGray"
         android:textSize="20sp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"

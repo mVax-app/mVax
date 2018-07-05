@@ -13,7 +13,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/avenir_medium"
         android:textColor="@color/dukeBlue"
-        android:textSize="28sp"
+        android:textSize="@dimen/text_size_body"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

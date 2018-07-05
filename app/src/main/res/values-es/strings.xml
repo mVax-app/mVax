@@ -59,7 +59,7 @@
     <string name="search_init_fail">No se puede inicializar el servicio de búsqueda</string>
     <string name="search_fail">Error de búsqueda</string>
     <string name="search_incomplete">No se puede descargar todos los resultados de búsqueda</string>
-    <string name="no_search_results">No resultados de búsqueda</string>
+    <string name="no_search_results">No hay resultados de búsqueda</string>
 
     <!-- Patients/record details-->
     <string name="tab_title_record_details">Detalles del registro</string>
@@ -165,9 +165,9 @@
     <string name="report_download_fail">No se puede to generar informe</string>
 
     <string name="ok">OK</string>
-    <string name="no_vaccinations">No vaccinations found</string>
+    <string name="no_vaccinations">No hay vacunas</string>
 
-    <string name="reports_subtitle">Elegir fecha para generar el informe de SINOVA</string>
+    <string name="reports_subtitle">Elegir fecha para generar el informe de SINOVA.</string>
 
     <!-- Reports/file paths-->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>
