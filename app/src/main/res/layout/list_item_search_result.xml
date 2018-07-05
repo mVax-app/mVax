@@ -8,7 +8,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -17,7 +17,9 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/base"
             android:fontFamily="@font/avenir_medium"
+            android:includeFontPadding="false"
             android:textColor="@color/dukeBlue"
             android:textSize="@dimen/text_size_body"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +29,9 @@
             android:id="@+id/medicalId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/base"
             android:fontFamily="@font/avenir_medium"
+            android:includeFontPadding="false"
             android:textColor="@color/dukeBlue"
             android:textSize="@dimen/text_size_subtitle"
             app:layout_constraintBottom_toBottomOf="parent"

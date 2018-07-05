@@ -20,10 +20,10 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.settings;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -177,7 +177,7 @@ public class SettingsFragment extends Fragment {
         TextView approveUsers = mView.findViewById(R.id.admin_priv_approve_users);
         approveUsers.setOnClickListener(v -> {
             UserRequestsFragment userRequestsFragment = UserRequestsFragment.newInstance();
-            FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.frame, userRequestsFragment);
             transaction.addToBackStack(null);
             transaction.commit();
@@ -188,7 +188,7 @@ public class SettingsFragment extends Fragment {
         TextView approveUsers = mView.findViewById(R.id.admin_priv_manage_users);
         approveUsers.setOnClickListener(v -> {
             ManageUsersFragment manageUsersFragment = ManageUsersFragment.newInstance();
-            FragmentTransaction transaction = getActivity().getFragmentManager().beginTransaction();
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.frame, manageUsersFragment);
             transaction.addToBackStack(null);
             transaction.commit();

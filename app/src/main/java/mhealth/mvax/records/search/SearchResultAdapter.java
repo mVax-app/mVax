@@ -19,7 +19,7 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.search;
 
-import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +32,6 @@ import mhealth.mvax.R;
 import mhealth.mvax.model.record.SearchResult;
 import mhealth.mvax.records.record.RecordFragment;
 import mhealth.mvax.records.utilities.NullableDateFormat;
-import mhealth.mvax.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
@@ -42,24 +41,24 @@ import mhealth.mvax.utilities.StringFetcher;
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
 
     private ArrayList<SearchResult> mSearchResults;
-    private Activity mActivity;
+    private FragmentActivity mActivity;
     private int mHashCode;
 
-    SearchResultAdapter(Activity activity) {
+    SearchResultAdapter(FragmentActivity activity) {
         mSearchResults = new ArrayList<>();
         mActivity = activity;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         View row;
-        TextView name, dob, medicalId;
+        TextView name, medicalId, dob;
 
         ViewHolder(View view) {
             super(view);
             row = view;
             name = view.findViewById(R.id.name);
-            dob = view.findViewById(R.id.dob);
             medicalId = view.findViewById(R.id.medicalId);
+            dob = view.findViewById(R.id.dob);
         }
 
     }
@@ -88,7 +87,7 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         holder.row.setOnClickListener(v -> {
             SearchResult chosenResult = mSearchResults.get(position);
             final RecordFragment detailFrag = RecordFragment.newInstance(chosenResult.getDatabaseKey());
-            mActivity.getFragmentManager().beginTransaction()
+            mActivity.getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frame, detailFrag)
                     .addToBackStack(null) // back button brings us back to SearchFragment
                     .commit();

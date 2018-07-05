@@ -19,19 +19,19 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.main;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 
 import java.util.Locale;
 
 import mhealth.mvax.R;
 import mhealth.mvax.alerts.AlertsFragment;
 import mhealth.mvax.dashboard.DashboardFragment;
-import mhealth.mvax.reports.FormFragment;
+import mhealth.mvax.reports.ReportsFragment;
 import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.settings.SettingsFragment;
 import mhealth.mvax.utilities.LanguageChanger;
@@ -42,7 +42,7 @@ import mhealth.mvax.utilities.LanguageChanger;
  * Main activity that initializes the bottom navigation bar, which is used to
  * navigate throughout the app. Handles all of the main fragments
  */
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
     private int mCurrentTab;
     private String mCurrentLanguage;
@@ -55,7 +55,8 @@ public class MainActivity extends Activity {
 
             setContentView(R.layout.activity_main);
             initNavBar();
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.frame, SearchFragment.newInstance());
             transaction.commit();
         } else {
@@ -66,7 +67,7 @@ public class MainActivity extends Activity {
             setContentView(R.layout.activity_main);
             initNavBar();
             Fragment chosenTab = chooseTab(mCurrentTab);
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.frame, chosenTab);
             transaction.commit();
         }
@@ -95,7 +96,7 @@ public class MainActivity extends Activity {
 
         navBar.setOnNavigationItemSelectedListener(icon -> {
             Fragment chosenFragment = chooseTab(icon.getItemId());
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.frame, chosenFragment);
             transaction.commit();
             return true;
@@ -109,14 +110,14 @@ public class MainActivity extends Activity {
             case R.id.nav_patients:
                 selectedFragment = SearchFragment.newInstance();
                 break;
-            case R.id.nav_overdue:
+            case R.id.nav_alerts:
                 selectedFragment = AlertsFragment.newInstance();
                 break;
-            case R.id.nav_data:
+            case R.id.nav_stats:
                 selectedFragment = DashboardFragment.newInstance();
                 break;
-            case R.id.nav_forms:
-                selectedFragment = FormFragment.newInstance();
+            case R.id.nav_reports:
+                selectedFragment = ReportsFragment.newInstance();
                 break;
             case R.id.nav_settings:
                 selectedFragment = SettingsFragment.newInstance();

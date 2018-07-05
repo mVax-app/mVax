@@ -19,9 +19,10 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.modify;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -67,7 +68,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
 
     @Override
     @CallSuper
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_record_details, container, false);
         mLoadingModal = new LoadingModal(mView);
         mLoadingModal.createAndShow();
@@ -150,7 +151,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
         getActivity().getFragmentManager().popBackStack();
 
         // commit "Search -> Record", adding "Record -> Search" to back stack
-        getActivity().getFragmentManager().beginTransaction()
+        getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame, RecordFragment.newInstance(mPatient.getDatabaseKey()))
                 .addToBackStack(null)
                 .commit();

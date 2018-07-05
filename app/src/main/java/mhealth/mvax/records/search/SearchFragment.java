@@ -19,9 +19,9 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.search;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -34,7 +34,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.record.RecordFragment;
 import mhealth.mvax.records.record.patient.modify.create.CreateRecordFragment;
 import mhealth.mvax.records.utilities.AlgoliaUtilities;
 import mhealth.mvax.utilities.modals.LoadingModal;
@@ -57,7 +56,7 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_search, container, false);
         mLoadingModal = new LoadingModal(mView);
         mLoadingModal.createAndShow();
@@ -76,7 +75,7 @@ public class SearchFragment extends Fragment {
 
     private void initNewRecordButton() {
         final Button newRecordButton = mView.findViewById((R.id.new_record_button));
-        newRecordButton.setOnClickListener(v -> getActivity().getFragmentManager().beginTransaction()
+        newRecordButton.setOnClickListener(v -> getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.frame, CreateRecordFragment.newInstance())
                 .addToBackStack(null) // back button brings us back to SearchFragment
                 .commit());

@@ -19,10 +19,9 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.reports;
 
-import android.app.Fragment;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -57,7 +56,6 @@ import mhealth.mvax.model.immunization.Vaccination;
 import mhealth.mvax.model.immunization.Vaccine;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.utilities.NullableDateFormat;
-import mhealth.mvax.records.utilities.TypeRunnable;
 import mhealth.mvax.utilities.modals.LoadingModal;
 
 /**
@@ -65,7 +63,7 @@ import mhealth.mvax.utilities.modals.LoadingModal;
  * <p>
  * Fragment for exporting and visualizing data
  */
-public class FormFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
+public class ReportsFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
     private View mView;
     private ProgressBar mSpinner;
@@ -78,13 +76,13 @@ public class FormFragment extends Fragment implements DatePickerDialog.OnDateSet
     private ArrayList<ExpandablePatient> mPatients;
 
 
-    public FormFragment() {
+    public ReportsFragment() {
         mVaccines = new ArrayList<>();
         mPatients = new ArrayList<>();
     }
 
-    public static FormFragment newInstance() {
-        return new FormFragment();
+    public static ReportsFragment newInstance() {
+        return new ReportsFragment();
     }
 
     @Override
@@ -120,9 +118,8 @@ public class FormFragment extends Fragment implements DatePickerDialog.OnDateSet
 
     @Override
     public void onResume() {
-        DatePickerDialog datePicker = (DatePickerDialog) getFragmentManager().findFragmentByTag("reportDatePicker");
+        DatePickerDialog datePicker = (DatePickerDialog) getActivity().getFragmentManager().findFragmentByTag("reportDatePicker");
         if (datePicker != null) datePicker.setOnDateSetListener(this);
-
         super.onResume();
     }
 
@@ -167,13 +164,13 @@ public class FormFragment extends Fragment implements DatePickerDialog.OnDateSet
     private void promptForDate() {
         Calendar cal = Calendar.getInstance();
         DatePickerDialog datePicker = DatePickerDialog.newInstance(
-                FormFragment.this,
+                ReportsFragment.this,
                 cal.get(Calendar.YEAR),
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH));
         int dukeBlue = ContextCompat.getColor(getContext(), R.color.dukeBlue);
         datePicker.setAccentColor(dukeBlue);
-        datePicker.show(getFragmentManager(), "reportDatePicker");
+        datePicker.show(getActivity().getFragmentManager(), "reportDatePicker");
     }
 
     @Override
@@ -307,6 +304,6 @@ public class FormFragment extends Fragment implements DatePickerDialog.OnDateSet
 
     private void render() {
         final ExpandableListView queryResults = mView.findViewById(R.id.report_results);
-        queryResults.setAdapter(new FormAdapter(mPatients));
+        queryResults.setAdapter(new ReportAdapter(mPatients));
     }
 }

@@ -19,10 +19,9 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.view;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.DividerItemDecoration;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -164,7 +163,7 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
 //                    .commit();
 //            // commit "Record -> Edit", adding "Edit -> Record to back stack
             final EditPatientFragment editDataFrag = EditPatientFragment.newInstance(mPatient);
-            getActivity().getFragmentManager().beginTransaction()
+            getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frame, editDataFrag)
                     .addToBackStack(null)
                     .commit();
