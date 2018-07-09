@@ -20,7 +20,6 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.records.record.patient.detail;
 
 import android.content.DialogInterface;
-import android.widget.EditText;
 
 import mhealth.mvax.model.record.Sex;
 import mhealth.mvax.records.utilities.TypeRunnable;
@@ -56,7 +55,7 @@ public class SexDetail extends Detail<Sex> {
 
     @Override
     public void configureValueView(WatcherEditText valueView) {
-//        valueView.setFocusable(false); // disable interaction because of the dialog
+        valueView.setFocusable(false); // disable interaction because of the modal
     }
 
     @Override

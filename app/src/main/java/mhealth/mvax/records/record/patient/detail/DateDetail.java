@@ -20,12 +20,9 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.records.record.patient.detail;
 
 import android.content.DialogInterface;
-import android.widget.EditText;
 
-import mhealth.mvax.R;
 import mhealth.mvax.records.utilities.NullableDateFormat;
 import mhealth.mvax.records.utilities.TypeRunnable;
-import mhealth.mvax.utilities.StringFetcher;
 import mhealth.mvax.records.modals.DateModal;
 import mhealth.mvax.utilities.WatcherEditText;
 
@@ -34,7 +31,6 @@ import mhealth.mvax.utilities.WatcherEditText;
  * <p>
  * Detail for storing Date fields
  */
-
 public class DateDetail extends Detail<Long> {
 
     public DateDetail(Long value, int labelStringId, int hintStringId, boolean required) {
@@ -57,7 +53,7 @@ public class DateDetail extends Detail<Long> {
 
     @Override
     public void configureValueView(WatcherEditText valueView) {
-//        valueView.setFocusable(false); // disable interaction because of the dialog
+        valueView.setFocusable(false); // disable interaction because of the modal
     }
 
     @Override

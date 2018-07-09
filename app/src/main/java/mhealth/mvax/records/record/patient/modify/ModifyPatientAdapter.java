@@ -60,10 +60,13 @@ public class ModifyPatientAdapter extends PatientDetailsAdapter {
         holder.row.setOnClickListener(v ->
                 detail.getValueViewListener(holder.value));
         holder.value.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) detail.getValueViewListener(holder.value);
+            if (hasFocus) {
+                detail.getValueViewListener(holder.value);
+            }
         });
-//        holder.value.setOnClickListener(v ->
-//                detail.getValueViewListener(holder.value));
+        holder.value.setOnClickListener(v ->
+                detail.getValueViewListener(holder.value));
+
         // Done button on final field
         if (position == mDetails.size() - 1) {
             holder.value.setImeOptions(EditorInfo.IME_ACTION_DONE);

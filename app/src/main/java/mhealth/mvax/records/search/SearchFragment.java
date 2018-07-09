@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import mhealth.mvax.R;
+import mhealth.mvax.records.record.RecordFragment;
 import mhealth.mvax.records.record.patient.modify.create.CreateRecordFragment;
 import mhealth.mvax.records.utilities.AlgoliaUtilities;
 import mhealth.mvax.utilities.modals.LoadingModal;
@@ -64,11 +65,11 @@ public class SearchFragment extends Fragment {
         initSearchIndex();
 
         // TODO get rid of this
-//        final RecordFragment detailFrag = RecordFragment.newInstance("-LFOtFjaBOslLuj2ZtiH");
-//        getFragmentManager().beginTransaction()
-//                .replace(R.id.frame, detailFrag)
-//                .addToBackStack(null) // back button brings us back to SearchFragment
-//                .commit();
+        final RecordFragment detailFrag = RecordFragment.newInstance("-LGjx9gtvqjqubEyEH3Y");
+        getFragmentManager().beginTransaction()
+                .replace(R.id.frame, detailFrag)
+                .addToBackStack(null) // back button brings us back to SearchFragment
+                .commit();
 
         return mView;
     }
