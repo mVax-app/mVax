@@ -102,7 +102,7 @@ class DataGenerator {
         Vaccine b = new Vaccine(vaccineRef.getKey());
         b.addDoses(a);
         b.setSortOrder(0);
-        b.setName("Hepatitis Pediátrica");
+        b.setName("Hepatitis pediátrica");
         vaccineRef.setValue(b);
 
         Dose c = new Dose(vaccineRef.push().getKey());
@@ -244,22 +244,173 @@ class DataGenerator {
         Vaccine ww = new Vaccine(vaccineRef.getKey());
         ww.addDoses(ss,tt,uu,vv);
         ww.setSortOrder(10);
-        ww.setName("DT Pediátrica");
+        ww.setName("DT pediátrica");
         vaccineRef.setValue(ww);
 
+        // create 1st dose
         Dose xx = new Dose(vaccineRef.push().getKey());
         xx.setLabels("6-11M", "1a");
+        // create 2nd dose
         Dose yy = new Dose(vaccineRef.push().getKey());
         yy.setLabels("1-4A", "1a");
+        // create 3rd dose
         Dose zz = new Dose(vaccineRef.push().getKey());
         zz.setLabels("1-4A", "2a");
+        // create vaccine to hold the doses
         vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
         Vaccine aaa = new Vaccine(vaccineRef.getKey());
+        // add the doses to the vaccine
         aaa.addDoses(xx,yy,zz);
         aaa.setSortOrder(11);
         aaa.setName("Vitamina A");
+        // push to database
         vaccineRef.setValue(aaa);
 
+        Dose bbb = new Dose(vaccineRef.push().getKey());
+        bbb.setLabels("11A", "R");
+        Dose ccc = new Dose(vaccineRef.push().getKey());
+        ccc.setLabels("21A", "R");
+        Dose ddd = new Dose(vaccineRef.push().getKey());
+        ddd.setLabels("Emb", "1a");
+        Dose eee = new Dose(vaccineRef.push().getKey());
+        eee.setLabels("Emb", "2a");
+        Dose fff = new Dose(vaccineRef.push().getKey());
+        fff.setLabels("Emb", "3a");
+        Dose ggg = new Dose(vaccineRef.push().getKey());
+        ggg.setLabels("Emb", "4a");
+        Dose hhh = new Dose(vaccineRef.push().getKey());
+        hhh.setLabels("Emb", "5a");
+        Dose iii = new Dose(vaccineRef.push().getKey());
+        iii.setLabels("Otros", "1a");
+        Dose jjj = new Dose(vaccineRef.push().getKey());
+        jjj.setLabels("Otros", "2a");
+        Dose kkk = new Dose(vaccineRef.push().getKey());
+        kkk.setLabels("Otros", "3a");
+        Dose lll = new Dose(vaccineRef.push().getKey());
+        lll.setLabels("Otros", "4a");
+        Dose mmm = new Dose(vaccineRef.push().getKey());
+        mmm.setLabels("Otros", "5a");
+        Dose nnn = new Dose(vaccineRef.push().getKey());
+        nnn.setLabels("Otros", "R");
+        vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
+        Vaccine ooo = new Vaccine(vaccineRef.getKey());
+        ooo.addDoses(bbb,ccc,ddd,eee,fff,ggg,hhh,iii,jjj,kkk,lll,mmm,nnn);
+        ooo.setSortOrder(12);
+        ooo.setName("Toxoide Tetánico y Diftérico");
+        vaccineRef.setValue(ooo);
+
+        Dose ppp = new Dose(vaccineRef.push().getKey());
+        ppp.setLabels("Emb", "D");
+        Dose qqq = new Dose(vaccineRef.push().getKey());
+        qqq.setLabels("Otros", "D");
+        vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
+        Vaccine rrr = new Vaccine(vaccineRef.getKey());
+        rrr.addDoses(ppp,qqq);
+        rrr.setSortOrder(13);
+        rrr.setName("Tdap");
+        vaccineRef.setValue(rrr);
+
+        Dose sss = new Dose(vaccineRef.push().getKey());
+        sss.setLabels("11A", "1a");
+        Dose ttt = new Dose(vaccineRef.push().getKey());
+        ttt.setLabels("11A", "2a");
+        Dose uuu = new Dose(vaccineRef.push().getKey());
+        uuu.setLabels("12A", "2a");
+        vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
+        Vaccine vvv = new Vaccine(vaccineRef.getKey());
+        vvv.addDoses(sss,ttt,uuu);
+        vvv.setSortOrder(14);
+        vvv.setName("VPH de niñas");
+        vaccineRef.setValue(vvv);
+
+        Dose www = new Dose(vaccineRef.push().getKey());
+        www.setLabels(">1A", "DU");
+        vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
+        Vaccine xxx = new Vaccine(vaccineRef.getKey());
+        xxx.addDoses(www);
+        xxx.setSortOrder(15);
+        xxx.setName("Fiebre amarilla de viajeros");
+        vaccineRef.setValue(xxx);
+
+        Dose yyy = new Dose(vaccineRef.push().getKey());
+        yyy.setLabels(">5A", "DA");
+        vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
+        Vaccine zzz = new Vaccine(vaccineRef.getKey());
+        zzz.addDoses(yyy);
+        zzz.setSortOrder(16);
+        zzz.setName("SR");
+        vaccineRef.setValue(zzz);
+
+        Dose aaaa = new Dose(vaccineRef.push().getKey());
+        aaaa.setLabels("Puérperas", "DU");
+        vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
+        Vaccine bbbb = new Vaccine(vaccineRef.getKey());
+        bbbb.addDoses(aaaa);
+        bbbb.setSortOrder(17);
+        bbbb.setName("Vitamina A");
+        vaccineRef.setValue(bbbb);
+
+        Dose cccc = new Dose(vaccineRef.push().getKey());
+        cccc.setLabels("Trabajadores", "1a");
+        Dose dddd = new Dose(vaccineRef.push().getKey());
+        dddd.setLabels("Trabajadores", "2a");
+        Dose eeee = new Dose(vaccineRef.push().getKey());
+        eeee.setLabels("Trabajadores", "3a");
+        Dose ffff = new Dose(vaccineRef.push().getKey());
+        ffff.setLabels("Estudiantes", "1a");
+        Dose gggg = new Dose(vaccineRef.push().getKey());
+        gggg.setLabels("Estudiantes", "2a");
+        Dose hhhh = new Dose(vaccineRef.push().getKey());
+        hhhh.setLabels("Estudiantes", "3a");
+        Dose iiii = new Dose(vaccineRef.push().getKey());
+        iiii.setLabels("Diversidad sexual", "1a");
+        Dose jjjj = new Dose(vaccineRef.push().getKey());
+        jjjj.setLabels("Diversidad sexual", "2a");
+        Dose kkkk = new Dose(vaccineRef.push().getKey());
+        kkkk.setLabels("Diversidad sexual", "3a");
+        Dose llll = new Dose(vaccineRef.push().getKey());
+        llll.setLabels("Privados de libertad", "1a");
+        Dose mmmm = new Dose(vaccineRef.push().getKey());
+        mmmm.setLabels("Privados de libertad", "2a");
+        Dose nnnn = new Dose(vaccineRef.push().getKey());
+        nnnn.setLabels("Privados de libertad", "3a");
+        Dose oooo = new Dose(vaccineRef.push().getKey());
+        oooo.setLabels("Consumidores de droga", "1a");
+        Dose pppp = new Dose(vaccineRef.push().getKey());
+        pppp.setLabels("Consumidores de droga", "2a");
+        Dose qqqq = new Dose(vaccineRef.push().getKey());
+        qqqq.setLabels("Consumidores de droga", "3a");
+        Dose rrrr = new Dose(vaccineRef.push().getKey());
+        rrrr.setLabels("Pacientes de díalisis", "1a");
+        Dose ssss = new Dose(vaccineRef.push().getKey());
+        ssss.setLabels("Pacientes de díalisis", "2a");
+        Dose tttt = new Dose(vaccineRef.push().getKey());
+        tttt.setLabels("Pacientes de díalisis", "3a");
+        Dose uuuu = new Dose(vaccineRef.push().getKey());
+        uuuu.setLabels("Pacientes de díalisis", "4a");
+        Dose vvvv = new Dose(vaccineRef.push().getKey());
+        vvvv.setLabels("Otros grupos", "1a");
+        Dose wwww = new Dose(vaccineRef.push().getKey());
+        wwww.setLabels("Otros grupos", "2a");
+        Dose xxxx = new Dose(vaccineRef.push().getKey());
+        xxxx.setLabels("Otros grupos", "3a");
+        vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
+        Vaccine yyyy = new Vaccine(vaccineRef.getKey());
+        yyyy.addDoses(cccc,dddd,eeee,ffff,gggg,hhhh,iiii,jjjj,kkkk,llll,mmmm,nnnn,oooo,pppp,qqqq,rrrr,ssss,tttt,uuuu,vvvv,wwww,xxxx);
+        yyyy.setSortOrder(18);
+        yyyy.setName("Hepatitis B");
+        vaccineRef.setValue(yyyy);
+
+        Dose zzzz = new Dose(vaccineRef.push().getKey());
+        zzzz.setLabels("Primer contacto", "1a");
+        Dose aaaaa = new Dose(vaccineRef.push().getKey());
+        aaaaa.setLabels("6M después", "2a");
+        vaccineRef = mDatabase.child(mDataTable).child(mVaccineTable).push();
+        Vaccine bbbbb = new Vaccine(vaccineRef.getKey());
+        bbbbb.addDoses(vvvv,wwww);
+        bbbbb.setSortOrder(19);
+        bbbbb.setName("Hepatitis A");
+        vaccineRef.setValue(bbbbb);
 
     }
 
