@@ -19,6 +19,8 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.detail;
 
+import android.app.Activity;
+import android.content.Context;
 import android.widget.EditText;
 
 import mhealth.mvax.utilities.WatcherEditText;
@@ -38,12 +40,14 @@ public abstract class Detail<T> {
     private final int mLabelStringId; // label displayed next to value
     private final int mHintStringId; // hint displayed in the value field when there is no set value
     private final boolean mRequired;
+    private final Context mContext;
 
-    Detail(T value, int labelStringId, int hintStringId, boolean required) {
-        this.mValue = value;
-        this.mLabelStringId = labelStringId;
-        this.mHintStringId = hintStringId;
-        this.mRequired = required;
+    Detail(T value, int labelStringId, int hintStringId, boolean required, Context context) {
+        mValue = value;
+        mLabelStringId = labelStringId;
+        mHintStringId = hintStringId;
+        mRequired = required;
+        mContext = context;
         updateStringValue(value);
     }
 
@@ -61,7 +65,7 @@ public abstract class Detail<T> {
      *
      * @param valueView the EditText on which the listener is attached
      */
-    public abstract void getValueViewListener(WatcherEditText valueView);
+    public abstract void getValueViewListener(Activity activity, WatcherEditText valueView);
 
     /**
      * Performs operations to create the String representation of the Detail's
@@ -76,19 +80,24 @@ public abstract class Detail<T> {
     }
 
     public String getStringValue() {
-        return this.mStringValue;
+        return mStringValue;
     }
 
     public int getLabelStringId() {
-        return this.mLabelStringId;
+        return mLabelStringId;
     }
 
     public int getHintStringId() {
-        return this.mHintStringId;
+        return mHintStringId;
     }
 
     public boolean isRequired() {
-        return this.mRequired;
+        return mRequired;
+    }
+
+
+    public Context getContext() {
+        return mContext;
     }
 
     /**
@@ -99,7 +108,7 @@ public abstract class Detail<T> {
      * @param value the new value
      */
     protected void setValue(T value) {
-        this.mValue = value;
+        mValue = value;
         updateStringValue(value);
         mSetter.run();
     }
@@ -112,7 +121,7 @@ public abstract class Detail<T> {
      *               Person object
      */
     public void setSetter(Runnable setter) {
-        this.mSetter = setter;
+        mSetter = setter;
     }
 
 }

@@ -19,11 +19,19 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.detail;
 
-import android.content.DialogInterface;
+import android.app.Activity;
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
+import android.widget.EditText;
 
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import org.joda.time.LocalDate;
+
+import java.util.Calendar;
+
+import mhealth.mvax.R;
 import mhealth.mvax.records.utilities.NullableDateFormat;
-import mhealth.mvax.records.utilities.TypeRunnable;
-import mhealth.mvax.records.modals.DateModal;
 import mhealth.mvax.utilities.WatcherEditText;
 
 /**
@@ -31,24 +39,40 @@ import mhealth.mvax.utilities.WatcherEditText;
  * <p>
  * Detail for storing Date fields
  */
-public class DateDetail extends Detail<Long> {
+public class DateDetail extends Detail<Long> implements DatePickerDialog.OnDateSetListener {
 
-    public DateDetail(Long value, int labelStringId, int hintStringId, boolean required) {
-        super(value, labelStringId, hintStringId, required);
+    private EditText mValueView;
+
+    public DateDetail(Long value, int labelStringId, int hintStringId, boolean required, Context context) {
+        super(value, labelStringId, hintStringId, required, context);
     }
 
     @Override
-    public void getValueViewListener(WatcherEditText valueView) {
-        final TypeRunnable<Long> positiveAction = date -> {
-            setValue(date);
-            valueView.setText(mStringValue);
-        };
-        final DialogInterface.OnClickListener neutralAction = (dialog, which) -> {
-            setValue(null);
-            valueView.setText(mStringValue);
-        };
-        final DateModal dateModal = new DateModal(getValue(), positiveAction, neutralAction, valueView);
-        dateModal.createAndShow();
+    public void getValueViewListener(Activity activity, WatcherEditText valueView) {
+        mValueView = valueView;
+        Calendar cal = Calendar.getInstance();
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH);
+        int year = cal.get(Calendar.YEAR);
+        if (getValue() != null) {
+            final LocalDate date = new LocalDate(getValue());
+            day = date.getDayOfMonth();
+            month = date.getMonthOfYear() - 1;
+            year = date.getYear();
+        }
+        DatePickerDialog datePicker = DatePickerDialog.newInstance(
+                DateDetail.this,
+                year, month, day);
+        final int dukeBlue = ContextCompat.getColor(valueView.getContext(), R.color.dukeBlue);
+        datePicker.setAccentColor(dukeBlue);
+        datePicker.show(activity.getFragmentManager(), "datePicker");
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int month, int day) {
+        final long date = new LocalDate(year, month + 1, day).toDate().getTime();
+        setValue(date);
+        mValueView.setText(mStringValue);
     }
 
     @Override
@@ -58,6 +82,6 @@ public class DateDetail extends Detail<Long> {
 
     @Override
     public void updateStringValue(Long date) {
-        mStringValue = NullableDateFormat.getString(date);
+        mStringValue = NullableDateFormat.getString(getContext(), date);
     }
 }

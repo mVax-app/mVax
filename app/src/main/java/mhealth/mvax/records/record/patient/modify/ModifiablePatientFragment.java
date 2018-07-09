@@ -94,7 +94,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
     }
 
     protected void renderListView(RecyclerView detailsList) {
-        mAdapter = new ModifyPatientAdapter(mPatient.getDetails());
+        mAdapter = new ModifyPatientAdapter(getActivity(), mPatient.getDetails(getContext()));
         detailsList.setAdapter(mAdapter);
         detailsList.setLayoutManager(new LinearLayoutManager(getContext()));
     }

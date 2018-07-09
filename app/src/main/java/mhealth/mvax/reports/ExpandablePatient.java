@@ -19,6 +19,7 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.reports;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Pair;
 
@@ -39,15 +40,17 @@ import mhealth.mvax.utilities.StringFetcher;
 public class ExpandablePatient implements Comparable<ExpandablePatient> {
 
     private Patient mPatient;
-    private List<Pair<String, String>> mRows;
+    private List<Pair<Object, String>> mRows;
+    private int mNumPatientDetails;
 
-    ExpandablePatient(Patient patient) {
+    ExpandablePatient(Context context, Patient patient) {
         mPatient = patient;
         mRows = new ArrayList<>();
-        for (Detail d : mPatient.getDetails()) {
-            String label = StringFetcher.fetchString(d.getLabelStringId());
+        List<Detail> patientDetails = mPatient.getDetails(context);
+        mNumPatientDetails = patientDetails.size();
+        for (Detail d : patientDetails) {
             String value = d.getStringValue();
-            Pair<String, String> row = new Pair<>(label, value);
+            Pair<Object, String> row = new Pair<>(d.getLabelStringId(), value);
             mRows.add(row);
         }
     }
@@ -56,16 +59,16 @@ public class ExpandablePatient implements Comparable<ExpandablePatient> {
         return mPatient.getName();
     }
 
-    public Pair<String, String> getRow(int index) {
+    public Pair<Object, String> getRow(int index) {
         return mRows.get(index);
     }
 
-    public void addRow(Pair<String, String> row) {
+    public void addRow(Pair<Object, String> row) {
         mRows.add(row);
     }
 
     public int getNumPatientDetails() {
-        return mPatient.getDetails().size();
+        return mNumPatientDetails;
     }
 
     public int getNumRows() {

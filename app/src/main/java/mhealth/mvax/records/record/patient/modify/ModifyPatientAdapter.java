@@ -19,6 +19,7 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.modify;
 
+import android.app.Activity;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -36,10 +37,12 @@ import mhealth.mvax.records.record.patient.detail.Detail;
  */
 public class ModifyPatientAdapter extends PatientDetailsAdapter {
 
+    private Activity mActivity;
     private List<EditText> mRequiredFields;
 
-    ModifyPatientAdapter(List<Detail> details) {
+    ModifyPatientAdapter(Activity activity, List<Detail> details) {
         super(details);
+        mActivity = activity;
         mRequiredFields = new ArrayList<>();
     }
 
@@ -58,14 +61,14 @@ public class ModifyPatientAdapter extends PatientDetailsAdapter {
 
         // trigger onclick listener no matter where the row is tapped
         holder.row.setOnClickListener(v ->
-                detail.getValueViewListener(holder.value));
+                detail.getValueViewListener(mActivity, holder.value));
         holder.value.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                detail.getValueViewListener(holder.value);
+                detail.getValueViewListener(mActivity, holder.value);
             }
         });
         holder.value.setOnClickListener(v ->
-                detail.getValueViewListener(holder.value));
+                detail.getValueViewListener(mActivity, holder.value));
 
         // Done button on final field
         if (position == mDetails.size() - 1) {

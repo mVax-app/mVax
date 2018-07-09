@@ -56,7 +56,7 @@ public class DateModal extends CustomModal {
 
     @Override
     public void createAndShow() {
-        final View view = mInflater.inflate(R.layout.modal_date_picker, mParent, false);
+        final View view = mInflater.inflate(R.layout.modal_choose_date, mParent, false);
         final DatePicker datePicker = view.findViewById(R.id.date_picker);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext)

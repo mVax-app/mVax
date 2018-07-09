@@ -178,7 +178,7 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
         mPatients.clear(); // clear out old results
         mView.findViewById(R.id.no_vaccinations).setVisibility(View.INVISIBLE);
         final long date = new LocalDate(year, month + 1, day).toDate().getTime();
-        setReportDate(NullableDateFormat.getString(date));
+        setReportDate(NullableDateFormat.getString(getContext(), date));
         mSpinner.setVisibility(View.VISIBLE);
         downloadVaccinations(date);
     }
@@ -257,7 +257,7 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
                 for (DataSnapshot patientSnap : dataSnapshot.getChildren()) {
                     Patient patient = patientSnap.getValue(Patient.class);
 
-                    ExpandablePatient ep = new ExpandablePatient(patient);
+                    ExpandablePatient ep = new ExpandablePatient(getContext(), patient);
 
                     // TODO clean this up
                     for (Vaccine vaccine : mVaccines) {
@@ -286,7 +286,6 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
                         }
                     }
                     mPatients.add(ep);
-
                 }
 
                 if (++mDownloadedPatients == mNumPatients) { // all patients downloaded

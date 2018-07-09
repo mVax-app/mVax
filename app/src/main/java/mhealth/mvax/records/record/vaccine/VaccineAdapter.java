@@ -104,7 +104,7 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
             TextView date = doseView.findViewById(R.id.dose_date);
             if (mVaccinations.containsKey(dose.getDatabaseKey())) {
                 Vaccination vaccination = mVaccinations.get(dose.getDatabaseKey());
-                final String dateString = NullableDateFormat.getString(vaccination.getDate());
+                final String dateString = NullableDateFormat.getString(mParent.getContext(), vaccination.getDate());
                 date.setText(dateString);
             }
             date.setOnClickListener(v -> promptForVaccinationDate(dose.getDatabaseKey(), vaccine.getDatabaseKey()));
@@ -117,7 +117,7 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
         TextView dateView = holder.dueDate.findViewById(R.id.due_date);
         if (mDueDates.containsKey(vaccine.getDatabaseKey())) {
             DueDate dueDate = mDueDates.get(vaccine.getDatabaseKey());
-            final String dateString = NullableDateFormat.getString(dueDate.getDate());
+            final String dateString = NullableDateFormat.getString(mParent.getContext(), dueDate.getDate());
             dateView.setText(dateString);
         }
         dateView.setOnClickListener(v -> promptForDueDate(vaccine.getDatabaseKey()));

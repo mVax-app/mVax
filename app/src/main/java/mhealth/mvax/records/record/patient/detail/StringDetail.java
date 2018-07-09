@@ -19,6 +19,7 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.detail;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.Editable;
 import android.text.InputType;
@@ -35,12 +36,12 @@ import mhealth.mvax.utilities.WatcherEditText;
 
 public class StringDetail extends Detail<String> {
 
-    public StringDetail(String value, int labelStringId, int hintStringId, boolean required) {
-        super(value, labelStringId, hintStringId, required);
+    public StringDetail(String value, int labelStringId, int hintStringId, boolean required, Context context) {
+        super(value, labelStringId, hintStringId, required, context);
     }
 
     @Override
-    public void getValueViewListener(WatcherEditText valueView) {
+    public void getValueViewListener(Activity activity, WatcherEditText valueView) {
         valueView.requestFocus();
         // force keyboard to refresh
         final InputMethodManager imm = (InputMethodManager) valueView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);

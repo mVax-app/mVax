@@ -65,11 +65,11 @@ public class SearchFragment extends Fragment {
         initSearchIndex();
 
         // TODO get rid of this
-        final RecordFragment detailFrag = RecordFragment.newInstance("-LGjx9gtvqjqubEyEH3Y");
-        getFragmentManager().beginTransaction()
-                .replace(R.id.frame, detailFrag)
-                .addToBackStack(null) // back button brings us back to SearchFragment
-                .commit();
+//        final RecordFragment detailFrag = RecordFragment.newInstance("-LGjx9gtvqjqubEyEH3Y");
+//        getFragmentManager().beginTransaction()
+//                .replace(R.id.frame, detailFrag)
+//                .addToBackStack(null) // back button brings us back to SearchFragment
+//                .commit();
 
         return mView;
     }

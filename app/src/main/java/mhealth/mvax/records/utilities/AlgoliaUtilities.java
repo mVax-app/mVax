@@ -112,10 +112,10 @@ public class AlgoliaUtilities {
                         JSONObject patient = (JSONObject) hits.get(i);
                         SearchResult result = new SearchResult((String) patient.get(objectIdField));
 
-                        result.setFirstName((String) patient.get(firstNameField));
-                        result.setLastName((String) patient.get(lastNameField));
-                        result.setMedicalId((String) patient.get(medicalIdField));
-                        result.setDOB((Long) patient.get(dobField));
+                        if (patient.has(firstNameField)) result.setFirstName((String) patient.get(firstNameField));
+                        if (patient.has(lastNameField)) result.setLastName((String) patient.get(lastNameField));
+                        if (patient.has(medicalIdField)) result.setMedicalId((String) patient.get(medicalIdField));
+                        if (patient.has(dobField)) result.setDOB((Long) patient.get(dobField));
 
                         onHitListener.run(result);
                     } catch (JSONException e) {
@@ -161,16 +161,20 @@ public class AlgoliaUtilities {
 
         try {
             searchObject.put(objectIdField, patient.getDatabaseKey());
-            searchObject.put(firstNameField, patient.getFirstName());
-            searchObject.put(lastNameField, patient.getLastName());
-            searchObject.put(medicalIdField, patient.getMedicalId());
 
-            // save DOB as a string, formatted dd/mm/yyyy for searching
-            String dobSearch = NullableDateFormat.getString(DATE_FORMAT, patient.getDOB());
-            searchObject.put(dobSearchField, dobSearch);
+            if (patient.hasFirstName()) searchObject.put(firstNameField, patient.getFirstName());
+            if (patient.hasLastName()) searchObject.put(lastNameField, patient.getLastName());
+            if (patient.hasMedicalId()) searchObject.put(medicalIdField, patient.getMedicalId());
 
-            searchObject.put(dobField, patient.getDOB());
-            searchObject.put(guardianField, patient.getGuardianName());
+            if (patient.hasDOB()) {
+                // save DOB as a string, formatted dd/mm/yyyy for searching
+                String dobSearch = NullableDateFormat.getString(DATE_FORMAT, patient.getDOB());
+                searchObject.put(dobSearchField, dobSearch);
+
+                searchObject.put(dobField, patient.getDOB());
+            }
+
+            if (patient.hasGuardianName()) searchObject.put(guardianField, patient.getGuardianName());
             array.put(searchObject);
         } catch (JSONException e) {
             Toast.makeText(mActivity, R.string.patient_save_fail, Toast.LENGTH_SHORT).show();

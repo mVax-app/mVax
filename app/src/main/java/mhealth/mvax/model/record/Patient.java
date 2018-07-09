@@ -19,6 +19,8 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.record;
 
+import android.content.Context;
+
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
@@ -74,6 +76,11 @@ public class Patient implements Serializable {
         this.motherId = motherId;
     }
 
+    @Exclude
+    public boolean hasMotherId() {
+        return !this.motherId.equals("");
+    }
+
     /**
      * Child number
      */
@@ -85,6 +92,11 @@ public class Patient implements Serializable {
 
     public void setChildNumber(String childNumber) {
         this.childNumber = childNumber;
+    }
+
+    @Exclude
+    public boolean hasChildNumber() {
+        return !this.childNumber.equals("");
     }
 
     /**
@@ -100,6 +112,11 @@ public class Patient implements Serializable {
         this.medicalId = medicalId;
     }
 
+    @Exclude
+    public boolean hasMedicalId() {
+        return !this.medicalId.equals("");
+    }
+
     /**
      * First name
      */
@@ -113,6 +130,11 @@ public class Patient implements Serializable {
         this.firstName = firstName;
     }
 
+    @Exclude
+    public boolean hasFirstName() {
+        return !this.firstName.equals("");
+    }
+
     /**
      * Last name
      */
@@ -124,6 +146,11 @@ public class Patient implements Serializable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Exclude
+    public boolean hasLastName() {
+        return !this.lastName.equals("");
     }
 
     /**
@@ -140,6 +167,11 @@ public class Patient implements Serializable {
         this.DOB = DOB;
     }
 
+    @Exclude
+    public boolean hasDOB() {
+        return this.DOB != null;
+    }
+
     /**
      * Sex (Male or Female)
      */
@@ -151,6 +183,11 @@ public class Patient implements Serializable {
 
     public void setSex(Sex sex) {
         this.sex = sex;
+    }
+
+    @Exclude
+    public boolean hasSex() {
+        return this.sex != null;
     }
 
     /**
@@ -166,6 +203,11 @@ public class Patient implements Serializable {
         this.placeOfBirth = placeOfBirth;
     }
 
+    @Exclude
+    public boolean hasPlaceOfBirth() {
+        return !this.placeOfBirth.equals("");
+    }
+
     /**
      * Patient residence formatted as
      * municipality, department
@@ -178,6 +220,11 @@ public class Patient implements Serializable {
 
     public void setResidence(String residence) {
         this.residence = residence;
+    }
+
+    @Exclude
+    public boolean hasResidence() {
+        return !this.residence.equals("");
     }
     
     /**
@@ -193,6 +240,11 @@ public class Patient implements Serializable {
         this.locality = locality;
     }
 
+    @Exclude
+    public boolean hasLocality() {
+        return !this.locality.equals("");
+    }
+
     /**
      * Patient residential address
      */
@@ -204,6 +256,11 @@ public class Patient implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Exclude
+    public boolean hasAddress() {
+        return !this.address.equals("");
     }
 
     /**
@@ -219,6 +276,11 @@ public class Patient implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
+    @Exclude
+    public boolean hasPhoneNumber() {
+        return !this.phoneNumber.equals("");
+    }
+
     /**
      * Guardian name
      */
@@ -232,6 +294,11 @@ public class Patient implements Serializable {
         this.guardianName = guardianName;
     }
 
+    @Exclude
+    public boolean hasGuardianName() {
+        return !this.guardianName.equals("");
+    }
+
     /**
      * Computes a String to display the Person's name, in format
      * lastName, firstName
@@ -241,9 +308,6 @@ public class Patient implements Serializable {
      */
     @Exclude
     public String getName() {
-        if (lastName.equals("")) {
-            return StringFetcher.fetchString(R.string.no_patient_name);
-        }
         final StringBuilder sb = new StringBuilder();
         sb.append(lastName);
         if (!firstName.equals("")) sb.append(", ").append(firstName);
@@ -258,7 +322,7 @@ public class Patient implements Serializable {
      * will be displayed
      */
     @Exclude
-    public List<Detail> getDetails() {
+    public List<Detail> getDetails(Context context) {
         ArrayList<Detail> details = new ArrayList<>();
 
         // mother ID
@@ -266,7 +330,8 @@ public class Patient implements Serializable {
                 this.motherId,
                 R.string.label_mother_id,
                 R.string.hint_mother_id,
-                false);
+                false,
+                context);
         motherIdDetail.setSetter(() -> setMotherId(motherIdDetail.getValue()));
         details.add(motherIdDetail);
 
@@ -275,7 +340,8 @@ public class Patient implements Serializable {
                 this.childNumber,
                 R.string.label_child_number,
                 R.string.hint_child_number,
-                false);
+                false,
+                context);
         childNumberDetail.setSetter(() -> setChildNumber(childNumberDetail.getValue()));
         details.add(childNumberDetail);
 
@@ -284,7 +350,8 @@ public class Patient implements Serializable {
                 this.medicalId,
                 R.string.label_medical_id,
                 R.string.hint_medical_id,
-                false);
+                false,
+                context);
         medicalIdDetail.setSetter(() -> setMedicalId(medicalIdDetail.getValue()));
         details.add(medicalIdDetail);
 
@@ -293,7 +360,8 @@ public class Patient implements Serializable {
                 this.firstName,
                 R.string.label_first_name,
                 R.string.hint_first_name,
-                true);
+                true,
+                context);
         firstNameDetail.setSetter(() -> setFirstName(firstNameDetail.getValue()));
         details.add(firstNameDetail);
 
@@ -302,7 +370,8 @@ public class Patient implements Serializable {
                 this.lastName,
                 R.string.label_last_name,
                 R.string.hint_last_name,
-                true);
+                true,
+                context);
         lastNameDetail.setSetter(() -> setLastName(lastNameDetail.getValue()));
         details.add(lastNameDetail);
 
@@ -311,7 +380,8 @@ public class Patient implements Serializable {
                 this.DOB,
                 R.string.label_dob,
                 R.string.hint_dob,
-                true);
+                false,
+                context);
         dobDetail.setSetter(() -> setDOB(dobDetail.getValue()));
         details.add(dobDetail);
 
@@ -320,7 +390,8 @@ public class Patient implements Serializable {
                 this.sex,
                 R.string.label_sex,
                 R.string.hint_sex,
-                true);
+                true,
+                context);
         sexDetail.setSetter(() -> setSex(sexDetail.getValue()));
         details.add(sexDetail);
 
@@ -329,7 +400,8 @@ public class Patient implements Serializable {
                 this.placeOfBirth,
                 R.string.label_pob,
                 R.string.hint_pob,
-                false);
+                false,
+                context);
         placeOfBirthDetail.setSetter(() -> setPlaceOfBirth(placeOfBirthDetail.getValue()));
         details.add(placeOfBirthDetail);
 
@@ -338,7 +410,8 @@ public class Patient implements Serializable {
                 this.residence,
                 R.string.label_residence,
                 R.string.hint_residence,
-                false);
+                false,
+                context);
         residenceDetail.setSetter(() -> setResidence(residenceDetail.getValue()));
         details.add(residenceDetail);
 
@@ -347,7 +420,8 @@ public class Patient implements Serializable {
                 this.locality,
                 R.string.label_locality,
                 R.string.hint_locality,
-                false);
+                false,
+                context);
         localityDetail.setSetter(() -> setLocality(localityDetail.getValue()));
         details.add(localityDetail);
 
@@ -356,7 +430,8 @@ public class Patient implements Serializable {
                 this.address,
                 R.string.label_address,
                 R.string.hint_address,
-                false);
+                true,
+                context);
         addressDetail.setSetter(() -> setAddress(addressDetail.getValue()));
         details.add(addressDetail);
 
@@ -365,7 +440,8 @@ public class Patient implements Serializable {
                 this.phoneNumber,
                 R.string.label_phone_number,
                 R.string.hint_phone_number,
-                false);
+                false,
+                context);
         phoneNumberDetail.setSetter(() -> setPhoneNumber(phoneNumberDetail.getValue()));
         details.add(phoneNumberDetail);
 
@@ -374,7 +450,8 @@ public class Patient implements Serializable {
                 this.guardianName,
                 R.string.label_guardian_name,
                 R.string.hint_guardian_name,
-                true);
+                false,
+                context);
         guardianNameDetail.setSetter(() -> setGuardianName(guardianNameDetail.getValue()));
         details.add(guardianNameDetail);
 

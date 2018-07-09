@@ -1,11 +1,5 @@
 <resources>
 
-    <style name="AppTheme">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
     <!--bottom navigation view-->
     <style name="Widget.BottomNavigationView" parent="Widget.Design.BottomNavigationView">
         <item name="android:fontFamily">@font/avenir_medium</item>

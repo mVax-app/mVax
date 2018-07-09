@@ -88,7 +88,7 @@ public class EditPatientFragment extends ModifiablePatientFragment {
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, String s) {
                 mPatient = dataSnapshot.getValue(Patient.class);
                 if (mPatient != null) {
-                    mAdapter.refresh(mPatient.getDetails());
+                    mAdapter.refresh(mPatient.getDetails(getContext()));
                     Toast.makeText(getActivity(), R.string.patient_update_notification, Toast.LENGTH_SHORT).show();
                 }
             }
