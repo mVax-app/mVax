@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.utilities;
+package mhealth.mvax.records.utilities;
 
 import android.content.Context;
 import android.text.TextWatcher;
@@ -29,12 +29,11 @@ import java.util.List;
 /**
  * @author Robert Steilberg
  * <p>
- * DESCRIPTION
+ * EditText that allows for clearing TextWatchers
  */
 public class WatcherEditText extends android.support.v7.widget.AppCompatEditText {
 
     private List<TextWatcher> mWatchers;
-
 
     public WatcherEditText(Context context) {
         super(context);

@@ -84,7 +84,7 @@ public class ReportAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public Pair<String, String> getChild(int groupPosition, int childPosition) {
+    public Pair<Object, String> getChild(int groupPosition, int childPosition) {
         return getGroup(groupPosition).getRow(childPosition);
     }
 
@@ -129,11 +129,14 @@ public class ReportAdapter extends BaseExpandableListAdapter {
             label.setTypeface(avenirMedium);
             value.setTextColor(darkGray);
             value.setTypeface(avenirHeavy);
-
         }
 
-        Pair<String, String> row = getChild(groupPosition, childPosition);
-        label.setText(row.first);
+        Pair<Object, String> row = getChild(groupPosition, childPosition);
+        if (row.first instanceof Integer) {
+            label.setText((Integer) row.first);
+        } else if (row.first instanceof String) {
+            label.setText((String) row.first);
+        }
         value.setText(row.second);
 
         return convertView;

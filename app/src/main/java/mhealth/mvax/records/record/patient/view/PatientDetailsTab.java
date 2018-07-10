@@ -19,6 +19,7 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -84,7 +85,7 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
         setRecordName();
         initButtons();
 
-        mAdapter = new ViewPatientAdapter(mPatient.getDetails());
+        mAdapter = new ViewPatientAdapter(mPatient.getDetails(getContext()));
         final RecyclerView detailsList = mView.findViewById(R.id.details_list);
         detailsList.setHasFixedSize(true);
         detailsList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -94,7 +95,7 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
     @Override
     public void refresh() {
         setRecordName();
-        mAdapter.refresh(mPatient.getDetails());
+        mAdapter.refresh(mPatient.getDetails(getContext()));
     }
 
     private void initPatientListener(final String databaseKey) {

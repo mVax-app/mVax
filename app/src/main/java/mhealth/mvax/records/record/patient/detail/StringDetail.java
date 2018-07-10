@@ -19,14 +19,14 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.detail;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
-import mhealth.mvax.utilities.WatcherEditText;
+import mhealth.mvax.records.utilities.WatcherEditText;
 
 /**
  * @author Robert Steilberg
@@ -36,14 +36,14 @@ import mhealth.mvax.utilities.WatcherEditText;
 
 public class StringDetail extends Detail<String> {
 
-    public StringDetail(String value, int labelStringId, int hintStringId, boolean required) {
-        super(value, labelStringId, hintStringId, required);
+    public StringDetail(String value, int labelStringId, int hintStringId, boolean required, Context context) {
+        super(value, labelStringId, hintStringId, required, context);
     }
 
     @Override
-    public void getValueViewListener(WatcherEditText valueView) {
+    public void getValueViewListener(Activity activity, WatcherEditText valueView) {
         valueView.requestFocus();
-        // force keyboard to appear
+        // force keyboard to refresh
         final InputMethodManager imm = (InputMethodManager) valueView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.showSoftInput(valueView, InputMethodManager.SHOW_IMPLICIT);
@@ -54,6 +54,7 @@ public class StringDetail extends Detail<String> {
     public void configureValueView(WatcherEditText valueView) {
         valueView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
         valueView.setFocusable(true);
+        valueView.setFocusableInTouchMode(true);
         valueView.clearTextChangedListeners();
         valueView.addTextChangedListener(new TextWatcher() { // set new value every time text is changed
             @Override

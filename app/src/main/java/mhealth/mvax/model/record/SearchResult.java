@@ -19,9 +19,6 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.record;
 
-import mhealth.mvax.R;
-import mhealth.mvax.utilities.StringFetcher;
-
 /**
  * @author Robert Steilberg
  * <p>
@@ -108,9 +105,6 @@ public class SearchResult {
      * if the patient does not have a last name
      */
     public String getName() {
-        if (lastName.equals("")) {
-            return StringFetcher.fetchString(R.string.no_patient_name);
-        }
         final StringBuilder sb = new StringBuilder();
         sb.append(lastName);
         if (!firstName.equals("")) sb.append(", ").append(firstName);

@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -175,12 +176,18 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int month, int day) {
-        mPatients.clear(); // clear out old results
+        clearReports();
         mView.findViewById(R.id.no_vaccinations).setVisibility(View.INVISIBLE);
         final long date = new LocalDate(year, month + 1, day).toDate().getTime();
-        setReportDate(NullableDateFormat.getString(date));
+        setReportDate(NullableDateFormat.getString(getContext(), date));
         mSpinner.setVisibility(View.VISIBLE);
         downloadVaccinations(date);
+    }
+
+    private void clearReports() {
+        mPatients.clear(); // clear out old results
+        final ExpandableListView queryResults = mView.findViewById(R.id.report_results);
+        queryResults.setAdapter(new ReportAdapter(mPatients)); // clear out list view
     }
 
     private void setReportDate(String date) {
@@ -257,7 +264,7 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
                 for (DataSnapshot patientSnap : dataSnapshot.getChildren()) {
                     Patient patient = patientSnap.getValue(Patient.class);
 
-                    ExpandablePatient ep = new ExpandablePatient(patient);
+                    ExpandablePatient ep = new ExpandablePatient(getContext(), patient);
 
                     // TODO clean this up
                     for (Vaccine vaccine : mVaccines) {
@@ -271,12 +278,12 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
                                         if (!vaccination.getYears().isEmpty()) {
                                             sb.append(" ");
                                             sb.append(vaccination.getYears());
-                                            sb.append("a");
+                                            sb.append(getString(R.string.year_abbreviation));
                                         }
                                         if (!vaccination.getMonths().isEmpty()) {
                                             sb.append(" ");
                                             sb.append(vaccination.getMonths());
-                                            sb.append("m");
+                                            sb.append(getString(R.string.month_abbreviation));
                                         }
                                         ep.addRow(new Pair<>(vaccine.getName(), sb.toString()));
 
@@ -286,7 +293,6 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
                         }
                     }
                     mPatients.add(ep);
-
                 }
 
                 if (++mDownloadedPatients == mNumPatients) { // all patients downloaded

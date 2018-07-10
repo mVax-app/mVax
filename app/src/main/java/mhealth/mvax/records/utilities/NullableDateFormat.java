@@ -19,11 +19,12 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.utilities;
 
+import android.content.Context;
+
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import mhealth.mvax.R;
-import mhealth.mvax.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
@@ -31,7 +32,6 @@ import mhealth.mvax.utilities.StringFetcher;
  * Extension of SimpleDateFormat that handles formatting null dates and
  * initializes with default locale
  */
-
 public class NullableDateFormat {
 
     /**
@@ -56,8 +56,8 @@ public class NullableDateFormat {
      * @param date long representing the date (millis since Unix epoch)
      * @return string representation of the date
      */
-    public static String getString(Long date) {
-        final String pattern = StringFetcher.fetchString(R.string.date_format);
+    public static String getString(Context context, Long date) {
+        final String pattern = context.getString(R.string.date_format);
         return getString(pattern, date);
     }
 

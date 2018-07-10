@@ -151,10 +151,10 @@ public class SettingsFragment extends Fragment {
     }
 
     private void initAboutButton(boolean generate) {
+        Button aboutButton = mView.findViewById(R.id.about);
         if (generate) {
-            new DataGenerator(getContext()).generateData();
+            aboutButton.setOnClickListener(view -> new DataGenerator(getContext()).generateData());
         } else {
-            Button aboutButton = mView.findViewById(R.id.about);
             View aboutModalView = mInflater.inflate(R.layout.modal_about, mParent, false);
             AlertDialog aboutModal = new AlertDialog.Builder(mView.getContext())
                     .setView(aboutModalView)

@@ -29,7 +29,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +38,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 import mhealth.mvax.R;
+import mhealth.mvax.records.record.patient.detail.Detail;
 import mhealth.mvax.utilities.modals.LoadingModal;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.record.RecordFragment;
@@ -94,7 +94,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
     }
 
     protected void renderListView(RecyclerView detailsList) {
-        mAdapter = new ModifyPatientAdapter(mPatient.getDetails());
+        mAdapter = new ModifyPatientAdapter(getActivity(), mPatient.getDetails(getContext()));
         detailsList.setAdapter(mAdapter);
         detailsList.setLayoutManager(new LinearLayoutManager(getContext()));
     }
@@ -115,14 +115,16 @@ public abstract class ModifiablePatientFragment extends Fragment {
 
     private boolean noEmptyRequiredFields() {
         boolean noEmptyRequiredFields = true;
-        final ArrayList<EditText> requiredFields = new ArrayList<>(mAdapter.getRequiredFields());
-        for (EditText field : requiredFields) {
-            if (field.getText().toString().isEmpty()) {
-                field.setError(getString(R.string.empty_field));
-                field.requestFocus();
+        ArrayList<Detail> details = new ArrayList<>(mPatient.getDetails(getContext()));
+        for (Detail detail : details) {
+            if (detail.isRequired() && detail.getStringValue().isEmpty()) {
+                detail.setError(true);
                 noEmptyRequiredFields = false;
+            } else {
+                detail.setError(false);
             }
         }
+        mAdapter.refresh(details);
         return noEmptyRequiredFields;
     }
 
