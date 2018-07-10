@@ -278,12 +278,12 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
                                         if (!vaccination.getYears().isEmpty()) {
                                             sb.append(" ");
                                             sb.append(vaccination.getYears());
-                                            sb.append("a");
+                                            sb.append(getString(R.string.year_abbreviation));
                                         }
                                         if (!vaccination.getMonths().isEmpty()) {
                                             sb.append(" ");
                                             sb.append(vaccination.getMonths());
-                                            sb.append("m");
+                                            sb.append(getString(R.string.month_abbreviation));
                                         }
                                         ep.addRow(new Pair<>(vaccine.getName(), sb.toString()));
 

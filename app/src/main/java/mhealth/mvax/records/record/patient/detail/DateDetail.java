@@ -32,7 +32,7 @@ import java.util.Calendar;
 
 import mhealth.mvax.R;
 import mhealth.mvax.records.utilities.NullableDateFormat;
-import mhealth.mvax.utilities.WatcherEditText;
+import mhealth.mvax.records.utilities.WatcherEditText;
 
 /**
  * @author Robert Steilberg

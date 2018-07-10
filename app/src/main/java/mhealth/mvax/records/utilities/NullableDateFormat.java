@@ -25,7 +25,6 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 
 import mhealth.mvax.R;
-import mhealth.mvax.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg
@@ -33,7 +32,6 @@ import mhealth.mvax.utilities.StringFetcher;
  * Extension of SimpleDateFormat that handles formatting null dates and
  * initializes with default locale
  */
-
 public class NullableDateFormat {
 
     /**

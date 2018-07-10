@@ -26,10 +26,8 @@ import android.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-import mhealth.mvax.model.immunization.Vaccination;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.record.patient.detail.Detail;
-import mhealth.mvax.utilities.StringFetcher;
 
 /**
  * @author Robert Steilberg

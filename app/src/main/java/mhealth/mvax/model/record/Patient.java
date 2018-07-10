@@ -32,7 +32,6 @@ import mhealth.mvax.records.record.patient.detail.DateDetail;
 import mhealth.mvax.records.record.patient.detail.Detail;
 import mhealth.mvax.records.record.patient.detail.SexDetail;
 import mhealth.mvax.records.record.patient.detail.StringDetail;
-import mhealth.mvax.utilities.StringFetcher;
 import mhealth.mvax.records.record.patient.detail.StringNumberDetail;
 
 /**

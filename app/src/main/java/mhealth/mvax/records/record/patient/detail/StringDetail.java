@@ -26,7 +26,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.inputmethod.InputMethodManager;
 
-import mhealth.mvax.utilities.WatcherEditText;
+import mhealth.mvax.records.utilities.WatcherEditText;
 
 /**
  * @author Robert Steilberg

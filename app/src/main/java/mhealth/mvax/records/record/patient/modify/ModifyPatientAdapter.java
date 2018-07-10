@@ -20,15 +20,20 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.records.record.patient.modify;
 
 import android.app.Activity;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import mhealth.mvax.R;
 import mhealth.mvax.records.record.patient.PatientDetailsAdapter;
 import mhealth.mvax.records.record.patient.detail.Detail;
+import mhealth.mvax.records.utilities.WatcherEditText;
 
 /**
  * @author Robert Steilberg
@@ -38,12 +43,12 @@ import mhealth.mvax.records.record.patient.detail.Detail;
 public class ModifyPatientAdapter extends PatientDetailsAdapter {
 
     private Activity mActivity;
-    private List<EditText> mRequiredFields;
+    private Map<Integer, WatcherEditText> mRequiredFields;
 
     ModifyPatientAdapter(Activity activity, List<Detail> details) {
         super(details);
         mActivity = activity;
-        mRequiredFields = new ArrayList<>();
+        mRequiredFields = new HashMap<>();
     }
 
     @Override
@@ -79,11 +84,17 @@ public class ModifyPatientAdapter extends PatientDetailsAdapter {
         // place edittext_cursor at end of text
         holder.value.setSelection(detail.getStringValue().length());
 
-        if (detail.isRequired()) mRequiredFields.add(holder.value);
+        if (detail.isRequired()) {
+            mRequiredFields.put(position, holder.value);
+        }
     }
 
-    public List<EditText> getRequiredFields() {
-        return mRequiredFields;
+    public void clearRequiredFields() {
+        mRequiredFields.clear();
+    }
+
+    public Collection<WatcherEditText> getRequiredFields() {
+        return mRequiredFields.values();
     }
 
 }

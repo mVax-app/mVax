@@ -21,9 +21,8 @@ package mhealth.mvax.records.record.patient.detail;
 
 import android.app.Activity;
 import android.content.Context;
-import android.widget.EditText;
 
-import mhealth.mvax.utilities.WatcherEditText;
+import mhealth.mvax.records.utilities.WatcherEditText;
 
 /**
  * @author Robert Steilberg

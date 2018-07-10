@@ -48,21 +48,12 @@ import mhealth.mvax.utilities.LanguageChanger;
  */
 public class MainActivity extends FragmentActivity {
 
-    private FirebaseAuth.IdTokenListener mAuthListener;
-
     private int mCurrentTab;
     private String mCurrentLanguage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mAuthListener = firebaseAuth -> {
-            FirebaseAuth.getInstance().signOut();
-            finish();
-        };
-        FirebaseAuth.getInstance().addIdTokenListener(mAuthListener);
-
         if (savedInstanceState == null) {
             mCurrentLanguage = Locale.getDefault().getLanguage();
 
@@ -84,12 +75,6 @@ public class MainActivity extends FragmentActivity {
             transaction.replace(R.id.frame, chosenTab);
             transaction.commit();
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        FirebaseAuth.getInstance().removeIdTokenListener(mAuthListener);
-        super.onDestroy();
     }
 
     @Override

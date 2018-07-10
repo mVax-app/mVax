@@ -19,9 +19,6 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.model.record;
 
-import mhealth.mvax.R;
-import mhealth.mvax.utilities.StringFetcher;
-
 /**
  * @author Robert Steilberg
  * <p>

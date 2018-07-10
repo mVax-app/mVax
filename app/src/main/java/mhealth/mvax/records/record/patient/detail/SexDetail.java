@@ -25,9 +25,8 @@ import android.content.DialogInterface;
 
 import mhealth.mvax.model.record.Sex;
 import mhealth.mvax.records.utilities.TypeRunnable;
-import mhealth.mvax.utilities.StringFetcher;
 import mhealth.mvax.records.modals.SexModal;
-import mhealth.mvax.utilities.WatcherEditText;
+import mhealth.mvax.records.utilities.WatcherEditText;
 
 /**
  * @author Robert Steilberg
