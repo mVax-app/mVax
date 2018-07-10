@@ -38,7 +38,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 import mhealth.mvax.R;
-import mhealth.mvax.records.utilities.WatcherEditText;
+import mhealth.mvax.records.record.patient.detail.Detail;
 import mhealth.mvax.utilities.modals.LoadingModal;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.record.RecordFragment;
@@ -115,16 +115,16 @@ public abstract class ModifiablePatientFragment extends Fragment {
 
     private boolean noEmptyRequiredFields() {
         boolean noEmptyRequiredFields = true;
-        final ArrayList<WatcherEditText> requiredFields = new ArrayList<>(mAdapter.getRequiredFields());
-        for (WatcherEditText field : requiredFields) {
-            if (field.getText().toString().isEmpty()) {
-                field.setError(getString(R.string.empty_field));
-                field.requestFocus();
+        ArrayList<Detail> details = new ArrayList<>(mPatient.getDetails(getContext()));
+        for (Detail detail : details) {
+            if (detail.isRequired() && detail.getStringValue().isEmpty()) {
+                detail.setError(true);
                 noEmptyRequiredFields = false;
             } else {
-                field.setError(null);
+                detail.setError(false);
             }
         }
+        mAdapter.refresh(details);
         return noEmptyRequiredFields;
     }
 

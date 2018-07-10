@@ -41,12 +41,15 @@ public abstract class Detail<T> {
     private final boolean mRequired;
     private final Context mContext;
 
+    private boolean mHasError;
+
     Detail(T value, int labelStringId, int hintStringId, boolean required, Context context) {
         mValue = value;
         mLabelStringId = labelStringId;
         mHintStringId = hintStringId;
         mRequired = required;
         mContext = context;
+        mHasError = false;
         updateStringValue(value);
     }
 
@@ -121,6 +124,23 @@ public abstract class Detail<T> {
      */
     public void setSetter(Runnable setter) {
         mSetter = setter;
+    }
+
+    /**
+     * @return returns true if the Detail has an error associated with
+     * not having a value when it should (form validation)
+     */
+    public boolean hasError() {
+        return mHasError;
+    }
+
+    /**
+     * Sets whether the Detail has an error or not
+     *
+     * @param hasError the value to set to mHasError
+     */
+    public void setError(boolean hasError) {
+        mHasError = hasError;
     }
 
 }

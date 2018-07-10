@@ -43,12 +43,10 @@ import mhealth.mvax.records.utilities.WatcherEditText;
 public class ModifyPatientAdapter extends PatientDetailsAdapter {
 
     private Activity mActivity;
-    private Map<Integer, WatcherEditText> mRequiredFields;
 
     ModifyPatientAdapter(Activity activity, List<Detail> details) {
         super(details);
         mActivity = activity;
-        mRequiredFields = new HashMap<>();
     }
 
     @Override
@@ -84,17 +82,13 @@ public class ModifyPatientAdapter extends PatientDetailsAdapter {
         // place edittext_cursor at end of text
         holder.value.setSelection(detail.getStringValue().length());
 
-        if (detail.isRequired()) {
-            mRequiredFields.put(position, holder.value);
+        if (detail.hasError()) {
+            holder.value.setError(mActivity.getString(R.string.empty_field));
+            holder.value.requestFocus();
+        } else {
+            holder.value.setError(null);
         }
-    }
 
-    public void clearRequiredFields() {
-        mRequiredFields.clear();
-    }
-
-    public Collection<WatcherEditText> getRequiredFields() {
-        return mRequiredFields.values();
     }
 
 }

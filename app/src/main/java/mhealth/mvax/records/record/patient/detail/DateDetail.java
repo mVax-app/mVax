@@ -73,6 +73,7 @@ public class DateDetail extends Detail<Long> implements DatePickerDialog.OnDateS
         final long date = new LocalDate(year, month + 1, day).toDate().getTime();
         setValue(date);
         mValueView.setText(mStringValue);
+        mValueView.setError(null);
     }
 
     @Override

@@ -45,6 +45,7 @@ public class SexDetail extends Detail<Sex> {
         final TypeRunnable<Sex> positiveAction = sex -> {
             setValue(sex);
             valueView.setText(mStringValue);
+            valueView.setError(null);
         };
         final DialogInterface.OnClickListener neutralAction = (dialog, which) -> {
             setValue(null);
