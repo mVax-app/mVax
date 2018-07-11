@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/sex_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/modal_margin_end"
+        android:layout_marginStart="@dimen/modal_margin_start"
+        android:layout_marginTop="@dimen/modal_margin_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/male_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/dukeBlue"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/male_enum"
+            android:textColor="@color/darkGray"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/female_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/dukeBlue"
+            android:fontFamily="@font/avenir_medium"
+            android:text="@string/female_enum"
+            android:textColor="@color/darkGray"
+            android:textSize="18sp" />
+
+    </RadioGroup>
+
+</android.support.constraint.ConstraintLayout>

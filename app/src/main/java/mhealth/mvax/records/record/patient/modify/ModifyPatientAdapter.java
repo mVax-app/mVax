@@ -19,15 +19,21 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.modify;
 
-import android.view.View;
+import android.app.Activity;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import mhealth.mvax.R;
 import mhealth.mvax.records.record.patient.PatientDetailsAdapter;
 import mhealth.mvax.records.record.patient.detail.Detail;
+import mhealth.mvax.records.utilities.WatcherEditText;
 
 /**
  * @author Robert Steilberg
@@ -36,11 +42,11 @@ import mhealth.mvax.records.record.patient.detail.Detail;
  */
 public class ModifyPatientAdapter extends PatientDetailsAdapter {
 
-    private List<EditText> mRequiredFields;
+    private Activity mActivity;
 
-    ModifyPatientAdapter(List<Detail> details) {
+    ModifyPatientAdapter(Activity activity, List<Detail> details) {
         super(details);
-        mRequiredFields = new ArrayList<>();
+        mActivity = activity;
     }
 
     @Override
@@ -58,12 +64,15 @@ public class ModifyPatientAdapter extends PatientDetailsAdapter {
 
         // trigger onclick listener no matter where the row is tapped
         holder.row.setOnClickListener(v ->
-                detail.getValueViewListener(holder.value));
+                detail.getValueViewListener(mActivity, holder.value));
         holder.value.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) detail.getValueViewListener(holder.value);
+            if (hasFocus) {
+                detail.getValueViewListener(mActivity, holder.value);
+            }
         });
-//        holder.value.setOnClickListener(v ->
-//                detail.getValueViewListener(holder.value));
+        holder.value.setOnClickListener(v ->
+                detail.getValueViewListener(mActivity, holder.value));
+
         // Done button on final field
         if (position == mDetails.size() - 1) {
             holder.value.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -73,11 +82,13 @@ public class ModifyPatientAdapter extends PatientDetailsAdapter {
         // place edittext_cursor at end of text
         holder.value.setSelection(detail.getStringValue().length());
 
-        if (detail.isRequired()) mRequiredFields.add(holder.value);
-    }
+        if (detail.hasError()) {
+            holder.value.setError(mActivity.getString(R.string.empty_field));
+            holder.value.requestFocus();
+        } else {
+            holder.value.setError(null);
+        }
 
-    public List<EditText> getRequiredFields() {
-        return mRequiredFields;
     }
 
 }

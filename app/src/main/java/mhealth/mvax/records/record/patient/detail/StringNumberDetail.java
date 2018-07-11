@@ -19,12 +19,10 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.detail;
 
-import android.text.InputFilter;
+import android.content.Context;
 import android.text.InputType;
-import android.text.Spanned;
-import android.widget.EditText;
 
-import mhealth.mvax.utilities.WatcherEditText;
+import mhealth.mvax.records.utilities.WatcherEditText;
 
 /**
  * @author Robert Steilberg
@@ -35,8 +33,8 @@ import mhealth.mvax.utilities.WatcherEditText;
 
 public class StringNumberDetail extends StringDetail {
 
-    public StringNumberDetail(String value, int labelStringId, int hintStringId, boolean required) {
-        super(value, labelStringId, hintStringId, required);
+    public StringNumberDetail(String value, int labelStringId, int hintStringId, boolean required, Context context) {
+        super(value, labelStringId, hintStringId, required, context);
     }
 
     @Override

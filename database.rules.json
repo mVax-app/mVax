@@ -1,12 +1,18 @@
 {
   "rules": {
     "config" : {
-      ".read": "auth != null",
-      ".write": "false"
+      "algolia": {
+        ".read": "auth != null",
+        ".write": "false"
+      },
+      "mail": {
+        ".read": "true",
+        ".write": "false"
+      }
     },
     "data": {
       ".read": "auth != null",
-      ".write": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'",
+      ".write": "auth != null",
       "vaccinations": {
         ".indexOn": ["patientDatabaseKey", "date"]
       },
@@ -19,9 +25,9 @@
       "$uid": {
         "email": {
           ".write": "$uid === auth.uid"
-        },
+        }
       },
-      ".read": "auth != null"
+      ".read": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'"
     },
     "requests": {
       ".read": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'",

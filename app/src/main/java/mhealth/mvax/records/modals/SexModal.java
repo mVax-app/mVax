@@ -49,12 +49,11 @@ public class SexModal extends CustomModal {
 
     @Override
     public void createAndShow() {
-        final View view = mInflater.inflate(R.layout.modal_sex_picker, mParent, false);
-        final RadioGroup radioGroup = view.findViewById(R.id.choose_sex_radio_group);
+        final View view = mInflater.inflate(R.layout.modal_choose_sex, mParent, false);
+        final RadioGroup radioGroup = view.findViewById(R.id.sex_radio_group);
 
         mDialog = new AlertDialog.Builder(mContext)
                 .setView(view)
-                .setTitle(R.string.modal_sex_title)
                 .setPositiveButton(R.string.modal_sex_confirm, (dialog, which) -> {
                     switch (radioGroup.getCheckedRadioButtonId()) {
                         case R.id.male_radio_button:
@@ -78,7 +77,7 @@ public class SexModal extends CustomModal {
         } else if (mValue == Sex.FEMALE) {
             radioGroup.check(R.id.female_radio_button);
         }
-        mDialog.show();
+        show();
     }
 
 }

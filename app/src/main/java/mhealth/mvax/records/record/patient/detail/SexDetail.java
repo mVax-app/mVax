@@ -19,14 +19,14 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.detail;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.widget.EditText;
 
 import mhealth.mvax.model.record.Sex;
 import mhealth.mvax.records.utilities.TypeRunnable;
-import mhealth.mvax.utilities.StringFetcher;
 import mhealth.mvax.records.modals.SexModal;
-import mhealth.mvax.utilities.WatcherEditText;
+import mhealth.mvax.records.utilities.WatcherEditText;
 
 /**
  * @author Robert Steilberg
@@ -36,15 +36,16 @@ import mhealth.mvax.utilities.WatcherEditText;
 
 public class SexDetail extends Detail<Sex> {
 
-    public SexDetail(Sex sex, int labelStringId, int hintStringId, boolean required) {
-        super(sex, labelStringId, hintStringId, required);
+    public SexDetail(Sex sex, int labelStringId, int hintStringId, boolean required, Context context) {
+        super(sex, labelStringId, hintStringId, required, context);
     }
 
     @Override
-    public void getValueViewListener(WatcherEditText valueView) {
+    public void getValueViewListener(Activity activity, WatcherEditText valueView) {
         final TypeRunnable<Sex> positiveAction = sex -> {
             setValue(sex);
             valueView.setText(mStringValue);
+            valueView.setError(null);
         };
         final DialogInterface.OnClickListener neutralAction = (dialog, which) -> {
             setValue(null);
@@ -56,13 +57,13 @@ public class SexDetail extends Detail<Sex> {
 
     @Override
     public void configureValueView(WatcherEditText valueView) {
-//        valueView.setFocusable(false); // disable interaction because of the dialog
+        valueView.setFocusable(false); // disable interaction because of the modal
     }
 
     @Override
     public void updateStringValue(Sex sex) {
         if (sex != null) {
-            mStringValue = StringFetcher.fetchString(sex.getResourceId());
+            mStringValue = getContext().getString(sex.getResourceId());
         } else {
             mStringValue = "";
         }

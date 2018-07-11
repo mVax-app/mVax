@@ -79,8 +79,10 @@ public class AuthActivity extends Activity {
         if (BYPASS_LOGIN) {
             mAuth.signInWithEmailAndPassword("devadmin@mvax.com", "devadmin1")
                     .addOnCompleteListener(task -> {
-                        Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(mainIntent);
+                        if (task.isSuccessful()) {
+                            Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(mainIntent);
+                        }
                     });
         }
     }
