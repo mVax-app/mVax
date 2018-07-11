@@ -7,6 +7,15 @@
     android:layout_marginEnd="@dimen/modal_margin_end"
     android:orientation="horizontal">
 
+    <ProgressBar
+        android:id="@+id/spinner"
+        style="@android:style/Widget.DeviceDefault.ProgressBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginRight="5dp"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/dose_label"
         android:layout_width="wrap_content"

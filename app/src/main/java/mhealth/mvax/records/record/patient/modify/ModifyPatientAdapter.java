@@ -55,6 +55,7 @@ public class ModifyPatientAdapter extends PatientDetailsAdapter {
         holder.value.setHint(hint + " ");
         holder.value.setText(detail.getStringValue());
 
+        holder.row.setFocusable(false);
         // trigger onclick listener no matter where the row is tapped
         holder.row.setOnClickListener(v ->
                 detail.getValueViewListener(mActivity, holder.value));

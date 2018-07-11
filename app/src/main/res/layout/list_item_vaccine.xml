@@ -50,6 +50,15 @@
                 android:textColor="@color/darkGray"
                 android:textSize="@dimen/text_size_subtitle" />
 
+            <ProgressBar
+                android:id="@+id/spinner"
+                style="@android:style/Widget.DeviceDefault.ProgressBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:visibility="gone" />
+
         </LinearLayout>
 
     </LinearLayout>

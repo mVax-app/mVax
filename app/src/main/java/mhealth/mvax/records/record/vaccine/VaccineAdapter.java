@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,12 +73,14 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView vaccineName, dueDate;
         LinearLayout vaccineDoses;
+        ProgressBar dueDateSpinner;
 
         ViewHolder(View itemView) {
             super(itemView);
             vaccineName = itemView.findViewById(R.id.vaccine_name);
             vaccineDoses = itemView.findViewById(R.id.vaccine_doses);
             dueDate = itemView.findViewById(R.id.due_date);
+            dueDateSpinner = itemView.findViewById(R.id.spinner);
         }
     }
 
@@ -107,7 +110,10 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
                 final String dateString = NullableDateFormat.getString(mParent.getContext(), vaccination.getDate());
                 date.setText(dateString);
             }
-            date.setOnClickListener(v -> promptForVaccinationDate(dose.getDatabaseKey(), vaccine.getDatabaseKey()));
+
+            ProgressBar spinner = doseView.findViewById(R.id.spinner);
+
+            date.setOnClickListener(v -> promptForVaccinationDate(dose.getDatabaseKey(), vaccine.getDatabaseKey(), spinner));
 
             holder.vaccineDoses.addView(doseView);
         }
@@ -120,7 +126,7 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
             final String dateString = NullableDateFormat.getString(mParent.getContext(), dueDate.getDate());
             dateView.setText(dateString);
         }
-        dateView.setOnClickListener(v -> promptForDueDate(vaccine.getDatabaseKey()));
+        dateView.setOnClickListener(v -> promptForDueDate(vaccine.getDatabaseKey(), holder.dueDateSpinner));
     }
 
     @Override
@@ -136,7 +142,7 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
         notifyDataSetChanged();
     }
 
-    private void promptForVaccinationDate(String doseKey, String vaccineKey) {
+    private void promptForVaccinationDate(String doseKey, String vaccineKey, ProgressBar spinner) {
         Long existingDate = null;
         String existingMonths = null;
         String existingYears = null;
@@ -148,15 +154,16 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
         }
 
         final TypeRunnable<Bundle> positiveAction = args -> {
+            spinner.setVisibility(View.VISIBLE);
             Long date = args.getLong("date");
             String months = args.getString("months");
             String years = args.getString("years");
-            saveVaccination(doseKey, vaccineKey, date, months, years);
+            saveVaccination(doseKey, vaccineKey, date, months, years, spinner);
         };
         final DialogInterface.OnClickListener neutralAction = (dialog, which) -> {
             if (mVaccinations.containsKey(doseKey)) {
                 final Vaccination dateToDelete = mVaccinations.get(doseKey);
-                deleteDate(dateToDelete.getDatabaseKey(), R.string.vaccination_table);
+                deleteDate(dateToDelete.getDatabaseKey(), R.string.vaccination_table, spinner);
             }
         };
         final VaccinationModal vaccinationModal = new VaccinationModal(
@@ -169,23 +176,23 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
         vaccinationModal.createAndShow();
     }
 
-    private void promptForDueDate(String vaccineKey) {
+    private void promptForDueDate(String vaccineKey, ProgressBar spinner) {
         Long existingDate = null;
         if (mDueDates.containsKey(vaccineKey)) {
             existingDate = mDueDates.get(vaccineKey).getDate();
         }
-        final TypeRunnable<Long> positiveAction = date -> saveDueDate(vaccineKey, date);
+        final TypeRunnable<Long> positiveAction = date -> saveDueDate(vaccineKey, date, spinner);
         final DialogInterface.OnClickListener neutralAction = (dialog, which) -> {
             if (mDueDates.containsKey(vaccineKey)) {
                 final DueDate dateToDelete = mDueDates.get(vaccineKey);
-                deleteDate(dateToDelete.getDatabaseKey(), R.string.due_date_table);
+                deleteDate(dateToDelete.getDatabaseKey(), R.string.due_date_table, spinner);
             }
         };
         final DateModal dateModal = new DateModal(existingDate, positiveAction, neutralAction, mParent);
         dateModal.createAndShow();
     }
 
-    private void saveVaccination(String doseKey, String vaccineKey, Long date, String months, String years) {
+    private void saveVaccination(String doseKey, String vaccineKey, Long date, String months, String years, ProgressBar spinner) {
         final String masterTable = getString(R.string.data_table);
         final String dataTable = getString(R.string.vaccination_table);
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference()
@@ -203,6 +210,7 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
         vaccination.setYears(years);
 
         databaseRef.child(vaccination.getDatabaseKey()).setValue(vaccination).addOnCompleteListener(task -> {
+            spinner.setVisibility(View.GONE);
             if (task.isSuccessful()) {
                 Toast.makeText(mParent.getContext(), R.string.vaccination_save_success, Toast.LENGTH_LONG).show();
             } else {
@@ -211,7 +219,9 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
         });
     }
 
-    private void saveDueDate(String vaccineKey, Long date) {
+    private void saveDueDate(String vaccineKey, Long date, ProgressBar spinner) {
+        spinner.setVisibility(View.VISIBLE);
+
         final String masterTable = getString(R.string.data_table);
         final String dataTable = getString(R.string.due_date_table);
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference()
@@ -227,6 +237,7 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
         }
 
         databaseRef.child(dueDate.getDatabaseKey()).setValue(dueDate).addOnCompleteListener(task -> {
+            spinner.setVisibility(View.GONE);
             if (task.isSuccessful()) {
                 Toast.makeText(mParent.getContext(), R.string.due_date_save_success, Toast.LENGTH_LONG).show();
             } else {
@@ -235,7 +246,9 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
         });
     }
 
-    private void deleteDate(String key, int database) {
+    private void deleteDate(String key, int database, ProgressBar spinner) {
+        spinner.setVisibility(View.VISIBLE);
+
         final String masterTable = getString(R.string.data_table);
         final String dataTable = getString(database);
         FirebaseDatabase.getInstance().getReference()
@@ -243,6 +256,7 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
                 .child(dataTable)
                 .child(key)
                 .setValue(null).addOnCompleteListener(task -> {
+            spinner.setVisibility(View.GONE);
             if (task.isSuccessful()) {
                 Toast.makeText(mParent.getContext(), R.string.date_delete_success, Toast.LENGTH_LONG).show();
             } else {
