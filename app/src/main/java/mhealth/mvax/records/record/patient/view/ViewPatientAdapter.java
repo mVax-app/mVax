@@ -19,6 +19,8 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.view;
 
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 import mhealth.mvax.records.record.patient.PatientDetailsAdapter;
@@ -36,7 +38,7 @@ public class ViewPatientAdapter extends PatientDetailsAdapter {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final Detail detail = mDetails.get(position);
         holder.field.setText(detail.getLabelStringId());
         holder.value.setText(detail.getStringValue());
