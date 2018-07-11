@@ -22,18 +22,11 @@ package mhealth.mvax.records.record.patient.modify;
 import android.app.Activity;
 import android.view.inputmethod.EditorInfo;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import mhealth.mvax.R;
 import mhealth.mvax.records.record.patient.PatientDetailsAdapter;
 import mhealth.mvax.records.record.patient.detail.Detail;
-import mhealth.mvax.records.utilities.WatcherEditText;
 
 /**
  * @author Robert Steilberg

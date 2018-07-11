@@ -19,6 +19,7 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.modify;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -142,6 +144,13 @@ public abstract class ModifiablePatientFragment extends Fragment {
 
     private void viewRecord() {
         mLoadingModal.dismiss();
+
+        // dismiss soft keyboard
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(mView.getWindowToken(), 0);
+        }
+
         Toast.makeText(getActivity(), R.string.patient_save_notification, Toast.LENGTH_SHORT).show();
 
         // in case of create, pop "Edit -> Search" from back stack and commit it
