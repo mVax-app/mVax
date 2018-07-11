@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 def versionMajor = 2
-def versionMinor = 2
+def versionMinor = 3
 
 android {
     signingConfigs {
@@ -100,7 +100,7 @@ dependencies {
     implementation 'com.github.yesidlazaro:GmailBackground:1.2.0'
     implementation 'com.thoughtbot:expandablerecyclerview:1.3'
     implementation 'com.wdullaer:materialdatetimepicker:3.6.2' // https://github.com/wdullaer/MaterialDateTimePicker#theme-the-pickers
-
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0' // used to scroll auth view
 }
 
 apply plugin: 'com.google.gms.google-services'

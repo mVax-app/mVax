@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/base"
-    android:overScrollMode="never">
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,18 +15,12 @@
         android:layout_marginBottom="@dimen/modal_margin_bottom"
         android:background="@color/base">
 
-        <TextView
-            android:id="@+id/auth_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="180dp"
-            android:focusable="true"
-            android:fontFamily="@font/avenir_heavy"
-            android:text="@string/auth_login"
-            android:textAlignment="center"
-            android:textColor="@color/dukeBlue"
-            android:textSize="@dimen/text_size_title"
-            android:textStyle="bold"
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_marginTop="45dp"
+            android:src="@drawable/logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,11 +31,11 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="70dp"
             android:layout_marginStart="70dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/auth_title">
+            app:layout_constraintTop_toBottomOf="@+id/logo">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/email_input"
@@ -146,10 +143,10 @@
             style="@android:style/Widget.DeviceDefault.ProgressBar.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/auth_inputs"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/auth_inputs" />
 
     </android.support.constraint.ConstraintLayout>
 
