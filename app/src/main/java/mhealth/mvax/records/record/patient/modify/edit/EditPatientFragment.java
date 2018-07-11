@@ -19,7 +19,6 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.modify.edit;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
@@ -41,6 +40,7 @@ import mhealth.mvax.R;
 import mhealth.mvax.model.immunization.DueDate;
 import mhealth.mvax.model.immunization.Vaccination;
 import mhealth.mvax.model.record.Patient;
+import mhealth.mvax.records.modals.DeleteRecordModal;
 import mhealth.mvax.records.record.patient.modify.ModifiablePatientFragment;
 import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.records.utilities.AlgoliaUtilities;
@@ -136,12 +136,8 @@ public class EditPatientFragment extends ModifiablePatientFragment {
     }
 
     private void promptForRecordDelete() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(R.string.modal_record_delete_title);
-        builder.setMessage(R.string.modal_record_delete_message);
-        builder.setPositiveButton(getResources().getString(R.string.modal_confirm), (dialog, which) -> deleteCurrentRecord());
-        builder.setNegativeButton(getResources().getString(R.string.modal_cancel), (dialog, which) -> dialog.cancel());
-        builder.show();
+        DeleteRecordModal modal = new DeleteRecordModal(mView, this::deleteCurrentRecord);
+        modal.createAndShow();
     }
 
     private void deleteCurrentRecord() {
@@ -169,27 +165,54 @@ public class EditPatientFragment extends ModifiablePatientFragment {
 
     private void deleteVaccinations() {
         final String masterTable = getResources().getString(R.string.data_table);
-        final String vaccinationTable = getResources().getString(R.string.vaccination_table);
+        final String sinova1VaccinationTable = getResources().getString(R.string.sinova_1_vaccination_table);
+        final String sinova2VaccinationTable = getResources().getString(R.string.sinova_2_vaccination_table);
         final String patientField = getResources().getString(R.string.patient_database_key);
 
-        DatabaseReference vaccinationRef = FirebaseDatabase.getInstance().getReference()
+        DatabaseReference sinova1Ref = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
-                .child(vaccinationTable);
-        Query vaccinationQuery = vaccinationRef
+                .child(sinova1VaccinationTable);
+        Query sinova1Query = sinova1Ref
                 .orderByChild(patientField)
                 .equalTo(mPatient.getDatabaseKey());
 
-        vaccinationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference sinova2Ref = FirebaseDatabase.getInstance().getReference()
+                .child(masterTable)
+                .child(sinova2VaccinationTable);
+        Query sinova2Query = sinova2Ref
+                .orderByChild(patientField)
+                .equalTo(mPatient.getDatabaseKey());
+
+        sinova1Query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot vaccinationSnap : dataSnapshot.getChildren()) {
                     Vaccination vaccination = vaccinationSnap.getValue(Vaccination.class);
                     if (vaccination != null) {
                         String vaccinationKey = vaccination.getDatabaseKey();
-                        vaccinationRef.child(vaccinationKey).setValue(null);
+                        sinova1Ref.child(vaccinationKey).setValue(null);
                     }
                 }
-                deleteDueDates();
+
+                sinova2Query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot vaccinationSnap : dataSnapshot.getChildren()) {
+                            Vaccination vaccination = vaccinationSnap.getValue(Vaccination.class);
+                            if (vaccination != null) {
+                                String vaccinationKey = vaccination.getDatabaseKey();
+                                sinova2Ref.child(vaccinationKey).setValue(null);
+                            }
+                        }
+                        deleteDueDates();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(mView.getContext(), R.string.patient_delete_incomplete, Toast.LENGTH_LONG).show();
+                    }
+                });
+
             }
 
             @Override

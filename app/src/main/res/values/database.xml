@@ -9,8 +9,12 @@
     <string name="password">password</string>
 
     <string name="data_table">data</string>
-    <string name="vaccine_table">vaccines</string>
-    <string name="vaccination_table">vaccinations</string>
+
+    <string name="sinova_1_vaccine_table">sinova1Vaccines</string>
+    <string name="sinova_1_vaccination_table">sinova1Vaccinations</string>
+    <string name="sinova_2_vaccine_table">sinova2Vaccines</string>
+    <string name="sinova_2_vaccination_table">sinova2Vaccinations</string>
+
     <string name="due_date_table">dueDates</string>
 
     <string name="patient_table">patients</string>

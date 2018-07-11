@@ -76,19 +76,20 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
     private void initTabs(String recordDatabaseKey, LayoutInflater inflater, ViewGroup parent) {
         // set up tab layout
         TabLayout tabLayout = mView.findViewById(R.id.record_tabs);
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_title_record_details)));
-        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_title_vaccine_schedule)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.record_details_tab_title)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.sinova_1_tab_title)));
+        tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.sinova_2_tab_title)));
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TextView tabView = (TextView) inflater.inflate(R.layout.tab, parent, false);
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             if (tab != null) {
+                // set up tab colors
                 tab.setCustomView(tabView);
                 ColorStateList textColor = tabLayout.getTabTextColors();
                 tabView.setTextColor(textColor);
             }
         }
-
         tabLayout.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.base));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -101,10 +102,11 @@ public class RecordFragment extends Fragment implements TabLayout.OnTabSelectedL
 
         // initialize tab fragments
         final PatientDetailsTab patientDetailsTab = PatientDetailsTab.newInstance(recordDatabaseKey);
-        final VaccineScheduleTab vaccineScheduleTab = VaccineScheduleTab.newInstance(recordDatabaseKey);
+        final VaccineScheduleTab sinova1Tab = VaccineScheduleTab.newInstance(recordDatabaseKey, R.string.sinova_1_vaccine_table, R.string.sinova_1_vaccination_table);
+        final VaccineScheduleTab sinova2Tab = VaccineScheduleTab.newInstance(recordDatabaseKey, R.string.sinova_2_vaccine_table, R.string.sinova_2_vaccination_table);
 
         // init adapter for pager
-        final DualTabPagerAdapter pager = new DualTabPagerAdapter(getChildFragmentManager(), patientDetailsTab, vaccineScheduleTab);
+        final TabPagerAdapter pager = new TabPagerAdapter(getChildFragmentManager(), patientDetailsTab, sinova1Tab, sinova2Tab);
         mViewPager.setAdapter(pager);
     }
 

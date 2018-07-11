@@ -54,14 +54,15 @@ import mhealth.mvax.records.record.RecordTab;
  */
 public class VaccineScheduleTab extends Fragment implements RecordTab {
 
-//    private LoadingModal mLoadingModal;
-
     private View mView;
     private VaccineAdapter mAdapter;
 
     private List<Vaccine> mVaccines;
     private Map<String, Vaccination> mVaccinations;
     private Map<String, DueDate> mDueDates;
+
+    private int mVaccineDatabaseId;
+    private int mVaccinationDatabaseId;
 
     private String mPatientDatabaseKey;
     private DatabaseReference mVaccineRef;
@@ -77,20 +78,22 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
         mDueDates = new HashMap<>();
     }
 
-    public static VaccineScheduleTab newInstance(String patientDatabaseKey) {
+    public static VaccineScheduleTab newInstance(String patientDatabaseKey, int vaccineDatabaseId, int vaccinationDatabaseId) {
         final VaccineScheduleTab newInstance = new VaccineScheduleTab();
         final Bundle args = new Bundle();
         args.putString("patientDatabaseKey", patientDatabaseKey);
+        args.putInt("vaccineDatabaseId", vaccineDatabaseId);
+        args.putInt("vaccinationDatabaseId", vaccinationDatabaseId);
         newInstance.setArguments(args);
         return newInstance;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_vaccine_schedule, container, false);
-//        mLoadingModal = new LoadingModal(mView);
-//        mLoadingModal.createAndShow();
 
+        mVaccineDatabaseId = getArguments().getInt("vaccineDatabaseId");
+        mVaccinationDatabaseId = getArguments().getInt("vaccinationDatabaseId");
         mPatientDatabaseKey = getArguments().getString("patientDatabaseKey");
 
         initVaccineListener();
@@ -110,12 +113,11 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
 
     @Override
     public void render() {
-        mAdapter = new VaccineAdapter(mPatientDatabaseKey);
+        mAdapter = new VaccineAdapter(mPatientDatabaseKey, mVaccinationDatabaseId);
         RecyclerView vaccineList = mView.findViewById(R.id.vaccine_list);
         vaccineList.setHasFixedSize(true);
         vaccineList.setLayoutManager(new LinearLayoutManager(getContext()));
         vaccineList.setAdapter(mAdapter);
-
     }
 
     @Override
@@ -126,12 +128,11 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
     private void initVaccineListener() {
         mVaccineRef = FirebaseDatabase.getInstance().getReference()
                 .child(getString(R.string.data_table))
-                .child(getString(R.string.vaccine_table));
+                .child(getString(mVaccineDatabaseId));
 
         mVaccineListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String prevKey) {
-//                mLoadingModal.dismiss();
                 final Vaccine vaccine = dataSnapshot.getValue(Vaccine.class);
                 if (vaccine != null) {
                     mVaccines.add(vaccine);
@@ -169,7 +170,7 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
     private void initVaccinationsListener() {
         mVaccinationsQuery = FirebaseDatabase.getInstance().getReference()
                 .child(getString(R.string.data_table))
-                .child(getString(R.string.vaccination_table))
+                .child(getString(mVaccinationDatabaseId))
                 .orderByChild(getString(R.string.patient_database_key))
                 .equalTo(mPatientDatabaseKey);
 

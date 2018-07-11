@@ -63,7 +63,7 @@ public class SettingsFragment extends Fragment {
     private ViewGroup mParent;
     private LoadingModal mLoadingModal;
 
-    private static boolean GENERATE_DATA = true;
+    private static boolean GENERATE_DATA = false;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
