@@ -19,10 +19,10 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package mhealth.mvax.records.record.patient.view;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -42,6 +42,7 @@ import mhealth.mvax.R;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.record.RecordTab;
 import mhealth.mvax.records.record.patient.modify.edit.EditPatientFragment;
+import mhealth.mvax.records.search.SearchFragment;
 
 /**
  * @author Robert Steilberg
@@ -125,8 +126,7 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 Toast.makeText(getActivity(), R.string.patient_delete_success, Toast.LENGTH_SHORT).show();
-                // pop "Record -> Search" from back stack and commit it
-                getActivity().getFragmentManager().popBackStack();
+                exit();
             }
 
             @Override
@@ -169,6 +169,19 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
                     .addToBackStack(null)
                     .commit();
         });
+    }
+
+    private void exit() {
+        // pop view -> edit
+        getActivity().getSupportFragmentManager().popBackStack();
+        // pop create/view -> view/edit
+        getActivity().getSupportFragmentManager().popBackStack();
+        // pop search -> create/view
+        getActivity().getSupportFragmentManager().popBackStack();
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, SearchFragment.newInstance());
+        transaction.commit();
     }
 
 }
