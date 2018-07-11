@@ -29,10 +29,10 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +41,8 @@ import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+
+import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
 import java.util.Locale;
 
@@ -62,16 +64,17 @@ public class AuthActivity extends Activity {
     private static final int ANIMATION_SPEED_INSTANT = 0;
 
     private FirebaseAuth mAuth;
-    private AutoCompleteTextView mEmailView;
+    private EditText mEmailView;
     private EditText mPasswordView;
     private ProgressBar mSpinner;
     private int mScreenWidth;
 
-    private static boolean BYPASS_LOGIN = true;
+    private static boolean BYPASS_LOGIN = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         initViews();
         if (BYPASS_LOGIN) {
             mAuth.signInWithEmailAndPassword("devadmin@mvax.com", "devadmin1")
@@ -137,12 +140,29 @@ public class AuthActivity extends Activity {
             return false;
         });
 
-        // re-focusing to the password EditText clears out any text
+        // scroll entire view to bottom on focus to input fields
+        mEmailView.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) scrollToBottom();
+        });
         mPasswordView.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                mPasswordView.setText("");
+                scrollToBottom();
+                mPasswordView.setText(""); // re-focusing to the password EditText clears out any text
             }
         });
+        KeyboardVisibilityEvent.setEventListener(this, isOpen -> {
+            if (isOpen) scrollToBottom();
+        });
+    }
+
+    private void scrollToBottom() {
+        ScrollView scrollView = findViewById(R.id.scroll_view);
+        View lastChild = scrollView.getChildAt(scrollView.getChildCount() - 1);
+        int scrollBottom = lastChild.getBottom() + scrollView.getPaddingBottom();
+        int scrollY = scrollView.getScrollY();
+        int scrollHeight = scrollView.getHeight();
+        int delta = scrollBottom - (scrollY + scrollHeight);
+        scrollView.post(() -> scrollView.smoothScrollBy(0, delta));
     }
 
     private void initButtons() {

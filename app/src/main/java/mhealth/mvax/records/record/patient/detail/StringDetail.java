@@ -46,7 +46,7 @@ public class StringDetail extends Detail<String> {
         // force keyboard to appear
         final InputMethodManager imm = (InputMethodManager) valueView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
-            imm.showSoftInput(valueView, InputMethodManager.SHOW_IMPLICIT);
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         }
     }
 
