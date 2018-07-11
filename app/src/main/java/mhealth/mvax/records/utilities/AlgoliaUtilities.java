@@ -26,7 +26,6 @@ import android.widget.Toast;
 import com.algolia.search.saas.Client;
 import com.algolia.search.saas.Index;
 import com.algolia.search.saas.Query;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -37,7 +36,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.Map;
 
 import mhealth.mvax.R;
@@ -112,9 +110,12 @@ public class AlgoliaUtilities {
                         JSONObject patient = (JSONObject) hits.get(i);
                         SearchResult result = new SearchResult((String) patient.get(objectIdField));
 
-                        if (patient.has(firstNameField)) result.setFirstName((String) patient.get(firstNameField));
-                        if (patient.has(lastNameField)) result.setLastName((String) patient.get(lastNameField));
-                        if (patient.has(medicalIdField)) result.setMedicalId((String) patient.get(medicalIdField));
+                        if (patient.has(firstNameField))
+                            result.setFirstName((String) patient.get(firstNameField));
+                        if (patient.has(lastNameField))
+                            result.setLastName((String) patient.get(lastNameField));
+                        if (patient.has(medicalIdField))
+                            result.setMedicalId((String) patient.get(medicalIdField));
                         if (patient.has(dobField)) result.setDOB((Long) patient.get(dobField));
 
                         onHitListener.run(result);
@@ -174,7 +175,8 @@ public class AlgoliaUtilities {
                 searchObject.put(dobField, patient.getDOB());
             }
 
-            if (patient.hasGuardianName()) searchObject.put(guardianField, patient.getGuardianName());
+            if (patient.hasGuardianName())
+                searchObject.put(guardianField, patient.getGuardianName());
             array.put(searchObject);
         } catch (JSONException e) {
             Toast.makeText(mActivity, R.string.patient_save_fail, Toast.LENGTH_SHORT).show();
