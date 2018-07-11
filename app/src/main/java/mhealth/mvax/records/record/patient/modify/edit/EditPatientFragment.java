@@ -22,6 +22,8 @@ package mhealth.mvax.records.record.patient.modify.edit;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,10 +33,20 @@ import android.widget.Toast;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.immunization.DueDate;
+import mhealth.mvax.model.immunization.Vaccination;
 import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.record.patient.modify.ModifiablePatientFragment;
+import mhealth.mvax.records.search.SearchFragment;
 import mhealth.mvax.records.utilities.AlgoliaUtilities;
 
 /**
@@ -152,20 +164,92 @@ public class EditPatientFragment extends ModifiablePatientFragment {
     private void deleteRecordFromDatabase() {
         mPatientRef.child(mPatient.getDatabaseKey()).setValue(null).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                mLoadingModal.dismiss();
-                Toast.makeText(getActivity(), R.string.patient_delete_success, Toast.LENGTH_SHORT).show();
-                exit();
+                deleteVaccinations();
             } else {
                 Toast.makeText(getActivity(), R.string.patient_delete_fail, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    private void deleteVaccinations() {
+        final String masterTable = getResources().getString(R.string.data_table);
+        final String vaccinationTable = getResources().getString(R.string.vaccination_table);
+        final String patientField = getResources().getString(R.string.patient_database_key);
+
+        DatabaseReference vaccinationRef = FirebaseDatabase.getInstance().getReference()
+                .child(masterTable)
+                .child(vaccinationTable);
+        Query vaccinationQuery = vaccinationRef
+                .orderByChild(patientField)
+                .equalTo(mPatient.getDatabaseKey());
+
+        vaccinationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot vaccinationSnap : dataSnapshot.getChildren()) {
+                    Vaccination vaccination = vaccinationSnap.getValue(Vaccination.class);
+                    if (vaccination != null) {
+                        String vaccinationKey = vaccination.getDatabaseKey();
+                        vaccinationRef.child(vaccinationKey).setValue(null);
+                    }
+                }
+                deleteDueDates();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(mView.getContext(), R.string.patient_delete_incomplete, Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+    private void deleteDueDates() {
+        final String masterTable = getResources().getString(R.string.data_table);
+        final String dueDateTable = getResources().getString(R.string.due_date_table);
+        final String patientField = getResources().getString(R.string.patient_database_key);
+
+        DatabaseReference dueDateRef = FirebaseDatabase.getInstance().getReference()
+                .child(masterTable)
+                .child(dueDateTable);
+        Query vaccinationQuery = dueDateRef
+                .orderByChild(patientField)
+                .equalTo(mPatient.getDatabaseKey());
+
+        vaccinationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot dueDateSnap : dataSnapshot.getChildren()) {
+                    DueDate dueDate = dueDateSnap.getValue(DueDate.class);
+                    if (dueDate != null) {
+                        String dueDateKey = dueDate.getDatabaseKey();
+                        dueDateRef.child(dueDateKey).setValue(null);
+                    }
+                }
+                mLoadingModal.dismiss();
+                Toast.makeText(getActivity(), R.string.patient_delete_success, Toast.LENGTH_SHORT).show();
+                exit();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(mView.getContext(), R.string.patient_delete_incomplete, Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
     private void exit() {
-        // pop "Edit -> Record" from back stack and commit it
-        getActivity().getFragmentManager().popBackStack();
-        // pop "Record -> Search" from back stack and commit it
-        getActivity().getFragmentManager().popBackStack();
+        // pop view -> edit
+        getActivity().getSupportFragmentManager().popBackStack();
+        // pop create/view -> view/edit
+        getActivity().getSupportFragmentManager().popBackStack();
+        // pop search -> create/view
+        getActivity().getSupportFragmentManager().popBackStack();
+
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame, SearchFragment.newInstance());
+        transaction.commit();
     }
 
 }
