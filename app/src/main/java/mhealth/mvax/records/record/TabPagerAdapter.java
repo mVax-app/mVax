@@ -23,41 +23,31 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * @author Robert Steilberg
  * <p>
  * Adapter for managing swipeable tabs
  */
-class DualTabPagerAdapter extends FragmentStatePagerAdapter {
+public class TabPagerAdapter extends FragmentStatePagerAdapter {
 
-    private static final int TAB_COUNT = 2;
-    private Fragment mFirstTab;
-    private Fragment mSecondTab;
+    private ArrayList<Fragment> mTabs;
 
-    DualTabPagerAdapter(FragmentManager fm, Fragment firstTab, Fragment secondTab) {
+    TabPagerAdapter(FragmentManager fm, Fragment... tabs) {
         super(fm);
-        mFirstTab = firstTab;
-        mSecondTab = secondTab;
+        mTabs = new ArrayList<>(Arrays.asList(tabs));
     }
 
-    /**
-     * Return the tab at the specified position
-     */
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return mFirstTab;
-            case 1:
-                return mSecondTab;
-            default:
-                return null;
-        }
+        return mTabs.get(position);
     }
 
     @Override
     public int getCount() {
-        return TAB_COUNT;
+        return mTabs.size();
     }
 
 }

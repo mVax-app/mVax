@@ -60,14 +60,16 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
     private ViewGroup mParent;
 
     private String mPatientKey;
+    private int mVaccinationDatabaseId;
     private List<Vaccine> mVaccines;
     private Map<String, Vaccination> mVaccinations;
     private Map<String, DueDate> mDueDates;
 
-    VaccineAdapter(String patientKey) {
+    VaccineAdapter(String patientKey, int vaccinationDatabaseId) {
         mVaccines = new ArrayList<>();
         mVaccinations = new HashMap<>();
         mPatientKey = patientKey;
+        mVaccinationDatabaseId = vaccinationDatabaseId;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -163,7 +165,7 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
         final DialogInterface.OnClickListener neutralAction = (dialog, which) -> {
             if (mVaccinations.containsKey(doseKey)) {
                 final Vaccination dateToDelete = mVaccinations.get(doseKey);
-                deleteDate(dateToDelete.getDatabaseKey(), R.string.vaccination_table, spinner);
+                deleteDate(dateToDelete.getDatabaseKey(), mVaccinationDatabaseId, spinner);
             }
         };
         final VaccinationModal vaccinationModal = new VaccinationModal(
@@ -194,7 +196,7 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
 
     private void saveVaccination(String doseKey, String vaccineKey, Long date, String months, String years, ProgressBar spinner) {
         final String masterTable = getString(R.string.data_table);
-        final String dataTable = getString(R.string.vaccination_table);
+        final String dataTable = getString(mVaccinationDatabaseId);
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
                 .child(dataTable);

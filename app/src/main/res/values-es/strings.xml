@@ -62,8 +62,8 @@
     <string name="no_search_results">No hay resultados de búsqueda</string>
 
     <!-- Patients/record details-->
-    <string name="tab_title_record_details">Detalles del registro</string>
-    <string name="tab_title_vaccine_schedule">Vacunas</string>
+    <string name="record_details_tab_title">Detalles del registro</string>
+    <string name="sinova_1_tab_title">Vacunas</string>
     <string name="vaccine_tab_title">Historia de vacunas</string>
     <string name="date_format">dd/MM/yyyy</string>
     <string name="DOB_prompt">Fec nac:</string>

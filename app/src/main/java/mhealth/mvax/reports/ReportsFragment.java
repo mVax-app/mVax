@@ -71,6 +71,9 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
     private Button mSinova1Button;
     private Button mSinova2Button;
 
+    private int mVaccineDatabaseId;
+    private int mVaccinationDatabaseId;
+
     private ArrayList<Vaccine> mVaccines;
     private String mReportDate;
     private ArrayList<ExpandablePatient> mPatients;
@@ -91,26 +94,22 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
         mView = inflater.inflate(R.layout.fragment_reports, container, false);
         mSpinner = mView.findViewById(R.id.spinner);
         mSinova1Button = mView.findViewById(R.id.sinova_1);
-        mSinova1Button.setOnClickListener(v -> promptForDate());
+        mSinova1Button.setOnClickListener(v -> promptForDate(R.string.sinova_1_vaccine_table, R.string.sinova_1_vaccination_table));
         mSinova2Button = mView.findViewById(R.id.sinova_2);
+        mSinova2Button.setOnClickListener(v -> promptForDate(R.string.sinova_2_vaccine_table, R.string.sinova_2_vaccination_table));
         mLoadingModal = new LoadingModal(mView);
 
         if (savedInstanceState != null) {
-            mVaccines = (ArrayList<Vaccine>) savedInstanceState.getSerializable("vaccines");
             mPatients = (ArrayList<ExpandablePatient>) savedInstanceState.getSerializable("patients");
             setReportDate(savedInstanceState.getString("reportDate"));
             render();
-        } else {
-            disableButtons();
-            downloadVaccines();
         }
 
         return mView;
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable("vaccines", mVaccines);
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putSerializable("reportDate", mReportDate);
         outState.putSerializable("patients", mPatients);
         super.onSaveInstanceState(outState);
@@ -123,45 +122,10 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
         super.onResume();
     }
 
-    private void downloadVaccines() {
-        mLoadingModal.createAndShow();
-        final String masterTable = getResources().getString(R.string.data_table);
-        final String vaccinationTable = getResources().getString(R.string.vaccine_table);
+    private void promptForDate(int vaccineDatabaseId, int vaccinationDatabaseId) {
+        mVaccineDatabaseId = vaccineDatabaseId;
+        mVaccinationDatabaseId = vaccinationDatabaseId;
 
-        DatabaseReference vaccineRef = FirebaseDatabase.getInstance().getReference()
-                .child(masterTable)
-                .child(vaccinationTable);
-        vaccineRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot vaccineSnap : dataSnapshot.getChildren()) {
-                    Vaccine vaccine = vaccineSnap.getValue(Vaccine.class);
-                    if (vaccine != null) mVaccines.add(vaccine);
-                }
-                Collections.sort(mVaccines);
-                mLoadingModal.dismiss();
-                enableButtons();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(mView.getContext(), R.string.report_init_fail, Toast.LENGTH_LONG).show();
-                mLoadingModal.dismiss();
-            }
-        });
-    }
-
-    private void enableButtons() {
-        mSinova1Button.setEnabled(true);
-        mSinova2Button.setEnabled(true);
-    }
-
-    private void disableButtons() {
-        mSinova1Button.setEnabled(false);
-        mSinova2Button.setEnabled(false);
-    }
-
-    private void promptForDate() {
         Calendar cal = Calendar.getInstance();
         DatePickerDialog datePicker = DatePickerDialog.newInstance(
                 ReportsFragment.this,
@@ -176,14 +140,16 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
     @Override
     public void onDateSet(DatePickerDialog view, int year, int month, int day) {
         clearReports();
+
         mView.findViewById(R.id.no_vaccinations).setVisibility(View.INVISIBLE);
         final long date = new LocalDate(year, month + 1, day).toDate().getTime();
         setReportDate(NullableDateFormat.getString(getContext(), date));
         mSpinner.setVisibility(View.VISIBLE);
-        downloadVaccinations(date);
+        downloadVaccines(date);
     }
 
     private void clearReports() {
+        mVaccines.clear();
         mPatients.clear(); // clear out old results
         final ExpandableListView queryResults = mView.findViewById(R.id.report_results);
         queryResults.setAdapter(new ReportAdapter(mPatients)); // clear out list view
@@ -195,10 +161,37 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
         reportDate.setText(mReportDate);
     }
 
-    private void downloadVaccinations(Long date) {
+    private void downloadVaccines(Long date) {
         final String masterTable = getResources().getString(R.string.data_table);
-        final String vaccinationTable = getResources().getString(R.string.vaccination_table);
-        final String dateField = getResources().getString(R.string.date);
+        final String vaccineTable = getResources().getString(mVaccineDatabaseId);
+
+        DatabaseReference sinova1Ref = FirebaseDatabase.getInstance().getReference()
+                .child(masterTable)
+                .child(vaccineTable);
+
+        sinova1Ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot vaccineSnap : dataSnapshot.getChildren()) {
+                    Vaccine vaccine = vaccineSnap.getValue(Vaccine.class);
+                    if (vaccine != null) mVaccines.add(vaccine);
+                }
+                Collections.sort(mVaccines);
+                downloadVaccinations(date);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(mView.getContext(), R.string.report_init_fail, Toast.LENGTH_LONG).show();
+                mLoadingModal.dismiss();
+            }
+        });
+    }
+
+    private void downloadVaccinations(Long date) {
+        final String masterTable = getString(R.string.data_table);
+        final String vaccinationTable = getString(mVaccinationDatabaseId);
+        final String dateField = getString(R.string.date);
         Query vaccinationQuery = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
                 .child(vaccinationTable)
