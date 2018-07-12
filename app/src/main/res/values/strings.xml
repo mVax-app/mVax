@@ -151,7 +151,10 @@
     <string name="hint_guardian_name">guardian name</string>
 
     <!-- Alerts for upcoming vaccinations-->
-
+    <string name="no_alerts">No overdue patients</string>
+    <string name="alert_download_fail">Unable to download overdue patients</string>
+    <string name="alert_download_incomplete">Unable to download all overdue patients</string>
+    <string name="phone_prompt">Phone:</string>
 
     <!-- Dashboard-->
     <string name="vaccine_card_given_text">Administered</string>

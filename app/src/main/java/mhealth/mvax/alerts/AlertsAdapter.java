@@ -17,8 +17,9 @@ You should have received a copy of the GNU General Public
 License along with mVax; see the file LICENSE. If not, see
 <http://www.gnu.org/licenses/>.
 */
-package mhealth.mvax.records.search;
+package mhealth.mvax.alerts;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,68 +27,68 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import mhealth.mvax.R;
-import mhealth.mvax.model.record.SearchResult;
+import mhealth.mvax.model.record.Patient;
 import mhealth.mvax.records.record.RecordFragment;
 import mhealth.mvax.records.utilities.NullableDateFormat;
 
 /**
  * @author Robert Steilberg
  * <p>
- * Adapter for listing record search results
+ * Adapter for listing overdue patients
  */
-public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.ViewHolder> {
+public class AlertsAdapter extends RecyclerView.Adapter<AlertsAdapter.ViewHolder> {
 
-    private List<SearchResult> mSearchResults;
     private FragmentActivity mActivity;
-    private int mHashCode;
+    private List<Patient> mPatients;
 
-    SearchResultAdapter(FragmentActivity activity) {
-        mSearchResults = new ArrayList<>();
+    AlertsAdapter(List<Patient> patients, FragmentActivity activity) {
+        mPatients = patients;
+        Collections.sort(mPatients);
         mActivity = activity;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         View row;
-        TextView name, medicalId, dob;
+        TextView name, phone, dob;
 
         ViewHolder(View view) {
             super(view);
             row = view;
             name = view.findViewById(R.id.name);
-            medicalId = view.findViewById(R.id.phone);
+            phone = view.findViewById(R.id.phone);
             dob = view.findViewById(R.id.dob);
         }
 
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final View row = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_search_result, parent, false);
+                .inflate(R.layout.list_item_overdue_patient, parent, false);
         return new ViewHolder(row);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        final SearchResult result = mSearchResults.get(position);
-        holder.name.setText(result.getName());
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        final Patient patient = mPatients.get(position);
+        holder.name.setText(patient.getName());
 
         final String DOBprompt = mActivity.getString(R.string.DOB_prompt);
         final String DOBstr = DOBprompt
-                + " " + NullableDateFormat.getString(mActivity, result.getDOB());
+                + " " + NullableDateFormat.getString(mActivity, patient.getDOB());
         holder.dob.setText(DOBstr);
 
-        final String medicalIdPrompt = mActivity.getString(R.string.medical_id_prompt)
-                + " " + result.getMedicalId();
-        holder.medicalId.setText(medicalIdPrompt);
+        final String phonePrompt = mActivity.getString(R.string.phone_prompt)
+                + " " + patient.getPhoneNumber();
+        holder.phone.setText(phonePrompt);
 
         holder.row.setOnClickListener(v -> {
-            SearchResult chosenResult = mSearchResults.get(position);
-            final RecordFragment detailFrag = RecordFragment.newInstance(chosenResult.getDatabaseKey());
+            final RecordFragment detailFrag = RecordFragment.newInstance(patient.getDatabaseKey());
             mActivity.getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frame, detailFrag)
                     .addToBackStack(null) // back button brings us back to SearchFragment
@@ -97,38 +98,24 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     @Override
     public int getItemCount() {
-        return mSearchResults.size();
+        return mPatients.size();
     }
 
     /**
-     * Adds a newly received SearchResult to the adapter, pushing changes to the
-     * UI; search result is only added if it corresponds to the most recent query (debounce)
-     *
-     * @param result   SearchResult to add
-     * @param hashCode hashCode of the current query
+     * Refresh list view with a new data set
      */
-    public void addSearchResult(SearchResult result, int hashCode) {
-        if (hashCode == mHashCode) {
-            mSearchResults.add(result);
-        }
+    public void refresh(List<Patient> patients) {
+        mPatients = patients;
+        Collections.sort(mPatients);
         notifyDataSetChanged();
     }
 
     /**
-     * Clear out all search results from the UI
+     * Clear out all overdue patients from the list view
      */
-    public void clearSearchResults() {
-        mSearchResults.clear();
+    public void clearResults() {
+        mPatients.clear();
         notifyDataSetChanged();
-    }
-
-    /**
-     * Sets the hash code of the most recent query; used for debouncing
-     *
-     * @param hashCode the hash code of the most recent query
-     */
-    public void setHashCode(int hashCode) {
-        mHashCode = hashCode;
     }
 
 }

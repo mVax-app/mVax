@@ -27,4 +27,6 @@
     <dimen name="button_width">220dp</dimen>
     <dimen name="approve_manage_users_button_width">150dp</dimen>
 
+    <dimen name="alert_calendar_tile_height">20dp</dimen>
+
 </resources>

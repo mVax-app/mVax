@@ -144,20 +144,4 @@ public class Vaccine implements Serializable, Comparable<Vaccine> {
         return this.sortOrder.compareTo(that.sortOrder);
     }
 
-    /**
-     * Increment a vaccine's given count by one
-     */
-    @Exclude
-    public void incrementGivenCount() {
-        givenCount++;
-    }
-
-    /**
-     * Decrement a vaccine's given count by one
-     */
-    @Exclude
-    public void decrementGivenCount() {
-        givenCount--;
-    }
-
 }

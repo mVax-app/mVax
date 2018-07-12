@@ -113,9 +113,9 @@ public class MainActivity extends FragmentActivity {
             case R.id.nav_alerts:
                 selectedFragment = AlertsFragment.newInstance();
                 break;
-            case R.id.nav_stats:
-                selectedFragment = StatsFragment.newInstance();
-                break;
+//            case R.id.nav_stats:
+//                selectedFragment = StatsFragment.newInstance();
+//                break;
             case R.id.nav_reports:
                 selectedFragment = ReportsFragment.newInstance();
                 break;
