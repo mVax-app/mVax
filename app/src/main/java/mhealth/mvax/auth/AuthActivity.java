@@ -69,7 +69,7 @@ public class AuthActivity extends Activity {
     private ProgressBar mSpinner;
     private int mScreenWidth;
 
-    private static boolean BYPASS_LOGIN = true;
+    private static boolean BYPASS_LOGIN = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
