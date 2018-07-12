@@ -90,8 +90,8 @@
     <string name="modal_date_title">Choose a date</string>
     <string name="modal_vaccination_date_title">Choose vaccination date and patients current age</string>
     <string name="due_date_label">Due date:</string>
-    <string name="vaccination_month">Months</string>
-    <string name="vaccination_year">Years</string>
+    <string name="vaccination_month">Months:</string>
+    <string name="vaccination_year">Years:</string>
 
     <!-- Patients/record details activity-->
     <string name="save_record_button">Save record</string>
