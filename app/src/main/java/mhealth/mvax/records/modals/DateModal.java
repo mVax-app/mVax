@@ -61,7 +61,6 @@ public class DateModal extends CustomModal {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext)
                 .setView(view)
-                .setTitle(R.string.modal_date_title)
                 .setPositiveButton(R.string.modal_date_confirm, (dialog, which) -> {
                     final int day = datePicker.getDayOfMonth();
                     final int month = datePicker.getMonth() + 1;
@@ -78,7 +77,7 @@ public class DateModal extends CustomModal {
             final LocalDate date = new LocalDate(mDate);
             datePicker.updateDate(date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth());
         }
-        mDialog.show();
+        show();
     }
 
 }

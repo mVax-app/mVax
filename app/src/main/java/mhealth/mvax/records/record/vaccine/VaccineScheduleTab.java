@@ -27,6 +27,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -96,6 +97,7 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
         mVaccinationDatabaseId = getArguments().getInt("vaccinationDatabaseId");
         mPatientDatabaseKey = getArguments().getString("patientDatabaseKey");
 
+        setTabTitle();
         initVaccineListener();
         initVaccinationsListener();
         initDueDatesListener();
@@ -122,7 +124,22 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
 
     @Override
     public void refresh() {
+        mView.findViewById(R.id.spinner).setVisibility(View.GONE);
         mAdapter.refresh(mVaccines, mVaccinations, mDueDates);
+    }
+
+    private void setTabTitle() {
+        TextView title = mView.findViewById(R.id.vaccine_tab_title);
+        switch (mVaccineDatabaseId) {
+            case R.string.sinova_1_vaccine_table:
+                title.setText(R.string.sinova_1_tab_title);
+                break;
+            case R.string.sinova_2_vaccine_table:
+                title.setText(R.string.sinova_2_tab_title);
+                break;
+            default:
+                break;
+        }
     }
 
     private void initVaccineListener() {
