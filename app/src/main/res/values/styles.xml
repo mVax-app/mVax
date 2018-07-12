@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/tools">
 
     <!--bottom navigation view-->
     <style name="Widget.BottomNavigationView" parent="Widget.Design.BottomNavigationView">
@@ -20,6 +20,23 @@
         <item name="colorAccent">@color/dukeBlue</item>
         <!-- color of hint when activated/raised and line color -->
         <item name="colorControlActivated">@color/dukeBlue</item>
+    </style>
+
+    <style name="AlertCalendarHeader">
+        <item name="android:textColor">@color/dukeBlue</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:fontFamily">@font/avenir_heavy</item>
+    </style>
+
+    <style name="AlertCalendarWeek">
+        <item name="android:textColor">@color/dukeBlue</item>
+        <item name="android:fontFamily">@font/avenir_heavy</item>
+    </style>
+
+    <style name="AlertCalendarDate">
+        <item name="android:textSize">@dimen/text_size_subtitle</item>
+        <item name="android:fontFamily">@font/avenir_medium</item>
+        <item name="android:textColor">@drawable/calendar_day_color</item>
     </style>
 
 </resources>

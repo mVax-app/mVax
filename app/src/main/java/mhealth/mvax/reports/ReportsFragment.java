@@ -138,12 +138,13 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
     }
 
     @Override
+    // TODO set listener that isn't the whole fragment
     public void onDateSet(DatePickerDialog view, int year, int month, int day) {
         clearReports();
 
         mView.findViewById(R.id.no_vaccinations).setVisibility(View.INVISIBLE);
         final long date = new LocalDate(year, month + 1, day).toDate().getTime();
-        setReportDate(NullableDateFormat.getString(getContext(), date));
+        setReportDate(NullableDateFormat.getString(mView.getContext(), date));
         mSpinner.setVisibility(View.VISIBLE);
         downloadVaccines(date);
     }
@@ -162,8 +163,8 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
     }
 
     private void downloadVaccines(Long date) {
-        final String masterTable = getResources().getString(R.string.data_table);
-        final String vaccineTable = getResources().getString(mVaccineDatabaseId);
+        final String masterTable = getString(R.string.data_table);
+        final String vaccineTable = getString(mVaccineDatabaseId);
 
         DatabaseReference sinova1Ref = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)

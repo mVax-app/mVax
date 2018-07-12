@@ -20,6 +20,7 @@ License along with mVax; see the file LICENSE. If not, see
 package mhealth.mvax.model.record;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.google.firebase.database.Exclude;
 
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mhealth.mvax.R;
+import mhealth.mvax.model.immunization.Vaccine;
 import mhealth.mvax.records.record.patient.detail.DateDetail;
 import mhealth.mvax.records.record.patient.detail.Detail;
 import mhealth.mvax.records.record.patient.detail.SexDetail;
@@ -39,7 +41,7 @@ import mhealth.mvax.records.record.patient.detail.StringNumberDetail;
  * <p>
  * Data structure for representing an mVax Patient
  */
-public class Patient implements Serializable {
+public class Patient implements Serializable, Comparable<Patient> {
 
     private Patient() {
         // Firebase POJO constructor
@@ -225,7 +227,7 @@ public class Patient implements Serializable {
     public boolean hasResidence() {
         return !this.residence.equals("");
     }
-    
+
     /**
      * Patient residential locality
      */
@@ -457,4 +459,15 @@ public class Patient implements Serializable {
         return details;
     }
 
+    /**
+     * Sorts Patients by lastName
+     *
+     * @param that Patient to sort against
+     * @return negative integer, zero, or a positive integer if this
+     * Patient is less than, equal to, or greater than that Patient
+     */
+    @Override
+    public int compareTo(@NonNull Patient that) {
+        return this.lastName.compareTo(that.lastName);
+    }
 }
