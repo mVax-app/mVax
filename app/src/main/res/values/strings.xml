@@ -64,7 +64,6 @@
     <string name="record_details_tab_title">Record details</string>
     <string name="sinova_1_tab_title">SINOVA 1</string>
     <string name="sinova_2_tab_title">SINOVA 2</string>
-    <string name="vaccine_tab_title">Vaccine history</string>
     <string name="date_format">MM/dd/yyyy</string>
     <string name="DOB_prompt">DOB:</string>
     <string name="medical_id_prompt">ID:</string>

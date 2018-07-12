@@ -13,7 +13,6 @@
         android:layout_marginStart="@dimen/page_margin_start"
         android:layout_marginTop="@dimen/title_margin_top"
         android:fontFamily="@font/avenir_heavy"
-        android:text="@string/vaccine_tab_title"
         android:textColor="@color/dukeBlue"
         android:textSize="@dimen/text_size_title"
         app:layout_constraintLeft_toLeftOf="parent"

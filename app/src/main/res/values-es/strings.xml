@@ -63,8 +63,8 @@
 
     <!-- Patients/record details-->
     <string name="record_details_tab_title">Detalles del registro</string>
-    <string name="sinova_1_tab_title">Vacunas</string>
-    <string name="vaccine_tab_title">Historia de vacunas</string>
+    <string name="sinova_1_tab_title">SINOVA 1</string>
+    <string name="sinova_2_tab_title">SINOVA 2</string>
     <string name="date_format">dd/MM/yyyy</string>
     <string name="DOB_prompt">Fec nac:</string>
     <string name="medical_id_prompt">ID:</string>
