@@ -13,11 +13,11 @@
         android:title="@string/alerts_icon_title"
         android:visible="true" />
 
-    <item
-        android:id="@+id/nav_stats"
-        android:icon="@drawable/ic_data"
-        android:title="@string/dashboard_icon_title"
-        android:visible="true" />
+    <!--<item-->
+        <!--android:id="@+id/nav_stats"-->
+        <!--android:icon="@drawable/ic_data"-->
+        <!--android:title="@string/dashboard_icon_title"-->
+        <!--android:visible="true" />-->
 
     <item
         android:id="@+id/nav_reports"
