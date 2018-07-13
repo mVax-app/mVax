@@ -27,7 +27,7 @@
 
     <!-- Login/request for new account-->
     <string name="register_modal_title">Request new account</string>
-    <string name="modal_register_subtitle">You can request an mVax account by providing your name and email and tapping Submit. An mVax administrator will then approve or deny your request for an account. Upon approval, you can log into mVax.\n\nYour password must be at least 8 characters long and have at least one uppercase letter, one lowercase letter, one digit, and one special character (@#$%&amp;+=!).</string>
+    <string name="modal_register_subtitle">You can request an mVax account by providing your name and email and tapping Submit. An mVax administrator will then approve or deny your request. Upon approval, you can log into mVax.\n\nYour password must be at least 8 characters long and have at least one uppercase letter, one lowercase letter, one digit, and one special character (@#$%&amp;+=!).</string>
     <string name="hint_register_display_name">full name</string>
     <string name="empty_field">This field is required</string>
     <string name="invalid_email_error">Invalid email address</string>
@@ -320,7 +320,7 @@
     <string name="deny_email_body">Hello %1$s,\n\nYour request for an mVax account has been denied. Please request another account or contact an administrator.\n\n\nThanks,\n\nThe mVax team</string>
 
     <string name="deny_user_modal_title">Deny user request</string>
-    <string name="modal_deny_user_request_message">Are you sure you want to deny this user\'s request for an mVax account? They will be notified that their request has been denied, and they will be able to request another account later if they wish.</string>
+    <string name="modal_deny_user_request_message">Are you sure you want to deny this user\'s request for an mVax account? They will be notified that their request has been denied and will be able to request another account later if they wish.</string>
 
     <string name="approve_user_success">User has been approved and their account has been activated</string>
     <string name="approve_user_fail">Unexpected error approving user request</string>
@@ -335,7 +335,7 @@
     <string name="user_download_fail">Unable to download current user info</string>
 
     <string name="manage_users_title">Current mVax users</string>
-    <string name="user_management_instructions">This page can be used to manage current mVax users. You can change the role of any user or delete a user.</string>
+    <string name="user_management_instructions">This page can be used to manage current mVax users. You can change a user's role or delete a user.</string>
 
     <string name="change_role">Change role</string>
     <string name="change_role_modal_title">Change role</string>
