@@ -15,7 +15,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "mhealth.mvax"
-        minSdkVersion 26
+        minSdkVersion 24
         targetSdkVersion 27
         versionCode versionMajor * 1000 + versionMinor * 100
         versionName "${versionMajor}.${versionMinor}"
@@ -25,22 +25,22 @@ android {
     productFlavors {
         dev {
             applicationId 'mhealth.mvax.dev'
-            minSdkVersion 26
-            targetSdkVersion 26
+            minSdkVersion 24
+            targetSdkVersion 27
             signingConfig signingConfigs.development
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
         qa {
             applicationId 'mhealth.mvax.qa'
-            minSdkVersion 26
-            targetSdkVersion 26
+            minSdkVersion 24
+            targetSdkVersion 27
             signingConfig signingConfigs.development
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
         prod {
             applicationId 'mhealth.mvax.prod'
-            minSdkVersion 26
-            targetSdkVersion 26
+            minSdkVersion 24
+            targetSdkVersion 27
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
     }
