@@ -13,7 +13,7 @@
     <string name="login_button">Iniciar sesión</string>
     <string name="action_sign_in_short">Iniciar sesión</string>
 
-    <string name="auth_fail_bad_credentials">Correo electrónico o contraseña incorrectos </string>
+    <string name="auth_fail_bad_credentials">Correo electrónico o contraseña es incorrecto</string>
     <string name="auth_fail_disabled_user">Usario no ha sido aprobado por el administrador</string>
     <string name="auth_fail_no_connection">No se puede detectar la conexión a internet</string>
     <string name="auth_fail_unknown">Un error desconocido ocurrió</string>
@@ -27,7 +27,7 @@
 
     <!-- Login/request for new account-->
     <string name="register_modal_title">Registrarse</string>
-    <string name="modal_register_subtitle">Puede solicitar una cuenta de mVax proporcionando su nombre y correo electrónico y tocando Enviar. Un administrador de mVax aprobará o rechazará su solicitud de cuenta. Tras aprobación, puede iniciar sesión en mVax.\n\nSu contraseña debe tener un mínimo de 8 caracteres y debe contener al menos una letra mayúscula, una letra minúscula, un número, y un símobolo (@#$%&amp;+=!).</string>
+    <string name="modal_register_subtitle">Puede solicitar una cuenta de mVax proporcionando su nombre y correo electrónico y tocando Enviar. Un administrador de mVax aprobará o rechazará su solicitud. Tras aprobación, puede iniciar sesión en mVax.\n\nSu contraseña debe tener un mínimo de 8 caracteres y debe contener al menos una letra mayúscula, una letra minúscula, un número, y un símobolo (@#$%&amp;+=!).</string>
     <string name="hint_register_display_name">nombre completo</string>
     <string name="empty_field">Este campo es requerido</string>
     <string name="invalid_email_error">Correo electrónico es inválido</string>
@@ -41,9 +41,8 @@
     <string name="request_submit_success">Solicitud de cuenta ha sido enviada con éxito</string>
 
     <!-- Tabs-->
-    <string name="patients_tab_title">Pacientes</string>
-
     <string name="patients_icon_title">Pacientes</string>
+    <string name="patients_tab_title">Pacientes</string>
     <string name="alerts_icon_title">Alertas</string>
     <string name="dashboard_icon_title">Estadísticas</string>
     <string name="reports_icon_title">Informes</string>
@@ -73,6 +72,7 @@
     <string name="modal_cancel">Cancelar</string>
     <string name="patient_delete_notification">Paciente ha sido eliminado</string>
     <string name="patient_delete_fail">No se puede eliminar el paciente</string>
+    <string name="patient_delete_incomplete">Eliminación del paciente no se completó con éxito</string>
 
     <!-- Patients/vaccine history-->
     <string name="vaccines_download_fail">No se puede descargar la lista de vacunas</string>
@@ -89,8 +89,8 @@
     <string name="modal_date_title">Elegir fecha</string>
     <string name="modal_vaccination_date_title">Elegir fecha de vacunación y edad actual de paciente</string>
     <string name="due_date_label">Fecha de vencimiento:</string>
-    <string name="vaccination_month">Meses</string>
-    <string name="vaccination_year">Años</string>
+    <string name="vaccination_month">Meses:</string>
+    <string name="vaccination_year">Años:</string>
 
     <!-- Patients/record details activity-->
     <string name="save_record_button">Guardar registro</string>
@@ -121,7 +121,7 @@
     <string name="hint_last_name">apellidos</string>
 
     <string name="label_dob">Fecha de nacimiento</string>
-    <string name="hint_dob">dd/MM/yyyy</string>
+    <string name="hint_dob">dd/mm/yyyy</string>
 
     <string name="label_sex">Sexo</string>
     <string name="hint_sex">H o M</string>
@@ -151,7 +151,10 @@
     <string name="hint_guardian_name">madre/responsable</string>
 
     <!-- Alerts for upcoming vaccinations-->
-
+    <string name="no_alerts">No hay pacientes atrasados</string>
+    <string name="alert_download_fail">No se puede descargar pacientes atrasados</string>
+    <string name="alert_download_incomplete">No se puede descargar todos los pacientes atrasados</string>
+    <string name="phone_prompt">Teléfono:</string>
 
     <!-- Dashboard-->
     <string name="vaccine_card_given_text">Administrada</string>
@@ -168,6 +171,9 @@
     <string name="no_vaccinations">No hay vacunas</string>
 
     <string name="reports_subtitle">Elegir fecha para generar el informe de SINOVA.</string>
+
+    <string name="year_abbreviation">a</string>
+    <string name="month_abbreviation">m</string>
 
     <!-- Reports/file paths-->
     <string name="sinova_1_file_name">SINOVA1.pdf</string>
@@ -217,7 +223,7 @@
     <string name="settings_title">Configuración</string>
 
     <!-- Settings/about-->
-    <string name="about">Información</string>
+    <string name="about_button">Información</string>
     <string name="bass_contributor">Creado por Duke Bass Connections en cooperación con el instituto de Duke Global Health</string>
     <string name="bass_faculty_leader_title">Líderes de facultad</string>
     <string name="bass_faculty_leader">Lavanya Vasudevan, Ph.D.\nDennis Clements, M.D.\nRobert Duvall\nRichard Lucic</string>
@@ -314,7 +320,7 @@
     <string name="deny_email_body">Hola %1$s,\n\nSu solicitud de una cuenta ha sido denegada. Por favor solicite otra cuenta o contacte a un administrador.\n\n\nGracias,\n\nEl equipo de mVax</string>
 
     <string name="deny_user_modal_title">Rechazar solicitud de usario</string>
-    <string name="modal_deny_user_request_message">¿Está seguro de que desea rechazar la solicitud de cuenta de este usario? Se le notificará que su solicitud ha sido denegada, y podrá solicitar otra cuenta más adelante si así lo desea.</string>
+    <string name="modal_deny_user_request_message">¿Está seguro de que desea rechazar la solicitud de cuenta de este usario? Se le notificará que su solicitud ha sido denegada y podrá solicitar otra cuenta más adelante si así lo desea.</string>
 
     <string name="approve_user_success">Usario ha sido aprobado y su cuenta ha sido activada</string>
     <string name="approve_user_fail">Error inesperado al aprobar la solicitud de usuario</string>
