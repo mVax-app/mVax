@@ -211,9 +211,9 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
         vaccination.setMonths(months);
         vaccination.setYears(years);
 
-        databaseRef.child(vaccination.getDatabaseKey()).setValue(vaccination).addOnCompleteListener(task -> {
+        databaseRef.child(vaccination.getDatabaseKey()).setValue(vaccination).addOnCompleteListener(write -> {
             spinner.setVisibility(View.GONE);
-            if (task.isSuccessful()) {
+            if (write.isSuccessful()) {
                 Toast.makeText(mParent.getContext(), R.string.vaccination_save_success, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(mParent.getContext(), R.string.vaccination_save_fail, Toast.LENGTH_LONG).show();
@@ -238,9 +238,9 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
             dueDate = new DueDate(databaseRef.push().getKey(), mPatientKey, vaccineKey, date);
         }
 
-        databaseRef.child(dueDate.getDatabaseKey()).setValue(dueDate).addOnCompleteListener(task -> {
+        databaseRef.child(dueDate.getDatabaseKey()).setValue(dueDate).addOnCompleteListener(write -> {
             spinner.setVisibility(View.GONE);
-            if (task.isSuccessful()) {
+            if (write.isSuccessful()) {
                 Toast.makeText(mParent.getContext(), R.string.due_date_save_success, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(mParent.getContext(), R.string.due_date_save_fail, Toast.LENGTH_LONG).show();
@@ -257,9 +257,9 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
                 .child(masterTable)
                 .child(dataTable)
                 .child(key)
-                .setValue(null).addOnCompleteListener(task -> {
+                .setValue(null).addOnCompleteListener(deletion -> {
             spinner.setVisibility(View.GONE);
-            if (task.isSuccessful()) {
+            if (deletion.isSuccessful()) {
                 Toast.makeText(mParent.getContext(), R.string.date_delete_success, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(mParent.getContext(), R.string.date_delete_fail, Toast.LENGTH_LONG).show();

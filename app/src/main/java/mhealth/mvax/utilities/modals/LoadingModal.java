@@ -42,7 +42,7 @@ public class LoadingModal extends CustomModal {
                 .create();
         mDialog.setCanceledOnTouchOutside(false);
         mDialog.show();
-        if (mDialog.getWindow() != null) mDialog.getWindow().setLayout(236, 236);
+//        if (mDialog.getWindow() != null) mDialog.getWindow().setLayout(236, 236);
     }
 
 }

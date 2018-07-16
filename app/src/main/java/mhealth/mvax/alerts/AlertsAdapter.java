@@ -78,6 +78,7 @@ public class AlertsAdapter extends RecyclerView.Adapter<AlertsAdapter.ViewHolder
         final Patient patient = mPatients.get(position);
         holder.name.setText(patient.getName());
 
+
         final String DOBprompt = mActivity.getString(R.string.DOB_prompt);
         final String DOBstr = DOBprompt
                 + " " + NullableDateFormat.getString(mActivity, patient.getDOB());

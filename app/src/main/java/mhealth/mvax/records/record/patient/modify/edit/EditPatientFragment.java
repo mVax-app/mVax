@@ -194,6 +194,7 @@ public class EditPatientFragment extends ModifiablePatientFragment {
                     }
                 }
 
+                // TODO probably shouldn't call this within another listener, but for now it works
                 sinova2Query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
