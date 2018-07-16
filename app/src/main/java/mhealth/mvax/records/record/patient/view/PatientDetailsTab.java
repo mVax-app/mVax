@@ -139,7 +139,6 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
             }
         };
 
-        // set listener to ref
         mPatientRef.addChildEventListener(mPatientListener);
     }
 
