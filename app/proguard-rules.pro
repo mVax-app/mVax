@@ -31,6 +31,6 @@
 # Firebase rules
 -keepattributes Signature
 -keepattributes *Annotation*
--keepclassmembers class mhealth.mvax.model.** {
+-keepclassmembers class com.mvax.model.** {
   *;
 }
