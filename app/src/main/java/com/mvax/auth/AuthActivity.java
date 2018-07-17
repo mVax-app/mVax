@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -36,6 +37,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
@@ -45,7 +47,14 @@ import com.google.firebase.auth.FirebaseAuthException;
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent;
 
 import java.util.Locale;
+import java.util.Map;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.mvax.R;
 import com.mvax.main.MainActivity;
 import com.mvax.auth.modals.PasswordResetModal;
@@ -69,22 +78,48 @@ public class AuthActivity extends Activity {
     private ProgressBar mSpinner;
     private int mScreenWidth;
 
-    private final static boolean BYPASS_LOGIN = false;
+    private final static boolean AUTO_LOGIN = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         initViews();
-        if (BYPASS_LOGIN) {
-            mAuth.signInWithEmailAndPassword("devadmin@mvax.com", "devadmin1")
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(mainIntent);
-                        }
-                    });
-        }
+        if (AUTO_LOGIN) autoLogin();
+    }
+
+    private void autoLogin() {
+        animateTextInputs(ANIMATION_SPEED, true);
+
+        final String configTable = getString(R.string.config_table);
+        final String adminTable = getString(R.string.admin_table);
+        DatabaseReference authRef = FirebaseDatabase.getInstance().getReference()
+                .child(configTable)
+                .child(adminTable);
+        authRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<Map<String, String>> t = new GenericTypeIndicator<Map<String, String>>() {
+                };
+                Map<String, String> credentials = dataSnapshot.getValue(t);
+                if (credentials != null) {
+                    final String email = credentials.get(getString(R.string.admin_email));
+                    final String password = credentials.get(getString(R.string.admin_password));
+                    mAuth.signInWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    Intent mainIntent = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(mainIntent);
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                animateTextInputs(ANIMATION_SPEED, false);
+                Toast.makeText(AuthActivity.this, R.string.auto_login_fail, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void initViews() {

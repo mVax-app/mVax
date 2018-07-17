@@ -4,7 +4,7 @@
     <string name="app_name">mVax</string>
     <string name="version">versión</string>
 
-    <!-- Login-->
+    <!-- Auth-->
     <string name="auth_login">mVax</string>
 
     <string name="email_hint">correo electrónico</string>

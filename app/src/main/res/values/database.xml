@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--database-->
+    <!--Database-->
 
     <string name="config_table">config</string>
     <string name="mail">mail</string>
     <string name="email">email</string>
     <string name="password">password</string>
+
+    <string name="admin_table">admin</string>
+    <string name="admin_email">email</string>
+    <string name="admin_password">password</string>
 
     <string name="data_table">data</string>
 
@@ -25,7 +29,7 @@
     <string name="user_role">role</string>
     <string name="user_requests_table">requests</string>
 
-    <!--search-->
+    <!--Search-->
 
     <string name="algolia_table">algolia</string>
     <string name="algolia_application_id">application_id</string>

@@ -1,20 +1,20 @@
 apply plugin: 'com.android.application'
 
 def versionMajor = 3
-def versionMinor = 1
+def versionMinor = 3
 
 android {
     signingConfigs {
         development {
             keyAlias 'Development Key Store'
             keyPassword '&J9sesperanza'
-            storeFile file('../keystores/development_key_store')
+            storeFile file('/Users/Robert/Developer/mVax/keystores/dev_keystore')
             storePassword '&J9sclinica'
         }
         production {
             keyAlias 'mVaxProdKey'
             keyPassword '@A9jmvaxprodKey'
-            storeFile file('/Users/Robert/Developer/mVax/production_keystores/mvax_prod_keystore')
+            storeFile file('/Users/Robert/Developer/mVax/keystores/prod_keystore')
             storePassword '@A9jmvaxprodStore'
         }
     }

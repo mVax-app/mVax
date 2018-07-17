@@ -8,6 +8,10 @@
       "mail": {
         ".read": "true",
         ".write": "false"
+      },
+      "admin": {
+        ".read": "true",
+        ".write": "false"
       }
     },
     "data": {
