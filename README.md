@@ -38,26 +38,20 @@ Note: mVax is optimized for an 9.7 inch screen, and was developed specifically f
 
 Note: The Android device API minimum is 24.
 
-1. Enable developer mode and USB Debugging on the device and connect via USB
+1. Enable developer mode *and USB Debugging* on the device and connect via USB
 2. Run the application and select the device under `Connected Devices`
 
 ##### Deploying a signed APK
 
-You should create your own release key and key store. See [this page](https://developer.android.com/studio/publish/app-signing.html) for more information. Store your generated keystore in the `keystores` directory located in the root directory. There is currently a development key store in the `keystores` directory that can be used, but it should only be used for development releases. See below for the passwords for the included development key store.
+You should create your own release key and key store. See [this page](https://developer.android.com/studio/publish/app-signing.html) for more information. Store your generated keystore in a safe location outside of the project repo.
+
 1. In the menu bar, click `Build` &rarr; `Generate Signed APK`
-2. Click `Next`
-3. Ender the password for your key store and click `Next`
+2. Click `Next` and then `Create new...`
+3. Fill in the necessary information and create the key store.
 4. Choose the export destination under `APK Destination Folder`. Select `release` as the build type and choose which flavor should be used by the APK; select `V2` as the signature version
 5. Click `Finish`
 
 The signed `.apk` file can now be downloaded to any Android device (i.e. via email) and run as an application. It may be necessary to enable "Unknown sources" in the device's security settings so that apps can be installed from sources other than the Play Store.
-
-##### Development Key Store
-* Path: `keystores/development_key_store`
-* Key Store password: &J9sclinica
-* Key Alias: Development Key Store
-* Key password: &J9sesperanza
-
 
 ## Dependencies
 
