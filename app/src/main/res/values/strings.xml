@@ -152,7 +152,13 @@
     <string name="hint_guardian_name">guardian name</string>
 
     <!-- Alerts for upcoming vaccinations-->
+    <string name="overdue_patients_alert_singular">You have %1$s patient who is due to receive a vaccine tomorrow. Tap View to see them.</string>
+    <string name="overdue_patients_alert_plural">You have %1$s patients who are due to receive vaccines tomorrow. Tap View to see them.</string>
+    <string name="go_to_alerts">View</string>
+    <string name="dismiss">Dismiss</string>
+
     <string name="no_alerts">No overdue patients</string>
+    <string name="alert_check_fail">Unable to check for overdue patients</string>
     <string name="alert_download_fail">Unable to download overdue patients</string>
     <string name="alert_download_incomplete">Unable to download all overdue patients</string>
     <string name="phone_prompt">Phone:</string>
