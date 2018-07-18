@@ -49,7 +49,6 @@ import com.mvax.auth.ManageUsersFragment;
 import com.mvax.auth.modals.ChangeEmailModal;
 import com.mvax.auth.modals.ChangePasswordModal;
 import com.mvax.model.user.User;
-import com.mvax.utilities.modals.LoadingModal;
 
 /**
  * @author Robert Steilberg
@@ -61,7 +60,6 @@ public class SettingsFragment extends Fragment {
     private View mView;
     private LayoutInflater mInflater;
     private ViewGroup mParent;
-    private LoadingModal mLoadingModal;
 
     private static boolean GENERATE_DATA = false;
 
@@ -75,8 +73,6 @@ public class SettingsFragment extends Fragment {
         mParent = container;
         mView = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        mLoadingModal = new LoadingModal(mView);
-        mLoadingModal.createAndShow();
         initAboutButton(GENERATE_DATA);
         initLanguageSwitch();
         downloadCurrentUser();
@@ -119,17 +115,20 @@ public class SettingsFragment extends Fragment {
                         User currUser = userSnap.getValue(User.class);
                         if (currUser != null) {
                             initUserButtons();
-                            if (currUser.isAdmin()) initAdminButtons();
+                            if (currUser.isAdmin()) {
+                                showAdminPrivileges();
+                            } else {
+                                hideAdminPrivileges();
+                            }
                         } else {
                             Toast.makeText(getActivity(), getString(R.string.user_download_fail), Toast.LENGTH_LONG).show();
                         }
-                        mLoadingModal.dismiss();
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    mLoadingModal.dismiss();
+                    hideAdminPrivileges();
                     Toast.makeText(getActivity(), getString(R.string.user_download_fail), Toast.LENGTH_LONG).show();
                 }
             });
@@ -143,8 +142,18 @@ public class SettingsFragment extends Fragment {
         initUpdatePasswordButton();
     }
 
-    private void initAdminButtons() {
+    private void showAdminPrivileges() {
+        mView.findViewById(R.id.admin_spinner).setVisibility(View.GONE);
         mView.findViewById(R.id.admin_priv).setVisibility(View.VISIBLE);
+        initAdminButtons();
+    }
+
+    private void hideAdminPrivileges() {
+        mView.findViewById(R.id.admin_spinner).setVisibility(View.GONE);
+        mView.findViewById(R.id.admin_priv).setVisibility(View.GONE);
+    }
+
+    private void initAdminButtons() {
         initApproveUsersButton();
         initManageUsersButton();
         initSignOutButton();

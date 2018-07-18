@@ -69,7 +69,7 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_record_details, container, false);
-        mView.findViewById(R.id.spinner).setVisibility(View.VISIBLE);
+        mView.findViewById(R.id.search_spinner).setVisibility(View.VISIBLE);
         initPatientListener(getArguments().getString("databaseKey"));
         return mView;
     }
@@ -82,7 +82,7 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
 
     @Override
     public void render() {
-        mView.findViewById(R.id.spinner).setVisibility(View.GONE);
+        mView.findViewById(R.id.search_spinner).setVisibility(View.GONE);
         setRecordName();
         initButtons();
 
@@ -148,7 +148,8 @@ public class PatientDetailsTab extends Fragment implements RecordTab {
     }
 
     private void initButtons() {
-        final Button editButton = mView.findViewById(R.id.header_button);
+        mView.findViewById(R.id.button_spinner).setVisibility(View.INVISIBLE);
+        final Button editButton = mView.findViewById(R.id.primary_button);
         editButton.setVisibility(View.VISIBLE);
         editButton.setBackgroundResource(R.drawable.button_edit);
         editButton.setText(R.string.edit_record_button);

@@ -138,9 +138,8 @@
             android:id="@+id/admin_priv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="0dp"
             android:layout_marginTop="20dp"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_settings_password">
 
@@ -186,6 +185,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/admin_priv_approve_users" />
 
         </android.support.constraint.ConstraintLayout>
+
+        <ProgressBar
+            android:id="@+id/admin_spinner"
+            style="@android:style/Widget.DeviceDefault.ProgressBar.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/page_margin_start"
+            app:layout_constraintBottom_toBottomOf="@+id/admin_priv"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/admin_priv" />
 
         <Button
             android:id="@+id/sign_out"

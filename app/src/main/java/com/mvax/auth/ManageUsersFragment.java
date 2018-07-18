@@ -59,7 +59,7 @@ public class ManageUsersFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_manage_users, container, false);
-        mSpinner = view.findViewById(R.id.spinner);
+        mSpinner = view.findViewById(R.id.search_spinner);
 
         initDatabase();
 

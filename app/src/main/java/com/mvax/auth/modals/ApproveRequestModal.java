@@ -59,7 +59,7 @@ public class ApproveRequestModal extends CustomModal {
                 .create();
 
         mDialog.setOnShowListener(dialogInterface -> {
-            mSpinner = mDialog.findViewById(R.id.spinner);
+            mSpinner = mDialog.findViewById(R.id.search_spinner);
 
             final TextView title = mDialog.findViewById(R.id.title);
             final String text = String.format(getString(R.string.approve_user_subtitle),

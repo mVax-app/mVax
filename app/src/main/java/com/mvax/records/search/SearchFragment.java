@@ -36,7 +36,6 @@ import android.widget.ProgressBar;
 import com.mvax.R;
 import com.mvax.records.record.patient.modify.create.CreateRecordFragment;
 import com.mvax.records.utilities.AlgoliaUtilities;
-import com.mvax.utilities.modals.LoadingModal;
 
 /**
  * @author Robert Steilberg, Alison Huang
@@ -49,7 +48,6 @@ public class SearchFragment extends Fragment {
     private View mView;
     private SearchResultAdapter mAdapter;
     private AlgoliaUtilities mSearchEngine;
-    private LoadingModal mLoadingModal;
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -58,17 +56,8 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_search, container, false);
-        mLoadingModal = new LoadingModal(mView);
-        mLoadingModal.createAndShow();
         initNewRecordButton();
         initSearchIndex();
-
-        // TODO get rid of this
-//        final RecordFragment detailFrag = RecordFragment.newInstance("-LGjx9gtvqjqubEyEH3Y");
-//        getFragmentManager().beginTransaction()
-//                .replace(R.id.frame, detailFrag)
-//                .addToBackStack(null) // back button brings us back to SearchFragment
-//                .commit();
 
         return mView;
     }
@@ -83,7 +72,8 @@ public class SearchFragment extends Fragment {
 
     private void initSearchIndex() {
         mSearchEngine = new AlgoliaUtilities(getActivity(), initSuccessful -> {
-            mLoadingModal.dismiss();
+            mView.findViewById(R.id.search_bar).setVisibility(View.VISIBLE);
+            mView.findViewById(R.id.init_spinner).setVisibility(View.GONE);
             if (initSuccessful) {
                 renderListView(); // render ListView first so we have somewhere to put results
                 initSearchBar();
@@ -149,12 +139,12 @@ public class SearchFragment extends Fragment {
     }
 
     private void showSpinner() {
-        final ProgressBar spinner = mView.findViewById(R.id.spinner);
+        final ProgressBar spinner = mView.findViewById(R.id.search_spinner);
         spinner.setVisibility(View.VISIBLE);
     }
 
     private void hideSpinner() {
-        final ProgressBar spinner = mView.findViewById(R.id.spinner);
+        final ProgressBar spinner = mView.findViewById(R.id.search_spinner);
         spinner.setVisibility(View.INVISIBLE);
     }
 

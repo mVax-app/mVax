@@ -72,7 +72,7 @@ public class EditPatientFragment extends ModifiablePatientFragment {
         initPatientListener();
 
         mSearchEngine = new AlgoliaUtilities(getActivity(), initSuccessful -> {
-            mLoadingModal.dismiss();
+            hideSpinner();
             if (initSuccessful) initButtons();
         });
         renderListView(mView.findViewById(R.id.details_list));
@@ -124,8 +124,8 @@ public class EditPatientFragment extends ModifiablePatientFragment {
     }
 
     private void initButtons() {
-        initSaveButton(mView.findViewById(R.id.header_button));
-        initDeleteButton(mView.findViewById(R.id.footer_button));
+        initSaveButton(mView.findViewById(R.id.primary_button));
+        initDeleteButton(mView.findViewById(R.id.secondary_button));
     }
 
     private void initDeleteButton(Button deleteButton) {
@@ -141,7 +141,7 @@ public class EditPatientFragment extends ModifiablePatientFragment {
     }
 
     private void deleteCurrentRecord() {
-        mLoadingModal.createAndShow();
+        showSpinner();
         destroyChildListener(); // prevent onChildRemoved action from firing before listener
         mSearchEngine.deleteObject(mPatient.getDatabaseKey(), this::deleteRecordFromDatabase);
     }
@@ -246,7 +246,7 @@ public class EditPatientFragment extends ModifiablePatientFragment {
                         dueDateRef.child(dueDateKey).setValue(null);
                     }
                 }
-                mLoadingModal.dismiss();
+                hideSpinner();
                 Toast.makeText(getActivity(), R.string.patient_delete_success, Toast.LENGTH_SHORT).show();
                 exit();
             }

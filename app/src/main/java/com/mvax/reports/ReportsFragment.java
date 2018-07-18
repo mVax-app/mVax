@@ -56,7 +56,6 @@ import com.mvax.model.immunization.Vaccination;
 import com.mvax.model.immunization.Vaccine;
 import com.mvax.model.record.Patient;
 import com.mvax.records.utilities.NullableDateFormat;
-import com.mvax.utilities.modals.LoadingModal;
 
 /**
  * @author Robert Steilberg
@@ -67,9 +66,6 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
 
     private View mView;
     private ProgressBar mSpinner;
-    private LoadingModal mLoadingModal;
-    private Button mSinova1Button;
-    private Button mSinova2Button;
 
     private int mVaccineDatabaseId;
     private int mVaccinationDatabaseId;
@@ -77,7 +73,6 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
     private ArrayList<Vaccine> mVaccines;
     private String mReportDate;
     private ArrayList<ExpandablePatient> mPatients;
-
 
     public ReportsFragment() {
         mVaccines = new ArrayList<>();
@@ -92,12 +87,11 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
     @SuppressWarnings("unchecked")
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_reports, container, false);
-        mSpinner = mView.findViewById(R.id.spinner);
-        mSinova1Button = mView.findViewById(R.id.sinova_1);
-        mSinova1Button.setOnClickListener(v -> promptForDate(R.string.sinova_1_vaccine_table, R.string.sinova_1_vaccination_table));
-        mSinova2Button = mView.findViewById(R.id.sinova_2);
-        mSinova2Button.setOnClickListener(v -> promptForDate(R.string.sinova_2_vaccine_table, R.string.sinova_2_vaccination_table));
-        mLoadingModal = new LoadingModal(mView);
+        mSpinner = mView.findViewById(R.id.search_spinner);
+        Button sinova1Button = mView.findViewById(R.id.sinova_1);
+        sinova1Button.setOnClickListener(v -> promptForDate(R.string.sinova_1_vaccine_table, R.string.sinova_1_vaccination_table));
+        Button sinova2Button = mView.findViewById(R.id.sinova_2);
+        sinova2Button.setOnClickListener(v -> promptForDate(R.string.sinova_2_vaccine_table, R.string.sinova_2_vaccination_table));
 
         if (savedInstanceState != null) {
             mPatients = (ArrayList<ExpandablePatient>) savedInstanceState.getSerializable("patients");
@@ -166,11 +160,11 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
         final String masterTable = getString(R.string.data_table);
         final String vaccineTable = getString(mVaccineDatabaseId);
 
-        DatabaseReference sinova1Ref = FirebaseDatabase.getInstance().getReference()
+        DatabaseReference sinovaRef = FirebaseDatabase.getInstance().getReference()
                 .child(masterTable)
                 .child(vaccineTable);
 
-        sinova1Ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        sinovaRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot vaccineSnap : dataSnapshot.getChildren()) {
@@ -184,7 +178,6 @@ public class ReportsFragment extends Fragment implements DatePickerDialog.OnDate
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(mView.getContext(), R.string.report_init_fail, Toast.LENGTH_LONG).show();
-                mLoadingModal.dismiss();
             }
         });
     }

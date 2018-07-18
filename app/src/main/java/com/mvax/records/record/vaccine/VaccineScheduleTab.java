@@ -124,7 +124,7 @@ public class VaccineScheduleTab extends Fragment implements RecordTab {
 
     @Override
     public void refresh() {
-        mView.findViewById(R.id.spinner).setVisibility(View.GONE);
+        mView.findViewById(R.id.search_spinner).setVisibility(View.GONE);
         mAdapter.refresh(mVaccines, mVaccinations, mDueDates);
     }
 

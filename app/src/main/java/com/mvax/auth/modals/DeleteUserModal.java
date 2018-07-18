@@ -57,7 +57,7 @@ public class DeleteUserModal extends CustomModal {
                 .create();
 
         mDialog.setOnShowListener(dialog -> {
-            mSpinner = mDialog.findViewById(R.id.spinner);
+            mSpinner = mDialog.findViewById(R.id.search_spinner);
             mViews.add(mDialog.findViewById(R.id.title));
 
             final Button positiveButton = mDialog.getButton(AlertDialog.BUTTON_POSITIVE);

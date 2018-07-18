@@ -37,7 +37,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
@@ -78,7 +77,7 @@ public class AuthActivity extends Activity {
     private ProgressBar mSpinner;
     private int mScreenWidth;
 
-    private final static boolean AUTO_LOGIN = false;
+    private final static boolean AUTO_LOGIN = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +128,7 @@ public class AuthActivity extends Activity {
 
         mEmailView = findViewById(R.id.email);
         mPasswordView = findViewById(R.id.password);
-        mSpinner = findViewById(R.id.spinner);
+        mSpinner = findViewById(R.id.search_spinner);
         mScreenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
         initTextFields();

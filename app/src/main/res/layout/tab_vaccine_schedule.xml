@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/vaccine_tab_title" />
 
     <ProgressBar
-        android:id="@+id/spinner"
+        android:id="@+id/search_spinner"
         style="@android:style/Widget.DeviceDefault.ProgressBar.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

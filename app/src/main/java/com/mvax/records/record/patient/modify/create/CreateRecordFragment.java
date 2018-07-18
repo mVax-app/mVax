@@ -56,8 +56,8 @@ public class CreateRecordFragment extends ModifiablePatientFragment {
         }
 
         mSearchEngine = new AlgoliaUtilities(getActivity(), initSuccessful -> {
-            mLoadingModal.dismiss();
-            if (initSuccessful) initSaveButton(view.findViewById(R.id.header_button));
+            hideSpinner();
+            if (initSuccessful) initSaveButton(view.findViewById(R.id.primary_button));
         });
         renderListView(view.findViewById(R.id.details_list));
         return view;

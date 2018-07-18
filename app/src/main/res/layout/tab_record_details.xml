@@ -23,42 +23,65 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/title_margin_bottom"
-        android:gravity="center"
-        android:orientation="horizontal"
+        android:background="@color/base"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/record_details_tab_title">
 
-        <Button xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/header_button"
-            android:layout_width="@dimen/button_width"
+        <LinearLayout
+            android:id="@+id/button_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:fontFamily="@font/avenir_medium"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_button"
-            android:visibility="gone" />
+            android:gravity="center_vertical|center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <Button xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/footer_button"
-            android:layout_width="@dimen/button_width"
+            <Button xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/primary_button"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/avenir_medium"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_button"
+                android:visibility="gone" />
+
+            <Button xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/secondary_button"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/avenir_medium"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_button"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/button_spinner"
+            style="@android:style/Widget.DeviceDefault.ProgressBar.Large"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="10dp"
-            android:fontFamily="@font/avenir_medium"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_button"
-            android:visibility="gone" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/details_list"
@@ -72,7 +95,7 @@
         app:layout_constraintTop_toBottomOf="@+id/buttons" />
 
     <ProgressBar
-        android:id="@+id/spinner"
+        android:id="@+id/search_spinner"
         style="@android:style/Widget.DeviceDefault.ProgressBar.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

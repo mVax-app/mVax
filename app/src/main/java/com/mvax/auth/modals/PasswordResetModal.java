@@ -55,7 +55,7 @@ public class PasswordResetModal extends CustomModal {
                 .create();
 
         mDialog.setOnShowListener(dialogInterface -> {
-            mSpinner = mDialog.findViewById(R.id.spinner);
+            mSpinner = mDialog.findViewById(R.id.search_spinner);
 
             mViews.add(mDialog.findViewById(R.id.reset_password_subtitle));
             mViews.add(mDialog.findViewById(R.id.email));

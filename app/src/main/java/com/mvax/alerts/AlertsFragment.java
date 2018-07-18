@@ -97,7 +97,7 @@ public class AlertsFragment extends Fragment {
     private void downloadAlertsForDate(Long date) {
         mAdapter.clearResults();
         mView.findViewById(R.id.no_alerts).setVisibility(View.INVISIBLE);
-        mView.findViewById(R.id.spinner).setVisibility(View.VISIBLE);
+        mView.findViewById(R.id.search_spinner).setVisibility(View.VISIBLE);
 
         final String masterTable = getString(R.string.data_table);
         final String dueDateTable = getString(R.string.due_date_table);
@@ -129,7 +129,7 @@ public class AlertsFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(mView.getContext(), R.string.alert_download_fail, Toast.LENGTH_LONG).show();
-                mView.findViewById(R.id.spinner).setVisibility(View.INVISIBLE);
+                mView.findViewById(R.id.search_spinner).setVisibility(View.INVISIBLE);
             }
         });
     }
@@ -158,7 +158,7 @@ public class AlertsFragment extends Fragment {
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Toast.makeText(mView.getContext(), R.string.alert_download_incomplete, Toast.LENGTH_LONG).show();
-                    mView.findViewById(R.id.spinner).setVisibility(View.INVISIBLE);
+                    mView.findViewById(R.id.search_spinner).setVisibility(View.INVISIBLE);
                 }
             });
         }
@@ -182,7 +182,7 @@ public class AlertsFragment extends Fragment {
     }
 
     private void refresh() {
-        mView.findViewById(R.id.spinner).setVisibility(View.INVISIBLE);
+        mView.findViewById(R.id.search_spinner).setVisibility(View.INVISIBLE);
         if (mPatients.size() == 0) {
             mView.findViewById(R.id.no_alerts).setVisibility(View.VISIBLE);
         } else {

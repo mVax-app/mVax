@@ -82,7 +82,7 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
             vaccineName = itemView.findViewById(R.id.vaccine_name);
             vaccineDoses = itemView.findViewById(R.id.vaccine_doses);
             dueDate = itemView.findViewById(R.id.due_date);
-            dueDateSpinner = itemView.findViewById(R.id.spinner);
+            dueDateSpinner = itemView.findViewById(R.id.search_spinner);
         }
     }
 
@@ -113,7 +113,7 @@ public class VaccineAdapter extends RecyclerView.Adapter<VaccineAdapter.ViewHold
                 date.setText(dateString);
             }
 
-            ProgressBar spinner = doseView.findViewById(R.id.spinner);
+            ProgressBar spinner = doseView.findViewById(R.id.search_spinner);
 
             date.setOnClickListener(v -> promptForVaccinationDate(dose.getDatabaseKey(), vaccine.getDatabaseKey(), spinner));
 

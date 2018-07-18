@@ -41,7 +41,6 @@ import java.util.ArrayList;
 
 import com.mvax.R;
 import com.mvax.records.record.patient.detail.Detail;
-import com.mvax.utilities.modals.LoadingModal;
 import com.mvax.model.record.Patient;
 import com.mvax.records.record.RecordFragment;
 import com.mvax.records.utilities.AlgoliaUtilities;
@@ -60,7 +59,6 @@ public abstract class ModifiablePatientFragment extends Fragment {
     protected DatabaseReference mPatientRef;
     protected ModifyPatientAdapter mAdapter;
     protected AlgoliaUtilities mSearchEngine;
-    protected LoadingModal mLoadingModal;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,8 +70,6 @@ public abstract class ModifiablePatientFragment extends Fragment {
     @CallSuper
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.tab_record_details, container, false);
-        mLoadingModal = new LoadingModal(mView);
-        mLoadingModal.createAndShow();
         return mView;
     }
 
@@ -110,9 +106,19 @@ public abstract class ModifiablePatientFragment extends Fragment {
 
     private void saveRecord() {
         if (noEmptyRequiredFields()) {
-            mLoadingModal.createAndShow();
+            showSpinner();
             saveRecordToDatabase();
         }
+    }
+
+    protected void showSpinner() {
+        mView.findViewById(R.id.button_spinner).setVisibility(View.VISIBLE);
+        mView.findViewById(R.id.button_container).setVisibility(View.INVISIBLE);
+    }
+
+    protected void hideSpinner() {
+        mView.findViewById(R.id.button_spinner).setVisibility(View.INVISIBLE);
+        mView.findViewById(R.id.button_container).setVisibility(View.VISIBLE);
     }
 
     private boolean noEmptyRequiredFields() {
@@ -143,7 +149,7 @@ public abstract class ModifiablePatientFragment extends Fragment {
     }
 
     private void viewRecord() {
-        mLoadingModal.dismiss();
+        hideSpinner();
 
         // dismiss soft keyboard
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);

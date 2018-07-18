@@ -25,13 +25,16 @@
       }
     },
     "users": {
+      ".read": "auth != null",
       ".write": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'",
       "$uid": {
         "email": {
           ".write": "$uid === auth.uid"
+        },
+        "displayName": {
+          ".write": "$uid === auth.uid"
         }
-      },
-      ".read": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'"
+      }
     },
     "requests": {
       ".read": "root.child('users').child(auth.uid).child('role').val() == 'ADMIN'",
