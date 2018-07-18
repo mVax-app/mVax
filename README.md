@@ -43,7 +43,9 @@ Note: The Android device API minimum is 24.
 
 ##### Deploying a signed APK
 
-You should create your own release key and key store. See [this page](https://developer.android.com/studio/publish/app-signing.html) for more information. Store your generated keystore in a safe location outside of the project repo.
+A debug key store is included in the repo; the `build.gradle` file is configured to use this key store when running the release build type.
+
+You should create your own release key and key store when publishing your version of mVax. See [this page](https://developer.android.com/studio/publish/app-signing.html) for more information. Store your generated release keystore in a safe location outside of the project repo.
 
 1. In the menu bar, click `Build` &rarr; `Generate Signed APK`
 2. Click `Next` and then `Create new...`

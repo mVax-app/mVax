@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:839717021442:android:1ef103ade013bc63",
+        "mobilesdk_app_id": "1:839717021442:android:eec49227f592cb74",
         "android_client_info": {
-          "package_name": "mhealth.mvax.dev"
+          "package_name": "com.mvax.dev"
         }
       },
       "oauth_client": [

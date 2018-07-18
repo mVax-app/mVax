@@ -2,58 +2,44 @@ apply plugin: 'com.android.application'
 
 def versionMajor = 3
 def versionMinor = 4
+def versionPatch = 1
 
 android {
     signingConfigs {
-        dev {
-            keyAlias 'mVaxDevKey'
-            keyPassword '&J9smvaxdevKey'
-            storeFile file('/Users/Robert/Developer/mVax/keystores/dev_keystore')
-            storePassword '&J9smvaxdevStore'
-        }
-        qa {
-            keyAlias 'mVaxQAKey'
-            keyPassword '&J9smvaxqaKey'
-            storeFile file('/Users/Robert/Developer/mVax/keystores/qa_keystore')
-            storePassword '&J9smvaxqaStore'
-        }
-        prod {
-            keyAlias 'mVaxProdKey'
-            keyPassword '@A9jmvaxprodKey'
-            storeFile file('/Users/Robert/Developer/mVax/keystores/prod_keystore')
-            storePassword '@A9jmvaxprodStore'
+        debug {
+            keyAlias 'mVaxDebugKey'
+            keyPassword 'debugKey'
+            storeFile file('../keystores/debug_keystore')
+            storePassword 'debugKeyStore'
         }
     }
     compileSdkVersion 27
     defaultConfig {
-        applicationId "mhealth.mvax"
+        applicationId "com.mvax"
         minSdkVersion 24
         targetSdkVersion 27
-        versionCode versionMajor * 1000 + versionMinor * 100
-        versionName "${versionMajor}.${versionMinor}"
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     flavorDimensions "default"
     productFlavors {
         dev {
-            applicationId 'mhealth.mvax.dev'
+            applicationId 'com.mvax.dev'
             minSdkVersion 24
             targetSdkVersion 27
-            signingConfig signingConfigs.dev
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
         qa {
-            applicationId 'mhealth.mvax.qa'
+            applicationId 'com.mvax.qa'
             minSdkVersion 24
             targetSdkVersion 27
-            signingConfig signingConfigs.qa
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
         prod {
-            applicationId 'mhealth.mvax.prod'
+            applicationId 'com.mvax.prod'
             minSdkVersion 24
             targetSdkVersion 27
-            signingConfig signingConfigs.prod
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
     }
@@ -70,6 +56,7 @@ android {
                     "${defaultConfig.versionName}"
             debuggable false
             minifyEnabled true
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
