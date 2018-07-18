@@ -77,7 +77,7 @@ public class AuthActivity extends Activity {
     private ProgressBar mSpinner;
     private int mScreenWidth;
 
-    private final static boolean AUTO_LOGIN = false;
+    private final static boolean AUTO_LOGIN = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

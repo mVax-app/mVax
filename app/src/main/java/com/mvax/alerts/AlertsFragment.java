@@ -34,6 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.mvax.records.record.RecordFragment;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import org.joda.time.LocalDate;
@@ -64,6 +65,14 @@ public class AlertsFragment extends Fragment {
         mPatients = new ArrayList<>();
     }
 
+    public static AlertsFragment newInstance(Long initDate) {
+        final AlertsFragment newInstance = new AlertsFragment();
+        final Bundle args = new Bundle();
+        args.putLong("initDate", initDate);
+        newInstance.setArguments(args);
+        return newInstance;
+    }
+
     public static AlertsFragment newInstance() {
         return new AlertsFragment();
     }
@@ -74,7 +83,13 @@ public class AlertsFragment extends Fragment {
         mCalendar = mView.findViewById(R.id.calendar);
 
         render();
-        downloadAlertsForToday();
+
+        if (getArguments() != null) {
+            long initDate = getArguments().getLong("initDate");
+            downloadAlertsForDate(initDate);
+        } else {
+            downloadAlertsForToday();
+        }
 
         mCalendar.setOnDateChangedListener((widget, d, selected) -> {
             final long date = new LocalDate(d.getYear(), d.getMonth() + 1, d.getDay()).toDate().getTime();
@@ -90,11 +105,11 @@ public class AlertsFragment extends Fragment {
         int month = cal.get(Calendar.MONTH) + 1;
         int day = cal.get(Calendar.DAY_OF_MONTH);
         final Date date = new LocalDate(year, month, day).toDate();
-        mCalendar.setDateSelected(date, true);
         downloadAlertsForDate(date.getTime());
     }
 
-    private void downloadAlertsForDate(Long date) {
+    private void downloadAlertsForDate(long date) {
+        mCalendar.setDateSelected(new Date(date), true);
         mAdapter.clearResults();
         mView.findViewById(R.id.no_alerts).setVisibility(View.INVISIBLE);
         mView.findViewById(R.id.search_spinner).setVisibility(View.VISIBLE);
