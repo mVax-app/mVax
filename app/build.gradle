@@ -1,17 +1,23 @@
 apply plugin: 'com.android.application'
 
 def versionMajor = 3
-def versionMinor = 3
+def versionMinor = 4
 
 android {
     signingConfigs {
-        development {
-            keyAlias 'Development Key Store'
-            keyPassword '&J9sesperanza'
+        dev {
+            keyAlias 'mVaxDevKey'
+            keyPassword '&J9smvaxdevKey'
             storeFile file('/Users/Robert/Developer/mVax/keystores/dev_keystore')
-            storePassword '&J9sclinica'
+            storePassword '&J9smvaxdevStore'
         }
-        production {
+        qa {
+            keyAlias 'mVaxQAKey'
+            keyPassword '&J9smvaxqaKey'
+            storeFile file('/Users/Robert/Developer/mVax/keystores/qa_keystore')
+            storePassword '&J9smvaxqaStore'
+        }
+        prod {
             keyAlias 'mVaxProdKey'
             keyPassword '@A9jmvaxprodKey'
             storeFile file('/Users/Robert/Developer/mVax/keystores/prod_keystore')
@@ -33,20 +39,21 @@ android {
             applicationId 'mhealth.mvax.dev'
             minSdkVersion 24
             targetSdkVersion 27
-            signingConfig signingConfigs.development
+            signingConfig signingConfigs.dev
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
         qa {
             applicationId 'mhealth.mvax.qa'
             minSdkVersion 24
             targetSdkVersion 27
-            signingConfig signingConfigs.development
+            signingConfig signingConfigs.qa
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
         prod {
             applicationId 'mhealth.mvax.prod'
             minSdkVersion 24
             targetSdkVersion 27
+            signingConfig signingConfigs.prod
             testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         }
     }
@@ -64,7 +71,6 @@ android {
             debuggable false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.production
         }
     }
     lintOptions {
