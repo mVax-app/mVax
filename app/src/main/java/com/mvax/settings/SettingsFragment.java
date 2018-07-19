@@ -50,8 +50,6 @@ import com.mvax.auth.ManageUsersFragment;
 import com.mvax.auth.modals.ChangeEmailModal;
 import com.mvax.auth.modals.ChangePasswordModal;
 import com.mvax.model.user.User;
-import com.travijuu.numberpicker.library.Enums.ActionEnum;
-import com.travijuu.numberpicker.library.Interface.ValueChangedListener;
 import com.travijuu.numberpicker.library.NumberPicker;
 
 import static android.content.Context.MODE_PRIVATE;

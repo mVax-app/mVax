@@ -339,7 +339,7 @@
     <string name="user_download_fail">Unable to download current user info</string>
 
     <string name="manage_users_title">Current mVax users</string>
-    <string name="user_management_instructions">This page can be used to manage current mVax users. You can change a user's role or delete a user.</string>
+    <string name="user_management_instructions">This page can be used to manage current mVax users. You can change a user\'s role or delete a user.</string>
 
     <string name="change_role">Change role</string>
     <string name="change_role_modal_title">Change role</string>
