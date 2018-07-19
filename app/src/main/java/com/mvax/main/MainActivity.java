@@ -61,6 +61,7 @@ public class MainActivity extends FragmentActivity {
 
     private BottomNavigationView mNavBar;
     private int mCurrentTab;
+    private Long mOverdueDate;
     private String mCurrentLanguage;
     private InactivityTimer mTimer;
 
@@ -161,7 +162,13 @@ public class MainActivity extends FragmentActivity {
                 selectedFragment = SearchFragment.newInstance();
                 break;
             case R.id.nav_alerts:
-                selectedFragment = AlertsFragment.newInstance();
+                // TODO clean up this logic
+                if (mOverdueDate != null) {
+                    selectedFragment = AlertsFragment.newInstance(mOverdueDate);
+                    mOverdueDate = null;
+                } else {
+                    selectedFragment = AlertsFragment.newInstance();
+                }
                 break;
 //            case R.id.nav_stats:
 //                selectedFragment = StatsFragment.newInstance();
@@ -219,11 +226,8 @@ public class MainActivity extends FragmentActivity {
 
     private void notifyForOverduePatients(int numOverduePatients, long date) {
         final Runnable goToAlerts = () -> {
-            mCurrentTab = R.id.nav_alerts;
-            mNavBar.setSelectedItemId(mCurrentTab);
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.frame, AlertsFragment.newInstance(date));
-            transaction.commit();
+            mOverdueDate = date;
+            mNavBar.setSelectedItemId(R.id.nav_alerts); // triggers listener
         };
         new OverdueAlertModal(findViewById(R.id.frame), numOverduePatients, goToAlerts).createAndShow();
     }
