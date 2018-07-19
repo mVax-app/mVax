@@ -240,15 +240,12 @@
     <string name="bass_global_health">Thuy-Linh Bui\nKathryn Watkins</string>
 
     <!-- Settings/app preferences-->
-    <string name="lang_preference">Language preferences</string>
+    <string name="app_preference">App preferences</string>
 
     <string name="language">Language</string>
     <string name="english">English</string>
     <string name="spanish">Spanish</string>
-    <string name="spanishCode">es</string>
-    <string name="englishCode">en</string>
-    <string name="spanishLocaleCode">[es]</string>
-    <string name="usLocaleCode">[en_US]</string>
+    <string name="timeout">Hours until auto-logout</string>
 
     <!-- Settings/app preferences/timeout duration-->
     <string name="timeout_title">Session timeout</string>

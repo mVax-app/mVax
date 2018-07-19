@@ -67,3 +67,4 @@ mVax is dependent on the following external libraries:
 * MaterialDateTimePicker (date picker modals)
 * MaterialCalendarView (alerts page calendar)
 * KeyboardVisibilityEvent (scrolling auth page on input focus events)
+* NumberPicker (horizontal number picker for inactivity timeout settings)
