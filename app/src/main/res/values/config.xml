@@ -7,6 +7,8 @@
     <integer name="timeout_max">8</integer>
     <integer name="timeout_default">2</integer>
 
+    <integer name="vibrate_duration">250</integer>
+
     <string name="english_code">en</string>
     <string name="spanish_code">es</string>
 

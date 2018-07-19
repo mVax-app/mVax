@@ -48,6 +48,7 @@ import com.mvax.reports.ReportsFragment;
 import com.mvax.records.search.SearchFragment;
 import com.mvax.settings.SettingsFragment;
 import com.mvax.utilities.LanguageChanger;
+import com.mvax.utilities.Vibrator;
 
 import org.joda.time.LocalDate;
 
@@ -229,6 +230,7 @@ public class MainActivity extends FragmentActivity {
             mOverdueDate = date;
             mNavBar.setSelectedItemId(R.id.nav_alerts); // triggers listener
         };
+        Vibrator.vibrate(this);
         new OverdueAlertModal(findViewById(R.id.frame), numOverduePatients, goToAlerts).createAndShow();
     }
 
