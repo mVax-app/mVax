@@ -5,6 +5,7 @@
     <string name="version">versión</string>
 
     <!-- Auth-->
+    <string name="auto_login_fail">Error de inicio de sesión automático</string>
 
     <string name="email_hint">correo electrónico</string>
     <string name="password_hint">contraseña</string>
@@ -67,6 +68,7 @@
     <string name="modal_date_confirm">Confirmar</string>
     <string name="modal_date_neutral">Sin fecha</string>
     <string name="modal_cancel">Cancelar</string>
+    <string name="patient_delete_success">Se puede eliminar el paciente</string>
     <string name="patient_delete_fail">No se puede eliminar el paciente</string>
     <string name="patient_delete_incomplete">Eliminación del paciente no se completó con éxito</string>
 
@@ -142,12 +144,16 @@
     <string name="hint_guardian_name">madre/responsable</string>
 
     <!-- Alerts for upcoming vaccinations-->
+    <string name="overdue_patients_alert_singular">You have %1$s patient who is due to receive a vaccine tomorrow. Tap View to see them.</string>
+    <string name="overdue_patients_alert_plural">You have %1$s patients who are due to receive vaccines tomorrow. Tap View to see them.</string>
+    <string name="go_to_alerts">Ver</string>
+    <string name="dismiss">Descartar</string>
+
     <string name="no_alerts">No hay pacientes atrasados</string>
+    <string name="alert_check_fail">No se puede verificar si hay pacientes atrasados</string>
     <string name="alert_download_fail">No se puede descargar pacientes atrasados</string>
     <string name="alert_download_incomplete">No se puede descargar todos los pacientes atrasados</string>
     <string name="phone_prompt">Teléfono:</string>
-
-    <!-- Dashboard-->
 
     <!-- Reports-->
     <string name="reports_title">Informes</string>
@@ -163,16 +169,6 @@
 
     <string name="year_abbreviation">a</string>
     <string name="month_abbreviation">m</string>
-
-    <!-- Reports/file paths-->
-
-    <!-- Reports/PDF config options-->
-
-    <!-- Reports/PDF config options/form constants-->
-
-    <!-- Reports/SINOVA general form PDF fields-->
-
-    <!-- Reports/SINOVA 1 specific form PDF fields (fields in the rows)-->
 
     <!-- Settings-->
     <string name="settings_title">Configuración</string>
@@ -192,8 +188,7 @@
 
     <string name="english">Inglés</string>
     <string name="spanish">Español</string>
-
-    <!-- Settings/app preferences/timeout duration-->
+    <string name="timeout">Horas hasta el auto-cierre de sesión</string>
 
     <!-- Settings/user settings-->
     <string name="user_settings">Configuración de usario</string>
@@ -290,8 +285,6 @@
     <string name="delete_user_denied">No puede eliminar su propia cuenta de mVax</string>
 
     <string name="role">Papel</string>
-
-    <!-- Settings/admin privileges/generate dummy data-->
 
     <!-- Sign out-->
     <string name="sign_out">Salir</string>
