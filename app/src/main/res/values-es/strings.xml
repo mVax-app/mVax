@@ -5,7 +5,6 @@
     <string name="version">versión</string>
 
     <!-- Auth-->
-    <string name="auth_login">mVax</string>
 
     <string name="email_hint">correo electrónico</string>
     <string name="password_hint">contraseña</string>
@@ -26,7 +25,6 @@
     <string name="register">Registrarse</string>
 
     <!-- Login/request for new account-->
-    <string name="register_modal_title">Registrarse</string>
     <string name="modal_register_subtitle">Puede solicitar una cuenta de mVax proporcionando su nombre y correo electrónico y tocando Enviar. Un administrador de mVax aprobará o rechazará su solicitud. Tras aprobación, puede iniciar sesión en mVax.\n\nSu contraseña debe tener un mínimo de 8 caracteres y debe contener al menos una letra mayúscula, una letra minúscula, un número, y un símobolo (@#$%&amp;+=!).</string>
     <string name="hint_register_display_name">nombre completo</string>
     <string name="empty_field">Este campo es requerido</string>
@@ -52,7 +50,6 @@
     <string name="hint_search">buscar</string>
     <string name="new_record_button">Crear un registro nuevo</string>
     <string name="new_record_title">Registro nuevo</string>
-    <string name="no_patient_name">Paciente sin nombre</string>
 
     <string name="patient_download_fail">No se puede descargar la información del paciente</string>
     <string name="search_init_fail">No se puede inicializar el servicio de búsqueda</string>
@@ -70,7 +67,6 @@
     <string name="modal_date_confirm">Confirmar</string>
     <string name="modal_date_neutral">Sin fecha</string>
     <string name="modal_cancel">Cancelar</string>
-    <string name="patient_delete_notification">Paciente ha sido eliminado</string>
     <string name="patient_delete_fail">No se puede eliminar el paciente</string>
     <string name="patient_delete_incomplete">Eliminación del paciente no se completó con éxito</string>
 
@@ -86,8 +82,6 @@
     <string name="date_delete_fail">No se puede dar fecha</string>
 
     <!-- Patients/vaccine history/due date-->
-    <string name="modal_date_title">Elegir fecha</string>
-    <string name="modal_vaccination_date_title">Elegir fecha de vacunación y edad actual de paciente</string>
     <string name="due_date_label">Fecha de vencimiento:</string>
     <string name="vaccination_month">Meses:</string>
     <string name="vaccination_year">Años:</string>
@@ -99,11 +93,9 @@
     <string name="patient_save_fail">Registro no se pudo guardar</string>
 
     <string name="delete_record_button">Eliminar registro</string>
-    <string name="modal_record_delete_title">Confirmar eliminación del registro</string>
     <string name="modal_record_delete_message">¿Está seguro de que desea eliminar este registro? Se eliminarán todos los datos de pacientes y vacunas. Esta acción no se puede desahcer.</string>
 
     <string name="edit_record_button">Editar registro</string>
-    <string name="edit_record_title">Editar registro</string>
 
     <string name="label_mother_id">ID de madre</string>
     <string name="hint_mother_id">número de 13 dígitos</string>
@@ -125,7 +117,6 @@
 
     <string name="label_sex">Sexo</string>
     <string name="hint_sex">H o M</string>
-    <string name="modal_sex_title">Elegir sexo</string>
     <string name="modal_sex_neutral">Remover sexo</string>
     <string name="modal_sex_confirm">Confirmar</string>
 
@@ -157,8 +148,6 @@
     <string name="phone_prompt">Teléfono:</string>
 
     <!-- Dashboard-->
-    <string name="vaccine_card_given_text">Administrada</string>
-    <string name="vaccine_card_goal_text">Meta</string>
 
     <!-- Reports-->
     <string name="reports_title">Informes</string>
@@ -176,48 +165,14 @@
     <string name="month_abbreviation">m</string>
 
     <!-- Reports/file paths-->
-    <string name="sinova_1_file_name">SINOVA1.pdf</string>
-    <string name="sinova_2_file_name">SINOVA2.pdf</string>
-    <string name="destination_file_extension">.pdf</string>
-    <string name="sinova_extension">SINOVA1_</string>
-    <string name="sinova2_extension">SINOVA2_</string>
 
     <!-- Reports/PDF config options-->
 
     <!-- Reports/PDF config options/form constants-->
-    <string name="form_clinic_name">Clínica Esperanza</string>
-    <string name="form_vaccinator_name">Vacunador</string>
-    <string name="form_department_name">Vacunación</string>
-    <string name="form_city_name">Roatán</string>
-    <string name="form_address">KM 10 Sandy Bay, Roatán</string>
-    <string name="unknown">DESCONOCIDO</string>
-    <string name="na">N/A</string>
 
     <!-- Reports/SINOVA general form PDF fields-->
-    <string name="establishment">ESTABLECIMIENTO</string>
-    <string name="name_of_responsible_person">NOMBRE DEL RESPONSABLE</string>
-    <string name="department">DEPARTAMENTO</string>
-    <string name="code">CÓDIGO</string>
-    <string name="municipality">MUNICIPIO</string>
-    <string name="date_day">DÍA</string>
-    <string name="date_month">MES</string>
-    <string name="date_year">AÑO</string>
-    <string name="location_place">LOCALIDAD</string>
 
     <!-- Reports/SINOVA 1 specific form PDF fields (fields in the rows)-->
-    <string name="child_national_reg_number">Número oficial del niño RNPRow</string>
-    <string name="child_name">NOMBRES Y APELLIDOS DEL NIÑO</string>
-    <string name="date_of_birth">FECHA DE NACIMIENTO ddmmaa</string>
-    <string name="sex_male">SEXO_HRow</string>
-    <string name="sex_female">SEXO_MRow</string>
-    <string name="birth_department">DEPARTAMENTO NACIMIENTO Row</string>
-    <string name="birth_municipal">MUNICIPIO NACIMIENTO Row</string>
-    <string name="residence_department">DEPARTAMENTO RESIDENCIA Row</string>
-    <string name="residence_municipal">MUNICIPIO RESIDENCIA Row</string>
-    <string name="residence_address">DIRECCIÓN O REFERENCIARow</string>
-    <string name="cell_number">No TELÉFONO FIJO O CELULARRow</string>
-    <string name="population_group">GRUPO POBLACIONAL AL QUE PERTENECERow</string>
-    <string name="full_name_guardian">NOMBRE COMPLETO DE LA MADRE RESPONSABLERow</string>
 
     <!-- Settings-->
     <string name="settings_title">Configuración</string>
@@ -235,25 +190,16 @@
     <!-- Settings/app preferences-->
     <string name="app_preference">Preferencias de aplicaciòn</string>
 
-    <string name="language">Idioma</string>
     <string name="english">Inglés</string>
     <string name="spanish">Español</string>
-    <string name="spanishCode">es</string>
-    <string name="englishCode">en</string>
-    <string name="spanishLocaleCode">[es]</string>
-    <string name="usLocaleCode">[en_US]</string>
 
     <!-- Settings/app preferences/timeout duration-->
-    <string name="timeout_title">Hora de término de la sesión</string>
-    <string name="timeout_msg">Ha estado inactivo por mucho tiempo. Ahora se cerrará la sesión.</string>
-    <string name="change_timeout">Cambiar la duración del tiempo de espera</string>
 
     <!-- Settings/user settings-->
     <string name="user_settings">Configuración de usario</string>
 
     <!-- Settings/user settings/update email-->
     <string name="update_email">Actualizar correo electrónico</string>
-    <string name="change_email_modal_title">Cambiar correo electrónico</string>
     <string name="change_email_modal_subtitle">Indique el nuevo correo electrónico para asociarlo con su cuenta de mVax y toque Enviar.</string>
     <string name="change_email_modal_hint">nuevo correo electrónico</string>
     <string name="change_email_modal_hint_confirm">confirmar nuevo correo electrónico</string>
@@ -263,10 +209,8 @@
 
     <!-- Settings/user settings/password reset-->
     <string name="change_password">Cambiar contraseña</string>
-    <string name="password_reset_modal_title">Restablecimiento de contraseña</string>
     <string name="modal_reset_password_subtitle">Indique correo electrónico y toque Enviar. Se le enviará un correo electrónico con instrucciones para restablecer su contraseña si el correo electrónico proporcionado está asociada a una cuenta de mVax.</string>
     <string name="hint_reset_email">correo electrónico</string>
-    <string name="change_password_modal_title">Cambiar contraseña</string>
     <string name="change_password_modal_subtitle">Indique la nueva contraseña para asociarla con su cuenta de mVax y toque Enviar.</string>
     <string name="change_password_modal_hint">nueva contraseña</string>
     <string name="change_password_modal_hint_confirm">confirmar nueva contraseña</string>
@@ -287,12 +231,10 @@
 
     <string name="approve_user">Aprobar</string>
     <string name="deny_user">Rechazar</string>
-    <string name="no_user_role">No se puede determinar los papeles del usario</string>
 
     <string name="admin_enum">ADMIN</string>
     <string name="user_enum">USARIO</string>
 
-    <string name="role_info_title">Papeles</string>
     <string name="role_info_desc">mVax admite dos funciones diferentes: administrador y usario.\n\n
                                   Un administrador puede:\n
                                     &#8226; ver todos los usarios y registros de vacunas\n
@@ -306,8 +248,6 @@
                                     &#8226; crear nuevos usarios y registros de vacunas\n
                                     &#8226; editar o eliminar datos existentes\n</string>
 
-    <string name="approve_user_modal_title">Aprobar solicitud de usario</string>
-
     <string name="approve_user_subtitle">Ha elegido confirmar la solicitud de cuenta de mVax de %1$s con los privilegios de %2$s. Toque Confirmar para activar la nueva cuenta y notificar al usario que ahora puede acceder a mVax.</string>
 
     <string name="welcome_email_subject">Cuenta de mVax fue aprobada</string>
@@ -319,7 +259,6 @@
     <string name="deny_email_subject">Solicitud de cuenta de mVax ha sido rechazada</string>
     <string name="deny_email_body">Hola %1$s,\n\nSu solicitud de una cuenta ha sido denegada. Por favor solicite otra cuenta o contacte a un administrador.\n\n\nGracias,\n\nEl equipo de mVax</string>
 
-    <string name="deny_user_modal_title">Rechazar solicitud de usario</string>
     <string name="modal_deny_user_request_message">¿Está seguro de que desea rechazar la solicitud de cuenta de este usario? Se le notificará que su solicitud ha sido denegada y podrá solicitar otra cuenta más adelante si así lo desea.</string>
 
     <string name="approve_user_success">Usario ha sido aprobado y su cuenta ha sido activada</string>
@@ -338,14 +277,12 @@
     <string name="user_management_instructions">Esta página se puede usar para administrar usuarios actuales de mVax. Puede cambiar la función de cualquier usuario o eliminar un usuario.</string>
 
     <string name="change_role">Cambiar papel</string>
-    <string name="change_role_modal_title">Cambiar papel</string>
     <string name="change_role_modal_subtitle">Elija un nuevo papel para el usario y toque Enviar.</string>
     <string name="change_role_success">Papel fue cambiado con éxito</string>
     <string name="change_role_fail">No se puede cambiar papel</string>
     <string name="change_role_denied">No puede cambiar su propio papel</string>
 
     <string name="delete_user">Eliminar usario</string>
-    <string name="delete_user_modal_title">Eliminar usario</string>
     <string name="delete_user_modal_subtitle">¿Está seguro de que desea eliminar este registro? Esta acción no se puede desahcer, pero usario puede solicitar un nuevo cuenta de mVax más tarde si lo desea.</string>
     <string name="delete_user_success">Usario fue eliminado con éxito</string>
     <string name="delete_user_fail">No se puede eliminar usario</string>
@@ -355,10 +292,6 @@
     <string name="role">Papel</string>
 
     <!-- Settings/admin privileges/generate dummy data-->
-    <string name="dummy_data">Generar datos experimentales</string>
-    <string name="generate_dummy_data_warning">ADVERTENCIA: Generar datos ficticios borrarán toda la tabla de datos de mVax y la sustituirán con datos ficticios definidos en DummyDataGenerator. Si está de acuerdo con que se sobrescriban todos los datos existentes, haga clic en \"Confirmar\".</string>
-
-    <string name="modal_confirm">Confirmar</string>
 
     <!-- Sign out-->
     <string name="sign_out">Salir</string>

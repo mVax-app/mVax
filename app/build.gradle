@@ -61,7 +61,7 @@ android {
         }
     }
     lintOptions {
-        // ultimately we may want checkReleaseBuilds and abortOnError to be true
+        // TODO Analyze -> Inspect Code... and fix issues
         checkReleaseBuilds false
         abortOnError false
     }
