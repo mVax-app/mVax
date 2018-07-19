@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="prefs_name">mVax</string>
+    <string name="timeout_pref_key">timeoutHours</string>
+    <integer name="timeout_min">1</integer>
+    <integer name="timeout_max">8</integer>
+    <integer name="timeout_default">2</integer>
+
     <string name="english_code">en</string>
     <string name="spanish_code">es</string>
 

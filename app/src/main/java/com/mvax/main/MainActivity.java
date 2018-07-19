@@ -19,6 +19,7 @@ License along with mVax; see the file LICENSE. If not, see
 */
 package com.mvax.main;
 
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,7 +33,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.TimerTask;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -59,6 +62,7 @@ public class MainActivity extends FragmentActivity {
     private BottomNavigationView mNavBar;
     private int mCurrentTab;
     private String mCurrentLanguage;
+    private InactivityTimer mTimer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +90,7 @@ public class MainActivity extends FragmentActivity {
             transaction.replace(R.id.frame, chosenTab);
             transaction.commit();
         }
+        setInactivityTimer();
     }
 
     @Override
@@ -99,6 +104,37 @@ public class MainActivity extends FragmentActivity {
         outState.putString("langCode", mCurrentLanguage);
         outState.putInt("mCurrentTab", mCurrentTab);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onUserInteraction() {
+        if (mTimer.isRunning()) mTimer.cancel();
+        setInactivityTimer(); // reset inactivity timeout
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mTimer.isRunning()) mTimer.cancel();
+        super.onDestroy();
+    }
+
+    private void setInactivityTimer() {
+        // get stored timeout pref from device
+        SharedPreferences prefs = getSharedPreferences(getString(R.string.prefs_name), MODE_PRIVATE);
+        String timeoutKey = getString(R.string.timeout_pref_key);
+        final int timeoutDefault = getResources().getInteger(R.integer.timeout_default);
+        final int timeoutHours = prefs.getInt(timeoutKey, timeoutDefault);
+        final long timeoutMillis = timeoutHours * 3600000L; // 3600000 millis = 1 hour
+
+        mTimer = new InactivityTimer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                FirebaseAuth.getInstance().signOut();
+                finish();
+            }
+        };
+        mTimer.schedule(task, timeoutMillis);
     }
 
     public void setLanguage(String langCode) {

@@ -95,6 +95,7 @@ dependencies {
     implementation 'com.wdullaer:materialdatetimepicker:3.6.2'
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.1.0'
+    implementation 'com.github.travijuu:numberpicker:1.0.7'
 }
 
 apply plugin: 'com.google.gms.google-services'

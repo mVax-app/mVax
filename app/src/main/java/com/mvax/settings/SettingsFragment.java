@@ -20,6 +20,7 @@ License along with mVax; see the file LICENSE. If not, see
 package com.mvax.settings;
 
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -49,6 +50,11 @@ import com.mvax.auth.ManageUsersFragment;
 import com.mvax.auth.modals.ChangeEmailModal;
 import com.mvax.auth.modals.ChangePasswordModal;
 import com.mvax.model.user.User;
+import com.travijuu.numberpicker.library.Enums.ActionEnum;
+import com.travijuu.numberpicker.library.Interface.ValueChangedListener;
+import com.travijuu.numberpicker.library.NumberPicker;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * @author Robert Steilberg
@@ -75,6 +81,7 @@ public class SettingsFragment extends Fragment {
 
         initAboutButton(GENERATE_DATA);
         initLanguageSwitch();
+        initTimeoutPicker();
         downloadCurrentUser();
 
         return mView;
@@ -97,6 +104,19 @@ public class SettingsFragment extends Fragment {
             main.setLanguage(langCode);
             getActivity().recreate();
         });
+    }
+
+    private void initTimeoutPicker() {
+        final SharedPreferences prefs = getActivity()
+                .getSharedPreferences(getString(R.string.prefs_name), MODE_PRIVATE);
+        final String timeoutKey = getString(R.string.timeout_pref_key);
+        final int timeoutDefault = getResources().getInteger(R.integer.timeout_default);
+        final int timeoutHours = prefs.getInt(timeoutKey, timeoutDefault);
+
+        final NumberPicker picker = mView.findViewById(R.id.app_preferences_timeout_picker);
+        picker.setValue(timeoutHours);
+        picker.setValueChangedListener((value, action) ->
+                prefs.edit().putInt(timeoutKey, value).apply());
     }
 
     private void downloadCurrentUser() {
